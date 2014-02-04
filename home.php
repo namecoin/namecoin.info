@@ -51,9 +51,11 @@
             <h3>Exchanges</h3> - <a target="_blank" href="http://dot-bit.org/Trade">details on the wiki</a>
             <ul>
                 <li><a target="_blank" href="https://btc-e.com">btc-e</a></li>
-                <li><a target="_blank" href="https://cryptonit.net">cryptonit</a></li>
+                <li><a target="_blank" href="https://coinmkt.com">coinMKT</a></li>
+                <li><a target="_blank" href="https://cryptonit.net">Cryptonit</a></li>
                 <li><a target="_blank" href="https://kraken.com">Kraken</a><br>    </li>                
                 <li><a target="_blank" href="http://liliontransfer.org">Lilion Transfer</a></li>
+                <li><a target="_blank" href="https://www.vaultofsatoshi.com">Vault of Satoshi</a><br>    </li>
                 <li><a target="_blank" href="https://vircurex.com">Vircurex</a><br>    </li>
                 <li><a target="_blank" href="https://24change.com">24change</a><br>    </li>
             </ul>
