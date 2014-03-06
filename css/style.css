@@ -1,0 +1,69 @@
+/* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+@import url(http://fonts.googleapis.com/css?family=Alegreya+Sans+SC);
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,700);
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: 'Raleway', sans-serif;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(images/fancy.png) center bottom;
+    height: 99px;
+}
+
+body > footer > .container {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.png) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    color: #FFF;
+    margin: 0;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
