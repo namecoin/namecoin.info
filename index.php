@@ -53,28 +53,29 @@ $header = array('<strong>In information</strong><br />we <strong>trust</strong>.
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li class="<?=$home?>"><a href="/home">Home</a></li>
-                    <li><a href="https://wiki.namecoin.info/index.php?title=FAQ">FAQ</a></li>
-                    <li><a href="http://forum.namecoin.info">Forum</a></li>
-                    <li><a href="https://wiki.namecoin.info">Wiki</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="<?=$download?>"><a href="/download"><span class="glyphicon glyphicon-download-alt"></span> Download wallet!</a></li>
+                    <li class="<?=$home?>"><a href="/home"><span class="fa fa-home"></span> Home</a></li>
+                    <li><a href="https://wiki.namecoin.info/index.php?title=FAQ"><span class="fa fa-question-circle"></span> FAQ</a></li>
+                    <li><a href="http://forum.namecoin.info"><span class="fa fa-pencil-square-o"></span> Forum</a></li>
+                    <li><a href="https://wiki.namecoin.info"><span class="fa fa-info-circle"></span> Wiki</a></li>
+                    <li class="<?=$download?>"><a href="/download"><span class="fa fa-download"></span> Download wallet!</a></li>
+                    <li class=""><a href="/"><span class="fa fa-heart"></span> Donate</a></li>
                 </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div id="fancy-graphic"><div class="container"><p><?=$header[array_rand($header)]?></p></div></div>
+    <div id="fancy-graphic" class="hidden-sm hidden-xs"><div class="container"><p><?=$header[array_rand($header)]?></p></div></div>
     <div id="content"><div class="container"><?php include $page; ?></div></div>
     <footer>
         <div class="container">
-            <ul class="list-inline">
+            <ul class="list-inline pull-left">
                 <li><a href="https://github.com/namecoin/namecoin"><i class="fa fa-github fa-2x" title="GitHub"></i></a></li>
                 <li><a href="https://twitter.com/NamecoinDotInfo"><i class="fa fa-twitter fa-2x" title="Twitter"></i></a></li>
                 <li><a href="https://www.facebook.com/Namecoin.NMC"><i class="fa fa-facebook fa-2x" title="Facebook"></i></a></li>
                 <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit"></i></a></li>
             </ul>
+            <?php // TODO: Where to pull this data from? ?>
+            <p class="pull-right">NMC/USD: $2.666.99 BTC/NMC 0.067 Block: 1.123.456 Diffculty: 28.781 GH/s</p>
         </div>
     </footer>
     </body>

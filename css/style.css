@@ -8,6 +8,7 @@ body {
     background: #292e3c;
     font-size: 18px;
     font-family: 'Raleway', sans-serif;
+    padding-top: 30px;
 }
 
 body > header {
@@ -15,7 +16,7 @@ body > header {
 }
 
 .lead {
-    font-size: 2em;
+    font-size: 1.6em;
 }
 
 h2 {
@@ -25,13 +26,15 @@ h2 {
 }
 
 body > footer {
-    background: #292e3c url(/images/fancy.png) center bottom;
-    height: 99px;
+    background: #292E3C;
+    height: 80px;
+    color: #FFF;
+    font-size: 0.8em;
 }
 
 body > footer > .container {
     opacity: 0.6;
-    padding-top: 33px;
+    padding-top: 26px;
 }
 
 
@@ -45,8 +48,8 @@ nav ul li {
 
 #fancy-graphic {
     height: 350px;
-    background: #292e3c url(/images/fancy.png) center top fixed;
-    padding-top: 125px;
+    background: #292E3C url(/images/fancy.png) center top;
+    padding-top: 115px;
 }
 
 #fancy-graphic p {
@@ -57,13 +60,18 @@ nav ul li {
     line-height: 1;
     text-shadow: 1px 1px 1px #000;
     opacity: 0.6;
-    position: fixed;
-    z-index: 0;
 }
 
 #content {
-    position: relative;
-    z-index: 9;
     background: #F7F7F7;
     padding: 40px;
+}
+
+.navbar .container {
+    height: 60px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 19px;
+    padding-bottom: 19px;
 }
