@@ -1,14 +1,3 @@
-#Disallow everything
-<filesmatch "\.+">
-    Order Allow,Deny
-    Deny from all
-</filesmatch> 
-
-#DirectoryIndex home.php
-DirectoryIndex home.php
-
-#Allow peripheral files  AND .php !!!!!!    all private php files must end in .inc
-<FilesMatch "\.(css|png|jpg|js|ico|html|htm|exe|zip|7z|tar|gz|mp3|gif|tif|php|xpi)$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
+Options +FollowSymlinks
+RewriteEngine on
+RewriteRule ^([^/]+) index.php?page=$1 [NC]
