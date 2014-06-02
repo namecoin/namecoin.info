@@ -66,7 +66,7 @@ $header = array('<strong>In information</strong><br />we <strong>trust</strong>.
                     <li class="<?=$home?>"><a href=".">Home</a></li>
                     <li class="<?=$video?>"><a href="?p=video">Video</a></li>
                     <li class="<?=$exchanges?>"><a href="?p=exchanges">Exchanges</a></li>
-                    <li class="<?=$registrars?>"><a href="?p=exchanges">Registrars</a></li>
+                    <li class="<?=$registrars?>"><a href="?p=registrars">Registrars</a></li>
                     <li class="<?=$download?>"><a href="?p=download"><!--span class="glyphicon glyphicon-download-alt"></span--> Download</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
