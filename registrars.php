@@ -16,7 +16,7 @@
     <h4>Disadvantages</h4>
     <ul>
         <li>Have to trust the registrar</li>
-        <li>You don't own the domain yourself, depending on the corpotation of the registar</li>
+        <li>You don't own the domain yourself, depending on the cooperation of the registar</li>
     </ul>
 
     <h2>Registars</h3>
