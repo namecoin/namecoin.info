@@ -43,10 +43,10 @@ nav ul li {
 #fancy-graphic {
     height: 350px;
     background: #292e3c url(../images/fancy.jpg) center top fixed;
-    padding-top: 125px;
+    padding-top: 100px;
 }
 
-#fancy-graphic p {
+#fancy-graphic > .container > p {
     font-size: 4em;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     color: #FFF;
@@ -56,6 +56,54 @@ nav ul li {
     opacity: 0.6;
     position: fixed;
     z-index: 0;
+}
+
+#fancy-graphic blockquote {
+    margin-top: 8.25em;
+    margin-left: 0.95em;
+    position: fixed;
+    border: none;
+    width: 32.5em;
+    height: 6em;
+}
+
+blockquote p:before, blockquote footer:after {
+    display: block; 
+    height: 0; 
+    text-shadow: 1px 1px 1px #000; 
+     
+    font: italic 400%/1 Cochin,Georgia,"Times New Roman",serif; 
+    color: #FFF; 
+    opacity: 0.6; 
+    position: absolute;
+}
+
+blockquote p:before {
+    content: "“"; 
+    margin-left: -.75em; 
+    margin-top: -0.25em;
+}
+
+blockquote footer:after {
+    content: "”"; 
+    margin-left: 7em; 
+    margin-top: -0.5em;
+}
+
+
+#fancy-graphic blockquote p, #fancy-graphic blockquote footer {
+    font-size: 1em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0;
+    /*margin-top: 1em;*/
+    line-height: 1em;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    z-index: 0;
+    position:relative;
+    top: 40%;
+	  transform: translateY(-50%);
 }
 
 #content {
