@@ -5,11 +5,13 @@ if (isset($_GET['p'])) {
     if ($_GET['p'] == 'download') $page = 'download.php';
     if ($_GET['p'] == 'exchanges') $page = 'exchanges.php';
     if ($_GET['p'] == 'video') $page = 'video.php';
+    if ($_GET['p'] == 'registrars') $page = 'registrars.php';
 }
 $home = $page == 'home.php' ? 'active' : '';
 $download = $page == 'download.php' ? 'active' : '';
 $exchanges = $page == 'exchanges.php' ? 'active' : '';
 $video = $page == 'video.php' ? 'active' : '';
+$registrars = $page == 'registrars.php' ? 'active' : '';
 
 // tag lines
 $header = array('<strong>In information</strong><br />we <strong>trust</strong>.',
@@ -64,6 +66,7 @@ $header = array('<strong>In information</strong><br />we <strong>trust</strong>.
                     <li class="<?=$home?>"><a href=".">Home</a></li>
                     <li class="<?=$video?>"><a href="?p=video">Video</a></li>
                     <li class="<?=$exchanges?>"><a href="?p=exchanges">Exchanges</a></li>
+                    <li class="<?=$registrars?>"><a href="?p=registrars">Registrars</a></li>
                     <li class="<?=$download?>"><a href="?p=download"><!--span class="glyphicon glyphicon-download-alt"></span--> Download</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
