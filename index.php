@@ -24,6 +24,13 @@ $header = array('<strong>In information</strong><br />we <strong>trust</strong>.
     '<b>Decentralize</b><br>all the things!',
     '<b>Freedom</b><br>of information.'
     );
+    
+// tag lines
+$quote = array('<blockquote><p>Namecoin and Bitcoin will be revolutionary.</p><footer>WikiLeaks via Twitter</footer></blockquote>',
+    '<blockquote><p>This seems to be the most censorship resistant manner of publishing possible.</p><footer>Julian Assange, Editor-in-Chief, WikiLeaks</footer></blockquote>',
+    '<blockquote><p>The hacker inside me likes decentralization architecture... so technology like Namecoin ... intricates me. </p><footer>James Seng, Identifier Technology Innovation Panel, Internet Corporation for Assigned Names and Numbers</footer></blockquote>',
+    '<blockquote><p>If you truly want to own a domain name, then .bit is the logical choice.</p><footer>modrobert, Owner, EurAsia.nu Game Console Mod Community</footer></blockquote>'
+    );
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +89,7 @@ $header = array('<strong>In information</strong><br />we <strong>trust</strong>.
             </div>
         </nav>
     </header>
-    <div id="fancy-graphic"><div class="container"><p><?=$header[array_rand($header)]?></p></div></div>
+    <div id="fancy-graphic"><div class="container"><p><?=$header[array_rand($header)]?></p><?=$quote[array_rand($quote)]?></div></div>
     <div id="content"><div class="container"><?php include $page; ?></div></div>
     <footer>
         <div class="container">
