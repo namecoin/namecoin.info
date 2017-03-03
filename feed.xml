@@ -6,9 +6,81 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 30 Dec 2016 17:04:35 +0000</pubDate>
-    <lastBuildDate>Fri, 30 Dec 2016 17:04:35 +0000</lastBuildDate>
+    <pubDate>Fri, 03 Mar 2017 08:45:35 +0000</pubDate>
+    <lastBuildDate>Fri, 03 Mar 2017 08:45:35 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin&#39;s Jeremy Rand will be a speaker at ICANN58</title>
+        <description>&lt;p&gt;ICANN has invited a Namecoin developer to speak at the ICANN58 meeting on March 11-16 2017 in Copenhagen, and I’m happy to say that I’ve accepted their invitation.  Since I’m well aware that this may be surprising to some readers, I think it’s beneficial to everyone to announce it here, and give some details about why I’ll be attending.&lt;/p&gt;
+
+&lt;p&gt;The rest of this post will be in the excellent Q&amp;amp;A-style format.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-did-icann-invite-you&quot;&gt;Why did ICANN invite you?&lt;/h2&gt;
+
+&lt;p&gt;To my understanding, I was invited because of a perception that there was a lack of understanding and dialogue between ICANN and Namecoin about specifically what the goals of each group were.  The hope is that by encouraging discussion between ICANN and Namecoin, the groups will have a more accurate idea of what the other is doing and what common interests we might have.&lt;/p&gt;
+
+&lt;p&gt;It’s not news to me that ICANN has an interest in Namecoin; an &lt;a href=&quot;https://www.icann.org/en/system/files/files/iti-report-15may14-en.pdf&quot;&gt;ICANN panel report&lt;/a&gt; favorably mentioned us.  However, I admit that I was (pleasantly) surprised to receive this invitation.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-do-you-think-of-icann-and-dns&quot;&gt;What do you think of ICANN and DNS?&lt;/h2&gt;
+
+&lt;p&gt;To be totally honest, I’m not really very knowledgeable about how ICANN operates.  I hope to gain some knowledge on this subject at the meeting.  That said, I’ve heard that ICANN has some political issues.  (Indeed, if James Seng’s comments in the aforementioned report are any indication, this is a recognized issue by ICANN participants, not just from the outside.)  This is really not surprising, and as far as I know, it’s not due to any kind of nefarious motivation by ICANN or any people within ICANN.  My take is that ICANN’s political issues are likely to be simply because ICANN is very large, and large centralized entities are inevitably going to have political issues.  If, in an alternate reality, OpenNIC were wildly successful and ended up as large as ICANN is today, I predict that OpenNIC would end up with political issues too.&lt;/p&gt;
+
+&lt;h2 id=&quot;isnt-that-just-icanns-own-fault-for-being-centralized&quot;&gt;Isn’t that just ICANN’s own fault for being centralized?&lt;/h2&gt;
+
+&lt;p&gt;That’s not ICANN’s fault, it’s the reality of the laws of math.  When DNS and ICANN were created, everyone believed that decentralized global consensus was impossible (and this belief was well-supported by a proof by Lamport dating back to the 1970’s).  It wasn’t until Satoshi Nakamoto invented Bitcoin that anyone had any credible reason to believe that decentralized global consensus was solvable, and it wasn’t until Appamatto and Aaron Swartz proposed BitDNS and Nakanames 2 years later that anyone really seriously considered applying a Nakamoto blockchain to a DNS-like system.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-namecoin-exists-now-doesnt-that-make-dns-obsolete&quot;&gt;But Namecoin exists now; doesn’t that make DNS obsolete?&lt;/h2&gt;
+
+&lt;p&gt;Not really.  Namecoin makes a number of design tradeoffs in order to achieve decentralization.  Compared to DNS, Namecoin has significantly worse security against run-of-the-mill malware, significantly worse privacy against your nosy friends/neighbors/employer, and significantly worse resistance to squatting and trademark infringement, to list just a few.  These are open research problems for Namecoin-like systems, whereas DNS has long ago solved them.  I work on Namecoin because Namecoin also has some advantages over DNS, and I think there is a significant user base who want those advantages enough that they are willing to cope with the downsides.  But that doesn’t mean that DNS is obsolete, or that I expect Namecoin to replace DNS anytime soon.  If, in the future, Namecoin eventually solves those open research problems, and as a result replaces DNS, that’d be cool as heck from my point of view, but if that ever happens, I think it will be far enough in the future that it’s not worth worrying about right now.&lt;/p&gt;
+
+&lt;h2 id=&quot;namecoin-has-almost-no-funding-if-you-had-the-budget-of-the-dns-industry-wouldnt-those-open-research-problems-have-been-solved-by-now&quot;&gt;Namecoin has almost no funding; if you had the budget of the DNS industry, wouldn’t those open research problems have been solved by now?&lt;/h2&gt;
+
+&lt;p&gt;That would be inconsistent with the definition of “open research problem”.  Funding would certainly help us spend more time tackling those problems, but there’s no guarantee that the problems are even solvable.  Also, since no one is offering to give us such a budget, there’s not really much point in speculating here.&lt;/p&gt;
+
+&lt;h2 id=&quot;are-you-being-paid-to-attend&quot;&gt;Are you being paid to attend?&lt;/h2&gt;
+
+&lt;p&gt;ICANN is covering my travel expenses.  (Naturally, I wasn’t going to ask NMDF to pay for me to travel.  We don’t have anywhere near enough funding for that.)  Other than that, I’m not being paid to attend.&lt;/p&gt;
+
+&lt;h2 id=&quot;has-icann-asked-for-any-control-or-influence-on-namecoin&quot;&gt;Has ICANN asked for any control or influence on Namecoin?&lt;/h2&gt;
+
+&lt;p&gt;Of course not.  (And if they did, I would decline – as I assume would the other devs.)  It’s entirely standard to talk to people working on related projects; it doesn’t imply any desire to influence or control those projects.&lt;/p&gt;
+
+&lt;h2 id=&quot;are-you-concerned-that-this-will-be-spun-by-market-manipulators-as-some-kind-of-sell-out&quot;&gt;Are you concerned that this will be spun by market manipulators as some kind of sell-out?&lt;/h2&gt;
+
+&lt;p&gt;I’m reasonably confident that market manipulators will try to profit by spinning this in some way, but that’s not anything new.  We’ve already seen market manipulators try to make money by alleging a sell-out, based on everything from our application to Google Summer of Code in 2014 and 2015, to me getting a college scholarship from Google in 2013, to our collaboration with GNUnet, I2P, and Tor to try to register the .bit TLD as a special-use name via IETF.  Those same market manipulators will, I assume, use this the same way, probably with the same minimal level of success that they had previously.&lt;/p&gt;
+
+&lt;p&gt;If I had any interest in spending my time worrying about market manipulators, I’d be in a different line of work, making way more money than I’m making right now.  The best I can do is be transparent about this, so that it’s obvious to anyone who does an ounce of research that nothing nefarious occurred.  Transparency FTW.&lt;/p&gt;
+
+&lt;h2 id=&quot;will-you-publicly-post-your-presentation-slides&quot;&gt;Will you publicly post your presentation slides?&lt;/h2&gt;
+
+&lt;p&gt;Sure, why not?&lt;/p&gt;
+</description>
+        <pubDate>Fri, 03 Mar 2017 01:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/03/03/icann-58.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/03/03/icann-58.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Namecoin&#39;s Jeremy Rand will be a speaker at QCon London 2017</title>
+        <description>&lt;p&gt;As a result of an invitation from Riccardo Spagni (AKA fluffypony of &lt;a href=&quot;https://getmonero.org/&quot;&gt;Monero&lt;/a&gt;), I will be speaking at the “Practical Cryptography &amp;amp; Blockchains: Beyond the Hype” track at &lt;a href=&quot;https://qconlondon.com/&quot;&gt;QCon London 2017&lt;/a&gt; (March 6-8 2017).  My talk is entitled “Case Study: Alternate Blockchains”.  I will also be on a panel discussion alongside Paul Sztorc, David Vorick, Elaine Ou, Peter Todd, and Riccardo Spagni.&lt;/p&gt;
+
+&lt;p&gt;My understanding is that a video of my talk will be published by QCon.  Assuming that that’s correct, I will post a link here when it’s available.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to Riccardo for inviting me, and to the QCon organizers for putting on the conference and covering my travel expenses.  Looking forward to it!&lt;/p&gt;
+</description>
+        <pubDate>Fri, 03 Mar 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/03/03/qcon-london.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/03/03/qcon-london.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Lightweight SPV Lookups: Initial Beta</title>
@@ -166,38 +238,6 @@
         <guid isPermaLink="true">https://namecoin.org//2015/04/17/namecoin-4th-birthday.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>N-O-D-E Interviews Daniel Kraft</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://n-o-d-e.net/post/113777384551/the-namecoin-interview-censorship-resistant&quot;&gt;Interview&lt;/a&gt; with Namecoin lead developer Daniel Kraft.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 20 Mar 2015 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2015/03/20/node-interviews-daniel-kraft.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2015/03/20/node-interviews-daniel-kraft.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Softfork Upcoming</title>
-        <description>&lt;p&gt;&lt;strong&gt;Softfork&lt;/strong&gt; upcoming with block 212500 (around New Year’s Eve). Pool operators and solo miners please &lt;a href=&quot;/download/&quot;&gt;update to v0.3.80&lt;/a&gt; asap. Regular users are recommended to update, too.  See the &lt;a href=&quot;https://forum.namecoin.info/viewtopic.php?p=13717&quot;&gt;Release notes.&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 19 Dec 2014 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2014/12/19/softfork-namecoin-0.3.80.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2014/12/19/softfork-namecoin-0.3.80.html</guid>
-        
-        <category>Alerts</category>
-        
-        <category>NamecoinQ Alerts</category>
-        
-        <category>Releases</category>
-        
-        <category>NamecoinQ Releases</category>
         
         
       </item>
