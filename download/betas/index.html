@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="nojs">
 
   <head>
     <meta charset="utf-8">
@@ -131,6 +131,36 @@ td, th {
     }
 }
 
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
     </style>
     
     <link rel="canonical" href="https://namecoin.org//download/betas/">
@@ -144,27 +174,36 @@ td, th {
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
                 </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <div class="navbar-collapse collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/exchanges/">Exchanges</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://forum.namecoin.info">Forum&#10138;</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.info">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/team/">Team</a></li>
-                    <li><a href="/explorers/">Explorers</a></li>
-                    <li><a href="/download/"><!--span class="glyphicon glyphicon-download-alt"></span--> Download</a></li>
+                    <li><a href="/news/">News</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="https://forum.namecoin.info">Forum&#10138;</a></li>
-                    <li><a href="https://wiki.namecoin.info">Wiki&#10138;</a></li>
-                    <li><a href="/docs/faq/">FAQ</a></li>
-                    <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                    <li><a href="/donate/">Donate</a></li>
                 </ul>
                 </div>
             </div>
@@ -516,6 +555,7 @@ GpcAkajMtMUk9xJjwEax
         <script src="/js/jquery-1.11.0.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
         
 </footer>
 

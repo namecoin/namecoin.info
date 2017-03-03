@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="nojs">
 
   <head>
     <meta charset="utf-8">
@@ -131,6 +131,36 @@ td, th {
     }
 }
 
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
     </style>
     
     <link rel="canonical" href="https://namecoin.org//exchanges/">
@@ -144,27 +174,36 @@ td, th {
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
                 </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <div class="navbar-collapse collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/exchanges/">Exchanges</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://forum.namecoin.info">Forum&#10138;</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.info">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
                     <li><a href="/team/">Team</a></li>
-                    <li><a href="/explorers/">Explorers</a></li>
-                    <li><a href="/download/"><!--span class="glyphicon glyphicon-download-alt"></span--> Download</a></li>
+                    <li><a href="/news/">News</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="https://forum.namecoin.info">Forum&#10138;</a></li>
-                    <li><a href="https://wiki.namecoin.info">Wiki&#10138;</a></li>
-                    <li><a href="/docs/faq/">FAQ</a></li>
-                    <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                    <li><a href="/donate/">Donate</a></li>
                 </ul>
                 </div>
             </div>
@@ -202,6 +241,11 @@ document.write(rand);
 <p><span style="font-size:130%;">⇄</span> You can buy and sell <strong>Namecoins</strong> here:</p>
 
 <p><span style="font-size:130%;">
+<strong>Decentralized exchanges</strong><br />
+<a href="https://bitsquare.io/">Bitsquare</a><br />
+</span></p>
+
+<p><span style="font-size:130%;">
 <strong>Gold level exchanges</strong><br />
 …<br />
 </span></p>
@@ -213,7 +257,7 @@ document.write(rand);
 
 <p><span style="font-size:100%;">
 <strong>Bronze level exchanges</strong><br />
-<a href="https://cryptonit.net"><img alt="Cryptonit" src="images/cryptonit.png" width="160px" /></a><br />
+…<br />
 </span></p>
 
 <p><span style="font-size:85%;">
@@ -221,20 +265,19 @@ document.write(rand);
 <a href="https://www.247exchange.com/">247exchange</a><br />
 <a href="https://24change.com">24change</a><br />
 <a href="https://alcurex.org">alcurEX</a><br />
-<a href="https://bitsquare.io/">Bitsquare</a><br />
 <a href="https://btc-e.com">btc-e</a><br />
 <a href="https://bter.com">Bter</a><br />
 <a href="https://bx.in.th">bx.in.th</a><br />
-<a href="https://cex.io/nmc-btc">Cex.io</a><br />
 <a href="https://www.exchangemycoins.com/">ExchangeMyCoins</a><br />
 <a href="https://www.livecoin.net/">Livecoin</a><br />
 <a href="https://poloniex.com">Poloniex</a><br />
 <a href="https://shapeshift.io/">ShapeShift</a><br />
+<a href="https://www.tuxexchange.com/trade?coin=NMC&amp;market=BTC">Tux Exchange</a><br />
 <a href="https://vircurex.com">Vircurex</a><sup>use with caution, see <a href="https://bitcointalk.org/index.php?topic=49383.1200">discussion</a></sup><br />
 </span></p>
 
 <p>Gold, silver and bronze level exchanges donate to the Namecoin project. The higher the donation the higher the level. Note that the exchanges are not verified in any way.
-The current fees are 1000/300/100NMC per year*. To get on the list contact exchanges a|t namecoin.org</p>
+The current fees are 1000/300/100NMC per year. To get on the list contact exchanges a|t namecoin.org</p>
 
   </article>
 
@@ -261,6 +304,7 @@ The current fees are 1000/300/100NMC per year*. To get on the list contact excha
         <script src="/js/jquery-1.11.0.min.js"></script>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
         
 </footer>
 
