@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Beta Downloads</title>
+    <title>Matrix / IRC Chat</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//download/betas/">
+    <link rel="canonical" href="https://namecoin.org//resources/chat/">
 </head>
 
 
@@ -234,60 +234,52 @@ document.write(rand);
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Beta Downloads</h1>
+    <h1 class="post-title">Matrix / IRC Chat</h1>
   </header>
 
   <article class="post-content">
     
-<h2 id="warning">Warning</h2>
+<p>Two chat channels exist for Namecoin.</p>
 
-<p>The downloads on this page are not yet ready for general-purpose production use.  We’d love to hear what works and what doesn’t (that’s why they’re posted here), but don’t use them in any situation where failure could result in consequences that you’re unwilling to accept.  For example, don’t use them with wallets that contain coins or names that you aren’t willing to sacrifice to science.</p>
+<h2 id="namecoin">#namecoin</h2>
 
-<p>The more people test these downloads, the faster they’ll be ready for release.  However, there are no guarantees of when, or if, these downloads will be released in final form.</p>
-
-<p>As usual, it is a good idea to verify the hashes and signatures of these downloads (especially the ones not hosted on namecoin.org).  The more people reproduced the hashes, the better.  If you’re paranoid, run them inside an isolated virtual machine.</p>
-
-<h2 id="high-priority-lightweight-spv-bitcoinj-name-lookup-client">High Priority: Lightweight SPV BitcoinJ Name Lookup Client</h2>
-
-<p>This is a drop-in replacement for Namecoin Core’s name lookup functionality (e.g. for browsing .bit domains with ncdns), which synchronizes faster and uses less storage, but trusts Namecoin miners more than Namecoin Core does.</p>
-
-<p>You need to have Java installed:</p>
+<p>#namecoin is suitable for any discussion that isn’t development-related or trading-related.  For example, all of the following are appropriate for #namecoin:</p>
 
 <ul>
-  <li>If you’re using GNU/Linux, use your package manager.</li>
-  <li>If you’re using Windows, <a href="https://www.java.com/en/download/manual.jsp">download it from the Oracle website</a>.  <strong>Make sure you right-click the <code>.exe</code> installer, click <code>Properties</code>, and click <code>Digital Signatures</code>.  It should be signed by <code>Oracle America, Inc.</code>  If it is not, do not install it.</strong></li>
-  <li>We’re not sure about OS X.  If anyone can contribute instructions for OS X, let us know.</li>
+  <li>Tech support requests about Namecoin software.</li>
+  <li>Discussion about software that is relevant to Namecoin.</li>
+  <li>Discussion about events in the news that are relevant to Namecoin.</li>
 </ul>
 
-<p><a href="https://drive.google.com/file/d/0B3JMWdAb62L5UTJQYVFVcnBKWnc/view?usp=sharing">Download 0.1.1 Beta 1 (bleeding-edge branch, cross-platform JAR) (Hosted by Google Drive).</a></p>
+<p>#namecoin is accessible via the following methods:</p>
 
-<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+<ul>
+  <li>Matrix (Tor-friendly): #freenode_#namecoin:matrix.org</li>
+  <li><a href="https://riot.im/app/#/room/#freenode_#namecoin:matrix.org">Riot web chat</a> (Tor-friendly)</li>
+  <li>Freenode IRC: #namecoin</li>
+  <li><a href="https://webchat.freenode.net/?channels=%23namecoin">Freenode web chat</a></li>
+</ul>
 
-bitcoinj-addons Namecoin Name Lookup Client
-Version 0.1.1 Beta 1
+<h2 id="namecoin-dev">#namecoin-dev</h2>
 
-db19dfcc23b750c799152d3ed8ff91bf67d8c64ea98992c4fe7940c75daa3514  bitcoinj-daemon-0.1.1-SNAPSHOT.jar
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+<p>#namecoin-dev is suitable for discussion of Namecoin-related development.</p>
 
-iQIcBAEBCAAGBQJX/RRJAAoJELPy0WV4bWVw0yYP/27FaTNjPlC++yUn+7qBAIKx
-RsyPJrP1wj6MvzPO3zvUdrbs1KwE1HyPs+sf31FLLRnRsal8dpg+i5ggEhXgikRm
-9XE6FEuvYYmGapW/5osB1IOn7/DK37b3xQkC6+qZrG6IBxWUqQiQ4Ef4n6IejVy2
-UE8Y53Ttw2i12JFaS2N+607IlaH0BNXswvNIy72TRC1zSkF8IJHcaoYvn05HeGuB
-YStsuQxxZUKw71OZYuBMA5WC16WjalfqcgqxW1pDjNuoXLEyRMaSkSR4TKItfZ6p
-gMDceMQe2g2HSi3sPIA5SjumQxPNgSyucg8M2YThkt5tnTQSw2m8nY4OnUBt91Hn
-GRZMMu3yosPdz05lv/eQvA2BRjHYmg6pAxCjR0OUPJy6TuWT8KMPNl587lFb39vD
-DxgbqkL0oPm9NEBdgHDb/cOqgSner9xAZq3eO172aFdWuWXiC+ifPjzqMrOE3XeT
-QXflcy8AvJ20YyGy0DO3T4bfKBiWf7MighN5dVzylyUpoFxdgIM7cla6WZyCT3wm
-mlykAL56xPxaj+WA7dux+92mDNTyo04Vm7glf9+KFwfSPVuyfZQlK9D3U0XoIyWe
-3CVsKj+AGOzHM3MxgflW/4gDqiiW7IJ0LNrl0x3ksLuNUabmYi9ExgsFq3MCKWni
-GpcAkajMtMUk9xJjwEax
-=s/rl
------END PGP SIGNATURE-----
-</code></pre>
+<p>#namecoin-dev is accessible via the following methods:</p>
 
-<p><a href="/docs/bitcoinj-name-lookups/">Preliminary instructions are here.</a></p>
+<ul>
+  <li>Matrix (Tor-friendly): #freenode_#namecoin-dev:matrix.org</li>
+  <li><a href="https://riot.im/app/#/room/#freenode_#namecoin-dev:matrix.org">Riot web chat</a> (Tor-friendly)</li>
+  <li>Freenode IRC: #namecoin-dev</li>
+  <li><a href="https://webchat.freenode.net/?channels=%23namecoin-dev">Freenode web chat</a></li>
+</ul>
+
+<h2 id="developer-meetings">Developer Meetings</h2>
+
+<p>The Namecoin developers hold regular public meetings twice per month on #namecoin-dev.  If you’re interested in getting involved with Namecoin development, or if you’re just curious about what’s happening, we highly recommend attending the meetings.</p>
+
+<p>Developer meetings occur on the 1st and 3rd Sunday of each month at 7 PM UTC.</p>
+
+<p><a href="https://github.com/midnightmagic/namecoin-meeting">Minutes and logs of past developer meetings are available on GitHub.</a></p>
 
   </article>
 
@@ -308,7 +300,7 @@ GpcAkajMtMUk9xJjwEax
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/download/betas/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/chat/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
