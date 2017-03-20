@@ -6,9 +6,24 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 03 Mar 2017 08:45:35 +0000</pubDate>
-    <lastBuildDate>Fri, 03 Mar 2017 08:45:35 +0000</lastBuildDate>
+    <pubDate>Mon, 20 Mar 2017 21:44:59 +0000</pubDate>
+    <lastBuildDate>Mon, 20 Mar 2017 21:44:59 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin Core 0.13.99-name-tab-beta1 Ready for General Use</title>
+        <description>&lt;p&gt;Namecoin Core 0.13.99-name-tab-beta1, which has been listed on our Beta Downloads page for a few months, has demonstrated itself to be stable enough that &lt;a href=&quot;/download/&quot;&gt;it is now listed on the main Downloads page&lt;/a&gt;.  Huge thanks to our Lead C++ GUI Engineer Brandon Roberts for his work on this.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 20 Mar 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/03/20/namecoin-core-0-13-99-name-tabe-beta1.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/03/20/namecoin-core-0-13-99-name-tabe-beta1.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Namecoin Core Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin&#39;s Jeremy Rand will be a speaker at ICANN58</title>
@@ -223,19 +238,6 @@
         <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2015/05/19/namecoin-bounty-cornucopia.html</link>
         <guid isPermaLink="true">https://namecoin.org//2015/05/19/namecoin-bounty-cornucopia.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin&#39;s 4th Birthday</title>
-        <description>&lt;p&gt;The &lt;strong&gt;Namecoin&lt;/strong&gt; blockchain is now &lt;strong&gt;four years old&lt;/strong&gt;. Happy birthday!&lt;/p&gt;
-</description>
-        <pubDate>Fri, 17 Apr 2015 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2015/04/17/namecoin-4th-birthday.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2015/04/17/namecoin-4th-birthday.html</guid>
         
         <category>News</category>
         
