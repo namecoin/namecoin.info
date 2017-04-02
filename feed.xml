@@ -6,9 +6,34 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 20 Mar 2017 21:44:59 +0000</pubDate>
-    <lastBuildDate>Mon, 20 Mar 2017 21:44:59 +0000</lastBuildDate>
+    <pubDate>Sun, 02 Apr 2017 04:10:15 +0000</pubDate>
+    <lastBuildDate>Sun, 02 Apr 2017 04:10:15 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>QCon London 2017 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/03/03/qcon-london.html&quot;&gt;announced&lt;/a&gt;, I represented Namecoin at QCon London 2017.  Below is a brief summary of how it went.&lt;/p&gt;
+
+&lt;p&gt;The theme of the blockchain track was “Beyond the Hype”.  As such, the presentations in the track primarily focused on all the things that can go wrong when using a blockchain.  Riccardo Spagni (AKA fluffypony of &lt;a href=&quot;https://getmonero.org/&quot;&gt;Monero&lt;/a&gt;) is definitely an ideal person to host this track.  My talk was on alternate blockchains, with a focus on Namecoin (and some Monero).  In the spirit of going “Beyond the Hype”, my talk was almost entirely about things that can go wrong when using a non-Bitcoin blockchain.&lt;/p&gt;
+
+&lt;p&gt;I think this is a very important theme for a blockchain track, because the hype attached to the blockchain field is seriously problematic for our field’s credibility.  None of us were there to sell our technology, attract investors, or grab media attention – we were there to provide a reality check for an audience who, in large part, had minimal exposure to blockchain technology and wanted to learn more about what use cases it’s good or bad for.&lt;/p&gt;
+
+&lt;p&gt;Lots of attendees talked with me over dinner and in the hallway, and I’ll be following up with them ASAP.  After QCon, I attended a talk Riccardo gave at Imperial College; several people there were interested in Namecoin.  I met up with Riccardo the next day to discuss lots of cool stuff involving Namecoin and Monero.&lt;/p&gt;
+
+&lt;p&gt;As with other conferences, I won’t be releasing details of private conversations, because I want people to be able to talk to me at conferences without being worried that off-the-cuff comments will be publicly published.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to Riccardo for inviting me, and to all the QCon conference organizers for an awesome conference (and for covering my travel expenses).  It’d be awesome if we can do this again.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://qconlondon.com/2017-session-videos&quot;&gt;A video of my talk is scheduled for release on June 26, 2017.&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 02 Apr 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/04/02/qcon-london-summary.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/04/02/qcon-london-summary.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core 0.13.99-name-tab-beta1 Ready for General Use</title>
@@ -227,19 +252,6 @@
         <category>NamecoinQ Alerts</category>
         
         <category>Namecoin Core Alerts</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Bounty Cornucopia</title>
-        <description>&lt;p&gt;Check out the &lt;a href=&quot;https://forum.namecoin.info/viewtopic.php?p=14754&quot;&gt;Namecoin Bounty Cornucopia&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2015/05/19/namecoin-bounty-cornucopia.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2015/05/19/namecoin-bounty-cornucopia.html</guid>
-        
-        <category>News</category>
         
         
       </item>
