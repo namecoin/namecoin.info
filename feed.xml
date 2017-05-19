@@ -6,9 +6,37 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 27 Apr 2017 18:39:42 +0000</pubDate>
-    <lastBuildDate>Thu, 27 Apr 2017 18:39:42 +0000</lastBuildDate>
+    <pubDate>Fri, 19 May 2017 12:17:23 +0000</pubDate>
+    <lastBuildDate>Fri, 19 May 2017 12:17:23 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin Receives Funding from NLnet Foundation&#39;s Internet Hardening Fund</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving 29,895 EUR in funding from &lt;a href=&quot;https://nlnet.nl/&quot;&gt;NLnet Foundation&lt;/a&gt;’s Internet Hardening Fund.  If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).  The &lt;a href=&quot;https://nlnet.nl/internethardening/&quot;&gt;Internet Hardening Fund&lt;/a&gt; is managed by NLnet and funded by the Netherlands Ministry of Economic Affairs.  The funding will be used to fund 4 Namecoin developers (Jeremy Rand, Hugo Landau, Brandon Roberts, and Joseph Bisch) to produce a usable decentralized TLS public key infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Specifically, the following areas of development will be funded:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Integration with DNS functionality of major operating systems.  We intend to support GNU/Linux and Windows, including DNS integration for Tor.  Other operating system support may be developed if things go well.&lt;/li&gt;
+  &lt;li&gt;Integration with TLS certificate validation functionality of major web browsers.  We intend to support Chromium, Firefox, and Tor Browser on GNU/Linux and Windows.  Other browser support may be developed if things go well.&lt;/li&gt;
+  &lt;li&gt;Improvements to the lightweight SPV name lookup client.&lt;/li&gt;
+  &lt;li&gt;A lightweight SPV wallet with name support.  We intend to use Electrum.&lt;/li&gt;
+  &lt;li&gt;Wallet GUI improvements, including Coin Control for name transactions and a name update GUI that doesn’t require knowing JSON.&lt;/li&gt;
+  &lt;li&gt;Improved installation automation.  We intend to provide a Windows installer that includes a Namecoin client, DNS integration, and TLS integration.  Other OS support may be developed if things go well.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for selecting us for this opportunity, as well as the Netherlands Ministry of Economic Affairs for recognizing that a hardened Internet is worth receiving government financial support.&lt;/p&gt;
+
+&lt;p&gt;We’ll be posting updates regularly as development proceeds.  (Spoiler alert: a few components are already nearly ready for beta releases.)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 19 May 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/05/19/funding-nlnet.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/05/19/funding-nlnet.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ICANN58 Summary</title>
@@ -295,23 +323,6 @@
         <pubDate>Tue, 13 Oct 2015 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2015/10/13/upnp-vulnerability.html</link>
         <guid isPermaLink="true">https://namecoin.org//2015/10/13/upnp-vulnerability.html</guid>
-        
-        <category>Alerts</category>
-        
-        <category>NamecoinQ Alerts</category>
-        
-        <category>Namecoin Core Alerts</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Fix for OpenSSL Consensus Vulnerability has been deployed on 100% of mining hashpower</title>
-        <description>&lt;p&gt;Fix for OpenSSL Consensus Vulnerability has been deployed on 100% of mining hashpower.  Users of NamecoinQ (i.e. namecoind/Namecoin-Qt 0.3.x) are on semi-SPV security, and should wait for at least 6 confirmations for incoming transactions.  Users of Namecoin Core (in beta) are on full-node security.  Thanks to the miners for their quick action and everyone else who assisted in the response.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 13 Aug 2015 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2015/08/13/fix-for-openssl-consensus-vulnerability.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2015/08/13/fix-for-openssl-consensus-vulnerability.html</guid>
         
         <category>Alerts</category>
         
