@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin's Jeremy Rand will be a speaker at ICANN58</title>
+    <title>Progress on ncdns-nsis</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/03/03/icann-58.html">
+    <link rel="canonical" href="https://namecoin.org//2017/05/26/progress-ncdns-nsis.html">
 </head>
 
 
@@ -245,81 +245,57 @@ document.write(rand);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin's Jeremy Rand will be a speaker at ICANN58</h1>
-<p class="post-meta">Mar 3, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Progress on ncdns-nsis</h1>
+<p class="post-meta">May 26, 2017 • Hugo Landau <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>ICANN has invited a Namecoin developer to speak at the ICANN58 meeting on March 11-16 2017 in Copenhagen, and I’m happy to say that I’ve accepted their invitation.  Since I’m well aware that this may be surprising to some readers, I think it’s beneficial to everyone to announce it here, and give some details about why I’ll be attending.</p>
+<p>Development nears completion on the NSIS-based Namecoin and ncdns bundle
+installer for Windows.</p>
 
-<p>The rest of this post will be in the excellent Q&amp;A-style format.</p>
+<p>The <a href="https://github.com/hlandau/ncdns-nsis">ncdns-nsis</a> repository provides
+source code for an NSIS-based installer which can automatically install and
+configure Namecoin Core, ncdns and Unbound and configure name resolution of
+<code>.bit</code> domains via Unbound.</p>
 
-<h2 id="why-did-icann-invite-you">Why did ICANN invite you?</h2>
+<p>The installer can install Namecoin Core and Unbound automatically, but also
+allows users to opt out of the installation of these components if they wish to
+provide their own.</p>
 
-<p>To my understanding, I was invited because of a perception that there was a lack of understanding and dialogue between ICANN and Namecoin about specifically what the goals of each group were.  The hope is that by encouraging discussion between ICANN and Namecoin, the groups will have a more accurate idea of what the other is doing and what common interests we might have.</p>
+<p>Completion of the ncdns-nsis installer project will enable the Namecoin project
+to distribute a Windows binary installer providing a turnkey,
+configuration-free solution for <code>.bit</code> domain resolution. The installer is also
+intended to support reproducible builds and can be built from a POSIX system.</p>
 
-<p>It’s not news to me that ICANN has an interest in Namecoin; an <a href="https://www.icann.org/en/system/files/files/iti-report-15may14-en.pdf">ICANN panel report</a> favorably mentioned us.  However, I admit that I was (pleasantly) surprised to receive this invitation.</p>
-
-<h2 id="what-do-you-think-of-icann-and-dns">What do you think of ICANN and DNS?</h2>
-
-<p>To be totally honest, I’m not really very knowledgeable about how ICANN operates.  I hope to gain some knowledge on this subject at the meeting.  That said, I’ve heard that ICANN has some political issues.  (Indeed, if James Seng’s comments in the aforementioned report are any indication, this is a recognized issue by ICANN participants, not just from the outside.)  This is really not surprising, and as far as I know, it’s not due to any kind of nefarious motivation by ICANN or any people within ICANN.  My take is that ICANN’s political issues are likely to be simply because ICANN is very large, and large centralized entities are inevitably going to have political issues.  If, in an alternate reality, OpenNIC were wildly successful and ended up as large as ICANN is today, I predict that OpenNIC would end up with political issues too.</p>
-
-<h2 id="isnt-that-just-icanns-own-fault-for-being-centralized">Isn’t that just ICANN’s own fault for being centralized?</h2>
-
-<p>That’s not ICANN’s fault, it’s the reality of the laws of math.  When DNS and ICANN were created, everyone believed that decentralized global consensus was impossible (and this belief was well-supported by a proof by Lamport dating back to the 1970’s).  It wasn’t until Satoshi Nakamoto invented Bitcoin that anyone had any credible reason to believe that decentralized global consensus was solvable, and it wasn’t until Appamatto and Aaron Swartz proposed BitDNS and Nakanames 2 years later that anyone really seriously considered applying a Nakamoto blockchain to a DNS-like system.</p>
-
-<h2 id="but-namecoin-exists-now-doesnt-that-make-dns-obsolete">But Namecoin exists now; doesn’t that make DNS obsolete?</h2>
-
-<p>Not really.  Namecoin makes a number of design tradeoffs in order to achieve decentralization.  Compared to DNS, Namecoin has significantly worse security against run-of-the-mill malware, significantly worse privacy against your nosy friends/neighbors/employer, and significantly worse resistance to squatting and trademark infringement, to list just a few.  These are open research problems for Namecoin-like systems, whereas DNS has long ago solved them.  I work on Namecoin because Namecoin also has some advantages over DNS, and I think there is a significant user base who want those advantages enough that they are willing to cope with the downsides.  But that doesn’t mean that DNS is obsolete, or that I expect Namecoin to replace DNS anytime soon.  If, in the future, Namecoin eventually solves those open research problems, and as a result replaces DNS, that’d be cool as heck from my point of view, but if that ever happens, I think it will be far enough in the future that it’s not worth worrying about right now.</p>
-
-<h2 id="namecoin-has-almost-no-funding-if-you-had-the-budget-of-the-dns-industry-wouldnt-those-open-research-problems-have-been-solved-by-now">Namecoin has almost no funding; if you had the budget of the DNS industry, wouldn’t those open research problems have been solved by now?</h2>
-
-<p>That would be inconsistent with the definition of “open research problem”.  Funding would certainly help us spend more time tackling those problems, but there’s no guarantee that the problems are even solvable.  Also, since no one is offering to give us such a budget, there’s not really much point in speculating here.</p>
-
-<h2 id="are-you-being-paid-to-attend">Are you being paid to attend?</h2>
-
-<p>ICANN is covering my travel expenses.  (Naturally, I wasn’t going to ask NMDF to pay for me to travel.  We don’t have anywhere near enough funding for that.)  Other than that, I’m not being paid to attend.</p>
-
-<h2 id="has-icann-asked-for-any-control-or-influence-on-namecoin">Has ICANN asked for any control or influence on Namecoin?</h2>
-
-<p>Of course not.  (And if they did, I would decline – as I assume would the other devs.)  It’s entirely standard to talk to people working on related projects; it doesn’t imply any desire to influence or control those projects.</p>
-
-<h2 id="are-you-concerned-that-this-will-be-spun-by-market-manipulators-as-some-kind-of-sell-out">Are you concerned that this will be spun by market manipulators as some kind of sell-out?</h2>
-
-<p>I’m reasonably confident that market manipulators will try to profit by spinning this in some way, but that’s not anything new.  We’ve already seen market manipulators try to make money by alleging a sell-out, based on everything from our application to Google Summer of Code in 2014 and 2015, to me getting a college scholarship from Google in 2013, to our collaboration with GNUnet, I2P, and Tor to try to register the .bit TLD as a special-use name via IETF.  Those same market manipulators will, I assume, use this the same way, probably with the same minimal level of success that they had previously.</p>
-
-<p>If I had any interest in spending my time worrying about market manipulators, I’d be in a different line of work, making way more money than I’m making right now.  The best I can do is be transparent about this, so that it’s obvious to anyone who does an ounce of research that nothing nefarious occurred.  Transparency FTW.</p>
-
-<h2 id="will-you-publicly-post-your-presentation-slides">Will you publicly post your presentation slides?</h2>
-
-<p>Sure, why not?</p>
+<p>At this point, extensive testing is the primary work remaining on the completion
+of the ncdns-nsis installer.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +368,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-03-03-icann-58.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-05-26-progress-ncdns-nsis.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
