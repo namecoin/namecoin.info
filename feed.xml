@@ -6,9 +6,40 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 May 2017 12:17:23 +0000</pubDate>
-    <lastBuildDate>Fri, 19 May 2017 12:17:23 +0000</lastBuildDate>
+    <pubDate>Fri, 26 May 2017 22:03:55 +0000</pubDate>
+    <lastBuildDate>Fri, 26 May 2017 22:03:55 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Progress on ncdns-nsis</title>
+        <description>&lt;p&gt;Development nears completion on the NSIS-based Namecoin and ncdns bundle
+installer for Windows.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://github.com/hlandau/ncdns-nsis&quot;&gt;ncdns-nsis&lt;/a&gt; repository provides
+source code for an NSIS-based installer which can automatically install and
+configure Namecoin Core, ncdns and Unbound and configure name resolution of
+&lt;code&gt;.bit&lt;/code&gt; domains via Unbound.&lt;/p&gt;
+
+&lt;p&gt;The installer can install Namecoin Core and Unbound automatically, but also
+allows users to opt out of the installation of these components if they wish to
+provide their own.&lt;/p&gt;
+
+&lt;p&gt;Completion of the ncdns-nsis installer project will enable the Namecoin project
+to distribute a Windows binary installer providing a turnkey,
+configuration-free solution for &lt;code&gt;.bit&lt;/code&gt; domain resolution. The installer is also
+intended to support reproducible builds and can be built from a POSIX system.&lt;/p&gt;
+
+&lt;p&gt;At this point, extensive testing is the primary work remaining on the completion
+of the ncdns-nsis installer.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 May 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Receives Funding from NLnet Foundation&#39;s Internet Hardening Fund</title>
@@ -312,23 +343,6 @@
         <category>Releases</category>
         
         <category>NMControl Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>UPNP Vulnerability in Bitcoin Core affects Namecoin</title>
-        <description>&lt;p&gt;A vulnerability was found in &lt;a href=&quot;https://bitcoin.org/en/alert/2015-10-12-upnp-vulnerability&quot;&gt;Bitcoin Core&lt;/a&gt;. It allows an attack from malicious peers in the local network via UPNP. Namecoin is affected, too, so everybody should turn off UPNP until further notice.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 13 Oct 2015 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2015/10/13/upnp-vulnerability.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2015/10/13/upnp-vulnerability.html</guid>
-        
-        <category>Alerts</category>
-        
-        <category>NamecoinQ Alerts</category>
-        
-        <category>Namecoin Core Alerts</category>
         
         
       </item>
