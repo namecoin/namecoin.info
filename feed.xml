@@ -6,9 +6,40 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 27 May 2017 12:43:09 +0000</pubDate>
-    <lastBuildDate>Sat, 27 May 2017 12:43:09 +0000</lastBuildDate>
+    <pubDate>Tue, 30 May 2017 08:06:55 +0000</pubDate>
+    <lastBuildDate>Tue, 30 May 2017 08:06:55 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>ncdns for Windows Beta Installer Now Available</title>
+        <description>&lt;p&gt;In order to facilitate the easy resolution of &lt;code&gt;.bit&lt;/code&gt; domains, an installer for
+ncdns for Windows has been under development. This installer automatically
+installs and configures Namecoin Core, Unbound and ncdns.&lt;/p&gt;
+
+&lt;p&gt;An experimental binary release for this installer is now available. Interested
+Namecoin users are encouraged to test the installer and report any issues they
+encounter.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/files/ncdns-2017-05-25-notreproduced/ncdns-install-2017-05-25-notreproduced.exe&quot;&gt;ncdns-install.exe&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/files/ncdns-2017-05-25-notreproduced/ncdns-install-2017-05-25-notreproduced.exe.sig&quot;&gt;ncdns-install.exe.sig&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This release does not yet integrate the TLS integration support for ncdns under
+development by Jeremy Rand. This will be incorporated in a future release.&lt;/p&gt;
+
+&lt;p&gt;The development of this installer was funded by NLnet.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 30 May 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/05/30/ncdns.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/05/30/ncdns.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Reverse-Engineering CryptoAPI&#39;s Certificate Registry Blobs</title>
@@ -384,41 +415,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <category>Releases</category>
         
         <category>libdohj Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Decentralized Web Summit Recap</title>
-        <description>&lt;p&gt;As was mentioned on the forum and /r/Namecoin, I represented Namecoin at the Decentralized Web Summit at the Internet Archive in San Francisco, June 6 - June 10.  Lots of awesomeness occurred.&lt;/p&gt;
-
-&lt;p&gt;I participated in a panel on naming and identity systems on Wednesday.  Other panelists were Christopher Allen (Blockstream), Muneeb Ali (Blockstack), and Joachim Lohkamp (Jolocom); Chelsea Barabas (MIT Center for Civic Media) moderated.  The panel had a diverse set of perspectives, and I think the discussion was informative.&lt;/p&gt;
-
-&lt;p&gt;On Thursday, I did a lightning talk.  The talk briefly introduced Namecoin, and then went on to new developments, specifically new announcements about HTTPS and SPV.  The lightning talk concluded with an invitation to talk to us about collaboration, and a plug for my workshop (which immediately followed).&lt;/p&gt;
-
-&lt;p&gt;The workshop was basically an intro to actually using Namecoin.  I walked the attendees through registering domain names and identities, viewing domain names with ncdns, and logging into websites with NameID.  We had some minor technical issues during the workshop (which is to be expected), but nothing too bad.  At the end of the workshop, I showed a demo of the TLS code working.  (Major thanks go out to fellow Namecoin developers Brandon Roberts, Jonas Östman, Joseph Bisch, and Cassini for helping me put together the workshop.)&lt;/p&gt;
-
-&lt;p&gt;But of course, I didn’t fly to San Francisco &lt;em&gt;just&lt;/em&gt; to do a panel, lightning talk, and workshop.  A major goal was to talk to as many other projects as possible to see where we could collaborate.  (No single project is going to decentralize the entire Web, but working together, we might have a shot.)  I won’t list all the conversations I had on this post, because I want people to be able to talk freely to me at conferences without being worried that the conversation will be posted for the world to see, but the number of orgs I talked to stands at at least 23.  Hopefully we’ll be able to announce some results of these conversations in the near future.&lt;/p&gt;
-
-&lt;p&gt;And of course, it wouldn’t be an event by the Internet Archive without archived videos, so here are some of the highlights that Namecoiners will find particularly interesting:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://archive.org/details/DecentralizedWeb20160609pt1?start=21490&quot;&gt;Lightning Talk: Jeremy Rand of Namecoin&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://archive.org/details/DecentralizedWeb20160607pt3?start=3015&quot;&gt;Builder’s Day Interview: Tamas Kocsis of ZeroNet (uses Namecoin)&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://archive.org/details/DecentralizedWeb20160609pt1?start=10987&quot;&gt;Lightning Talk: Tamas Kocsis of ZeroNet (uses Namecoin)&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://archive.org/details/DecentralizedWeb20160608pt1?start=11888&quot;&gt;Naming and User Identities Panel&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Overall, it was an excellent event.  I highly recommend watching all the other non-Namecoin content as well: &lt;a href=&quot;https://archive.org/details/decentralizedwebsummit2016?&amp;amp;sort=publicdate&quot;&gt;full archives of all the talks are here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I also want to thank Brewster Kahle and Wendy Hanamura for organizing the summit, and Kyle Drake of Neocities, Greg Slepak of okTurtles, and John Light of Bitseed for inviting me to attend.  Also thanks to all the other organizers, speakers, and attendees: you’re all awesome.  I really hope that Internet Archive makes this a regular event.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 03 Jul 2016 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2016/07/03/decentralized-web-summit.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2016/07/03/decentralized-web-summit.html</guid>
-        
-        <category>News</category>
         
         
       </item>
