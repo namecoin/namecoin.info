@@ -242,6 +242,52 @@ document.write(rand);
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">How we’re doing TLS for Chromium</h1>
+    <p class="post-meta">Jun 15, 2017 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Back in the “bad old days” of Namecoin TLS (circa 2013), we used the Convergence codebase by Moxie Marlinspike to integrate with TLS implementations.  However, we weren’t happy with that approach, and have abandoned it in favor of a new approach: dehydrated certificates.</p>
+
+    <p>What’s wrong with Convergence?  Convergence uses a TLS intercepting proxy to replace the TLS implementation used by web browsers.  Unfortunately, TLS is a really difficult and complex protocol to implement, and the nature of intercepting proxies means that if the proxy makes a mistake, the web browser won’t protect you.  It’s fairly commonplace these days to read news about a widely deployed TLS intercepting proxy that broke things horribly.  Lenovo’s SuperFish is a well-known example of a TLS intercepting proxy that made its users less safe.</p>
+
+    <p>Convergence was in a somewhat special situation, though: it reused a lot of code that was distributed with Firefox (via the js-ctypes API), which reduced the risk that it would do something horribly dangerous with TLS.  It was also originally written by Moxie Marlinspike (well-known for Signal), which additionally reduced the risk of problems.  Unfortunately, Mozilla stopped shipping the relevant code with Firefox, Moxie stopped maintaining Convergence, and Mozilla decided to deprecate additional functionality that was used by Convergence.  This made it clear that the Convergence codebase wasn’t going to be viable, and that if we wanted to use an intercepting proxy, we’d be using a codebase that was substantially less reliable than Convergence.</p>
+
+    <p>So, we went back to the drawing board, and came up with a new solution.</p>
+
+    <p>As a first iteration, TLS implementations have a root CA trust store, and injecting a self-signed end-entity x509 certificate into the root CA trust store will allow that certificate to be trusted for use by a website.  (For an explanation of how this can be done with Windows CryptoAPI, see my previous post, <a href="/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html">Reverse-Engineering CryptoAPI’s Certificate Registry Blobs</a>).  We can do this right before the TLS connection is opened by hooking the DNS request for the <code>.bit</code> domain (this is easy since we control the ncdns codebase that processes the DNS request).</p>
+
+    <p>However, there are three major issues with this approach:</p>
+
+    <ol>
+  <li>An x509 certificate is very large, and storing this in the blockchain would be too expensive.  Using a fingerprint would be much smaller, but we can’t recover the full certificate from just the fingerprint.</li>
+  <li>x509 certificates might be valid for a different purpose than advertised.  For example, if we injected a certificate that has the CA bit enabled, the owner of that certificate would be able to impersonate arbitrary websites if they can get you to first visit their malicious <code>.bit</code> domain.  x509 is a complex specification, and we don’t want to try to detect every possible type of mischief that can be done with them.</li>
+  <li>Injecting a certficate doesn’t prevent a malicious CA that is trusted for DNS names from issuing fraudulent certificates for <code>.bit</code> domain names.</li>
+</ol>
+
+    <p>Problems 1 and 2 can be solved at the same time.  First, we use ECDSA certificates instead of the typical RSA.  ECDSA is supported by all recent TLS implementations, but RSA is largely dominant because of inertia and the prevalence of outdated software.  By excluding the old software that relies on RSA, we get much smaller keys and signatures.  (Old software isn’t usable with this scheme anyway, because of our solution to Problem 3.)</p>
+
+    <p>Next, instead of having domain owners put the entire ECDSA x509 certificate in the blockchain, the domain owner extracts only 4 components of the certificate: the public key, the start and end timestamps for the valdity period, and the signature.  As long as the rest of the certificate conforms to a fixed template, those 4 components (which we call a <em>dehydrated certificate</em>) can be combined with a domain name and the template, and <em>rehydrated</em> into a fully valid x509 certificate that can be injected into the trust store.  This technique was invented by Namecoin’s Lead Security Engineer, Ryan Castellucci.</p>
+
+    <p>It should be noted that a dehydrated certificate can’t do any mischief such as being valid for unexpected uses; all of the potentially dangerous fields are provided by the template, which is part of ncdns.  The dehydrated data is also quite small: circa 252 bytes (we can probably shrink it further in the future).  Implementing this in ncdns was a little bit tricky, because the Go standard library’s x509 functions that are needed to perform the signature splicing are private.  I ended up forking the Go x509 package, and adding a public function that exposes the needed functionality.  (Before you freak out about me forking the x509 package, my package consists of a single file that contains the additional function, and a Bash script that copies the official x509 library into my fork.  It’s reasonably self-contained and shouldn’t run into the issues that more invasive forks encounter regularly.)</p>
+
+    <p>So what about Problem 3?  Well, for this, I ~~abuse~~ <em>take advantage of</em> an interesting quirk in browser implementations of HPKP (HTTPS Public Key Pinning).  Browsers only enforce key pins against certificates for built-in certificate authorities; user-specified certificate authorities are exempt from HPKP.  This behavior is presumably to make it easier for users to intentionally intercept their own traffic (or for corporations to intercept traffic in their network, which is a less ethical version of a technologically identical concept).  As such, I believe that this behavior will not go away anytime soon, and is safe to rely on.  The user places a key pin at the <code>bit</code> domain, with subdomains enabled, for a “nothing up my sleeve” public key hash.  As a result, no public CA can sign certificates for any domain ending in <code>.bit</code>, but user-specified CA’s can.  Windows CryptoAPI treats user-specified end-entity certificates as user-specified CA’s for this purpose.  As such, rehydrated certificates that ncdns generates will be considered valid, but nothing else will.  (Unless you installed another user-specified CA on your machine that is valid for <code>.bit</code>.  But if you did that, then either you want to intercept <code>.bit</code>, in which case it’s fine, or you did it against your will, in which case you are already screwed.)</p>
+
+    <p>I’ve implemented dehydrated certificate injection as part of ncdns for 2 major TLS implementations: CryptoAPI (used by Chromium on Windows) and NSS (used by Chromium on GNU/Linux).  These are currently undergoing review as pull requests for ncdns.  (The macOS trust store should also be feasible, but I haven’t done anything with it yet.)  Right now, those pull requests prompt the user during ncdns installation with instructions for adding an HPKP pin to Chromium.  (If you’ve tried out the ncdns for Windows installer on a machine that has Chromium, you might have noticed this dialog.)  This isn’t great UX, and I’ve found a way to do this automatically without user involvement, which I will be implementing into the ncdns installer soon.</p>
+
+    <p>Unfortunately, abusing HPKP in this way isn’t an option in Firefox, because Mozilla’s implementation of HPKP doesn’t permit key pins to be placed on TLD’s.  (As far as I can tell, the specifications seem to be ambiguous on this point.)  Mozilla <em>does</em> offer an XPCOM API for HPKP (specifically, nsISiteSecurityService) that can inject key pins for individual <code>.bit</code> domains on the fly, but since XPCOM is deprecated by Mozilla, this is not a viable option as-is.  On the bright side, Mozilla seems interested in implementing the API’s we need to do this in a less hacky way, so I’ll be engaging with Mozilla on this.</p>
+
+    <p>As another note: NSS trust store injection is rather slow right now, because I’m currently using NSS’s <code>certutil</code> to do the injection, and <code>certutil</code> isn’t properly optimized for speed.  Sadly, there doesn’t seem to be an easy way of bypassing <code>certutil</code> for NSS like there is for CryptoAPI (NSS’s trust store is a sqlite database with a significantly more complex structure than CryptoAPI, and the CryptoAPI trick of leaving out all the data besides the certificate doesn’t work for NSS).  I will probably be filing at least one bug report with NSS about <code>certutil</code>’s performance issues.  If progress on fixing those issues appears to be unlikely, I think it may be feasible to do some witchcraft to speed it up a lot, but I’m hoping that things won’t come to that.</p>
+
+    <p>I’m hoping to get at least the CryptoAPI PR merged to official ncdns very soon, at which point I’ll ask Hugo to release a new ncdns for Windows installer so everyone can have fun testing.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">ncdns for Windows Beta Installer Now Available</h1>
     <p class="post-meta">May 30, 2017 • Hugo Landau </p>
   </header>
