@@ -6,9 +6,54 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 30 May 2017 08:06:55 +0000</pubDate>
-    <lastBuildDate>Tue, 30 May 2017 08:06:55 +0000</lastBuildDate>
+    <pubDate>Thu, 15 Jun 2017 18:04:20 +0000</pubDate>
+    <lastBuildDate>Thu, 15 Jun 2017 18:04:20 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>How we&#39;re doing TLS for Chromium</title>
+        <description>&lt;p&gt;Back in the “bad old days” of Namecoin TLS (circa 2013), we used the Convergence codebase by Moxie Marlinspike to integrate with TLS implementations.  However, we weren’t happy with that approach, and have abandoned it in favor of a new approach: dehydrated certificates.&lt;/p&gt;
+
+&lt;p&gt;What’s wrong with Convergence?  Convergence uses a TLS intercepting proxy to replace the TLS implementation used by web browsers.  Unfortunately, TLS is a really difficult and complex protocol to implement, and the nature of intercepting proxies means that if the proxy makes a mistake, the web browser won’t protect you.  It’s fairly commonplace these days to read news about a widely deployed TLS intercepting proxy that broke things horribly.  Lenovo’s SuperFish is a well-known example of a TLS intercepting proxy that made its users less safe.&lt;/p&gt;
+
+&lt;p&gt;Convergence was in a somewhat special situation, though: it reused a lot of code that was distributed with Firefox (via the js-ctypes API), which reduced the risk that it would do something horribly dangerous with TLS.  It was also originally written by Moxie Marlinspike (well-known for Signal), which additionally reduced the risk of problems.  Unfortunately, Mozilla stopped shipping the relevant code with Firefox, Moxie stopped maintaining Convergence, and Mozilla decided to deprecate additional functionality that was used by Convergence.  This made it clear that the Convergence codebase wasn’t going to be viable, and that if we wanted to use an intercepting proxy, we’d be using a codebase that was substantially less reliable than Convergence.&lt;/p&gt;
+
+&lt;p&gt;So, we went back to the drawing board, and came up with a new solution.&lt;/p&gt;
+
+&lt;p&gt;As a first iteration, TLS implementations have a root CA trust store, and injecting a self-signed end-entity x509 certificate into the root CA trust store will allow that certificate to be trusted for use by a website.  (For an explanation of how this can be done with Windows CryptoAPI, see my previous post, &lt;a href=&quot;/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html&quot;&gt;Reverse-Engineering CryptoAPI’s Certificate Registry Blobs&lt;/a&gt;).  We can do this right before the TLS connection is opened by hooking the DNS request for the &lt;code&gt;.bit&lt;/code&gt; domain (this is easy since we control the ncdns codebase that processes the DNS request).&lt;/p&gt;
+
+&lt;p&gt;However, there are three major issues with this approach:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;An x509 certificate is very large, and storing this in the blockchain would be too expensive.  Using a fingerprint would be much smaller, but we can’t recover the full certificate from just the fingerprint.&lt;/li&gt;
+  &lt;li&gt;x509 certificates might be valid for a different purpose than advertised.  For example, if we injected a certificate that has the CA bit enabled, the owner of that certificate would be able to impersonate arbitrary websites if they can get you to first visit their malicious &lt;code&gt;.bit&lt;/code&gt; domain.  x509 is a complex specification, and we don’t want to try to detect every possible type of mischief that can be done with them.&lt;/li&gt;
+  &lt;li&gt;Injecting a certficate doesn’t prevent a malicious CA that is trusted for DNS names from issuing fraudulent certificates for &lt;code&gt;.bit&lt;/code&gt; domain names.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Problems 1 and 2 can be solved at the same time.  First, we use ECDSA certificates instead of the typical RSA.  ECDSA is supported by all recent TLS implementations, but RSA is largely dominant because of inertia and the prevalence of outdated software.  By excluding the old software that relies on RSA, we get much smaller keys and signatures.  (Old software isn’t usable with this scheme anyway, because of our solution to Problem 3.)&lt;/p&gt;
+
+&lt;p&gt;Next, instead of having domain owners put the entire ECDSA x509 certificate in the blockchain, the domain owner extracts only 4 components of the certificate: the public key, the start and end timestamps for the valdity period, and the signature.  As long as the rest of the certificate conforms to a fixed template, those 4 components (which we call a &lt;em&gt;dehydrated certificate&lt;/em&gt;) can be combined with a domain name and the template, and &lt;em&gt;rehydrated&lt;/em&gt; into a fully valid x509 certificate that can be injected into the trust store.  This technique was invented by Namecoin’s Lead Security Engineer, Ryan Castellucci.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that a dehydrated certificate can’t do any mischief such as being valid for unexpected uses; all of the potentially dangerous fields are provided by the template, which is part of ncdns.  The dehydrated data is also quite small: circa 252 bytes (we can probably shrink it further in the future).  Implementing this in ncdns was a little bit tricky, because the Go standard library’s x509 functions that are needed to perform the signature splicing are private.  I ended up forking the Go x509 package, and adding a public function that exposes the needed functionality.  (Before you freak out about me forking the x509 package, my package consists of a single file that contains the additional function, and a Bash script that copies the official x509 library into my fork.  It’s reasonably self-contained and shouldn’t run into the issues that more invasive forks encounter regularly.)&lt;/p&gt;
+
+&lt;p&gt;So what about Problem 3?  Well, for this, I ~~abuse~~ &lt;em&gt;take advantage of&lt;/em&gt; an interesting quirk in browser implementations of HPKP (HTTPS Public Key Pinning).  Browsers only enforce key pins against certificates for built-in certificate authorities; user-specified certificate authorities are exempt from HPKP.  This behavior is presumably to make it easier for users to intentionally intercept their own traffic (or for corporations to intercept traffic in their network, which is a less ethical version of a technologically identical concept).  As such, I believe that this behavior will not go away anytime soon, and is safe to rely on.  The user places a key pin at the &lt;code&gt;bit&lt;/code&gt; domain, with subdomains enabled, for a “nothing up my sleeve” public key hash.  As a result, no public CA can sign certificates for any domain ending in &lt;code&gt;.bit&lt;/code&gt;, but user-specified CA’s can.  Windows CryptoAPI treats user-specified end-entity certificates as user-specified CA’s for this purpose.  As such, rehydrated certificates that ncdns generates will be considered valid, but nothing else will.  (Unless you installed another user-specified CA on your machine that is valid for &lt;code&gt;.bit&lt;/code&gt;.  But if you did that, then either you want to intercept &lt;code&gt;.bit&lt;/code&gt;, in which case it’s fine, or you did it against your will, in which case you are already screwed.)&lt;/p&gt;
+
+&lt;p&gt;I’ve implemented dehydrated certificate injection as part of ncdns for 2 major TLS implementations: CryptoAPI (used by Chromium on Windows) and NSS (used by Chromium on GNU/Linux).  These are currently undergoing review as pull requests for ncdns.  (The macOS trust store should also be feasible, but I haven’t done anything with it yet.)  Right now, those pull requests prompt the user during ncdns installation with instructions for adding an HPKP pin to Chromium.  (If you’ve tried out the ncdns for Windows installer on a machine that has Chromium, you might have noticed this dialog.)  This isn’t great UX, and I’ve found a way to do this automatically without user involvement, which I will be implementing into the ncdns installer soon.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, abusing HPKP in this way isn’t an option in Firefox, because Mozilla’s implementation of HPKP doesn’t permit key pins to be placed on TLD’s.  (As far as I can tell, the specifications seem to be ambiguous on this point.)  Mozilla &lt;em&gt;does&lt;/em&gt; offer an XPCOM API for HPKP (specifically, nsISiteSecurityService) that can inject key pins for individual &lt;code&gt;.bit&lt;/code&gt; domains on the fly, but since XPCOM is deprecated by Mozilla, this is not a viable option as-is.  On the bright side, Mozilla seems interested in implementing the API’s we need to do this in a less hacky way, so I’ll be engaging with Mozilla on this.&lt;/p&gt;
+
+&lt;p&gt;As another note: NSS trust store injection is rather slow right now, because I’m currently using NSS’s &lt;code&gt;certutil&lt;/code&gt; to do the injection, and &lt;code&gt;certutil&lt;/code&gt; isn’t properly optimized for speed.  Sadly, there doesn’t seem to be an easy way of bypassing &lt;code&gt;certutil&lt;/code&gt; for NSS like there is for CryptoAPI (NSS’s trust store is a sqlite database with a significantly more complex structure than CryptoAPI, and the CryptoAPI trick of leaving out all the data besides the certificate doesn’t work for NSS).  I will probably be filing at least one bug report with NSS about &lt;code&gt;certutil&lt;/code&gt;’s performance issues.  If progress on fixing those issues appears to be unlikely, I think it may be feasible to do some witchcraft to speed it up a lot, but I’m hoping that things won’t come to that.&lt;/p&gt;
+
+&lt;p&gt;I’m hoping to get at least the CryptoAPI PR merged to official ncdns very soon, at which point I’ll ask Hugo to release a new ncdns for Windows installer so everyone can have fun testing.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/06/15/how-were-doing-tls-for-chromium.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/06/15/how-were-doing-tls-for-chromium.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns for Windows Beta Installer Now Available</title>
@@ -382,39 +427,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <guid isPermaLink="true">https://namecoin.org//2017/03/03/qcon-london.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Lightweight SPV Lookups: Initial Beta</title>
-        <description>&lt;p&gt;If you watched &lt;a href=&quot;https://archive.org/details/DecentralizedWeb20160609pt1?start=21490&quot;&gt;my lightning talk at Decentralized Web Summit 2016&lt;/a&gt; (and if you didn’t, shame on you – go watch it right now along with &lt;a href=&quot;https://archive.org/details/decentralizedwebsummit2016?&amp;amp;sort=publicdate&quot;&gt;the other talks&lt;/a&gt;!), you’ll remember that I announced SPV name lookups were working.  I’m happy to announce that that code is now published &lt;em&gt;in preliminary form&lt;/em&gt; on GitHub, and binaries are available for testing.&lt;/p&gt;
-
-&lt;p&gt;You can download it at the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads&lt;/a&gt; page.  Once installed, it’s basically a drop-in replacement for Namecoin Core for any application that does name lookups (such as ncdns).  Test reports are greatly appreciated so that we can do a proper release sooner.&lt;/p&gt;
-
-&lt;p&gt;Initial syncup using a residential clearnet cable modem connection takes between 5 minutes and 10 minutes, depending on the settings.  (It is probably feasible to improve this.)  Lookup latency for &lt;code&gt;name_show&lt;/code&gt; varies from 2 seconds to 4 milliseconds, depending on the settings.  (It is also probably feasible to improve this.)&lt;/p&gt;
-
-&lt;p&gt;This work wouldn’t have been possible without the work of some very awesome people whom I need to thank.&lt;/p&gt;
-
-&lt;p&gt;First, I need to thank Ross Nicoll from &lt;a href=&quot;http://dogecoin.com/&quot;&gt;Dogecoin (warning: non-TLS link)&lt;/a&gt; for creating &lt;a href=&quot;https://github.com/dogecoin/libdohj&quot;&gt;libdohj&lt;/a&gt;, an altcoin abstraction library that has prevented Namecoin from needing to maintain a fork of &lt;a href=&quot;https://bitcoinj.github.io/&quot;&gt;BitcoinJ&lt;/a&gt;.  We’re using the same AuxPoW implementation from libdohj that Dogecoin is using – a fitting repayment, since Dogecoin Core uses the same AuxPoW implementation that Daniel Kraft wrote for Namecoin Core.  We look forward to continuing to work with Ross and the other excellent people at Dogecoin on areas of shared interest.&lt;/p&gt;
-
-&lt;p&gt;Second, I need to thank Sean Gilligan for his work on &lt;a href=&quot;https://github.com/msgilligan/bitcoinj-addons&quot;&gt;bitcoinj-addons&lt;/a&gt;, a collection of tools that includes a JSON-RPC server implemented using BitcoinJ, which can substitute for Bitcoin Core.  Sean is also a big Namecoin enthusiast.  (I also finally got to meet Sean in person at DWS.)&lt;/p&gt;
-
-&lt;p&gt;Last but not least, I need to thank Marius Hanne, operator of the &lt;a href=&quot;https://www.webbtc.com/&quot;&gt;webbtc.com block explorer&lt;/a&gt;.  The SPV lookup client currently is capable of using webbtc.com for extra efficiency (either for checking the height of blocks to download over P2P, or for downloading merkle proofs).  Marius has been incredibly helpful at customizing the webbtc.com API for this purpose.  &lt;a href=&quot;https://github.com/mhanne/block_browser&quot;&gt;webbtc.com is under a free software license (AGPLv3)&lt;/a&gt;, so you can run your own instance if you like.&lt;/p&gt;
-
-&lt;p&gt;Remember: this is a beta, &lt;em&gt;for testing purposes only&lt;/em&gt;.  Don’t use this for situations where incorrect name responses could lead to results that you aren’t willing to accept.&lt;/p&gt;
-
-&lt;p&gt;In addition, some notes about security.  SPV protects you from being served expired name data, and protects you from being served unexpired name data that isn’t part of the longest chain.  However, the SPV modes other than &lt;code&gt;leveldbtxcache&lt;/code&gt; (see the documentation) don’t protect you from being served outdated name data that hasn’t yet expired, nor does it protect you from being served false nonexistence responses, nor does it protect you from someone logging which names you look up.  We made an intentional design decision to trust webbtc.com here, rather than the Namecoin P2P network, because the P2P network is unauthenticated, trivially easy to wiretap, and trivially easy to Sybil.  &lt;code&gt;leveldbtxcache&lt;/code&gt; mode avoids these isues, although it takes about twice as long to synchronize.  We have plans to add further improvements in these areas as well.  SPV also doesn’t protect you from attackers with a large amount of hashpower.  As with Bitcoin, a major reason that miners can’t easily attack end users is because there are enough full nodes on the network to keep the miners honest.  If you have the ability to run Namecoin Core (syncup time of a few hours, and a few GB of storage), you should do so – you’ll have better security for yourself, and you’ll be improving the security of other users who can’t run a full node.&lt;/p&gt;
-
-&lt;p&gt;Have fun testing!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 23 Oct 2016 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2016/10/23/lightweight-spv-lookups-beta.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2016/10/23/lightweight-spv-lookups-beta.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>libdohj Releases</category>
         
         
       </item>
