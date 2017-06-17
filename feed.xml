@@ -6,9 +6,33 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 15 Jun 2017 18:04:20 +0000</pubDate>
-    <lastBuildDate>Thu, 15 Jun 2017 18:04:20 +0000</lastBuildDate>
+    <pubDate>Sat, 17 Jun 2017 19:36:07 +0000</pubDate>
+    <lastBuildDate>Sat, 17 Jun 2017 19:36:07 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Progress on Electrum-NMC</title>
+        <description>&lt;p&gt;Work on the electrum port for Namecoin has been moving along nicely. It was decided that we will use the electrum-client from spesmilo, along with the electrumX server. ElectrumX was chosen due to the original electrum-server being discontinued a few months ago. 
+So far the electrum client has been ported over for compatability with electrumX. This includes the re-branding, blockchain parameters and other electrum related settings for blockchain verification&lt;/p&gt;
+
+&lt;p&gt;On the roadmap now are:
+  - Extend electrumX NMC Support to allow for full veritification of AuxPow
+  - Modify new electrum client to verify the new AuxPow
+  - Add Name handling support to electrum&lt;/p&gt;
+
+&lt;p&gt;These repo’s are for testing purposes only. Do not use these unless your willing to risk losing funds. &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Multicoin-co/electrum-nmc&quot;&gt;Client&lt;/a&gt;  &lt;br /&gt;
+&lt;a href=&quot;https://github.com/Multicoin-co/electrum-nmc-server&quot;&gt;Server/ Not uploaded yet&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 17 Jun 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/06/17/progress-electrum-nmc.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/06/17/progress-electrum-nmc.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>How we&#39;re doing TLS for Chromium</title>
@@ -408,23 +432,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <pubDate>Fri, 03 Mar 2017 01:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/03/03/icann-58.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/03/03/icann-58.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin&#39;s Jeremy Rand will be a speaker at QCon London 2017</title>
-        <description>&lt;p&gt;As a result of an invitation from Riccardo Spagni (AKA fluffypony of &lt;a href=&quot;https://getmonero.org/&quot;&gt;Monero&lt;/a&gt;), I will be speaking at the “Practical Cryptography &amp;amp; Blockchains: Beyond the Hype” track at &lt;a href=&quot;https://qconlondon.com/&quot;&gt;QCon London 2017&lt;/a&gt; (March 6-8 2017).  My talk is entitled “Case Study: Alternate Blockchains”.  I will also be on a panel discussion alongside Paul Sztorc, David Vorick, Elaine Ou, Peter Todd, and Riccardo Spagni.&lt;/p&gt;
-
-&lt;p&gt;My understanding is that a video of my talk will be published by QCon.  Assuming that that’s correct, I will post a link here when it’s available.&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to Riccardo for inviting me, and to the QCon organizers for putting on the conference and covering my travel expenses.  Looking forward to it!&lt;/p&gt;
-</description>
-        <pubDate>Fri, 03 Mar 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/03/03/qcon-london.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/03/03/qcon-london.html</guid>
         
         <category>News</category>
         
