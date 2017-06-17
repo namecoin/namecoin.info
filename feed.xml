@@ -6,8 +6,8 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 17 Jun 2017 19:36:07 +0000</pubDate>
-    <lastBuildDate>Sat, 17 Jun 2017 19:36:07 +0000</lastBuildDate>
+    <pubDate>Sat, 17 Jun 2017 23:56:22 +0000</pubDate>
+    <lastBuildDate>Sat, 17 Jun 2017 23:56:22 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
     
       <item>
@@ -15,10 +15,13 @@
         <description>&lt;p&gt;Work on the electrum port for Namecoin has been moving along nicely. It was decided that we will use the electrum-client from spesmilo, along with the electrumX server. ElectrumX was chosen due to the original electrum-server being discontinued a few months ago. 
 So far the electrum client has been ported over for compatability with electrumX. This includes the re-branding, blockchain parameters and other electrum related settings for blockchain verification&lt;/p&gt;
 
-&lt;p&gt;On the roadmap now are:
-  - Extend electrumX NMC Support to allow for full veritification of AuxPow
-  - Modify new electrum client to verify the new AuxPow
-  - Add Name handling support to electrum&lt;/p&gt;
+&lt;p&gt;On the roadmap now are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extend electrumX NMC Support to allow for full veritification of AuxPow&lt;/li&gt;
+  &lt;li&gt;Modify new electrum client to verify the new AuxPow&lt;/li&gt;
+  &lt;li&gt;Add Name handling support to electrum&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;These repo’s are for testing purposes only. Do not use these unless your willing to risk losing funds. &lt;/p&gt;
 
