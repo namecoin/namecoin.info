@@ -242,6 +242,31 @@ document.write(rand);
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Progress on Electrum-NMC</h1>
+    <p class="post-meta">Jun 17, 2017 • ahmedbodi </p>
+  </header>
+
+  <article class="post-content">
+    <p>Work on the electrum port for Namecoin has been moving along nicely. It was decided that we will use the electrum-client from spesmilo, along with the electrumX server. ElectrumX was chosen due to the original electrum-server being discontinued a few months ago. 
+So far the electrum client has been ported over for compatability with electrumX. This includes the re-branding, blockchain parameters and other electrum related settings for blockchain verification</p>
+
+    <p>On the roadmap now are:
+  - Extend electrumX NMC Support to allow for full veritification of AuxPow
+  - Modify new electrum client to verify the new AuxPow
+  - Add Name handling support to electrum</p>
+
+    <p>These repo’s are for testing purposes only. Do not use these unless your willing to risk losing funds. </p>
+
+    <p><a href="https://github.com/Multicoin-co/electrum-nmc">Client</a>  <br />
+<a href="https://github.com/Multicoin-co/electrum-nmc-server">Server/ Not uploaded yet</a></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">How we’re doing TLS for Chromium</h1>
     <p class="post-meta">Jun 15, 2017 • Jeremy Rand </p>
   </header>
