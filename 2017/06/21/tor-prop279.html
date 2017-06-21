@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>OpenSSL Consensus Vulnerability affects Namecoin</title>
+    <title>Namecoin Resolution for Tor (DNS Provider for Tor Prop279 Pluggable Naming API)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2015/07/29/openssl-consensus-vulnerability.html">
+    <link rel="canonical" href="https://namecoin.org//2017/06/21/tor-prop279.html">
 </head>
 
 
@@ -238,84 +238,6 @@ document.write(rand);
         
         
     
-        
-        
-    
-        
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -326,16 +248,96 @@ document.write(rand);
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">OpenSSL Consensus Vulnerability affects Namecoin</h1>
-<p class="post-meta">Jul 29, 2015 • Namecoin Developers <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Namecoin Resolution for Tor (DNS Provider for Tor Prop279 Pluggable Naming API)</h1>
+<p class="post-meta">Jun 21, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Warning: <a href="https://forum.namecoin.org/viewtopic.php?f=2&amp;t=2354">severe vulnerability disclosed</a> - be careful.</p>
+<p>A while back, I <a href="https://lists.torproject.org/pipermail/tor-dev/2017-April/012222.html">released on the tor-dev mailing list</a> a tool for using Namecoin naming with Tor.  It worked, but it was clearly a proof of concept.  For example, it didn’t implement most of the Namecoin domain names spec, it didn’t work with the libdohj client, and it used the Tor controller API.  I’ve now coded a new tool that fixes these issues.</p>
+
+<p>Fixing the spec compliance and libdohj compatibility was implemented by using ncdns as a backend instead of directly talking to Namecoin Core.  Interestingly, I decided not to do anything Namecoin-specific with this tool.  It simply uses the DNS protocol to talk to ncdns, or any other DNS server you provide.  (So yes, that means that you could, in theory, use the DNS instead of Namecoin, without modifying this tool at all.)</p>
+
+<p>In order to work with the DNS protocol, some changes were made to how <code>.onion</code> domains are stored in Namecoin.  The existing convention is to use the <code>tor</code> field of a domain, which has no DNS mapping.  Instead, I’m using the <code>txt</code> field of the <code>_tor</code> subdomain of a domain.  This is consistent with existing practice in the DNS world.</p>
+
+<p>This tool is using Tor’s Prop279 Pluggable Naming protocol rather than the Tor controller API.  Right now <code>tor</code> (little-t) doesn’t implement Prop279.  To experiment with Prop279, <a href="https://github.com/meejah/torns">TorNS</a> is a useful way of simulating Prop279 support using the control port as a backend.  Unfortunately, TorNS’s license is unclear at the moment.  I’m in the process of checking with meejah (author of TorNS) to see if TorNS can be released under a free software license.  Until that minor bit of legalese is taken care of, the release of Namecoin resolution for Tor is on hold.</p>
+
+<p>This development was funded by NLnet.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -380,7 +382,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2015-07-29-openssl-consensus-vulnerability.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-06-21-tor-prop279.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
