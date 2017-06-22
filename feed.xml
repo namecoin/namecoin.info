@@ -6,9 +6,30 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 20 Jun 2017 07:37:06 +0000</pubDate>
-    <lastBuildDate>Tue, 20 Jun 2017 07:37:06 +0000</lastBuildDate>
+    <pubDate>Wed, 21 Jun 2017 23:52:47 +0000</pubDate>
+    <lastBuildDate>Wed, 21 Jun 2017 23:52:47 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin Resolution for Tor (DNS Provider for Tor Prop279 Pluggable Naming API)</title>
+        <description>&lt;p&gt;A while back, I &lt;a href=&quot;https://lists.torproject.org/pipermail/tor-dev/2017-April/012222.html&quot;&gt;released on the tor-dev mailing list&lt;/a&gt; a tool for using Namecoin naming with Tor.  It worked, but it was clearly a proof of concept.  For example, it didn’t implement most of the Namecoin domain names spec, it didn’t work with the libdohj client, and it used the Tor controller API.  I’ve now coded a new tool that fixes these issues.&lt;/p&gt;
+
+&lt;p&gt;Fixing the spec compliance and libdohj compatibility was implemented by using ncdns as a backend instead of directly talking to Namecoin Core.  Interestingly, I decided not to do anything Namecoin-specific with this tool.  It simply uses the DNS protocol to talk to ncdns, or any other DNS server you provide.  (So yes, that means that you could, in theory, use the DNS instead of Namecoin, without modifying this tool at all.)&lt;/p&gt;
+
+&lt;p&gt;In order to work with the DNS protocol, some changes were made to how &lt;code&gt;.onion&lt;/code&gt; domains are stored in Namecoin.  The existing convention is to use the &lt;code&gt;tor&lt;/code&gt; field of a domain, which has no DNS mapping.  Instead, I’m using the &lt;code&gt;txt&lt;/code&gt; field of the &lt;code&gt;_tor&lt;/code&gt; subdomain of a domain.  This is consistent with existing practice in the DNS world.&lt;/p&gt;
+
+&lt;p&gt;This tool is using Tor’s Prop279 Pluggable Naming protocol rather than the Tor controller API.  Right now &lt;code&gt;tor&lt;/code&gt; (little-t) doesn’t implement Prop279.  To experiment with Prop279, &lt;a href=&quot;https://github.com/meejah/torns&quot;&gt;TorNS&lt;/a&gt; is a useful way of simulating Prop279 support using the control port as a backend.  Unfortunately, TorNS’s license is unclear at the moment.  I’m in the process of checking with meejah (author of TorNS) to see if TorNS can be released under a free software license.  Until that minor bit of legalese is taken care of, the release of Namecoin resolution for Tor is on hold.&lt;/p&gt;
+
+&lt;p&gt;This development was funded by NLnet.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/06/21/tor-prop279.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/06/21/tor-prop279.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Automated Nothing-Up-My-Sleeve HPKP Insertion for Chromium</title>
@@ -386,21 +407,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <guid isPermaLink="true">https://namecoin.org//2017/04/02/qcon-london-summary.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core 0.13.99-name-tab-beta1 Ready for General Use</title>
-        <description>&lt;p&gt;Namecoin Core 0.13.99-name-tab-beta1, which has been listed on our Beta Downloads page for a few months, has demonstrated itself to be stable enough that &lt;a href=&quot;/download/&quot;&gt;it is now listed on the main Downloads page&lt;/a&gt;.  Huge thanks to our Lead C++ GUI Engineer Brandon Roberts for his work on this.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 20 Mar 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/03/20/namecoin-core-0-13-99-name-tabe-beta1.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/03/20/namecoin-core-0-13-99-name-tabe-beta1.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Namecoin Core Releases</category>
         
         
       </item>
