@@ -6,9 +6,30 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 21 Jun 2017 23:52:47 +0000</pubDate>
-    <lastBuildDate>Wed, 21 Jun 2017 23:52:47 +0000</lastBuildDate>
+    <pubDate>Thu, 22 Jun 2017 09:04:49 +0000</pubDate>
+    <lastBuildDate>Thu, 22 Jun 2017 09:04:49 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin Resolution for Tor Released</title>
+        <description>&lt;p&gt;The &lt;a href=&quot;/2017/06/21/tor-prop279.html&quot;&gt;aforementioned licensing issues with TorNS&lt;/a&gt; have been dealt with, and I’ve released the DNS provider for Tor’s Prop279 Pluggable Naming API.  This allows Namecoin resolution in Tor.&lt;/p&gt;
+
+&lt;p&gt;One issue I encountered is that TorNS currently implements a rather unfortunate restriction that input and output domain names must be in the &lt;code&gt;.onion&lt;/code&gt; TLD.  I’ve created a fork of TorNS (which I call &lt;a href=&quot;https://github.com/namecoin/LibreTorNS&quot;&gt;LibreTorNS&lt;/a&gt;) which removes this restriction.  LibreTorNS is currently required for Namecoin usage.&lt;/p&gt;
+
+&lt;p&gt;The code is available from the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt;.  Please let me know what works and what doesn’t.  And remember, using Namecoin naming with Tor will make you heavily stand out, so don’t use this in any scenario where you need anonymity.  (Also please refer to the extensive additional scary warnings in the readme if you’re under the mistaken impression that using this in production is a good idea.)&lt;/p&gt;
+
+&lt;p&gt;This development was funded by NLnet.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/06/22/tor-prop279-release.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/06/22/tor-prop279-release.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Prop279 Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Resolution for Tor (DNS Provider for Tor Prop279 Pluggable Naming API)</title>
@@ -380,31 +401,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <pubDate>Mon, 17 Apr 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/04/17/icann-58-summary.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/04/17/icann-58-summary.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>QCon London 2017 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/03/03/qcon-london.html&quot;&gt;announced&lt;/a&gt;, I represented Namecoin at QCon London 2017.  Below is a brief summary of how it went.&lt;/p&gt;
-
-&lt;p&gt;The theme of the blockchain track was “Beyond the Hype”.  As such, the presentations in the track primarily focused on all the things that can go wrong when using a blockchain.  Riccardo Spagni (AKA fluffypony of &lt;a href=&quot;https://getmonero.org/&quot;&gt;Monero&lt;/a&gt;) is definitely an ideal person to host this track.  My talk was on alternate blockchains, with a focus on Namecoin (and some Monero).  In the spirit of going “Beyond the Hype”, my talk was almost entirely about things that can go wrong when using a non-Bitcoin blockchain.&lt;/p&gt;
-
-&lt;p&gt;I think this is a very important theme for a blockchain track, because the hype attached to the blockchain field is seriously problematic for our field’s credibility.  None of us were there to sell our technology, attract investors, or grab media attention – we were there to provide a reality check for an audience who, in large part, had minimal exposure to blockchain technology and wanted to learn more about what use cases it’s good or bad for.&lt;/p&gt;
-
-&lt;p&gt;Lots of attendees talked with me over dinner and in the hallway, and I’ll be following up with them ASAP.  After QCon, I attended a talk Riccardo gave at Imperial College; several people there were interested in Namecoin.  I met up with Riccardo the next day to discuss lots of cool stuff involving Namecoin and Monero.&lt;/p&gt;
-
-&lt;p&gt;As with other conferences, I won’t be releasing details of private conversations, because I want people to be able to talk to me at conferences without being worried that off-the-cuff comments will be publicly published.&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to Riccardo for inviting me, and to all the QCon conference organizers for an awesome conference (and for covering my travel expenses).  It’d be awesome if we can do this again.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://qconlondon.com/2017-session-videos&quot;&gt;A video of my talk is scheduled for release on June 26, 2017.&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sun, 02 Apr 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/04/02/qcon-london-summary.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/04/02/qcon-london-summary.html</guid>
         
         <category>News</category>
         
