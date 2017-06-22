@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>OpenSSL Consensus Vulnerability affects Namecoin</title>
+    <title>Namecoin Resolution for Tor Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2015/07/29/openssl-consensus-vulnerability.html">
+    <link rel="canonical" href="https://namecoin.org//2017/06/22/tor-prop279-release.html">
 </head>
 
 
@@ -241,85 +241,6 @@ document.write(rand);
         
         
     
-        
-        
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -330,16 +251,98 @@ document.write(rand);
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">OpenSSL Consensus Vulnerability affects Namecoin</h1>
-<p class="post-meta">Jul 29, 2015 • Namecoin Developers <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Namecoin Resolution for Tor Released</h1>
+<p class="post-meta">Jun 22, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Warning: <a href="https://forum.namecoin.org/viewtopic.php?f=2&amp;t=2354">severe vulnerability disclosed</a> - be careful.</p>
+<p>The <a href="/2017/06/21/tor-prop279.html">aforementioned licensing issues with TorNS</a> have been dealt with, and I’ve released the DNS provider for Tor’s Prop279 Pluggable Naming API.  This allows Namecoin resolution in Tor.</p>
+
+<p>One issue I encountered is that TorNS currently implements a rather unfortunate restriction that input and output domain names must be in the <code>.onion</code> TLD.  I’ve created a fork of TorNS (which I call <a href="https://github.com/namecoin/LibreTorNS">LibreTorNS</a>) which removes this restriction.  LibreTorNS is currently required for Namecoin usage.</p>
+
+<p>The code is available from the <a href="/download/betas/">Beta Downloads page</a>.  Please let me know what works and what doesn’t.  And remember, using Namecoin naming with Tor will make you heavily stand out, so don’t use this in any scenario where you need anonymity.  (Also please refer to the extensive additional scary warnings in the readme if you’re under the mistaken impression that using this in production is a good idea.)</p>
+
+<p>This development was funded by NLnet.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -384,7 +387,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2015-07-29-openssl-consensus-vulnerability.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-06-22-tor-prop279-release.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
