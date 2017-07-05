@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fork Wishlist</title>
+    <title>QCon London 2017 Video: Practical Cryptography & Blockchain Panel</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//docs/dev/fork-wishlist/">
+    <link rel="canonical" href="https://namecoin.org//2017/07/05/qcon-london-panel-video.html">
 </head>
 
 
@@ -232,49 +232,143 @@ document.write(rand);
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Fork Wishlist</h1>
-  </header>
-
-  <article class="post-content">
     
-<p>This is a list of proposed consensus forks for Namecoin.  Inclusion on this list does not indicate widespread support of the Namecoin community.  This page only covers blockchain consensus rules; changes to namespace specs are not covered here.</p>
+    
+        
+        
+    
 
-<h2 id="hardforks">Hardforks</h2>
 
-<ul>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75">Require AuxPoW to be always active</a>.  This is a proposed solution to an incompatibility between BIP 9 (VersionBits) and AuxPoW.</li>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75#issuecomment-228597157">AuxPoW: use BIP 122 chain ID</a>.</li>
-  <li>AuxPoW: Use SegWit commitments.</li>
-  <li>AuxPoW: “correct the merged-mining chain_id awkwardness” (<a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=1824">as midnightmagic put it</a>)</li>
-  <li>AuxPoW: Use protocol from P2Pool.  Would decrease size of AuxPoW headers.  Implementation is in use already by P2Pool; spec incomplete.</li>
-  <li>AuxPoW: Use protocol from Luke-Jr.  Would probably fix GBT, decrease size of AuxPoW headers more than P2Pool, requires a Bitcoin hardfork as well, implementation and spec not public yet.</li>
-  <li>Disable BDB lock limit.</li>
-  <li>Remove requirement that name operations appear in a transaction with the Namecoin tx nVersion.</li>
-  <li>Increase limit on name value size.</li>
-  <li>Change name fee structure (only a hardfork if it allows name outputs to hold less than 0.01 NMC).</li>
-  <li>Multiple names per transaction.</li>
-  <li>Extend name expiration period to circa 1 year.</li>
-  <li>Make name expiration period use BIP 113 timestamps instead of block height.</li>
-  <li>Store names as (Hash(name), Enc(name, value)) rather than (name, value).</li>
-</ul>
 
-<h2 id="softforks">Softforks</h2>
 
-<ul>
-  <li><a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2455&amp;hilit=softfork&amp;sid=e59d68ac212f89a82ed1ccefc7da4996">AuxPoW: restrict timestamp difference to parent block</a>.</li>
-  <li>Coinbase commitment for UNO set.</li>
-  <li>Make dust spam outputs from the attack between blocks 39k and 41k unspendable.</li>
-  <li>Segregated Name Values.</li>
-  <li>Change name fee structure (only a softfork if it doesn’t allow name outputs to hold less than 0.01 NMC).</li>
-  <li>Delegated renewal.</li>
-</ul>
 
-  </article>
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">QCon London 2017 Video: Practical Cryptography & Blockchain Panel</h1>
+<p class="post-meta">Jul 5, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>InfoQ has posted <a href="https://www.infoq.com/presentations/cryptography-blockchain">the recording of the Practical Cryptography &amp; Blockchain Panel</a> at QCon London 2017.  The panelists (from left to right) were Elaine Ou, me (Jeremy Rand), David Vorick, Paul Sztorc, and Peter Todd.  Riccardo Spagni (on the right) moderated the panel.</p>
+
+<p>The videos on the InfoQ website do not appear to work when Javascript is disabled.  Security-conscious users who prefer not to enable Javascript can view the video via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>).</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -291,7 +385,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/dev/fork-wishlist/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-07-05-qcon-london-panel-video.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

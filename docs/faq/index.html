@@ -195,6 +195,7 @@ html.nojs .navbar-header {
                         <ul class="dropdown-menu">
                             <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
                             <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
                             <li><a href="/explorers/">Explorers</a></li>
                             <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
                             <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
@@ -290,6 +291,10 @@ document.write(rand);
 <p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 35,999 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  An example of this usage is the ability to delegate .bit domain names to an external DNSSEC nameserver, authenticated by a DS record in the blockchain.</p>
 
 <p>If you’re developing an application, consider doing your development on the Namecoin Testnet.  This prevents your testing from bloating the production blockchain, and also allows you to test without spending real money on names.  If more than one implementation might have the same use case, consider writing a spec so that incompatible implementations of similar ideas don’t become a problem.</p>
+
+<h3 id="what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</h3>
+
+<p>The smallest currency unit of Namecoin is called the <em>swartz</em> (similar to the <em>satoshi</em> in Bitcoin).  It is named after Aaron Swartz, the activist who was murdered by the U.S. government, and who <a href="https://web.archive.org/web/20170424134548/http://www.aaronsw.com/weblog/squarezooko">proposed Nakanames</a> (which, along with BitDNS, described the concept that was later implemented as Namecoin).</p>
 
 <h2 id="design">Design</h2>
 
