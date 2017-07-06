@@ -6,9 +6,24 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Jul 2017 16:50:10 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Jul 2017 16:50:10 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Jul 2017 23:04:25 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Jul 2017 23:04:25 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin&#39;s Jeremy Rand will be a speaker at GCER 2017</title>
+        <description>&lt;p&gt;I will be speaking at the &lt;a href=&quot;https://new.gcer.net/&quot;&gt;2017 Global Conference on Educational Robotics&lt;/a&gt; (July 8-12, 2017).  For those of you unfamiliar with GCER, the audience is mostly a mix of middle school students, high school students, college students, and educators, most of whom are participating in the robotics competitions hosted at GCER (primarily Botball).  I competed in Botball (and the other 2 GCER competitions: KIPR Open and KIPR Aerial) between 2003 and 2015, and that experience (particularly the hacking aspect, which is actively encouraged in all three competitions) was a major factor in why I’m a Namecoin developer.  My talk is an outreach effort, which I hope will result in increased interest in the Botball scene in the areas of privacy, security, and human rights.  My talk (scheduled for July 10) is entitled “Making HTTPS and Anonymity Networks Slightly More Secure (Or: How I’m Using My Botball Skill Set in the Privacy/Security Field)”.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to KISS Institute for Practical Robotics (which organizes GCER) for suggesting that I give this talk.  Looking forward to it!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/07/06/gcer-2017.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/07/06/gcer-2017.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>QCon London 2017 Video: Practical Cryptography &amp; Blockchain Panel</title>
@@ -305,34 +320,6 @@ of the ncdns-nsis installer.&lt;/p&gt;
         <pubDate>Fri, 26 May 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Receives Funding from NLnet Foundation&#39;s Internet Hardening Fund</title>
-        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving 29,895 EUR in funding from &lt;a href=&quot;https://nlnet.nl/&quot;&gt;NLnet Foundation&lt;/a&gt;’s Internet Hardening Fund.  If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).  The &lt;a href=&quot;https://nlnet.nl/internethardening/&quot;&gt;Internet Hardening Fund&lt;/a&gt; is managed by NLnet and funded by the Netherlands Ministry of Economic Affairs.  The funding will be used to fund 4 Namecoin developers (Jeremy Rand, Hugo Landau, Brandon Roberts, and Joseph Bisch) to produce a usable decentralized TLS public key infrastructure.&lt;/p&gt;
-
-&lt;p&gt;Specifically, the following areas of development will be funded:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Integration with DNS functionality of major operating systems.  We intend to support GNU/Linux and Windows, including DNS integration for Tor.  Other operating system support may be developed if things go well.&lt;/li&gt;
-  &lt;li&gt;Integration with TLS certificate validation functionality of major web browsers.  We intend to support Chromium, Firefox, and Tor Browser on GNU/Linux and Windows.  Other browser support may be developed if things go well.&lt;/li&gt;
-  &lt;li&gt;Improvements to the lightweight SPV name lookup client.&lt;/li&gt;
-  &lt;li&gt;A lightweight SPV wallet with name support.  We intend to use Electrum.&lt;/li&gt;
-  &lt;li&gt;Wallet GUI improvements, including Coin Control for name transactions and a name update GUI that doesn’t require knowing JSON.&lt;/li&gt;
-  &lt;li&gt;Improved installation automation.  We intend to provide a Windows installer that includes a Namecoin client, DNS integration, and TLS integration.  Other OS support may be developed if things go well.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for selecting us for this opportunity, as well as the Netherlands Ministry of Economic Affairs for recognizing that a hardened Internet is worth receiving government financial support.&lt;/p&gt;
-
-&lt;p&gt;We’ll be posting updates regularly as development proceeds.  (Spoiler alert: a few components are already nearly ready for beta releases.)&lt;/p&gt;
-</description>
-        <pubDate>Fri, 19 May 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/05/19/funding-nlnet.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/05/19/funding-nlnet.html</guid>
         
         <category>News</category>
         
