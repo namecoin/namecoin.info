@@ -6,9 +6,24 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Jul 2017 23:04:25 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Jul 2017 23:04:25 +0000</lastBuildDate>
+    <pubDate>Fri, 07 Jul 2017 07:46:41 +0000</pubDate>
+    <lastBuildDate>Fri, 07 Jul 2017 07:46:41 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>LibreTorNS Merged to Upstream TorNS</title>
+        <description>&lt;p&gt;Generally I’m of the opinion that it’s better to get patches to other people’s projects merged upstream whenever feasible; accordingly I submitted the LibreTorNS patches upstream.  Happily, meejah has merged the LibreTorNS patches to &lt;a href=&quot;https://github.com/meejah/torns&quot;&gt;upstream TorNS&lt;/a&gt;.  That means LibreTorNS is now obsolete, and you should use meejah’s upstream TorNS for testing dns-prop279 going forward.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to meejah for accepting the patch!  Also thanks to meejah for the code review – there was a bug hiding in my initial submitted patch, which is one of the reasons I always prefer getting things reviewed by upstream.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 Jul 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/07/07/libretorns-merged-upstream.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/07/07/libretorns-merged-upstream.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin&#39;s Jeremy Rand will be a speaker at GCER 2017</title>
@@ -289,37 +304,6 @@ development by Jeremy Rand. This will be incorporated in a future release.&lt;/p
         <pubDate>Sat, 27 May 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Progress on ncdns-nsis</title>
-        <description>&lt;p&gt;Development nears completion on the NSIS-based Namecoin and ncdns bundle
-installer for Windows.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://github.com/hlandau/ncdns-nsis&quot;&gt;ncdns-nsis&lt;/a&gt; repository provides
-source code for an NSIS-based installer which can automatically install and
-configure Namecoin Core, ncdns and Unbound and configure name resolution of
-&lt;code&gt;.bit&lt;/code&gt; domains via Unbound.&lt;/p&gt;
-
-&lt;p&gt;The installer can install Namecoin Core and Unbound automatically, but also
-allows users to opt out of the installation of these components if they wish to
-provide their own.&lt;/p&gt;
-
-&lt;p&gt;Completion of the ncdns-nsis installer project will enable the Namecoin project
-to distribute a Windows binary installer providing a turnkey,
-configuration-free solution for &lt;code&gt;.bit&lt;/code&gt; domain resolution. The installer is also
-intended to support reproducible builds and can be built from a POSIX system.&lt;/p&gt;
-
-&lt;p&gt;At this point, extensive testing is the primary work remaining on the completion
-of the ncdns-nsis installer.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 26 May 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/05/26/progress-ncdns-nsis.html</guid>
         
         <category>News</category>
         
