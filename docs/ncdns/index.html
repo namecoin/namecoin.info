@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>ncdns</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//docs/ncdns/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/donate/">Donate</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p>
+<script type="text/javascript">
+var taglines = [
+    '<strong>In information</strong><br />we <strong>trust</strong>.',
+    'A <strong>trust anchor</strong><br />for the Internet.',
+    '<strong>Against<br />censorship.</strong>',
+    '<strong>Supporting<br />free speech.</strong>',
+    'Decentralized<br /><strong>secure</strong> names.',
+    '<b>Decentralize</b><br>all the things!',
+    '<b>Freedom</b><br>of information.'
+    ];
+var rand = taglines[Math.floor(Math.random() * taglines.length)];
+document.write(rand);
+</script>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">ncdns</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>ncdns is software for accessing <code>.bit</code> domain names.  If you want to access <code>.bit</code> domain names, ncdns is what you want to install.  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>You can download ncdns at the <a href="/download/betas/">Beta Downloads</a> page.</p>
+
+<h3 id="windows">Windows</h3>
+
+<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).</p>
+
+<h3 id="other-oss">Other OS’s</h3>
+
+<p>Currently, ncdns for non-Windows OS’s must be built from source code.</p>
+
+<h2 id="supplying-your-own-namecoin-node">Supplying your own Namecoin node</h2>
+
+<p>The ncdns Windows installer will offer to install Namecoin Core and configure ncdns to use it.  However, there are several reasons why you might want to supply your own Namecoin node:</p>
+
+<ul>
+  <li>You’re not using Windows.</li>
+  <li>You want to use a Namecoin node that isn’t Namecoin Core (e.g. the libdohj SPV client).</li>
+  <li>You want to run a Namecoin node on a different machine than ncdns.</li>
+  <li>You want to handle updating Namecoin Core separately from updating ncdns.</li>
+</ul>
+
+<p>If you want to supply your own Namecoin node, you can follow these steps:</p>
+
+<ol>
+  <li>Make sure that your Namecoin node has the RPC server enabled.</li>
+  <li>Open <code>ncdns.conf</code>.  On Windows, it’s in the <code>etc/</code> subdirectory of where you installed ncdns.</li>
+  <li>Look for the <code>namecoind access</code> section.</li>
+  <li>If your Namecoin node isn’t listening on <code>127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code>namecoinrpcaddress</code> line and fill in the IP and port.</li>
+  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code>namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
+  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code>namecoinrpccookiepath</code> line, uncomment the <code>namecoinrpcusername</code> and <code>namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
+  <li>Restart ncdns.  On Windows, you can do this by going to <code>Control Panel</code> -&gt; <code>Administrative Tools</code> -&gt; <code>Services</code>, right-click <code>ncdns</code>, and click <code>Restart</code>.</li>
+</ol>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.facebook.com/Namecoin.bit"><i class="fa fa-facebook fa-2x" title="Facebook">Facebook</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/ncdns/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>

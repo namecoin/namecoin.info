@@ -243,6 +243,24 @@ document.write(rand);
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">QCon London 2017 Video: Case Study: Alternate Blockchains</h1>
+    <p class="post-meta">Jul 28, 2017 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>InfoQ has posted <a href="https://www.infoq.com/presentations/namecoin-monero">the recording of my talk, Case Study: Alternate Blockchains</a> at QCon London 2017.</p>
+
+    <p>The videos on the InfoQ website do not appear to work when Javascript is disabled.  Security-conscious users who prefer not to enable Javascript can view the video via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>).</p>
+
+    <p><a href="/resources/presentations/QCon_London_2017/Namecoin_QCon_London_2017.pdf">My slides are available here.</a></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">LibreTorNS Merged to Upstream TorNS</h1>
     <p class="post-meta">Jul 7, 2017 • Jeremy Rand </p>
   </header>
@@ -904,6 +922,122 @@ of the ncdns-nsis installer.</p>
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">OneName’s Blockstore is much less secure than Namecoin</h1>
+    <p class="post-meta">Sep 29, 2015 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p><em>Note: the naming system described in this post, Blockstore, is now named Blockstack.</em></p>
+
+    <p>It’s well-known that OneName has been engaged in questionable practices on the Namecoin blockchain, such as <a href="/2015/09/01/why-duplicate-namespaces-are-bad-for-users.html">creating a duplicate namespace</a> (<code>u/</code>) which harms the security of users and aids squatters.  So we were interested to hear the news on September 12 that OneName has decided to stop using Namecoin in favor of a naming system they announced circa February 2015, Blockstore.  Blockstore stores name transactions within <code>OP_RETURN</code> outputs on the Bitcoin blockchain (the full values of names are stored in a DHT).  OneName claims that Blockstore has better security than Namecoin, on the grounds that Bitcoin hashpower is larger and more decentralized than Namecoin’s.  This is a false assumption.</p>
+
+    <p>It is fairly well-known that a blockchain is a dynamic-membership multiparty signature (DMMS), attesting to the correctness of the transactions.  Specifically, there are two main types of correctness that the blockchain attests to: the ordering of the transactions, and the validity of the transactions with regard to all previous transactions.  Correctness of ordering is primarily to prevent double-spending of otherwise-valid coins.  Transaction validity, such as checking ECDSA signatures and making sure that names are being spent by their rightful owner, allows SPV-based clients to function properly (among other things).  OneName is claiming that Bitcoin’s blockchain is a DMMS attesting to Blockstore’s correctness.  But the Bitcoin miners are only verifying ordering and Bitcoin transaction validity – they are not verifying the validity of Blockstore transactions.</p>
+
+    <p>Is this a big deal?  Yes.  It means that if you wrote an SPV client for Blockstore, I would be able to create an <code>OP_RETURN</code> output in the Bitcoin blockchain that claimed ownership of any arbitrary name, and your SPV client would not be able to detect the fraud.  It also means that a validating Blockstore node cannot be a UTXO-pruned Bitcoin client – a full Bitcoin client is needed.</p>
+
+    <p>To expand further on this issue, in the event of malicious data insertion by users bent on disrupting the system, clients that are asking for data from Blockstore servers have almost no way to verify whether the servers are telling the truth or not.</p>
+
+    <p>In Bitcoin, the notion of SPV clients was proposed by Satoshi as a way for lightweight clients to avoid the need to store the entire Bitcoin blockchain themselves. As part of this idea, Satoshi described a mechanism by which fraud proofs could be used to reveal cheating and, ostensibly, punish the cheaters. Bitcoin SPV is in large part enabled by the proof-of-work in Bitcoin which makes forging SPV responses very difficult to begin with. In Blockstore’s system, lightweight lookups have no PoW-backing, and there does not appear to be a way to have even simple Satoshi-style PoW-based fraud proofs to detect cheating, so clients are likely entirely at the mercy of anyone running a server. Blockstore-specific SPV fraud proofs would require complex mechanisms and probably extensive pathing hints, and since fraud proofs don’t even exist yet in Bitcoin (wherein the majority of blockchain research and development is happening and on which the attention of nearly all of the interested cryptographers, research scientists, developers, and engineers is focused) it is unlikely Blockstore can satisfactorily solve this particular problem given the more extreme constraints they are operating with.</p>
+
+    <p>The Blockstore system is analogous to recommending that currency be stored in a blockchain that has a higher hashrate than Bitcoin and has 100 equally sized pools, but whose block validation rules are so loose that signature verifications always pass.  What’s the point when I can steal your money or names and your client can’t tell?  (Of course, when all signature verifications pass, even double-spend detection can’t function either, so this doesn’t even solve double-spends.)</p>
+
+    <p>Namecoin, in contrast, enforces transaction validity (including name ownership) in blockchain validation rules.  This means that, even if a majority of Namecoin hashpower wanted to steal your name, their transaction that spends your name coin would be rejected by all of the network’s validating nodes.  They could double-spend a name, but the only attack that this enables is fraud during non-atomic name trades.  Given that Namecoin supports atomic trading of a name for currency (see <a href="https://github.com/phelixnmc/antpy">ANTPY</a> and <a href="https://github.com/ryancdotorg/nametrade">NameTrade</a>), this attack is unlikely to be an issue.</p>
+
+    <p>A <em>prolonged</em> 51% attack on Namecoin could censor name transactions and eventually cause names to expire if the attack lasted 8 months, but this would be detectable and obvious to all users on the Namecoin P2P network.  (Moreover, as soon as the attack started, it would be detectable and obvious specifically which names were targeted, and if the names were re-registered by the 51% attacker, they would be distinguishable from the original name by the block height of their corresponding name_firstupdate transaction.  We have a pending proposal to make that block height visible to user applications so that such attacks can be automatically mitigated.)  And of course, a mining pool who performed an 8-month-long 51% attack would most likely lose a lot of hashpower as their users abandoned them in favor of mining pools who aren’t attacking the network.</p>
+
+    <p>Is Namecoin’s mining centralization problematic?  Yes, to a point. But with Namecoin there is a possibility for the situation to improve in the foreseeable future with the new Namecoin Core client, and with influx of new users and miners due to improved usability. While Namecoin currently has around 40 percent of Bitcoin’s hashpower verifying transaction validity, Blockstore has 0.</p>
+
+    <p>Additionally, DHT-based discovery of storage nodes is one of the classic suggestions of new users as an alternative to DNS seeds, and, originally, IRC-based discovery: it has never been committed because it is trivial to attack DHT-based networks, and partly because once a node is connected, Bitcoin (and thus Namecoin) peer nodes are solicitous with peer-sharing.</p>
+
+    <p>As an actual data store, DHT as it is classically described runs into issues with non-global or non-contiguous storage, with little to no way to verify the completeness of the data stored therein. With the decoupled headers in <code>OP_RETURN</code>-using transactions in Bitcoin and the data storage in a DHT (or DHT-like) separate network, there is the likelihood of some little-used data simply disappearing entirely from the network. There is no indication of how Blockstore intends to handle this highly-likely failure condition.</p>
+
+    <p>More interesting are Bitcoin-related failure conditions: Blockstore information is not in an obscured Merklized tree-like structure with the root node stored in Bitcoin; Blockstore proposes to store actual raw data in <code>OP_RETURN</code>, with the limited space therein necessarily requiring highly constrained bits of data and limits in its form and structure. With this, it would be trivial for anti-spam mining cabals to censor these transactions, and given the understandable hostility with which some Bitcoin advocates treat altcoin bloating of the Bitcoin blockchain, the inevitable result will be a mass-distributed method of censoring of Blockstore transactions. Even if this is not so, it is a systemic flaw and therefore at permanent risk of being disrupted by miners who choose not to enable what they in turn view as the hostile economic externalities involved with permanent storage of questionably valuable data on behalf of third parties. As Satoshi <a href="https://bitcointalk.org/index.php?topic=1790.msg28917#msg28917">noted</a>: “Piling every proof-of-work quorum system in the world into one dataset doesn’t scale.”</p>
+
+    <p>Finally, one of the biggest flaws in this scheme is the nature of the loosely-connected graph structure formed by the so-called “consensus hash” that Blockstore hand-waves away by saying it will hash the data in the “last 12 blocks” without a concrete description thereof. What algorithms do they propose to ensure that not only does it form a properly, fully-connected graph and is verified, but also that its consensus-hash is accurate or even useful? Graph algorithms are notoriously complex: entire branches of science exist just to study and theorize about them. What use is this consensus hash when it’s entirely voluntary and arbitrarily-connected to prior data? How is the verification process going to proceed without, over a long period of time, becoming so complex that the cost is no longer feasible for normal consumer processors? How does Blockstore intend to <strong>discover</strong> what data each consensus hash even refers to? Transitive closure searches for such graphs could be made arbitrarily complex and non-deterministic by attackers who are interested in doing so, especially over time, and there is no mention of this class of vulnerability nor its proposed solution by Blockstore.</p>
+
+    <p>We will be working on improving Namecoin identities to make pseudo-decentralized naming systems obsolete. But unlike the commercial enterprise OneName, we are volunteers creating <a href="https://www.youtube.com/watch?v=jh8supIUj6c&amp;feature=youtu.be&amp;t=3221">ethical software</a> in our spare time. If you prefer our method of prioritizing sound design over flashy PR campaigns, <a href="https://forum.namecoin.org/">join us</a>!</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Why Duplicate Namespaces Are Bad for Users</h1>
+    <p class="post-meta">Sep 1, 2015 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>Every now and then, we’re approached by users who are asking about namespaces which duplicate functionality of the officially recommended namespaces.  Examples of these namespaces include <code>tor/</code>, <code>i2p/</code>, and <code>u/</code>.  We think these duplicate namespaces are harmful to end users.  This blog post will try to explain why duplicating functionality of existing namespaces is almost always a bad idea.</p>
+
+    <h2 id="background">Background</h2>
+
+    <p>This whole thing seems to have started when someone noticed that the <code>d/</code> specification, which is used for domain names, only supported IP addresses.  This person thought it would be awesome to have DNS for Tor hidden services, and proposed a <code>tor/</code> namespace for such domains.  Someone else appears to have decided the same thing for I2P, and created an <code>i2p/</code> proposal.</p>
+
+    <p>An alternative proposal was the <code>d/</code> 2.0 spec, which allowed <code>d/</code> names to map to Tor hidden services and I2P eepsites.  This is the proposal which is for the most part still widely used today.</p>
+
+    <p>Why was <code>d/</code> 2.0 a better idea than starting 2 new namespaces?</p>
+
+    <h2 id="duplicate-namespaces-attract-squatters">Duplicate Namespaces Attract Squatters</h2>
+
+    <p>Imagine that <code>d/</code>, <code>tor/</code>, and <code>i2p/</code> are all common namespaces.  Let’s say that WikiLeaks is running an IPv4-based website using the name <code>d/wikileaks</code>.  Now let’s say that WikiLeaks wishes to offer a Tor hidden service for their website.  They now have to register a second name, <code>tor/wikileaks</code>.  Uh oh, seems a squatter saw that WikiLeaks had <code>d/wikileaks</code> and preemptively grabbed <code>tor/wikileaks</code> and <code>i2p/wikileaks</code> just in case WikiLeaks wanted those names.  Now WikiLeaks has to negotiate with a squatter, who potentially might be on the payroll of a government who wants to either cost WikiLeaks lots of money or impersonate it.</p>
+
+    <p>What’s the defense here?  The only defense is to preemptively register your name in <strong>all</strong> namespaces, just in case you want them later.</p>
+
+    <p>Let’s say that in an alternate reality, WikiLeaks did exactly this, registering <code>d/wikileaks</code>, <code>tor/wikileaks</code>, and <code>i2p/wikileaks</code>.  Now let’s imagine that someone decides that CJDNS mesh networking would be nice to have with Namecoin’s domain names, and creates a cjdns/ namespace.  Well crap, now WikiLeaks is in a race with squatters to see who can grab cjdns/wikileaks first; if WikiLeaks fails, then they can’t ever use their name with CJDNS.</p>
+
+    <p>Remember that the domain squatters probably expend much more time watching namespace proposals, since that’s basically their job.  WikiLeaks, on the other hand, probably is more worried about their whistleblower anonymity infrastructure than their choice of Namecoin namespaces.</p>
+
+    <p>This is simply a losing game for everyone except squatters.</p>
+
+    <h2 id="duplicate-namespaces-break-users-security-assumptions">Duplicate Namespaces Break Users’ Security Assumptions</h2>
+
+    <p>Imagine a situation where an end user hears from a trusted source that wikileaks.bit is a great place to submit documentation of government corruption.  wikileaks.bit uses the <code>d/</code> namespace.  But the end user doesn’t want to use clearnet, so she uses the <code>tor/</code> namespace instead, accessing the domain wikileaks.tor.  Note that she has just made the assumption that <code>d/wikileaks</code> and <code>tor/wikileaks</code> are operated by the same entity.  However, this is not the case.  The Namecoin network considers those two names to be entirely different things.  Imagine that <code>tor/wikileaks</code> is instead operated by a government agency (perhaps they bought it from a squatter).  Now our whistleblower is screwed.</p>
+
+    <p>If duplicate namespaces are in use, the <strong>only</strong> way to verify that two names are controlled by the same entity is to inspect the name you trust, and see if it links to the other name.  For example, you could visit the website associated with <code>d/wikileaks</code>, and see if it mentions <code>tor/wikileaks</code>.  This, of course, is neither automatable nor secure in our whistleblower’s case.  Given how popular and successful phishing is, providing scammers with an easy way to break users’ security assumptions is an extremely bad enginering idea.</p>
+
+    <h2 id="consolidate-all-namespaces-with-common-use-cases">Consolidate All Namespaces with Common Use Cases</h2>
+
+    <p>Let’s look instead at the <code>d/</code> 2.0 proposal.  It recognized that IP-based DNS, Tor-based DNS, and I2P-based DNS are all aiming at a common use case.  By creating new functionality as new fields of the <code>d/</code> namespace rather than new namespaces, the proposal makes sure that users of Namecoin DNS will be able to freely switch between IP, Tor, I2P, and any future system which may come along, without ever needing to register a new name.  This protects users from squatters and protects their security, both now and in the future.  (It also saves them money on name fees.)</p>
+
+    <h2 id="your-options-when-a-namespace-spec-doesnt-meet-your-needs">Your Options When a Namespace Spec Doesn’t Meet Your Needs</h2>
+
+    <p>Let’s say that you want to implement a new feature into an existing use case in Namecoin.  For example, maybe you wish the <code>id/</code> spec had some extra fields.  You have three options:</p>
+
+    <ol>
+  <li>Talk to the other Namecoin developers and propose a change to the spec. This is what we generally recommend, although we realize that in some cases this may be difficult if your project is confidential prior to launch.</li>
+  <li>Add a custom field to an existing namespace spec.  As long as your new field has a name which isn’t likely to collide with other use cases, this is pretty much harmless (although we’d love it if you talked to us).  Even if you’re refactoring existing features, it is likely that software following the existing spec will ignore your extra fields, and you can ignore the preexisting spec’s fields.  This means that the two schemes can co-exist pretty much peacefully.</li>
+  <li>Make a new namespace for your specific fields, and disregard the existing namespace.  <strong>This is harmful; there is almost never a good reason to do this.</strong></li>
+</ol>
+
+    <h2 id="the-u-namespace-exactly-how-not-to-approach-the-problem">The <code>u/</code> Namespace: Exactly How Not to Approach the Problem</h2>
+
+    <p>As far as we can tell, a for-profit company (whom we won’t name here) decided to start offering identity products using the Namecoin blockchain.  They didn’t like the structure of the <code>id/</code> spec.  So, did they talk to us?  Nope, we never heard of their product until after it launched (we first noticed their product because of a bunch of nonstandard names showing up in the blockchain).  Did they add some custom fields to <code>id/</code>?  Nope, they instead did the worst possible thing as listed above: they made their own namespace (<code>u/</code>) with identical use cases as the pre-existing <code>id/</code>.</p>
+
+    <h2 id="the-squatting-argument-revisited">The Squatting Argument Revisited</h2>
+
+    <p>While we’ve had difficulty reaching the team behind <code>u/</code> for an official statement, we are under the impression that one of their stated rationales for creating a new namespace was that <code>id/</code> was allegedly squatted too much.  This is a quite strange claim.  Creating a new namespace every time an existing namespace is heavily squatted will disrupt legitimate users of the existing namespace much more than it will disrupt squatters, even if a lot of the existing names are squatted.  It also is an inherently cyclic process, since squatters can grab a new namespace just as fast as the old namespace.  <strong>The correct way to disincentivise squatting (to the extent that it is a problem) is with changes to Namecoin’s fee structure.</strong></p>
+
+    <h2 id="a-more-structured-spec">A “More Structured” Spec</h2>
+
+    <p>Another commonly cited “advantage” of <code>u/</code> is that its JSON structure is allegedly better organized than that of <code>id/</code>.  <strong>This is not an adequate reason to start a new namespace.</strong>  Even if the <code>u/</code> team didn’t want to directly work with us, they could have simply used their incompatible spec with the <code>id/</code> namespace, and everything would have worked just fine.  End users who wanted to use both specs would have been subject to the slight annoyance of having to enter duplicate fields in their existing names, but this would be infinitely better than needing a new name.</p>
+
+    <h2 id="decentralization">“Decentralization”</h2>
+
+    <p>Several people have commented that because Namecoin is decentralized, or because it’s a general-purpose naming system, that it’s completely acceptable to create new namespaces without regard for the consequences.  <strong>There is a fundamental difference between centralization and interoperability.</strong>  Centralization would mean that an authority is dictating which names can and cannot be created; this would be extremely bad for end users.  Interoperability means that the developer community is voluntarily standardizing on practices that allow everything to work together with minimal disruption; this directly benefits end users.  We are for interoperability, not centralization.  The ability to create new namespaces is primarily available for creating new applications.  Of course, the blockchain validation math doesn’t care if two namespaces are used for similar things.  This doesn’t mean it’s a good idea, or that people should be doing it on a regular basis.</p>
+
+    <h2 id="where-from-here">Where From Here?</h2>
+
+    <p>The <code>u/</code> team has gotten themselves into a potentially bad situation, since now if they wish to move to <code>id/</code>, they’ll have to race against squatters: precisely the reason why we don’t recommend changing namespaces in the first place.  We have limited sympathy for this predicament, since this could have easily been averted had they not created <code>u/</code> in the first place.  This has resulted in unnecessary trouble for end users, and we hope that a good resolution can be found.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Fix for OpenSSL Consensus Vulnerability has been deployed on 100% of mining hashpower</h1>
     <p class="post-meta">Aug 13, 2015 • Namecoin Developers </p>
   </header>
@@ -974,12 +1108,96 @@ of the ncdns-nsis installer.</p>
 <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Softfork Upcoming</h1>
+    <h1 class="post-title">Name-Only Clients</h1>
+    <p class="post-meta">Feb 1, 2015 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>Currently, the only options for people wanting to resolve Namecoin names are to deploy a full node or to trust results provided by someone else. It doesn’t have to be this way, though. Like with Bitcoin <a href="https://bitcoin.org/en/glossary/simplified-payment-verification">lightweight SPV</a> clients which have much smaller local storage requirements can be created for Namecoin. Unlike Bitcoin, we can have “Namecoin Name-Only Clients” that give up support for “Namecoin as a currency” in exchange for better security and even lighter storage requirements.</p>
+
+    <p>Without the need to support currency transactions, a Namecoin SPV client can delete block headers that are more than 36,000 blocks old because they are not required to validate “current” (unexpired) name transactions. This data can be stored in a few dozen megabytes. We call this mode “SPV-Current” (SPV-C).</p>
+
+    <p>To support SPV-C, a name-only client must be able to query full nodes for transactions by name. This capability can either be added to the Namecoin “wire protocol” or operate as a separate service. Responses include cryptographic proof (using a Merkle hash tree) that the transaction was included in a block which the SPV-C client has headers for.</p>
+
+    <p>This basic implementation of SPV-C is vulnerable to a malicious node responding with an older (but non-expired) name transaction in response to a query or censoring the result. The easiest way to combat this is to query multiple full nodes and use the most recent response, but this is fragile. A more robust option would be to use a cryptographic (Merkle) hash tree to represent the list of all “unspent” transactions. This can be used to prove that it is responding with the latest data, since updating a name is done by “spending” the previous update.</p>
+
+    <p>The SPV-C client only needs to have the “root” of the hash tree (which is only 32 bytes long) to verify this proof.  By having miners include this root hash in the coinbase transaction of every block, the set of all current names is verified continuously throughout the mining process. Since name operations are marked spent when they expire, the fact of a name transaction is unspent is proof that it is current.  We call this Unspent Transaction Output Tree/Coinbase Commitments (UTXO-CBC).</p>
+
+    <p>Once the UTXO-CBC is included in all blocks, name-only clients can then keep track of the current root hash (more accurately, the root hash of the 12th deepest block, as keeping the UTXO set’s current at all blocks in memory is infeasible). When a client queries for a transaction by name, a full node will respond with the name transaction, proof that the transaction was included in a particular block, and that the name data hasn’t been updated by “spending” the transaction. UTXO-CBC constitutes a significant security improvement for SPV-C clients, as it prevents full nodes from returning anything but current name data. This mode is referred to as ‘SPV-C+UTXO-CBC’.</p>
+
+    <p>Implementing UTXO-CBC is complicated by a number of problems relating to the formulation of the cryptographic data structure representing the UTXO set.  The most fundamental of these issues is that since new transactions occur continuously, it is important that miners be able to efficiently compute updates to the UTXO set. In other words, it must not be necessary for the entire cryptographic data structure to be recomputed when a new transaction is added to the set. Of course, any solution must preserve the ability to concisely represent the set and the ability to generate small, efficient proofs of inclusion.  Thankfully, a similar UTXO coinbase attestation proposal has been made for Bitcoin, so existing work (such as the Authenticated Prefix Trees proposal) will be transferable to Namecoin.</p>
+
+    <p>The final security issue is ensuring that full nodes cannot censor names by simply lying “that name does not exist”. A very similar problem was <a href="https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions#Authenticating_NXDOMAIN_responses_and_NSEC">solved in DNSSEC</a> to provide “authenticated denial of existence” using a sorted list of all names. It’s possible to do this with the same sort of hash tree used to represent all unspent transactions. This commitment is referred to as Unspent Name Output  Non-Existence CBC (UNO NX CBC).  The UNO set is a name-only subset of the UTXO set.</p>
+
+    <p>Name-only clients can be improved incrementally, as attacks on even the basic SPV-C design require an attacker to control 100% of the full nodes connected to the target and even then it cannot arbitrarily forge data. Bootstrapping nodes can also attempt to provide a diverse selection of full nodes to clients, increasing the attack cost. However, UTXO CBC and UNO NX CBC reduce the amount of network traffic, reduce latency, and increase security, so they should be implemented eventually.</p>
+
+    <p>Hopefully this post has illustrated how both secure and lightweight resolution of Namecoin is not only possible but practical. Once implemented, name-only clients will provide a much better option to those who cannot run a full node versus all other currently available options which either provide no real security and/or require complete trust of a third party.</p>
+
+    <p><em>This post was slightly edited from its original version upon import to Jekyll, to more accurately reflect consensus among the Namecoin development community.</em></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Developer Meeting Saturday, Jan. 3</h1>
+    <p class="post-meta">Dec 30, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>Lately we’ve had a few new people who are interested in joining development. This is, of course, awesome.  Unfortunately, helping them get started has been kind of ad-hoc, because there’s not a great way to have a low-latency conversation with current developers to bounce ideas off of. None of the current developers are in IRC at predictable, consistent times, and some developers are rarely on IRC at all. Forums have too much latency and overhead for quick back-and-forth discussions. This is a non-ideal situation.</p>
+
+    <p>So, we’re going to do an experiment – there will be a public developer IRC meeting in #namecoin-dev on Freenode on Saturday, Jan. 3, 9AM Pacific / 11AM Central / 12PM Eastern / 5PM UK / 6PM CET.  We’re going to try to have as many Namecoin developers present as possible.</p>
+
+    <p>Current developers will give updates on what they’ve been doing; interested new developers can use it as an opportunity to get involved in discussions, ask questions, etc.; and interested average users will get to see more of how the development process works (because transparency is good).  This bears some similarity to how Tor handles things.</p>
+
+    <p>Remember, this is an experiment, so we’re not quite sure how it will go.  If it goes well, this may become a regular occurrence.</p>
+
+    <p>So, if you’ve been thinking of getting involved, or if you’re just curious, now’s your chance – stop by the developer meeting on Jan. 3 and talk to us.  See you there!</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Early Christmas Present for Namecoin</h1>
+    <p class="post-meta">Dec 22, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>Christmas has come early for Namecoin: Discus Fish (aka F2Pool) has donated 20,000 namecoins to fund a reimplementation based on mainline Bitcoin!</p>
+
+    <p>What’s more is that chief Namecoin scientist Daniel Kraft has been working so hard that the code is already usable! Indeed, Discus Fish has been using it in production for a few weeks. The code is still considered experimental but you can check it out on <a href="https://github.com/domob1812/namecore">Daniel’s Github repo</a>. As always, make encrypted backups before playing around.</p>
+
+    <p>TL;DR: Namecoin is back!</p>
+
+    <p><em>This post was slightly edited from its original version upon import to Jekyll, to more accurately reflect consensus among the Namecoin development community.</em></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">New Version 0.3.80, Softfork Upcoming</h1>
     <p class="post-meta">Dec 19, 2014 • Namecoin Developers </p>
   </header>
 
   <article class="post-content">
-    <p><strong>Softfork</strong> upcoming with block 212500 (around New Year’s Eve). Pool operators and solo miners please <a href="/download/">update to v0.3.80</a> asap. Regular users are recommended to update, too.  See the <a href="https://forum.namecoin.org/viewtopic.php?p=13717">Release notes.</a></p>
+    <p>This release smooths the transition to a new Namecoin codebase rebased on the latest version of Bitcoin!</p>
+
+    <h2 id="softfork">Softfork</h2>
+
+    <p>Starting at block height 212500 (around New Year’s Eve) miners will begin applying some checks for edge cases. There is a a small chance that miners running older versions will fork, so all pool operators and solo miners <strong>must</strong> update. Regular users should update too but the traditional precaution of waiting for six confirmations should be safe as well.</p>
+
+    <p>Be safe and <strong>make an encrypted backup of your wallet.dat file before updating</strong>. Thanks to everybody who helped make this happen!</p>
+
+    <p><a href="/download/">Download v0.3.80 here</a>, and see the <a href="https://forum.namecoin.org/viewtopic.php?p=13717">release notes</a> and <a href="https://github.com/namecoin/namecoin-legacy/blob/namecoinq-release/changelog.md">full changelog</a>.</p>
 
   </article>
 
@@ -994,6 +1212,237 @@ of the ncdns-nsis installer.</p>
 
   <article class="post-content">
     <p>As of block <strong>210000</strong> the Namecoin block reward halved to <strong>25NMC</strong>. Happy halving day!</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Cakes for Competitors</h1>
+    <p class="post-meta">Dec 6, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>The proliferation of cryptocurrencies working on decentralized TLDs has spurred a narrative of competition with Namecoin. However, the distance between our communities is small, and the competition is friendly. The free software movement has shown us that multiple approaches strengthen the ecosystem. Competition is not the zero-sum game fundamentalist Chicago-school economists make it out to be.</p>
+
+    <p><em>This blog post is based on a <a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=2000">forum thread</a> from September 21st.</em></p>
+
+    <p>The title of this post is a reference to the Internet Explorer and Firefox tradition of <a href="https://www.flickr.com/photos/jollyjake/278562314/">sending celebratory cakes</a> for major releases. While the two teams are competitors, this competition has pushed them to create better products.  We believe the same is true of cryptocurrencies.</p>
+
+    <p>Namecoin developers are in this game to win it, but “winning” is the creation of decentralized, secure, and usable naming systems for the internet. Gaining acceptance with the IETF, building more secure registrars, lightweight clients, usable browser integration, and dynamic domain pricing are just a few challenges facing cryptocurrencies looking to add a decentralized TLD.</p>
+
+    <p>From proof-of-work to funding models and governance styles, Namecoin is very different from BitShares, Ethereum, or CounterParty. Sticking to our academic background allows us to build more robust security models and better defend ourselves from political and legal attacks.  However, it also means we have to apply for public funding and struggle to build consensus.  We believe that this diversity ultimately strengthens the community as a whole.</p>
+
+    <p>The bottom line is that we wouldn’t be working on Namecoin if the technology and solutions we are building were not reusable. BitShares has already benefited greatly from our work, borrowing our namespace specifications, adopting our protocols, and more.  Building a usable censorship resistant web will require significant blood, sweat, and tears from lots of smart people.  We are happy to do our part, and we are looking forward to the contributions that comes from competition and cooperation with the other cryptos.</p>
+
+    <p><em>This post was slightly edited from its original version upon import to Jekyll, to more accurately reflect consensus among the Namecoin development community.</em></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Official Social Media Accounts</h1>
+    <p class="post-meta">Oct 3, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>A large number of unofficial social media accounts have been making false claims about Namecoin.  While we wish to encourage a healthy community and decentralization, we take user safety very seriously. Content posted through these accounts may pose a threat to average users, and the Namecoin development team has established official social media accounts in an attempt to help protect users.</p>
+
+    <p>The most serious issue, by far, has been claims about Namecoin being anonymous.  We know that if a product is advertised as anonymous, it will be used in high-risk situations.  If the product turns out to not actually be anonymous it can end up killing its users.</p>
+
+    <p>There are a large number of unofficial accounts [1] that have actively posted claims about anonymity to Facebook and Twitter groups related to WikiLeaks, Anonymous, Whistleblowing, Occupy, and Tor.   The Namecoin client has not been audited (even a little bit) for security over Tor, and a recent proxy leak issue was fixed in Namecoin-Qt after these postings occurred. If someone living under an oppressive regime had tried to use our software in conjunction with Tor, that proxy leak could have gotten them arrested, tortured, or killed as a result.</p>
+
+    <p>Namecoin transactions, including domain name purchases, are not anonymous.  Namecoin, being based on the Nakamoto blockchain used in Bitcoin, inherently leaks large amounts of information about its users’ identity.  In one early example, researchers Reid and Harrigan <a href="https://arxiv.org/pdf/1107.4524v2.pdf">were able to trace stolen Bitcoins to a bank account where the funds were deposited</a>, despite the thief using sophisticated attempts to anonymize the funds.  In a later example, researchers Meiklejohn et. al <a href="https://cs.gmu.edu/~mccoy/papers/imc13.pdf">successfully identified the cluster of most WikiLeaks donations</a>, even for donors who utilized single-use addresses.  As the graph theory and data mining experts take over from the cryptography experts, and as the financial incentive for targeted advertising increases, these attacks will only get more effective.</p>
+
+    <p>We have asked the owner(s) of these accounts to stop posting false assertions about Namecoin on multiple occasions.  They have consistently disregarded our requests, sometimes claiming that it’s “just marketing” and that we “are not very good marketers.”  After two of our developers criticized this behavior on the forum, they were banned from one Facebook group for “trying to make trouble”.</p>
+
+    <p>This reckless “marketing trumps accuracy” attitude is dangerous for Namecoin’s users and harmful to Namecoin’s and our professional reputations.  We recognize the importance of anonymity and are working towards a client specifically designed to be used with Tor as well as adopting methods from ZeroCash for anonymously purchasing records (such as ‘.bit’ domains and ‘id/’ identities) on Namecoin [2].</p>
+
+    <p>At Namecoin, we try hard to avoid unnecessary drama and focus on development.  We really wish we could trust these unofficial accounts to represent us on social media platforms, but they have unapologetically put Namecoin users at risk.  We would like to welcome everyone to migrate from the unofficial accounts to the official ones listed below.  We will delegate posting rights to community members that demonstrate competency and a respect for user safety.</p>
+
+    <p>[Jeremy edit 2017 05 10: social media accounts are now listed in the footer of every page on Namecoin.org.]</p>
+
+    <p>Stay safe,</p>
+
+    <p>- The Namecoin Development Team</p>
+
+    <p>[1] We won’t be linking to these accounts, since we don’t want to boost their PageRank.  However, they are unfortunately very easy to find on the various social networks.</p>
+
+    <p>[2] Ironically, the owner of the social media accounts has cited development discussions regarding these features as evidence that his claims of anonymity are correct.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Namecoin &amp; Retail Usage</h1>
+    <p class="post-meta">Sep 21, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>Well-meaning investors have been pushing for various currency-related use cases for Namecoin such as ATMs, acceptance at retailers, etc.  The core development team sees these efforts as benign but generally do not expend time nor funds on them.  Why would developers of a currency not place a priority on currency related use-cases?</p>
+
+    <p>The answer is that we place a priority on the specific use-cases that differentiate Namecoin from Bitcoin: DNS, ID, etc. Namecoin’s value comes from its utility as a naming system whereas Bitcoin’s value is primarily derived from its use as a currency.  Competing with Bitcoin for dominance as a currency of exchange is suicide: Bitcoin has network effects that will overpower every other competitor in its market.</p>
+
+    <p>Furthermore, it is not clear that generic retail use of Namecoin is beneficial: most retailers immediately exchange crypto currencies into a reserve currency.  Spending Namecoin at a retailer is only a step removed from exchanging Namecoin for fiat directly.  Use as a reserve currency is Bitcoin’s problem, we have our own troubles to worry about.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">The Great Aggregating Postmortem</h1>
+    <p class="post-meta">Sep 9, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>In the past couple of weeks, Namecoin suffered outages. Someone (whom we’ve nicknamed “The Aggregator”) tried consolidating a large quantity of “loose change” into a single address. When done correctly, this is good because it reduces the amount of data lite clients [Jeremy edit 2017 05 10: this means UTXO-pruned clients] need to keep. Unfortunately, a combination of volume and an oversight in fee policies led to miners getting knocked offline.</p>
+
+    <p>Within 48/hours, we released a patch fixing the low fees which should have stopped the transactions, but miners were slow to uptake the patch. We then increased performance and miners have since finished processing the remaining transactions.</p>
+
+    <p>Our initial response was slow because our core developers were traveling.  However, we are taking further steps to mitigate similar problems, improve our response times, and improve communications with miners.</p>
+
+    <p>Technical deep dive after the jump.</p>
+
+    <h2 id="deep-dive">Deep Dive</h2>
+
+    <p>An unknown party (The Aggregator) began consolidating a massive volume (50,000-100,000K) of unspent outputs into a single address. However, namecoind has extreme difficulty selecting outputs to spend in a wallet containing tens of thousands of unspent outputs. The Aggregator appears to have attempted to address this by writing a script which manually built transactions spending 50 or 100 of those unspent outputs to <a href="https://namecha.in/address/N8h1WYaCpnZrN72Mnassymhdrm7tT6q5yL">a new address (N8h1WYaCpnZrN72Mnassymhdrm7tT6q5yL)</a>.</p>
+
+    <p>The problem is that each of these transactions were 17-30 KB and rather than the standard transaction fee of 0.005NMC per KB (rounded up), a flat fee of 0.005NMC was used. Namecoin, like Bitcoin actually has two fee values, <code>MIN_TX_FEE</code> (used by miners) and <code>MIN_RELAY_TX_FEE</code> (used by all other full nodes). This enables <code>MIN_TX_FEE</code> to be lowered down to <code>MIN_RELAY_TX_FEE</code> without nodes who haven’t yet upgraded refusing to forward transactions with the new lower fee. On Bitcoin, the ratio between <code>MIN_TX_FEE</code> and <code>MIN_RELAY_TX_FEE</code> is 5:1, but due to an oversight it was 50:1 in Namecoin. The result was that The Aggregator’s transactions had a large enough fee to be forwarded throughout the network, but were considered “insufficient fee/free” transactions by miners. Since there is very limited space in blocks for such transactions, they just kept building up in the miners’ memory pools. The volume of transactions soon began causing the merge-mining software run by pools to time-out trying to get work.</p>
+
+    <p>We released an initial “band-aid” patch which simply upped the <code>MIN_RELAY_TX_FEE</code> to stop these particular problem transactions from being rebroadcast or accepted by pools. Phelix and Domob put together an RC branch which fixed the performance issues associated with The Aggregator’s transactions. The transactions have all been process but we have had positive feedback from miners and will be merging the RC branch with mainline shortly.</p>
+
+    <p><a href="https://groups.google.com/forum/?_escaped_fragment_=topic/namecoin/8RdXGNq3oSs#!topic/namecoin/8RdXGNq3oSs">Additional techniques</a> are being discussed to ensure Namecoin can better handle situations where there are too many transactions being broadcast to process them all. One is to temporarily drop lowest-priority transactions in the event of a flood, while granting higher priority to name transactions (<code>NAME_NEW</code>, <code>NAME_FIRSTUPDATE</code>, <code>NAME_UPDATE</code>) in order to ensure that time-sensitive operations are not delayed. Bitcoin developers have planned enhancements which will further mitigate the problem.</p>
+
+    <p>It was observed that at one point only one pool was functional. This pool mined many blocks in a row with no transactions. We have identified this pool and have been in contact with the operator. They modified their software some time ago to ignore all transactions to address some performance issues. We do not believe there was any malicious intent on their part, and they have committed to working with us to get to a point where they can include transactions in their blocks.</p>
+
+    <h2 id="response">Response</h2>
+
+    <p>Downtime is very bad; it opens us up to attacks and messes things up for businesses which depend on Namecoin. Trying to <a href="https://www.joelonsoftware.com/2008/01/22/five-whys/">guarantee some arbitrary level of uptime is a fool’s errand</a> but we endeavour to outline what went wrong and what steps we are taking to prevent similar issues from occurring in the future.</p>
+
+    <p>Each step of our response was unacceptably slow: discovering a problem, diagnosing the problem, submitting patches, and coordinating with miners all took far longer than they needed to. Our response was primarily slowed by the fact that two of our lead developers (Ryan and Domob) were both away from home with limited or no availability. There were other issues as well, which are addressed in the following recommendations, but this single factor significantly slowed every step of the process. Had they been available, we would have had patches out within 24 hours of the initial problem.</p>
+
+    <h3 id="initial-error-detection">Initial Error Detection</h3>
+
+    <p>The initial response times lagged mainly because we were unable to diagnose the problem. Individual developers (Ryan in particular) have patched clients which aid in diagnosing abnormalities. Initial detection of the problem lagged as well, individual users and developers noted problems but this took some time to reverberate. Automated monitoring system that will alert us to abnormalities on the network would be useful as well.</p>
+
+    <h3 id="recommendations">Recommendations</h3>
+
+    <ul>
+  <li>Document and share patched clients
+    <ul>
+      <li>Ryan</li>
+      <li>Anon developer M?</li>
+    </ul>
+  </li>
+  <li>Setup automated monitoring √
+    <ul>
+      <li>Block discovery times. √ Namecha.in has agreed to help.</li>
+      <li>Mining Pool ratios. √ Namecha.in + Ryan</li>
+    </ul>
+  </li>
+  <li>Testnet-in-a-box. (Domob/Ryan need to publish)</li>
+</ul>
+
+    <h3 id="pushing-fixes">Pushing Fixes</h3>
+
+    <p>We went nearly 48 hours between having a bandaid patch and pushing out a statically compiled binary. This occurred for the following reasons:</p>
+
+    <ul>
+  <li>Indolering didn’t know how to properly communicate and distribute the fix.</li>
+  <li>Limited communications with pool operators: it appears that the miners did not apply the initial bandaid patch which would have fixed network issues immediately.</li>
+  <li>Even after the correct course of action was identified, it took 3-4 hours to create an official fork, produce a statically compiled binary, and post to the blog. We have been focusing our efforts on automating the build process for Libcoin, it should not be a problem moving forward.</li>
+</ul>
+
+    <h3 id="recommendations-1">Recommendations</h3>
+
+    <ul>
+  <li>Codify process for creating an emergency branch and binary √</li>
+  <li>Setup new alerts mailing list and ask pool operators to join √</li>
+  <li>Gather contact info for major pool operators. √</li>
+  <li>Setup multi-user access to Twitter.</li>
+  <li>Streamline build processes.
+    <ul>
+      <li>Jeremy Rand’s progress on Libcoin:
+        <ul>
+          <li>Travis CI/automated builds √</li>
+          <li>Functional unit testing √</li>
+          <li>Miner-specific unit tests (Libcoin doesn’t yet support mining).</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    <h3 id="readiness--coordination">Readiness &amp; Coordination</h3>
+
+    <p>In first-aid, the first thing you do is order bystanders to contact emergency services, direct traffic, etc. More developers would obviously help, but, akin to first-aid, emergencies need someone ensuring that progress is being made. Without a proper first responder, you have a lot of bystanders simply standing around.</p>
+
+    <h3 id="recommendations-2">Recommendations</h3>
+
+    <ul>
+  <li>Fix developer mailing list. √</li>
+  <li>Create security mailing list. (in progress)</li>
+  <li>Appointing an official emergency coordinator to ensure things are moving.
+    <ul>
+      <li>Has contact information of developers (including phone numbers) and miners.</li>
+      <li>Alternate for when emergency contact is unavailable.</li>
+    </ul>
+  </li>
+  <li>Improve volunteer onboarding. (planned for September)
+    <ul>
+      <li>Improve documentation.</li>
+      <li>Better labeling of repos (deprecate mainline, rebrand Libcoind, etc)</li>
+      <li>Public development roadmap.</li>
+      <li>Organize bounties/tickets on needed items.</li>
+    </ul>
+  </li>
+</ul>
+
+    <h2 id="thanks">Thanks</h2>
+
+    <p>Big thanks to Domob, Ryan, Phelix, Jeremy Rand, Indolering, our anonymous devs, mining pool operators, and others for their help</p>
+
+    <p>While Domob and Phelix coded the final fix, many people contributed to development. Phelix and Jeremy Rand were omnipresent during the entire response, from raising the initial warning to diagnosing the problem, proposing fixes, and testing. At one point, Jeremy Rand pulled 36 hours with no sleep. Ryan was especially generous with his time during a business trip, pulling all-nighters to help us diagnose the problem, develop fixes, and communicate with the mining pools.</p>
+
+    <p>Indolering worked hard to coordinate the response and communicate with miners. Our anonymous developers were a <strong>huge</strong> help, it’s a shame we can’t thank them publicly.</p>
+
+    <p>Luke-Jr, CloudHashing, BitMinter, GHash.io, and MegaBigPower helped us test our patches and provided feedback on miner performance.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Namecoin Response to Recent No-IP Seizure</h1>
+    <p class="post-meta">Jul 15, 2014 • Namecoin Developers </p>
+  </header>
+
+  <article class="post-content">
+    <p>On June 30, 2014, customers of the No-IP dynamic DNS service suddenly experienced an outage.  According to media reports, the outage was not caused by a technical issue or any kind of negligence by No-IP, but rather by a court order requested by Microsoft, supposedly to fight cybercrime.  For background, see <a href="https://www.noip.com/blog/2014/06/30/ips-formal-statement-microsoft-takedown/?utm_source=email&amp;utm_medium=notice&amp;utm_campaign=letter-from-dan">No-IP’s official statement</a>.</p>
+
+    <p>First off – we only know what was reported by the media.  However, we are very concerned that a US judge decided to shut down an immensely popular service provider due to a few abuses by a tiny minority of its users, particularly with no due process afforded to No-IP.</p>
+
+    <p>At Namecoin, we believe that decentralization is the best way to prevent malicious takedowns.  The only way to be certain that your domain will not be collateral damage to this kind of abusive court action is to make sure that it is mathematically infeasible to take it down without your consent.  Bad lawyers can’t change the laws of math.</p>
+
+    <p>Namecoin supports dynamic DNS via the .bit top-level domain and the DyName software by Namecoin developer Jeremy Rand.  DyName has existed since October 2013, and both Jeremy and Namecoin developer Daniel Kraft have invested development effort to improve the security of this use case.  Dynamic DNS was tricky to implement securely with Namecoin, because updates have to be done automatically on a machine with network access, and if the wallet (which must be unencrypted to be used automatically) is compromised, control of the name could permanently be transferred to the attacker.  We circumvented this by using a Namecoin specification feature called the “import” field.  Under this system, the keys necessary to transfer control of your domain, or to impersonate the server it points to, remain on an encrypted wallet.  If the keys used to update your IP are stolen, the worst the attacker can do is make your website go down until you notice and change keys (your visitors will receive a TLS error upon visiting your website in the meantime).  Our software for accessing .bit domains, NMControl (which is used by FreeSpeechMe), supports this feature.</p>
+
+    <p>Namecoin also supports simulated dynamic DNS via Tor and I2P services.  If you configure a .onion or .b32.i2p domain using Tor or I2P, you can give this domain a human-memorable name using Namecoin.  The Namecoin software FreeSpeechMe has supported this for HTTP websites since December 2013.  While bandwidth and latency are worse than standard IPv4, this method does not require any port forwarding or IPv6 connectivity (DyName requires one of these).</p>
+
+    <p>The system is not yet perfect.  DyName DNS updates take approximately 10 minutes to propagate the network, and up to 30 minutes after that to be refreshed in the NMControl cache.  The Tor and I2P service support does not yet support HTTPS and non-HTTP connections.  Due to build issues, we haven’t yet been able to release a FreeSpeechMe update which includes the latest NMControl with support for DyName domains.  And the Namecoin-Qt GUI does not yet make it easy to set up DyName or Tor/I2P .bit domains.</p>
+
+    <p>We believe that all of the above shortcomings are fixable.  However, Namecoin developers are working on this in their free time, and we don’t have a significant financial stake in Namecoin like most altcoin developers do.  If you’d like to support decentralized dynamic DNS to help prevent the next takedown, please consider contributing to a <a href="https://forum.namecoin.org/viewforum.php?f=18">bounty</a> for the features you want more attention paid to.  And if you’re a developer and you want to help, get in touch with us on the <a href="https://forum.namecoin.org/">forum</a>.</p>
 
   </article>
 
