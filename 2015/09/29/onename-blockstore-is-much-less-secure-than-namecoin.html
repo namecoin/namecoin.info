@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>OneName’s Blockstore is much less secure than Namecoin</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2015/09/29/onename-blockstore-is-much-less-secure-than-namecoin.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/donate/">Donate</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p>
+<script type="text/javascript">
+var taglines = [
+    '<strong>In information</strong><br />we <strong>trust</strong>.',
+    'A <strong>trust anchor</strong><br />for the Internet.',
+    '<strong>Against<br />censorship.</strong>',
+    '<strong>Supporting<br />free speech.</strong>',
+    'Decentralized<br /><strong>secure</strong> names.',
+    '<b>Decentralize</b><br>all the things!',
+    '<b>Freedom</b><br>of information.'
+    ];
+var rand = taglines[Math.floor(Math.random() * taglines.length)];
+document.write(rand);
+</script>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+    
+    
+        
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">OneName’s Blockstore is much less secure than Namecoin</h1>
+<p class="post-meta">Sep 29, 2015 • Namecoin Developers <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p><em>Note: the naming system described in this post, Blockstore, is now named Blockstack.</em></p>
+
+<p>It’s well-known that OneName has been engaged in questionable practices on the Namecoin blockchain, such as <a href="/2015/09/01/why-duplicate-namespaces-are-bad-for-users.html">creating a duplicate namespace</a> (<code>u/</code>) which harms the security of users and aids squatters.  So we were interested to hear the news on September 12 that OneName has decided to stop using Namecoin in favor of a naming system they announced circa February 2015, Blockstore.  Blockstore stores name transactions within <code>OP_RETURN</code> outputs on the Bitcoin blockchain (the full values of names are stored in a DHT).  OneName claims that Blockstore has better security than Namecoin, on the grounds that Bitcoin hashpower is larger and more decentralized than Namecoin’s.  This is a false assumption.</p>
+
+<p>It is fairly well-known that a blockchain is a dynamic-membership multiparty signature (DMMS), attesting to the correctness of the transactions.  Specifically, there are two main types of correctness that the blockchain attests to: the ordering of the transactions, and the validity of the transactions with regard to all previous transactions.  Correctness of ordering is primarily to prevent double-spending of otherwise-valid coins.  Transaction validity, such as checking ECDSA signatures and making sure that names are being spent by their rightful owner, allows SPV-based clients to function properly (among other things).  OneName is claiming that Bitcoin’s blockchain is a DMMS attesting to Blockstore’s correctness.  But the Bitcoin miners are only verifying ordering and Bitcoin transaction validity – they are not verifying the validity of Blockstore transactions.</p>
+
+<p>Is this a big deal?  Yes.  It means that if you wrote an SPV client for Blockstore, I would be able to create an <code>OP_RETURN</code> output in the Bitcoin blockchain that claimed ownership of any arbitrary name, and your SPV client would not be able to detect the fraud.  It also means that a validating Blockstore node cannot be a UTXO-pruned Bitcoin client – a full Bitcoin client is needed.</p>
+
+<p>To expand further on this issue, in the event of malicious data insertion by users bent on disrupting the system, clients that are asking for data from Blockstore servers have almost no way to verify whether the servers are telling the truth or not.</p>
+
+<p>In Bitcoin, the notion of SPV clients was proposed by Satoshi as a way for lightweight clients to avoid the need to store the entire Bitcoin blockchain themselves. As part of this idea, Satoshi described a mechanism by which fraud proofs could be used to reveal cheating and, ostensibly, punish the cheaters. Bitcoin SPV is in large part enabled by the proof-of-work in Bitcoin which makes forging SPV responses very difficult to begin with. In Blockstore’s system, lightweight lookups have no PoW-backing, and there does not appear to be a way to have even simple Satoshi-style PoW-based fraud proofs to detect cheating, so clients are likely entirely at the mercy of anyone running a server. Blockstore-specific SPV fraud proofs would require complex mechanisms and probably extensive pathing hints, and since fraud proofs don’t even exist yet in Bitcoin (wherein the majority of blockchain research and development is happening and on which the attention of nearly all of the interested cryptographers, research scientists, developers, and engineers is focused) it is unlikely Blockstore can satisfactorily solve this particular problem given the more extreme constraints they are operating with.</p>
+
+<p>The Blockstore system is analogous to recommending that currency be stored in a blockchain that has a higher hashrate than Bitcoin and has 100 equally sized pools, but whose block validation rules are so loose that signature verifications always pass.  What’s the point when I can steal your money or names and your client can’t tell?  (Of course, when all signature verifications pass, even double-spend detection can’t function either, so this doesn’t even solve double-spends.)</p>
+
+<p>Namecoin, in contrast, enforces transaction validity (including name ownership) in blockchain validation rules.  This means that, even if a majority of Namecoin hashpower wanted to steal your name, their transaction that spends your name coin would be rejected by all of the network’s validating nodes.  They could double-spend a name, but the only attack that this enables is fraud during non-atomic name trades.  Given that Namecoin supports atomic trading of a name for currency (see <a href="https://github.com/phelixnmc/antpy">ANTPY</a> and <a href="https://github.com/ryancdotorg/nametrade">NameTrade</a>), this attack is unlikely to be an issue.</p>
+
+<p>A <em>prolonged</em> 51% attack on Namecoin could censor name transactions and eventually cause names to expire if the attack lasted 8 months, but this would be detectable and obvious to all users on the Namecoin P2P network.  (Moreover, as soon as the attack started, it would be detectable and obvious specifically which names were targeted, and if the names were re-registered by the 51% attacker, they would be distinguishable from the original name by the block height of their corresponding name_firstupdate transaction.  We have a pending proposal to make that block height visible to user applications so that such attacks can be automatically mitigated.)  And of course, a mining pool who performed an 8-month-long 51% attack would most likely lose a lot of hashpower as their users abandoned them in favor of mining pools who aren’t attacking the network.</p>
+
+<p>Is Namecoin’s mining centralization problematic?  Yes, to a point. But with Namecoin there is a possibility for the situation to improve in the foreseeable future with the new Namecoin Core client, and with influx of new users and miners due to improved usability. While Namecoin currently has around 40 percent of Bitcoin’s hashpower verifying transaction validity, Blockstore has 0.</p>
+
+<p>Additionally, DHT-based discovery of storage nodes is one of the classic suggestions of new users as an alternative to DNS seeds, and, originally, IRC-based discovery: it has never been committed because it is trivial to attack DHT-based networks, and partly because once a node is connected, Bitcoin (and thus Namecoin) peer nodes are solicitous with peer-sharing.</p>
+
+<p>As an actual data store, DHT as it is classically described runs into issues with non-global or non-contiguous storage, with little to no way to verify the completeness of the data stored therein. With the decoupled headers in <code>OP_RETURN</code>-using transactions in Bitcoin and the data storage in a DHT (or DHT-like) separate network, there is the likelihood of some little-used data simply disappearing entirely from the network. There is no indication of how Blockstore intends to handle this highly-likely failure condition.</p>
+
+<p>More interesting are Bitcoin-related failure conditions: Blockstore information is not in an obscured Merklized tree-like structure with the root node stored in Bitcoin; Blockstore proposes to store actual raw data in <code>OP_RETURN</code>, with the limited space therein necessarily requiring highly constrained bits of data and limits in its form and structure. With this, it would be trivial for anti-spam mining cabals to censor these transactions, and given the understandable hostility with which some Bitcoin advocates treat altcoin bloating of the Bitcoin blockchain, the inevitable result will be a mass-distributed method of censoring of Blockstore transactions. Even if this is not so, it is a systemic flaw and therefore at permanent risk of being disrupted by miners who choose not to enable what they in turn view as the hostile economic externalities involved with permanent storage of questionably valuable data on behalf of third parties. As Satoshi <a href="https://bitcointalk.org/index.php?topic=1790.msg28917#msg28917">noted</a>: “Piling every proof-of-work quorum system in the world into one dataset doesn’t scale.”</p>
+
+<p>Finally, one of the biggest flaws in this scheme is the nature of the loosely-connected graph structure formed by the so-called “consensus hash” that Blockstore hand-waves away by saying it will hash the data in the “last 12 blocks” without a concrete description thereof. What algorithms do they propose to ensure that not only does it form a properly, fully-connected graph and is verified, but also that its consensus-hash is accurate or even useful? Graph algorithms are notoriously complex: entire branches of science exist just to study and theorize about them. What use is this consensus hash when it’s entirely voluntary and arbitrarily-connected to prior data? How is the verification process going to proceed without, over a long period of time, becoming so complex that the cost is no longer feasible for normal consumer processors? How does Blockstore intend to <strong>discover</strong> what data each consensus hash even refers to? Transitive closure searches for such graphs could be made arbitrarily complex and non-deterministic by attackers who are interested in doing so, especially over time, and there is no mention of this class of vulnerability nor its proposed solution by Blockstore.</p>
+
+<p>We will be working on improving Namecoin identities to make pseudo-decentralized naming systems obsolete. But unlike the commercial enterprise OneName, we are volunteers creating <a href="https://www.youtube.com/watch?v=jh8supIUj6c&amp;feature=youtu.be&amp;t=3221">ethical software</a> in our spare time. If you prefer our method of prioritizing sound design over flashy PR campaigns, <a href="https://forum.namecoin.org/">join us</a>!</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.facebook.com/Namecoin.bit"><i class="fa fa-facebook fa-2x" title="Facebook">Facebook</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2015-09-29-onename-blockstore-is-much-less-secure-than-namecoin.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>

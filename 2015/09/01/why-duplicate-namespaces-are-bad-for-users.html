@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Why Duplicate Namespaces Are Bad for Users</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2015/09/01/why-duplicate-namespaces-are-bad-for-users.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/donate/">Donate</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p>
+<script type="text/javascript">
+var taglines = [
+    '<strong>In information</strong><br />we <strong>trust</strong>.',
+    'A <strong>trust anchor</strong><br />for the Internet.',
+    '<strong>Against<br />censorship.</strong>',
+    '<strong>Supporting<br />free speech.</strong>',
+    'Decentralized<br /><strong>secure</strong> names.',
+    '<b>Decentralize</b><br>all the things!',
+    '<b>Freedom</b><br>of information.'
+    ];
+var rand = taglines[Math.floor(Math.random() * taglines.length)];
+document.write(rand);
+</script>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+    
+    
+        
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Why Duplicate Namespaces Are Bad for Users</h1>
+<p class="post-meta">Sep 1, 2015 • Namecoin Developers <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Every now and then, we’re approached by users who are asking about namespaces which duplicate functionality of the officially recommended namespaces.  Examples of these namespaces include <code>tor/</code>, <code>i2p/</code>, and <code>u/</code>.  We think these duplicate namespaces are harmful to end users.  This blog post will try to explain why duplicating functionality of existing namespaces is almost always a bad idea.</p>
+
+<h2 id="background">Background</h2>
+
+<p>This whole thing seems to have started when someone noticed that the <code>d/</code> specification, which is used for domain names, only supported IP addresses.  This person thought it would be awesome to have DNS for Tor hidden services, and proposed a <code>tor/</code> namespace for such domains.  Someone else appears to have decided the same thing for I2P, and created an <code>i2p/</code> proposal.</p>
+
+<p>An alternative proposal was the <code>d/</code> 2.0 spec, which allowed <code>d/</code> names to map to Tor hidden services and I2P eepsites.  This is the proposal which is for the most part still widely used today.</p>
+
+<p>Why was <code>d/</code> 2.0 a better idea than starting 2 new namespaces?</p>
+
+<h2 id="duplicate-namespaces-attract-squatters">Duplicate Namespaces Attract Squatters</h2>
+
+<p>Imagine that <code>d/</code>, <code>tor/</code>, and <code>i2p/</code> are all common namespaces.  Let’s say that WikiLeaks is running an IPv4-based website using the name <code>d/wikileaks</code>.  Now let’s say that WikiLeaks wishes to offer a Tor hidden service for their website.  They now have to register a second name, <code>tor/wikileaks</code>.  Uh oh, seems a squatter saw that WikiLeaks had <code>d/wikileaks</code> and preemptively grabbed <code>tor/wikileaks</code> and <code>i2p/wikileaks</code> just in case WikiLeaks wanted those names.  Now WikiLeaks has to negotiate with a squatter, who potentially might be on the payroll of a government who wants to either cost WikiLeaks lots of money or impersonate it.</p>
+
+<p>What’s the defense here?  The only defense is to preemptively register your name in <strong>all</strong> namespaces, just in case you want them later.</p>
+
+<p>Let’s say that in an alternate reality, WikiLeaks did exactly this, registering <code>d/wikileaks</code>, <code>tor/wikileaks</code>, and <code>i2p/wikileaks</code>.  Now let’s imagine that someone decides that CJDNS mesh networking would be nice to have with Namecoin’s domain names, and creates a cjdns/ namespace.  Well crap, now WikiLeaks is in a race with squatters to see who can grab cjdns/wikileaks first; if WikiLeaks fails, then they can’t ever use their name with CJDNS.</p>
+
+<p>Remember that the domain squatters probably expend much more time watching namespace proposals, since that’s basically their job.  WikiLeaks, on the other hand, probably is more worried about their whistleblower anonymity infrastructure than their choice of Namecoin namespaces.</p>
+
+<p>This is simply a losing game for everyone except squatters.</p>
+
+<h2 id="duplicate-namespaces-break-users-security-assumptions">Duplicate Namespaces Break Users’ Security Assumptions</h2>
+
+<p>Imagine a situation where an end user hears from a trusted source that wikileaks.bit is a great place to submit documentation of government corruption.  wikileaks.bit uses the <code>d/</code> namespace.  But the end user doesn’t want to use clearnet, so she uses the <code>tor/</code> namespace instead, accessing the domain wikileaks.tor.  Note that she has just made the assumption that <code>d/wikileaks</code> and <code>tor/wikileaks</code> are operated by the same entity.  However, this is not the case.  The Namecoin network considers those two names to be entirely different things.  Imagine that <code>tor/wikileaks</code> is instead operated by a government agency (perhaps they bought it from a squatter).  Now our whistleblower is screwed.</p>
+
+<p>If duplicate namespaces are in use, the <strong>only</strong> way to verify that two names are controlled by the same entity is to inspect the name you trust, and see if it links to the other name.  For example, you could visit the website associated with <code>d/wikileaks</code>, and see if it mentions <code>tor/wikileaks</code>.  This, of course, is neither automatable nor secure in our whistleblower’s case.  Given how popular and successful phishing is, providing scammers with an easy way to break users’ security assumptions is an extremely bad enginering idea.</p>
+
+<h2 id="consolidate-all-namespaces-with-common-use-cases">Consolidate All Namespaces with Common Use Cases</h2>
+
+<p>Let’s look instead at the <code>d/</code> 2.0 proposal.  It recognized that IP-based DNS, Tor-based DNS, and I2P-based DNS are all aiming at a common use case.  By creating new functionality as new fields of the <code>d/</code> namespace rather than new namespaces, the proposal makes sure that users of Namecoin DNS will be able to freely switch between IP, Tor, I2P, and any future system which may come along, without ever needing to register a new name.  This protects users from squatters and protects their security, both now and in the future.  (It also saves them money on name fees.)</p>
+
+<h2 id="your-options-when-a-namespace-spec-doesnt-meet-your-needs">Your Options When a Namespace Spec Doesn’t Meet Your Needs</h2>
+
+<p>Let’s say that you want to implement a new feature into an existing use case in Namecoin.  For example, maybe you wish the <code>id/</code> spec had some extra fields.  You have three options:</p>
+
+<ol>
+  <li>Talk to the other Namecoin developers and propose a change to the spec. This is what we generally recommend, although we realize that in some cases this may be difficult if your project is confidential prior to launch.</li>
+  <li>Add a custom field to an existing namespace spec.  As long as your new field has a name which isn’t likely to collide with other use cases, this is pretty much harmless (although we’d love it if you talked to us).  Even if you’re refactoring existing features, it is likely that software following the existing spec will ignore your extra fields, and you can ignore the preexisting spec’s fields.  This means that the two schemes can co-exist pretty much peacefully.</li>
+  <li>Make a new namespace for your specific fields, and disregard the existing namespace.  <strong>This is harmful; there is almost never a good reason to do this.</strong></li>
+</ol>
+
+<h2 id="the-u-namespace-exactly-how-not-to-approach-the-problem">The <code>u/</code> Namespace: Exactly How Not to Approach the Problem</h2>
+
+<p>As far as we can tell, a for-profit company (whom we won’t name here) decided to start offering identity products using the Namecoin blockchain.  They didn’t like the structure of the <code>id/</code> spec.  So, did they talk to us?  Nope, we never heard of their product until after it launched (we first noticed their product because of a bunch of nonstandard names showing up in the blockchain).  Did they add some custom fields to <code>id/</code>?  Nope, they instead did the worst possible thing as listed above: they made their own namespace (<code>u/</code>) with identical use cases as the pre-existing <code>id/</code>.</p>
+
+<h2 id="the-squatting-argument-revisited">The Squatting Argument Revisited</h2>
+
+<p>While we’ve had difficulty reaching the team behind <code>u/</code> for an official statement, we are under the impression that one of their stated rationales for creating a new namespace was that <code>id/</code> was allegedly squatted too much.  This is a quite strange claim.  Creating a new namespace every time an existing namespace is heavily squatted will disrupt legitimate users of the existing namespace much more than it will disrupt squatters, even if a lot of the existing names are squatted.  It also is an inherently cyclic process, since squatters can grab a new namespace just as fast as the old namespace.  <strong>The correct way to disincentivise squatting (to the extent that it is a problem) is with changes to Namecoin’s fee structure.</strong></p>
+
+<h2 id="a-more-structured-spec">A “More Structured” Spec</h2>
+
+<p>Another commonly cited “advantage” of <code>u/</code> is that its JSON structure is allegedly better organized than that of <code>id/</code>.  <strong>This is not an adequate reason to start a new namespace.</strong>  Even if the <code>u/</code> team didn’t want to directly work with us, they could have simply used their incompatible spec with the <code>id/</code> namespace, and everything would have worked just fine.  End users who wanted to use both specs would have been subject to the slight annoyance of having to enter duplicate fields in their existing names, but this would be infinitely better than needing a new name.</p>
+
+<h2 id="decentralization">“Decentralization”</h2>
+
+<p>Several people have commented that because Namecoin is decentralized, or because it’s a general-purpose naming system, that it’s completely acceptable to create new namespaces without regard for the consequences.  <strong>There is a fundamental difference between centralization and interoperability.</strong>  Centralization would mean that an authority is dictating which names can and cannot be created; this would be extremely bad for end users.  Interoperability means that the developer community is voluntarily standardizing on practices that allow everything to work together with minimal disruption; this directly benefits end users.  We are for interoperability, not centralization.  The ability to create new namespaces is primarily available for creating new applications.  Of course, the blockchain validation math doesn’t care if two namespaces are used for similar things.  This doesn’t mean it’s a good idea, or that people should be doing it on a regular basis.</p>
+
+<h2 id="where-from-here">Where From Here?</h2>
+
+<p>The <code>u/</code> team has gotten themselves into a potentially bad situation, since now if they wish to move to <code>id/</code>, they’ll have to race against squatters: precisely the reason why we don’t recommend changing namespaces in the first place.  We have limited sympathy for this predicament, since this could have easily been averted had they not created <code>u/</code> in the first place.  This has resulted in unnecessary trouble for end users, and we hope that a good resolution can be found.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.facebook.com/Namecoin.bit"><i class="fa fa-facebook fa-2x" title="Facebook">Facebook</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2015-09-01-why-duplicate-namespaces-are-bad-for-users.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
