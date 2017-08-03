@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin & Retail Usage</title>
+    <title>TLS Support for Chromium on Windows Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2014/09/21/retail-usage.html">
+    <link rel="canonical" href="https://namecoin.org//2017/08/03/tls-for-chromium-windows-released.html">
 </head>
 
 
@@ -239,154 +239,9 @@ document.write(rand);
         
         
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        
+    
 
 
 
@@ -397,20 +252,176 @@ document.write(rand);
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin & Retail Usage</h1>
-<p class="post-meta">Sep 21, 2014 • Namecoin Developers <i class="fa fa-tag"></i></p>
+<h1 class="post-title">TLS Support for Chromium on Windows Released</h1>
+<p class="post-meta">Aug 3, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Well-meaning investors have been pushing for various currency-related use cases for Namecoin such as ATMs, acceptance at retailers, etc.  The core development team sees these efforts as benign but generally do not expend time nor funds on them.  Why would developers of a currency not place a priority on currency related use-cases?</p>
+<p>After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the <a href="/download/betas/">Beta Downloads page</a>.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.</p>
 
-<p>The answer is that we place a priority on the specific use-cases that differentiate Namecoin from Bitcoin: DNS, ID, etc. Namecoin’s value comes from its utility as a naming system whereas Bitcoin’s value is primarily derived from its use as a currency.  Competing with Bitcoin for dominance as a currency of exchange is suicide: Bitcoin has network effects that will overpower every other competitor in its market.</p>
+<p>Credit for this release goes to:</p>
 
-<p>Furthermore, it is not clear that generic retail use of Namecoin is beneficial: most retailers immediately exchange crypto currencies into a reserve currency.  Spending Namecoin at a retailer is only a step removed from exchanging Namecoin for fiat directly.  Use as a reserve currency is Bitcoin’s problem, we have our own troubles to worry about.</p>
+<ul>
+  <li>Jeremy Rand: Cert injection Go implementation; NUMS HPKP injection concept and Go implementation; review of Hugo’s code.</li>
+  <li>Hugo Landau: Cert injection NSIS implementation; NUMS HPKP injection NSIS implementation; review of Jeremy’s code.</li>
+  <li>Ryan Castellucci: Dehydrated certificates concept+algorithm; NUMS hash algorithm and Python implementation.</li>
+</ul>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+<p>Meanwhile, Namecoin TLS development focus has started to shift toward Firefox TLS support.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -443,7 +454,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2014-09-21-retail-usage.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-08-03-tls-for-chromium-windows-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

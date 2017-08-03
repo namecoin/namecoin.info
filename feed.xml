@@ -6,9 +6,36 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 28 Jul 2017 07:08:40 +0000</pubDate>
-    <lastBuildDate>Fri, 28 Jul 2017 07:08:40 +0000</lastBuildDate>
+    <pubDate>Thu, 03 Aug 2017 20:44:25 +0000</pubDate>
+    <lastBuildDate>Thu, 03 Aug 2017 20:44:25 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>TLS Support for Chromium on Windows Released</title>
+        <description>&lt;p&gt;After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt;.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.&lt;/p&gt;
+
+&lt;p&gt;Credit for this release goes to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Jeremy Rand: Cert injection Go implementation; NUMS HPKP injection concept and Go implementation; review of Hugo’s code.&lt;/li&gt;
+  &lt;li&gt;Hugo Landau: Cert injection NSIS implementation; NUMS HPKP injection NSIS implementation; review of Jeremy’s code.&lt;/li&gt;
+  &lt;li&gt;Ryan Castellucci: Dehydrated certificates concept+algorithm; NUMS hash algorithm and Python implementation.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;p&gt;Meanwhile, Namecoin TLS development focus has started to shift toward Firefox TLS support.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/08/03/tls-for-chromium-windows-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/08/03/tls-for-chromium-windows-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>QCon London 2017 Video: Case Study: Alternate Blockchains</title>
@@ -201,37 +228,6 @@ So far the electrum client has been ported over for compatability with electrumX
         <guid isPermaLink="true">https://namecoin.org//2017/06/15/how-were-doing-tls-for-chromium.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns for Windows Beta Installer Now Available</title>
-        <description>&lt;p&gt;In order to facilitate the easy resolution of &lt;code&gt;.bit&lt;/code&gt; domains, an installer for
-ncdns for Windows has been under development. This installer automatically
-installs and configures Namecoin Core, Unbound and ncdns.&lt;/p&gt;
-
-&lt;p&gt;An experimental binary release for this installer is now available. Interested
-Namecoin users are encouraged to test the installer and report any issues they
-encounter.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/files/ncdns-2017-05-25-notreproduced/ncdns-install-2017-05-25-notreproduced.exe&quot;&gt;ncdns-install.exe&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/files/ncdns-2017-05-25-notreproduced/ncdns-install-2017-05-25-notreproduced.exe.sig&quot;&gt;ncdns-install.exe.sig&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This release does not yet integrate the TLS integration support for ncdns under
-development by Jeremy Rand. This will be incorporated in a future release.&lt;/p&gt;
-
-&lt;p&gt;The development of this installer was funded by NLnet.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 30 May 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/05/30/ncdns.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/05/30/ncdns.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
