@@ -248,11 +248,17 @@ document.write(rand);
 
 <h3 id="windows">Windows</h3>
 
-<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).</p>
+<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).  It also sets up TLS certificate validation for <code>.bit</code> domain names if a supported web browser is installed.  Currently, the following web browsers are supported for Namecoin TLS on Windows:</p>
+
+<ul>
+  <li>Chromium</li>
+  <li>Google Chrome</li>
+  <li>Opera</li>
+</ul>
 
 <h3 id="other-oss">Other OS’s</h3>
 
-<p>Currently, ncdns for non-Windows OS’s must be built from source code.</p>
+<p>ncdns plain binaries (without install scripts) are available for most major operating systems.  These require installing a Namecoin name lookup client (e.g. Namecoin Core) and a DNS resolver (e.g. Dnssec-Trigger) separately, and manually configuring ncdns to integrate with them (see instructions below).  ncdns plain binaries are only recommended for advanced users at this time.</p>
 
 <h2 id="supplying-your-own-namecoin-node">Supplying your own Namecoin node</h2>
 

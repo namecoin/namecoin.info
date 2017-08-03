@@ -243,6 +243,32 @@ document.write(rand);
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">TLS Support for Chromium on Windows Released</h1>
+    <p class="post-meta">Aug 3, 2017 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the <a href="/download/betas/">Beta Downloads page</a>.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.</p>
+
+    <p>Credit for this release goes to:</p>
+
+    <ul>
+  <li>Jeremy Rand: Cert injection Go implementation; NUMS HPKP injection concept and Go implementation; review of Hugo’s code.</li>
+  <li>Hugo Landau: Cert injection NSIS implementation; NUMS HPKP injection NSIS implementation; review of Jeremy’s code.</li>
+  <li>Ryan Castellucci: Dehydrated certificates concept+algorithm; NUMS hash algorithm and Python implementation.</li>
+</ul>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+    <p>Meanwhile, Namecoin TLS development focus has started to shift toward Firefox TLS support.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">QCon London 2017 Video: Case Study: Alternate Blockchains</h1>
     <p class="post-meta">Jul 28, 2017 • Jeremy Rand </p>
   </header>
