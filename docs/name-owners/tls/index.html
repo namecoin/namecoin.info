@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Matrix / IRC Chat</title>
+    <title>Setting up TLS (for name owners)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//resources/chat/">
+    <link rel="canonical" href="https://namecoin.org//docs/name-owners/tls/">
 </head>
 
 
@@ -236,52 +236,83 @@ document.write(rand);
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Matrix / IRC Chat</h1>
+    <h1 class="post-title">Setting up TLS (for name owners)</h1>
   </header>
 
   <article class="post-content">
     
-<p>Two chat channels exist for Namecoin.</p>
+<p>ncdns includes the tool <code>generate_nmc_cert</code>.  This tool can be used to create a self-signed Namecoin TLS certificate that is compatible with ncdns’s Chromium integration.  (Standard certificate generation tools like <code>openssl</code> are not usable for this purpose.)</p>
 
-<h2 id="namecoin">#namecoin</h2>
+<p>Example usage:</p>
 
-<p>#namecoin is suitable for any discussion that isn’t development-related or trading-related.  For example, all of the following are appropriate for #namecoin:</p>
+<pre><code>$ ./generate_nmc_cert -ecdsa-curve P256 -host www.example.bit -start-date "Jan 1 00:00:00 2017" -end-date "Jan 1 00:00:00 2020"
+2017/08/10 20:03:59 written cert.pem
+2017/08/10 20:03:59 written key.pem
+2017/08/10 20:03:59 Your Namecoin cert is: {"d8":[1, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0bhYUDX2X+wpDs+Kdxfyz2goO7OygMZNZJStfBCOeJCA/LZnOvK2tkjIyMR+6cpG0o+GM74ALtwOdzdCBjL61w==",4944096,5259456,10,"MEUCIEdBFF9QqgIi64BM4XY1G3Fd9M2MgGdcYHsJzANhcxwwAiEAx/IqQR10fPia/d13z9EwHAgbilBM3kZCsW3LxnC3qqc="]}
+2017/08/10 20:03:59 SUCCESS: The cert rehydrated to an identical form.  Place the generated files in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
+</code></pre>
 
-<ul>
-  <li>Tech support requests about Namecoin software.</li>
-  <li>Discussion about software that is relevant to Namecoin.</li>
-  <li>Discussion about events in the news that are relevant to Namecoin.</li>
-</ul>
+<p>(Users who know what they are doing can choose other ECDSA curves; use the <code>--help</code> option to see the list of available curves.)</p>
 
-<p>#namecoin is accessible via the following methods:</p>
+<p>The JSON object displayed should be enclosed in an array, and placed in the <code>tls</code> field for the domain where you want the TLSA record to appear.  Usually, this will be the <code>_443._tcp</code> subdomain of the domain name that points to the website.  An example of a typical configuration is:</p>
 
-<ul>
-  <li>Matrix (Tor-friendly): #namecoin:matrix.org</li>
-  <li><a href="https://riot.im/app/#/room/#namecoin:matrix.org">Riot web chat</a> (Tor-friendly)</li>
-  <li>Freenode IRC: #namecoin</li>
-  <li><a href="https://webchat.freenode.net/?channels=%23namecoin">Freenode web chat</a></li>
-</ul>
+<pre><code>{
+    "ip": "73.239.16.12", 
+    "map": {
+        "_tcp": {
+            "map": {
+                "_443": {
+                    "tls": [
+                        {
+                            "d8": [
+                                1, 
+                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
+                                4944108, 
+                                5259468, 
+                                10, 
+                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+</code></pre>
 
-<h2 id="namecoin-dev">#namecoin-dev</h2>
+<p>Remember that if you have an <code>ns</code> record above the <code>tls</code> record, the <code>ns</code> record will suppress the <code>tls</code> record.  For example, the following configuration will <strong>not</strong> work:</p>
 
-<p>#namecoin-dev is suitable for discussion of Namecoin-related development.</p>
+<pre><code>{
+    "ns": "ns21.cloudns.net",
+    "map": {
+        "_tcp": {
+            "map": {
+                "_443": {
+                    "tls": [
+                        {
+                            "d8": [
+                                1, 
+                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
+                                4944108, 
+                                5259468, 
+                                10, 
+                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+</code></pre>
 
-<p>#namecoin-dev is accessible via the following methods:</p>
+<p>The <code>cert.pem</code> and <code>key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
 
-<ul>
-  <li>Matrix (Tor-friendly): #namecoin-dev:matrix.org</li>
-  <li><a href="https://riot.im/app/#/room/#namecoin-dev:matrix.org">Riot web chat</a> (Tor-friendly)</li>
-  <li>Freenode IRC: #namecoin-dev</li>
-  <li><a href="https://webchat.freenode.net/?channels=%23namecoin-dev">Freenode web chat</a></li>
-</ul>
+<p>Note that wildcard certificates are not currently supported; each domain name needs its own certificate.</p>
 
-<h2 id="developer-meetings">Developer Meetings</h2>
-
-<p>The Namecoin developers hold regular public meetings twice per month on #namecoin-dev.  If you’re interested in getting involved with Namecoin development, or if you’re just curious about what’s happening, we highly recommend attending the meetings.</p>
-
-<p>Developer meetings occur on the 1st and 3rd Sunday of each month at 7 PM UTC.  <a href="Namecoin-Development-Meetings.ics">An ICS calendar suitable for import into a calendar application (e.g. Icedove) is here.</a></p>
-
-<p><a href="https://github.com/midnightmagic/namecoin-meeting">Minutes and logs of past developer meetings are available on GitHub.</a></p>
+<p>You can test your setup by visiting your <code>.bit</code> domain in Chromium on Windows when ncdns is installed.</p>
 
   </article>
 
@@ -301,7 +332,7 @@ document.write(rand);
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/chat/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/tls/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
