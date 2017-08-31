@@ -6,9 +6,32 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 25 Aug 2017 02:07:40 +0000</pubDate>
-    <lastBuildDate>Fri, 25 Aug 2017 02:07:40 +0000</lastBuildDate>
+    <pubDate>Thu, 31 Aug 2017 22:49:40 +0000</pubDate>
+    <lastBuildDate>Thu, 31 Aug 2017 22:49:40 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Video, Slides, and Paper from Namecoin at GCER 2017</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/07/06/gcer-2017.html&quot;&gt;announced&lt;/a&gt;, I represented Namecoin at the 2017 Global Conference on Educational Robotics.  Although GCER doesn’t produce official recordings of their talks, I was able to obtain an amateur recording of my talk from an audience member.  I’ve also posted my slides, as well as my paper from the conference proceedings.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that, as this is an amateur recording, the audio quality is not spectacular.  It should also be noted that the audience is rather different from the audiences for whom I usually give Namecoin talks; as a result, the focus of the content is also rather different from my usual Namecoin talks.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.namecoin.org/files/videos/gcer-2017/Namecoin-GCER-2017-1080p.webm&quot;&gt;The WebM amateur video recording of my talk is here (hosted by Namecoin.org).&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2017/Namecoin_GCER_2017_Slides.pdf&quot;&gt;My slides are available here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2017/Namecoin_GCER_2017_Paper.pdf&quot;&gt;My paper is available here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to the staff and volunteers from KISS Institute for Practical Robotics, who organized GCER.  Especially big thanks to Roger Clement and Steve Goodgame for giving me excellent feedback on the general outline of my paper and talk.  This was an excellent event, and I look forward to the next time I’m able to attend.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 31 Aug 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/08/31/gcer-2017-video.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/08/31/gcer-2017-video.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.0.4 Released</title>
@@ -173,33 +196,6 @@
         <pubDate>Tue, 20 Jun 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/06/20/automated-nums-hpkp.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/06/20/automated-nums-hpkp.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Progress on Electrum-NMC</title>
-        <description>&lt;p&gt;Work on the electrum port for Namecoin has been moving along nicely. It was decided that we will use the electrum-client from spesmilo, along with the electrumX server. ElectrumX was chosen due to the original electrum-server being discontinued a few months ago. 
-So far the electrum client has been ported over for compatability with electrumX. This includes the re-branding, blockchain parameters and other electrum related settings for blockchain verification&lt;/p&gt;
-
-&lt;p&gt;On the roadmap now are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Extend electrumX NMC Support to allow for full veritification of AuxPow&lt;/li&gt;
-  &lt;li&gt;Modify new electrum client to verify the new AuxPow&lt;/li&gt;
-  &lt;li&gt;Add Name handling support to electrum&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;These repo’s are for testing purposes only. Do not use these unless your willing to risk losing funds. &lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/Multicoin-co/electrum-nmc&quot;&gt;Client&lt;/a&gt;  &lt;br /&gt;
-&lt;a href=&quot;https://github.com/Multicoin-co/electrum-nmc-server&quot;&gt;Server/ Not uploaded yet&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 17 Jun 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/06/17/progress-electrum-nmc.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/06/17/progress-electrum-nmc.html</guid>
         
         <category>News</category>
         
