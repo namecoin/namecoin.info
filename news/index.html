@@ -244,6 +244,35 @@ document.write(rand);
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">BitcoinJ support merged into ncdns-nsis</h1>
+    <p class="post-meta">Sep 3, 2017 • Hugo Landau </p>
+  </header>
+
+  <article class="post-content">
+    <p>The ncdns-nsis project, which provides a zero-configuration Windows installer
+for Namecoin domain name resolution functionality, has merged SPV support,
+implemented via BitcoinJ. This enables Windows machines to resolve <code>.bit</code>
+domain names without having to download the full Namecoin chain.</p>
+
+    <p>Merging this functionality means that Namecoin domain names can be resolved on
+Windows client machines with only a minimal chain synchronization and storage
+burden, in exchange for a limited reduction in the security level provided.</p>
+
+    <p>Installer binaries will be published in due course as remaining ncdns-nsis
+issues are concluded.</p>
+
+    <p>To use the BitcoinJ client, run the ncdns-nsis installer and select the SPV
+option when asked whether to install a Namecoin node. Run BitcoinJ after
+installation and wait for synchronization to complete; <code>.bit</code> name resolution
+is then available.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Video, Slides, and Paper from Namecoin at GCER 2017</h1>
     <p class="post-meta">Aug 31, 2017 • Jeremy Rand </p>
   </header>
