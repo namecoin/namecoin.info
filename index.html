@@ -290,6 +290,13 @@ document.write(rand);
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2017/09/03/bitcoinj-ncdns-nsis.html">2017-09-03</a></strong> The ncdns-nsis project, which provides a zero-configuration Windows installer
+for Namecoin domain name resolution functionality, has merged SPV support,
+implemented via BitcoinJ. This enables Windows machines to resolve <code>.bit</code>
+domain names without having to download the full Namecoin chain.</p>
+
+<p><a href="/2017/09/03/bitcoinj-ncdns-nsis.html">Read more…</a> </p>
+
 <p><strong><a href="/2017/08/31/gcer-2017-video.html">2017-08-31</a></strong> As was <a href="/2017/07/06/gcer-2017.html">announced</a>, I represented Namecoin at the 2017 Global Conference on Educational Robotics.  Although GCER doesn’t produce official recordings of their talks, I was able to obtain an amateur recording of my talk from an audience member.  I’ve also posted my slides, as well as my paper from the conference proceedings.</p>
 
 <p><a href="/2017/08/31/gcer-2017-video.html">Read more…</a> </p>
@@ -325,10 +332,6 @@ document.write(rand);
 <p><strong><a href="/2017/06/21/tor-prop279.html">2017-06-21</a></strong> A while back, I <a href="https://lists.torproject.org/pipermail/tor-dev/2017-April/012222.html">released on the tor-dev mailing list</a> a tool for using Namecoin naming with Tor.  It worked, but it was clearly a proof of concept.  For example, it didn’t implement most of the Namecoin domain names spec, it didn’t work with the libdohj client, and it used the Tor controller API.  I’ve now coded a new tool that fixes these issues.</p>
 
 <p><a href="/2017/06/21/tor-prop279.html">Read more…</a> </p>
-
-<p><strong><a href="/2017/06/20/automated-nums-hpkp.html">2017-06-20</a></strong> As I mentioned in <a href="/2017/06/15/how-were-doing-tls-for-chromium.html">my previous post</a>, we protect from compromised CA’s by using a nothing-up-my-sleeve (NUMS) HPKP pin in Chromium.  Previously, it was necessary for the user to add this pin themselves in the Chromium UI.  This was really sketchy from both a security and UX point of view.  I have now submitted a PR to ncdns that will automatically add the necessary pin.</p>
-
-<p><a href="/2017/06/20/automated-nums-hpkp.html">Read more…</a> </p>
 
 <p><a href="/news/">Earlier news</a></p>
 
