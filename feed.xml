@@ -6,9 +6,32 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 14 Sep 2017 04:58:02 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Sep 2017 04:58:02 +0000</lastBuildDate>
+    <pubDate>Sun, 24 Sep 2017 20:49:14 +0000</pubDate>
+    <lastBuildDate>Sun, 24 Sep 2017 20:49:14 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>Namecoin TLS for Firefox: Phase 1 (Overrides in C++)</title>
+        <description>&lt;p&gt;Making TLS work for Namecoin websites in Firefox has been an interesting challenge.  On the positive side, Mozilla has historically exposed a number of API’s that would be useful for this purpose, and we’ve actually produced a couple of Firefox extensions that used them: the well-known Convergence for Namecoin codebase (based on Convergence by Moxie Marlinspike and customized for Namecoin by me), and the much-lesser-known nczilla (written by Hugo Landau and me, with some code borrowed from Selenium).  This was a pretty big advantage over Chromium, whose developers have consistently refused to support our use cases (which forced us to use the dehydrated certificate witchcraft).  On the negative side, Mozilla has a habit of removing useful API’s approximately as fast as we notice new ones.  (Convergence’s required API’s were removed by Mozilla about a year or two after we started using Convergence, and nczilla’s required API’s were removed before nczilla even had a proper release, which is why nearly no one has heard of nczilla.)  On the positive side, Mozilla has expressed an apparent willingness to entertain the idea of merging officially supported API’s for our use case.  So, I’ve been hacking around with a fork of Firefox, hoping to come up with something that Mozilla could merge in the future.  Phase 1 of that effort is now complete.&lt;/p&gt;
+
+&lt;p&gt;In particular, I’ve created a C++ XPCOM component (compiled into my fork of Firefox) that hooks the certificate verification functions, and can produce both positive and negative overrides (meaning, respectively, that it can make invalid certs appear valid, and make valid certs appear invalid).  This XPCOM component has access to most of the data that we would want: it has access to the certificate, the hostname, and quite a lot of other data that Firefox stores in objects that the XPCOM component has access to.  Unfortunately, it doesn’t yet have access to the full certificate chain (I’m still investigating how to do that), and it also doesn’t yet have access to the proxy settings (I do see how to do that, it’s just not coded yet).  The full certificate chain would be useful if you want to run your own CA; the proxy settings would be useful for Tor stream isolation with headers-only Namecoin SPV clients.&lt;/p&gt;
+
+&lt;p&gt;Performance is likely to be impacted, since this code is not even close to optimized (nor is performance even measured).  I’ll be investigating performance later.  Short-term, my next step will be to delegate the override decisions to JavaScript code.  (This looks straightforward, but as we all know, our friend Murphy might strike at any time.)  After that I’ll be looking at making that JavaScript code delegate decisions to WebExtensions.  The intention here is to support use cases besides Namecoin’s.  The WebExtensions API that this would expose would presumably be useful for DNSSEC/DANE verification, perspective verification, and maybe other interesting experiments that I haven’t thought of.&lt;/p&gt;
+
+&lt;p&gt;Major thanks to David Keeler from Mozilla for answering some questions in IRC that I had about how the Firefox certificate verification code is structured.&lt;/p&gt;
+
+&lt;p&gt;Hopefully I’ll have more news on this subject in the next couple weeks.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 24 Sep 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/09/24/firefox-tls-cpp.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/09/24/firefox-tls-cpp.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Refactoring the Raw Transaction API</title>
@@ -227,27 +250,6 @@ is then available.&lt;/p&gt;
         <guid isPermaLink="true">https://namecoin.org//2017/07/05/qcon-london-panel-video.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Resolution for Tor Released</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;/2017/06/21/tor-prop279.html&quot;&gt;aforementioned licensing issues with TorNS&lt;/a&gt; have been dealt with, and I’ve released the DNS provider for Tor’s Prop279 Pluggable Naming API.  This allows Namecoin resolution in Tor.&lt;/p&gt;
-
-&lt;p&gt;One issue I encountered is that TorNS currently implements a rather unfortunate restriction that input and output domain names must be in the &lt;code&gt;.onion&lt;/code&gt; TLD.  I’ve created a fork of TorNS (which I call &lt;a href=&quot;https://github.com/namecoin/LibreTorNS&quot;&gt;LibreTorNS&lt;/a&gt;) which removes this restriction.  LibreTorNS is currently required for Namecoin usage.&lt;/p&gt;
-
-&lt;p&gt;The code is available from the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt;.  Please let me know what works and what doesn’t.  And remember, using Namecoin naming with Tor will make you heavily stand out, so don’t use this in any scenario where you need anonymity.  (Also please refer to the extensive additional scary warnings in the readme if you’re under the mistaken impression that using this in production is a good idea.)&lt;/p&gt;
-
-&lt;p&gt;This development was funded by NLnet.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/06/22/tor-prop279-release.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/06/22/tor-prop279-release.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Prop279 Releases</category>
         
         
       </item>
