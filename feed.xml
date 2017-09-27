@@ -6,9 +6,46 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 24 Sep 2017 20:49:14 +0000</pubDate>
-    <lastBuildDate>Sun, 24 Sep 2017 20:49:14 +0000</lastBuildDate>
+    <pubDate>Wed, 27 Sep 2017 02:00:52 +0000</pubDate>
+    <lastBuildDate>Wed, 27 Sep 2017 02:00:52 +0000</lastBuildDate>
     <generator>Jekyll v2.2.0</generator>
+    
+      <item>
+        <title>ncdns v0.0.5 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.0.5.  List of changes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Windows installer:
+    &lt;ul&gt;
+      &lt;li&gt;Bundle BitcoinJ/libdohj SPV name lookup client as an alternative to Namecoin Core.&lt;/li&gt;
+      &lt;li&gt;TLS: Support Google Chrome Canary.  (Bug reported by samurai321.)&lt;/li&gt;
+      &lt;li&gt;TLS: Fix bug in Chromium, Google Chrome, and Google Chrome Canary profile detection.  (Bug reported by samurai321.)&lt;/li&gt;
+      &lt;li&gt;User is now prompted to uninstall before reinstalling.&lt;/li&gt;
+      &lt;li&gt;Add additional debug output.  (Bug reported by samurai321.)&lt;/li&gt;
+      &lt;li&gt;Detect when Namecoin Core or Dnssec-Trigger failed to install.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;All OS’s:
+    &lt;ul&gt;
+      &lt;li&gt;Various code cleanups.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/09/26/ncdns-v0.0.5-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/09/26/ncdns-v0.0.5-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin TLS for Firefox: Phase 1 (Overrides in C++)</title>
@@ -233,21 +270,6 @@ is then available.&lt;/p&gt;
         <pubDate>Thu, 06 Jul 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/07/06/gcer-2017.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/07/06/gcer-2017.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>QCon London 2017 Video: Practical Cryptography &amp; Blockchain Panel</title>
-        <description>&lt;p&gt;InfoQ has posted &lt;a href=&quot;https://www.infoq.com/presentations/cryptography-blockchain&quot;&gt;the recording of the Practical Cryptography &amp;amp; Blockchain Panel&lt;/a&gt; at QCon London 2017.  The panelists (from left to right) were Elaine Ou, me (Jeremy Rand), David Vorick, Paul Sztorc, and Peter Todd.  Riccardo Spagni (on the right) moderated the panel.&lt;/p&gt;
-
-&lt;p&gt;The videos on the InfoQ website do not appear to work when Javascript is disabled.  Security-conscious users who prefer not to enable Javascript can view the video via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;).&lt;/p&gt;
-</description>
-        <pubDate>Wed, 05 Jul 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/07/05/qcon-london-panel-video.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/07/05/qcon-london-panel-video.html</guid>
         
         <category>News</category>
         
