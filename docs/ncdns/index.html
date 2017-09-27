@@ -249,11 +249,12 @@ document.write(rand);
 
 <h3 id="windows">Windows</h3>
 
-<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).  It also sets up TLS certificate validation for <code>.bit</code> domain names if a supported web browser is installed.  Currently, the following web browsers are supported for Namecoin TLS on Windows:</p>
+<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core, the BitcoinJ/libdohj SPV name lookup client, and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).  It also sets up TLS certificate validation for <code>.bit</code> domain names if a supported web browser is installed.  Currently, the following web browsers are supported for Namecoin TLS on Windows:</p>
 
 <ul>
   <li>Chromium</li>
   <li>Google Chrome</li>
+  <li>Google Chrome Canary</li>
   <li>Opera</li>
 </ul>
 
@@ -263,11 +264,11 @@ document.write(rand);
 
 <h2 id="supplying-your-own-namecoin-node">Supplying your own Namecoin node</h2>
 
-<p>The ncdns Windows installer will offer to install Namecoin Core and configure ncdns to use it.  However, there are several reasons why you might want to supply your own Namecoin node:</p>
+<p>The ncdns Windows installer will offer to install Namecoin Core or the BitcoinJ/libdohj SPV client, and configure ncdns to use it.  However, there are several reasons why you might want to supply your own Namecoin node:</p>
 
 <ul>
   <li>You’re not using Windows.</li>
-  <li>You want to use a Namecoin node that isn’t Namecoin Core (e.g. the libdohj SPV client).</li>
+  <li>You want to use a Namecoin node that isn’t Namecoin Core or the BitcoinJ/libdohj SPV client.</li>
   <li>You want to run a Namecoin node on a different machine than ncdns.</li>
   <li>You want to handle updating Namecoin Core separately from updating ncdns.</li>
 </ul>
