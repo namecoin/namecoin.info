@@ -241,22 +241,22 @@ document.write(rand);
 
   <article class="post-content">
     
-<p>ncdns includes the tool <code>generate_nmc_cert</code>.  This tool can be used to create a self-signed Namecoin TLS certificate that is compatible with ncdns’s Chromium integration.  (Standard certificate generation tools like <code>openssl</code> are not usable for this purpose.)</p>
+<p>ncdns includes the tool <code class="highlighter-rouge">generate_nmc_cert</code>.  This tool can be used to create a self-signed Namecoin TLS certificate that is compatible with ncdns’s Chromium integration.  (Standard certificate generation tools like <code class="highlighter-rouge">openssl</code> are not usable for this purpose.)</p>
 
 <p>Example usage:</p>
 
-<pre><code>$ ./generate_nmc_cert -ecdsa-curve P256 -host www.example.bit -start-date "Jan 1 00:00:00 2017" -end-date "Jan 1 00:00:00 2020"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -ecdsa-curve P256 -host www.example.bit -start-date "Jan 1 00:00:00 2017" -end-date "Jan 1 00:00:00 2020"
 2017/08/10 20:03:59 written cert.pem
 2017/08/10 20:03:59 written key.pem
 2017/08/10 20:03:59 Your Namecoin cert is: {"d8":[1, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE0bhYUDX2X+wpDs+Kdxfyz2goO7OygMZNZJStfBCOeJCA/LZnOvK2tkjIyMR+6cpG0o+GM74ALtwOdzdCBjL61w==",4944096,5259456,10,"MEUCIEdBFF9QqgIi64BM4XY1G3Fd9M2MgGdcYHsJzANhcxwwAiEAx/IqQR10fPia/d13z9EwHAgbilBM3kZCsW3LxnC3qqc="]}
 2017/08/10 20:03:59 SUCCESS: The cert rehydrated to an identical form.  Place the generated files in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre>
+</code></pre></div></div>
 
-<p>(Users who know what they are doing can choose other ECDSA curves; use the <code>--help</code> option to see the list of available curves.)</p>
+<p>(Users who know what they are doing can choose other ECDSA curves; use the <code class="highlighter-rouge">--help</code> option to see the list of available curves.)</p>
 
-<p>The JSON object displayed should be enclosed in an array, and placed in the <code>tls</code> field for the domain where you want the TLSA record to appear.  Usually, this will be the <code>_443._tcp</code> subdomain of the domain name that points to the website.  An example of a typical configuration is:</p>
+<p>The JSON object displayed should be enclosed in an array, and placed in the <code class="highlighter-rouge">tls</code> field for the domain where you want the TLSA record to appear.  Usually, this will be the <code class="highlighter-rouge">_443._tcp</code> subdomain of the domain name that points to the website.  An example of a typical configuration is:</p>
 
-<pre><code>{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
     "ip": "73.239.16.12", 
     "map": {
         "_tcp": {
@@ -279,11 +279,11 @@ document.write(rand);
         }
     }
 }
-</code></pre>
+</code></pre></div></div>
 
-<p>Remember that if you have an <code>ns</code> record above the <code>tls</code> record, the <code>ns</code> record will suppress the <code>tls</code> record.  For example, the following configuration will <strong>not</strong> work:</p>
+<p>Remember that if you have an <code class="highlighter-rouge">ns</code> record above the <code class="highlighter-rouge">tls</code> record, the <code class="highlighter-rouge">ns</code> record will suppress the <code class="highlighter-rouge">tls</code> record.  For example, the following configuration will <strong>not</strong> work:</p>
 
-<pre><code>{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
     "ns": "ns21.cloudns.net",
     "map": {
         "_tcp": {
@@ -306,13 +306,13 @@ document.write(rand);
         }
     }
 }
-</code></pre>
+</code></pre></div></div>
 
-<p>The <code>cert.pem</code> and <code>key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
+<p>The <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
 
 <p>Note that wildcard certificates are not currently supported; each domain name needs its own certificate.</p>
 
-<p>You can test your setup by visiting your <code>.bit</code> domain in Chromium on Windows when ncdns is installed.</p>
+<p>You can test your setup by visiting your <code class="highlighter-rouge">.bit</code> domain in Chromium on Windows when ncdns is installed.</p>
 
   </article>
 

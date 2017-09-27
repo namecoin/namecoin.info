@@ -241,7 +241,7 @@ document.write(rand);
 
   <article class="post-content">
     
-<p>ncdns is software for accessing <code>.bit</code> domain names.  If you want to access <code>.bit</code> domain names, ncdns is what you want to install.  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
+<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is what you want to install.  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
 
 <h2 id="installation">Installation</h2>
 
@@ -249,7 +249,7 @@ document.write(rand);
 
 <h3 id="windows">Windows</h3>
 
-<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core, the BitcoinJ/libdohj SPV name lookup client, and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).  It also sets up TLS certificate validation for <code>.bit</code> domain names if a supported web browser is installed.  Currently, the following web browsers are supported for Namecoin TLS on Windows:</p>
+<p>An installer wizard is available, which will also install the necessary dependencies (Namecoin Core, the BitcoinJ/libdohj SPV name lookup client, and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>).  It also sets up TLS certificate validation for <code class="highlighter-rouge">.bit</code> domain names if a supported web browser is installed.  Currently, the following web browsers are supported for Namecoin TLS on Windows:</p>
 
 <ul>
   <li>Chromium</li>
@@ -277,12 +277,12 @@ document.write(rand);
 
 <ol>
   <li>Make sure that your Namecoin node has the RPC server enabled.</li>
-  <li>Open <code>ncdns.conf</code>.  On Windows, it’s in the <code>etc/</code> subdirectory of where you installed ncdns.</li>
-  <li>Look for the <code>namecoind access</code> section.</li>
-  <li>If your Namecoin node isn’t listening on <code>127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code>namecoinrpcaddress</code> line and fill in the IP and port.</li>
-  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code>namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
-  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code>namecoinrpccookiepath</code> line, uncomment the <code>namecoinrpcusername</code> and <code>namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
-  <li>Restart ncdns.  On Windows, you can do this by going to <code>Control Panel</code> -&gt; <code>Administrative Tools</code> -&gt; <code>Services</code>, right-click <code>ncdns</code>, and click <code>Restart</code>.</li>
+  <li>Open <code class="highlighter-rouge">ncdns.conf</code>.  On Windows, it’s in the <code class="highlighter-rouge">etc/</code> subdirectory of where you installed ncdns.</li>
+  <li>Look for the <code class="highlighter-rouge">namecoind access</code> section.</li>
+  <li>If your Namecoin node isn’t listening on <code class="highlighter-rouge">127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code class="highlighter-rouge">namecoinrpcaddress</code> line and fill in the IP and port.</li>
+  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code class="highlighter-rouge">namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
+  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code class="highlighter-rouge">namecoinrpccookiepath</code> line, uncomment the <code class="highlighter-rouge">namecoinrpcusername</code> and <code class="highlighter-rouge">namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
+  <li>Restart ncdns.  On Windows, you can do this by going to <code class="highlighter-rouge">Control Panel</code> -&gt; <code class="highlighter-rouge">Administrative Tools</code> -&gt; <code class="highlighter-rouge">Services</code>, right-click <code class="highlighter-rouge">ncdns</code>, and click <code class="highlighter-rouge">Restart</code>.</li>
 </ol>
 
   </article>

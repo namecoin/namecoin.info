@@ -257,7 +257,7 @@ document.write(rand);
 
 <ul>
   <li>If you’re using GNU/Linux, use your package manager.</li>
-  <li>If you’re using Windows, <a href="https://www.java.com/en/download/manual.jsp">download it from the Oracle website</a>.  <strong>Make sure you right-click the <code>.exe</code> installer, click <code>Properties</code>, and click <code>Digital Signatures</code>.  It should be signed by <code>Oracle America, Inc.</code>  If it is not, do not install it.</strong></li>
+  <li>If you’re using Windows, <a href="https://www.java.com/en/download/manual.jsp">download it from the Oracle website</a>.  <strong>Make sure you right-click the <code class="highlighter-rouge">.exe</code> installer, click <code class="highlighter-rouge">Properties</code>, and click <code class="highlighter-rouge">Digital Signatures</code>.  It should be signed by <code class="highlighter-rouge">Oracle America, Inc.</code>  If it is not, do not install it.</strong></li>
   <li>We’re not sure about OS X.  If anyone can contribute instructions for OS X, let us know.</li>
 </ul>
 
@@ -265,7 +265,7 @@ document.write(rand);
 
 <p><a href="https://drive.google.com/file/d/0B3JMWdAb62L5UTJQYVFVcnBKWnc/view?usp=sharing">Download 0.1.1 Beta 1 (bleeding-edge branch, cross-platform JAR) (Hosted by Google Drive).</a></p>
 
-<pre><code>-----BEGIN PGP SIGNED MESSAGE-----
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
 bitcoinj-addons Namecoin Name Lookup Client
@@ -289,17 +289,17 @@ mlykAL56xPxaj+WA7dux+92mDNTyo04Vm7glf9+KFwfSPVuyfZQlK9D3U0XoIyWe
 GpcAkajMtMUk9xJjwEax
 =s/rl
 -----END PGP SIGNATURE-----
-</code></pre>
+</code></pre></div></div>
 
 <p><a href="/docs/bitcoinj-name-lookups/">Preliminary instructions are here.</a></p>
 
 <h2 id="ncdns">ncdns</h2>
 
-<p>ncdns is software for accessing <code>.bit</code> domain names.  If you want to access <code>.bit</code> domain names, ncdns is most likely what you want to install.</p>
+<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is most likely what you want to install.</p>
 
 <p>See the <a href="/docs/ncdns">ncdns documentation</a>.</p>
 
-<p>The ncdns Windows installer also automatically installs and configures Namecoin Core and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code>.bit</code> domain names.  Release signed by Hugo Landau.</p>
+<p>The ncdns Windows installer also automatically installs and configures Namecoin Core and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code class="highlighter-rouge">.bit</code> domain names.  Release signed by Hugo Landau.</p>
 
 <p><strong>Before running the ncdns Windows installer, you will need to install the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679">Visual C++ Redistributable for Visual Studio 2012</a>.</strong></p>
 
@@ -323,7 +323,7 @@ GpcAkajMtMUk9xJjwEax
 
 <h2 id="dns-prop279">dns-prop279</h2>
 
-<p>This is a tool that permits Namecoin naming (or any other naming method that speaks the DNS protocol) to be used with Tor, via the draft Prop279 pluggable naming API.  <code>.bit</code> domains can point to IP addresses (A/AAAA records), DNS names (CNAME records), and onion services.</p>
+<p>This is a tool that permits Namecoin naming (or any other naming method that speaks the DNS protocol) to be used with Tor, via the draft Prop279 pluggable naming API.  <code class="highlighter-rouge">.bit</code> domains can point to IP addresses (A/AAAA records), DNS names (CNAME records), and onion services.</p>
 
 <p><a href="https://github.com/namecoin/dns-prop279">Source code at GitHub.</a></p>
 
@@ -331,9 +331,9 @@ GpcAkajMtMUk9xJjwEax
 
 <ul>
   <li>Prop279 is still an early draft, and might change heavily.  dns-prop279 will change accordingly.</li>
-  <li><code>tor</code> doesn’t implement Prop279 (see above point); the <a href="https://github.com/meejah/TorNS">TorNS</a> shim is required if you want to use or test dns-prop279.</li>
+  <li><code class="highlighter-rouge">tor</code> doesn’t implement Prop279 (see above point); the <a href="https://github.com/meejah/TorNS">TorNS</a> shim is required if you want to use or test dns-prop279.</li>
   <li>dns-prop279 doesn’t follow the current Namecoin Domain Names specification for onion service records (we might amend the specification to match dns-prop279’s behavior).</li>
-  <li>dns-prop279 doesn’t properly return error codes; all errors will be treated as <code>NXDOMAIN</code>.</li>
+  <li>dns-prop279 doesn’t properly return error codes; all errors will be treated as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
   <li>dns-prop279 hasn’t been carefully checked for proxy leaks.</li>
   <li>Using dns-prop279 will make you stand out from other Tor users.</li>
   <li>Stream isolation isn’t supported at all. Only use dns-prop279 with a DNS server that will not generate outgoing traffic when you query it. ncdns is probably fine as long as it’s using a full-block-receive Namecoin node such as Namecoin Core or libdohj-namecoin in leveldbtxcache mode. Unbound is not a good idea.</li>

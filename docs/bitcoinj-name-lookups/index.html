@@ -259,7 +259,7 @@ document.write(rand);
 
 <ol>
   <li>Install OpenJDK from your package repositories.  These instructions will be updated later with specific package names.  Development was done with JDK 8; JDK 7 might work but is untested.</li>
-  <li>Make sure that the <code>JAVA_HOME</code> environment variable is set.  On Jeremy’s Debian Jessie VM, he had to manually set it to <code>/usr/lib/jvm/java-8-openjdk-amd64</code>.</li>
+  <li>Make sure that the <code class="highlighter-rouge">JAVA_HOME</code> environment variable is set.  On Jeremy’s Debian Jessie VM, he had to manually set it to <code class="highlighter-rouge">/usr/lib/jvm/java-8-openjdk-amd64</code>.</li>
   <li>Install Maven from your package repositories.  These instructions will be updated later with specific package names.</li>
 </ol>
 
@@ -267,7 +267,7 @@ document.write(rand);
 
 <ol>
   <li>Install JDK.  Note that Oracle’s download site doesn’t support TLS.  If you enjoy being MITM-attacked and installing malware, you can <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">download it here (non-TLS link)</a>.</li>
-  <li>Make sure that the <code>JAVA_HOME</code> environment variable is set.  On Jeremy’s Windows 10 VM, he had to manually set it to <code>C:\Program Files\Java\jdk1.8.0_101</code>.</li>
+  <li>Make sure that the <code class="highlighter-rouge">JAVA_HOME</code> environment variable is set.  On Jeremy’s Windows 10 VM, he had to manually set it to <code class="highlighter-rouge">C:\Program Files\Java\jdk1.8.0_101</code>.</li>
   <li>Install Maven.  Note that Maven’s official download site uses non-TLS downloads (insecure), MD5 checksums (insecure), and 1024-bit DSA signing keys (insecure).  If you enjoy being MITM-attacked and installing malware, you can use the <a href="https://maven.apache.org/download.cgi">Maven download page</a> and the <a href="https://maven.apache.org/install.html">Maven install page</a>.</li>
 </ol>
 
@@ -285,7 +285,7 @@ document.write(rand);
 
 <p>For the partially stable branch:</p>
 
-<pre><code>git clone https://github.com/dogecoin/libdohj.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/dogecoin/libdohj.git
 cd libdohj
 mvn clean install
 cd namecoin
@@ -295,11 +295,11 @@ git clone https://github.com/JeremyRand/bitcoinj-addons.git
 cd bitcoinj-addons
 git checkout getd4-draft
 ./gradlew clean :bitcoinj-daemon:assemble
-</code></pre>
+</code></pre></div></div>
 
 <p>For the bleeding-edge branch:</p>
 
-<pre><code>git clone https://github.com/JeremyRand/libdohj.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/JeremyRand/libdohj.git
 cd libdohj
 git checkout namecoin-local-lookup-2
 mvn clean install
@@ -310,84 +310,84 @@ git clone https://github.com/JeremyRand/bitcoinj-addons.git
 cd bitcoinj-addons
 git checkout getd4-draft-local-lookup-2
 ./gradlew clean :bitcoinj-daemon:assemble
-</code></pre>
+</code></pre></div></div>
 
-<p>For either branch, the binary will be created at <code>bitcoinj-daemon/build/libs/bitcoinj-daemon-0.1.1-SNAPSHOT.jar</code>.</p>
+<p>For either branch, the binary will be created at <code class="highlighter-rouge">bitcoinj-daemon/build/libs/bitcoinj-daemon-0.1.1-SNAPSHOT.jar</code>.</p>
 
 <h2 id="running-it">Running it</h2>
 
 <p><strong>All API elements that are not directly taken from Namecoin Core (including all command-line arguments and all URL formats and JSON structures for the upstream REST API) are not guaranteed to have a stable API; they might be renamed, modified, or removed in the future.</strong></p>
 
-<pre><code>java -jar ./bitcoinj-daemon-0.1.1-SNAPSHOT.jar --connection.proxyenabled=false --connection.streamisolation=false
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java -jar ./bitcoinj-daemon-0.1.1-SNAPSHOT.jar --connection.proxyenabled=false --connection.streamisolation=false
+</code></pre></div></div>
 
 <p>The blockchain takes around 5 minutes to download.  Once it is fully synchronized, the RPC server will automatically start; it listens on port 8080.</p>
 
 <p>You can also customize the behavior of the server with some command line options:</p>
 
-<pre><code>--server.port=&lt;port&gt; (default: 8080)
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--server.port=&lt;port&gt; (default: 8080)
+</code></pre></div></div>
 
 <p>Change what port the RPC server listens on.</p>
 
-<pre><code>--namelookup.latest.algo=&lt;algo&gt; (default: restmerkleapi)
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--namelookup.latest.algo=&lt;algo&gt; (default: restmerkleapi)
+</code></pre></div></div>
 
-<p>Change how <code>name_show</code> lookups are performed.  The following algorithms are available:</p>
+<p>Change how <code class="highlighter-rouge">name_show</code> lookups are performed.  The following algorithms are available:</p>
 
 <ul>
-  <li><code>restheightapi</code>: <strong>Don’t use this, it’s broken in the current version.</strong> Looks up the height of the latest <code>name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code>https://namecoin.webbtc.com/name/heights/&lt;name&gt;.json?raw</code>), and retrieves that block over the P2P network.  This is usually fast, but if the name is part of a very large block, it can take a couple of seconds.  It reveals to the REST API which name is being looked up, and it reveals to a P2P peer what the height of that name is.  The REST API can hide recent <code>name_anyupdate</code> operations without being detected.</li>
-  <li><code>restmerkleapi</code>: Looks up a merkle proof for the latest <code>name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code>https://namecoin.webbtc.com/name/&lt;name&gt;.json?history&amp;with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  This is slower than <code>restheightapi</code> for most names, but it’s faster than <code>restheightapi</code> if the name is in a very large block.  It reveals to the REST API which name is being looked up; it doesn’t reveal anything to the P2P network.  The REST API can hide recent <code>name_anyupdate</code> operations without being detected.</li>
-  <li><code>restmerkleapisingle</code>: <strong>Unreliable in the current version.</strong> Similar to <code>restmerkleapi</code>, but increases lookup speed by asking the REST API to only generate a merkle proof for the most recent <code>name_anyupdate</code> operation for the name (default URL is <code>https://namecoin.webbtc.com/name/&lt;name&gt;.json?with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  Faster than <code>restmerkleapi</code>, but will return an error if the name’s most recent update has between 1 and 11 confirmations (inclusive).  The REST API can hide recent <code>name_anyupdate</code> operations without being detected.</li>
-  <li><code>leveldbtxcache</code>: <strong>Only available on bleeding-edge branch.</strong> Maintains a cache of all unexpired <code>name_anyupdate</code> operations, obtained by downloading full blocks (instead of just headers) for all blocks that are newer than 366 days old.  Much, much faster lookups than the REST-API-based algos, and lookups don’t generate any network traffic (so lookup operations are as private as Namecoin Core).  Initial syncup will take somewhat longer, and approximately 412 MB of extra storage will be used for the name database.  It is not feasible for <code>name_anyupdate</code> operations to be hidden without detection, because full blocks are downloaded.  There are known hypothetical attacks possible involving reorganizations deeper than 12 blocks; see the libdohj source code comments for details.</li>
+  <li><code class="highlighter-rouge">restheightapi</code>: <strong>Don’t use this, it’s broken in the current version.</strong> Looks up the height of the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/heights/&lt;name&gt;.json?raw</code>), and retrieves that block over the P2P network.  This is usually fast, but if the name is part of a very large block, it can take a couple of seconds.  It reveals to the REST API which name is being looked up, and it reveals to a P2P peer what the height of that name is.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">restmerkleapi</code>: Looks up a merkle proof for the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?history&amp;with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  This is slower than <code class="highlighter-rouge">restheightapi</code> for most names, but it’s faster than <code class="highlighter-rouge">restheightapi</code> if the name is in a very large block.  It reveals to the REST API which name is being looked up; it doesn’t reveal anything to the P2P network.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">restmerkleapisingle</code>: <strong>Unreliable in the current version.</strong> Similar to <code class="highlighter-rouge">restmerkleapi</code>, but increases lookup speed by asking the REST API to only generate a merkle proof for the most recent <code class="highlighter-rouge">name_anyupdate</code> operation for the name (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  Faster than <code class="highlighter-rouge">restmerkleapi</code>, but will return an error if the name’s most recent update has between 1 and 11 confirmations (inclusive).  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">leveldbtxcache</code>: <strong>Only available on bleeding-edge branch.</strong> Maintains a cache of all unexpired <code class="highlighter-rouge">name_anyupdate</code> operations, obtained by downloading full blocks (instead of just headers) for all blocks that are newer than 366 days old.  Much, much faster lookups than the REST-API-based algos, and lookups don’t generate any network traffic (so lookup operations are as private as Namecoin Core).  Initial syncup will take somewhat longer, and approximately 412 MB of extra storage will be used for the name database.  It is not feasible for <code class="highlighter-rouge">name_anyupdate</code> operations to be hidden without detection, because full blocks are downloaded.  There are known hypothetical attacks possible involving reorganizations deeper than 12 blocks; see the libdohj source code comments for details.</li>
 </ul>
 
-<pre><code>--namelookup.latest.resturlprefix=&lt;prefix&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--namelookup.latest.resturlprefix=&lt;prefix&gt;
 --namelookup.latest.resturlsuffix=&lt;suffix&gt;
-</code></pre>
+</code></pre></div></div>
 
-<p>Change what REST API URL is constructed; default depends on the value of <code>--namelookup.latest.algo</code>.  The URL is constructed by concatenating the prefix, the name, and the suffix.</p>
+<p>Change what REST API URL is constructed; default depends on the value of <code class="highlighter-rouge">--namelookup.latest.algo</code>.  The URL is constructed by concatenating the prefix, the name, and the suffix.</p>
 
 <h2 id="using-it">Using it</h2>
 
 <h3 id="namecoin-cli">namecoin-cli</h3>
 
-<p><strong>All API elements that are not directly taken from Namecoin Core (including the <code>valueParsed</code> field and <code>name_show_at_height</code> method) are not guaranteed to have a stable API; they might be renamed, modified, or removed in the future.</strong></p>
+<p><strong>All API elements that are not directly taken from Namecoin Core (including the <code class="highlighter-rouge">valueParsed</code> field and <code class="highlighter-rouge">name_show_at_height</code> method) are not guaranteed to have a stable API; they might be renamed, modified, or removed in the future.</strong></p>
 
 <p>You can use the namecoin-cli tool that comes with Namecoin Core to look up names.  Make sure that you’re using the correct port.  Any username and password are okay.</p>
 
 <p>The following RPC commands are supported:</p>
 
-<pre><code>name_show &lt;name&gt;
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_show &lt;name&gt;
+</code></pre></div></div>
 
-<p>Similar to <code>name_show</code> provided by Namecoin Core.  Does not show a result for expired names.  Uses the algorithm specified by <code>--namelookup.latest.algo</code>.  As of this writing, the <code>vout</code> and <code>expired</code> fields normally provided by Namecoin Core are not supported (they are always null).  If the <code>value</code> field is valid as a JSON object, it will be parsed and made available as a JSON object in the <code>valueParsed</code> field.</p>
+<p>Similar to <code class="highlighter-rouge">name_show</code> provided by Namecoin Core.  Does not show a result for expired names.  Uses the algorithm specified by <code class="highlighter-rouge">--namelookup.latest.algo</code>.  As of this writing, the <code class="highlighter-rouge">vout</code> and <code class="highlighter-rouge">expired</code> fields normally provided by Namecoin Core are not supported (they are always null).  If the <code class="highlighter-rouge">value</code> field is valid as a JSON object, it will be parsed and made available as a JSON object in the <code class="highlighter-rouge">valueParsed</code> field.</p>
 
-<pre><code>name_show_at_height &lt;name&gt; &lt;height&gt;
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_show_at_height &lt;name&gt; &lt;height&gt;
+</code></pre></div></div>
 
-<p>Similar to <code>name_show</code>, but displays the <code>name_anyupdate</code> operation from the given block height, even if it isn’t the latest <code>name_anyupdate</code> operation for that name.  Does not show a result for expired operations.  Does not show a result if the specified block doesn’t contain a <code>name_anyupdate</code> operation for the specified name.  The algorithm always retrieves the block over the P2P network.  Usually faster than <code>name_show</code>, unless <code>--namelookup.latest.algo=leveldbtxcache</code> is set.  It reveals to a P2P peer which block height is being looked up; it doesn’t reveal anything to a REST API.</p>
+<p>Similar to <code class="highlighter-rouge">name_show</code>, but displays the <code class="highlighter-rouge">name_anyupdate</code> operation from the given block height, even if it isn’t the latest <code class="highlighter-rouge">name_anyupdate</code> operation for that name.  Does not show a result for expired operations.  Does not show a result if the specified block doesn’t contain a <code class="highlighter-rouge">name_anyupdate</code> operation for the specified name.  The algorithm always retrieves the block over the P2P network.  Usually faster than <code class="highlighter-rouge">name_show</code>, unless <code class="highlighter-rouge">--namelookup.latest.algo=leveldbtxcache</code> is set.  It reveals to a P2P peer which block height is being looked up; it doesn’t reveal anything to a REST API.</p>
 
 <p>Example usage:</p>
 
-<pre><code>./namecoin-cli -rpcport=8080 -rpcuser=user -rpcpassword=pass name_show d/domob
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./namecoin-cli -rpcport=8080 -rpcuser=user -rpcpassword=pass name_show d/domob
+</code></pre></div></div>
 
 <h3 id="curl">curl</h3>
 
 <p>If you don’t have namecoin-cli, any JSON-RPC client should work.  For example, you can use curl:</p>
 
-<pre><code>curl --user user:pass --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"name_show","params":["d/domob"]}' -H 'content-type:text/plain;' http://127.0.0.1:8080
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --user user:pass --data-binary '{"jsonrpc":"1.0","id":"curltext","method":"name_show","params":["d/domob"]}' -H 'content-type:text/plain;' http://127.0.0.1:8080
+</code></pre></div></div>
 
 <h3 id="ncdns">ncdns</h3>
 
-<p>ncdns should work as long as it’s set to the correct port.  For example, you might set the following line in <code>ncdns.conf</code>:</p>
+<p>ncdns should work as long as it’s set to the correct port.  For example, you might set the following line in <code class="highlighter-rouge">ncdns.conf</code>:</p>
 
-<pre><code>namecoinrpcaddress="127.0.0.1:8080"
-</code></pre>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>namecoinrpcaddress="127.0.0.1:8080"
+</code></pre></div></div>
 
-<p>However, note that <code>--namelookup.latest.algo=leveldbtxcache</code> will be more reliable on many setups than the other algorithms, because of DNS timeouts.</p>
+<p>However, note that <code class="highlighter-rouge">--namelookup.latest.algo=leveldbtxcache</code> will be more reliable on many setups than the other algorithms, because of DNS timeouts.</p>
 
   </article>
 

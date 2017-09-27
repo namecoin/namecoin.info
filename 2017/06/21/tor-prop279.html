@@ -235,12 +235,6 @@ document.write(rand);
       <div class="container-fluid">
         
 
-    
-    
-        
-        
-    
-
 
 
 
@@ -307,9 +301,9 @@ document.write(rand);
 
 <p>Fixing the spec compliance and libdohj compatibility was implemented by using ncdns as a backend instead of directly talking to Namecoin Core.  Interestingly, I decided not to do anything Namecoin-specific with this tool.  It simply uses the DNS protocol to talk to ncdns, or any other DNS server you provide.  (So yes, that means that you could, in theory, use the DNS instead of Namecoin, without modifying this tool at all.)</p>
 
-<p>In order to work with the DNS protocol, some changes were made to how <code>.onion</code> domains are stored in Namecoin.  The existing convention is to use the <code>tor</code> field of a domain, which has no DNS mapping.  Instead, I’m using the <code>txt</code> field of the <code>_tor</code> subdomain of a domain.  This is consistent with existing practice in the DNS world.</p>
+<p>In order to work with the DNS protocol, some changes were made to how <code class="highlighter-rouge">.onion</code> domains are stored in Namecoin.  The existing convention is to use the <code class="highlighter-rouge">tor</code> field of a domain, which has no DNS mapping.  Instead, I’m using the <code class="highlighter-rouge">txt</code> field of the <code class="highlighter-rouge">_tor</code> subdomain of a domain.  This is consistent with existing practice in the DNS world.</p>
 
-<p>This tool is using Tor’s Prop279 Pluggable Naming protocol rather than the Tor controller API.  Right now <code>tor</code> (little-t) doesn’t implement Prop279.  To experiment with Prop279, <a href="https://github.com/meejah/torns">TorNS</a> is a useful way of simulating Prop279 support using the control port as a backend.  Unfortunately, TorNS’s license is unclear at the moment.  I’m in the process of checking with meejah (author of TorNS) to see if TorNS can be released under a free software license.  Until that minor bit of legalese is taken care of, the release of Namecoin resolution for Tor is on hold.</p>
+<p>This tool is using Tor’s Prop279 Pluggable Naming protocol rather than the Tor controller API.  Right now <code class="highlighter-rouge">tor</code> (little-t) doesn’t implement Prop279.  To experiment with Prop279, <a href="https://github.com/meejah/torns">TorNS</a> is a useful way of simulating Prop279 support using the control port as a backend.  Unfortunately, TorNS’s license is unclear at the moment.  I’m in the process of checking with meejah (author of TorNS) to see if TorNS can be released under a free software license.  Until that minor bit of legalese is taken care of, the release of Namecoin resolution for Tor is on hold.</p>
 
 <p>This development was funded by NLnet.</p>
 
