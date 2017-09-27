@@ -6,9 +6,9 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 27 Sep 2017 02:00:52 +0000</pubDate>
-    <lastBuildDate>Wed, 27 Sep 2017 02:00:52 +0000</lastBuildDate>
-    <generator>Jekyll v2.2.0</generator>
+    <pubDate>Wed, 27 Sep 2017 02:44:26 +0000</pubDate>
+    <lastBuildDate>Wed, 27 Sep 2017 02:44:26 +0000</lastBuildDate>
+    <generator>Jekyll v3.6.0</generator>
     
       <item>
         <title>ncdns v0.0.5 Released</title>
@@ -89,24 +89,24 @@
 
 &lt;h2 id=&quot;why-do-those-features-need-the-raw-transaction-api&quot;&gt;Why do those features need the raw transaction API?&lt;/h2&gt;
 
-&lt;p&gt;The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a &lt;code&gt;name_firstupdate&lt;/code&gt; transaction before its preceding &lt;code&gt;name_new&lt;/code&gt; transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.&lt;/p&gt;
+&lt;p&gt;The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction before its preceding &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.&lt;/p&gt;
 
 &lt;h2 id=&quot;whats-wrong-with-namecoin-cores-raw-transaction-api&quot;&gt;What’s wrong with Namecoin Core’s raw transaction API?&lt;/h2&gt;
 
-&lt;p&gt;It’s not raw enough!  First off, the only name transactions it can create are &lt;code&gt;name_update&lt;/code&gt;; it can’t create &lt;code&gt;name_new&lt;/code&gt; or &lt;code&gt;name_firstupdate&lt;/code&gt; transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create &lt;code&gt;name_update&lt;/code&gt; outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.&lt;/p&gt;
+&lt;p&gt;It’s not raw enough!  First off, the only name transactions it can create are &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt;; it can’t create &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.&lt;/p&gt;
 
 &lt;h2 id=&quot;how-are-we-fixing-this&quot;&gt;How are we fixing this?&lt;/h2&gt;
 
-&lt;p&gt;We’re making an API change.  Instead of trying to stuff name operation data into &lt;code&gt;createrawtransaction&lt;/code&gt;, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from &lt;code&gt;createrawtransaction&lt;/code&gt; and moving it to a new RPC call, &lt;code&gt;namerawtransaction&lt;/code&gt;.  The new workflow replaces the previous &lt;code&gt;createrawtransaction&lt;/code&gt; with two steps:&lt;/p&gt;
+&lt;p&gt;We’re making an API change.  Instead of trying to stuff name operation data into &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt;, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; and moving it to a new RPC call, &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt;.  The new workflow replaces the previous &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; with two steps:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Use &lt;code&gt;createrawtransaction&lt;/code&gt; just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.&lt;/li&gt;
-  &lt;li&gt;Use &lt;code&gt;namerawtransaction&lt;/code&gt; to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.&lt;/li&gt;
+  &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.&lt;/li&gt;
+  &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt; to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&quot;what-will-be-the-impact&quot;&gt;What will be the impact?&lt;/h2&gt;
 
-&lt;p&gt;Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your &lt;code&gt;createrawtransaction&lt;/code&gt;-using code so that it also calls &lt;code&gt;namerawtransaction&lt;/code&gt;.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.&lt;/p&gt;
+&lt;p&gt;Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt;-using code so that it also calls &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt;.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.&lt;/p&gt;
 
 &lt;h2 id=&quot;whos-involved-in-this-work&quot;&gt;Who’s involved in this work?&lt;/h2&gt;
 
@@ -136,7 +136,7 @@
         <title>BitcoinJ support merged into ncdns-nsis</title>
         <description>&lt;p&gt;The ncdns-nsis project, which provides a zero-configuration Windows installer
 for Namecoin domain name resolution functionality, has merged SPV support,
-implemented via BitcoinJ. This enables Windows machines to resolve &lt;code&gt;.bit&lt;/code&gt;
+implemented via BitcoinJ. This enables Windows machines to resolve &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt;
 domain names without having to download the full Namecoin chain.&lt;/p&gt;
 
 &lt;p&gt;Merging this functionality means that Namecoin domain names can be resolved on
@@ -148,7 +148,7 @@ issues are concluded.&lt;/p&gt;
 
 &lt;p&gt;To use the BitcoinJ client, run the ncdns-nsis installer and select the SPV
 option when asked whether to install a Namecoin node. Run BitcoinJ after
-installation and wait for synchronization to complete; &lt;code&gt;.bit&lt;/code&gt; name resolution
+installation and wait for synchronization to complete; &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; name resolution
 is then available.&lt;/p&gt;
 </description>
         <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
@@ -262,7 +262,7 @@ is then available.&lt;/p&gt;
       </item>
     
       <item>
-        <title>Namecoin&#39;s Jeremy Rand will be a speaker at GCER 2017</title>
+        <title>Namecoin's Jeremy Rand will be a speaker at GCER 2017</title>
         <description>&lt;p&gt;I will be speaking at the &lt;a href=&quot;https://new.gcer.net/&quot;&gt;2017 Global Conference on Educational Robotics&lt;/a&gt; (July 8-12, 2017).  For those of you unfamiliar with GCER, the audience is mostly a mix of middle school students, high school students, college students, and educators, most of whom are participating in the robotics competitions hosted at GCER (primarily Botball).  I competed in Botball (and the other 2 GCER competitions: KIPR Open and KIPR Aerial) between 2003 and 2015, and that experience (particularly the hacking aspect, which is actively encouraged in all three competitions) was a major factor in why I’m a Namecoin developer.  My talk is an outreach effort, which I hope will result in increased interest in the Botball scene in the areas of privacy, security, and human rights.  My talk (scheduled for July 10) is entitled “Making HTTPS and Anonymity Networks Slightly More Secure (Or: How I’m Using My Botball Skill Set in the Privacy/Security Field)”.&lt;/p&gt;
 
 &lt;p&gt;Huge thanks to KISS Institute for Practical Robotics (which organizes GCER) for suggesting that I give this talk.  Looking forward to it!&lt;/p&gt;

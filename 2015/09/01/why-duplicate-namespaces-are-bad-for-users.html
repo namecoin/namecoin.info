@@ -235,12 +235,6 @@ document.write(rand);
       <div class="container-fluid">
         
 
-    
-    
-        
-        
-    
-
 
 
 
@@ -375,23 +369,23 @@ document.write(rand);
 </header>
 
 <article class="post-content">
-<p>Every now and then, we’re approached by users who are asking about namespaces which duplicate functionality of the officially recommended namespaces.  Examples of these namespaces include <code>tor/</code>, <code>i2p/</code>, and <code>u/</code>.  We think these duplicate namespaces are harmful to end users.  This blog post will try to explain why duplicating functionality of existing namespaces is almost always a bad idea.</p>
+<p>Every now and then, we’re approached by users who are asking about namespaces which duplicate functionality of the officially recommended namespaces.  Examples of these namespaces include <code class="highlighter-rouge">tor/</code>, <code class="highlighter-rouge">i2p/</code>, and <code class="highlighter-rouge">u/</code>.  We think these duplicate namespaces are harmful to end users.  This blog post will try to explain why duplicating functionality of existing namespaces is almost always a bad idea.</p>
 
 <h2 id="background">Background</h2>
 
-<p>This whole thing seems to have started when someone noticed that the <code>d/</code> specification, which is used for domain names, only supported IP addresses.  This person thought it would be awesome to have DNS for Tor hidden services, and proposed a <code>tor/</code> namespace for such domains.  Someone else appears to have decided the same thing for I2P, and created an <code>i2p/</code> proposal.</p>
+<p>This whole thing seems to have started when someone noticed that the <code class="highlighter-rouge">d/</code> specification, which is used for domain names, only supported IP addresses.  This person thought it would be awesome to have DNS for Tor hidden services, and proposed a <code class="highlighter-rouge">tor/</code> namespace for such domains.  Someone else appears to have decided the same thing for I2P, and created an <code class="highlighter-rouge">i2p/</code> proposal.</p>
 
-<p>An alternative proposal was the <code>d/</code> 2.0 spec, which allowed <code>d/</code> names to map to Tor hidden services and I2P eepsites.  This is the proposal which is for the most part still widely used today.</p>
+<p>An alternative proposal was the <code class="highlighter-rouge">d/</code> 2.0 spec, which allowed <code class="highlighter-rouge">d/</code> names to map to Tor hidden services and I2P eepsites.  This is the proposal which is for the most part still widely used today.</p>
 
-<p>Why was <code>d/</code> 2.0 a better idea than starting 2 new namespaces?</p>
+<p>Why was <code class="highlighter-rouge">d/</code> 2.0 a better idea than starting 2 new namespaces?</p>
 
 <h2 id="duplicate-namespaces-attract-squatters">Duplicate Namespaces Attract Squatters</h2>
 
-<p>Imagine that <code>d/</code>, <code>tor/</code>, and <code>i2p/</code> are all common namespaces.  Let’s say that WikiLeaks is running an IPv4-based website using the name <code>d/wikileaks</code>.  Now let’s say that WikiLeaks wishes to offer a Tor hidden service for their website.  They now have to register a second name, <code>tor/wikileaks</code>.  Uh oh, seems a squatter saw that WikiLeaks had <code>d/wikileaks</code> and preemptively grabbed <code>tor/wikileaks</code> and <code>i2p/wikileaks</code> just in case WikiLeaks wanted those names.  Now WikiLeaks has to negotiate with a squatter, who potentially might be on the payroll of a government who wants to either cost WikiLeaks lots of money or impersonate it.</p>
+<p>Imagine that <code class="highlighter-rouge">d/</code>, <code class="highlighter-rouge">tor/</code>, and <code class="highlighter-rouge">i2p/</code> are all common namespaces.  Let’s say that WikiLeaks is running an IPv4-based website using the name <code class="highlighter-rouge">d/wikileaks</code>.  Now let’s say that WikiLeaks wishes to offer a Tor hidden service for their website.  They now have to register a second name, <code class="highlighter-rouge">tor/wikileaks</code>.  Uh oh, seems a squatter saw that WikiLeaks had <code class="highlighter-rouge">d/wikileaks</code> and preemptively grabbed <code class="highlighter-rouge">tor/wikileaks</code> and <code class="highlighter-rouge">i2p/wikileaks</code> just in case WikiLeaks wanted those names.  Now WikiLeaks has to negotiate with a squatter, who potentially might be on the payroll of a government who wants to either cost WikiLeaks lots of money or impersonate it.</p>
 
 <p>What’s the defense here?  The only defense is to preemptively register your name in <strong>all</strong> namespaces, just in case you want them later.</p>
 
-<p>Let’s say that in an alternate reality, WikiLeaks did exactly this, registering <code>d/wikileaks</code>, <code>tor/wikileaks</code>, and <code>i2p/wikileaks</code>.  Now let’s imagine that someone decides that CJDNS mesh networking would be nice to have with Namecoin’s domain names, and creates a cjdns/ namespace.  Well crap, now WikiLeaks is in a race with squatters to see who can grab cjdns/wikileaks first; if WikiLeaks fails, then they can’t ever use their name with CJDNS.</p>
+<p>Let’s say that in an alternate reality, WikiLeaks did exactly this, registering <code class="highlighter-rouge">d/wikileaks</code>, <code class="highlighter-rouge">tor/wikileaks</code>, and <code class="highlighter-rouge">i2p/wikileaks</code>.  Now let’s imagine that someone decides that CJDNS mesh networking would be nice to have with Namecoin’s domain names, and creates a cjdns/ namespace.  Well crap, now WikiLeaks is in a race with squatters to see who can grab cjdns/wikileaks first; if WikiLeaks fails, then they can’t ever use their name with CJDNS.</p>
 
 <p>Remember that the domain squatters probably expend much more time watching namespace proposals, since that’s basically their job.  WikiLeaks, on the other hand, probably is more worried about their whistleblower anonymity infrastructure than their choice of Namecoin namespaces.</p>
 
@@ -399,17 +393,17 @@ document.write(rand);
 
 <h2 id="duplicate-namespaces-break-users-security-assumptions">Duplicate Namespaces Break Users’ Security Assumptions</h2>
 
-<p>Imagine a situation where an end user hears from a trusted source that wikileaks.bit is a great place to submit documentation of government corruption.  wikileaks.bit uses the <code>d/</code> namespace.  But the end user doesn’t want to use clearnet, so she uses the <code>tor/</code> namespace instead, accessing the domain wikileaks.tor.  Note that she has just made the assumption that <code>d/wikileaks</code> and <code>tor/wikileaks</code> are operated by the same entity.  However, this is not the case.  The Namecoin network considers those two names to be entirely different things.  Imagine that <code>tor/wikileaks</code> is instead operated by a government agency (perhaps they bought it from a squatter).  Now our whistleblower is screwed.</p>
+<p>Imagine a situation where an end user hears from a trusted source that wikileaks.bit is a great place to submit documentation of government corruption.  wikileaks.bit uses the <code class="highlighter-rouge">d/</code> namespace.  But the end user doesn’t want to use clearnet, so she uses the <code class="highlighter-rouge">tor/</code> namespace instead, accessing the domain wikileaks.tor.  Note that she has just made the assumption that <code class="highlighter-rouge">d/wikileaks</code> and <code class="highlighter-rouge">tor/wikileaks</code> are operated by the same entity.  However, this is not the case.  The Namecoin network considers those two names to be entirely different things.  Imagine that <code class="highlighter-rouge">tor/wikileaks</code> is instead operated by a government agency (perhaps they bought it from a squatter).  Now our whistleblower is screwed.</p>
 
-<p>If duplicate namespaces are in use, the <strong>only</strong> way to verify that two names are controlled by the same entity is to inspect the name you trust, and see if it links to the other name.  For example, you could visit the website associated with <code>d/wikileaks</code>, and see if it mentions <code>tor/wikileaks</code>.  This, of course, is neither automatable nor secure in our whistleblower’s case.  Given how popular and successful phishing is, providing scammers with an easy way to break users’ security assumptions is an extremely bad enginering idea.</p>
+<p>If duplicate namespaces are in use, the <strong>only</strong> way to verify that two names are controlled by the same entity is to inspect the name you trust, and see if it links to the other name.  For example, you could visit the website associated with <code class="highlighter-rouge">d/wikileaks</code>, and see if it mentions <code class="highlighter-rouge">tor/wikileaks</code>.  This, of course, is neither automatable nor secure in our whistleblower’s case.  Given how popular and successful phishing is, providing scammers with an easy way to break users’ security assumptions is an extremely bad enginering idea.</p>
 
 <h2 id="consolidate-all-namespaces-with-common-use-cases">Consolidate All Namespaces with Common Use Cases</h2>
 
-<p>Let’s look instead at the <code>d/</code> 2.0 proposal.  It recognized that IP-based DNS, Tor-based DNS, and I2P-based DNS are all aiming at a common use case.  By creating new functionality as new fields of the <code>d/</code> namespace rather than new namespaces, the proposal makes sure that users of Namecoin DNS will be able to freely switch between IP, Tor, I2P, and any future system which may come along, without ever needing to register a new name.  This protects users from squatters and protects their security, both now and in the future.  (It also saves them money on name fees.)</p>
+<p>Let’s look instead at the <code class="highlighter-rouge">d/</code> 2.0 proposal.  It recognized that IP-based DNS, Tor-based DNS, and I2P-based DNS are all aiming at a common use case.  By creating new functionality as new fields of the <code class="highlighter-rouge">d/</code> namespace rather than new namespaces, the proposal makes sure that users of Namecoin DNS will be able to freely switch between IP, Tor, I2P, and any future system which may come along, without ever needing to register a new name.  This protects users from squatters and protects their security, both now and in the future.  (It also saves them money on name fees.)</p>
 
 <h2 id="your-options-when-a-namespace-spec-doesnt-meet-your-needs">Your Options When a Namespace Spec Doesn’t Meet Your Needs</h2>
 
-<p>Let’s say that you want to implement a new feature into an existing use case in Namecoin.  For example, maybe you wish the <code>id/</code> spec had some extra fields.  You have three options:</p>
+<p>Let’s say that you want to implement a new feature into an existing use case in Namecoin.  For example, maybe you wish the <code class="highlighter-rouge">id/</code> spec had some extra fields.  You have three options:</p>
 
 <ol>
   <li>Talk to the other Namecoin developers and propose a change to the spec. This is what we generally recommend, although we realize that in some cases this may be difficult if your project is confidential prior to launch.</li>
@@ -417,17 +411,17 @@ document.write(rand);
   <li>Make a new namespace for your specific fields, and disregard the existing namespace.  <strong>This is harmful; there is almost never a good reason to do this.</strong></li>
 </ol>
 
-<h2 id="the-u-namespace-exactly-how-not-to-approach-the-problem">The <code>u/</code> Namespace: Exactly How Not to Approach the Problem</h2>
+<h2 id="the-u-namespace-exactly-how-not-to-approach-the-problem">The <code class="highlighter-rouge">u/</code> Namespace: Exactly How Not to Approach the Problem</h2>
 
-<p>As far as we can tell, a for-profit company (whom we won’t name here) decided to start offering identity products using the Namecoin blockchain.  They didn’t like the structure of the <code>id/</code> spec.  So, did they talk to us?  Nope, we never heard of their product until after it launched (we first noticed their product because of a bunch of nonstandard names showing up in the blockchain).  Did they add some custom fields to <code>id/</code>?  Nope, they instead did the worst possible thing as listed above: they made their own namespace (<code>u/</code>) with identical use cases as the pre-existing <code>id/</code>.</p>
+<p>As far as we can tell, a for-profit company (whom we won’t name here) decided to start offering identity products using the Namecoin blockchain.  They didn’t like the structure of the <code class="highlighter-rouge">id/</code> spec.  So, did they talk to us?  Nope, we never heard of their product until after it launched (we first noticed their product because of a bunch of nonstandard names showing up in the blockchain).  Did they add some custom fields to <code class="highlighter-rouge">id/</code>?  Nope, they instead did the worst possible thing as listed above: they made their own namespace (<code class="highlighter-rouge">u/</code>) with identical use cases as the pre-existing <code class="highlighter-rouge">id/</code>.</p>
 
 <h2 id="the-squatting-argument-revisited">The Squatting Argument Revisited</h2>
 
-<p>While we’ve had difficulty reaching the team behind <code>u/</code> for an official statement, we are under the impression that one of their stated rationales for creating a new namespace was that <code>id/</code> was allegedly squatted too much.  This is a quite strange claim.  Creating a new namespace every time an existing namespace is heavily squatted will disrupt legitimate users of the existing namespace much more than it will disrupt squatters, even if a lot of the existing names are squatted.  It also is an inherently cyclic process, since squatters can grab a new namespace just as fast as the old namespace.  <strong>The correct way to disincentivise squatting (to the extent that it is a problem) is with changes to Namecoin’s fee structure.</strong></p>
+<p>While we’ve had difficulty reaching the team behind <code class="highlighter-rouge">u/</code> for an official statement, we are under the impression that one of their stated rationales for creating a new namespace was that <code class="highlighter-rouge">id/</code> was allegedly squatted too much.  This is a quite strange claim.  Creating a new namespace every time an existing namespace is heavily squatted will disrupt legitimate users of the existing namespace much more than it will disrupt squatters, even if a lot of the existing names are squatted.  It also is an inherently cyclic process, since squatters can grab a new namespace just as fast as the old namespace.  <strong>The correct way to disincentivise squatting (to the extent that it is a problem) is with changes to Namecoin’s fee structure.</strong></p>
 
 <h2 id="a-more-structured-spec">A “More Structured” Spec</h2>
 
-<p>Another commonly cited “advantage” of <code>u/</code> is that its JSON structure is allegedly better organized than that of <code>id/</code>.  <strong>This is not an adequate reason to start a new namespace.</strong>  Even if the <code>u/</code> team didn’t want to directly work with us, they could have simply used their incompatible spec with the <code>id/</code> namespace, and everything would have worked just fine.  End users who wanted to use both specs would have been subject to the slight annoyance of having to enter duplicate fields in their existing names, but this would be infinitely better than needing a new name.</p>
+<p>Another commonly cited “advantage” of <code class="highlighter-rouge">u/</code> is that its JSON structure is allegedly better organized than that of <code class="highlighter-rouge">id/</code>.  <strong>This is not an adequate reason to start a new namespace.</strong>  Even if the <code class="highlighter-rouge">u/</code> team didn’t want to directly work with us, they could have simply used their incompatible spec with the <code class="highlighter-rouge">id/</code> namespace, and everything would have worked just fine.  End users who wanted to use both specs would have been subject to the slight annoyance of having to enter duplicate fields in their existing names, but this would be infinitely better than needing a new name.</p>
 
 <h2 id="decentralization">“Decentralization”</h2>
 
@@ -435,7 +429,7 @@ document.write(rand);
 
 <h2 id="where-from-here">Where From Here?</h2>
 
-<p>The <code>u/</code> team has gotten themselves into a potentially bad situation, since now if they wish to move to <code>id/</code>, they’ll have to race against squatters: precisely the reason why we don’t recommend changing namespaces in the first place.  We have limited sympathy for this predicament, since this could have easily been averted had they not created <code>u/</code> in the first place.  This has resulted in unnecessary trouble for end users, and we hope that a good resolution can be found.</p>
+<p>The <code class="highlighter-rouge">u/</code> team has gotten themselves into a potentially bad situation, since now if they wish to move to <code class="highlighter-rouge">id/</code>, they’ll have to race against squatters: precisely the reason why we don’t recommend changing namespaces in the first place.  We have limited sympathy for this predicament, since this could have easily been averted had they not created <code class="highlighter-rouge">u/</code> in the first place.  This has resulted in unnecessary trouble for end users, and we hope that a good resolution can be found.</p>
 
 </article>
 

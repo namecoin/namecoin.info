@@ -235,15 +235,6 @@ document.write(rand);
       <div class="container-fluid">
         
 
-    
-    
-        
-        
-    
-        
-        
-    
-
 
 
 
@@ -362,7 +353,7 @@ document.write(rand);
 
 <p>You can download it at the <a href="/download/betas/">Beta Downloads</a> page.  Once installed, it’s basically a drop-in replacement for Namecoin Core for any application that does name lookups (such as ncdns).  Test reports are greatly appreciated so that we can do a proper release sooner.</p>
 
-<p>Initial syncup using a residential clearnet cable modem connection takes between 5 minutes and 10 minutes, depending on the settings.  (It is probably feasible to improve this.)  Lookup latency for <code>name_show</code> varies from 2 seconds to 4 milliseconds, depending on the settings.  (It is also probably feasible to improve this.)</p>
+<p>Initial syncup using a residential clearnet cable modem connection takes between 5 minutes and 10 minutes, depending on the settings.  (It is probably feasible to improve this.)  Lookup latency for <code class="highlighter-rouge">name_show</code> varies from 2 seconds to 4 milliseconds, depending on the settings.  (It is also probably feasible to improve this.)</p>
 
 <p>This work wouldn’t have been possible without the work of some very awesome people whom I need to thank.</p>
 
@@ -374,7 +365,7 @@ document.write(rand);
 
 <p>Remember: this is a beta, <em>for testing purposes only</em>.  Don’t use this for situations where incorrect name responses could lead to results that you aren’t willing to accept.</p>
 
-<p>In addition, some notes about security.  SPV protects you from being served expired name data, and protects you from being served unexpired name data that isn’t part of the longest chain.  However, the SPV modes other than <code>leveldbtxcache</code> (see the documentation) don’t protect you from being served outdated name data that hasn’t yet expired, nor does it protect you from being served false nonexistence responses, nor does it protect you from someone logging which names you look up.  We made an intentional design decision to trust webbtc.com here, rather than the Namecoin P2P network, because the P2P network is unauthenticated, trivially easy to wiretap, and trivially easy to Sybil.  <code>leveldbtxcache</code> mode avoids these isues, although it takes about twice as long to synchronize.  We have plans to add further improvements in these areas as well.  SPV also doesn’t protect you from attackers with a large amount of hashpower.  As with Bitcoin, a major reason that miners can’t easily attack end users is because there are enough full nodes on the network to keep the miners honest.  If you have the ability to run Namecoin Core (syncup time of a few hours, and a few GB of storage), you should do so – you’ll have better security for yourself, and you’ll be improving the security of other users who can’t run a full node.</p>
+<p>In addition, some notes about security.  SPV protects you from being served expired name data, and protects you from being served unexpired name data that isn’t part of the longest chain.  However, the SPV modes other than <code class="highlighter-rouge">leveldbtxcache</code> (see the documentation) don’t protect you from being served outdated name data that hasn’t yet expired, nor does it protect you from being served false nonexistence responses, nor does it protect you from someone logging which names you look up.  We made an intentional design decision to trust webbtc.com here, rather than the Namecoin P2P network, because the P2P network is unauthenticated, trivially easy to wiretap, and trivially easy to Sybil.  <code class="highlighter-rouge">leveldbtxcache</code> mode avoids these isues, although it takes about twice as long to synchronize.  We have plans to add further improvements in these areas as well.  SPV also doesn’t protect you from attackers with a large amount of hashpower.  As with Bitcoin, a major reason that miners can’t easily attack end users is because there are enough full nodes on the network to keep the miners honest.  If you have the ability to run Namecoin Core (syncup time of a few hours, and a few GB of storage), you should do so – you’ll have better security for yourself, and you’ll be improving the security of other users who can’t run a full node.</p>
 
 <p>Have fun testing!</p>
 
