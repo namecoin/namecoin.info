@@ -290,6 +290,10 @@ document.write(rand);
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2017/09/30/firefox-tls-webext.html">2017-09-30</a></strong> As I <a href="/2017/09/24/firefox-tls-cpp.html">mentioned earlier</a>, I’ve been hacking on a fork of Firefox that exposes an API for positive and negative certificate verification overrides.  When I last posted, I had gotten this working from the C++ end (assuming that a highly hacky and unclean piece of code counts as “working”).  I’ve now created a WebExtensions Experiment that exposes the positive override portion of this API to WebExtensions.  (Negative overrides are likely to be basically identical in code structure, I just haven’t gotten to it yet.)</p>
+
+<p><a href="/2017/09/30/firefox-tls-webext.html">Read more…</a></p>
+
 <p><strong><a href="/2017/09/28/raw-tx-api-registration.html">2017-09-28</a></strong> The refactorings to the raw transaction API that I <a href="/2017/09/13/raw-tx-api-refactoring.html">mentioned earlier</a> have been merged to Namecoin Core’s master branch.  I’ve been doing some experiments with it, and I used it to successfully register a name on a regtest network with only one unlock of my wallet (which covered both the <code class="highlighter-rouge">name_new</code> and <code class="highlighter-rouge">name_firstupdate</code> operations).</p>
 
 <p><a href="/2017/09/28/raw-tx-api-registration.html">Read more…</a></p>
@@ -328,10 +332,6 @@ domain names without having to download the full Namecoin chain.</p>
 <p><strong><a href="/2017/07/28/qcon-london-case-study-video.html">2017-07-28</a></strong> InfoQ has posted <a href="https://www.infoq.com/presentations/namecoin-monero">the recording of my talk, Case Study: Alternate Blockchains</a> at QCon London 2017.</p>
 
 <p><a href="/2017/07/28/qcon-london-case-study-video.html">Read more…</a></p>
-
-<p><strong><a href="/2017/07/07/libretorns-merged-upstream.html">2017-07-07</a></strong> Generally I’m of the opinion that it’s better to get patches to other people’s projects merged upstream whenever feasible; accordingly I submitted the LibreTorNS patches upstream.  Happily, meejah has merged the LibreTorNS patches to <a href="https://github.com/meejah/torns">upstream TorNS</a>.  That means LibreTorNS is now obsolete, and you should use meejah’s upstream TorNS for testing dns-prop279 going forward.</p>
-
-<p><a href="/2017/07/07/libretorns-merged-upstream.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

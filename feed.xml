@@ -6,9 +6,34 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Sep 2017 06:27:46 +0000</pubDate>
-    <lastBuildDate>Thu, 28 Sep 2017 06:27:46 +0000</lastBuildDate>
+    <pubDate>Sat, 30 Sep 2017 17:31:08 +0000</pubDate>
+    <lastBuildDate>Sat, 30 Sep 2017 17:31:08 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin TLS for Firefox: Phase 2 (Overrides in a WebExtension)</title>
+        <description>&lt;p&gt;As I &lt;a href=&quot;/2017/09/24/firefox-tls-cpp.html&quot;&gt;mentioned earlier&lt;/a&gt;, I’ve been hacking on a fork of Firefox that exposes an API for positive and negative certificate verification overrides.  When I last posted, I had gotten this working from the C++ end (assuming that a highly hacky and unclean piece of code counts as “working”).  I’ve now created a WebExtensions Experiment that exposes the positive override portion of this API to WebExtensions.  (Negative overrides are likely to be basically identical in code structure, I just haven’t gotten to it yet.)&lt;/p&gt;
+
+&lt;p&gt;But wait, what’s a WebExtensions Experiment?  As you may know, Mozilla deprecated the extension model that’s been used since Firefox was created, in favor of a new model called WebExtensions, which is more cleanly segregated from the internals of Firefox.  This has some advantages: it means that WebExtensions can have a permission model rather than being fully trusted with the Firefox internals, and it also means that Firefox internals can change without requiring WebExtensions to adapt.  However, it also means that WebExtensions are significantly more limited in what they can do compared to old-style Firefox extensions.  WebExtensions Experiments are a bridge between the Firefox internals and WebExtensions.  WebExtensions Experiments are old-style Firefox extensions that happen to expose a WebExtensions API.  WebExtensions Experiments have all the low-level access that old-style Firefox extensions had; among other things, this means I can access my C++ API from a WebExtensions Experiment written in JavaScript, and expose an API to WebExtensions that allows them to indirectly access my C++ API.&lt;/p&gt;
+
+&lt;p&gt;Creating the WebExtensions Experiment was relatively straightforward, given my prior experience with nczilla (remember, a WebExtensions Experiment is mostly just a standard old-style Firefox extension, like nczilla was).  I also created a proof-of-concept WebExtension that uses this API to make “Untrusted” errors be ignored.  While I was doing this, I also kept track of performance.  And therein lies the current problem.  When the Experiment simply returns an override without asking the WebExtension, the added overhead is generally 2 ms in the worst case (and often it’s much less than 1 ms).  Unfortunately, Experiments and WebExtensions run in separate threads, and the thread synchronization required to get them to communicate increases the overhead by an order of magnitude: the worst-case overhead is around 20 ms (and it’s very rarely less than 6 ms).&lt;/p&gt;
+
+&lt;p&gt;My assumption was that there was no way Mozilla would be merging this with that kind of performance issue; this assumption was confirmed by David Keeler from Mozilla.&lt;/p&gt;
+
+&lt;p&gt;On the bright side, it looks like there are several options for communicating between threads that should have lower latency (something like 1-2 ms overhead, assuming that documentation is accurate).  So I’ll be investigating those in the next week or two.&lt;/p&gt;
+
+&lt;p&gt;As an interesting side note, Mozilla informs me that the current method I’m using to communicate between threads shouldn’t be working at all.  I’m not sure why it’s working when they say it shouldn’t, but in any event it’s probably a Very Bad Thing ™ to be using patterns that Mozilla doesn’t expect to work at all, even without the latency issue (since such patterns might break in the future, which I certainly don’t want).&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 30 Sep 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/09/30/firefox-tls-webext.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/09/30/firefox-tls-webext.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Registering Names with the Raw Transaction API</title>
@@ -261,21 +286,6 @@ is then available.&lt;/p&gt;
         <pubDate>Fri, 28 Jul 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/07/28/qcon-london-case-study-video.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/07/28/qcon-london-case-study-video.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>LibreTorNS Merged to Upstream TorNS</title>
-        <description>&lt;p&gt;Generally I’m of the opinion that it’s better to get patches to other people’s projects merged upstream whenever feasible; accordingly I submitted the LibreTorNS patches upstream.  Happily, meejah has merged the LibreTorNS patches to &lt;a href=&quot;https://github.com/meejah/torns&quot;&gt;upstream TorNS&lt;/a&gt;.  That means LibreTorNS is now obsolete, and you should use meejah’s upstream TorNS for testing dns-prop279 going forward.&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to meejah for accepting the patch!  Also thanks to meejah for the code review – there was a bug hiding in my initial submitted patch, which is one of the reasons I always prefer getting things reviewed by upstream.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 07 Jul 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/07/07/libretorns-merged-upstream.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/07/07/libretorns-merged-upstream.html</guid>
         
         <category>News</category>
         
