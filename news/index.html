@@ -214,20 +214,7 @@ html.nojs .navbar-header {
 
 </header>
 
-<div id="fancy-graphic"><div class="container-fluid"><p>
-<script type="text/javascript">
-var taglines = [
-    '<strong>In information</strong><br />we <strong>trust</strong>.',
-    'A <strong>trust anchor</strong><br />for the Internet.',
-    '<strong>Against<br />censorship.</strong>',
-    '<strong>Supporting<br />free speech.</strong>',
-    'Decentralized<br /><strong>secure</strong> names.',
-    '<b>Decentralize</b><br>all the things!',
-    '<b>Freedom</b><br>of information.'
-    ];
-var rand = taglines[Math.floor(Math.random() * taglines.length)];
-document.write(rand);
-</script>
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 </p></div></div>
 
 
@@ -241,6 +228,31 @@ document.write(rand);
 
   <article class="post-content">
     
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</h1>
+    <p class="post-meta">Oct 7, 2017 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>I <a href="/2017/09/30/firefox-tls-webext.html">recently mentioned</a> performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:</p>
+
+    <ol>
+  <li>I initially observed the performance issues in a Fedora VM inside Qubes.  I decided on a hunch to try the same code on a Fedora live ISO running on bare metal, and the worst-case latency decreased from ~20 ms to ~6 ms.  The spread also decreased a lot.  I can think of lots of reasons why Qubes might have caused performance issues, e.g. the use of CPU paravirtualization, the I/O overhead associated with Xen, the limit on logical CPU cores inside the VM, the use of memory ballooning, competition from other VM’s for memory and CPU, and probably lots of other reasons.  In any event, my opinion is that the fault here lies in Qubes, not my code.</li>
+  <li>The Firefox JavaScript JIT seems to improve performance of the WebExtensions Experiment and of the WebExtension each time it runs.  After running the same code (on bare-metal Fedora) against 6 different certificates, the latency decreased from ~6 ms to ~1 ms, and it was still monotonically decreasing at the 6th cert.  Testing this code with many repeats is tricky, because it caches validation results per host+certificate pair, and I don’t have a large supply of invalid certificates to test with.</li>
+</ol>
+
+    <p>The happy side effect of this debugging is that my current code is now quite a lot closer to Mozilla’s standard usage patterns, since I spent a lot of time trying to figure out whether something that I was deviating from Mozilla on was responsible for the latency.  Huge thanks to Andrew Swan from Mozilla for providing lots of useful tips in this area.</p>
+
+    <p>I believe that there are still several optimizations that could be made to this code, but for now I’m reasonably satisfied with the performance.  (Whether Mozilla will want further optimization is unclear; I’ll ask them later.)  My next step will be to set up negative overrides in the WebExtensions Experiment and the WebExtension.  After that, I’ll be looking into actually making the WebExtension ask Namecoin for the cert data (instead of returning dummy data).  Then comes code cleanup, code optimizations, and a patch submission to Mozilla.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
 <div class="post">
 
   <header class="post-header">

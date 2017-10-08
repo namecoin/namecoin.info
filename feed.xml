@@ -6,9 +6,33 @@
 </description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 30 Sep 2017 17:31:08 +0000</pubDate>
-    <lastBuildDate>Sat, 30 Sep 2017 17:31:08 +0000</lastBuildDate>
+    <pubDate>Sun, 08 Oct 2017 02:14:14 +0000</pubDate>
+    <lastBuildDate>Sun, 08 Oct 2017 02:14:14 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</title>
+        <description>&lt;p&gt;I &lt;a href=&quot;/2017/09/30/firefox-tls-webext.html&quot;&gt;recently mentioned&lt;/a&gt; performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;I initially observed the performance issues in a Fedora VM inside Qubes.  I decided on a hunch to try the same code on a Fedora live ISO running on bare metal, and the worst-case latency decreased from ~20 ms to ~6 ms.  The spread also decreased a lot.  I can think of lots of reasons why Qubes might have caused performance issues, e.g. the use of CPU paravirtualization, the I/O overhead associated with Xen, the limit on logical CPU cores inside the VM, the use of memory ballooning, competition from other VM’s for memory and CPU, and probably lots of other reasons.  In any event, my opinion is that the fault here lies in Qubes, not my code.&lt;/li&gt;
+  &lt;li&gt;The Firefox JavaScript JIT seems to improve performance of the WebExtensions Experiment and of the WebExtension each time it runs.  After running the same code (on bare-metal Fedora) against 6 different certificates, the latency decreased from ~6 ms to ~1 ms, and it was still monotonically decreasing at the 6th cert.  Testing this code with many repeats is tricky, because it caches validation results per host+certificate pair, and I don’t have a large supply of invalid certificates to test with.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The happy side effect of this debugging is that my current code is now quite a lot closer to Mozilla’s standard usage patterns, since I spent a lot of time trying to figure out whether something that I was deviating from Mozilla on was responsible for the latency.  Huge thanks to Andrew Swan from Mozilla for providing lots of useful tips in this area.&lt;/p&gt;
+
+&lt;p&gt;I believe that there are still several optimizations that could be made to this code, but for now I’m reasonably satisfied with the performance.  (Whether Mozilla will want further optimization is unclear; I’ll ask them later.)  My next step will be to set up negative overrides in the WebExtensions Experiment and the WebExtension.  After that, I’ll be looking into actually making the WebExtension ask Namecoin for the cert data (instead of returning dummy data).  Then comes code cleanup, code optimizations, and a patch submission to Mozilla.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/10/07/firefox-tls-latency.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/10/07/firefox-tls-latency.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin TLS for Firefox: Phase 2 (Overrides in a WebExtension)</title>
@@ -271,23 +295,6 @@ is then available.&lt;/p&gt;
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>QCon London 2017 Video: Case Study: Alternate Blockchains</title>
-        <description>&lt;p&gt;InfoQ has posted &lt;a href=&quot;https://www.infoq.com/presentations/namecoin-monero&quot;&gt;the recording of my talk, Case Study: Alternate Blockchains&lt;/a&gt; at QCon London 2017.&lt;/p&gt;
-
-&lt;p&gt;The videos on the InfoQ website do not appear to work when Javascript is disabled.  Security-conscious users who prefer not to enable Javascript can view the video via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/QCon_London_2017/Namecoin_QCon_London_2017.pdf&quot;&gt;My slides are available here.&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 28 Jul 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/07/28/qcon-london-case-study-video.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/07/28/qcon-london-case-study-video.html</guid>
-        
-        <category>News</category>
         
         
       </item>
