@@ -214,20 +214,7 @@ html.nojs .navbar-header {
 
 </header>
 
-<div id="fancy-graphic"><div class="container-fluid"><p>
-<script type="text/javascript">
-var taglines = [
-    '<strong>In information</strong><br />we <strong>trust</strong>.',
-    'A <strong>trust anchor</strong><br />for the Internet.',
-    '<strong>Against<br />censorship.</strong>',
-    '<strong>Supporting<br />free speech.</strong>',
-    'Decentralized<br /><strong>secure</strong> names.',
-    '<b>Decentralize</b><br>all the things!',
-    '<b>Freedom</b><br>of information.'
-    ];
-var rand = taglines[Math.floor(Math.random() * taglines.length)];
-document.write(rand);
-</script>
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 </p></div></div>
 
 
@@ -290,6 +277,10 @@ document.write(rand);
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2017/10/07/firefox-tls-latency.html">2017-10-07</a></strong> I <a href="/2017/09/30/firefox-tls-webext.html">recently mentioned</a> performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:</p>
+
+<p><a href="/2017/10/07/firefox-tls-latency.html">Read more…</a></p>
+
 <p><strong><a href="/2017/09/30/firefox-tls-webext.html">2017-09-30</a></strong> As I <a href="/2017/09/24/firefox-tls-cpp.html">mentioned earlier</a>, I’ve been hacking on a fork of Firefox that exposes an API for positive and negative certificate verification overrides.  When I last posted, I had gotten this working from the C++ end (assuming that a highly hacky and unclean piece of code counts as “working”).  I’ve now created a WebExtensions Experiment that exposes the positive override portion of this API to WebExtensions.  (Negative overrides are likely to be basically identical in code structure, I just haven’t gotten to it yet.)</p>
 
 <p><a href="/2017/09/30/firefox-tls-webext.html">Read more…</a></p>
@@ -328,10 +319,6 @@ domain names without having to download the full Namecoin chain.</p>
 <p><strong><a href="/2017/08/03/tls-for-chromium-windows-released.html">2017-08-03</a></strong> After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the <a href="/download/betas/">Beta Downloads page</a>.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.</p>
 
 <p><a href="/2017/08/03/tls-for-chromium-windows-released.html">Read more…</a></p>
-
-<p><strong><a href="/2017/07/28/qcon-london-case-study-video.html">2017-07-28</a></strong> InfoQ has posted <a href="https://www.infoq.com/presentations/namecoin-monero">the recording of my talk, Case Study: Alternate Blockchains</a> at QCon London 2017.</p>
-
-<p><a href="/2017/07/28/qcon-london-case-study-video.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

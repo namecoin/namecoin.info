@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin's Jeremy Rand will be a speaker at QCon London 2017</title>
+    <title>Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/03/03/qcon-london.html">
+    <link rel="canonical" href="https://namecoin.org//2017/10/07/firefox-tls-latency.html">
 </head>
 
 
@@ -228,131 +228,138 @@ html.nojs .navbar-header {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin's Jeremy Rand will be a speaker at QCon London 2017</h1>
-<p class="post-meta">Mar 3, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</h1>
+<p class="post-meta">Oct 7, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>As a result of an invitation from Riccardo Spagni (AKA fluffypony of <a href="https://getmonero.org/">Monero</a>), I will be speaking at the “Practical Cryptography &amp; Blockchains: Beyond the Hype” track at <a href="https://qconlondon.com/">QCon London 2017</a> (March 6-8 2017).  My talk is entitled “Case Study: Alternate Blockchains”.  I will also be on a panel discussion alongside Paul Sztorc, David Vorick, Elaine Ou, Peter Todd, and Riccardo Spagni.</p>
+<p>I <a href="/2017/09/30/firefox-tls-webext.html">recently mentioned</a> performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:</p>
 
-<p>My understanding is that a video of my talk will be published by QCon.  Assuming that that’s correct, I will post a link here when it’s available.</p>
+<ol>
+  <li>I initially observed the performance issues in a Fedora VM inside Qubes.  I decided on a hunch to try the same code on a Fedora live ISO running on bare metal, and the worst-case latency decreased from ~20 ms to ~6 ms.  The spread also decreased a lot.  I can think of lots of reasons why Qubes might have caused performance issues, e.g. the use of CPU paravirtualization, the I/O overhead associated with Xen, the limit on logical CPU cores inside the VM, the use of memory ballooning, competition from other VM’s for memory and CPU, and probably lots of other reasons.  In any event, my opinion is that the fault here lies in Qubes, not my code.</li>
+  <li>The Firefox JavaScript JIT seems to improve performance of the WebExtensions Experiment and of the WebExtension each time it runs.  After running the same code (on bare-metal Fedora) against 6 different certificates, the latency decreased from ~6 ms to ~1 ms, and it was still monotonically decreasing at the 6th cert.  Testing this code with many repeats is tricky, because it caches validation results per host+certificate pair, and I don’t have a large supply of invalid certificates to test with.</li>
+</ol>
 
-<p>Huge thanks to Riccardo for inviting me, and to the QCon organizers for putting on the conference and covering my travel expenses.  Looking forward to it!</p>
+<p>The happy side effect of this debugging is that my current code is now quite a lot closer to Mozilla’s standard usage patterns, since I spent a lot of time trying to figure out whether something that I was deviating from Mozilla on was responsible for the latency.  Huge thanks to Andrew Swan from Mozilla for providing lots of useful tips in this area.</p>
+
+<p>I believe that there are still several optimizations that could be made to this code, but for now I’m reasonably satisfied with the performance.  (Whether Mozilla will want further optimization is unclear; I’ll ask them later.)  My next step will be to set up negative overrides in the WebExtensions Experiment and the WebExtension.  After that, I’ll be looking into actually making the WebExtension ask Namecoin for the cert data (instead of returning dummy data).  Then comes code cleanup, code optimizations, and a patch submission to Mozilla.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -460,7 +467,7 @@ html.nojs .navbar-header {
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-03-03-qcon-london.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-10-07-firefox-tls-latency.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
