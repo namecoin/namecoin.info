@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Namecoin TLS for Firefox: Phase 4 (Fun with Threads)</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2017/10/10/firefox-tls-threads.html">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                            <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/donate/">Donate</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Namecoin TLS for Firefox: Phase 4 (Fun with Threads)</h1>
+<p class="post-meta">Oct 10, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In <a href="/2017/09/30/firefox-tls-webext.html">Phase 2</a> of Namecoin TLS for Firefox, I mentioned that negative certificate verification overrides were expected to be near-identical in code structure to the positive overrides that I had implemented.  However, as is par for the course, Murphy’s Law decided to rear its head (but Murphy has been defeated for now).</p>
+
+<p>The specific issue I encountered is that while positive overrides are called from the main thread of Firefox, negative overrides are called from a thread dedicated to certificate verification.  WebExtensions Experiments always run on the main thread.  This means that the naive way of accessing an Experiment from the C++ function that would handle negative overrides causes Firefox to crash when it detects that the Experiment is being called from the wrong thread.</p>
+
+<p>Luckily, I had recently gained some experience doing synchronous cross-thread calls (it’s how the Experiment calls the WebExtension), and converting that approach from JavaScript to C++ wasn’t incredibly difficult.  (The only irritating part was that the Mozilla wiki’s C++ sample code for this hasn’t been updated for years, and Mozilla’s API has made a change since then that makes the sample code fail to compile.  It wasn’t too hard to figure out what was broken, though.)</p>
+
+<p>After doing this, I was able to get my WebExtensions Experiment to trigger negative certificate verification overrides.</p>
+
+<p>Meanwhile, I talked with David Keeler from Mozilla some more about performance, and it became clear that some additional latency optimizations beyond <a href="/2017/10/07/firefox-tls-latency.html">Phase 3</a> were going to be highly desirable.  So, I started optimizing.</p>
+
+<p>The biggest bottleneck in my codebase was that basically everything was synchronous.  That means that Firefox verifies the certificate according to its normal rules, and only then passes the certificate to my WebExtensions Experiment and has to wait for the Experiment to reply before Firefox can proceed.  Similarly, the WebExtensions Experiment has to wait for the WebExtension to reply before the Experiment can reply to Firefox.  This means 2 layers of cross-thread synchronous calls, one of which is entirely in JavaScript (and is therefore less efficient).</p>
+
+<p>The natural solution is to try to make things asynchronous.  I decided to start with making the Experiment’s communication with the WebExtension asynchronous.  This works by adding a new non-blocking function to the Experiment (called from C++), which simply notifies it that a new certificate has been seen.  This is called immediately after Firefox passes the certificate to its internal certificate verifier (and before Firefox’s verification happens), which allows the Experiment and the WebExtension to work in parallel to Firefox’s certificate verifier.  When the WebExtension concludes whether an override is warranted, it notifies the Experiment, which stores the result in a cache (right now this cache is a memory leak; periodically clearing old entries in the cache is on the to-do list).</p>
+
+<p>Once Firefox has finished verifying the certificate, it asks the Experiment for the override decision, but now the Experiment is likely to already have the required data (or at least be a lot closer to having it).  The C++ to Experiment cross-thread call is still synchronous (for now), but the impact on overall latency is greatly reduced.</p>
+
+<p>Unfortunately, at this point Murphy decided he wanted a rematch.  My code was consistently crashing Firefox sometime between the C++ code issuing a call to the Experiment and the Experiment receiving the call.  I guessed that this was a thread safety issue (Mozilla doesn’t guarantee that the socket info or certificate objects are thread-safe).  And indeed, once I modified my C++ code to duplicate the relevant data rather than passing a pointer to a thread, this was fixed.  Murphy didn’t go away without a fight though – it looks like Mozilla’s pointer objects also aren’t thread-safe, so I needed to use a regular C++ pointer instead of Mozilla’s smart pointers.  (For now, that means that my code has a small memory leak.  Obviously that will be fixed later.)</p>
+
+<p>After doing all of the above, I decided to check performance.  On both my Qubes installation and my bare-metal Fedora live system, the latency from positive overrides is now greatly reduced.  Below are graphs of the latency added by positive overrides on my bare-metal Fedora live system:</p>
+
+<object data="/data/webextensions-latency/2017-10-07/graph-uncached.svg" type="application/svg+xml"><img src="/data/webextensions-latency/2017-10-07/graph-uncached.png" /></object>
+
+<object data="/data/webextensions-latency/2017-10-07/graph-cached.svg" type="application/svg+xml"><img src="/data/webextensions-latency/2017-10-07/graph-cached.png" /></object>
+
+<p>The graphs appear to show a noticeable speedup over time.  Part of this is likely to be attributable to the JavaScript JIT warming up.  Another part of it may be an artifact of the script I used to make Firefox verify the certificates: I first did 3 batches of 5 certs, then a batch of 10 certs, then a batch of 20 certs, for a total of 45 certificate verifications.  The graphs also show that certificates that were previously cached tended to verify faster; this is because the cache is located in the Experiment rather than the WebExtension, which eliminates a cross-thread call.</p>
+
+<p>You can also take a look at the raw data used to generate these graphs <a href="/data/webextensions-latency/2017-10-07/raw-data.ods">in OpenDocument spreadsheet format</a> or <a href="/data/webextensions-latency/2017-10-07/raw-data.html">in HTML format</a>.  This also includes percentile analysis, as well as data roughly corresponding to <a href="https://mzl.la/2hJH2Am">Mozilla’s telemetry on how long certificate verification takes right now</a>.  Although measurements on my Fedora system and from Mozilla telemetry aren’t directly comparable, it is noteworthy that the median overhead introduced by my changes is about 9% of the median certificate verification time measured by Mozilla telemetry.</p>
+
+<p>It should be noted that this data is not intended to be scientifically reproducible; there are likely to be differences between setups that could impact the latency significantly, and I made no effort to control for or document such differences.  That said, it’s likely to be a useful indicator of how well we’re doing.  My opinion is that this is much, much closer to a performance impact that Mozilla would plausibly be willing to merge, compared to the performance before this optimization.  However, additional work is still warranted.  (And, of course, it’s Mozilla’s opinion, not mine, that matters here!)</p>
+
+<p>There are 2 additional major optimizations that I intend to do (which aren’t yet started):</p>
+
+<ol>
+  <li>Make the C++ to Experiment calls asynchronous.  This way, the C++ code doesn’t need to issue a synchronous cross-thread call to retrieve the override data from the Experiment.</li>
+  <li>Add an extra asynchronous call that lets Firefox notify the Experiment and the WebExtension as soon as it knows that a TLS handshake is likely to occur soon for a given domain name.  In Namecoin’s case, this gives the WebExtension a chance to ask ncdns for the correct certificate before Firefox even begins the TLS handshake.  That way, by the time the observed certificate gets passed to the WebExtension, it will be likely to already know how to verify it.</li>
+</ol>
+
+<p>At this point I’m not 100% certain whether I’ll choose to do more optimization next, or if I’ll focus on hooking the WebExtension into ncdns.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-10-10-firefox-tls-threads.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
