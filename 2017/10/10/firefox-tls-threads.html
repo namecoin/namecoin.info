@@ -256,9 +256,9 @@ html.nojs .navbar-header {
 
 <p>After doing all of the above, I decided to check performance.  On both my Qubes installation and my bare-metal Fedora live system, the latency from positive overrides is now greatly reduced.  Below are graphs of the latency added by positive overrides on my bare-metal Fedora live system:</p>
 
-<object data="/data/webextensions-latency/2017-10-07/graph-uncached.svg" type="image/svg+xml"><img src="/data/webextensions-latency/2017-10-07/graph-uncached.png" /></object>
+<p><img src="/data/webextensions-latency/2017-10-07/graph-uncached.png" /></p>
 
-<object data="/data/webextensions-latency/2017-10-07/graph-cached.svg" type="image/svg+xml"><img src="/data/webextensions-latency/2017-10-07/graph-cached.png" /></object>
+<p><img src="/data/webextensions-latency/2017-10-07/graph-cached.png" /></p>
 
 <p>The graphs appear to show a noticeable speedup over time.  Part of this is likely to be attributable to the JavaScript JIT warming up.  Another part of it may be an artifact of the script I used to make Firefox verify the certificates: I first did 3 batches of 5 certs, then a batch of 10 certs, then a batch of 20 certs, for a total of 45 certificate verifications.  The graphs also show that certificates that were previously cached tended to verify faster; this is because the cache is located in the Experiment rather than the WebExtension, which eliminates a cross-thread call.</p>
 
