@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin & Retail Usage</title>
+    <title>Namecoin TLS for Firefox: Phase 5 (Moving the Override Cache to C++)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2014/09/21/retail-usage.html">
+    <link rel="canonical" href="https://namecoin.org//2017/10/29/firefox-tls-moving-cache-cpp.html">
 </head>
 
 
@@ -231,215 +231,257 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin & Retail Usage</h1>
-<p class="post-meta">Sep 21, 2014 • Namecoin Developers <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin TLS for Firefox: Phase 5 (Moving the Override Cache to C++)</h1>
+<p class="post-meta">Oct 29, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Well-meaning investors have been pushing for various currency-related use cases for Namecoin such as ATMs, acceptance at retailers, etc.  The core development team sees these efforts as benign but generally do not expend time nor funds on them.  Why would developers of a currency not place a priority on currency related use-cases?</p>
+<p>In <a href="/2017/10/11/firefox-tls-threads.html">Phase 4</a> of Namecoin TLS for Firefox, I mentioned that more optimization work remained (despite the significant latency improvements I discussed in that post).  Optimization work has continued, and I’ve now moved the override cache from JavaScript to C++, with rather dramatic latency improvement as a result.</p>
 
-<p>The answer is that we place a priority on the specific use-cases that differentiate Namecoin from Bitcoin: DNS, ID, etc. Namecoin’s value comes from its utility as a naming system whereas Bitcoin’s value is primarily derived from its use as a currency.  Competing with Bitcoin for dominance as a currency of exchange is suicide: Bitcoin has network effects that will overpower every other competitor in its market.</p>
+<p>Prior to this optimization, my C++ code would synchronously call the WebExtensions Experiment to retrieve override decisions, and the Experiment would block until the WebExtension had returned an override decision.  At this point the decision would be added to the cache within the Experiment, and then the C++ code’s call to the Experiment would return.  I had long suspected that this was a major latency bottleneck, for 2 reasons:</p>
 
-<p>Furthermore, it is not clear that generic retail use of Namecoin is beneficial: most retailers immediately exchange crypto currencies into a reserve currency.  Spending Namecoin at a retailer is only a step removed from exchanging Namecoin for fiat directly.  Use as a reserve currency is Bitcoin’s problem, we have our own troubles to worry about.</p>
+<ol>
+  <li>JavaScript generally is inefficient.</li>
+  <li>After Firefox’s built-in certificate verification completed, control had to flow from C++ to JavaScript (which adds some latency) and then from JavaScript back to C++ (which adds latency as well).</li>
+</ol>
+
+<p>With my latest changes, the control flow changes a lot:</p>
+
+<ol>
+  <li>The synchronous API for the C++ code to get positive override decisions from the Experiment is removed.</li>
+  <li>The override decision cache in the Experiment is removed.</li>
+  <li>An override decision cache is added to the C++ code.</li>
+  <li>An API is added to the C++ code for the Experiment to notify when an override decision has just been received from the WebExtension.  This API adds the decision to the C++ override decision cache.</li>
+  <li>The C++ code that gets a positive override now simply blocks until an override decision has appeared in the cache; it doesn’t make any calls to JavaScript of any kind.</li>
+</ol>
+
+<p>The advantages of this are:</p>
+
+<ol>
+  <li>A lot of inefficient JavaScript code is removed from the latency-critical code paths, in favor of more efficient C++.</li>
+  <li>Control never flows from C++ to JavaScript in order to retrieve the override decision (saves latency), and the flow from JavaScript to C++ can occur in parallel with Firefox’s built-in certificate verification (saves latency as well).</li>
+</ol>
+
+<p>I was originally hoping to use a thread-safe data structure for the C++ override decision cache, and noticed that Mozilla’s wiki mentioned such a data structure.  However, I couldn’t actually find that data structure in Mozilla’s source code.  After a few hours of grepping and no luck figuring out what the wiki was referring to, I asked on Mozilla’s IRC, and was told that the wiki was out of date and that the thread-safety features of that data structure were long ago removed.  So, the cache is only accessible from the main thread, and cross-thread C++ calls will still be needed to access it from outside the main thread.  This isn’t really a disaster; cross-thread C++ calls aren’t massively bad.</p>
+
+<p>Since I wrote up some really nice scripts for measuring latency for Phase 4, I reused them for Phase 5 to see how things have improved.</p>
+
+<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_e7e6307c38d1bb1a.png" /></p>
+
+<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_4abcef16d0d9da8.png" /></p>
+
+<p>This is a quite drastic speedup.  The gradual speedup over time has vanished, which suggests that I was right about it being attributable to the JavaScript JIT warming up.  (However, it should be noted that this time I did a single batch of 45 certificate verifications, so this may be an artifact of that change too.)  More importantly, based on the fact that uncached and cached overrides are indistinguishable in the vast majority of cases, it can be inferred that the Experiment’s decision usually enters the C++ code’s decision cache before Firefox’s built-in certificate verification even finishes.  (The occasional spikes in uncached latency seem to correspond to cases where that’s false.)</p>
+
+<p>The raw data is available <a href="/data/webextensions-latency/2017-10-19/raw-data.ods">in OpenDocument spreadsheet format</a> or <a href="/data/webextensions-latency/2017-10-19/raw-data.html">in HTML format</a> as before.  The median uncached latency for positive overrides has decreased from 375 microseconds in Phase 4 to 29 microseconds in Phase 5.</p>
+
+<p>It should be noted that negative overrides haven’t yet been converted to use the C++ override decision cache.  I expect them to be slightly slower than these figures, because negative overrides will have 1 extra cross-thread C++ call.</p>
+
+<p>The same disclaimer as before applies: this data is not intended to be scientifically reproducible; there are likely to be differences between setups that could impact the latency significantly, and I made no effort to control for or document such differences.  That said, it’s likely to be a useful indicator of how well we’re doing.</p>
+
+<p>At this point, I am fully satisfied with the performance that I’m getting in these tests of positive overrides.  Converting negative overrides to work similarly is expected to be easy.  Of course, performance will probably be noticeably worse once the WebExtension is calling ncdns, so there’s a good chance that after ncdns is integrated with the WebExtension, I’ll be coming back to optimization.</p>
+
+<p>For the short-term though, I’ll be focusing on integrating the WebExtension with ncdns.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -471,7 +513,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2014-09-21-retail-usage.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-10-29-firefox-tls-moving-cache-cpp.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
