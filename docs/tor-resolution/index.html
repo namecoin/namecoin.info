@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Refactoring the Raw Transaction API</title>
+    <title>Namecoin Resolution with Tor</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html">
+    <link rel="canonical" href="https://namecoin.org//docs/tor-resolution/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -224,288 +224,72 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        
+        <div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">Namecoin Resolution with Tor</h1>
+  </header>
 
+  <article class="post-content">
+    
+<p>Namecoin can be used for name resolution with Tor.  This guide covers how to set this up.</p>
 
+<p><strong>Warning: this is beta software, and is not suitable for production use.  It is being made available for testing purposes only.  It’s using experimental API’s that may be replaced or removed in the future, and it will make your Tor client stand out from everyone else.</strong></p>
 
+<h2 id="install-tor">Install Tor</h2>
 
+<p>Hopefully you’ve already done this.  Note that these instructions are not tested in any way with Whonix, Tails, or SubgraphOS; such systems use control port filters that may cause problems.</p>
 
+<h2 id="install-a-namecoin-name-lookup-client">Install a Namecoin name lookup client</h2>
 
+<p><strong>If you’re using the ncdns for Windows installer, you can skip this step.</strong></p>
 
+<p>This could be either Namecoin Core or the BitcoinJ name lookup client.  Note that if you’re using Namecoin Core, you may wish to make Namecoin Core route its traffic over Tor (this procedure should be identical as what you’d do for Bitcoin Core).  The BitcoinJ name lookup client doesn’t yet support routing its traffic over Tor.  If you’re using the BitcoinJ name lookup client, it is strongly recommended that you use <code class="highlighter-rouge">leveldbtxcache</code> mode (this is the default if you’re running the shortcut created by the ncdns for Windows installer; it is <strong>not</strong> the default if you’re running it from the command line); this is because the other modes will generate network traffic that isn’t subject to stream isolation.</p>
 
+<h2 id="install-ncdns">Install ncdns</h2>
 
+<p>See <a href="/docs/ncdns">ncdns documentation</a>.</p>
 
+<p>You should install ncdns on a machine which has a trusted network path to the machine running Tor.  It is <strong>not</strong> necessary to install Dnssec-Trigger if you’re only planning to use Namecoin resolution with Tor.</p>
 
+<p><strong>Warning: ncdns caches responses by default, which may pose a deanonymization vector.</strong></p>
 
+<h2 id="install-dns-prop279">Install dns-prop279</h2>
 
+<p>dns-prop279 can be downloaded at the <a href="/download/betas/">Beta Downloads</a> page.  Currently binaries are not available; building from source is required.  The build is not yet reproducible.</p>
 
+<p>To build from source:</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go get github.com/namecoin/dns-prop279
+</code></pre></div></div>
 
+<p><strong>Warning: all errors encountered by dns-prop279 will be reported as NXDOMAIN, even if that’s not the actual error that occurred.</strong></p>
 
+<h2 id="install-torns">Install TorNS</h2>
 
+<p>TorNS (by meejah) is <a href="https://github.com/meejah/TorNS">available on GitHub.</a></p>
 
+<p>The <code class="highlighter-rouge">_service_to_command</code> configuration in <a href="https://github.com/meejah/TorNS/blob/5ed4abe5717a6fe713220dee853bb657b1064e8c/poc.py#L26">poc.py</a> should look like this (assuming that ncdns is listening on 127.0.0.1 port 5391; fill in the path to where your dns-prop279 binary is located accordingly):</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_service_to_command = {
+    "bit.onion": ['/path/to/dns-prop279', '-port', '5391', '@127.0.0.1'],
+    "bit": ['/path/to/dns-prop279', '-port', '5391', '@127.0.0.1'],
+}
+</code></pre></div></div>
 
+<p>If you’re using Tor Browser Bundle, or are otherwise using a non-default Tor control port, you’ll need to update the control port in <code class="highlighter-rouge">poc.py</code> as per the TorNS documentation.</p>
 
+<h2 id="running-it">Running it</h2>
 
+<p>Make sure that the name lookup client, ncdns, and Tor are running.  Then, run <code class="highlighter-rouge">python poc.py</code> in the TorNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.</p>
 
+<p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion names</code> are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
 
+<p>Namecoin name owners can specify a <code class="highlighter-rouge">.onion</code> domain via the <code class="highlighter-rouge">txt</code> field in the <code class="highlighter-rouge">_tor</code> subdomain of their name.  This specification is open to revision later, as the Tor community evolves its canonical naming specifications.  (In particular, it is possible that <code class="highlighter-rouge">TXT</code> records might be replaced with <code class="highlighter-rouge">SRV</code> records.)</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">Refactoring the Raw Transaction API</h1>
-<p class="post-meta">Sep 13, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
-</header>
-
-<article class="post-content">
-<p>Several improvements are desirable for how Namecoin Core creates name transactions:</p>
-
-<ul>
-  <li>Register names without having to unlock the wallet twice, 12 blocks apart.</li>
-  <li>Coin Control (a method of improving anonymity).</li>
-  <li>Specifying a fee based on when you need the transaction to be confirmed.</li>
-  <li>Pure name transactions (a method of improving scalability of Namecoin by decreasing transaction size).</li>
-</ul>
-
-<p>All of these improvements, though they seem quite different in nature, have one important thing in common: they need to use the raw transaction API in ways that Namecoin Core doesn’t make easy.</p>
-
-<h2 id="whats-the-raw-transaction-api">What’s the raw transaction API?</h2>
-
-<p>Simply put, the raw transaction API is a Bitcoin Core feature that allows the user to create custom transactions at a much lower level than what a typical user would want.  The raw transaction API gives you a lot of power and flexibility, but it’s also more cumbersome and, if used incorrectly, you can accidentally lose lots of money.</p>
-
-<h2 id="why-do-those-features-need-the-raw-transaction-api">Why do those features need the raw transaction API?</h2>
-
-<p>The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a <code class="highlighter-rouge">name_firstupdate</code> transaction before its preceding <code class="highlighter-rouge">name_new</code> transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.</p>
-
-<h2 id="whats-wrong-with-namecoin-cores-raw-transaction-api">What’s wrong with Namecoin Core’s raw transaction API?</h2>
-
-<p>It’s not raw enough!  First off, the only name transactions it can create are <code class="highlighter-rouge">name_update</code>; it can’t create <code class="highlighter-rouge">name_new</code> or <code class="highlighter-rouge">name_firstupdate</code> transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create <code class="highlighter-rouge">name_update</code> outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.</p>
-
-<h2 id="how-are-we-fixing-this">How are we fixing this?</h2>
-
-<p>We’re making an API change.  Instead of trying to stuff name operation data into <code class="highlighter-rouge">createrawtransaction</code>, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from <code class="highlighter-rouge">createrawtransaction</code> and moving it to a new RPC call, <code class="highlighter-rouge">namerawtransaction</code>.  The new workflow replaces the previous <code class="highlighter-rouge">createrawtransaction</code> with two steps:</p>
-
-<ol>
-  <li>Use <code class="highlighter-rouge">createrawtransaction</code> just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.</li>
-  <li>Use <code class="highlighter-rouge">namerawtransaction</code> to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.</li>
-</ol>
-
-<h2 id="what-will-be-the-impact">What will be the impact?</h2>
-
-<p>Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your <code class="highlighter-rouge">createrawtransaction</code>-using code so that it also calls <code class="highlighter-rouge">namerawtransaction</code>.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.</p>
-
-<h2 id="whos-involved-in-this-work">Who’s involved in this work?</h2>
-
-<ul>
-  <li>Jeremy Rand wrote a rough spec for the new API.</li>
-  <li>Daniel Kraft is implementing the changes to the API.</li>
-  <li>Jeremy Rand plans to utilize the new API in proof-of-concept scripts for several use cases (including the above 4 use cases).</li>
-  <li>Brandon Roberts plans to convert Jeremy’s proof-of-concept scripts into GUI features in Namecoin-Qt.</li>
-</ul>
-
-<p>This work was funded in part by NLnet Foundation’s Internet Hardening Fund.</p>
-
-<h2 id="what-might-come-later">What might come later?</h2>
-
-<p>Maybe Namecoin-Qt support for atomic name trading?  :)</p>
-
-</article>
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -521,7 +305,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-09-13-raw-tx-api-refactoring.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tor-resolution/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

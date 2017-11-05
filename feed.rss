@@ -2,13 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Namecoin</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-</description>
+    <description><!--Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+--></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 29 Oct 2017 13:59:58 +0000</pubDate>
-    <lastBuildDate>Sun, 29 Oct 2017 13:59:58 +0000</lastBuildDate>
+    <pubDate>Sun, 05 Nov 2017 09:43:13 +0000</pubDate>
+    <lastBuildDate>Sun, 05 Nov 2017 09:43:13 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>What Chromium's Deprecation of HPKP Means for Namecoin</title>
+        <description>&lt;p&gt;Readers who’ve been paying attention to the TLS scene are likely aware that &lt;a href=&quot;https://scotthelme.co.uk/the-death-knell-for-hpkp/&quot;&gt;Google has recently announced that Chromium is deprecating HPKP&lt;/a&gt;.  This is not a huge surprise to people who’ve been paying attention; HPKP has had virtually no meaningful implementation by websites, and many security experts have been warning that HPKP is too dangerous for most deployments due to the risk that websites who use it could, with a single mistake, accidentally DoS themselves for months.  The increased publicity of the RansomPKP attack drove home the point that this kind of DoS could even happen to websites who &lt;em&gt;don’t&lt;/em&gt; use HPKP.  I won’t comment on the merits of HPKP for its intended purpose.  However, readers familiar with Namecoin will probably be aware that Namecoin’s TLS support for Chromium relies on HPKP.  So, what does HPKP’s deprecation mean for Namecoin?&lt;/p&gt;
+
+&lt;p&gt;First off, nothing will happen on this front until Chrome 67, which is projected to release as Stable on May 29, 2018.  (Users of more cutting-edge releases of Chromium-based browsers will lose HPKP earlier.)  When Chrome 67 is released, I expect that the following behavior will be observed for the current ncdns release (v0.0.5):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The ncdns Windows installer will probably continue to detect Chromium installations (because the HPKP state shares a database with the HSTS state, which isn’t going anywhere).  The NUMS HPKP installation will appear to succeed.&lt;/li&gt;
+  &lt;li&gt;ncdns will continue to be able to add certificates to the trust store.  This means that &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites that use TLS will continue to load without errors.&lt;/li&gt;
+  &lt;li&gt;The NUMS HPKP pin will silently stop having any effect.  This means that Namecoin’s TLS security will degrade to that of the CA system.  A malicious CA that is trusted by Windows will be able to issue certificates for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites, and Chromium will accept these certificates as valid even when they don’t match the blockchain.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Astute readers will note that this is the 4th instance of a browser update breaking Namecoin TLS in some way.  (The previous 3 cases were Firefox breaking Convergence, Firefox breaking nczilla, and Firefox breaking XPCOM.)  In this case, we’re reasonably well-prepared.  Unlike the Convergence breakage (which Mozilla considered to be a routine binary-size optimization) and the nczilla breakage (which Mozilla considered to be a security patch), HPKP is a sufficiently non-niche functionality that we’re finding out well in advance (much like the XPCOM deprecation).  As part of my routine work at Namecoin, I make a habit of studying how TLS certificate verification works in various common implementations, and regularly make notes on ways we could hack them in the future to use Namecoin.  Based on a cursory review of my notes, there are at least 7 possible alternatives to Chromium’s HPKP support that I could investigate for the purpose of restoring Namecoin’s TLS security protections in Chromium.  3 of them would be likely to qualify for NLnet funding, if we decided to divert funding from currently-planned NLnet-funded tasks.  (It’s not clear to me whether we actually will divert any funding at this point, but we do have the flexibility to do so if it’s needed.)  None of those 7 alternative approaches are quite as nice as our NUMS HPKP approach (which is why we’ve been using NUMS HPKP up until now), but such is life.&lt;/p&gt;
+
+&lt;p&gt;In conclusion, while this news does highlight the maintenance benefits of using officially approved API’s rather than hacks (which, it should be noted, is my current approach for Firefox), at this time there is no reason for Namecoin to drop TLS support for Chromium.  I’m continuing to evaluate what our best options are, and I’ll report back when I have more information.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 05 Nov 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin TLS for Firefox: Phase 5 (Moving the Override Cache to C++)</title>
@@ -335,29 +362,6 @@ is then available.&lt;/p&gt;
         <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/09/03/bitcoinj-ncdns-nsis.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/09/03/bitcoinj-ncdns-nsis.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Video, Slides, and Paper from Namecoin at GCER 2017</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/07/06/gcer-2017.html&quot;&gt;announced&lt;/a&gt;, I represented Namecoin at the 2017 Global Conference on Educational Robotics.  Although GCER doesn’t produce official recordings of their talks, I was able to obtain an amateur recording of my talk from an audience member.  I’ve also posted my slides, as well as my paper from the conference proceedings.&lt;/p&gt;
-
-&lt;p&gt;It should be noted that, as this is an amateur recording, the audio quality is not spectacular.  It should also be noted that the audience is rather different from the audiences for whom I usually give Namecoin talks; as a result, the focus of the content is also rather different from my usual Namecoin talks.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.namecoin.org/files/videos/gcer-2017/Namecoin-GCER-2017-1080p.webm&quot;&gt;The WebM amateur video recording of my talk is here (hosted by Namecoin.org).&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2017/Namecoin_GCER_2017_Slides.pdf&quot;&gt;My slides are available here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2017/Namecoin_GCER_2017_Paper.pdf&quot;&gt;My paper is available here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to the staff and volunteers from KISS Institute for Practical Robotics, who organized GCER.  Especially big thanks to Roger Clement and Steve Goodgame for giving me excellent feedback on the general outline of my paper and talk.  This was an excellent event, and I look forward to the next time I’m able to attend.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 31 Aug 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/08/31/gcer-2017-video.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/08/31/gcer-2017-video.html</guid>
         
         <category>News</category>
         
