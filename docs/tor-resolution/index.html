@@ -238,7 +238,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="install-tor">Install Tor</h2>
 
-<p>Hopefully you’ve already done this.  Note that these instructions are not tested in any way with Whonix, Tails, or SubgraphOS; such systems use control port filters that may cause problems.</p>
+<p>Hopefully you’ve already done this.  Note that these instructions are not tested in any way with Whonix, Tails, or Subgraph OS; such systems use control port filters that may cause problems.</p>
 
 <h2 id="install-a-namecoin-name-lookup-client">Install a Namecoin name lookup client</h2>
 
@@ -256,7 +256,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="install-dns-prop279">Install dns-prop279</h2>
 
-<p>dns-prop279 can be downloaded at the <a href="/download/betas/">Beta Downloads</a> page.  Currently binaries are not available; building from source is required.  The build is not yet reproducible.</p>
+<p>dns-prop279 can be downloaded at the <a href="/download/betas/#dns-prop279">Beta Downloads</a> page.  Currently binaries are not available; building from source is required.  The build is not yet reproducible.</p>
 
 <p>To build from source:</p>
 
@@ -283,7 +283,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Make sure that the name lookup client, ncdns, and Tor are running.  Then, run <code class="highlighter-rouge">python poc.py</code> in the TorNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.</p>
 
-<p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion names</code> are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
+<p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion</code> names are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
 
 <p>Namecoin name owners can specify a <code class="highlighter-rouge">.onion</code> domain via the <code class="highlighter-rouge">txt</code> field in the <code class="highlighter-rouge">_tor</code> subdomain of their name.  This specification is open to revision later, as the Tor community evolves its canonical naming specifications.  (In particular, it is possible that <code class="highlighter-rouge">TXT</code> records might be replaced with <code class="highlighter-rouge">SRV</code> records.)</p>
 
