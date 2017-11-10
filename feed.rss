@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 05 Nov 2017 09:43:13 +0000</pubDate>
-    <lastBuildDate>Sun, 05 Nov 2017 09:43:13 +0000</lastBuildDate>
+    <pubDate>Fri, 10 Nov 2017 07:27:25 +0000</pubDate>
+    <lastBuildDate>Fri, 10 Nov 2017 07:27:25 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin will be at the 2017 Oklahoma City Fall Peace Festival</title>
+        <description>&lt;p&gt;Namecoin will have a table at the 2017 &lt;a href=&quot;https://peacehouseok.org/outreach/fall-peace-festival/&quot;&gt;Fall Peace Festival&lt;/a&gt; in Oklahoma City on November 11.  If you happen to be in the OKC area, feel free to stop by and say hello.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Nov 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/11/10/oklahoma-peace-festival.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/11/10/oklahoma-peace-festival.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>What Chromium's Deprecation of HPKP Means for Namecoin</title>
@@ -334,34 +347,6 @@
         <pubDate>Wed, 13 Sep 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>BitcoinJ support merged into ncdns-nsis</title>
-        <description>&lt;p&gt;The ncdns-nsis project, which provides a zero-configuration Windows installer
-for Namecoin domain name resolution functionality, has merged SPV support,
-implemented via BitcoinJ. This enables Windows machines to resolve &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt;
-domain names without having to download the full Namecoin chain.&lt;/p&gt;
-
-&lt;p&gt;Merging this functionality means that Namecoin domain names can be resolved on
-Windows client machines with only a minimal chain synchronization and storage
-burden, in exchange for a limited reduction in the security level provided.&lt;/p&gt;
-
-&lt;p&gt;Installer binaries will be published in due course as remaining ncdns-nsis
-issues are concluded.&lt;/p&gt;
-
-&lt;p&gt;To use the BitcoinJ client, run the ncdns-nsis installer and select the SPV
-option when asked whether to install a Namecoin node. Run BitcoinJ after
-installation and wait for synchronization to complete; &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; name resolution
-is then available.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/09/03/bitcoinj-ncdns-nsis.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/09/03/bitcoinj-ncdns-nsis.html</guid>
         
         <category>News</category>
         
