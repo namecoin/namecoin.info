@@ -6,9 +6,47 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 10 Nov 2017 07:27:25 +0000</pubDate>
-    <lastBuildDate>Fri, 10 Nov 2017 07:27:25 +0000</lastBuildDate>
+    <pubDate>Tue, 21 Nov 2017 04:23:44 +0000</pubDate>
+    <lastBuildDate>Tue, 21 Nov 2017 04:23:44 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Update on Namecoin Core Qt Development</title>
+        <description>&lt;p&gt;It’s been roughly a year since the &lt;a href=&quot;https://github.com/namecoin/namecoin-core/pull/67&quot;&gt;initial manage names tab&lt;/a&gt;
+code was ported from legacy Namecoin to Namecoin Core. Since then, development
+of namecoin-qt has been progressing on two fronts: merging the manage names Qt
+interface into Namecoin Core’s master branch and the development of a &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; spec
+DNS configuration interface.&lt;/p&gt;
+
+&lt;p&gt;In October, I initiated a &lt;a href=&quot;https://github.com/namecoin/namecoin-core/pull/187&quot;&gt;pull request&lt;/a&gt;
+to merge the manage names tab into Namecoin Core’s master branch.
+This patch replaces the previous, experimental manage names (v0.13.99) interface and
+brings it current with Namecoin Core version 0.15.99. There have been many
+bugfixes and improvements, so we welcome users to test the code and report any
+issues.&lt;/p&gt;
+
+&lt;p&gt;Secondly, thanks to &lt;a href=&quot;https://www.namecoin.org/2017/05/19/funding-nlnet.html&quot;&gt;support&lt;/a&gt;
+from the NLnet Foundation’s Internet Hardening Fund, I’ve began developing the
+DNS configuration dialog. The goal is to make managing Namecoin domains much simpler
+and will remove the need for many users to build &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; spec JSON documents
+altogether. We currently have a set of &lt;a href=&quot;https://github.com/namecoin/namecoin-core/issues/196&quot;&gt;mocks available&lt;/a&gt;
+for comments from users. Until a pull request is issued, development can be tracked
+in the &lt;a href=&quot;https://github.com/brandonrobertz/namecoin-core/tree/manage-dns&quot;&gt;manage-dns&lt;/a&gt;
+branch of my Namecoin Core repo.&lt;/p&gt;
+
+&lt;p&gt;Development is moving quickly, so I will continue to update the community as
+things progress. As usual, you can follow our work in the &lt;a href=&quot;https://github.com/namecoin/namecoin-core&quot;&gt;GitHub repo&lt;/a&gt;
+and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin Subreddit&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 20 Nov 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/11/20/update-on-namecoin-core-qt-development.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/11/20/update-on-namecoin-core-qt-development.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at the 2017 Oklahoma City Fall Peace Festival</title>
@@ -285,68 +323,6 @@
         <pubDate>Sun, 24 Sep 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/09/24/firefox-tls-cpp.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/09/24/firefox-tls-cpp.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Refactoring the Raw Transaction API</title>
-        <description>&lt;p&gt;Several improvements are desirable for how Namecoin Core creates name transactions:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Register names without having to unlock the wallet twice, 12 blocks apart.&lt;/li&gt;
-  &lt;li&gt;Coin Control (a method of improving anonymity).&lt;/li&gt;
-  &lt;li&gt;Specifying a fee based on when you need the transaction to be confirmed.&lt;/li&gt;
-  &lt;li&gt;Pure name transactions (a method of improving scalability of Namecoin by decreasing transaction size).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All of these improvements, though they seem quite different in nature, have one important thing in common: they need to use the raw transaction API in ways that Namecoin Core doesn’t make easy.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-the-raw-transaction-api&quot;&gt;What’s the raw transaction API?&lt;/h2&gt;
-
-&lt;p&gt;Simply put, the raw transaction API is a Bitcoin Core feature that allows the user to create custom transactions at a much lower level than what a typical user would want.  The raw transaction API gives you a lot of power and flexibility, but it’s also more cumbersome and, if used incorrectly, you can accidentally lose lots of money.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-do-those-features-need-the-raw-transaction-api&quot;&gt;Why do those features need the raw transaction API?&lt;/h2&gt;
-
-&lt;p&gt;The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction before its preceding &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-wrong-with-namecoin-cores-raw-transaction-api&quot;&gt;What’s wrong with Namecoin Core’s raw transaction API?&lt;/h2&gt;
-
-&lt;p&gt;It’s not raw enough!  First off, the only name transactions it can create are &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt;; it can’t create &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-are-we-fixing-this&quot;&gt;How are we fixing this?&lt;/h2&gt;
-
-&lt;p&gt;We’re making an API change.  Instead of trying to stuff name operation data into &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt;, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; and moving it to a new RPC call, &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt;.  The new workflow replaces the previous &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; with two steps:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.&lt;/li&gt;
-  &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt; to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;what-will-be-the-impact&quot;&gt;What will be the impact?&lt;/h2&gt;
-
-&lt;p&gt;Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt;-using code so that it also calls &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt;.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.&lt;/p&gt;
-
-&lt;h2 id=&quot;whos-involved-in-this-work&quot;&gt;Who’s involved in this work?&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Jeremy Rand wrote a rough spec for the new API.&lt;/li&gt;
-  &lt;li&gt;Daniel Kraft is implementing the changes to the API.&lt;/li&gt;
-  &lt;li&gt;Jeremy Rand plans to utilize the new API in proof-of-concept scripts for several use cases (including the above 4 use cases).&lt;/li&gt;
-  &lt;li&gt;Brandon Roberts plans to convert Jeremy’s proof-of-concept scripts into GUI features in Namecoin-Qt.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This work was funded in part by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-might-come-later&quot;&gt;What might come later?&lt;/h2&gt;
-
-&lt;p&gt;Maybe Namecoin-Qt support for atomic name trading?  :)&lt;/p&gt;
-</description>
-        <pubDate>Wed, 13 Sep 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html</guid>
         
         <category>News</category>
         
