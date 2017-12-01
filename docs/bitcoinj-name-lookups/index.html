@@ -236,7 +236,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <ul>
   <li>libdohj by Ross Nicoll</li>
-  <li>bitcoinj-addons by Sean Gilligan</li>
+  <li>ConsensusJ by Sean Gilligan</li>
   <li>Webbtc by Marius Hanne</li>
 </ul>
 
@@ -272,23 +272,9 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>(This is only if you want to build from source.)</p>
 
-<p>There are 2 different branches available.  A partially-stable branch uses Dogecoin’s upstream version of libdohj.  A bleeding-edge branch uses a modified fork of libdohj that is not yet upstreamed.  Neither branch should be considered stable, since they are both using a modified fork of bitcoinj-addons that is not yet upstreamed.  Test reports against the bleeding-edge branch are likely to be more useful.  <strong>Trying to install both branches on the same machine is likely to cause problems unless the Gradle caches are entirely cleared when switching between them.</strong></p>
+<p>There are 2 different branches available.  A partially-stable branch has received substantially more QA testing by the Namecoin community, but uses an older fork of libdohj and ConsensusJ.  A bleeding-edge branch has received less QA testing by the Namecoin community, but uses upstream libdohj and a more recent fork of ConsensusJ.  Neither branch should be considered stable, since they are both using a modified fork of ConsensusJ that is not yet upstreamed.  Test reports against the bleeding-edge branch are likely to be more useful.  <strong>Trying to install both branches on the same machine is likely to cause problems unless the Gradle caches are entirely cleared when switching between them.</strong></p>
 
 <p>For the partially stable branch:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/dogecoin/libdohj.git
-cd libdohj
-mvn clean install
-cd namecoin
-mvn clean install
-cd ../..
-git clone https://github.com/JeremyRand/bitcoinj-addons.git
-cd bitcoinj-addons
-git checkout getd4-draft
-./gradlew clean :bitcoinj-daemon:assemble
-</code></pre></div></div>
-
-<p>For the bleeding-edge branch:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/JeremyRand/libdohj.git
 cd libdohj
@@ -303,7 +289,21 @@ git checkout getd4-draft-local-lookup-2
 ./gradlew clean :bitcoinj-daemon:assemble
 </code></pre></div></div>
 
-<p>For either branch, the binary will be created at <code class="highlighter-rouge">bitcoinj-daemon/build/libs/bitcoinj-daemon-0.1.1-SNAPSHOT.jar</code>.</p>
+<p>For the bleeding-edge branch:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/dogecoin/libdohj.git
+cd libdohj
+mvn clean install
+cd namecoin
+mvn clean install
+cd ../..
+git clone https://github.com/JeremyRand/bitcoinj-addons.git
+cd bitcoinj-addons
+git checkout getd4-draft-local-lookup-2-rebase
+./gradlew clean :bitcoinj-daemon:assemble
+</code></pre></div></div>
+
+<p>For the partially stable branch, the binary will be created at <code class="highlighter-rouge">bitcoinj-daemon/build/libs/bitcoinj-daemon-0.1.1-SNAPSHOT.jar</code>.  For the bleeding-edge branch, the binary will be created at <code class="highlighter-rouge">bitcoinj-daemon/build/libs/bitcoinj-daemon-0.2.7-SNAPSHOT.jar</code>.</p>
 
 <h2 id="running-it">Running it</h2>
 
@@ -327,10 +327,10 @@ git checkout getd4-draft-local-lookup-2
 <p>Change how <code class="highlighter-rouge">name_show</code> lookups are performed.  The following algorithms are available:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">restheightapi</code>: <strong>Don’t use this, it’s broken in the current version.</strong> Looks up the height of the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/heights/&lt;name&gt;.json?raw</code>), and retrieves that block over the P2P network.  This is usually fast, but if the name is part of a very large block, it can take a couple of seconds.  It reveals to the REST API which name is being looked up, and it reveals to a P2P peer what the height of that name is.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
-  <li><code class="highlighter-rouge">restmerkleapi</code>: Looks up a merkle proof for the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?history&amp;with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  This is slower than <code class="highlighter-rouge">restheightapi</code> for most names, but it’s faster than <code class="highlighter-rouge">restheightapi</code> if the name is in a very large block.  It reveals to the REST API which name is being looked up; it doesn’t reveal anything to the P2P network.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
-  <li><code class="highlighter-rouge">restmerkleapisingle</code>: <strong>Unreliable in the current version.</strong> Similar to <code class="highlighter-rouge">restmerkleapi</code>, but increases lookup speed by asking the REST API to only generate a merkle proof for the most recent <code class="highlighter-rouge">name_anyupdate</code> operation for the name (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  Faster than <code class="highlighter-rouge">restmerkleapi</code>, but will return an error if the name’s most recent update has between 1 and 11 confirmations (inclusive).  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
-  <li><code class="highlighter-rouge">leveldbtxcache</code>: <strong>Only available on bleeding-edge branch.</strong> Maintains a cache of all unexpired <code class="highlighter-rouge">name_anyupdate</code> operations, obtained by downloading full blocks (instead of just headers) for all blocks that are newer than 366 days old.  Much, much faster lookups than the REST-API-based algos, and lookups don’t generate any network traffic (so lookup operations are as private as Namecoin Core).  Initial syncup will take somewhat longer, and approximately 412 MB of extra storage will be used for the name database.  It is not feasible for <code class="highlighter-rouge">name_anyupdate</code> operations to be hidden without detection, because full blocks are downloaded.  There are known hypothetical attacks possible involving reorganizations deeper than 12 blocks; see the libdohj source code comments for details.</li>
+  <li><code class="highlighter-rouge">restheightapi</code>: <strong>Only available on bleeding-edge branch.</strong> Looks up the height of the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/heights/&lt;name&gt;.json?raw</code>), and retrieves that block over the P2P network.  This is usually fast, but if the name is part of a very large block, it can take a couple of seconds.  It reveals to the REST API which name is being looked up, and it reveals to a P2P peer what the height of that name is.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">restmerkleapi</code>: Looks up a Merkle proof for the latest <code class="highlighter-rouge">name_anyupdate</code> operation for the name that has at least 12 confirmations by using a REST API (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?history&amp;with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  This is slower than <code class="highlighter-rouge">restheightapi</code> for most names, but it’s faster than <code class="highlighter-rouge">restheightapi</code> if the name is in a very large block.  It reveals to the REST API which name is being looked up; it doesn’t reveal anything to the P2P network.  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">restmerkleapisingle</code>: <strong>Unreliable in the current version.</strong> Similar to <code class="highlighter-rouge">restmerkleapi</code>, but increases lookup speed by asking the REST API to only generate a Merkle proof for the most recent <code class="highlighter-rouge">name_anyupdate</code> operation for the name (default URL is <code class="highlighter-rouge">https://namecoin.webbtc.com/name/&lt;name&gt;.json?with_height&amp;with_rawtx&amp;with_mrkl_branch&amp;with_tx_idx&amp;raw</code>).  Faster than <code class="highlighter-rouge">restmerkleapi</code>, but will return an error if the name’s most recent update has between 1 and 11 confirmations (inclusive).  The REST API can hide recent <code class="highlighter-rouge">name_anyupdate</code> operations without being detected.</li>
+  <li><code class="highlighter-rouge">leveldbtxcache</code>: Maintains a cache of all unexpired <code class="highlighter-rouge">name_anyupdate</code> operations, obtained by downloading full blocks (instead of just headers) for all blocks that are newer than 366 days old.  Much, much faster lookups than the REST-API-based algos, and lookups don’t generate any network traffic (so lookup operations are as private as Namecoin Core).  Initial syncup will take somewhat longer, and approximately 412 MB of extra storage will be used for the name database.  It is not feasible for <code class="highlighter-rouge">name_anyupdate</code> operations to be hidden without detection, because full blocks are downloaded.  There are known hypothetical attacks possible involving reorganizations deeper than 12 blocks; see the libdohj source code comments for details.</li>
 </ul>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>--namelookup.latest.resturlprefix=&lt;prefix&gt;
