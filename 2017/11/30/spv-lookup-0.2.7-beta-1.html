@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Refactoring the Raw Transaction API</title>
+    <title>Namecoin Lightweight SPV Lookup Client 0.2.7 Beta 1 Source Code Available</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/09/13/raw-tx-api-refactoring.html">
+    <link rel="canonical" href="https://namecoin.org//2017/11/30/spv-lookup-0.2.7-beta-1.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,112 +232,65 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Refactoring the Raw Transaction API</h1>
-<p class="post-meta">Sep 13, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin Lightweight SPV Lookup Client 0.2.7 Beta 1 Source Code Available</h1>
+<p class="post-meta">Nov 30, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Several improvements are desirable for how Namecoin Core creates name transactions:</p>
+<p>Version 0.2.7 Beta 1 of the Namecoin Lightweight SPV Lookup Client has had its source code released.  <a href="/docs/bitcoinj-name-lookups/">Build instructions are here (it’s the “bleeding-edge branch”).</a>  Binaries will be made available later.  Meanwhile, the former bleeding-edge branch (the branch that introduced leveldbtxcache mode) has graduated to partially-stable.  The former partially-stable branch has been deprecated.</p>
 
-<ul>
-  <li>Register names without having to unlock the wallet twice, 12 blocks apart.</li>
-  <li>Coin Control (a method of improving anonymity).</li>
-  <li>Specifying a fee based on when you need the transaction to be confirmed.</li>
-  <li>Pure name transactions (a method of improving scalability of Namecoin by decreasing transaction size).</li>
-</ul>
-
-<p>All of these improvements, though they seem quite different in nature, have one important thing in common: they need to use the raw transaction API in ways that Namecoin Core doesn’t make easy.</p>
-
-<h2 id="whats-the-raw-transaction-api">What’s the raw transaction API?</h2>
-
-<p>Simply put, the raw transaction API is a Bitcoin Core feature that allows the user to create custom transactions at a much lower level than what a typical user would want.  The raw transaction API gives you a lot of power and flexibility, but it’s also more cumbersome and, if used incorrectly, you can accidentally lose lots of money.</p>
-
-<h2 id="why-do-those-features-need-the-raw-transaction-api">Why do those features need the raw transaction API?</h2>
-
-<p>The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a <code class="highlighter-rouge">name_firstupdate</code> transaction before its preceding <code class="highlighter-rouge">name_new</code> transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.</p>
-
-<h2 id="whats-wrong-with-namecoin-cores-raw-transaction-api">What’s wrong with Namecoin Core’s raw transaction API?</h2>
-
-<p>It’s not raw enough!  First off, the only name transactions it can create are <code class="highlighter-rouge">name_update</code>; it can’t create <code class="highlighter-rouge">name_new</code> or <code class="highlighter-rouge">name_firstupdate</code> transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create <code class="highlighter-rouge">name_update</code> outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.</p>
-
-<h2 id="how-are-we-fixing-this">How are we fixing this?</h2>
-
-<p>We’re making an API change.  Instead of trying to stuff name operation data into <code class="highlighter-rouge">createrawtransaction</code>, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from <code class="highlighter-rouge">createrawtransaction</code> and moving it to a new RPC call, <code class="highlighter-rouge">namerawtransaction</code>.  The new workflow replaces the previous <code class="highlighter-rouge">createrawtransaction</code> with two steps:</p>
-
-<ol>
-  <li>Use <code class="highlighter-rouge">createrawtransaction</code> just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.</li>
-  <li>Use <code class="highlighter-rouge">namerawtransaction</code> to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.</li>
-</ol>
-
-<h2 id="what-will-be-the-impact">What will be the impact?</h2>
-
-<p>Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your <code class="highlighter-rouge">createrawtransaction</code>-using code so that it also calls <code class="highlighter-rouge">namerawtransaction</code>.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.</p>
-
-<h2 id="whos-involved-in-this-work">Who’s involved in this work?</h2>
-
-<ul>
-  <li>Jeremy Rand wrote a rough spec for the new API.</li>
-  <li>Daniel Kraft is implementing the changes to the API.</li>
-  <li>Jeremy Rand plans to utilize the new API in proof-of-concept scripts for several use cases (including the above 4 use cases).</li>
-  <li>Brandon Roberts plans to convert Jeremy’s proof-of-concept scripts into GUI features in Namecoin-Qt.</li>
-</ul>
-
-<p>This work was funded in part by NLnet Foundation’s Internet Hardening Fund.</p>
-
-<h2 id="what-might-come-later">What might come later?</h2>
-
-<p>Maybe Namecoin-Qt support for atomic name trading?  :)</p>
+<p>Happily, the 0.2.7 Beta 1 release is using an unmodified upstream libdohj, since Ross Nicoll from Dogecoin has merged all of my changes.  I’m still working to get the relevant ConsensusJ (formerly bitcoinj-addons) code merged upstream.  <strong>As usual, the SPV client is experimental.  Namecoin Core is still substantially more secure against most threat models.</strong></p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -533,7 +486,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-09-13-raw-tx-api-refactoring.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-11-30-spv-lookup-0.2.7-beta-1.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
