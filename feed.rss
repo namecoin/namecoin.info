@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 01 Dec 2017 02:00:27 +0000</pubDate>
-    <lastBuildDate>Fri, 01 Dec 2017 02:00:27 +0000</lastBuildDate>
+    <pubDate>Sat, 23 Dec 2017 16:53:31 +0000</pubDate>
+    <lastBuildDate>Sat, 23 Dec 2017 16:53:31 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin's Jeremy Rand and Jonas Ostman will be at 34C3</title>
+        <description>&lt;p&gt;Namecoin developers Jeremy Rand and Jonas Ostman will attend &lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Main_Page&quot;&gt;34C3 (the 34th Chaos Communication Congress)&lt;/a&gt; in Leipzig, December 27-30.  There’s a good chance that the 34C3 Monero Assembly will host some Namecoin talks.  We’re looking forward to the congress!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Dec 2017 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2017/12/23/34c3.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2017/12/23/34c3.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Lightweight SPV Lookup Client 0.2.7 Beta 1 Source Code Available</title>
@@ -282,43 +295,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <guid isPermaLink="true">https://namecoin.org//2017/09/28/raw-tx-api-registration.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.0.5 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.0.5.  List of changes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Windows installer:
-    &lt;ul&gt;
-      &lt;li&gt;Bundle BitcoinJ/libdohj SPV name lookup client as an alternative to Namecoin Core.&lt;/li&gt;
-      &lt;li&gt;TLS: Support Google Chrome Canary.  (Bug reported by samurai321.)&lt;/li&gt;
-      &lt;li&gt;TLS: Fix bug in Chromium, Google Chrome, and Google Chrome Canary profile detection.  (Bug reported by samurai321.)&lt;/li&gt;
-      &lt;li&gt;User is now prompted to uninstall before reinstalling.&lt;/li&gt;
-      &lt;li&gt;Add additional debug output.  (Bug reported by samurai321.)&lt;/li&gt;
-      &lt;li&gt;Detect when Namecoin Core or Dnssec-Trigger failed to install.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;All OS’s:
-    &lt;ul&gt;
-      &lt;li&gt;Various code cleanups.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/09/26/ncdns-v0.0.5-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/09/26/ncdns-v0.0.5-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
