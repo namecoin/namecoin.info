@@ -6,9 +6,42 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 23 Dec 2017 16:53:31 +0000</pubDate>
-    <lastBuildDate>Sat, 23 Dec 2017 16:53:31 +0000</lastBuildDate>
+    <pubDate>Wed, 03 Jan 2018 17:34:55 +0000</pubDate>
+    <lastBuildDate>Wed, 03 Jan 2018 17:34:55 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>34C3 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/12/23/34c3.html&quot;&gt;previously announced&lt;/a&gt;, Jonas Ostman and I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Main_Page&quot;&gt;34C3&lt;/a&gt; in Leipzig, Germany.  This was our first Congress, so we didn’t quite know what to expect, but we were pretty confident that it would be awesome.  We were not disappointed.  The CCC community is well-known for being friendly and welcoming to newcomers, and we greatly enjoyed talking to everyone there.&lt;/p&gt;
+
+&lt;p&gt;Namecoin gave 3 talks, all of which were hosted by the Monero Assembly and the Chaos West Stage.  I expect 2 of those talks to have videos posted sometime later this month.  Unfortunately, 1 of the talks suffered an audio issue in the recording, so it won’t have a video posted (but I will post the slides of that talk, as well as the other talks’ slides).  The talks’ titles are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&lt;/li&gt;
+  &lt;li&gt;Namecoin for Tor Onion Service Naming (And Other Darknets) &lt;em&gt;(No video will be posted due to audio recording technical issues)&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;A Blueprint for Making Namecoin Anonymous&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  That said, I can say that a lot of very promising discussions happened regarding future collaboration with allied projects, and we’ll make any relevant announcements when/if such collaborations are formalized.&lt;/p&gt;
+
+&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Monero_Assembly&quot;&gt;The Monero Assembly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Chaos_West&quot;&gt;The Chaos West Assembly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We definitely intend to return for 35C3 in December 2018.  Until then, &lt;em&gt;Tuwat!&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/01/03/34c3-summary.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/01/03/34c3-summary.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin's Jeremy Rand and Jonas Ostman will be at 34C3</title>
@@ -272,27 +305,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <pubDate>Sat, 30 Sep 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/09/30/firefox-tls-webext.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/09/30/firefox-tls-webext.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Registering Names with the Raw Transaction API</title>
-        <description>&lt;p&gt;The refactorings to the raw transaction API that I &lt;a href=&quot;/2017/09/13/raw-tx-api-refactoring.html&quot;&gt;mentioned earlier&lt;/a&gt; have been merged to Namecoin Core’s master branch.  I’ve been doing some experiments with it, and I used it to successfully register a name on a regtest network with only one unlock of my wallet (which covered both the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; operations).&lt;/p&gt;
-
-&lt;p&gt;I also coded support for Coin Control and Fee Control for name registrations, although this code is not yet tested (meaning that if Murphy has anything to say about it, it will need some fixes).&lt;/p&gt;
-
-&lt;p&gt;So far the code here is a Python script, so it still needs to be integrated into Namecoin-Qt.  Brandon expects this to be relatively straightforward once I hand off my Python code to him.  Major thanks to Daniel for getting the API refactorings into Namecoin Core, and thanks to Brandon for useful discussions on how best to structure the code so that it can be integrated into Namecoin-Qt smoothly.&lt;/p&gt;
-
-&lt;p&gt;Hopefully I’ll have more news on this subject in the next couple weeks.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 28 Sep 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/09/28/raw-tx-api-registration.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/09/28/raw-tx-api-registration.html</guid>
         
         <category>News</category>
         
