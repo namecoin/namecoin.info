@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Google Summer of Code (GSoC) 2018 Project Ideas</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//contribute/gsoc-2018/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/exchanges/">Exchanges</a></li>
+                            <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Google Summer of Code (GSoC) 2018 Project Ideas</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>Namecoin intends to apply for Google Summer of Code 2018 as a mentor organization.</p>
+
+<p>If you are interested in working on one of the following projects, get in touch with us! For low-latency discussion, many of our developers can be reached via <a href="/resources/chat/#namecoin-dev">#namecoin-dev</a> (we also are present in <a href="/resources/chat/#namecoin">#namecoin</a>). If you’re not able to get an answer on there (which is possible, since several of our developers won’t be able to respond during class or work), please post in the <a href="https://forum.namecoin.org/">forum</a>. If you have your own ideas for good Namecoin projects, we would love to hear them and support you with those, too!  All of the project ideas are fairly customizable based on your interests and skills (which is why the “Difficulty” fields aren’t completely precise.)  <strong>Please talk to us early in the formation of your proposal; this allows us to give you more useful feedback.</strong></p>
+
+<h2 id="lightweight-client">Lightweight Client</h2>
+
+<p>Namecoin needs a light client, which can be used to register/manage names or get name values trustlessly but without the need to store the full blockchain. There are multiple possible ideas to tackle this, depending on your interests and likes. Some examples of how this might be done:</p>
+
+<ul>
+  <li>Port an existing lightweight Bitcoin client to Namecoin.  We prefer projects that aim to support the naming features of Namecoin, not just the currency features.  You may find <a href="https://bitcoin.org/en/choose-your-wallet">this list of Bitcoin wallets</a> to be useful, but be aware that not all of the Bitcoin wallets listed there are suitable.  In particular, clients that are not fully open-source do not qualify; nor do clients that require a server component that is not fully open-source; nor do wallets that require a DRM-enforcing operating system such as Apple iOS; nor do wallets that require fully trusting a third party.  If you are porting a client that uses the BitcoinJ library, you may find <a href="https://github.com/dogecoin/libdohj">Ross Nicoll’s libdohj library</a> to be useful.</li>
+  <li>Name database commitment system (for example, a Merkle tree system).  This could make it much more expensive for lookup services to lie about the state of names, make such lies more easily detectable, and allow lightweight clients to only download a subset of the name database.  This has some similarities to the UTXO set commitments that have been proposed in Bitcoin (and used in Electrum’s protocol), but Namecoin’s needs don’t exactly match those of Bitcoin.  You may find <a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=2239">Daniel Kraft’s proposal</a> to be interesting.</li>
+</ul>
+
+<p>Adding P2P wire protocol commands may be fine if it helps you in accomplishing this, as long as doing so doesn’t cause our codebase to diverge too much from upstream Bitcoin.  Changing blockchain consensus rules is not off the table, but it would require convincing us that doing so has a clear benefit.  You are free to propose a codebase of your choice to work with as well as your own ideas for implementing a light client and discuss your choice with the community.  You may find the following writeups by Hugo Landau interesting, although take them with a grain of salt as they are somewhat outdated: <a href="https://github.com/hlandau/ncdocs/blob/master/nctypes-intro.md">Namecoin Deployment Types</a> and <a href="https://github.com/hlandau/ncdocs/blob/master/stateofnamecoin.md">State of Namecoin</a>.</p>
+
+<p><strong>Difficulty</strong>: Medium-Hard</p>
+
+<p><strong>Requirements</strong>: If porting an existing Bitcoin client, a strong understanding of how Bitcoin and Namecoin work.  If working on a name database commitment system, familiarity with commitment systems such as those using Merkle trees.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: A light client that is usable and supports name transactions.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed), Brandon (confirmed) <!-- Daniel? --></p>
+
+<h2 id="domain-name-integration-with-additional-platformsapplications">Domain Name Integration with Additional Platforms/Applications</h2>
+
+<p>Namecoin currently supports integration with the DNS resolvers on desktop OS’s such as GNU/Linux, Windows, and macOS.  Integration with the Tor anonymity network on desktop OS’s (with domain names pointing to IP addresses, DNS names, and onion services) is also working.  However, there are several other applications and environments where Namecoin domain names would be beneficial.  Some of these are:</p>
+
+<ul>
+  <li>The Android mobile OS.  This might also include porting an Android Light Client to Namecoin.</li>
+  <li>The <a href="https://geti2p.net/">I2P</a> anonymity network (names point to IP addresses, DNS names, and eepsites).  (Note: the <a href="https://getkovri.org/">Kovri</a> developers are interested in this.)</li>
+  <li>The <a href="https://freenetproject.org/">Freenet</a> anonymous hosting network (names point to freesites).</li>
+  <li>The <a href="https://zeronet.io/">ZeroNet</a> decentralized hosting network (names point to ZeroNet sites).  ZeroNet already has partial support for Namecoin but currently uses a centralized server to look up names.</li>
+  <li>The <a href="https://ipfs.io/">IPFS</a> decentralized hosting network (names point to IPFS sites).</li>
+</ul>
+
+<p>You are free to integrate Namecoin domain names into any additional platform(s) or application(s) of your choice, as long as they do not enforce DRM (this means Apple iOS is not acceptable).  In many cases, it is likely that you would benefit from talking to the developers of whatever application you would be working with (e.g. if you’re implementing Namecoin support in I2P, you might want to talk to the developers of an I2P client implementation).</p>
+
+<p><strong>Difficulty</strong>: Easy-Medium</p>
+
+<p><strong>Requirements</strong>: Familiarity with whatever platform(s) or application(s) you would be integrating Namecoin with.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: A working integration of Namecoin domain names with the platform(s) or application(s) of your choice.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed), anonimal (if integrating Namecoin with Kovri; confirmed)</p>
+
+<h2 id="tls-integration-with-additional-platformsapplications">TLS Integration with Additional Platforms/Applications</h2>
+
+<p>Namecoin currently supports integration with TLS implementations (as a decentralized alternative to certificate authorities) on a small number of platforms and applications: positive overrides (self-signed certs are allowed if they match the Namecoin blockchain) for Windows and (on GNU/Linux) NSS, and negative overrides (CA-issued certificates are disallowed if they don’t match the Namecoin blockchain) for Chromium.  However, our existing support is rather hacky and has some disadvantages, and we’d love to support more platforms.  Some examples of things we’d like to see support Namecoin for TLS:</p>
+
+<ul>
+  <li>Operating Systems
+    <ul>
+      <li>Windows</li>
+      <li>macOS</li>
+      <li>GNU/Linux</li>
+      <li>Android</li>
+      <li>Any other OS</li>
+    </ul>
+  </li>
+  <li>Any major web browser (except Firefox – we already have a developer working on that)</li>
+  <li>Libraries
+    <ul>
+      <li>OpenSSL</li>
+      <li>NSS</li>
+      <li>GnuTLS</li>
+      <li>Any other TLS library</li>
+    </ul>
+  </li>
+  <li>TLS Shims
+    <ul>
+      <li><a href="https://bitbucket.org/uf_sensei/cert-shim">Cert-Shim</a></li>
+      <li><a href="https://github.com/arpa2/tlspool">TLS Pool</a></li>
+    </ul>
+  </li>
+  <li>Languages’ Standard Libraries
+    <ul>
+      <li>Go</li>
+      <li>Python</li>
+      <li>Java</li>
+      <li>Any other language’s standard library</li>
+    </ul>
+  </li>
+  <li>Servers
+    <ul>
+      <li>CertBot</li>
+      <li>Caddy</li>
+    </ul>
+  </li>
+</ul>
+
+<p>It might also be interesting to simulate HSTS by automatically redirecting HTTP to HTTPS for Namecoin domain names that have a TLS cert listed in the blockchain.  This would prevent sslstrip-style attacks even if an HSTS header hasn’t been received yet.</p>
+
+<p><strong>Difficulty</strong>: Medium-Hard</p>
+
+<p><strong>Requirements</strong>: Familiarity with TLS certificates and how they’re handled by whatever platform(s)/application(s) you choose to work with.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: A working integration of Namecoin for certificate verification with the platform(s) or application(s) of your choice.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed)</p>
+
+<h2 id="identity-integration-with-additional-applications">Identity Integration with Additional Applications</h2>
+
+<p>Namecoin could be used for identities with a variety of protocols and applications.  Some of these are:</p>
+
+<ul>
+  <li>Website single sign-on.  Daniel Kraft’s NameID is an interesting proof-of-concept of this, but it is questionable whether OpenID or a Firefox extension are the best ways to do this.  For example, TLS CCA (client certificate authentication) and FIDO have been suggested as more standard alternatives.</li>
+  <li>OpenSSH client login.</li>
+  <li><a href="https://bitmessage.org/">Bitmessage</a>.  Daniel Kraft implemented a proof-of-concept that is now part of Bitmessage, but it could be significantly improved, e.g. by implementing reverse lookups (Bitmessage addresses to Namecoin identities).  Be careful about blockchain bloat; it might be more scalable to implement reverse lookups in the Bitmessage protocol rather than the Namecoin blockchain.</li>
+  <li>OTR (Off The Record Messaging) and OMEMO.  Daniel Kraft implemented a proof-of-concept for Pidgin, but his code is obsolete, and Pidgin itself is no longer considered particularly safe.  There are lots of IM clients that support OTR or OMEMO; adding Namecoin support to one of them would be beneficial.</li>
+  <li>OpenPGP.  Phelix implemented a proof-of-concept of a Namecoin OpenPGP keyserver, but it is based on outdated code and might benefit from a fresh attempt.
+<!-- * Ricochet.  **TODO: Check with Special about whether this is a good idea for 2018.**-->
+<!-- * Tox.  **TODO: Check with Tox devs about whether this is a good idea for 2018.**-->
+<!-- * Ring.  **TODO: Check with Ring devs about whether this is a good idea for 2018.**-->
+<!-- * Matrix.  **TODO: Check with Matrix devs about whether this is a good idea for 2018** --></li>
+  <li>Cryptocurrency addresses.  May be relevant to the work by Netki and by <a href="https://www.openalias.org/">Monero’s OpenAlias project</a>.</li>
+</ul>
+
+<p><strong>Difficulty</strong>: Easy-Medium</p>
+
+<p><strong>Requirements</strong>: Familiarity with whatever protocol(s) or application(s) you would be integrating Namecoin with.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: A working integration of Namecoin identities with the protocol(s) or application(s) of your choice.</p>
+
+<p><strong>Possible Mentors</strong>: <!-- Daniel? --> Jeremy (confirmed)</p>
+
+<h2 id="name-trading-ui">Name Trading UI</h2>
+
+<p>Namecoin’s protocol supports atomic name trades, in which Alice can purchase a name from Bob without counterparty risk.  This could help reduce issues with squatted names.  You could make this functionality available in the UI in a simple way, and possibly investigate a method for buyers and sellers to find each other (e.g. a decentralized bulletin board).  Both interactive trades (where both parties select and confirm each other) and non-interactive trades (where a trade offer can be posted publicly and another user can accept the offer without further interaction) are possible; you can implement either (or both).  You may find <a href="https://github.com/phelixnmc/antpy">Phelix’s ANTPY</a> and <a href="https://github.com/ryancdotorg/nametrade">Ryan Castellucci’s nametrade</a> implementations to be interesting.</p>
+
+<p>You are free to implement a name trading UI in any Namecoin wallet that you choose.  (Since Namecoin Core is the only currently available wallet application, this would mean either implementing your name trading UI into Namecoin Core or combining some name trading UI tasks with creating a Lightweight Client.)</p>
+
+<p><strong>Difficulty</strong>: Medium</p>
+
+<p><strong>Requirements</strong>: Familiarity with UI design in whatever language and UI framework your chosen wallet application uses.  (For example, Namecoin Core uses C++ with Qt.)</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: Modified Namecoin wallet software with your atomic name trading UI.</p>
+
+<p><strong>Possible Mentors</strong>: Brandon (confirmed), Jeremy (confirmed) <!-- Daniel? --></p>
+
+<h2 id="anonymity">Anonymity</h2>
+
+<p>Namecoin suffers the same problems with traceability (lack of anonymity) of coin flows that Bitcoin does, plus additional linkability given the data attached to name transactions.  When Namecoin is used for its stated purpose to provide censorship-resistant, MITM-resistant browsing and registration of domains for possibly controversial purposes (e.g. under repressive regimes), this may be even a bigger problem than with Bitcoin.  You could improve this situation in several ways:</p>
+
+<ul>
+  <li>Improve usability of registering a name anonymously by automating a purchase of namecoins using an anonymous currency like Monero or Zcash as part of the name registration process.  This reduces the risk of private data leaking while purchasing namecoins (e.g. banking details at an exchange, or Bitcoin blockchain analysis data).  Integrating with a decentralized exchange such as <a href="https://bisq.network/">Bisq</a> might be a useful way to do this (this might also make it easier to register Namecoin names with national currencies).  Future advances in blockchain technology such as atomic cross-chain trades might be applicable, so try to make sure that your code could be reused with as few changes as possible for such use cases once they’re ready.</li>
+  <li>Keep each registered name separate on the blockchain.  This reduces the risk of private data leaking in the Namecoin blockchain.  This might be done using the Coin Control or HD Wallet features of wallet software.</li>
+  <li>Improve the ability for Namecoin-related software to run safely when routed over Tor or other anonymity networks.  This might include testing for and fixing proxy leaks, application-layer protocol leaks, timing metadata leaks, and incorrect or missing stream isolation, among other things.  It’s okay if this work includes some fixes to upstream software (e.g. Bitcoin wallet software), but a significant component of your project should be Namecoin-specific.</li>
+</ul>
+
+<p>You are free to choose any anonymity improvements you wish in any Namecoin-related software of your choice.  <!-- **TODO: are the Bisq people and/or the Monero people interested in mentoring something?  (Asked in #bisq 2018 Jan 18.)** --></p>
+
+<p><strong>Difficulty</strong>: Medium-Hard</p>
+
+<p><strong>Requirements</strong>: Familiarity with Bitcoin’s anonymity properties/attacks.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: Modified Namecoin software with your anonymity improvements.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed) <!-- Daniel? --></p>
+
+<h2 id="scalability-segregated-name-values">Scalability: Segregated Name Values</h2>
+
+<p>The data attached to names in Namecoin is permanently part of the blockchain, which is bad for scalability.  Jeremy Rand wrote a rough proposal called <a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=2482">Segregated Name Values (SegVal)</a>, which would allow name data to be discarded from the network after it has expired, thereby significantly improving scalability.  You could implement SegVal and deploy it on a Namecoin testnet, for merging later to the production Namecoin mainnet.</p>
+
+<p><strong>Difficulty</strong>: Hard</p>
+
+<p><strong>Requirements</strong>: Familiarity with C++ and the Bitcoin Core codebase.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: SegVal deployed on a Namecoin testnet.</p>
+
+<p><strong>Possible Mentors</strong>: <!-- Daniel? --> Jeremy (confirmed)</p>
+
+<h2 id="block-explorer">Block Explorer</h2>
+
+<p>Namecoin would benefit from a high-quality libre block explorer with support for name transactions.  Brandon Roberts has already ported <a href="https://bitcore.io/">Bitcore</a> to Namecoin, which might make it feasible to port the <a href="https://github.com/bitpay/insight-api">Insight block explorer</a> to Namecoin.</p>
+
+<p><strong>Difficulty</strong>: Easy</p>
+
+<p><strong>Requirements</strong>: Basic familiarity with a Bitcoin block explorer implementation.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: A Namecoin block explorer with support for name transactions.</p>
+
+<p><strong>Possible Mentors</strong>: Brandon (confirmed), Jeremy (confirmed)</p>
+
+<h2 id="packaging-improvements">Packaging Improvements</h2>
+
+<p>Namecoin’s various subprojects would benefit from improvements in the packaging process.  For example:</p>
+
+<ul>
+  <li>GNU/Linux packages for Namecoin Core, ncdns, lightweight clients, etc.</li>
+  <li><a href="https://reproducible-builds.org/">Reproducible builds</a> for ncdns, lightweight clients, etc.  (Namecoin Core binaries are already reproducible, but we’d love to see reproducible GNU/Linux packages for Namecoin Core.)</li>
+</ul>
+
+<p><strong>Difficulty</strong>: Easy-Hard</p>
+
+<p><strong>Requirements</strong>: Familiarity with build systems, packaging, and/or reproducible builds.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: Modified Namecoin software build scripts with your improvements; possibly also deployed PPA/COPR-style packages or official distribution packages if you choose to do so.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed)</p>
+
+<h2 id="hardeningsandboxing-improvements">Hardening/Sandboxing Improvements</h2>
+
+<p>Various hardening and sandboxing technologies exist, e.g. <a href="https://en.wikipedia.org/wiki/AppArmor">AppArmor</a>, <a href="https://github.com/projectatomic/bubblewrap">Bubblewrap</a>, <a href="https://www.qubes-os.org/">Qubes</a>’s AppVM’s, and <a href="https://subgraph.com/sgos/">Subgraph</a>’s Oz.  It would be interesting to utilize some of these with software from the Namecoin ecosystem.</p>
+
+<p><strong>Difficulty</strong>: Easy-Medium</p>
+
+<p><strong>Requirements</strong>: Familiarity with the hardening/sandboxing technology or technologies that you plan to use.</p>
+
+<p><strong>Expected Outcomes/Deliverables</strong>: Modifications to the Namecoin-related software of your choice to use the hardening/sandboxing technology or technologies of your choice.</p>
+
+<p><strong>Possible Mentors</strong>: Jeremy (confirmed)</p>
+
+<h2 id="your-own-namecoin-use-or-enhancement">Your Own Namecoin Use or Enhancement</h2>
+
+<p>Namecoin can be used for lots of novel and interesting use cases, and existing use cases are open for improvement.  Propose your own use case or improvement, and discuss it with us!  Anecdotally, we’ve heard from other GSoC mentor organizations that the most successful projects were ones that a student came up with themselves rather than took from a suggestion list, so don’t be afraid to be creative.  Also note that there’s nothing wrong with working on more than one of the categories we’ve suggested.  For example, anonymous users often have bandwidth constraints, so combining Anonymity with a Lightweight Client might make sense; just be careful not to choose a bigger scope than you can expect to do over the summer.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/contribute/gsoc-2018/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>

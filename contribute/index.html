@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin TLS for Firefox: Phase 1 (Overrides in C++)</title>
+    <title>Contribute</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/09/24/firefox-tls-cpp.html">
+    <link rel="canonical" href="https://namecoin.org//contribute/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -224,269 +224,64 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        
+        <div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">Contribute</h1>
+  </header>
 
+  <article class="post-content">
+    
+<p>So you’d like to support Namecoin?  Great!  There are several ways you can help keep Namecoin strong.</p>
 
+<h2 id="donate">Donate</h2>
 
+<p>Donations help our developers pay the bills, and sometimes can even enable new developers to join the project.  <a href="/donate/">You can donate to the Namecoin project here.</a></p>
 
+<h2 id="run-a-full-node">Run a full node</h2>
 
+<p>Full nodes (Namecoin Core nodes) are the core of the Namecoin P2P network.  The more people run full nodes, and the more geographically and jurisdictionally diverse those full nodes are, the stronger the Namecoin P2P network becomes.  Please consider running <a href="/download/#namecoin-core-client-with-qt-name-tab">Namecoin Core</a> on as many of the following networks as you can:</p>
 
+<ul>
+  <li>IPv4 (preferably allowing incoming connections)</li>
+  <li>IPv6 (preferably allowing incoming connections)</li>
+  <li>Ephemeral Tor onion service (<a href="https://github.com/namecoin/namecoin-core/blob/master/doc/tor.md">docs</a>)</li>
+  <li>Stable Tor onion service (<a href="https://github.com/namecoin/namecoin-core/blob/master/doc/tor.md">docs</a>)</li>
+</ul>
 
+<h2 id="test-betas">Test betas</h2>
 
+<p>Do you enjoy living on the cutting edge?  Are you highly skilled at breaking things?  You can help us by testing <a href="/download/betas/">beta releases of Namecoin software</a>, and letting us know what we can improve.</p>
 
+<h2 id="run-a-bit-website">Run a <code class="highlighter-rouge">.bit</code> website</h2>
 
+<p>Do you have a website?  Register a <code class="highlighter-rouge">.bit</code> domain for it with Namecoin, enable TLS on it, and tell your website’s visitors that they can optionally access your site via Namecoin.</p>
 
+<p>Don’t have a website?  Ask your favorite websites’ operators to get a <code class="highlighter-rouge">.bit</code> domain.</p>
 
+<h2 id="improve-decentralized-exchange-liquidity">Improve decentralized exchange liquidity</h2>
 
+<p>Decentralized exchanges offer better security and privacy than centralized exchanges.  You can help make decentralized exchanges easier to use by posting buy and sell offers on them.  <a href="/exchanges/#decentralized-exchanges">See the list of decentralized exchanges here.</a></p>
 
+<h2 id="merge-mine-namecoin">Merge-mine Namecoin</h2>
 
+<p>Do you mine Bitcoin at a mining pool?  Consider using a Bitcoin mining pool that also merge-mines Namecoin.  You can help keep Namecoin mining decentralized by using the lowest-hashrate pool available that still meets your requirements, or by using <a href="https://github.com/p2pool/p2pool">P2Pool</a> or solo-mining.</p>
 
+<h2 id="write-documentation">Write documentation</h2>
 
+<p>Is our documentation not clear about (or just plain missing) something?  Are you good at creating text, image, or video tutorials?  You can help us by improving our documentation.  Talk to us (Matrix or IRC preferred) and we’ll be happy to assist.</p>
 
+<h2 id="write-code">Write code</h2>
 
+<p>Are you a coder?  We’d love some help coding Namecoin!  Talk to us (Matrix or IRC preferred) and we’ll find some tasks that are well-suited to your interests and skill set.</p>
 
+<h2 id="tell-your-friends">Tell your friends</h2>
 
+<p>Are you a journalist?  Do you have a social media platform?  Heck, do you just have a few like-minded friends?  Spread the word about Namecoin and why it matters to you.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">Namecoin TLS for Firefox: Phase 1 (Overrides in C++)</h1>
-<p class="post-meta">Sep 24, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
-</header>
-
-<article class="post-content">
-<p>Making TLS work for Namecoin websites in Firefox has been an interesting challenge.  On the positive side, Mozilla has historically exposed a number of API’s that would be useful for this purpose, and we’ve actually produced a couple of Firefox extensions that used them: the well-known Convergence for Namecoin codebase (based on Convergence by Moxie Marlinspike and customized for Namecoin by me), and the much-lesser-known nczilla (written by Hugo Landau and me, with some code borrowed from Selenium).  This was a pretty big advantage over Chromium, whose developers have consistently refused to support our use cases (which forced us to use the dehydrated certificate witchcraft).  On the negative side, Mozilla has a habit of removing useful API’s approximately as fast as we notice new ones.  (Convergence’s required API’s were removed by Mozilla about a year or two after we started using Convergence, and nczilla’s required API’s were removed before nczilla even had a proper release, which is why nearly no one has heard of nczilla.)  On the positive side, Mozilla has expressed an apparent willingness to entertain the idea of merging officially supported API’s for our use case.  So, I’ve been hacking around with a fork of Firefox, hoping to come up with something that Mozilla could merge in the future.  Phase 1 of that effort is now complete.</p>
-
-<p>In particular, I’ve created a C++ XPCOM component (compiled into my fork of Firefox) that hooks the certificate verification functions, and can produce both positive and negative overrides (meaning, respectively, that it can make invalid certs appear valid, and make valid certs appear invalid).  This XPCOM component has access to most of the data that we would want: it has access to the certificate, the hostname, and quite a lot of other data that Firefox stores in objects that the XPCOM component has access to.  Unfortunately, it doesn’t yet have access to the full certificate chain (I’m still investigating how to do that), and it also doesn’t yet have access to the proxy settings (I do see how to do that, it’s just not coded yet).  The full certificate chain would be useful if you want to run your own CA; the proxy settings would be useful for Tor stream isolation with headers-only Namecoin SPV clients.</p>
-
-<p>Performance is likely to be impacted, since this code is not even close to optimized (nor is performance even measured).  I’ll be investigating performance later.  Short-term, my next step will be to delegate the override decisions to JavaScript code.  (This looks straightforward, but as we all know, our friend Murphy might strike at any time.)  After that I’ll be looking at making that JavaScript code delegate decisions to WebExtensions.  The intention here is to support use cases besides Namecoin’s.  The WebExtensions API that this would expose would presumably be useful for DNSSEC/DANE verification, perspective verification, and maybe other interesting experiments that I haven’t thought of.</p>
-
-<p>Major thanks to David Keeler from Mozilla for answering some questions in IRC that I had about how the Firefox certificate verification code is structured.</p>
-
-<p>Hopefully I’ll have more news on this subject in the next couple weeks.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
-
-</article>
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -502,7 +297,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-09-24-firefox-tls-cpp.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/contribute/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
