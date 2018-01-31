@@ -6,9 +6,134 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 26 Jan 2018 16:11:08 +0000</pubDate>
-    <lastBuildDate>Fri, 26 Jan 2018 16:11:08 +0000</lastBuildDate>
+    <pubDate>Wed, 31 Jan 2018 04:27:13 +0000</pubDate>
+    <lastBuildDate>Wed, 31 Jan 2018 04:27:13 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Recent Reports of Ransomware Using Namecoin are Missing the Real Story</title>
+        <description>&lt;p&gt;Some reports are making the rounds that a new ransomware strain, “GandCrab”, is using Namecoin for C&amp;amp;C.  While this may sound interesting, as far as I can tell these reports are missing the real story.&lt;/p&gt;
+
+&lt;p&gt;Looking at the &lt;a href=&quot;https://www.bleepingcomputer.com/news/security/gandcrab-ransomware-distributed-by-exploit-kits-appends-gdcb-extension/&quot;&gt;report on Bleeping Computer&lt;/a&gt;, we see these quotes:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Another interesting feature is GandCrab’s use of the NameCoin .BIT top-level domain.  .BIT is not a TLD that is recognized by the Internet Corporation for Assigned Names and Numbers (ICANN), but is instead managed by &lt;a href=&quot;https://namecoin.org/&quot;&gt;NameCoin’s&lt;/a&gt; decentralized domain name system.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The developers of GandCrab are using NameCoin’s DNS as it makes it harder for law enforcement to track down the owner of the domain and to take the domains down.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This doesn’t make much sense, since Namecoin isn’t anonymous (so tracking down the owner of the domain is relatively straightforward for law enforcement).  But more to the point, most Internet users don’t have Namecoin installed, and it would be rather odd for ransomware to bundle a Namecoin name lookup client.  This confusion is explained by Bleeping Computer (to their credit):&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This means that any software that wishes to resolve a domain name that uses the .BIT tld, must use a DNS server that supports it. GandCrab does this by making dns queries using the a.dnspod.com DNS server, which is accessible on the Internet and can also  be used to resolve .bit domains.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Yep, if this is to be believed, GandCrab isn’t actually using Namecoin, they’re using a centralized DNS server (&lt;code class=&quot;highlighter-rouge&quot;&gt;a.dnspod.com&lt;/code&gt;) which nominally claims to mirror the namespace of Namecoin.  This means that, if law enforcement wants to censor the C&amp;amp;C &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains, they don’t need to censor Namecoin (which would be rather difficult), they simply need to look up who owns &lt;code class=&quot;highlighter-rouge&quot;&gt;dnspod.com&lt;/code&gt; (under ICANN policy, looking this up is straightforward for law enforcement) and send them a court order to censor the C&amp;amp;C domains.&lt;/p&gt;
+
+&lt;p&gt;However, Bleeping Computer is actually substantially wrong on this point.  Why?  Take a look in the Namecha.in block explorer at &lt;a href=&quot;https://namecha.in/name/d/bleepingcomputer&quot;&gt;the Namecoin value of &lt;code class=&quot;highlighter-rouge&quot;&gt;bleepingcomputer.bit&lt;/code&gt;&lt;/a&gt;, which is one of the alleged C&amp;amp;C domains:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{&quot;ns&quot;:[&quot;A.DNSPOD.COM&quot;,&quot;B.DNSPOD.COM&quot;]}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;First off, note that this is actually a completely invalid Namecoin configuration, because &lt;a href=&quot;https://help.directadmin.com/item.php?id=541&quot;&gt;the trailing period is missing&lt;/a&gt; from the authoritative nameserver addresses, so any DNS software that tries to process that Namecoin domain will return &lt;code class=&quot;highlighter-rouge&quot;&gt;SERVFAIL&lt;/code&gt;.  Second, note that the authoritative nameservers listed are… the &lt;code class=&quot;highlighter-rouge&quot;&gt;dnspod.com&lt;/code&gt; nameservers.  This makes it pretty clear that &lt;code class=&quot;highlighter-rouge&quot;&gt;a.dnspod.com&lt;/code&gt; isn’t actually a Namecoin DNS inproxy.  If it were, and even if the trailing-period fail were corrected in the Namecoin value, the inproxy would end up in a recursion loop.  &lt;code class=&quot;highlighter-rouge&quot;&gt;a.dnspod.com&lt;/code&gt; is actually just a random authoritative nameserver that happens to be serving records for a domain name that ends in &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt;.  &lt;strong&gt;Namecoin isn’t used anywhere by GandCrab, and killing the Namecoin domain wouldn’t have any effect on GandCrab.&lt;/strong&gt;  Of course, this raises questions about why exactly that domain name is even registered in Namecoin.  The simplest explanations are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The GandCrab developers are massively incompetent, and have potentially deanonymized themselves by registering a Namecoin domain despite not ever using that Namecoin domain for their ransomware.&lt;/li&gt;
+  &lt;li&gt;Someone unrelated to GandCrab has registered that Namecoin domain for the purpose of trolling security researchers.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It’s conceivable that &lt;code class=&quot;highlighter-rouge&quot;&gt;dnspod.com&lt;/code&gt;’s nameservers will only allow a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain’s records to be served from their systems if that &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain’s Namecoin data points to &lt;code class=&quot;highlighter-rouge&quot;&gt;dnspod.com&lt;/code&gt;’s namservers, and it’s further possible that their systems are misconfigured to not notice that the trailing period is missing.  However, this seemed rather unlikely to me.  Why?  Well, first, take a look at the WHOIS data for &lt;code class=&quot;highlighter-rouge&quot;&gt;dnspod.com&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Registrar URL: http://www.dnspod.cn
+Registrar: DNSPod, Inc.
+Registrar IANA ID: 1697
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So DNSPod is apparently an ICANN-accredited DNS registrar, with a primary domain name in China.  Which of these scenarios fits better with Occam’s Razor:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A DNS registrar located in China (which is not exactly known for its government’s respect for Namecoin’s values of free speech), which is accredited by ICANN (which doesn’t recognize Namecoin as either a DNS TLD or a special-use TLD), is doing special processing of domain names that they host in order to respect the authority of Namecoin.  They’ve also never contacted the Namecoin developers to inform us that they’re doing this, nor are any of their technical people active in the Namecoin community.&lt;/li&gt;
+  &lt;li&gt;DNSPod simply doesn’t care what domains their customers host on their nameservers, since if DNSPod’s nameservers aren’t authorized by a domain’s NS record in the DNS, nothing bad will happen anyway (DNSPod simply won’t receive any requests for that domain).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In addition, if DNSPod had such a policy, it’s not clear how exactly their customers would be able to switch their Namecoin domains to DNSPod nameservers without encountering downtime while DNSPod was waiting for the Namecoin transaction to propagate.&lt;/p&gt;
+
+&lt;p&gt;However, since empiricism is informative, Ryan Castellucci tested this with an account on DNSPod, and confirmed that no such validation occurs:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
+
+; &amp;lt;&amp;lt;&amp;gt;&amp;gt; DiG 9.9.5-9+deb8u14-Debian &amp;lt;&amp;lt;&amp;gt;&amp;gt; +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
+;; global options: +cmd
+;; Got answer:
+;; -&amp;gt;&amp;gt;HEADER&amp;lt;&amp;lt;- opcode: QUERY, status: NOERROR, id: 23586
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 3, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;jeremyrandissomesortofhumanperson.bit. IN A
+
+;; ANSWER SECTION:
+jeremyrandissomesortofhumanperson.bit. 600 IN A 255.255.255.255
+
+;; AUTHORITY SECTION:
+jeremyrandissomesortofhumanperson.bit. 600 IN NS b.dnspod.com.
+jeremyrandissomesortofhumanperson.bit. 600 IN NS c.dnspod.com.
+jeremyrandissomesortofhumanperson.bit. 600 IN NS a.dnspod.com.
+
+;; Query time: 595 msec
+;; SERVER: 101.226.79.205#53(101.226.79.205)
+;; WHEN: Wed Jan 31 03:04:24 UTC 2018
+;; MSG SIZE  rcvd: 160
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;(Ryan doesn’t own &lt;code class=&quot;highlighter-rouge&quot;&gt;jeremyrandissomesortofhumanperson.bit&lt;/code&gt;.)  Ryan also did the same for &lt;code class=&quot;highlighter-rouge&quot;&gt;bleepingcomputer.iq&lt;/code&gt;, implying that DNSPod isn’t verifying ownership of DNS domain names either:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
+
+; &amp;lt;&amp;lt;&amp;gt;&amp;gt; DiG 9.9.5-9+deb8u14-Debian &amp;lt;&amp;lt;&amp;gt;&amp;gt; +tcp bleepingcomputer.iq @a.dnspod.com A
+;; global options: +cmd
+;; Got answer:
+;; -&amp;gt;&amp;gt;HEADER&amp;lt;&amp;lt;- opcode: QUERY, status: NOERROR, id: 50149
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 3, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;bleepingcomputer.iq.           IN      A
+
+;; ANSWER SECTION:
+bleepingcomputer.iq.    600     IN      A       8.8.8.8
+
+;; AUTHORITY SECTION:
+bleepingcomputer.iq.    600     IN      NS      a.dnspod.com.
+bleepingcomputer.iq.    600     IN      NS      b.dnspod.com.
+bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
+
+;; Query time: 5758 msec
+;; SERVER: 101.226.79.205#53(101.226.79.205)
+;; WHEN: Wed Jan 31 03:00:39 UTC 2018
+;; MSG SIZE  rcvd: 142
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Ryan tried registering a &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; domain and &lt;code class=&quot;highlighter-rouge&quot;&gt;bleepingcomputer.malware&lt;/code&gt; on DNSPod as well, but these were rejected as invalid TLD’s.  Ryan and I have no clue why &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; is on DNSPod’s TLD whitelist while &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; isn’t – probably because a customer asked for it and DNSPod just doesn’t care.&lt;/p&gt;
+
+&lt;p&gt;Ryan isn’t aware of any prior cases where a malware C&amp;amp;C was set up in a random free authoritative DNS provider such as DNSPod, with the DNS servers hardcoded in the malware.  It’s an interesting strategy for malware authors, since authoritative DNS providers usually don’t bother to confirm domain name ownership.  Entertainingly, Ryan found that DNSPod isn’t verifying ownership of the email addresses used to register accounts either.&lt;/p&gt;
+
+&lt;p&gt;So in conclusion: while this is a rather interesting case of a possible hilarious opsec fail by a ransomware author (which very well might get them arrested), and the strategy of using authoritative DNS hosting providers for malware C&amp;amp;C is fascinating as well, the ransomware itself is fully irrelevant to Namecoin.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>34C3 Summary</title>
@@ -280,31 +405,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/10/07/firefox-tls-latency.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/10/07/firefox-tls-latency.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin TLS for Firefox: Phase 2 (Overrides in a WebExtension)</title>
-        <description>&lt;p&gt;As I &lt;a href=&quot;/2017/09/24/firefox-tls-cpp.html&quot;&gt;mentioned earlier&lt;/a&gt;, I’ve been hacking on a fork of Firefox that exposes an API for positive and negative certificate verification overrides.  When I last posted, I had gotten this working from the C++ end (assuming that a highly hacky and unclean piece of code counts as “working”).  I’ve now created a WebExtensions Experiment that exposes the positive override portion of this API to WebExtensions.  (Negative overrides are likely to be basically identical in code structure, I just haven’t gotten to it yet.)&lt;/p&gt;
-
-&lt;p&gt;But wait, what’s a WebExtensions Experiment?  As you may know, Mozilla deprecated the extension model that’s been used since Firefox was created, in favor of a new model called WebExtensions, which is more cleanly segregated from the internals of Firefox.  This has some advantages: it means that WebExtensions can have a permission model rather than being fully trusted with the Firefox internals, and it also means that Firefox internals can change without requiring WebExtensions to adapt.  However, it also means that WebExtensions are significantly more limited in what they can do compared to old-style Firefox extensions.  WebExtensions Experiments are a bridge between the Firefox internals and WebExtensions.  WebExtensions Experiments are old-style Firefox extensions that happen to expose a WebExtensions API.  WebExtensions Experiments have all the low-level access that old-style Firefox extensions had; among other things, this means I can access my C++ API from a WebExtensions Experiment written in JavaScript, and expose an API to WebExtensions that allows them to indirectly access my C++ API.&lt;/p&gt;
-
-&lt;p&gt;Creating the WebExtensions Experiment was relatively straightforward, given my prior experience with nczilla (remember, a WebExtensions Experiment is mostly just a standard old-style Firefox extension, like nczilla was).  I also created a proof-of-concept WebExtension that uses this API to make “Untrusted” errors be ignored.  While I was doing this, I also kept track of performance.  And therein lies the current problem.  When the Experiment simply returns an override without asking the WebExtension, the added overhead is generally 2 ms in the worst case (and often it’s much less than 1 ms).  Unfortunately, Experiments and WebExtensions run in separate threads, and the thread synchronization required to get them to communicate increases the overhead by an order of magnitude: the worst-case overhead is around 20 ms (and it’s very rarely less than 6 ms).&lt;/p&gt;
-
-&lt;p&gt;My assumption was that there was no way Mozilla would be merging this with that kind of performance issue; this assumption was confirmed by David Keeler from Mozilla.&lt;/p&gt;
-
-&lt;p&gt;On the bright side, it looks like there are several options for communicating between threads that should have lower latency (something like 1-2 ms overhead, assuming that documentation is accurate).  So I’ll be investigating those in the next week or two.&lt;/p&gt;
-
-&lt;p&gt;As an interesting side note, Mozilla informs me that the current method I’m using to communicate between threads shouldn’t be working at all.  I’m not sure why it’s working when they say it shouldn’t, but in any event it’s probably a Very Bad Thing ™ to be using patterns that Mozilla doesn’t expect to work at all, even without the latency issue (since such patterns might break in the future, which I certainly don’t want).&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 30 Sep 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/09/30/firefox-tls-webext.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/09/30/firefox-tls-webext.html</guid>
         
         <category>News</category>
         
