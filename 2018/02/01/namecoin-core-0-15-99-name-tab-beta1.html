@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Video, Slides, and Paper from Namecoin at GCER 2017</title>
+    <title>Namecoin Core 0.15.99-name-tab-beta1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/08/31/gcer-2017-video.html">
+    <link rel="canonical" href="https://namecoin.org//2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,97 +232,137 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Video, Slides, and Paper from Namecoin at GCER 2017</h1>
-<p class="post-meta">Aug 31, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin Core 0.15.99-name-tab-beta1 Released</h1>
+<p class="post-meta">Feb 1, 2018 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>As was <a href="/2017/07/06/gcer-2017.html">announced</a>, I represented Namecoin at the 2017 Global Conference on Educational Robotics.  Although GCER doesn’t produce official recordings of their talks, I was able to obtain an amateur recording of my talk from an audience member.  I’ve also posted my slides, as well as my paper from the conference proceedings.</p>
+<p>Namecoin Core 0.15.99-name-tab-beta1 has been released on the <a href="/download/betas/#namecoin-core">Beta Downloads page</a>.  Changes since 0.13.99-name-tab-beta1:</p>
 
-<p>It should be noted that, as this is an amateur recording, the audio quality is not spectacular.  It should also be noted that the audience is rather different from the audiences for whom I usually give Namecoin talks; as a result, the focus of the content is also rather different from my usual Namecoin talks.</p>
+<ul>
+  <li>New features:
+    <ul>
+      <li>GUI
+        <ul>
+          <li>Significant rewrite of name GUI.  (Patch by brandonrobertz.)  <strong>In particular, please torture-test the following</strong>:
+            <ul>
+              <li>Full flow for registering names.</li>
+              <li>Full flow for updating and renewing names.</li>
+              <li>State display in the names list.</li>
+              <li>The above with mainnet, testnet, and regtest networks.</li>
+              <li>The above with encrypted locked, encrypted unlocked, and unencrypted wallets.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>RPC
+        <ul>
+          <li>Remove name operation from <code class="highlighter-rouge">createrawtransaction</code> RPC method; add <code class="highlighter-rouge">namerawtransaction</code> RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)</li>
+          <li>Restore <code class="highlighter-rouge">getblocktemplate</code> RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)</li>
+          <li>Add <code class="highlighter-rouge">createauxblock</code> and <code class="highlighter-rouge">submitauxblock</code> RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Fixes:
+    <ul>
+      <li>GUI
+        <ul>
+          <li>Fix pending name registration bug, where the GUI requests a wallet unlock over and over and then errors with name registered.  (Patch by brandonrobertz.)</li>
+          <li>Fix bug where names weren’t showing up in the Manage Names list properly until client had been restarted.  (Patch by brandonrobertz.)</li>
+        </ul>
+      </li>
+      <li>P2P
+        <ul>
+          <li>Update seed nodes.  This should decrease likelihood of getting stuck without peers.  (Patch by JeremyRand.)</li>
+        </ul>
+      </li>
+      <li>RPC
+        <ul>
+          <li>Fix crash when user attempts to broadcast an invalid raw transaction containing multiple <code class="highlighter-rouge">name_update</code> outputs.  (Reported by maxweisspoker, patch by domob1812.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Improvements from upstream Bitcoin Core.</li>
+</ul>
 
-<p><a href="https://www.namecoin.org/files/videos/gcer-2017/Namecoin-GCER-2017-1080p.webm">The WebM amateur video recording of my talk is here (hosted by Namecoin.org).</a></p>
-
-<p><a href="/resources/presentations/GCER_2017/Namecoin_GCER_2017_Slides.pdf">My slides are available here.</a></p>
-
-<p><a href="/resources/presentations/GCER_2017/Namecoin_GCER_2017_Paper.pdf">My paper is available here.</a></p>
-
-<p>Huge thanks to the staff and volunteers from KISS Institute for Practical Robotics, who organized GCER.  Especially big thanks to Roger Clement and Steve Goodgame for giving me excellent feedback on the general outline of my paper and talk.  This was an excellent event, and I look forward to the next time I’m able to attend.</p>
+<p>Unfortunately, Windows and macOS builds are broken in this release, so only GNU/Linux binaries are available.  We expect Windows and macOS builds to be restored for the 0.15.99-name-tab-beta2 release, which is coming soon.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -510,7 +550,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-08-31-gcer-2017-video.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-01-namecoin-core-0-15-99-name-tab-beta1.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

@@ -6,9 +6,74 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 31 Jan 2018 04:27:13 +0000</pubDate>
-    <lastBuildDate>Wed, 31 Jan 2018 04:27:13 +0000</lastBuildDate>
+    <pubDate>Thu, 01 Feb 2018 20:52:24 +0000</pubDate>
+    <lastBuildDate>Thu, 01 Feb 2018 20:52:24 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin Core 0.15.99-name-tab-beta1 Released</title>
+        <description>&lt;p&gt;Namecoin Core 0.15.99-name-tab-beta1 has been released on the &lt;a href=&quot;/download/betas/#namecoin-core&quot;&gt;Beta Downloads page&lt;/a&gt;.  Changes since 0.13.99-name-tab-beta1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;New features:
+    &lt;ul&gt;
+      &lt;li&gt;GUI
+        &lt;ul&gt;
+          &lt;li&gt;Significant rewrite of name GUI.  (Patch by brandonrobertz.)  &lt;strong&gt;In particular, please torture-test the following&lt;/strong&gt;:
+            &lt;ul&gt;
+              &lt;li&gt;Full flow for registering names.&lt;/li&gt;
+              &lt;li&gt;Full flow for updating and renewing names.&lt;/li&gt;
+              &lt;li&gt;State display in the names list.&lt;/li&gt;
+              &lt;li&gt;The above with mainnet, testnet, and regtest networks.&lt;/li&gt;
+              &lt;li&gt;The above with encrypted locked, encrypted unlocked, and unencrypted wallets.&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;RPC
+        &lt;ul&gt;
+          &lt;li&gt;Remove name operation from &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; RPC method; add &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt; RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)&lt;/li&gt;
+          &lt;li&gt;Restore &lt;code class=&quot;highlighter-rouge&quot;&gt;getblocktemplate&lt;/code&gt; RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)&lt;/li&gt;
+          &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;createauxblock&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;submitauxblock&lt;/code&gt; RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Fixes:
+    &lt;ul&gt;
+      &lt;li&gt;GUI
+        &lt;ul&gt;
+          &lt;li&gt;Fix pending name registration bug, where the GUI requests a wallet unlock over and over and then errors with name registered.  (Patch by brandonrobertz.)&lt;/li&gt;
+          &lt;li&gt;Fix bug where names weren’t showing up in the Manage Names list properly until client had been restarted.  (Patch by brandonrobertz.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;P2P
+        &lt;ul&gt;
+          &lt;li&gt;Update seed nodes.  This should decrease likelihood of getting stuck without peers.  (Patch by JeremyRand.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;RPC
+        &lt;ul&gt;
+          &lt;li&gt;Fix crash when user attempts to broadcast an invalid raw transaction containing multiple &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; outputs.  (Reported by maxweisspoker, patch by domob1812.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Improvements from upstream Bitcoin Core.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Unfortunately, Windows and macOS builds are broken in this release, so only GNU/Linux binaries are available.  We expect Windows and macOS builds to be restored for the 0.15.99-name-tab-beta2 release, which is coming soon.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 01 Feb 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Namecoin Core Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Recent Reports of Ransomware Using Namecoin are Missing the Real Story</title>
@@ -381,30 +446,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/10/11/firefox-tls-threads.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/10/11/firefox-tls-threads.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</title>
-        <description>&lt;p&gt;I &lt;a href=&quot;/2017/09/30/firefox-tls-webext.html&quot;&gt;recently mentioned&lt;/a&gt; performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;I initially observed the performance issues in a Fedora VM inside Qubes.  I decided on a hunch to try the same code on a Fedora live ISO running on bare metal, and the worst-case latency decreased from ~20 ms to ~6 ms.  The spread also decreased a lot.  I can think of lots of reasons why Qubes might have caused performance issues, e.g. the use of CPU paravirtualization, the I/O overhead associated with Xen, the limit on logical CPU cores inside the VM, the use of memory ballooning, competition from other VM’s for memory and CPU, and probably lots of other reasons.  In any event, my opinion is that the fault here lies in Qubes, not my code.&lt;/li&gt;
-  &lt;li&gt;The Firefox JavaScript JIT seems to improve performance of the WebExtensions Experiment and of the WebExtension each time it runs.  After running the same code (on bare-metal Fedora) against 6 different certificates, the latency decreased from ~6 ms to ~1 ms, and it was still monotonically decreasing at the 6th cert.  Testing this code with many repeats is tricky, because it caches validation results per host+certificate pair, and I don’t have a large supply of invalid certificates to test with.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The happy side effect of this debugging is that my current code is now quite a lot closer to Mozilla’s standard usage patterns, since I spent a lot of time trying to figure out whether something that I was deviating from Mozilla on was responsible for the latency.  Huge thanks to Andrew Swan from Mozilla for providing lots of useful tips in this area.&lt;/p&gt;
-
-&lt;p&gt;I believe that there are still several optimizations that could be made to this code, but for now I’m reasonably satisfied with the performance.  (Whether Mozilla will want further optimization is unclear; I’ll ask them later.)  My next step will be to set up negative overrides in the WebExtensions Experiment and the WebExtension.  After that, I’ll be looking into actually making the WebExtension ask Namecoin for the cert data (instead of returning dummy data).  Then comes code cleanup, code optimizations, and a patch submission to Mozilla.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/10/07/firefox-tls-latency.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/10/07/firefox-tls-latency.html</guid>
         
         <category>News</category>
         
