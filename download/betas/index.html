@@ -240,6 +240,35 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>As usual, it is a good idea to verify the hashes and signatures of these downloads (especially the ones not hosted on namecoin.org).  The more people reproduced the hashes, the better.  If you’re paranoid, run them inside an isolated virtual machine.</p>
 
+<h2 id="namecoin-core">Namecoin Core</h2>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/namecoin-core-0.15.99-name-tab-beta1/namecoin-0.15.99-aarch64-linux-gnu.tar.gz">Namecoin Core 0.15.99-name-tab-beta1 (GNU/Linux ARM 64-bit)</a></li>
+  <li><a href="https://www.namecoin.org/files/namecoin-core-0.15.99-name-tab-beta1/namecoin-0.15.99-arm-linux-gnueabihf.tar.gz">Namecoin Core 0.15.99-name-tab-beta1 (GNU/Linux ARM 32-bit)</a></li>
+  <li><a href="https://www.namecoin.org/files/namecoin-core-0.15.99-name-tab-beta1/namecoin-0.15.99-x86_64-linux-gnu.tar.gz">Namecoin Core 0.15.99-name-tab-beta1 (GNU/Linux x86 64-bit)</a></li>
+  <li><a href="https://www.namecoin.org/files/namecoin-core-0.15.99-name-tab-beta1/namecoin-0.15.99-i686-pc-linux-gnu.tar.gz">Namecoin Core 0.15.99-name-tab-beta1 (GNU/Linux x86 32-bit)</a></li>
+  <li><a href="https://www.namecoin.org/files/namecoin-core-0.15.99-name-tab-beta1/namecoin-0.15.99.tar.gz">Namecoin Core 0.15.99-name-tab-beta1 (Source code tarball)</a></li>
+  <li><a href="https://github.com/namecoin/gitian.sigs/">Namecoin Core Gitian signatures</a></li>
+  <li><a href="https://github.com/namecoin/namecoin-core/">Namecoin Core source code</a></li>
+</ul>
+
+<h3 id="things-to-test">Things to Test</h3>
+
+<ul>
+  <li>Full flow for registering names.</li>
+  <li>Full flow for updating and renewing names.</li>
+  <li>State display in the names list.</li>
+  <li>The above with mainnet, testnet, and regtest networks.</li>
+  <li>The above with encrypted locked, encrypted unlocked, and unencrypted wallets.</li>
+</ul>
+
+<h3 id="known-issues">Known Issues</h3>
+
+<ul>
+  <li>Windows builds not working (should be fixed in Beta 2)</li>
+  <li>macOS builds not working (should be fixed in Beta 2)</li>
+</ul>
+
 <h2 id="lightweight-spv-bitcoinj-name-lookup-client">Lightweight SPV BitcoinJ Name Lookup Client</h2>
 
 <p>This is a drop-in replacement for Namecoin Core’s name lookup functionality (e.g. for browsing .bit domains with ncdns), which synchronizes faster and uses less storage, but trusts Namecoin miners more than Namecoin Core does.</p>
@@ -306,7 +335,7 @@ GpcAkajMtMUk9xJjwEax
   <li><a href="https://github.com/namecoin/ncdns">ncdns Source Code</a></li>
 </ul>
 
-<h3 id="known-issues">Known Issues</h3>
+<h3 id="known-issues-1">Known Issues</h3>
 
 <ul>
   <li>Build is not yet reproducible.</li>
@@ -320,7 +349,7 @@ GpcAkajMtMUk9xJjwEax
 
 <p><a href="https://github.com/namecoin/dns-prop279">Source code at GitHub.</a></p>
 
-<h3 id="known-issues-1">Known Issues</h3>
+<h3 id="known-issues-2">Known Issues</h3>
 
 <ul>
   <li>Prop279 is still an early draft, and might change heavily.  dns-prop279 will change accordingly.</li>

@@ -235,6 +235,70 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Namecoin Core 0.15.99-name-tab-beta1 Released</h1>
+    <p class="post-meta">Feb 1, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Namecoin Core 0.15.99-name-tab-beta1 has been released on the <a href="/download/betas/#namecoin-core">Beta Downloads page</a>.  Changes since 0.13.99-name-tab-beta1:</p>
+
+    <ul>
+  <li>New features:
+    <ul>
+      <li>GUI
+        <ul>
+          <li>Significant rewrite of name GUI.  (Patch by brandonrobertz.)  <strong>In particular, please torture-test the following</strong>:
+            <ul>
+              <li>Full flow for registering names.</li>
+              <li>Full flow for updating and renewing names.</li>
+              <li>State display in the names list.</li>
+              <li>The above with mainnet, testnet, and regtest networks.</li>
+              <li>The above with encrypted locked, encrypted unlocked, and unencrypted wallets.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>RPC
+        <ul>
+          <li>Remove name operation from <code class="highlighter-rouge">createrawtransaction</code> RPC method; add <code class="highlighter-rouge">namerawtransaction</code> RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)</li>
+          <li>Restore <code class="highlighter-rouge">getblocktemplate</code> RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)</li>
+          <li>Add <code class="highlighter-rouge">createauxblock</code> and <code class="highlighter-rouge">submitauxblock</code> RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Fixes:
+    <ul>
+      <li>GUI
+        <ul>
+          <li>Fix pending name registration bug, where the GUI requests a wallet unlock over and over and then errors with name registered.  (Patch by brandonrobertz.)</li>
+          <li>Fix bug where names weren’t showing up in the Manage Names list properly until client had been restarted.  (Patch by brandonrobertz.)</li>
+        </ul>
+      </li>
+      <li>P2P
+        <ul>
+          <li>Update seed nodes.  This should decrease likelihood of getting stuck without peers.  (Patch by JeremyRand.)</li>
+        </ul>
+      </li>
+      <li>RPC
+        <ul>
+          <li>Fix crash when user attempts to broadcast an invalid raw transaction containing multiple <code class="highlighter-rouge">name_update</code> outputs.  (Reported by maxweisspoker, patch by domob1812.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Improvements from upstream Bitcoin Core.</li>
+</ul>
+
+    <p>Unfortunately, Windows and macOS builds are broken in this release, so only GNU/Linux binaries are available.  We expect Windows and macOS builds to be restored for the 0.15.99-name-tab-beta2 release, which is coming soon.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Recent Reports of Ransomware Using Namecoin are Missing the Real Story</h1>
     <p class="post-meta">Jan 30, 2018 • Jeremy Rand </p>
   </header>
