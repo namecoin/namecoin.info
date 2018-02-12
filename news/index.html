@@ -235,6 +235,58 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Pruning of Non-scriptPubKey Data in libdohj</h1>
+    <p class="post-meta">Feb 11, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Our lightweight SPV client’s <code class="highlighter-rouge">leveldbtxcache</code> mode is the most secure of the various Namecoin lightweight SPV modes.  Its storage requirements aren’t too bad either (129.1 MB at the moment for Namecoin mainnet).  However, while 129.1 MB of storage isn’t a dealbreaker, it’s still a bit borderline on mobile devices.  We can do better.</p>
+
+    <p>First, a reminder of how <code class="highlighter-rouge">leveldbtxcache</code> currently works.  Initially, the IBD (initial blockchain download) proceeds the same way a typical lightweight SPV Bitcoin client (such as Schildbach’s Android Bitcoin Wallet) would work: it downloads blockchain headers, aiming for the chain with the most work.  However, at the point when the IBD has reached 1 year ago in the blockchain, it begins downloading full blocks instead of block headers.  The full blocks aren’t saved; they’re used temporarily for 2 purposes: verifying consistency with the block headers’ Merkle root (thus ensuring that no transactions have been censored), and adding any <code class="highlighter-rouge">name_anyupdate</code> transactions to a LevelDB database that allows quick lookup of names.  After those 2 things have been processed, the full blocks are discarded.  The 129.1 MB storage figure is as low as it is because we’re only storing name transactions from the last year (plus block headers, which are negligible in size).</p>
+
+    <p>However, there’s a lot of data in name transactions that we don’t actually need in order to look up names: currency data, signatures, and transaction metadata.</p>
+
+    <p>Currency data exists in name transactions because name operations cost a transaction fee, so there will typically be a currency input and a currency output in any name transaction.  We don’t need this information in order to look up names.  Signatures are used for verifying new transactions, but are not needed to look up previously accepted transaction data.  Transaction metadata, such as <code class="highlighter-rouge">nVersion</code> and <code class="highlighter-rouge">nLockTime</code>, is also not needed to look up names.  There may be other sources of unwanted data too.</p>
+
+    <p>To improve the situation, I’ve just modified <code class="highlighter-rouge">leveldbtxcache</code> so that, instead of storing full name transactions in LevelDB, it only stores the <code class="highlighter-rouge">scriptPubKey</code> of the name output.  This includes the name’s identifier and value, as well as the Bitcoin-compatible <code class="highlighter-rouge">scriptPubKey</code> that can be used to verify future signatures.  It’s a relatively straightforward change to the code, although it does break backward-compatibility with existing name databases (so you’ll need to delete your blockchain and resync after updating).</p>
+
+    <p>So, how does this fare?</p>
+
+    <table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th><strong>Full Transactions</strong></th>
+      <th><strong>Only <code class="highlighter-rouge">scriptPubKey</code></strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Storage Used after IBD</strong></td>
+      <td>129.1 MB</td>
+      <td>63.7 MB</td>
+    </tr>
+    <tr>
+      <td><strong>Time Elapsed for IBD</strong></td>
+      <td>~9 Minutes</td>
+      <td>~6 minutes</td>
+    </tr>
+  </tbody>
+</table>
+
+    <p>Not bad, and we even got a faster IBD as a bonus.  (This suggests that the bottleneck, at least on my laptop running Qubes with an HDD, was storage I/O.)</p>
+
+    <p>I’ve just submitted this change to upstream libdohj.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Namecoin Core 0.15.99-name-tab-beta1 Released</h1>
     <p class="post-meta">Feb 1, 2018 • Jeremy Rand </p>
   </header>
