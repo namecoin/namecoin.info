@@ -6,9 +6,34 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 12 Feb 2018 05:41:19 +0000</pubDate>
-    <lastBuildDate>Mon, 12 Feb 2018 05:41:19 +0000</lastBuildDate>
+    <pubDate>Tue, 13 Feb 2018 11:23:44 +0000</pubDate>
+    <lastBuildDate>Tue, 13 Feb 2018 11:23:44 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin TLS for Firefox: Phase 6 (Negative Override Cache in C++, WebExtension Aggregation, and Coordination with Mozilla)</title>
+        <description>&lt;p&gt;In &lt;a href=&quot;/2017/10/29/firefox-tls-moving-cache-cpp.html&quot;&gt;Phase 5&lt;/a&gt; of Namecoin TLS for Firefox, I discussed the performance benefits of moving the positive override cache from JavaScript to C++.  I’ve now implemented preliminary work on doing the same for negative overrides.&lt;/p&gt;
+
+&lt;p&gt;The code changes for negative overrides’ C++ cache are analogous to those for positive overrides, so there’s not much to cover in this post about those changes.  However, I did take the chance to refactor the API between the C++ code and the JavaScript code a bit.  Previously, only 1 WebExtension was able to perform overrides; if multiple WebExtensions registered for the API, whichever replied first would be the only one that had any effect.  Now, each WebExtension replies separately to the Experiment, and the Experiment passes those replies on to the C++ code.  The Experiment also notifies the C++ code when all of the WebExtensions have replied.  Although this does add some extra API overhead, it has the benefit of allowing an override to take place immediately if a single WebExtension has determined that it should take place, even if the other (irrelevant) WebExtensions are still evaluating the certificate.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, at this point I merged upstream changes from Mozilla into my Mercurial repository, only to find that there was now a compile error.  I’m still figuring out exactly why this compile error is happening.  It looks like it’s unrelated to any of the files that my patch touches; I suspect that it’s due to my general lack of competence with Mercurial (Mozilla’s codebase is the first time I’ve used Mercurial) or my similar general lack of competence with Mozilla’s build system.&lt;/p&gt;
+
+&lt;p&gt;So, until I actually get the code to build, I won’t be able to do performance evaluations of these changes.  Hence why there are no pretty graphs in this post.&lt;/p&gt;
+
+&lt;p&gt;Meanwhile, I reached out to Mozilla to get some feedback on the general approach I was taking.  (I had previously discussed high-level details with Mozilla, but this time I provided a WIP code patch, so that it would be easier to evaluate whether I was doing anything with the code that would be problematic.)  This resulted in a discussion about what methods should be used to prevent malicious or buggy extensions from causing unexpected damage to user security.  This is definitely a legitimate concern: messing with certificate verification is dangerous when done improperly, and it’s important that users understand what they’re getting when they install a WebExtension that might put them at risk.  That discussion is still ongoing, and it’s not clear yet what the consensus will arrive at.&lt;/p&gt;
+
+&lt;p&gt;(It should be noted that there are some alternative approaches to Firefox support for Namecoin TLS underway as well, which will be covered in a future post.)&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Pruning of Non-scriptPubKey Data in libdohj</title>
@@ -386,65 +411,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <pubDate>Sun, 05 Nov 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin TLS for Firefox: Phase 5 (Moving the Override Cache to C++)</title>
-        <description>&lt;p&gt;In &lt;a href=&quot;/2017/10/11/firefox-tls-threads.html&quot;&gt;Phase 4&lt;/a&gt; of Namecoin TLS for Firefox, I mentioned that more optimization work remained (despite the significant latency improvements I discussed in that post).  Optimization work has continued, and I’ve now moved the override cache from JavaScript to C++, with rather dramatic latency improvement as a result.&lt;/p&gt;
-
-&lt;p&gt;Prior to this optimization, my C++ code would synchronously call the WebExtensions Experiment to retrieve override decisions, and the Experiment would block until the WebExtension had returned an override decision.  At this point the decision would be added to the cache within the Experiment, and then the C++ code’s call to the Experiment would return.  I had long suspected that this was a major latency bottleneck, for 2 reasons:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;JavaScript generally is inefficient.&lt;/li&gt;
-  &lt;li&gt;After Firefox’s built-in certificate verification completed, control had to flow from C++ to JavaScript (which adds some latency) and then from JavaScript back to C++ (which adds latency as well).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;With my latest changes, the control flow changes a lot:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The synchronous API for the C++ code to get positive override decisions from the Experiment is removed.&lt;/li&gt;
-  &lt;li&gt;The override decision cache in the Experiment is removed.&lt;/li&gt;
-  &lt;li&gt;An override decision cache is added to the C++ code.&lt;/li&gt;
-  &lt;li&gt;An API is added to the C++ code for the Experiment to notify when an override decision has just been received from the WebExtension.  This API adds the decision to the C++ override decision cache.&lt;/li&gt;
-  &lt;li&gt;The C++ code that gets a positive override now simply blocks until an override decision has appeared in the cache; it doesn’t make any calls to JavaScript of any kind.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The advantages of this are:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;A lot of inefficient JavaScript code is removed from the latency-critical code paths, in favor of more efficient C++.&lt;/li&gt;
-  &lt;li&gt;Control never flows from C++ to JavaScript in order to retrieve the override decision (saves latency), and the flow from JavaScript to C++ can occur in parallel with Firefox’s built-in certificate verification (saves latency as well).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I was originally hoping to use a thread-safe data structure for the C++ override decision cache, and noticed that Mozilla’s wiki mentioned such a data structure.  However, I couldn’t actually find that data structure in Mozilla’s source code.  After a few hours of grepping and no luck figuring out what the wiki was referring to, I asked on Mozilla’s IRC, and was told that the wiki was out of date and that the thread-safety features of that data structure were long ago removed.  So, the cache is only accessible from the main thread, and cross-thread C++ calls will still be needed to access it from outside the main thread.  This isn’t really a disaster; cross-thread C++ calls aren’t massively bad.&lt;/p&gt;
-
-&lt;p&gt;Since I wrote up some really nice scripts for measuring latency for Phase 4, I reused them for Phase 5 to see how things have improved.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/data/webextensions-latency/2017-10-19/raw-data_html_e7e6307c38d1bb1a.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/data/webextensions-latency/2017-10-19/raw-data_html_4abcef16d0d9da8.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This is a quite drastic speedup.  The gradual speedup over time has vanished, which suggests that I was right about it being attributable to the JavaScript JIT warming up.  (However, it should be noted that this time I did a single batch of 45 certificate verifications, so this may be an artifact of that change too.)  More importantly, based on the fact that uncached and cached overrides are indistinguishable in the vast majority of cases, it can be inferred that the Experiment’s decision usually enters the C++ code’s decision cache before Firefox’s built-in certificate verification even finishes.  (The occasional spikes in uncached latency seem to correspond to cases where that’s false.)&lt;/p&gt;
-
-&lt;p&gt;The raw data is available &lt;a href=&quot;/data/webextensions-latency/2017-10-19/raw-data.ods&quot;&gt;in OpenDocument spreadsheet format&lt;/a&gt; or &lt;a href=&quot;/data/webextensions-latency/2017-10-19/raw-data.html&quot;&gt;in HTML format&lt;/a&gt; as before.  The median uncached latency for positive overrides has decreased from 375 microseconds in Phase 4 to 29 microseconds in Phase 5.&lt;/p&gt;
-
-&lt;p&gt;It should be noted that negative overrides haven’t yet been converted to use the C++ override decision cache.  I expect them to be slightly slower than these figures, because negative overrides will have 1 extra cross-thread C++ call.&lt;/p&gt;
-
-&lt;p&gt;The same disclaimer as before applies: this data is not intended to be scientifically reproducible; there are likely to be differences between setups that could impact the latency significantly, and I made no effort to control for or document such differences.  That said, it’s likely to be a useful indicator of how well we’re doing.&lt;/p&gt;
-
-&lt;p&gt;At this point, I am fully satisfied with the performance that I’m getting in these tests of positive overrides.  Converting negative overrides to work similarly is expected to be easy.  Of course, performance will probably be noticeably worse once the WebExtension is calling ncdns, so there’s a good chance that after ncdns is integrated with the WebExtension, I’ll be coming back to optimization.&lt;/p&gt;
-
-&lt;p&gt;For the short-term though, I’ll be focusing on integrating the WebExtension with ncdns.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/10/29/firefox-tls-moving-cache-cpp.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/10/29/firefox-tls-moving-cache-cpp.html</guid>
         
         <category>News</category>
         
