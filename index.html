@@ -281,6 +281,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2018/02/18/positive-tls-overrides-for-nss.html">2018-02-18</a></strong> NSS is the TLS implementation used by various applications, including Chromium on GNU/Linux and Firefox on all platforms.  I’ve finished initial support for positive cert overrides in NSS, and have submitted a PR that is now awaiting review.</p>
+
+<p><a href="/2018/02/18/positive-tls-overrides-for-nss.html">Read more…</a></p>
+
 <p><strong><a href="/2018/02/13/firefox-tls-negative-cache.html">2018-02-13</a></strong> In <a href="/2017/10/29/firefox-tls-moving-cache-cpp.html">Phase 5</a> of Namecoin TLS for Firefox, I discussed the performance benefits of moving the positive override cache from JavaScript to C++.  I’ve now implemented preliminary work on doing the same for negative overrides.</p>
 
 <p><a href="/2018/02/13/firefox-tls-negative-cache.html">Read more…</a></p>
@@ -316,10 +320,6 @@ DNS configuration interface.</p>
 <p><a href="/2017/11/20/update-on-namecoin-core-qt-development.html">Read more…</a></p>
 
 <p><strong><a href="/2017/11/10/oklahoma-peace-festival.html">2017-11-10</a></strong> Namecoin will have a table at the 2017 <a href="https://peacehouseok.org/outreach/fall-peace-festival/">Fall Peace Festival</a> in Oklahoma City on November 11.  If you happen to be in the OKC area, feel free to stop by and say hello.</p>
-
-<p><strong><a href="/2017/11/05/chromium-hpkp-deprecation.html">2017-11-05</a></strong> Readers who’ve been paying attention to the TLS scene are likely aware that <a href="https://scotthelme.co.uk/the-death-knell-for-hpkp/">Google has recently announced that Chromium is deprecating HPKP</a>.  This is not a huge surprise to people who’ve been paying attention; HPKP has had virtually no meaningful implementation by websites, and many security experts have been warning that HPKP is too dangerous for most deployments due to the risk that websites who use it could, with a single mistake, accidentally DoS themselves for months.  The increased publicity of the RansomPKP attack drove home the point that this kind of DoS could even happen to websites who <em>don’t</em> use HPKP.  I won’t comment on the merits of HPKP for its intended purpose.  However, readers familiar with Namecoin will probably be aware that Namecoin’s TLS support for Chromium relies on HPKP.  So, what does HPKP’s deprecation mean for Namecoin?</p>
-
-<p><a href="/2017/11/05/chromium-hpkp-deprecation.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
