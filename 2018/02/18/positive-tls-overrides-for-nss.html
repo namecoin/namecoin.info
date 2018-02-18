@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Progress on Electrum-NMC</title>
+    <title>Positive TLS Certificate Overrides for NSS</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/06/17/progress-electrum-nmc.html">
+    <link rel="canonical" href="https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,153 +232,183 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Progress on Electrum-NMC</h1>
-<p class="post-meta">Jun 17, 2017 • ahmedbodi <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Positive TLS Certificate Overrides for NSS</h1>
+<p class="post-meta">Feb 18, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Work on the electrum port for Namecoin has been moving along nicely. It was decided that we will use the electrum-client from spesmilo, along with the electrumX server. ElectrumX was chosen due to the original electrum-server being discontinued a few months ago. 
-So far the electrum client has been ported over for compatability with electrumX. This includes the re-branding, blockchain parameters and other electrum related settings for blockchain verification</p>
+<p>NSS is the TLS implementation used by various applications, including Chromium on GNU/Linux and Firefox on all platforms.  I’ve finished initial support for positive cert overrides in NSS, and have submitted a PR that is now awaiting review.</p>
 
-<p>On the roadmap now are:</p>
+<p>I had previously written a WIP PR that implemented positive overrides for NSS, but it worked by using an NSS database directory that was auto-detected based on the active user’s home directory.  This seemed like a clever usability trick, but it had 2 severe disadvantages:</p>
+
+<ol>
+  <li>Some applications don’t use the shared NSS database, but instead use their own.  Firefox is one of these applications.</li>
+  <li>For security reasons, we want ncdns to run as its own user with restricted permissions.  This would break the database directory auto-detection.</li>
+</ol>
+
+<p>The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
+</code></pre></div></div>
+
+<p>Allowed <a href="https://nf.bit/">the Namecoin Forum’s <code class="highlighter-rouge">.bit</code> domain</a> to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue <code class="highlighter-rouge">.bit</code> certs that would still be accepted by Chromium).</p>
+
+<p>Some remaining challenges:</p>
 
 <ul>
-  <li>Extend electrumX NMC Support to allow for full veritification of AuxPow</li>
-  <li>Modify new electrum client to verify the new AuxPow</li>
-  <li>Add Name handling support to electrum</li>
+  <li>NSS’s <code class="highlighter-rouge">certutil</code> is extremely slow, due to failure to properly batch operations into sqlite transactions.  I’ve filed a bug about this with Mozilla.  Until this is fixed, expect an extra ~800ms of latency when accessing Namecoin HTTPS websites.  Possible future workarounds:
+    <ul>
+      <li>Run <code class="highlighter-rouge">certutil</code> sometime before the DNS hook, so that 800ms of latency isn’t actually noticeable for the user.  (More on this in a future post.)</li>
+      <li>Do some highly horrifying <code class="highlighter-rouge">LD_PRELOAD</code> witchcraft in order to fix the crappy sqlite usage.</li>
+      <li>Use a different pkcs11 backend instead of NSS’s sqlite3 backend.  (Yes, NSS uses pkcs11 behind the scenes.  More on this in a future post.)</li>
+    </ul>
+  </li>
+  <li>Firefox doesn’t actually respect NSS’s trust anchors when the trust anchor is an end-entity certificate.  Possible future workarounds:
+    <ul>
+      <li>Use a Firefox-specific positive override mechanism.  (More on this in a future post; also see the WebExtensions posts.)</li>
+      <li>Inject CA certs rather than end-entity certs.  (More on this in a future post.)</li>
+    </ul>
+  </li>
+  <li>Some NSS applications don’t use the sqlite backend, but instead use BerkeleyDB as a backend.  BerkeleyDB can’t be opened concurrently by multiple applications, so ncdns can’t inject certs while another application is open.  Possible future workarounds:
+    <ul>
+      <li>Use an environment variable to force sqlite usage.</li>
+      <li>Run <code class="highlighter-rouge">certutil</code> while the database isn’t open.</li>
+      <li>Use a different pkcs11 backend.</li>
+      <li>Wait for those applications to switch to sqlite.  (Firefox switched in Firefox 58, and it appears more applications may follow suit.)</li>
+    </ul>
+  </li>
 </ul>
 
-<p>These repo’s are for testing purposes only. Do not use these unless your willing to risk losing funds.</p>
+<p>That said, despite the need for future work, this PR makes Namecoin TLS fully functional in Chromium on GNU/Linux.  (Until negative overrides stop working due to HPKP being removed… more on potential fixes in a future post.)</p>
 
-<p><a href="https://github.com/Multicoin-co/electrum-nmc">Client</a>  <br />
-<a href="https://github.com/Multicoin-co/electrum-nmc-server">Server/ Not uploaded yet</a></p>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -526,7 +556,7 @@ So far the electrum client has been ported over for compatability with electrumX
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-06-17-progress-electrum-nmc.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-18-positive-tls-overrides-for-nss.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

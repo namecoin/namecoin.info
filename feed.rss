@@ -6,9 +6,66 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 13 Feb 2018 11:23:44 +0000</pubDate>
-    <lastBuildDate>Tue, 13 Feb 2018 11:23:44 +0000</lastBuildDate>
+    <pubDate>Sun, 18 Feb 2018 16:28:38 +0000</pubDate>
+    <lastBuildDate>Sun, 18 Feb 2018 16:28:38 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Positive TLS Certificate Overrides for NSS</title>
+        <description>&lt;p&gt;NSS is the TLS implementation used by various applications, including Chromium on GNU/Linux and Firefox on all platforms.  I’ve finished initial support for positive cert overrides in NSS, and have submitted a PR that is now awaiting review.&lt;/p&gt;
+
+&lt;p&gt;I had previously written a WIP PR that implemented positive overrides for NSS, but it worked by using an NSS database directory that was auto-detected based on the active user’s home directory.  This seemed like a clever usability trick, but it had 2 severe disadvantages:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Some applications don’t use the shared NSS database, but instead use their own.  Firefox is one of these applications.&lt;/li&gt;
+  &lt;li&gt;For security reasons, we want ncdns to run as its own user with restricted permissions.  This would break the database directory auto-detection.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir=&quot;$(pwd)&quot;/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Allowed &lt;a href=&quot;https://nf.bit/&quot;&gt;the Namecoin Forum’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain&lt;/a&gt; to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_chromium_tool&lt;/code&gt; program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certs that would still be accepted by Chromium).&lt;/p&gt;
+
+&lt;p&gt;Some remaining challenges:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;NSS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; is extremely slow, due to failure to properly batch operations into sqlite transactions.  I’ve filed a bug about this with Mozilla.  Until this is fixed, expect an extra ~800ms of latency when accessing Namecoin HTTPS websites.  Possible future workarounds:
+    &lt;ul&gt;
+      &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; sometime before the DNS hook, so that 800ms of latency isn’t actually noticeable for the user.  (More on this in a future post.)&lt;/li&gt;
+      &lt;li&gt;Do some highly horrifying &lt;code class=&quot;highlighter-rouge&quot;&gt;LD_PRELOAD&lt;/code&gt; witchcraft in order to fix the crappy sqlite usage.&lt;/li&gt;
+      &lt;li&gt;Use a different pkcs11 backend instead of NSS’s sqlite3 backend.  (Yes, NSS uses pkcs11 behind the scenes.  More on this in a future post.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Firefox doesn’t actually respect NSS’s trust anchors when the trust anchor is an end-entity certificate.  Possible future workarounds:
+    &lt;ul&gt;
+      &lt;li&gt;Use a Firefox-specific positive override mechanism.  (More on this in a future post; also see the WebExtensions posts.)&lt;/li&gt;
+      &lt;li&gt;Inject CA certs rather than end-entity certs.  (More on this in a future post.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Some NSS applications don’t use the sqlite backend, but instead use BerkeleyDB as a backend.  BerkeleyDB can’t be opened concurrently by multiple applications, so ncdns can’t inject certs while another application is open.  Possible future workarounds:
+    &lt;ul&gt;
+      &lt;li&gt;Use an environment variable to force sqlite usage.&lt;/li&gt;
+      &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; while the database isn’t open.&lt;/li&gt;
+      &lt;li&gt;Use a different pkcs11 backend.&lt;/li&gt;
+      &lt;li&gt;Wait for those applications to switch to sqlite.  (Firefox switched in Firefox 58, and it appears more applications may follow suit.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That said, despite the need for future work, this PR makes Namecoin TLS fully functional in Chromium on GNU/Linux.  (Until negative overrides stop working due to HPKP being removed… more on potential fixes in a future post.)&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 18 Feb 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin TLS for Firefox: Phase 6 (Negative Override Cache in C++, WebExtension Aggregation, and Coordination with Mozilla)</title>
@@ -384,33 +441,6 @@ and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin
         <pubDate>Fri, 10 Nov 2017 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2017/11/10/oklahoma-peace-festival.html</link>
         <guid isPermaLink="true">https://namecoin.org//2017/11/10/oklahoma-peace-festival.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>What Chromium's Deprecation of HPKP Means for Namecoin</title>
-        <description>&lt;p&gt;Readers who’ve been paying attention to the TLS scene are likely aware that &lt;a href=&quot;https://scotthelme.co.uk/the-death-knell-for-hpkp/&quot;&gt;Google has recently announced that Chromium is deprecating HPKP&lt;/a&gt;.  This is not a huge surprise to people who’ve been paying attention; HPKP has had virtually no meaningful implementation by websites, and many security experts have been warning that HPKP is too dangerous for most deployments due to the risk that websites who use it could, with a single mistake, accidentally DoS themselves for months.  The increased publicity of the RansomPKP attack drove home the point that this kind of DoS could even happen to websites who &lt;em&gt;don’t&lt;/em&gt; use HPKP.  I won’t comment on the merits of HPKP for its intended purpose.  However, readers familiar with Namecoin will probably be aware that Namecoin’s TLS support for Chromium relies on HPKP.  So, what does HPKP’s deprecation mean for Namecoin?&lt;/p&gt;
-
-&lt;p&gt;First off, nothing will happen on this front until Chrome 67, which is projected to release as Stable on May 29, 2018.  (Users of more cutting-edge releases of Chromium-based browsers will lose HPKP earlier.)  When Chrome 67 is released, I expect that the following behavior will be observed for the current ncdns release (v0.0.5):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;The ncdns Windows installer will probably continue to detect Chromium installations (because the HPKP state shares a database with the HSTS state, which isn’t going anywhere).  The NUMS HPKP installation will appear to succeed.&lt;/li&gt;
-  &lt;li&gt;ncdns will continue to be able to add certificates to the trust store.  This means that &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites that use TLS will continue to load without errors.&lt;/li&gt;
-  &lt;li&gt;The NUMS HPKP pin will silently stop having any effect.  This means that Namecoin’s TLS security will degrade to that of the CA system.  A malicious CA that is trusted by Windows will be able to issue certificates for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites, and Chromium will accept these certificates as valid even when they don’t match the blockchain.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Astute readers will note that this is the 4th instance of a browser update breaking Namecoin TLS in some way.  (The previous 3 cases were Firefox breaking Convergence, Firefox breaking nczilla, and Firefox breaking XPCOM.)  In this case, we’re reasonably well-prepared.  Unlike the Convergence breakage (which Mozilla considered to be a routine binary-size optimization) and the nczilla breakage (which Mozilla considered to be a security patch), HPKP is a sufficiently non-niche functionality that we’re finding out well in advance (much like the XPCOM deprecation).  As part of my routine work at Namecoin, I make a habit of studying how TLS certificate verification works in various common implementations, and regularly make notes on ways we could hack them in the future to use Namecoin.  Based on a cursory review of my notes, there are at least 7 possible alternatives to Chromium’s HPKP support that I could investigate for the purpose of restoring Namecoin’s TLS security protections in Chromium.  3 of them would be likely to qualify for NLnet funding, if we decided to divert funding from currently-planned NLnet-funded tasks.  (It’s not clear to me whether we actually will divert any funding at this point, but we do have the flexibility to do so if it’s needed.)  None of those 7 alternative approaches are quite as nice as our NUMS HPKP approach (which is why we’ve been using NUMS HPKP up until now), but such is life.&lt;/p&gt;
-
-&lt;p&gt;In conclusion, while this news does highlight the maintenance benefits of using officially approved API’s rather than hacks (which, it should be noted, is my current approach for Firefox), at this time there is no reason for Namecoin to drop TLS support for Chromium.  I’m continuing to evaluate what our best options are, and I’ll report back when I have more information.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 05 Nov 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/11/05/chromium-hpkp-deprecation.html</guid>
         
         <category>News</category>
         
