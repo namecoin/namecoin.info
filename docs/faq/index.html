@@ -306,6 +306,40 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The code prevents those coins from being used for normal payments.</p>
 
+<h3 id="why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</h3>
+
+<p>The reasons mostly fall under three categories: security concerns, usability concerns, and political concerns.</p>
+
+<p>Security concerns:</p>
+
+<ul>
+  <li>ISP’s would be in a position to censor names without easy detection.</li>
+  <li>ISP’s would be in a position to serve fraudulent PKI data (e.g. TLSA records), which would enable ISP’s to easily wiretap users and infect users with malware.</li>
+  <li>Either of the above security concerns would even endanger users who are running Namecoin locally, because it would make it much more difficult to detect misconfigured systems that are accidentally leaking Namecoin queries to the ISP.</li>
+</ul>
+
+<p>Usability concerns:</p>
+
+<ul>
+  <li>Namecoin-to-DNS bridges rely on DNS security protocols such as DNSSEC, DNS over TLS, or DNSCrypt to prevent tampering.</li>
+  <li>Many local network firewalls break DNSSEC.</li>
+  <li>Many ISP’s don’t support DNS over TLS or DNSCrypt.</li>
+  <li>Many OS’s don’t support DNSSEC, DNS over TLS, or DNSCrypt.</li>
+  <li>These compatibility issues are straightforward to solve by adding locally installed software (e.g. Dnssec-Trigger), but are not otherwise easily solvable by non-technical users.</li>
+  <li>If a non-technical user is installing DNS security software anyway, installing Namecoin as well doesn’t add any particular extra difficulty.</li>
+  <li>In the case of non-ISP public DNS resolvers, changing DNS settings manually in mainstream OS’s is not something that non-technical users are usually comfortable doing, and is significantly more difficult to walk a user through than simply running a <code class="highlighter-rouge">.exe</code> file or installing a package via <code class="highlighter-rouge">apt-get</code>.</li>
+</ul>
+
+<p>Political concerns:</p>
+
+<ul>
+  <li>Namecoin’s <code class="highlighter-rouge">.bit</code> TLD isn’t part of the DNS; asking public DNS infrastructure to mirror Namecoin would probably be seen as hostile by IETF and ICANN.</li>
+  <li>Namecoin is seeking to be added to IETF’s special-use names registry; the precedent set by <code class="highlighter-rouge">.onion</code>’s inclusion is that public DNS infrastructure should always return <code class="highlighter-rouge">NXDOMAIN</code> for special-use names.</li>
+  <li>While getting Namecoin bundled with a major browser or OS certainly is a major undertaking, it’s not at all clear that getting Namecoin resolution included by a major ISP or public DNS resolver would be easier.  Statistically (though exceptions certainly exist), software vendors tend to be more interested in innovating via software, security, and cryptography, whereas ISP’s tend to be more interested in “innovating” via antitrust violations and net neutrality violations.  We believe that software vendors are therefore more likely to be interested in Namecoin (though we don’t claim that no ISP’s exist who might be persuadable).</li>
+</ul>
+
+<p>In addition, it’s not clear that there would even be any significant benefit to counterbalance these concerns.  Namecoin intentionally makes different tradeoffs from the DNS.  For example, the DNS is much more scalable than Namecoin, can protect name owners from trivial deanonymization much better than Namecoin can, and doesn’t rely on comparatively weak game-theoretic security properties as Namecoin does.  Namecoin has some benefits that counterbalance these weaknesses (e.g. the non-reliance on trusted third parties), but serving Namecoin data from public DNS infrastructure would provide the <strong>union</strong> of Namecoin’s and the DNS’s weaknesses, while providing the <strong>intersection</strong> of Namecoin’s and the DNS’s strengths.  Users who require a DNS-like naming system that works without any software installation are likely to be better off simply using the DNS.</p>
+
 <h2 id="comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</h2>
 
 <h3 id="what-is-the-relationship-of-namecoin-to-bitcoin">What is the relationship of Namecoin to Bitcoin?</h3>
