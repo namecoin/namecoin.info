@@ -6,8 +6,8 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 11 Mar 2018 11:27:17 +0000</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 11:27:17 +0000</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 11:39:48 +0000</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 11:39:48 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
     
       <item>
@@ -48,7 +48,7 @@
   &lt;li&gt;Test whether a similar approach with name constraints can work for CryptoAPI (this would be relevant for most non-Mozilla browsers on Windows).&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;I’m hopeful that this work will allow us to continue supporting Chromium on GNU/Linux after Chromium removes HPKP, and that it will nicely complement the Firefox positive override support that I added to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I’m hopeful that this work will allow us to continue supporting Chromium on GNU/Linux after Chromium removes HPKP, and that it will nicely complement the Firefox positive override support &lt;a href=&quot;/2018/02/20/ncdumpzone-firefox.html&quot;&gt;that I added to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;It should be noted that this approach definitely will not work on most non-Mozilla macOS browsers, because macOS’s TLS implementation does not support name constraints.  I’m not aware of any practical way to do negative overrides on macOS (besides the deprecated HPKP support in Chromium), so there’s a chance that when we get around to macOS support, we’ll just not do negative overrides for macOS (meaning that while Namecoin certificates would work on macOS without errors, malicious public CA’s would still be able to do MITM attacks against macOS users just like they can for DNS domain names).  Firefox on macOS shouldn’t have this problem, since Firefox doesn’t use the OS for certificate verification.&lt;/p&gt;
 
