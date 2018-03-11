@@ -6,9 +6,62 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 01 Mar 2018 12:50:20 +0000</pubDate>
-    <lastBuildDate>Thu, 01 Mar 2018 12:50:20 +0000</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 11:39:48 +0000</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 11:39:48 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Negative Certificate Overrides for p11-kit</title>
+        <description>&lt;p&gt;Fedora stores its TLS certificates via a highly interesting software package called &lt;a href=&quot;https://p11-glue.github.io/p11-glue/trust-module.html&quot;&gt;p11-kit&lt;/a&gt;.  p11-kit is designed to act as “glue” between various TLS libraries, so that (for example) Firefox, Chromium, and OpenSSL all see the same trust anchors.  p11-kit is useful from Namecoin’s perspective, since it means that if we can implement Namecoin support for p11-kit, we get support for all the trust stores that p11-kit supports for free.  I’ve just implemented a proof-of-concept of negative Namecoin overrides for p11-kit.&lt;/p&gt;
+
+&lt;p&gt;As you may recall, the way our Chromium negative overrides currently work is by &lt;del&gt;abusing&lt;/del&gt; utilizing HPKP such that public CA’s can’t sign certificates for the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; TLD.  p11-kit doesn’t support key pinning (it’s on their roadmap though!), but there is another fun mechanism we can use to achieve a similar result: name constraints.  Name constraints are a feature of the x509 certificate specification that allows a CA certificate to specify constraints on what domain names it can issue certificates for.  There are a few standard use cases for name constraints:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A large organization who wants to create a lot of certificates might buy a name-constrained CA certificate from a public CA, and then use that name-constrained CA to issue more certificates for their organization.  This reduces the overhead of asking a public CA to issue a lot of certificates on-demand, and doesn’t introduce any security issues because the name constraint prevents the organization from issuing certificates for domain names that they don’t control.&lt;/li&gt;
+  &lt;li&gt;A corporate intranet might create a name-constrained root CA that’s only valid for domain names that are internal to the corporate intranet.  This way, employees can install the name-constrained root CA in order to access internal websites, and they don’t have to worry that the IT department might be MITM’ing their connections to the public Internet.&lt;/li&gt;
+  &lt;li&gt;A public CA might have a name constraint in their CA certificate that disallows them from issuing certificates for TLD’s that have unique regulatory requirements.  For exampe, the Let’s Encrypt CA &lt;a href=&quot;https://community.letsencrypt.org/t/why-is-there-a-certificate-name-constraint-for-mil/10130&quot;&gt;has (or at one point had) a name constraint disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;&lt;/a&gt;, presumably because the U.S. military has their own procedures for issuing certificates.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The 1st use case is rarely ever used; I suspect that this is because it poses a risk to commercial CA’s’ business model.  The 2nd use case is also rarely ever used; I suspect this is because many corporate IT departments &lt;em&gt;want to&lt;/em&gt; MITM all their employees’ traffic, and most employees don’t have much negotiating power on this topic.  But the 3rd case is quite interesting… if Let’s Encrypt uses a name constraint blacklisting &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;, could this be used for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, we obviously can’t expect all of the public CA’s to have any interest in opting into a name constraint disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; in the way that Let’s Encrypt opted into disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;.  However, there is a fun trick that can solve this: cross-signed certificates.  It turns out that it is possible to transform a public root CA certificate into an intermediate CA certificate, and sign that intermediate CA certificate with a root CA that we can create locally (this is called &lt;em&gt;cross-signing&lt;/em&gt;).  We can then remove the original root CA from the cert store, add our local root CA and the cross-signed CA to the cert store, and everything will work just like it did before.  This is helpful because any name constraints that a CA certificate contains will apply to any CA certificate that it cross-signs.&lt;/p&gt;
+
+&lt;p&gt;Technically, &lt;a href=&quot;https://tools.ietf.org/html/rfc5280#section-4.2.1.10&quot;&gt;the RFC 5280 specification says&lt;/a&gt; that root CA’s can’t have name constraints.  That’s not really a problem though: it just means that we have to create a local intermediate CA (signed by the local root CA) that has the name constraint, and cross-sign the public CA with the name-constrained local intermediate CA.  So the cert chain looks like this:&lt;/p&gt;
+
+&lt;p&gt;Local root CA (no name constraint) –&amp;gt; Local intermediate CA (name constraint blacklisting .bit) –&amp;gt; Cross-signed public CA –&amp;gt; (everything past here is unaffected).&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to Crypt32 and davenpcj from Server Fault for first &lt;a href=&quot;https://serverfault.com/questions/670725/is-it-possible-to-restrict-the-use-of-a-root-certificate-to-a-domain&quot;&gt;cluing me in&lt;/a&gt; that this approach would work.  Unfortunately, Crypt32 didn’t provide any sample code, and the sample code from davenpcj didn’t work as-is for me (OpenSSL kept returning various errors when I tried to cross-sign, most of which seemed to be because OpenSSL didn’t like the fact that the public CA hadn’t signed an authorization for me to cross-sign their CA).  I eventually managed to cobble together a Bash script using OpenSSL that did work, but I don’t think OpenSSL’s command-line tool is really the right tool for the job (OpenSSL tends to rewrite large parts of the cross-signed certificate in ways that are likely to cause compatibility and security problems).  I’m probably going to rewrite this as a Go program.&lt;/p&gt;
+
+&lt;p&gt;Anyway, with my Bash script, I decided to apply a name constraint to &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt;, which is the root CA that Let’s Encrypt uses.  The name constraint I applied blacklists the &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; TLD (obviously I can’t use &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; for testing this, since no public CA’s are known to have issued a certificate for a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain).  And… it works!  The Bash script installed the local root CA as a trust anchor for p11-kit, installed the intermediate and cross-signed CA’s as trust-neutral certificates for p11-kit, and installed a copy of the original &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt; certificate to the p11-kit blacklist.  As a result, both Chromium and Firefox still work fine with Let’s Encrypt for &lt;code class=&quot;highlighter-rouge&quot;&gt;.com&lt;/code&gt; websites such as &lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;, but return an error for &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; websites such as &lt;a href=&quot;https://www.namecoin.org/&quot;&gt;Namecoin.org&lt;/a&gt; – exactly the behavior we want.&lt;/p&gt;
+
+&lt;p&gt;I also made a modified version of my Bash script that installs the modified CA’s into a standard NSS sqlite3 database (without p11-kit), and confirmed that this works with both Firefox and Chromium on GNU/Linux.  So p11-kit probably won’t be a hard dependency of this approach, meaning that this approach is likely to work for Firefox on all OS’s, Chromium on all GNU/Linux distros, and anything else that uses NSS.&lt;/p&gt;
+
+&lt;p&gt;This code needs a lot of cleanup before it’s ready for release; among the ToDos are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Port the certificate handling code to a Go program instead of OpenSSL’s command line.&lt;/li&gt;
+  &lt;li&gt;Automatically detect which root CA’s exist in p11-kit, and apply the name constraint to all of them, instead of only using &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Automatically detect when a public root CA is deleted from p11-kit (e.g. WoSign), and remove the name-constrained CA that corresponds to it.&lt;/li&gt;
+  &lt;li&gt;Preserve p11-kit’s attached attributes for trust anchors.&lt;/li&gt;
+  &lt;li&gt;Make the procedure idempotent.&lt;/li&gt;
+  &lt;li&gt;Test whether this works as intended for other p11-kit-supported libraries (Firefox and Chromium use NSS; p11-kit also supports OpenSSL, Java, and GnuTLS among others).&lt;/li&gt;
+  &lt;li&gt;Test whether a similar approach with name constraints can work for CryptoAPI (this would be relevant for most non-Mozilla browsers on Windows).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’m hopeful that this work will allow us to continue supporting Chromium on GNU/Linux after Chromium removes HPKP, and that it will nicely complement the Firefox positive override support &lt;a href=&quot;/2018/02/20/ncdumpzone-firefox.html&quot;&gt;that I added to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that this approach definitely will not work on most non-Mozilla macOS browsers, because macOS’s TLS implementation does not support name constraints.  I’m not aware of any practical way to do negative overrides on macOS (besides the deprecated HPKP support in Chromium), so there’s a chance that when we get around to macOS support, we’ll just not do negative overrides for macOS (meaning that while Namecoin certificates would work on macOS without errors, malicious public CA’s would still be able to do MITM attacks against macOS users just like they can for DNS domain names).  Firefox on macOS shouldn’t have this problem, since Firefox doesn’t use the OS for certificate verification.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 11 Mar 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Adding a Firefox TLS Mode to ncdumpzone</title>
@@ -447,44 +500,6 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
         <category>Releases</category>
         
         <category>libdohj Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Update on Namecoin Core Qt Development</title>
-        <description>&lt;p&gt;It’s been roughly a year since the &lt;a href=&quot;https://github.com/namecoin/namecoin-core/pull/67&quot;&gt;initial manage names tab&lt;/a&gt;
-code was ported from legacy Namecoin to Namecoin Core. Since then, development
-of namecoin-qt has been progressing on two fronts: merging the manage names Qt
-interface into Namecoin Core’s master branch and the development of a &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; spec
-DNS configuration interface.&lt;/p&gt;
-
-&lt;p&gt;In October, I initiated a &lt;a href=&quot;https://github.com/namecoin/namecoin-core/pull/187&quot;&gt;pull request&lt;/a&gt;
-to merge the manage names tab into Namecoin Core’s master branch.
-This patch replaces the previous, experimental manage names (v0.13.99) interface and
-brings it current with Namecoin Core version 0.15.99. There have been many
-bugfixes and improvements, so we welcome users to test the code and report any
-issues.&lt;/p&gt;
-
-&lt;p&gt;Secondly, thanks to &lt;a href=&quot;https://www.namecoin.org/2017/05/19/funding-nlnet.html&quot;&gt;support&lt;/a&gt;
-from the NLnet Foundation’s Internet Hardening Fund, I’ve began developing the
-DNS configuration dialog. The goal is to make managing Namecoin domains much simpler
-and will remove the need for many users to build &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; spec JSON documents
-altogether. We currently have a set of &lt;a href=&quot;https://github.com/namecoin/namecoin-core/issues/196&quot;&gt;mocks available&lt;/a&gt;
-for comments from users. Until a pull request is issued, development can be tracked
-in the &lt;a href=&quot;https://github.com/brandonrobertz/namecoin-core/tree/manage-dns&quot;&gt;manage-dns&lt;/a&gt;
-branch of my Namecoin Core repo.&lt;/p&gt;
-
-&lt;p&gt;Development is moving quickly, so I will continue to update the community as
-things progress. As usual, you can follow our work in the &lt;a href=&quot;https://github.com/namecoin/namecoin-core&quot;&gt;GitHub repo&lt;/a&gt;
-and on the &lt;a href=&quot;https://www.reddit.com/r/Namecoin/&quot;&gt;Namecoin Subreddit&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 20 Nov 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/11/20/update-on-namecoin-core-qt-development.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/11/20/update-on-namecoin-core-qt-development.html</guid>
-        
-        <category>News</category>
         
         
       </item>

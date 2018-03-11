@@ -188,7 +188,7 @@ html.nojs .navbar-header {
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
                             <li><a href="/download/">Download</a></li>
-                            <li><a href="/exchanges/">Exchanges</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
                             <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
                         </ul>
                     </li>
@@ -281,6 +281,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2018/03/11/p11-kit-negative-overrides.html">2018-03-11</a></strong> Fedora stores its TLS certificates via a highly interesting software package called <a href="https://p11-glue.github.io/p11-glue/trust-module.html">p11-kit</a>.  p11-kit is designed to act as “glue” between various TLS libraries, so that (for example) Firefox, Chromium, and OpenSSL all see the same trust anchors.  p11-kit is useful from Namecoin’s perspective, since it means that if we can implement Namecoin support for p11-kit, we get support for all the trust stores that p11-kit supports for free.  I’ve just implemented a proof-of-concept of negative Namecoin overrides for p11-kit.</p>
+
+<p><a href="/2018/03/11/p11-kit-negative-overrides.html">Read more…</a></p>
+
 <p><strong><a href="/2018/02/20/ncdumpzone-firefox.html">2018-02-20</a></strong> Firefox stores its list of certificate overrides in a text file.  While it’s not feasible to edit this text file while Firefox is running (Firefox only loads it on startup) I’ve experimentally found that it is completely feasible to create positive overrides if you shut off Firefox while the override is being created.  But is this a reasonable expectation for Namecoin?  Actually yes.  Here’s how we’re doing it:</p>
 
 <p><a href="/2018/02/20/ncdumpzone-firefox.html">Read more…</a></p>
@@ -314,14 +318,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2017/11/30/spv-lookup-0.2.7-beta-1.html">2017-11-30</a></strong> Version 0.2.7 Beta 1 of the Namecoin Lightweight SPV Lookup Client has had its source code released.  <a href="/docs/bitcoinj-name-lookups/">Build instructions are here (it’s the “bleeding-edge branch”).</a>  Binaries will be made available later.  Meanwhile, the former bleeding-edge branch (the branch that introduced leveldbtxcache mode) has graduated to partially-stable.  The former partially-stable branch has been deprecated.</p>
 
 <p><a href="/2017/11/30/spv-lookup-0.2.7-beta-1.html">Read more…</a></p>
-
-<p><strong><a href="/2017/11/20/update-on-namecoin-core-qt-development.html">2017-11-20</a></strong> It’s been roughly a year since the <a href="https://github.com/namecoin/namecoin-core/pull/67">initial manage names tab</a>
-code was ported from legacy Namecoin to Namecoin Core. Since then, development
-of namecoin-qt has been progressing on two fronts: merging the manage names Qt
-interface into Namecoin Core’s master branch and the development of a <code class="highlighter-rouge">d/</code> spec
-DNS configuration interface.</p>
-
-<p><a href="/2017/11/20/update-on-namecoin-core-qt-development.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
