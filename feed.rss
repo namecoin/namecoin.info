@@ -6,9 +6,53 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 11 Mar 2018 11:39:48 +0000</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 11:39:48 +0000</lastBuildDate>
+    <pubDate>Tue, 20 Mar 2018 02:55:21 +0000</pubDate>
+    <lastBuildDate>Tue, 20 Mar 2018 02:55:21 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin at 34C3: Slides and Videos</title>
+        <description>&lt;p&gt;CCC and Chaos West have posted the videos of Namecoin’s 34C3 talks.  I’ve also uploaded the corresponding slides.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://media.ccc.de/v/34c3-ChaosWest-3-namecoin_as_a_decentralized_alternative_to_certificate_authorities_for_tls&quot;&gt;Video recording&lt;/a&gt; by Chaos West, hosted by CCC.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_TLS_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Namecoin for Tor Onion Service Naming (And Other Darknets)&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;(No video recording available.)&lt;/em&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_Tor_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;A Blueprint for Making Namecoin Anonymous&lt;/em&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://media.ccc.de/v/34c3-ChaosWest-11-a_blueprint_for_making_namecoin_anonymous&quot;&gt;Video recording&lt;/a&gt; by Chaos West, hosted by CCC.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_Anonymity_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Again, a huge thank you to the following groups who facilitated our participation at 34C3:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Monero_Assembly&quot;&gt;The Monero Assembly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Chaos_West&quot;&gt;The Chaos West Assembly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We’re looking forward to 35C3!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 19 Mar 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/03/19/34c3-slides-videos.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/03/19/34c3-slides-videos.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Negative Certificate Overrides for p11-kit</title>
@@ -483,23 +527,6 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
         <guid isPermaLink="true">https://namecoin.org//2017/12/23/34c3.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Lightweight SPV Lookup Client 0.2.7 Beta 1 Source Code Available</title>
-        <description>&lt;p&gt;Version 0.2.7 Beta 1 of the Namecoin Lightweight SPV Lookup Client has had its source code released.  &lt;a href=&quot;/docs/bitcoinj-name-lookups/&quot;&gt;Build instructions are here (it’s the “bleeding-edge branch”).&lt;/a&gt;  Binaries will be made available later.  Meanwhile, the former bleeding-edge branch (the branch that introduced leveldbtxcache mode) has graduated to partially-stable.  The former partially-stable branch has been deprecated.&lt;/p&gt;
-
-&lt;p&gt;Happily, the 0.2.7 Beta 1 release is using an unmodified upstream libdohj, since Ross Nicoll from Dogecoin has merged all of my changes.  I’m still working to get the relevant ConsensusJ (formerly bitcoinj-addons) code merged upstream.  &lt;strong&gt;As usual, the SPV client is experimental.  Namecoin Core is still substantially more secure against most threat models.&lt;/strong&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2017/11/30/spv-lookup-0.2.7-beta-1.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2017/11/30/spv-lookup-0.2.7-beta-1.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>libdohj Releases</category>
         
         
       </item>
