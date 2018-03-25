@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Cross-Signing with Name Constraints Ported to Go</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2018/03/25/cross-signing-name-constraints-go.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Cross-Signing with Name Constraints Ported to Go</h1>
+<p class="post-meta">Mar 25, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In <a href="/2018/03/11/p11-kit-negative-overrides.html">my previous post about achieving negative certificate overrides using cross-signing and name constraints</a>, I discussed how the technique could make Namecoin-authenticated TLS possible in any TLS application that uses p11-kit or NSS for its certificate storage.  However, the proof-of-concept implementation I discussed in that post was definitely not a secure implementation (nor was the code sane to look at), due to the usage of OpenSSL’s command line utility (glued to itself with Bash) for performing the cross-signing.  I’m happy to report that I’ve ported the OpenSSL+Bash-based code to Go.</p>
+
+<p>Creating a self-signed root CA in Go is relatively easy (<a href="https://golang.org/src/crypto/tls/generate_cert.go">there’s example code for it in the Go standard library</a>, which happens to be the code on which Namecoin’s <code class="highlighter-rouge">generate_nmc_cert</code> tool is heavily based).  Signing an existing certificate with that root CA is also pretty straightforward.  The standard library’s <code class="highlighter-rouge">x509</code> package in Go 1.9 and higher supports creating a CA with the name constraint features we want (earlier versions of Go’s <code class="highlighter-rouge">x509</code> package only supported a whitelist of domain names; we want a blacklist, which is newly added in 1.9).  Right now, ncdns is built with Go 1.8.3 due to a planned effort to use The Tor Project’s reproducible build scripts (which currently use Go 1.8.3), but this code will be used in a standalone tool that doesn’t need to be compiled into ncdns, so using Go 1.9 or higher isn’t a problem.  (That said, ncdns does have pending PR’s for upgrading to Go 1.9 and Go 1.10, which will be merged when The Tor Project updates their build scripts accordingly.)</p>
+
+<p>The tricky part here is that Go’s standard library’s <code class="highlighter-rouge">x509</code> package does <strong>a lot</strong> of parsing and converting of the data in certificates, and a large amount of parsing/conversion of the CA certificate that we’re cross-signing introduces an increased risk of something in the certificate being altered in a way that affects certificate validation.  This could result in unwanted errors showing up for websites (including non-Namecoin websites), which would be bad enough, but it could also result in certificates being incorrectly <strong>accepted</strong> – which would mean, among other horrible things, that MITM attacks could be performed, including against non-Namecoin websites.</p>
+
+<p>As one example of bad things that can happen if too much parsing is done, OpenSSL’s command-line tool doesn’t include x509v3 extensions by default when cross-signing.  x509v3 extensions are responsible for lots of things, including Basic Constraints (removing this would allow a CA to issue certs via intermediates that might not be valid), Name Constraints (we certainly don’t want to remove all the existing name constraints when we add a<code class="highlighter-rouge"> .bit</code>-excluding name constraint), and Key Usage and Extended Key Usage (which would make the CA valid for purposes that browsers aren’t supposed to trust it for, e.g. making the CA valid for signing executable code instead of just signing TLS certificates).  While I suspect that Go is at least mildly more sane than OpenSSL’s default settings, what I really wanted was a way to simply pass-through as much of the original root CA’s certificate as possible when cross-signing it.</p>
+
+<p>Here’s the Go struct that’s returned when an x509 certificate’s raw DER form is passed to the <code class="highlighter-rouge">ParseCertificate</code> function in the standard library’s <code class="highlighter-rouge">x509</code> package:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// A Certificate represents an X.509 certificate.
+type Certificate struct {
+	Raw                     []byte // Complete ASN.1 DER content (certificate, signature algorithm and signature).
+	RawTBSCertificate       []byte // Certificate part of raw ASN.1 DER content.
+	RawSubjectPublicKeyInfo []byte // DER encoded SubjectPublicKeyInfo.
+	RawSubject              []byte // DER encoded Subject
+	RawIssuer               []byte // DER encoded Issuer
+
+	Signature          []byte
+	SignatureAlgorithm SignatureAlgorithm
+
+	PublicKeyAlgorithm PublicKeyAlgorithm
+	PublicKey          interface{}
+
+	Version             int
+	SerialNumber        *big.Int
+	Issuer              pkix.Name
+	Subject             pkix.Name
+	NotBefore, NotAfter time.Time // Validity bounds.
+	KeyUsage            KeyUsage
+
+	// Extensions contains raw X.509 extensions. When parsing certificates,
+	// this can be used to extract non-critical extensions that are not
+	// parsed by this package. When marshaling certificates, the Extensions
+	// field is ignored, see ExtraExtensions.
+	Extensions []pkix.Extension
+
+	// ExtraExtensions contains extensions to be copied, raw, into any
+	// marshaled certificates. Values override any extensions that would
+	// otherwise be produced based on the other fields. The ExtraExtensions
+	// field is not populated when parsing certificates, see Extensions.
+	ExtraExtensions []pkix.Extension
+
+	// UnhandledCriticalExtensions contains a list of extension IDs that
+	// were not (fully) processed when parsing. Verify will fail if this
+	// slice is non-empty, unless verification is delegated to an OS
+	// library which understands all the critical extensions.
+	//
+	// Users can access these extensions using Extensions and can remove
+	// elements from this slice if they believe that they have been
+	// handled.
+	UnhandledCriticalExtensions []asn1.ObjectIdentifier
+
+	ExtKeyUsage        []ExtKeyUsage           // Sequence of extended key usages.
+	UnknownExtKeyUsage []asn1.ObjectIdentifier // Encountered extended key usages unknown to this package.
+
+	// BasicConstraintsValid indicates whether IsCA, MaxPathLen,
+	// and MaxPathLenZero are valid.
+	BasicConstraintsValid bool
+	IsCA                  bool
+
+	// MaxPathLen and MaxPathLenZero indicate the presence and
+	// value of the BasicConstraints' "pathLenConstraint".
+	//
+	// When parsing a certificate, a positive non-zero MaxPathLen
+	// means that the field was specified, -1 means it was unset,
+	// and MaxPathLenZero being true mean that the field was
+	// explicitly set to zero. The case of MaxPathLen==0 with MaxPathLenZero==false
+	// should be treated equivalent to -1 (unset).
+	//
+	// When generating a certificate, an unset pathLenConstraint
+	// can be requested with either MaxPathLen == -1 or using the
+	// zero value for both MaxPathLen and MaxPathLenZero.
+	MaxPathLen int
+	// MaxPathLenZero indicates that BasicConstraintsValid==true
+	// and MaxPathLen==0 should be interpreted as an actual
+	// maximum path length of zero. Otherwise, that combination is
+	// interpreted as MaxPathLen not being set.
+	MaxPathLenZero bool
+
+	SubjectKeyId   []byte
+	AuthorityKeyId []byte
+
+	// RFC 5280, 4.2.2.1 (Authority Information Access)
+	OCSPServer            []string
+	IssuingCertificateURL []string
+
+	// Subject Alternate Name values
+	DNSNames       []string
+	EmailAddresses []string
+	IPAddresses    []net.IP
+	URIs           []*url.URL
+
+	// Name constraints
+	PermittedDNSDomainsCritical bool // if true then the name constraints are marked critical.
+	PermittedDNSDomains         []string
+	ExcludedDNSDomains          []string
+	PermittedIPRanges           []*net.IPNet
+	ExcludedIPRanges            []*net.IPNet
+	PermittedEmailAddresses     []string
+	ExcludedEmailAddresses      []string
+	PermittedURIDomains         []string
+	ExcludedURIDomains          []string
+
+	// CRL Distribution Points
+	CRLDistributionPoints []string
+
+	PolicyIdentifiers []asn1.ObjectIdentifier
+}
+</code></pre></div></div>
+
+<p>Holy crap, that’s a lot of parsing that’s clearly happening.  Among other things, we can even see special types being used for date/time values, IP addresses, and URL’s.  I definitely don’t want all that stuff being added to the attack surface of my cross-signing code – it seems almost certain that some mutation would end up happening, and it would be insane to try to audit the safety of whatever mutation occurs.</p>
+
+<p>However, under the hood, after the above monstrosity is serialized and is ready to be signed, a far more manageable set of structs is used by the <code class="highlighter-rouge">x509</code> package for the actual signing procedure:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// These structures reflect the ASN.1 structure of X.509 certificates.:
+
+type certificate struct {
+	Raw                asn1.RawContent
+	TBSCertificate     tbsCertificate
+	SignatureAlgorithm pkix.AlgorithmIdentifier
+	SignatureValue     asn1.BitString
+}
+
+type tbsCertificate struct {
+	Raw                asn1.RawContent
+	Version            int `asn1:"optional,explicit,default:0,tag:0"`
+	SerialNumber       *big.Int
+	SignatureAlgorithm pkix.AlgorithmIdentifier
+	Issuer             asn1.RawValue
+	Validity           validity
+	Subject            asn1.RawValue
+	PublicKey          publicKeyInfo
+	UniqueId           asn1.BitString   `asn1:"optional,tag:1"`
+	SubjectUniqueId    asn1.BitString   `asn1:"optional,tag:2"`
+	Extensions         []pkix.Extension `asn1:"optional,explicit,tag:3"`
+}
+</code></pre></div></div>
+
+<p>Readers unfamiliar with Go programming should note that in Go, structs whose name has an uppercase first letter are public (accessible by code outside the Go standard library’s <code class="highlighter-rouge">x509</code> package), while structs whose name has a lowercase first letter are private (only accessible from the Go standard library’s <code class="highlighter-rouge">x509</code> package).  These more manageable structs are private, so we can’t access them directly.  But, the important thing to note is that when a raw DER-encoded byte array is parsed into a crazy-complicated <code class="highlighter-rouge">Certificate</code>, as well as when a crazy-complicated <code class="highlighter-rouge">Certificate</code> is signed (resulting in a raw DER-encoded byte array), these private structs (<code class="highlighter-rouge">certificate</code> and <code class="highlighter-rouge">tbsCertificate</code>) are used as intermediate steps, and are actually processed by the <code class="highlighter-rouge">asn1</code> package (not the <code class="highlighter-rouge">x509</code> package) when converting to and from raw DER-encoded byte arrays.</p>
+
+<p>The first field (<code class="highlighter-rouge">Raw</code>) of each struct simply holds the unparsed binary ASN.1 representation of that struct, and we can generally ignore it.  I suspect that the <code class="highlighter-rouge">tbs</code> in <code class="highlighter-rouge">tbsCertificate</code> stands for “to be signed”, since it contains all of the certificate data that the signature covers (in other words, everything except the signature).  The only 5 fields that we actually will want to replace when cross-signing are the following:</p>
+
+<ul>
+  <li>In <code class="highlighter-rouge">certificate</code>:
+    <ul>
+      <li><code class="highlighter-rouge">SignatureAlgorithm</code></li>
+      <li><code class="highlighter-rouge">SignatureValue</code></li>
+    </ul>
+  </li>
+  <li>In <code class="highlighter-rouge">tbsCertificate</code>:
+    <ul>
+      <li><code class="highlighter-rouge">SerialNumber</code></li>
+      <li><code class="highlighter-rouge">SignatureAlgorithm</code></li>
+      <li><code class="highlighter-rouge">Issuer</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>When a field is of type <code class="highlighter-rouge">asn1.RawValue</code>, it means that Go won’t try to parse its content in any way (it’s just a binary blob).  This is exactly the behavior we want for all the fields that we pass-through.  Unfortunately, <code class="highlighter-rouge">tbsCertificate</code> has a bunch of other fields besides the above 5 replaced fields that aren’t of the type <code class="highlighter-rouge">asn1.RawValue</code>.  What can we do about that?  Well, since these are private structs to the <code class="highlighter-rouge">x509</code> package, we’re clearly going to have to copy their definitions anyway – so how about we simplify them while we’re at it?  Below are my modified structs:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// These are modified from the x509 package; they store any field that isn't
+// replaced by cross-signing as an asn1.RawValue.
+
+type certificate struct {
+	Raw                asn1.RawContent
+	TBSCertificate     tbsCertificate
+	SignatureAlgorithm asn1.RawValue
+	SignatureValue     asn1.BitString
+}
+
+type tbsCertificate struct {
+	Raw                asn1.RawContent
+	Version            asn1.RawValue   `asn1:"optional,explicit,tag:0"`
+	SerialNumber       *big.Int        // Replaced by cross-signing
+	SignatureAlgorithm asn1.RawValue   // Replaced by cross-signing
+	Issuer             asn1.RawValue   // Replaced by cross-signing
+	Validity           asn1.RawValue
+	Subject            asn1.RawValue
+	PublicKey          asn1.RawValue
+	UniqueId           asn1.RawValue   `asn1:"optional,tag:1"`
+	SubjectUniqueId    asn1.RawValue   `asn1:"optional,tag:2"`
+	Extensions         []asn1.RawValue `asn1:"optional,explicit,tag:3"`
+}
+</code></pre></div></div>
+
+<p>From there, I created a modified version of the <code class="highlighter-rouge">x509</code> package’s signing code, which creates a <code class="highlighter-rouge">tbsCertificate</code> by parsing the original CA certificate that we’re cross-signing (instead of populating it with serialized data from the crazy-complicated <code class="highlighter-rouge">Certificate</code> struct as the <code class="highlighter-rouge">x509</code> package does), and then signs it (via ECDSA) and serializes it (via the <code class="highlighter-rouge">asn1</code> package) as usual.  It then outputs a DER-encoded x509 certificate that’s identical to the original root CA cert, except for the 5 fields that I listed above as relevant to cross-signing.</p>
+
+<p>The end result of all this work is a Go library, and associated Go command-line tool, that accepts the following as input:</p>
+
+<ul>
+  <li>Original DER-encoded x509 certificate of a root CA to cross-sign</li>
+  <li>A domain name to blacklist via a name constraint (defaults to <code class="highlighter-rouge">.bit</code>)</li>
+  <li>Subject CommonName prefixes for the root and intermediate CA’s (defaults to “Namecoin Restricted CKBI Root CA for “ and “Namecoin Restricted CKBI Intermediate CA for “), which are prepended to the cross-signed CA’s Subject CommonName when creating the root and intermediate CA’s (the intention here is to make it easy to recognize these CA’s as special based on their names)</li>
+</ul>
+
+<p>… and outputs the following:</p>
+
+<ul>
+  <li>DER-encoded x509 certificate of a new self-signed root CA (whose private key is destroyed)</li>
+  <li>DER-encoded x509 certificate of a new intermediate CA (whose private key is destroyed) that has a name constraint, signed by the new root CA</li>
+  <li>DER-encoded x509 certificate of the input root CA, cross-signed by the new intermediate CA</li>
+</ul>
+
+<p>The root and intermediate CA’s also have a Subject SerialNumber that contains the following message:</p>
+
+<blockquote>
+  <p>“This certificate was created on this machine to apply a name constraint to an existing root CA.  Its private key was deleted immediately after the existing root CA was cross-signed.  For more information, see [TODO]”</p>
+</blockquote>
+
+<p>(Of course, the Subject SerialNumber of the intermediate CA is also visible as the Issuer SerialNumber of the cross-signed CA.)  The intention here is that if someone encounters one of these certificates, they’ll notice the SerialNumber message and therefore they won’t mistakenly assume that their system has been compromised by a malicious CA certificate.  (The “[TODO]” will be replaced later by a URL that contains additional information and explains how to get the source code.)  Kudos to Ryan Castellucci for tipping me off that the Subject SerialNumber field was well-suited to this trick.</p>
+
+<p>With this Go command-line tool, I applied a name constraint blacklisting <code class="highlighter-rouge">.org</code> to the certificate of <code class="highlighter-rouge">DST Root CA X3</code> (as in my previous post, this is the root CA that Let’s Encrypt uses), and I got 3 new certificates as output.  I added those 3 certs to NSS’s sqlite database via <code class="highlighter-rouge">certutil</code> (marking the new root CA as trusted), marked the old root CA as untrusted, and tried visiting the same 2 sites that use Let’s Encrypt that I used in my previous post (<a href="https://tehnoetic.com/">Technoethical</a> and <a href="https://www.namecoin.org/">Namecoin.org</a>).  And happily, it worked just as my old OpenSSL+Bash version did: Technoethical loaded without errors (since it’s in the <code class="highlighter-rouge">.com</code> TLD, which I didn’t blacklist), but Namecoin.org showed a TLS certificate error (since it’s in the <code class="highlighter-rouge">.org</code> TLD that I chose to blacklist).</p>
+
+<p>This worked in both Chromium and Firefox on GNU/Linux.  And inspecting the resulting cross-signed certificate shows that all of the x509v3 extensions, validity period, etc. from the original <code class="highlighter-rouge">DST Root CA X3</code> are passed through intact.  Yay!</p>
+
+<p>So, what’s next?  Right now, this still takes a single root CA as input (and the user is still responsible for passing in the input root CA, and making the needed changes to NSS’s database using the outputted CA’s).  I’ve started work on a Go program that will automate this procedure for all root CA’s in NSS; I’d say it’s somewhere around 50% complete.  Once it’s complete, this should allow us to continue supporting Chromium on GNU/Linux (even after Chromium removes HPKP), and it should also allow us to add support for Firefox on all OS’s (without requiring any WebExtensions support).</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-03-25-cross-signing-name-constraints-go.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
