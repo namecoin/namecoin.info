@@ -6,9 +6,77 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 25 Mar 2018 12:52:34 +0000</pubDate>
-    <lastBuildDate>Sun, 25 Mar 2018 12:52:34 +0000</lastBuildDate>
+    <pubDate>Mon, 26 Mar 2018 23:20:45 +0000</pubDate>
+    <lastBuildDate>Mon, 26 Mar 2018 23:20:45 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Integrating Cross-Signing with Name Constraints into NSS</title>
+        <description>&lt;p&gt;At the end of &lt;a href=&quot;/2018/03/25/cross-signing-name-constraints-go.html&quot;&gt;my previous post about porting cross-signing with name constraints to Go&lt;/a&gt;, I mentioned that the next phase was to automate the procedure of applying the constraints to all root CA’s in NSS, instead of needing to manually dump CA’s one-by-one from NSS, run them through my Go tool (currently named &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt;, because I’ve exhausted my witty software naming quota on another project&lt;a href=&quot;#footnote1&quot;&gt;[1]&lt;/a&gt;), and import them back into NSS.  I’m happy to report that this next phase is essentially complete, and in my testing I blacklisted certificates for the &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; TLD regardless of which built-in root CA they chained to (without any impact on other TLD’s).&lt;/p&gt;
+
+&lt;p&gt;My previous post went into quite a bit of technical detail (more so than a typical post of mine), mainly because the details of getting Go to cross-sign with name constraints with minimal attack surface were actually rather illuminating.  In contrast, most of the technical details I could provide for this phase are rather boring (in my opinion, at least), so this post will be more high-level and somewhat shorter than the previous post.  (And no code snippets this time!)&lt;/p&gt;
+
+&lt;p&gt;Early on, I had to make a design decision about how to interact with NSS.  There were 3 main options available:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Pipe data through &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Link with the NSS shared libraries via cgo.&lt;/li&gt;
+  &lt;li&gt;Do something weird with sqlite.  (This category actually includes a wide variety of strange things, including using sqlite’s command line utility, using sqlite with cgo, and using horrifying &lt;code class=&quot;highlighter-rouge&quot;&gt;LD_PRELOAD&lt;/code&gt; hooks to intercept NSS’s interaction with sqlite.)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Given that I haven’t used sqlite in several years, and that I’ve never actually used cgo, but I use &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; on a daily (if not hourly) basis these days, it was pretty clear that option 1 was going to be the most effective usage of my development time.  And it actually came together surprisingly fast, into a command-line tool that I call &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; (note the naming similarity to &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_chromium_tool&lt;/code&gt; – the functionality is analogous).  A few of the more “interesting” things I ended up dealing with:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to retrieve a list of all certificate nicknames in a database looks like it returns an error.  I say “looks like” because there’s actually no error.  The standard output contains all the data I asked for, and the standard error is empty.  But for some reason &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; returns exit code 1 (indicating an error), not exit code 0 (indicating success), for this particular operation.  The exit codes for other operations in &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; don’t exhibit this issue.  I ended up just having my code treat exit code 1 as exit code 0 for this particular operation, which seems to work okay.&lt;/li&gt;
+  &lt;li&gt;When an NSS database contains 2 different certificates that contain the same Subject and Public Key, NSS actually can’t keep track of which is which.  The metadata stays consistent, but when you ask for the DER-encoded certificate data for 1 of the certificates, NSS decides to give you &lt;strong&gt;both of them&lt;/strong&gt;.  Concatenated together.  This led to me writing some generally horrifying code that tries to check for the presence of a certificate by doing both a prefix and suffix match against a byte slice (since I don’t have any idea what order the certificates will be concatenated in).  It’s probably somewhat safer to change &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; to use PEM encoding rather than DER, since it’s easier to detect boundaries of concatenated PEM blocks.  I’ll probably do this next time I’m cleaning up the code.&lt;/li&gt;
+  &lt;li&gt;I accidentally applied a name constraint excluding &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; the first time it ran successfully, and while trying to undo my mistake, I realized I hadn’t ever considered &lt;strong&gt;how to uninstall&lt;/strong&gt; all of these extra certificates.  Back when I was just dealing with a single CA, it was easy to uninstall them via &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; by hand, but at this scale it’s not feasible to do that.  So I ended up adding an extra uninstall mode.  It turned out to be relatively straightforward – apparently my design was flexible enough that this functionality wasn’t hard to add, even though I had never explicitly thought about how I would do it.  &lt;em&gt;Whew!&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;The big one.  Applying the name constraint to the entire NSS built-in certificate list (starting with a mostly-stock database) took &lt;strong&gt;6 minutes and 48 seconds&lt;/strong&gt;.  I strongly suspect that most of this overhead is because NSS doesn’t support sqlite batching, so for every certificate that gets cross-signed, something like 7 sqlite transactions are issued.  On the bright side, my code is smart enough to not attempt to cross-sign certificates for which an existing cross-signature is already present, so the 2nd time you run it, it only takes 20 seconds (which is mostly spent dumping the existing certificates in order to verify that no changes are needed).  Of course, if the trust bits get changed in the built-in list (or if the DER encoded value of a built-in certificate changes), the old cross-signature will be removed, and a new cross-signature will be added.  (Technically there are probably some interesting race conditions here, and properly fixing that is on my to-do list.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Anyway, once the 6 minutes and 48 seconds to run &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; had elapsed, I launched Firefox (this was being done with a Firefox NSS sqlite database on Fedora), and was pleased to see as soon as Firefox booted, I immediately got a certificate error – Firefox’s home page was set to &lt;a href=&quot;https://start.fedoraproject.org/&quot;&gt;https://start.fedoraproject.org/&lt;/a&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; was the excluded domain in the name constraint that I configured for the test.  I tested various &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.com&lt;/code&gt; websites with a variety of root CA’s, and the result was consistent: all &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; sites showed a certificate error, while &lt;code class=&quot;highlighter-rouge&quot;&gt;.com&lt;/code&gt; websites worked fine.  For example, when I looked at the certificate chain for &lt;a href=&quot;https://www.startpage.com/&quot;&gt;StartPage&lt;/a&gt;, Firefox reported that the trust anchor was named &lt;code class=&quot;highlighter-rouge&quot;&gt;Namecoin Restricted CKBI Root CA for COMODO RSA Certification Authority&lt;/code&gt;, indicating that the name constraints had indeed taken effect.&lt;/p&gt;
+
+&lt;p&gt;I think the code is now at the point where I’ll soon be pushing it to GitHub, and maybe doing some binary releases for people who want to &lt;del&gt;brick their NSS database and lose their client certificate private keys&lt;/del&gt; try it out in a VM and report how it works.  All that said, a few interesting caveats remain:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; only applies name constraints to certificates from Mozilla’s CKBI (built-in certificates) module.  If you’re in the business of manually importing extra root CA’s, I’m currently assuming that one of the following is true:
+    &lt;ul&gt;
+      &lt;li&gt;You’re deliberately intercepting your traffic for debug purposes, and therefore don’t want the name constraint to apply.&lt;/li&gt;
+      &lt;li&gt;You’re capable of using &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; to manually add the name constraint before you import a root CA.&lt;/li&gt;
+      &lt;li&gt;You’ve read this warning and ignored it, and therefore when you get pwned by Iranian intelligence agencies, I’m not responsible.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; has the side effect of making trust anchors from the CKBI module no longer appear to be from the CKBI module.  Why does this matter?  Many key pinning implementations only enforce key pins against CKBI trust anchors.  (This is actually the trick we were &lt;del&gt;abusing&lt;/del&gt; innovatively utilizing with &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_chromium_tool&lt;/code&gt;, but now it’s working against us rather than in our favor.)  Mitigating factors:
+    &lt;ul&gt;
+      &lt;li&gt;Chromium-based browsers are &lt;a href=&quot;https://groups.google.com/a/chromium.org/d/topic/blink-dev/he9tr7p3rZ8&quot;&gt;scrapping HPKP soon&lt;/a&gt;, so if your security model is dependent on HPKP working in Chromium, you might want to re-evaluate soon.&lt;/li&gt;
+      &lt;li&gt;Chromium’s HPKP was &lt;em&gt;already&lt;/em&gt; completely broken on Fedora &lt;a href=&quot;https://bugs.chromium.org/p/chromium/issues/detail?id=707280&quot;&gt;due to a Chromium bug&lt;/a&gt;.  It turns out that p11-kit, which Fedora uses as a drop-in replacement for CKBI, utilizes an NSS feature to indicate that it should be treated as CKBI, but Chromium didn’t use that NSS feature properly, and the Chromium devs had minimal interest in fixing it.  Chromium’s devs explained this decision by saying that HPKP is a best-effort feature, and that HPKP failure is not considered a security issue in Chromium.  (The bug was eventually fixed on December 28, 2017, approximately 9 months after it was reported to Chromium.)  So again, if your security model is dependent on HPKP working in Chromium, you might want to re-evaluate, because the Chromium devs don’t agree with you.&lt;/li&gt;
+      &lt;li&gt;Firefox’s HPKP can be &lt;a href=&quot;https://wiki.mozilla.org/SecurityEngineering/Public_Key_Pinning#How_to_use_pinning&quot;&gt;optionally configured via &lt;code class=&quot;highlighter-rouge&quot;&gt;about:config&lt;/code&gt;&lt;/a&gt; to enforce even for non-CKBI trust anchors.  If you’re not deliberately intercepting your own traffic, you probably should enable this mode.&lt;/li&gt;
+      &lt;li&gt;It’s arguably an NSS certutil bug that the CKBI-emulating flag that p11-kit uses can’t be read/set by certutil.  Mozilla should probably fix that sometime.&lt;/li&gt;
+      &lt;li&gt;Once I port &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_p11_tool&lt;/code&gt; or something like that (i.e. port from NSS to p11-kit), it should be straightforward to mimic CKBI on Fedora, in the same way that p11-kit’s default CA’s mimic CKBI.  This should at least be recognized by Firefox (but not by Chromium, see above).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; requires that you have a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binary.  This is easily obtainable in most GNU/Linux distributions (in Fedora, it’s the &lt;code class=&quot;highlighter-rouge&quot;&gt;nss-tools&lt;/code&gt; package), but I have no idea how easy it is to get a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binary on Windows and macOS.  (No, the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; program that Windows includes as part of CryptoAPI is not the same thing.)  Mozilla doesn’t distribute &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries.  At some point, we’ll probably need to start cross-compiling NSS ourselves, although I admit I’m not sure I’m going to enjoy that.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; only works for NSS applications that actually use a certificate database.  Notably, Tor Browser doesn’t use a certificate database, because such a feature forms a fingerprinting risk.  (To my knowledge, Tor Browser exclusively uses the NSS CKBI module.)  Long term, we could probably &lt;del&gt;add a bunch of attack surface&lt;/del&gt; work around this issue by replacing Tor Browser’s CKBI module with p11-kit’s drop-in replacement.  p11-kit is read-only, so in theory it can’t be used as a cookie like NSS’s certificate database can.  But if you customize your CKBI module’s behavior in any significant way, you’re definitely altering your browser fingerprint.  Assuming that all Namecoin users of Tor Browser do this the same way, it’s not really a problem, since the ability to access &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains will already alter your browser fingerprint, and replacing CKBI with p11-kit shouldn’t cause any extra anonymity set partitioning beyond that.  But it’s definitely not something that should be done lightly.&lt;/li&gt;
+  &lt;li&gt;Right now, &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; only supports sqlite databases in NSS.  The older BerkeleyDB databases might be possible to support in the future, but since everything is moving toward sqlite anyway, adding BerkeleyDB support is not exactly high on my priority list.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Despite these minor caveats, this is an excellent step forward for Namecoin TLS on a variety of applications and OS’s.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;div id=&quot;footnote1&quot;&gt;
+
+  &lt;p&gt;[1] I &lt;em&gt;might&lt;/em&gt; have written a program late last year for my master’s thesis, given it a name that is simultaneously (1) an obscure Harry Potter joke, (2) an anonymity technology joke, and (3) a Latin and Greek joke, and then devoted about 2-3 pages of my master’s thesis to explaining and elaborating on the compound joke.  I probably didn’t do that though; that might constitute trolling my university, and I &lt;em&gt;certainly&lt;/em&gt; wouldn’t do that, would I?&lt;/p&gt;
+
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 26 Mar 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/03/26/integrating-cross-signing-name-constraints-nss.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/03/26/integrating-cross-signing-name-constraints-nss.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Cross-Signing with Name Constraints Ported to Go</title>
@@ -710,39 +778,6 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
         <pubDate>Tue, 30 Jan 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>34C3 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2017/12/23/34c3.html&quot;&gt;previously announced&lt;/a&gt;, Jonas Ostman and I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Main_Page&quot;&gt;34C3&lt;/a&gt; in Leipzig, Germany.  This was our first Congress, so we didn’t quite know what to expect, but we were pretty confident that it would be awesome.  We were not disappointed.  The CCC community is well-known for being friendly and welcoming to newcomers, and we greatly enjoyed talking to everyone there.&lt;/p&gt;
-
-&lt;p&gt;Namecoin gave 3 talks, all of which were hosted by the Monero Assembly and the Chaos West Stage.  I expect 2 of those talks to have videos posted sometime later this month.  Unfortunately, 1 of the talks suffered an audio issue in the recording, so it won’t have a video posted (but I will post the slides of that talk, as well as the other talks’ slides).  The talks’ titles are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&lt;/li&gt;
-  &lt;li&gt;Namecoin for Tor Onion Service Naming (And Other Darknets) &lt;em&gt;(No video will be posted due to audio recording technical issues)&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;A Blueprint for Making Namecoin Anonymous&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  That said, I can say that a lot of very promising discussions happened regarding future collaboration with allied projects, and we’ll make any relevant announcements when/if such collaborations are formalized.&lt;/p&gt;
-
-&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Monero_Assembly&quot;&gt;The Monero Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Chaos_West&quot;&gt;The Chaos West Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We definitely intend to return for 35C3 in December 2018.  Until then, &lt;em&gt;Tuwat!&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 03 Jan 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/01/03/34c3-summary.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/01/03/34c3-summary.html</guid>
         
         <category>News</category>
         
