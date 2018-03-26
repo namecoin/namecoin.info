@@ -235,6 +235,76 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Integrating Cross-Signing with Name Constraints into NSS</h1>
+    <p class="post-meta">Mar 26, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+
+    <p>At the end of <a href="/2018/03/25/cross-signing-name-constraints-go.html">my previous post about porting cross-signing with name constraints to Go</a>, I mentioned that the next phase was to automate the procedure of applying the constraints to all root CA’s in NSS, instead of needing to manually dump CA’s one-by-one from NSS, run them through my Go tool (currently named <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, because I’ve exhausted my witty software naming quota on another project<a href="#footnote1">[1]</a>), and import them back into NSS.  I’m happy to report that this next phase is essentially complete, and in my testing I blacklisted certificates for the <code class="highlighter-rouge">.org</code> TLD regardless of which built-in root CA they chained to (without any impact on other TLD’s).</p>
+
+    <p>My previous post went into quite a bit of technical detail (more so than a typical post of mine), mainly because the details of getting Go to cross-sign with name constraints with minimal attack surface were actually rather illuminating.  In contrast, most of the technical details I could provide for this phase are rather boring (in my opinion, at least), so this post will be more high-level and somewhat shorter than the previous post.  (And no code snippets this time!)</p>
+
+    <p>Early on, I had to make a design decision about how to interact with NSS.  There were 3 main options available:</p>
+
+    <ol>
+  <li>Pipe data through <code class="highlighter-rouge">certutil</code>.</li>
+  <li>Link with the NSS shared libraries via cgo.</li>
+  <li>Do something weird with sqlite.  (This category actually includes a wide variety of strange things, including using sqlite’s command line utility, using sqlite with cgo, and using horrifying <code class="highlighter-rouge">LD_PRELOAD</code> hooks to intercept NSS’s interaction with sqlite.)</li>
+</ol>
+
+    <p>Given that I haven’t used sqlite in several years, and that I’ve never actually used cgo, but I use <code class="highlighter-rouge">certutil</code> on a daily (if not hourly) basis these days, it was pretty clear that option 1 was going to be the most effective usage of my development time.  And it actually came together surprisingly fast, into a command-line tool that I call <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (note the naming similarity to <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> – the functionality is analogous).  A few of the more “interesting” things I ended up dealing with:</p>
+
+    <ul>
+  <li>Using <code class="highlighter-rouge">certutil</code> to retrieve a list of all certificate nicknames in a database looks like it returns an error.  I say “looks like” because there’s actually no error.  The standard output contains all the data I asked for, and the standard error is empty.  But for some reason <code class="highlighter-rouge">certutil</code> returns exit code 1 (indicating an error), not exit code 0 (indicating success), for this particular operation.  The exit codes for other operations in <code class="highlighter-rouge">certutil</code> don’t exhibit this issue.  I ended up just having my code treat exit code 1 as exit code 0 for this particular operation, which seems to work okay.</li>
+  <li>When an NSS database contains 2 different certificates that contain the same Subject and Public Key, NSS actually can’t keep track of which is which.  The metadata stays consistent, but when you ask for the DER-encoded certificate data for 1 of the certificates, NSS decides to give you <strong>both of them</strong>.  Concatenated together.  This led to me writing some generally horrifying code that tries to check for the presence of a certificate by doing both a prefix and suffix match against a byte slice (since I don’t have any idea what order the certificates will be concatenated in).  It’s probably somewhat safer to change <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to use PEM encoding rather than DER, since it’s easier to detect boundaries of concatenated PEM blocks.  I’ll probably do this next time I’m cleaning up the code.</li>
+  <li>I accidentally applied a name constraint excluding <code class="highlighter-rouge">.bit</code> instead of <code class="highlighter-rouge">.org</code> the first time it ran successfully, and while trying to undo my mistake, I realized I hadn’t ever considered <strong>how to uninstall</strong> all of these extra certificates.  Back when I was just dealing with a single CA, it was easy to uninstall them via <code class="highlighter-rouge">certutil</code> by hand, but at this scale it’s not feasible to do that.  So I ended up adding an extra uninstall mode.  It turned out to be relatively straightforward – apparently my design was flexible enough that this functionality wasn’t hard to add, even though I had never explicitly thought about how I would do it.  <em>Whew!</em></li>
+  <li>The big one.  Applying the name constraint to the entire NSS built-in certificate list (starting with a mostly-stock database) took <strong>6 minutes and 48 seconds</strong>.  I strongly suspect that most of this overhead is because NSS doesn’t support sqlite batching, so for every certificate that gets cross-signed, something like 7 sqlite transactions are issued.  On the bright side, my code is smart enough to not attempt to cross-sign certificates for which an existing cross-signature is already present, so the 2nd time you run it, it only takes 20 seconds (which is mostly spent dumping the existing certificates in order to verify that no changes are needed).  Of course, if the trust bits get changed in the built-in list (or if the DER encoded value of a built-in certificate changes), the old cross-signature will be removed, and a new cross-signature will be added.  (Technically there are probably some interesting race conditions here, and properly fixing that is on my to-do list.)</li>
+</ul>
+
+    <p>Anyway, once the 6 minutes and 48 seconds to run <code class="highlighter-rouge">tlsrestrict_nss_tool</code> had elapsed, I launched Firefox (this was being done with a Firefox NSS sqlite database on Fedora), and was pleased to see as soon as Firefox booted, I immediately got a certificate error – Firefox’s home page was set to <a href="https://start.fedoraproject.org/">https://start.fedoraproject.org/</a>, and <code class="highlighter-rouge">.org</code> was the excluded domain in the name constraint that I configured for the test.  I tested various <code class="highlighter-rouge">.org</code> and <code class="highlighter-rouge">.com</code> websites with a variety of root CA’s, and the result was consistent: all <code class="highlighter-rouge">.org</code> sites showed a certificate error, while <code class="highlighter-rouge">.com</code> websites worked fine.  For example, when I looked at the certificate chain for <a href="https://www.startpage.com/">StartPage</a>, Firefox reported that the trust anchor was named <code class="highlighter-rouge">Namecoin Restricted CKBI Root CA for COMODO RSA Certification Authority</code>, indicating that the name constraints had indeed taken effect.</p>
+
+    <p>I think the code is now at the point where I’ll soon be pushing it to GitHub, and maybe doing some binary releases for people who want to <del>brick their NSS database and lose their client certificate private keys</del> try it out in a VM and report how it works.  All that said, a few interesting caveats remain:</p>
+
+    <ul>
+  <li><code class="highlighter-rouge">tlsrestrict_nss_tool</code> only applies name constraints to certificates from Mozilla’s CKBI (built-in certificates) module.  If you’re in the business of manually importing extra root CA’s, I’m currently assuming that one of the following is true:
+    <ul>
+      <li>You’re deliberately intercepting your traffic for debug purposes, and therefore don’t want the name constraint to apply.</li>
+      <li>You’re capable of using <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to manually add the name constraint before you import a root CA.</li>
+      <li>You’ve read this warning and ignored it, and therefore when you get pwned by Iranian intelligence agencies, I’m not responsible.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">tlsrestrict_nss_tool</code> has the side effect of making trust anchors from the CKBI module no longer appear to be from the CKBI module.  Why does this matter?  Many key pinning implementations only enforce key pins against CKBI trust anchors.  (This is actually the trick we were <del>abusing</del> innovatively utilizing with <code class="highlighter-rouge">tlsrestrict_chromium_tool</code>, but now it’s working against us rather than in our favor.)  Mitigating factors:
+    <ul>
+      <li>Chromium-based browsers are <a href="https://groups.google.com/a/chromium.org/d/topic/blink-dev/he9tr7p3rZ8">scrapping HPKP soon</a>, so if your security model is dependent on HPKP working in Chromium, you might want to re-evaluate soon.</li>
+      <li>Chromium’s HPKP was <em>already</em> completely broken on Fedora <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=707280">due to a Chromium bug</a>.  It turns out that p11-kit, which Fedora uses as a drop-in replacement for CKBI, utilizes an NSS feature to indicate that it should be treated as CKBI, but Chromium didn’t use that NSS feature properly, and the Chromium devs had minimal interest in fixing it.  Chromium’s devs explained this decision by saying that HPKP is a best-effort feature, and that HPKP failure is not considered a security issue in Chromium.  (The bug was eventually fixed on December 28, 2017, approximately 9 months after it was reported to Chromium.)  So again, if your security model is dependent on HPKP working in Chromium, you might want to re-evaluate, because the Chromium devs don’t agree with you.</li>
+      <li>Firefox’s HPKP can be <a href="https://wiki.mozilla.org/SecurityEngineering/Public_Key_Pinning#How_to_use_pinning">optionally configured via <code class="highlighter-rouge">about:config</code></a> to enforce even for non-CKBI trust anchors.  If you’re not deliberately intercepting your own traffic, you probably should enable this mode.</li>
+      <li>It’s arguably an NSS certutil bug that the CKBI-emulating flag that p11-kit uses can’t be read/set by certutil.  Mozilla should probably fix that sometime.</li>
+      <li>Once I port <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to <code class="highlighter-rouge">tlsrestrict_p11_tool</code> or something like that (i.e. port from NSS to p11-kit), it should be straightforward to mimic CKBI on Fedora, in the same way that p11-kit’s default CA’s mimic CKBI.  This should at least be recognized by Firefox (but not by Chromium, see above).</li>
+    </ul>
+  </li>
+  <li>Using <code class="highlighter-rouge">tlsrestrict_nss_tool</code> requires that you have a <code class="highlighter-rouge">certutil</code> binary.  This is easily obtainable in most GNU/Linux distributions (in Fedora, it’s the <code class="highlighter-rouge">nss-tools</code> package), but I have no idea how easy it is to get a <code class="highlighter-rouge">certutil</code> binary on Windows and macOS.  (No, the <code class="highlighter-rouge">certutil</code> program that Windows includes as part of CryptoAPI is not the same thing.)  Mozilla doesn’t distribute <code class="highlighter-rouge">certutil</code> binaries.  At some point, we’ll probably need to start cross-compiling NSS ourselves, although I admit I’m not sure I’m going to enjoy that.</li>
+  <li><code class="highlighter-rouge">tlsrestrict_nss_tool</code> only works for NSS applications that actually use a certificate database.  Notably, Tor Browser doesn’t use a certificate database, because such a feature forms a fingerprinting risk.  (To my knowledge, Tor Browser exclusively uses the NSS CKBI module.)  Long term, we could probably <del>add a bunch of attack surface</del> work around this issue by replacing Tor Browser’s CKBI module with p11-kit’s drop-in replacement.  p11-kit is read-only, so in theory it can’t be used as a cookie like NSS’s certificate database can.  But if you customize your CKBI module’s behavior in any significant way, you’re definitely altering your browser fingerprint.  Assuming that all Namecoin users of Tor Browser do this the same way, it’s not really a problem, since the ability to access <code class="highlighter-rouge">.bit</code> domains will already alter your browser fingerprint, and replacing CKBI with p11-kit shouldn’t cause any extra anonymity set partitioning beyond that.  But it’s definitely not something that should be done lightly.</li>
+  <li>Right now, <code class="highlighter-rouge">tlsrestrict_nss_tool</code> only supports sqlite databases in NSS.  The older BerkeleyDB databases might be possible to support in the future, but since everything is moving toward sqlite anyway, adding BerkeleyDB support is not exactly high on my priority list.</li>
+</ul>
+
+    <p>Despite these minor caveats, this is an excellent step forward for Namecoin TLS on a variety of applications and OS’s.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+    <div id="footnote1">
+
+      <p>[1] I <em>might</em> have written a program late last year for my master’s thesis, given it a name that is simultaneously (1) an obscure Harry Potter joke, (2) an anonymity technology joke, and (3) a Latin and Greek joke, and then devoted about 2-3 pages of my master’s thesis to explaining and elaborating on the compound joke.  I probably didn’t do that though; that might constitute trolling my university, and I <em>certainly</em> wouldn’t do that, would I?</p>
+
+    </div>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Cross-Signing with Name Constraints Ported to Go</h1>
     <p class="post-meta">Mar 25, 2018 • Jeremy Rand </p>
   </header>
