@@ -235,6 +235,28 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">ConsensusJ-Namecoin v0.2.7 Binaries Available</h1>
+    <p class="post-meta">Apr 3, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Binaries of ConsensusJ-Namecoin (the Namecoin lightweight SPV lookup client) v0.2.7 are now released on the <a href="/download/betas/#consensusj-namecoin">Beta Downloads page</a> page.  This is based on the source code that was <a href="/2017/11/30/spv-lookup-0.2.7-beta-1.html">released earlier</a>.  Notable new things in this release:</p>
+
+    <ul>
+  <li><code class="highlighter-rouge">leveldbtxcache</code> mode is merged to upstream libdohj, and has therefore had the benefit of more peer review.</li>
+  <li><code class="highlighter-rouge">leveldbtxcache</code> mode now only stores the name scriptPubKey, not the entire transaction.  This significantly improves syncup time and storage usage.  (Currently, it uses around 65 MB of storage, which includes both the name database and the block headers.)</li>
+  <li>Many dependency version bumps.</li>
+</ul>
+
+    <p><strong>As usual, ConsensusJ-Namecoin is experimental.  Namecoin Core is still substantially more secure against most threat models.</strong></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Integrating Cross-Signing with Name Constraints into NSS</h1>
     <p class="post-meta">Mar 26, 2018 • Jeremy Rand </p>
   </header>
