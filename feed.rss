@@ -6,9 +6,55 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 04 Apr 2018 04:16:05 +0000</pubDate>
-    <lastBuildDate>Wed, 04 Apr 2018 04:16:05 +0000</lastBuildDate>
+    <pubDate>Tue, 17 Apr 2018 08:25:28 +0000</pubDate>
+    <lastBuildDate>Tue, 17 Apr 2018 08:25:28 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>ncdns v0.0.6 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.0.6.  List of changes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Windows installer:
+    &lt;ul&gt;
+      &lt;li&gt;Bump ConsensusJ-Namecoin dependency to v0.2.7.&lt;/li&gt;
+      &lt;li&gt;Bump Dnssec-Trigger dependency to v0.15.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Bump dnssec-keygen dependency to v9.12.1.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  (Patch by Hugo Landau; reported by Jeremy Rand.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;NetBSD:
+    &lt;ul&gt;
+      &lt;li&gt;Disable NetBSD/ARM builds due to an upstream bug.  NetBSD/ARM builds will return later.  (Patch by Jeremy Rand.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;All OS’s:
+    &lt;ul&gt;
+      &lt;li&gt;certinject: Add support for NSS trust stores; this enables positive TLS overrides in Chromium on GNU/Linux (and probably various other software that uses NSS for certificate validation.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;ncdumpzone: Add &lt;code class=&quot;highlighter-rouge&quot;&gt;cert_override.txt&lt;/code&gt; output format; this enables positive TLS overrides in Firefox (and probably various other software based on Firefox).  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Fix TLSA records served over DNS (for the lucky users using software that supports DANE).  (Patch by Jeremy Rand; reported by Jefferson Carpenter.)&lt;/li&gt;
+      &lt;li&gt;Bundle miekg’s &lt;code class=&quot;highlighter-rouge&quot;&gt;q&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Bundle &lt;code class=&quot;highlighter-rouge&quot;&gt;dns-prop279&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Change default Namecoin RPC host from &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt;; should fix some RPC errors on Windows.  (Patch by Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  (Patch by Jeremy Rand.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 17 Apr 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/04/17/ncdns-v0.0.6-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/04/17/ncdns-v0.0.6-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>ConsensusJ-Namecoin v0.2.7 Binaries Available</title>
@@ -613,71 +659,6 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
         <guid isPermaLink="true">https://namecoin.org//2018/02/11/libdohj-pruning-scriptpubkey.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core 0.15.99-name-tab-beta1 Released</title>
-        <description>&lt;p&gt;Namecoin Core 0.15.99-name-tab-beta1 has been released on the &lt;a href=&quot;/download/betas/#namecoin-core&quot;&gt;Beta Downloads page&lt;/a&gt;.  Changes since 0.13.99-name-tab-beta1:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;New features:
-    &lt;ul&gt;
-      &lt;li&gt;GUI
-        &lt;ul&gt;
-          &lt;li&gt;Significant rewrite of name GUI.  (Patch by brandonrobertz.)  &lt;strong&gt;In particular, please torture-test the following&lt;/strong&gt;:
-            &lt;ul&gt;
-              &lt;li&gt;Full flow for registering names.&lt;/li&gt;
-              &lt;li&gt;Full flow for updating and renewing names.&lt;/li&gt;
-              &lt;li&gt;State display in the names list.&lt;/li&gt;
-              &lt;li&gt;The above with mainnet, testnet, and regtest networks.&lt;/li&gt;
-              &lt;li&gt;The above with encrypted locked, encrypted unlocked, and unencrypted wallets.&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;RPC
-        &lt;ul&gt;
-          &lt;li&gt;Remove name operation from &lt;code class=&quot;highlighter-rouge&quot;&gt;createrawtransaction&lt;/code&gt; RPC method; add &lt;code class=&quot;highlighter-rouge&quot;&gt;namerawtransaction&lt;/code&gt; RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)&lt;/li&gt;
-          &lt;li&gt;Restore &lt;code class=&quot;highlighter-rouge&quot;&gt;getblocktemplate&lt;/code&gt; RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)&lt;/li&gt;
-          &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;createauxblock&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;submitauxblock&lt;/code&gt; RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Fixes:
-    &lt;ul&gt;
-      &lt;li&gt;GUI
-        &lt;ul&gt;
-          &lt;li&gt;Fix pending name registration bug, where the GUI requests a wallet unlock over and over and then errors with name registered.  (Patch by brandonrobertz.)&lt;/li&gt;
-          &lt;li&gt;Fix bug where names weren’t showing up in the Manage Names list properly until client had been restarted.  (Patch by brandonrobertz.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;P2P
-        &lt;ul&gt;
-          &lt;li&gt;Update seed nodes.  This should decrease likelihood of getting stuck without peers.  (Patch by JeremyRand.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;RPC
-        &lt;ul&gt;
-          &lt;li&gt;Fix crash when user attempts to broadcast an invalid raw transaction containing multiple &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; outputs.  (Reported by maxweisspoker, patch by domob1812.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Improvements from upstream Bitcoin Core.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Unfortunately, Windows and macOS builds are broken in this release, so only GNU/Linux binaries are available.  We expect Windows and macOS builds to be restored for the 0.15.99-name-tab-beta2 release, which is coming soon.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 01 Feb 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Namecoin Core Releases</category>
         
         
       </item>

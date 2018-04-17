@@ -235,6 +235,51 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">ncdns v0.0.6 Released</h1>
+    <p class="post-meta">Apr 17, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.0.6.  List of changes:</p>
+
+    <ul>
+  <li>Windows installer:
+    <ul>
+      <li>Bump ConsensusJ-Namecoin dependency to v0.2.7.</li>
+      <li>Bump Dnssec-Trigger dependency to v0.15.  (Patch by Jeremy Rand.)</li>
+      <li>Bump dnssec-keygen dependency to v9.12.1.  (Patch by Jeremy Rand.)</li>
+      <li>Code quality improvements.  (Patch by Hugo Landau; reported by Jeremy Rand.)</li>
+    </ul>
+  </li>
+  <li>NetBSD:
+    <ul>
+      <li>Disable NetBSD/ARM builds due to an upstream bug.  NetBSD/ARM builds will return later.  (Patch by Jeremy Rand.)</li>
+    </ul>
+  </li>
+  <li>All OS’s:
+    <ul>
+      <li>certinject: Add support for NSS trust stores; this enables positive TLS overrides in Chromium on GNU/Linux (and probably various other software that uses NSS for certificate validation.  (Patch by Jeremy Rand.)</li>
+      <li>ncdumpzone: Add <code class="highlighter-rouge">cert_override.txt</code> output format; this enables positive TLS overrides in Firefox (and probably various other software based on Firefox).  (Patch by Jeremy Rand.)</li>
+      <li>Fix TLSA records served over DNS (for the lucky users using software that supports DANE).  (Patch by Jeremy Rand; reported by Jefferson Carpenter.)</li>
+      <li>Bundle miekg’s <code class="highlighter-rouge">q</code>.  (Patch by Jeremy Rand.)</li>
+      <li>Bundle <code class="highlighter-rouge">dns-prop279</code>.  (Patch by Jeremy Rand.)</li>
+      <li>Change default Namecoin RPC host from <code class="highlighter-rouge">localhost</code> to <code class="highlighter-rouge">127.0.0.1</code>; should fix some RPC errors on Windows.  (Patch by Jeremy Rand.)</li>
+      <li>Code quality improvements.  (Patch by Jeremy Rand.)</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">ConsensusJ-Namecoin v0.2.7 Binaries Available</h1>
     <p class="post-meta">Apr 3, 2018 • Jeremy Rand </p>
   </header>
