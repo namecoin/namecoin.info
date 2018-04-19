@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>QCon London 2017 Summary</title>
+    <title>cross_sign_name_constraint_tool v0.0.2 and tlsrestrict_nss_tool v0.0.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/04/02/qcon-london-summary.html">
+    <link rel="canonical" href="https://namecoin.org//2018/04/19/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,211 +232,205 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">QCon London 2017 Summary</h1>
-<p class="post-meta">Apr 2, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">cross_sign_name_constraint_tool v0.0.2 and tlsrestrict_nss_tool v0.0.2 Released</h1>
+<p class="post-meta">Apr 19, 2018 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>As was <a href="/2017/03/03/qcon-london.html">announced</a>, I represented Namecoin at QCon London 2017.  Below is a brief summary of how it went.</p>
+<p>We’ve released <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> v0.0.2 and <code class="highlighter-rouge">tlsrestrict_nss_tool</code> v0.0.2.  These implement the functionality described in my previous post on <a href="/2018/03/26/integrating-cross-signing-name-constraints-nss.html">Integrating Cross-Signing with Name Constraints into NSS</a> (and the earlier posts that that post links to).</p>
 
-<p>The theme of the blockchain track was “Beyond the Hype”.  As such, the presentations in the track primarily focused on all the things that can go wrong when using a blockchain.  Riccardo Spagni (AKA fluffypony of <a href="https://getmonero.org/">Monero</a>) is definitely an ideal person to host this track.  My talk was on alternate blockchains, with a focus on Namecoin (and some Monero).  In the spirit of going “Beyond the Hype”, my talk was almost entirely about things that can go wrong when using a non-Bitcoin blockchain.</p>
+<p>With this release, in theory Namecoin TLS negative overrides are supported in anything that uses NSS’s trust store (including Firefox on all OS’s, and Chromium on GNU/Linux, without requiring HPKP).</p>
 
-<p>I think this is a very important theme for a blockchain track, because the hype attached to the blockchain field is seriously problematic for our field’s credibility.  None of us were there to sell our technology, attract investors, or grab media attention – we were there to provide a reality check for an audience who, in large part, had minimal exposure to blockchain technology and wanted to learn more about what use cases it’s good or bad for.</p>
+<p>As usual, you can download it at the <a href="/download/betas/#cross_sign_name_constraint_tool">Beta Downloads page</a>.</p>
 
-<p>Lots of attendees talked with me over dinner and in the hallway, and I’ll be following up with them ASAP.  After QCon, I attended a talk Riccardo gave at Imperial College; several people there were interested in Namecoin.  I met up with Riccardo the next day to discuss lots of cool stuff involving Namecoin and Monero.</p>
-
-<p>As with other conferences, I won’t be releasing details of private conversations, because I want people to be able to talk to me at conferences without being worried that off-the-cuff comments will be publicly published.</p>
-
-<p>Huge thanks to Riccardo for inviting me, and to all the QCon conference organizers for an awesome conference (and for covering my travel expenses).  It’d be awesome if we can do this again.</p>
-
-<p><a href="https://qconlondon.com/2017-session-videos">A video of my talk is scheduled for release on June 26, 2017.</a></p>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -556,7 +550,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-04-02-qcon-london-summary.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-04-19-cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
