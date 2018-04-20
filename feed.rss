@@ -6,9 +6,30 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 17 Apr 2018 08:25:28 +0000</pubDate>
-    <lastBuildDate>Tue, 17 Apr 2018 08:25:28 +0000</lastBuildDate>
+    <pubDate>Thu, 19 Apr 2018 23:15:07 +0000</pubDate>
+    <lastBuildDate>Thu, 19 Apr 2018 23:15:07 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>cross_sign_name_constraint_tool v0.0.2 and tlsrestrict_nss_tool v0.0.2 Released</title>
+        <description>&lt;p&gt;We’ve released &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; v0.0.2 and &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; v0.0.2.  These implement the functionality described in my previous post on &lt;a href=&quot;/2018/03/26/integrating-cross-signing-name-constraints-nss.html&quot;&gt;Integrating Cross-Signing with Name Constraints into NSS&lt;/a&gt; (and the earlier posts that that post links to).&lt;/p&gt;
+
+&lt;p&gt;With this release, in theory Namecoin TLS negative overrides are supported in anything that uses NSS’s trust store (including Firefox on all OS’s, and Chromium on GNU/Linux, without requiring HPKP).&lt;/p&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#cross_sign_name_constraint_tool&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/04/19/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/04/19/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.0.6 Released</title>
@@ -606,57 +627,6 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
         <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Pruning of Non-scriptPubKey Data in libdohj</title>
-        <description>&lt;p&gt;Our lightweight SPV client’s &lt;code class=&quot;highlighter-rouge&quot;&gt;leveldbtxcache&lt;/code&gt; mode is the most secure of the various Namecoin lightweight SPV modes.  Its storage requirements aren’t too bad either (129.1 MB at the moment for Namecoin mainnet).  However, while 129.1 MB of storage isn’t a dealbreaker, it’s still a bit borderline on mobile devices.  We can do better.&lt;/p&gt;
-
-&lt;p&gt;First, a reminder of how &lt;code class=&quot;highlighter-rouge&quot;&gt;leveldbtxcache&lt;/code&gt; currently works.  Initially, the IBD (initial blockchain download) proceeds the same way a typical lightweight SPV Bitcoin client (such as Schildbach’s Android Bitcoin Wallet) would work: it downloads blockchain headers, aiming for the chain with the most work.  However, at the point when the IBD has reached 1 year ago in the blockchain, it begins downloading full blocks instead of block headers.  The full blocks aren’t saved; they’re used temporarily for 2 purposes: verifying consistency with the block headers’ Merkle root (thus ensuring that no transactions have been censored), and adding any &lt;code class=&quot;highlighter-rouge&quot;&gt;name_anyupdate&lt;/code&gt; transactions to a LevelDB database that allows quick lookup of names.  After those 2 things have been processed, the full blocks are discarded.  The 129.1 MB storage figure is as low as it is because we’re only storing name transactions from the last year (plus block headers, which are negligible in size).&lt;/p&gt;
-
-&lt;p&gt;However, there’s a lot of data in name transactions that we don’t actually need in order to look up names: currency data, signatures, and transaction metadata.&lt;/p&gt;
-
-&lt;p&gt;Currency data exists in name transactions because name operations cost a transaction fee, so there will typically be a currency input and a currency output in any name transaction.  We don’t need this information in order to look up names.  Signatures are used for verifying new transactions, but are not needed to look up previously accepted transaction data.  Transaction metadata, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;nVersion&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;nLockTime&lt;/code&gt;, is also not needed to look up names.  There may be other sources of unwanted data too.&lt;/p&gt;
-
-&lt;p&gt;To improve the situation, I’ve just modified &lt;code class=&quot;highlighter-rouge&quot;&gt;leveldbtxcache&lt;/code&gt; so that, instead of storing full name transactions in LevelDB, it only stores the &lt;code class=&quot;highlighter-rouge&quot;&gt;scriptPubKey&lt;/code&gt; of the name output.  This includes the name’s identifier and value, as well as the Bitcoin-compatible &lt;code class=&quot;highlighter-rouge&quot;&gt;scriptPubKey&lt;/code&gt; that can be used to verify future signatures.  It’s a relatively straightforward change to the code, although it does break backward-compatibility with existing name databases (so you’ll need to delete your blockchain and resync after updating).&lt;/p&gt;
-
-&lt;p&gt;So, how does this fare?&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt; &lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;Full Transactions&lt;/strong&gt;&lt;/th&gt;
-      &lt;th&gt;&lt;strong&gt;Only &lt;code class=&quot;highlighter-rouge&quot;&gt;scriptPubKey&lt;/code&gt;&lt;/strong&gt;&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;Storage Used after IBD&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;129.1 MB&lt;/td&gt;
-      &lt;td&gt;63.7 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;&lt;strong&gt;Time Elapsed for IBD&lt;/strong&gt;&lt;/td&gt;
-      &lt;td&gt;~9 Minutes&lt;/td&gt;
-      &lt;td&gt;~6 minutes&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Not bad, and we even got a faster IBD as a bonus.  (This suggests that the bottleneck, at least on my laptop running Qubes with an HDD, was storage I/O.)&lt;/p&gt;
-
-&lt;p&gt;I’ve just submitted this change to upstream libdohj.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 11 Feb 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/02/11/libdohj-pruning-scriptpubkey.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/02/11/libdohj-pruning-scriptpubkey.html</guid>
         
         <category>News</category>
         

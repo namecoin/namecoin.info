@@ -325,6 +325,52 @@ Decentralized<br /><strong>secure</strong> names.
   <li>Build is not yet reproducible.</li>
 </ul>
 
+<h2 id="cross_sign_name_constraint_tool">cross_sign_name_constraint_tool</h2>
+
+<p>This tool applies a name constraint exclusion to a DER-encoded TLS trust anchor via cross-signing, without that trust anchor’s consent. The intended use case is to disallow a CA from issuing certificates for a domain name that it has no legitimate business issuing certificates for. For example:</p>
+
+<ul>
+  <li>Disallowing a public CA from issuing certificates for the <code class="highlighter-rouge">.bit</code> TLD used by Namecoin.</li>
+  <li>Disallowing a public CA from issuing certificates for a TLD controlled by your corporate intranet.</li>
+  <li>Disallowing your corporate intranet’s CA from issuing certificates for a TLD allocated by ICANN.</li>
+</ul>
+
+<p>Namecoin users will probably want to use <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to disallow any non-Namecoin CA’s that they have manually imported to their system from signing <code class="highlighter-rouge">.bit</code> certificates.  For CA’s that are on your system by default, you probably instead want <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (see below) or <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> (bundled with ncdns, see above).</p>
+
+<ul>
+  <li><a href="https://github.com/namecoin/crosssignnameconstraint/releases/tag/v0.0.2">cross_sign_name_constraint_tool v0.0.2 binaries for GNU/Linux, DragonFlyBSD, FreeBSD, NetBSD, OpenBSD, Solaris, Windows, macOS (hosted by GitHub)</a></li>
+  <li><a href="https://github.com/namecoin/crosssignnameconstraint">cross_sign_name_constraint_tool Source Code at GitHub.</a></li>
+</ul>
+
+<h3 id="known-issues-3">Known Issues</h3>
+
+<ul>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
+<h2 id="tlsrestrict_nss_tool">tlsrestrict_nss_tool</h2>
+
+<p>This tool applies a name constraint exclusion to an NSS sqlite database for all CKBI (built-in) TLS trust anchors, without those trust anchors’ consent. The intended use case is to disallow public CA’s from issuing certificates for TLD’s with unique regulatory or policy requirements, such as:</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">.bit</code> TLD used by Namecoin.</li>
+  <li>A TLD controlled by your corporate intranet.</li>
+</ul>
+
+<p>Namecoin users will probably want to use <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to disallow all CA’s that are on their system by default from signing <code class="highlighter-rouge">.bit</code> certificates.  For CA’s that you manually imported yourself, you probably instead want <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (see above).</p>
+
+<ul>
+  <li><a href="https://github.com/namecoin/tlsrestrictnss/releases/tag/v0.0.2">tlsrestrict_nss_tool v0.0.2 binaries for GNU/Linux, DragonFlyBSD, FreeBSD, NetBSD, OpenBSD, Solaris, Windows, macOS (hosted by GitHub)</a></li>
+  <li><a href="https://github.com/namecoin/tlsrestrictnss">tlsrestrict_nss_tool Source Code at GitHub.</a></li>
+</ul>
+
+<h3 id="known-issues-4">Known Issues</h3>
+
+<ul>
+  <li>This tool will probably prevent HPKP from working as intended, unless HPKP is applied to user-defined trust anchors. Firefox is capable of doing this (though it’s not the default); Chromium is not (as far as we know).</li>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
 <h2 id="dns-prop279">dns-prop279</h2>
 
 <p>This is a tool that permits Namecoin naming (or any other naming method that speaks the DNS protocol) to be used with Tor, via the draft Prop279 pluggable naming API.  <code class="highlighter-rouge">.bit</code> domains can point to IP addresses (A/AAAA records), DNS names (CNAME records), and onion services.</p>
@@ -333,7 +379,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p><a href="https://github.com/namecoin/dns-prop279">Source code at GitHub.</a></p>
 
-<h3 id="known-issues-3">Known Issues</h3>
+<h3 id="known-issues-5">Known Issues</h3>
 
 <ul>
   <li>Prop279 is still an early draft, and might change heavily.  dns-prop279 will change accordingly.</li>
