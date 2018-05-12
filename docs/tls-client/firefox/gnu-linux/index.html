@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncdns v0.0.4 Released</title>
+    <title>TLS for Firefox on GNU/Linux</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/08/24/ncdns-v0.0.4-released.html">
+    <link rel="canonical" href="https://namecoin.org//docs/tls-client/firefox/gnu-linux/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -224,319 +224,78 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        
+        <div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">TLS for Firefox on GNU/Linux</h1>
+  </header>
 
+  <article class="post-content">
+    
+<h2 id="tls-positive-overrides">TLS Positive Overrides</h2>
 
+<p>Firefox for GNU/Linux can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
 
+<ol>
+  <li>
+    <p>Run the following, substituting your Namecoin Core RPC credentials for <code class="highlighter-rouge">$USER</code> and <code class="highlighter-rouge">$PASS</code>.):</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ncdumpzone --format=firefox-override --rpcuser=$USER --rpcpass=$PASS &gt; cert_override_nmc.txt
+</code></pre></div>    </div>
+  </li>
+  <li>Wait for <code class="highlighter-rouge">ncdumpzone</code> to finish running; it should take about a minute.</li>
+  <li>Exit Firefox if it’s running.</li>
+  <li>Append the contents of <code class="highlighter-rouge">cert_override_nmc.txt</code> to the file named <code class="highlighter-rouge">cert_override.txt</code> in your Firefox profile folder. (If the file doesn’t already exist, you can create an empty text file there.)</li>
+  <li>Start Firefox again.</li>
+</ol>
 
+<p>You can now visit in Firefox a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="highlighter-rouge">.bit</code> domain</a>.  The website should load in Firefox without errors.  (Obviously you need to have <code class="highlighter-rouge">.bit</code> DNS resolution enabled on your system, but you do <strong>not</strong> need any TLS-related features of ncdns enabled.)</p>
 
+<p>If a <code class="highlighter-rouge">.bit</code> website changes its TLS certificate and you want that site to work again, redo the above instructions (but remove the <code class="highlighter-rouge">.bit</code> lines from <code class="highlighter-rouge">cert_override.txt</code> before you append the new data to it).</p>
 
+<h2 id="tls-negative-overrides">TLS Negative Overrides</h2>
 
+<p>Firefox for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
+<ol>
+  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Firefox certificate database.</li>
+  <li>Find your NSS directory; it will usually be a subdirectory of <code class="highlighter-rouge">$HOME/.mozilla/firefox</code>.  For example, <code class="highlighter-rouge">$HOME/.mozilla/firefox/r3a8ono6.default</code>.</li>
+  <li>
+    <p>Run the following, substituting the temporary directory and NSS directory for <code class="highlighter-rouge">$TEMP_DIR</code> and <code class="highlighter-rouge">$NSS_DIR</code>:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR"
+</code></pre></div>    </div>
+  </li>
+  <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
+</ol>
 
+<p>You’ll need to redo the above steps whenever the built-in certificate list is updated.</p>
 
+<p>If you’ve manually imported any non-built-in TLS trust anchors to Firefox, and you want to restrict them from intercepting <code class="highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
 
+<ol>
+  <li>Get a DER-encoded certificate of the trust anchor.</li>
+  <li>
+    <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+</code></pre></div>    </div>
+  </li>
+  <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
+  <li>Delete the existing trust anchor from Firefox.</li>
+  <li>Import <code class="highlighter-rouge">root.crt</code> into Firefox; mark it as a trusted TLS root CA.</li>
+  <li>Import <code class="highlighter-rouge">intermediate.crt</code> and <code class="highlighter-rouge">cross-signed.crt</code> into Firefox; do not mark them as trusted.</li>
+</ol>
 
+<p>If you decide later that you want to remove the negative overrides from Firefox, run the following:</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR" --tlsrestrict.undo
+</code></pre></div></div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">ncdns v0.0.4 Released</h1>
-<p class="post-meta">Aug 24, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
-</header>
-
-<article class="post-content">
-<p>We’ve released ncdns v0.0.4.  This release incorporates a bugfix in the madns dependency, which fixes a DNSSEC signing bug.  The ncdns Windows installer in this release also updated the Dnssec-Trigger dependency.</p>
-
-<p>As usual, you can download it at the <a href="/download/betas/">Beta Downloads page</a>.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
-
-</article>
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -552,7 +311,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-08-24-ncdns-v0.0.4-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/firefox/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

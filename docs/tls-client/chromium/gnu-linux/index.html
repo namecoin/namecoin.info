@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncdns v0.0.4 Released</title>
+    <title>TLS for Chromium on GNU/Linux</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/08/24/ncdns-v0.0.4-released.html">
+    <link rel="canonical" href="https://namecoin.org//docs/tls-client/chromium/gnu-linux/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -224,319 +224,99 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        
+        <div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">TLS for Chromium on GNU/Linux</h1>
+  </header>
 
+  <article class="post-content">
+    
+<h2 id="tls-positive-overrides">TLS Positive Overrides</h2>
 
+<p>Chromium for GNU/Linux can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
 
+<ol>
+  <li>Create a certificate storage directory for ncdns.  Make sure that it is only readable and writeable by the user running ncdns.</li>
+  <li>Run <code class="highlighter-rouge">echo "$HOME/.pki/nssdb"</code> and note the output; this is your NSS database directory.</li>
+  <li>
+    <p>Add the following to your <code class="highlighter-rouge">ncdns.conf</code>.  Substitute the certificate storage directory you created above for <code class="highlighter-rouge">$CERTDIR</code>, and substitute the NSS database directory that you found above for <code class="highlighter-rouge">$NSSDBDIR</code>.</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certstore]
 
+nss=true
+nsscertdir="$CERTDIR"
+nssdbdir="$NSSDBDIR"
+</code></pre></div>    </div>
+  </li>
+  <li>Restart ncdns.</li>
+</ol>
 
+<p>You can now visit in Chromium a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="highlighter-rouge">.bit</code> domain</a>.  The website should load in Chromium without errors.</p>
 
+<h2 id="tls-negative-overrides-method-a">TLS Negative Overrides (Method A)</h2>
 
+<p>Chromium for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
+<ol>
+  <li>Exit Chromium.</li>
+  <li>
+    <p>Run the following, and note the output:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls $HOME/.config/chromium/*/TransportSecurity
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>For each <code class="highlighter-rouge">TransportSecurity</code> file that you found above, run the following, substituting the full path of the <code class="highlighter-rouge">TransportSecurity</code> file for <code class="highlighter-rouge">$TS_PATH</code>:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
+</code></pre></div>    </div>
+  </li>
+  <li>You can now re-launch Chromium.</li>
+</ol>
 
+<h2 id="tls-negative-overrides-method-b">TLS Negative Overrides (Method B)</h2>
 
+<p>Chromium for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
+<ol>
+  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Chromium certificate database.</li>
+  <li>
+    <p>Run the following, substituting the temporary directory for <code class="highlighter-rouge">$TEMP_DIR</code>:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
+</code></pre></div>    </div>
+  </li>
+  <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
+</ol>
 
+<p>You’ll need to redo the above steps whenever the built-in certificate list is updated.</p>
 
+<p>If you’ve manually imported any non-built-in TLS trust anchors to Chromium, and you want to restrict them from intercepting <code class="highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
 
+<ol>
+  <li>Get a DER-encoded certificate of the trust anchor.</li>
+  <li>
+    <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
 
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+</code></pre></div>    </div>
+  </li>
+  <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
+  <li>Delete the existing trust anchor from Chromium.</li>
+  <li>Import <code class="highlighter-rouge">root.crt</code> into Chromium; mark it as a trusted TLS root CA.</li>
+  <li>Import <code class="highlighter-rouge">intermediate.crt</code> and <code class="highlighter-rouge">cross-signed.crt</code> into Chromium; do not mark them as trusted.</li>
+</ol>
 
+<p>If you decide later that you want to remove the negative overrides from Chromium, run the following:</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
+</code></pre></div></div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">ncdns v0.0.4 Released</h1>
-<p class="post-meta">Aug 24, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
-</header>
-
-<article class="post-content">
-<p>We’ve released ncdns v0.0.4.  This release incorporates a bugfix in the madns dependency, which fixes a DNSSEC signing bug.  The ncdns Windows installer in this release also updated the Dnssec-Trigger dependency.</p>
-
-<p>As usual, you can download it at the <a href="/download/betas/">Beta Downloads page</a>.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
-
-</article>
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -552,7 +332,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-08-24-ncdns-v0.0.4-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/chromium/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
