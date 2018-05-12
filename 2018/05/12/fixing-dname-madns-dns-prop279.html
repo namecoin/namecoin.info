@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncdns v0.0.4 Released</title>
+    <title>Fixing DNAME records in madns and dns-prop279</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/08/24/ncdns-v0.0.4-released.html">
+    <link rel="canonical" href="https://namecoin.org//2018/05/12/fixing-dname-madns-dns-prop279.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,143 +232,153 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">ncdns v0.0.4 Released</h1>
-<p class="post-meta">Aug 24, 2017 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Fixing DNAME records in madns and dns-prop279</h1>
+<p class="post-meta">May 12, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released ncdns v0.0.4.  This release incorporates a bugfix in the madns dependency, which fixes a DNSSEC signing bug.  The ncdns Windows installer in this release also updated the Dnssec-Trigger dependency.</p>
+<p>One of the more obscure DNS record types is <code class="highlighter-rouge">DNAME</code> (AKA the Namecoin <code class="highlighter-rouge">"translate"</code> JSON field), which is basically a DNS redirect for an entire subtree.  For example, currently <code class="highlighter-rouge">radio.bit.</code> has a <code class="highlighter-rouge">DNAME</code> record pointing to <code class="highlighter-rouge">biteater.dtdns.net.</code>, which means that any subdomain (e.g. <code class="highlighter-rouge">batman.radio.bit.</code>) becomes a <code class="highlighter-rouge">CNAME</code> redirect (e.g. to <code class="highlighter-rouge">batman.biteater.dtdns.net.</code>).</p>
 
-<p>As usual, you can download it at the <a href="/download/betas/">Beta Downloads page</a>.</p>
+<p><code class="highlighter-rouge">DNAME</code> is not exactly a favorite of mine in the context of Namecoin, because it’s easy to misuse it in a way that assigns trust for a Namecoin domain name to 3rd party keys whom Namecoin is intended to not trust (e.g. if you <code class="highlighter-rouge">DNAME</code> <code class="highlighter-rouge">radio.bit.</code> to a DNS domain name, you’re also assigning control of the <code class="highlighter-rouge">TLSA</code> records for <code class="highlighter-rouge">_443._tcp.radio.bit.</code> to whatever DNSSEC keys have the ability to sign for that DNS domain name, which probably includes a DNS registrar, a DNS registry, and the ICANN root key).  That said, <code class="highlighter-rouge">DNAME</code> is part of the DNS, and so it <em>should</em> work in Namecoin, even though there aren’t likely to be many good uses for it in Namecoin.</p>
+
+<p>Which is why I was surprised to notice when I tested <code class="highlighter-rouge">DNAME</code> today that it wasn’t actually working as intended in ncdns or dns-prop279.  Some digging revealed that madns (the authoritative DNS server library that ncdns utilizes) didn’t actually have any <code class="highlighter-rouge">DNAME</code> support; the place in the code where it should have gone was just marked “TODO”.  This was a great excuse for me to get my feet wet with the madns codebase (Hugo usually handles that code), so I jumped in.</p>
+
+<p>In the process of adding <code class="highlighter-rouge">DNAME</code> support to madns, I got to read <a href="https://tools.ietf.org/html/rfc6672#section-2.3">RFC 6672</a>, and noticed that it very much looks like Namecoin’s <code class="highlighter-rouge">d/</code> (domain names JSON) spec is not quite compliant with the RFC.  Specifically, the <a href="https://github.com/namecoin/proposals/blob/1b0043a98fe8f4cf1a85ec92fdbe98d38b5886b3/ifa-0001.md#item-suppression-rules">Namecoin spec</a> says that a <code class="highlighter-rouge">DNAME</code> at <code class="highlighter-rouge">radio.bit.</code> suppresses all other records at <code class="highlighter-rouge">radio.bit.</code>, whereas the RFC says that other record types can coexist at <code class="highlighter-rouge">radio.bit.</code>, with the sole exception of <code class="highlighter-rouge">CNAME</code> records.  I’ve filed a bug to get the Namecoin spec brought in line with the RFC.</p>
+
+<p>Once I got madns supporting <code class="highlighter-rouge">DNAME</code> properly, that meant I could test dns-prop279 with <code class="highlighter-rouge">DNAME</code>.  Except testing quickly showed that dns-prop279 was crashing when it encountered a <code class="highlighter-rouge">DNAME</code>.  A quick check of the stack trace showed that I had made a minor screw-up in the error checking in dns-prop279 (specifically, dns-prop279 is asking for a <code class="highlighter-rouge">CNAME</code>, but doesn’t properly handle the case where it receives both a <code class="highlighter-rouge">DNAME</code> and a <code class="highlighter-rouge">CNAME</code>).  A quick bugfix later, and dns-prop279 was correctly handling <code class="highlighter-rouge">DNAME</code>.</p>
+
+<p>The fixes are expected to be included in the next release of ncdns and dns-prop279.</p>
 
 <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+<p>(Side note: some readers might have noticed that I was posting less frequently over the past month or so.  That’s because my master’s thesis defense was on May 3, and as a result I spent most of the last month getting ready for that.  I passed my defense, so things should be back to normal soon.)</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -552,7 +562,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-08-24-ncdns-v0.0.4-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-12-fixing-dname-madns-dns-prop279.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

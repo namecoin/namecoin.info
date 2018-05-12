@@ -6,9 +6,36 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 19 Apr 2018 23:15:07 +0000</pubDate>
-    <lastBuildDate>Thu, 19 Apr 2018 23:15:07 +0000</lastBuildDate>
+    <pubDate>Sat, 12 May 2018 15:35:23 +0000</pubDate>
+    <lastBuildDate>Sat, 12 May 2018 15:35:23 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Fixing DNAME records in madns and dns-prop279</title>
+        <description>&lt;p&gt;One of the more obscure DNS record types is &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; (AKA the Namecoin &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;translate&quot;&lt;/code&gt; JSON field), which is basically a DNS redirect for an entire subtree.  For example, currently &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; has a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; record pointing to &lt;code class=&quot;highlighter-rouge&quot;&gt;biteater.dtdns.net.&lt;/code&gt;, which means that any subdomain (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;batman.radio.bit.&lt;/code&gt;) becomes a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; redirect (e.g. to &lt;code class=&quot;highlighter-rouge&quot;&gt;batman.biteater.dtdns.net.&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; is not exactly a favorite of mine in the context of Namecoin, because it’s easy to misuse it in a way that assigns trust for a Namecoin domain name to 3rd party keys whom Namecoin is intended to not trust (e.g. if you &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; to a DNS domain name, you’re also assigning control of the &lt;code class=&quot;highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records for &lt;code class=&quot;highlighter-rouge&quot;&gt;_443._tcp.radio.bit.&lt;/code&gt; to whatever DNSSEC keys have the ability to sign for that DNS domain name, which probably includes a DNS registrar, a DNS registry, and the ICANN root key).  That said, &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; is part of the DNS, and so it &lt;em&gt;should&lt;/em&gt; work in Namecoin, even though there aren’t likely to be many good uses for it in Namecoin.&lt;/p&gt;
+
+&lt;p&gt;Which is why I was surprised to notice when I tested &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; today that it wasn’t actually working as intended in ncdns or dns-prop279.  Some digging revealed that madns (the authoritative DNS server library that ncdns utilizes) didn’t actually have any &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; support; the place in the code where it should have gone was just marked “TODO”.  This was a great excuse for me to get my feet wet with the madns codebase (Hugo usually handles that code), so I jumped in.&lt;/p&gt;
+
+&lt;p&gt;In the process of adding &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; support to madns, I got to read &lt;a href=&quot;https://tools.ietf.org/html/rfc6672#section-2.3&quot;&gt;RFC 6672&lt;/a&gt;, and noticed that it very much looks like Namecoin’s &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; (domain names JSON) spec is not quite compliant with the RFC.  Specifically, the &lt;a href=&quot;https://github.com/namecoin/proposals/blob/1b0043a98fe8f4cf1a85ec92fdbe98d38b5886b3/ifa-0001.md#item-suppression-rules&quot;&gt;Namecoin spec&lt;/a&gt; says that a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; suppresses all other records at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt;, whereas the RFC says that other record types can coexist at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt;, with the sole exception of &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; records.  I’ve filed a bug to get the Namecoin spec brought in line with the RFC.&lt;/p&gt;
+
+&lt;p&gt;Once I got madns supporting &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; properly, that meant I could test dns-prop279 with &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.  Except testing quickly showed that dns-prop279 was crashing when it encountered a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.  A quick check of the stack trace showed that I had made a minor screw-up in the error checking in dns-prop279 (specifically, dns-prop279 is asking for a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;, but doesn’t properly handle the case where it receives both a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; and a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;).  A quick bugfix later, and dns-prop279 was correctly handling &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The fixes are expected to be included in the next release of ncdns and dns-prop279.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;p&gt;(Side note: some readers might have noticed that I was posting less frequently over the past month or so.  That’s because my master’s thesis defense was on May 3, and as a result I spent most of the last month getting ready for that.  I passed my defense, so things should be back to normal soon.)&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/05/12/fixing-dname-madns-dns-prop279.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/05/12/fixing-dname-madns-dns-prop279.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>cross_sign_name_constraint_tool v0.0.2 and tlsrestrict_nss_tool v0.0.2 Released</title>
@@ -602,31 +629,6 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
         <pubDate>Sun, 18 Feb 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin TLS for Firefox: Phase 6 (Negative Override Cache in C++, WebExtension Aggregation, and Coordination with Mozilla)</title>
-        <description>&lt;p&gt;In &lt;a href=&quot;/2017/10/29/firefox-tls-moving-cache-cpp.html&quot;&gt;Phase 5&lt;/a&gt; of Namecoin TLS for Firefox, I discussed the performance benefits of moving the positive override cache from JavaScript to C++.  I’ve now implemented preliminary work on doing the same for negative overrides.&lt;/p&gt;
-
-&lt;p&gt;The code changes for negative overrides’ C++ cache are analogous to those for positive overrides, so there’s not much to cover in this post about those changes.  However, I did take the chance to refactor the API between the C++ code and the JavaScript code a bit.  Previously, only 1 WebExtension was able to perform overrides; if multiple WebExtensions registered for the API, whichever replied first would be the only one that had any effect.  Now, each WebExtension replies separately to the Experiment, and the Experiment passes those replies on to the C++ code.  The Experiment also notifies the C++ code when all of the WebExtensions have replied.  Although this does add some extra API overhead, it has the benefit of allowing an override to take place immediately if a single WebExtension has determined that it should take place, even if the other (irrelevant) WebExtensions are still evaluating the certificate.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, at this point I merged upstream changes from Mozilla into my Mercurial repository, only to find that there was now a compile error.  I’m still figuring out exactly why this compile error is happening.  It looks like it’s unrelated to any of the files that my patch touches; I suspect that it’s due to my general lack of competence with Mercurial (Mozilla’s codebase is the first time I’ve used Mercurial) or my similar general lack of competence with Mozilla’s build system.&lt;/p&gt;
-
-&lt;p&gt;So, until I actually get the code to build, I won’t be able to do performance evaluations of these changes.  Hence why there are no pretty graphs in this post.&lt;/p&gt;
-
-&lt;p&gt;Meanwhile, I reached out to Mozilla to get some feedback on the general approach I was taking.  (I had previously discussed high-level details with Mozilla, but this time I provided a WIP code patch, so that it would be easier to evaluate whether I was doing anything with the code that would be problematic.)  This resulted in a discussion about what methods should be used to prevent malicious or buggy extensions from causing unexpected damage to user security.  This is definitely a legitimate concern: messing with certificate verification is dangerous when done improperly, and it’s important that users understand what they’re getting when they install a WebExtension that might put them at risk.  That discussion is still ongoing, and it’s not clear yet what the consensus will arrive at.&lt;/p&gt;
-
-&lt;p&gt;(It should be noted that there are some alternative approaches to Firefox support for Namecoin TLS underway as well, which will be covered in a future post.)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 13 Feb 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/02/13/firefox-tls-negative-cache.html</guid>
         
         <category>News</category>
         
