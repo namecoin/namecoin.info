@@ -6,9 +6,32 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 12 May 2018 15:35:23 +0000</pubDate>
-    <lastBuildDate>Sat, 12 May 2018 15:35:23 +0000</lastBuildDate>
+    <pubDate>Mon, 14 May 2018 23:48:14 +0000</pubDate>
+    <lastBuildDate>Mon, 14 May 2018 23:48:14 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Integrating ncdumpzone's Firefox TLS Mode into ncdns</title>
+        <description>&lt;p&gt;I &lt;a href=&quot;/2018/02/20/ncdumpzone-firefox.html&quot;&gt;discussed in a previous post&lt;/a&gt; some experimental work on making ncdumpzone output a Firefox certificate override list.  At that time, the procedure wasn’t exactly user-friendly: you’d need to run ncdumpzone from a terminal, redirect the output to a file, close Firefox, delete whatever existing &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; entries existed in the existing Firefox certificate override file, append the ncdumpzone output to that file, and relaunch Firefox.  I’ve now integrated some code into ncdns that can automate this procedure.&lt;/p&gt;
+
+&lt;p&gt;One of the trickier components of this was detecting whether Firefox was open.  Firefox’s documentation claims that it uses a lockfile, but as far as I can tell Firefox doesn’t actually delete its lockfile when it exits (and I’ve seen similar reports from other people).  Eventually, I decided to just watch the contents of my Firefox profile directory (sorted by Last Modified date) as Firefox opened and closed, and I noticed that Firefox’s sqlite databases produce some temporary files (specifically, files with the &lt;code class=&quot;highlighter-rouge&quot;&gt;.sqlite-wal&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;.sqlite-shm&lt;/code&gt; extension) that are only present when Firefox is open.  So that’s a decent hack to detect that Firefox is open.&lt;/p&gt;
+
+&lt;p&gt;Given that, ncdns now creates 2 extra threads: &lt;code class=&quot;highlighter-rouge&quot;&gt;watchZone&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;watchProfile&lt;/code&gt;.  &lt;code class=&quot;highlighter-rouge&quot;&gt;watchZone&lt;/code&gt; dumps the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; zone with ncdumpzone every 10 minutes, and makes that data available to &lt;code class=&quot;highlighter-rouge&quot;&gt;watchProfile&lt;/code&gt;.  (Right now, ncdumpzone is called as a separate process, which isn’t exactly ideal – a future revision will probably refactor ncdumpzone into a library so that we can avoid this inefficiency.)  &lt;code class=&quot;highlighter-rouge&quot;&gt;watchProfile&lt;/code&gt; waits for Firefox to exit (it checks at 1 Hz), and then loads Firefox’s &lt;code class=&quot;highlighter-rouge&quot;&gt;cert_override.txt&lt;/code&gt; into memory, removes any existing &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; lines, appends the data from &lt;code class=&quot;highlighter-rouge&quot;&gt;watchZone&lt;/code&gt;, and writes the result back to Firefox’s &lt;code class=&quot;highlighter-rouge&quot;&gt;cert_override.txt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;These 2 new threads in ncdns are deliberately designed to kill ncdns if they encounter any unexpected errors.  This is because, if we stop syncing the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; zone to the Firefox override list, Firefox will continue trusting &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certs that might be revoked in Namecoin.  Therefore, it is important that, in such a situation, &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains must stop resolving until the issue is corrected.  Forcing ncdns to exit seems to be the least complex way to reliably achieve this.&lt;/p&gt;
+
+&lt;p&gt;These changes significantly improve the UX of positive TLS certificate overrides for Firefox.  A pull request to ncdns should be coming soon.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 May 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/05/14/integrating-ncdumpzone-firefox.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/05/14/integrating-ncdumpzone-firefox.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Fixing DNAME records in madns and dns-prop279</title>
@@ -572,63 +595,6 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
         <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/02/20/ncdumpzone-firefox.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/02/20/ncdumpzone-firefox.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Positive TLS Certificate Overrides for NSS</title>
-        <description>&lt;p&gt;NSS is the TLS implementation used by various applications, including Chromium on GNU/Linux and Firefox on all platforms.  I’ve finished initial support for positive cert overrides in NSS, and have submitted a PR that is now awaiting review.&lt;/p&gt;
-
-&lt;p&gt;I had previously written a WIP PR that implemented positive overrides for NSS, but it worked by using an NSS database directory that was auto-detected based on the active user’s home directory.  This seemed like a clever usability trick, but it had 2 severe disadvantages:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Some applications don’t use the shared NSS database, but instead use their own.  Firefox is one of these applications.&lt;/li&gt;
-  &lt;li&gt;For security reasons, we want ncdns to run as its own user with restricted permissions.  This would break the database directory auto-detection.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir=&quot;$(pwd)&quot;/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Allowed &lt;a href=&quot;https://nf.bit/&quot;&gt;the Namecoin Forum’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain&lt;/a&gt; to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_chromium_tool&lt;/code&gt; program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certs that would still be accepted by Chromium).&lt;/p&gt;
-
-&lt;p&gt;Some remaining challenges:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;NSS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; is extremely slow, due to failure to properly batch operations into sqlite transactions.  I’ve filed a bug about this with Mozilla.  Until this is fixed, expect an extra ~800ms of latency when accessing Namecoin HTTPS websites.  Possible future workarounds:
-    &lt;ul&gt;
-      &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; sometime before the DNS hook, so that 800ms of latency isn’t actually noticeable for the user.  (More on this in a future post.)&lt;/li&gt;
-      &lt;li&gt;Do some highly horrifying &lt;code class=&quot;highlighter-rouge&quot;&gt;LD_PRELOAD&lt;/code&gt; witchcraft in order to fix the crappy sqlite usage.&lt;/li&gt;
-      &lt;li&gt;Use a different pkcs11 backend instead of NSS’s sqlite3 backend.  (Yes, NSS uses pkcs11 behind the scenes.  More on this in a future post.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Firefox doesn’t actually respect NSS’s trust anchors when the trust anchor is an end-entity certificate.  Possible future workarounds:
-    &lt;ul&gt;
-      &lt;li&gt;Use a Firefox-specific positive override mechanism.  (More on this in a future post; also see the WebExtensions posts.)&lt;/li&gt;
-      &lt;li&gt;Inject CA certs rather than end-entity certs.  (More on this in a future post.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Some NSS applications don’t use the sqlite backend, but instead use BerkeleyDB as a backend.  BerkeleyDB can’t be opened concurrently by multiple applications, so ncdns can’t inject certs while another application is open.  Possible future workarounds:
-    &lt;ul&gt;
-      &lt;li&gt;Use an environment variable to force sqlite usage.&lt;/li&gt;
-      &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; while the database isn’t open.&lt;/li&gt;
-      &lt;li&gt;Use a different pkcs11 backend.&lt;/li&gt;
-      &lt;li&gt;Wait for those applications to switch to sqlite.  (Firefox switched in Firefox 58, and it appears more applications may follow suit.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;That said, despite the need for future work, this PR makes Namecoin TLS fully functional in Chromium on GNU/Linux.  (Until negative overrides stop working due to HPKP being removed… more on potential fixes in a future post.)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 18 Feb 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/02/18/positive-tls-overrides-for-nss.html</guid>
         
         <category>News</category>
         
