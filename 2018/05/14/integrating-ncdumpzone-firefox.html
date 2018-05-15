@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>QCon London 2017 Video: Case Study: Alternate Blockchains</title>
+    <title>Integrating ncdumpzone's Firefox TLS Mode into ncdns</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/07/28/qcon-london-case-study-video.html">
+    <link rel="canonical" href="https://namecoin.org//2018/05/14/integrating-ncdumpzone-firefox.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,155 +232,161 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">QCon London 2017 Video: Case Study: Alternate Blockchains</h1>
-<p class="post-meta">Jul 28, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Integrating ncdumpzone's Firefox TLS Mode into ncdns</h1>
+<p class="post-meta">May 14, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>InfoQ has posted <a href="https://www.infoq.com/presentations/namecoin-monero">the recording of my talk, Case Study: Alternate Blockchains</a> at QCon London 2017.</p>
+<p>I <a href="/2018/02/20/ncdumpzone-firefox.html">discussed in a previous post</a> some experimental work on making ncdumpzone output a Firefox certificate override list.  At that time, the procedure wasn’t exactly user-friendly: you’d need to run ncdumpzone from a terminal, redirect the output to a file, close Firefox, delete whatever existing <code class="highlighter-rouge">.bit</code> entries existed in the existing Firefox certificate override file, append the ncdumpzone output to that file, and relaunch Firefox.  I’ve now integrated some code into ncdns that can automate this procedure.</p>
 
-<p>The videos on the InfoQ website do not appear to work when Javascript is disabled.  Security-conscious users who prefer not to enable Javascript can view the video via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>).</p>
+<p>One of the trickier components of this was detecting whether Firefox was open.  Firefox’s documentation claims that it uses a lockfile, but as far as I can tell Firefox doesn’t actually delete its lockfile when it exits (and I’ve seen similar reports from other people).  Eventually, I decided to just watch the contents of my Firefox profile directory (sorted by Last Modified date) as Firefox opened and closed, and I noticed that Firefox’s sqlite databases produce some temporary files (specifically, files with the <code class="highlighter-rouge">.sqlite-wal</code> and <code class="highlighter-rouge">.sqlite-shm</code> extension) that are only present when Firefox is open.  So that’s a decent hack to detect that Firefox is open.</p>
 
-<p><a href="/resources/presentations/QCon_London_2017/Namecoin_QCon_London_2017.pdf">My slides are available here.</a></p>
+<p>Given that, ncdns now creates 2 extra threads: <code class="highlighter-rouge">watchZone</code> and <code class="highlighter-rouge">watchProfile</code>.  <code class="highlighter-rouge">watchZone</code> dumps the <code class="highlighter-rouge">.bit</code> zone with ncdumpzone every 10 minutes, and makes that data available to <code class="highlighter-rouge">watchProfile</code>.  (Right now, ncdumpzone is called as a separate process, which isn’t exactly ideal – a future revision will probably refactor ncdumpzone into a library so that we can avoid this inefficiency.)  <code class="highlighter-rouge">watchProfile</code> waits for Firefox to exit (it checks at 1 Hz), and then loads Firefox’s <code class="highlighter-rouge">cert_override.txt</code> into memory, removes any existing <code class="highlighter-rouge">.bit</code> lines, appends the data from <code class="highlighter-rouge">watchZone</code>, and writes the result back to Firefox’s <code class="highlighter-rouge">cert_override.txt</code>.</p>
+
+<p>These 2 new threads in ncdns are deliberately designed to kill ncdns if they encounter any unexpected errors.  This is because, if we stop syncing the <code class="highlighter-rouge">.bit</code> zone to the Firefox override list, Firefox will continue trusting <code class="highlighter-rouge">.bit</code> certs that might be revoked in Namecoin.  Therefore, it is important that, in such a situation, <code class="highlighter-rouge">.bit</code> domains must stop resolving until the issue is corrected.  Forcing ncdns to exit seems to be the least complex way to reliably achieve this.</p>
+
+<p>These changes significantly improve the UX of positive TLS certificate overrides for Firefox.  A pull request to ncdns should be coming soon.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -556,7 +562,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-07-28-qcon-london-case-study-video.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-14-integrating-ncdumpzone-firefox.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
