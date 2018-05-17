@@ -6,9 +6,41 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 14 May 2018 23:48:14 +0000</pubDate>
-    <lastBuildDate>Mon, 14 May 2018 23:48:14 +0000</lastBuildDate>
+    <pubDate>Thu, 17 May 2018 13:22:02 +0000</pubDate>
+    <lastBuildDate>Thu, 17 May 2018 13:22:02 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Reproducible Builds of NSS certutil via Cross-Compiling with rbm</title>
+        <description>&lt;p&gt;In a previous post &lt;a href=&quot;/2018/03/26/integrating-cross-signing-name-constraints-nss.html&quot;&gt;where I introduced &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;&lt;/a&gt;, I mentioned that NSS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; doesn’t have official binaries for Windows, and that “At some point, we’ll probably need to start cross-compiling NSS ourselves, although I admit I’m not sure I’m going to enjoy that.”  Well, we’ve reached that point, and it was an interesting adventure.&lt;/p&gt;
+
+&lt;p&gt;Initially, I looked at the NSS build docs themselves, and was rather annoyed to find that there’s no documentation about how to cross-compile NSS.  To make matters worse, the only results I could find by Startpaging were people saying that they couldn’t figure out how to cross-compile NSS (including some well-known software projects’ developers).&lt;/p&gt;
+
+&lt;p&gt;However, it just so happens that there’s a very high-profile free software project whom I was certain is definitely cross-compiling NSS: The Tor Project.  Tor cross-compiles Firefox (including NSS) as part of their Tor Browser build scripts, so it seemed near-certain that their build scripts could be modified to build &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;.  However, Tor’s build scripts are rather nonstandard, since they build everything with rbm.  rbm is a container-based build system that’s superficially similar to the Gitian build system that Bitcoin Core and Namecoin Core use (indeed, The Tor Project used to use Gitian before they migrated to rbm).  I’ve been intending to get my feet wet with rbm for quite a while now, so this seemed like a great excuse to play with rbm a bit.&lt;/p&gt;
+
+&lt;p&gt;First off, I wanted to build Firefox in rbm without any changes.  This was actually quite easy – The Tor Project’s documentation is quite good, and I didn’t run into any snags (besides the issue that I initially assigned too little storage to the VM where I was doing this – The Tor Project should probably document the expected storage requirements).  The build command I used was:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, I looked at Tor’s Firefox build script… and I was delighted to see that Tor is &lt;em&gt;already&lt;/em&gt; building &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;.  In fact, you can &lt;a href=&quot;http://rqef5a5mebgq46y5.onion/torbrowser/&quot;&gt;download &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries from The Tor Project’s download server&lt;/a&gt; right now!  (You want the &lt;code class=&quot;highlighter-rouge&quot;&gt;mar-tools-*.zip&lt;/code&gt; packages.)  Except… their build script discards the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries for all non-GNU/Linux targets.  How sad.&lt;/p&gt;
+
+&lt;p&gt;Modifying the build script to also output &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; for Windows was reasonably straightforward – rbm even worked without erroring on the first try.  I did, however, need to try for a few iterations to make sure that I was outputting all of the needed &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files.  However, once I had all the required &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files, a rather odd symptom occurred when I tested it on a Windows machine.  When I ran &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; from a command prompt, it would immediately exit without printing anything.  Stranger, when I double-clicked &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; in Windows Explorer, it didn’t even pop up with a command prompt window before it exited.  In addition, I noticed that if I passed command line arguments to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; telling it to create a new database, it actually did create the database – but it still didn’t display any output.&lt;/p&gt;
+
+&lt;p&gt;This seemed to indicate that something was wrong not with &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt;’s actual functionality, but with its PE metadata: Windows was probably treating it as a GUI application rather than a console application.  Checking the PE metadata confirmed this: Tor’s build scripts were producing a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; whose PE metadata was marking it as a GUI application.  Some more quick searching revealed &lt;a href=&quot;https://stackoverflow.com/questions/2435816/how-do-i-poke-the-flag-in-a-win32-pe-that-controls-console-window-display/14806704#14806704&quot;&gt;a StackOverflow post&lt;/a&gt; providing a short Python2 script that could edit that part of the PE metadata.  I ran that script against &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt;… and now &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; works properly.  Yay!&lt;/p&gt;
+
+&lt;p&gt;The lack of &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; binaries was one of the major blockers for releasing negative TLS certificate overrides for Firefox on Windows.  Now that this barrier is behind us, I can get around to testing &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; on Windows, and hopefully do a release (with NSIS installer support).  And as a side bonus, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; builds reproducibly, and I’ve now gotten some experience with rbm (meaning that reproducible builds for ncdns and our other Go software may be coming soon).&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 May 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Integrating ncdumpzone's Firefox TLS Mode into ncdns</title>
@@ -540,61 +572,6 @@ type tbsCertificate struct {
         <pubDate>Sun, 11 Mar 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Adding a Firefox TLS Mode to ncdumpzone</title>
-        <description>&lt;p&gt;Firefox stores its list of certificate overrides in a text file.  While it’s not feasible to edit this text file while Firefox is running (Firefox only loads it on startup) I’ve experimentally found that it is completely feasible to create positive overrides if you shut off Firefox while the override is being created.  But is this a reasonable expectation for Namecoin?  Actually yes.  Here’s how we’re doing it:&lt;/p&gt;
-
-&lt;p&gt;Note that most Namecoin users are doing name lookups via one of the following clients:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Namecoin Core (in full node mode)&lt;/li&gt;
-  &lt;li&gt;Namecoin Core (in pruned mode)&lt;/li&gt;
-  &lt;li&gt;libdohj-namecoin (in &lt;code class=&quot;highlighter-rouge&quot;&gt;leveldbtxcache&lt;/code&gt; mode)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;These have an important feature in common: they all keep track of the UNO (unspent name output) set locally.  That means that you don’t need to wait for a DNS lookup to be hooked before you process a TLSA record from the blockchain – you can process TLSA records in advance, before Firefox even boots!&lt;/p&gt;
-
-&lt;p&gt;Note that the above is not true for the following cases:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;libdohj-namecoin (in API server mode)&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains that are delegated to a DNSSEC server&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So, what we need is a tool that walks the entire Namecoin UNO set, processes each name, and writes out some data about the TLSA records.  Coincidentally, this is very similar to what &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt; does.  &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt; is a utility distributed with ncdns.  It exports a DNS zonefile of the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; zone, which is intended for users who for some reason want to use BIND as an authoritative nameserver instead of using ncdns directly.  However, with some minimal tweaking, we can make &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt; export the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; zone in some other format… such as a Firefox certificate override list format.&lt;/p&gt;
-
-&lt;p&gt;For example, this command:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./ncdumpzone --format=firefox-override --rpcuser=user --rpcpass=pass &amp;gt; firefox.txt
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Resulted in the following file being saved:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nf.bit:443	OID.2.16.840.1.101.3.4.2.1	13:E7:03:D6:A2:70:1E:77:41:21:F5:84:6D:3E:0B:FD:5F:00:B7:6B:47:96:82:E3:A2:B0:54:A0:25:76:0A:1A	U	AAAAAAAAAAAAAAAAAAAAAA==
-test.veclabs.bit:443	OID.2.16.840.1.101.3.4.2.1	66:86:29:37:ED:53:B3:CE:2B:9B:A5:30:4D:59:83:35:4C:EC:80:9A:1F:39:DC:37:87:6E:00:4B:AF:08:3E:BA	U	AAAAAAAAAAAAAAAAAAAAAA==
-www.aoeu2code.bit:443	OID.2.16.840.1.101.3.4.2.1	13:E3:2D:1B:05:B5:DC:57:94:3D:17:EC:99:25:3F:AF:54:87:7E:62:FC:51:18:06:B7:F4:87:51:62:3A:3B:1C	U	AAAAAAAAAAAAAAAAAAAAAA==
-markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:CE:75:55:31:C9:DB:60:AF:06:C3:65:E5:28:62:08:20:DD:62:F4:70:0E:7D	U	AAAAAAAAAAAAAAAAAAAAAA==
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;These 4 lines correspond to the only 4 TLSA records that exist in the Namecoin blockchain right now.  Obviously, the first part of each line is the domain name and port of the website.  &lt;code class=&quot;highlighter-rouge&quot;&gt;OID.2.16.840.1.101.3.4.2.1&lt;/code&gt; signifies that the fingerprint uses the SHA256 algorithm.  (This is the only one that Firefox has ever supported, but Firefox is designed to be future-proof in case a newer hash function becomes necessary.)  Next comes the fingerprint itself, in uppercase colon-delimited hex.  &lt;code class=&quot;highlighter-rouge&quot;&gt;U&lt;/code&gt; indicates that the positive override is capable of overriding an “untrusted” error (it can’t override validity period or domain name mismatch errors).  The interesting part is &lt;code class=&quot;highlighter-rouge&quot;&gt;AAAAAAAAAAAAAAAAAAAAAA==&lt;/code&gt;, which Mozilla’s source code refers to as a &lt;code class=&quot;highlighter-rouge&quot;&gt;dbKey&lt;/code&gt;.  Mozilla’s source code always calculates this using the issuer and serial number of the certificate.  However, empirically it works just fine if I instead use all 0’s (in the same base64 encoding).  Looking at the Mozilla source code, the dbKey isn’t actually utilized in the process of checking whether an override exists.  I’m not certain exactly what Mozilla is using it for (it seems to be used in a code path that’s related to enumerating all the overrides that exist).  Since the issuer and serial number aren’t always derivable from TLSA records (you generally need either a dehydrated certficate or a full certificate for this; my goal here is to work even if only the SHA256 fingerprint of a cert is known), we just set it to all 0’s.&lt;/p&gt;
-
-&lt;p&gt;Copying the above output into Firefox’s cert override file, and then starting up Firefox, I was able to access &lt;a href=&quot;https://nf.bit/&quot;&gt;the Namecoin forum’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain&lt;/a&gt; without any TLS errors.  I’ve submitted a PR to ncdns.&lt;/p&gt;
-
-&lt;p&gt;While I was writing this code, I noticed that ncdns was actually calculating TLSA records incorrectly.  One of the bugs in TLSA record calculation was already known (&lt;a href=&quot;https://github.com/namecoin/ncdns/issues/59&quot;&gt;Jefferson Carpenter reported it last month&lt;/a&gt;), while the other was unnoticed (the TLSA records contained a rehydrated certificate that accidentally included a FQDN as the domain name; the erroneous trailing period caused the signatures and fingerprints to fail verification).  The fact that these bugs in my TLSA code remained unnoticed for about a year seems to be evidence that no one is actually using TLSA over DNS with Namecoin in the real world; the only Namecoin TLS users are using ncdns’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; feature, which did not have this bug.&lt;/p&gt;
-
-&lt;p&gt;It should be noted that this approach isn’t secure in the sense that Namecoin TLS with Chromium is, because it doesn’t provide negative overrides (meaning that a public CA could issue a malicious &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certificate that wouldn’t be blocked by this method).  However, positive and negative overrides are mostly orthogonal goals in terms of implementation, so this is huge progress while we wait for proper WebExtensions support for TLS overrides.  I also think it’s likely to be feasible to implement negative overrides using NSS, in a way that Firefox will honor.  More on that in a future post.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/02/20/ncdumpzone-firefox.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/02/20/ncdumpzone-firefox.html</guid>
         
         <category>News</category>
         
