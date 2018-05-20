@@ -235,6 +235,31 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Testing tlsrestrict_nss_tool on Windows</h1>
+    <p class="post-meta">May 20, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Now that we got <a href="/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">NSS <code class="highlighter-rouge">certutil</code> reproducibly cross-compiled for Windows</a>, initial testing has begun on <code class="highlighter-rouge">tlsrestrict_nss_tool</code> for Windows.</p>
+
+    <p>Besides the obvious and rather boring fail that <code class="highlighter-rouge">tlsrestrict_nss_tool</code> was trying to execute <code class="highlighter-rouge">cp</code>, which of course isn’t going to work on Windows (that particular code segment is a relic from quick prototyping that wasn’t ever intended to stay in the codebase), two more interesting issues were identified:</p>
+
+    <ol>
+  <li>rbm builds <code class="highlighter-rouge">certutil</code> with the Visual C++ 2010 runtime, so running <code class="highlighter-rouge">certutil</code> without that runtime installed produces an obvious error.  However, in order to properly detect the built-in certificates (“CKBI”) that Firefox ships with, <code class="highlighter-rouge">tlsrestrict_nss_tool</code> makes <code class="highlighter-rouge">certutil</code> load the CKBI module that Firefox distributes (<em>not</em> the CKBI module that <code class="highlighter-rouge">certutil</code> was built with).  This means that, when <code class="highlighter-rouge">certutil</code> is asked to load Firefox’s CKBI module, the Visual C++ runtime used by Firefox’s CKBI module also needs to be present.  Which happens to be Visual C++ 2015.  Without that, <code class="highlighter-rouge">certutil</code> looks like it’s working – but the moment the Firefox CKBI module is loaded into <code class="highlighter-rouge">certutil</code>, <code class="highlighter-rouge">certutil</code> exits with a missing DLL error.  However, the situation is worsened by the fact that, as far as I can tell, a missing DLL error in Windows doesn’t impact the exit code.  So <code class="highlighter-rouge">tlsrestrict_nss_tool</code> doesn’t actually know thet <code class="highlighter-rouge">certutil</code> encountered an error; it just thinks it succeeded, and happened to produce no output.  What happens if <code class="highlighter-rouge">certutil</code> produces no output when dumping the CKBI list?  Well, <code class="highlighter-rouge">tlsrestrict_nss_tool</code> just figures that you’re using a Firefox build <em>that doesn’t have any default trusted CA’s!</em>  This is bad enough when you first run <code class="highlighter-rouge">tlsrestrict_nss_tool</code>, since it will basically be a no-op.  But even worse, if you <em>did</em> have the Visual C++ dependency from Firefox, but then Firefox upgraded it, then the next time you try to run <code class="highlighter-rouge">tlsrestrict_nss_tool</code>, all of the name constraints that were previously added will get <em>deleted</em>, because <code class="highlighter-rouge">tlsrestrict_nss_tool</code> figures that those CA’s have vanished.  How sad.  The fix here is probably to make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> explicitly error if the CKBI module appears to have 0 certificates in it.  Such a scenario pretty much always indicates that <em>something</em> has gone horribly wrong involving the CKBI module, and it’s generally best to treat it as an error.</li>
+  <li><code class="highlighter-rouge">certutil</code>’s certificate dumping functions require selecting a certificate by its nickname.  What’s a nickname?  In practice, for the CKBI module it seems to be the CommonName of the certificate.  The nickname is passed to <code class="highlighter-rouge">certutil</code> via a command line flag.  What could possibly go wrong here?  Certificate nicknames can be arbitrary text, including Unicode.  What happens when you pass Unicode as a command line argument in Windows?  Nothing good happens, that’s for sure.  In my testing, Windows will corrupt all of the non-ASCII characters, which results in <code class="highlighter-rouge">certutil</code> receiving a corrupted nickname to look up (and it correctly replies that no such nickname exists in the database).  The fix here is to use <code class="highlighter-rouge">certutil</code>’s “batch command” feature.  <code class="highlighter-rouge">certutil</code> allows you to put a sequence of commands into a <code class="highlighter-rouge">.txt</code> file, and you can pass that <code class="highlighter-rouge">.txt</code> file’s path to <code class="highlighter-rouge">certutil</code> with a command line flag; <code class="highlighter-rouge">certutil</code> will then run all of those commands.  Since the <code class="highlighter-rouge">.txt</code> file isn’t parsed by Windows’s broken command line text decoder, Unicode inside the <code class="highlighter-rouge">.txt</code> file passes through unharmed.</li>
+</ol>
+
+    <p>Now, I haven’t actually <em>fixed</em> these bugs yet.  But, progress is progress.  Hopefully fixes will be coming very soon.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Reproducible Builds of NSS certutil via Cross-Compiling with rbm</h1>
     <p class="post-meta">May 17, 2018 • Jeremy Rand </p>
   </header>

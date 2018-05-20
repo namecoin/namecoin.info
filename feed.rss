@@ -6,9 +6,33 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 17 May 2018 13:22:02 +0000</pubDate>
-    <lastBuildDate>Thu, 17 May 2018 13:22:02 +0000</lastBuildDate>
+    <pubDate>Sun, 20 May 2018 16:18:01 +0000</pubDate>
+    <lastBuildDate>Sun, 20 May 2018 16:18:01 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Testing tlsrestrict_nss_tool on Windows</title>
+        <description>&lt;p&gt;Now that we got &lt;a href=&quot;/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html&quot;&gt;NSS &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; reproducibly cross-compiled for Windows&lt;/a&gt;, initial testing has begun on &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; for Windows.&lt;/p&gt;
+
+&lt;p&gt;Besides the obvious and rather boring fail that &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; was trying to execute &lt;code class=&quot;highlighter-rouge&quot;&gt;cp&lt;/code&gt;, which of course isn’t going to work on Windows (that particular code segment is a relic from quick prototyping that wasn’t ever intended to stay in the codebase), two more interesting issues were identified:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;rbm builds &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; with the Visual C++ 2010 runtime, so running &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; without that runtime installed produces an obvious error.  However, in order to properly detect the built-in certificates (“CKBI”) that Firefox ships with, &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; makes &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; load the CKBI module that Firefox distributes (&lt;em&gt;not&lt;/em&gt; the CKBI module that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; was built with).  This means that, when &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; is asked to load Firefox’s CKBI module, the Visual C++ runtime used by Firefox’s CKBI module also needs to be present.  Which happens to be Visual C++ 2015.  Without that, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; looks like it’s working – but the moment the Firefox CKBI module is loaded into &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; exits with a missing DLL error.  However, the situation is worsened by the fact that, as far as I can tell, a missing DLL error in Windows doesn’t impact the exit code.  So &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; doesn’t actually know thet &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; encountered an error; it just thinks it succeeded, and happened to produce no output.  What happens if &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; produces no output when dumping the CKBI list?  Well, &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; just figures that you’re using a Firefox build &lt;em&gt;that doesn’t have any default trusted CA’s!&lt;/em&gt;  This is bad enough when you first run &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;, since it will basically be a no-op.  But even worse, if you &lt;em&gt;did&lt;/em&gt; have the Visual C++ dependency from Firefox, but then Firefox upgraded it, then the next time you try to run &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;, all of the name constraints that were previously added will get &lt;em&gt;deleted&lt;/em&gt;, because &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; figures that those CA’s have vanished.  How sad.  The fix here is probably to make &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; explicitly error if the CKBI module appears to have 0 certificates in it.  Such a scenario pretty much always indicates that &lt;em&gt;something&lt;/em&gt; has gone horribly wrong involving the CKBI module, and it’s generally best to treat it as an error.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;’s certificate dumping functions require selecting a certificate by its nickname.  What’s a nickname?  In practice, for the CKBI module it seems to be the CommonName of the certificate.  The nickname is passed to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; via a command line flag.  What could possibly go wrong here?  Certificate nicknames can be arbitrary text, including Unicode.  What happens when you pass Unicode as a command line argument in Windows?  Nothing good happens, that’s for sure.  In my testing, Windows will corrupt all of the non-ASCII characters, which results in &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; receiving a corrupted nickname to look up (and it correctly replies that no such nickname exists in the database).  The fix here is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;’s “batch command” feature.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; allows you to put a sequence of commands into a &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file, and you can pass that &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file’s path to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; with a command line flag; &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; will then run all of those commands.  Since the &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file isn’t parsed by Windows’s broken command line text decoder, Unicode inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file passes through unharmed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now, I haven’t actually &lt;em&gt;fixed&lt;/em&gt; these bugs yet.  But, progress is progress.  Hopefully fixes will be coming very soon.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 20 May 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Reproducible Builds of NSS certutil via Cross-Compiling with rbm</title>
@@ -519,59 +543,6 @@ type tbsCertificate struct {
         <pubDate>Mon, 19 Mar 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/03/19/34c3-slides-videos.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/03/19/34c3-slides-videos.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Negative Certificate Overrides for p11-kit</title>
-        <description>&lt;p&gt;Fedora stores its TLS certificates via a highly interesting software package called &lt;a href=&quot;https://p11-glue.github.io/p11-glue/trust-module.html&quot;&gt;p11-kit&lt;/a&gt;.  p11-kit is designed to act as “glue” between various TLS libraries, so that (for example) Firefox, Chromium, and OpenSSL all see the same trust anchors.  p11-kit is useful from Namecoin’s perspective, since it means that if we can implement Namecoin support for p11-kit, we get support for all the trust stores that p11-kit supports for free.  I’ve just implemented a proof-of-concept of negative Namecoin overrides for p11-kit.&lt;/p&gt;
-
-&lt;p&gt;As you may recall, the way our Chromium negative overrides currently work is by &lt;del&gt;abusing&lt;/del&gt; utilizing HPKP such that public CA’s can’t sign certificates for the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; TLD.  p11-kit doesn’t support key pinning (it’s on their roadmap though!), but there is another fun mechanism we can use to achieve a similar result: name constraints.  Name constraints are a feature of the x509 certificate specification that allows a CA certificate to specify constraints on what domain names it can issue certificates for.  There are a few standard use cases for name constraints:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;A large organization who wants to create a lot of certificates might buy a name-constrained CA certificate from a public CA, and then use that name-constrained CA to issue more certificates for their organization.  This reduces the overhead of asking a public CA to issue a lot of certificates on-demand, and doesn’t introduce any security issues because the name constraint prevents the organization from issuing certificates for domain names that they don’t control.&lt;/li&gt;
-  &lt;li&gt;A corporate intranet might create a name-constrained root CA that’s only valid for domain names that are internal to the corporate intranet.  This way, employees can install the name-constrained root CA in order to access internal websites, and they don’t have to worry that the IT department might be MITM’ing their connections to the public Internet.&lt;/li&gt;
-  &lt;li&gt;A public CA might have a name constraint in their CA certificate that disallows them from issuing certificates for TLD’s that have unique regulatory requirements.  For exampe, the Let’s Encrypt CA &lt;a href=&quot;https://community.letsencrypt.org/t/why-is-there-a-certificate-name-constraint-for-mil/10130&quot;&gt;has (or at one point had) a name constraint disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;&lt;/a&gt;, presumably because the U.S. military has their own procedures for issuing certificates.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The 1st use case is rarely ever used; I suspect that this is because it poses a risk to commercial CA’s’ business model.  The 2nd use case is also rarely ever used; I suspect this is because many corporate IT departments &lt;em&gt;want to&lt;/em&gt; MITM all their employees’ traffic, and most employees don’t have much negotiating power on this topic.  But the 3rd case is quite interesting… if Let’s Encrypt uses a name constraint blacklisting &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;, could this be used for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt;?&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, we obviously can’t expect all of the public CA’s to have any interest in opting into a name constraint disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; in the way that Let’s Encrypt opted into disallowing &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;.  However, there is a fun trick that can solve this: cross-signed certificates.  It turns out that it is possible to transform a public root CA certificate into an intermediate CA certificate, and sign that intermediate CA certificate with a root CA that we can create locally (this is called &lt;em&gt;cross-signing&lt;/em&gt;).  We can then remove the original root CA from the cert store, add our local root CA and the cross-signed CA to the cert store, and everything will work just like it did before.  This is helpful because any name constraints that a CA certificate contains will apply to any CA certificate that it cross-signs.&lt;/p&gt;
-
-&lt;p&gt;Technically, &lt;a href=&quot;https://tools.ietf.org/html/rfc5280#section-4.2.1.10&quot;&gt;the RFC 5280 specification says&lt;/a&gt; that root CA’s can’t have name constraints.  That’s not really a problem though: it just means that we have to create a local intermediate CA (signed by the local root CA) that has the name constraint, and cross-sign the public CA with the name-constrained local intermediate CA.  So the cert chain looks like this:&lt;/p&gt;
-
-&lt;p&gt;Local root CA (no name constraint) –&amp;gt; Local intermediate CA (name constraint blacklisting .bit) –&amp;gt; Cross-signed public CA –&amp;gt; (everything past here is unaffected).&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to Crypt32 and davenpcj from Server Fault for first &lt;a href=&quot;https://serverfault.com/questions/670725/is-it-possible-to-restrict-the-use-of-a-root-certificate-to-a-domain&quot;&gt;cluing me in&lt;/a&gt; that this approach would work.  Unfortunately, Crypt32 didn’t provide any sample code, and the sample code from davenpcj didn’t work as-is for me (OpenSSL kept returning various errors when I tried to cross-sign, most of which seemed to be because OpenSSL didn’t like the fact that the public CA hadn’t signed an authorization for me to cross-sign their CA).  I eventually managed to cobble together a Bash script using OpenSSL that did work, but I don’t think OpenSSL’s command-line tool is really the right tool for the job (OpenSSL tends to rewrite large parts of the cross-signed certificate in ways that are likely to cause compatibility and security problems).  I’m probably going to rewrite this as a Go program.&lt;/p&gt;
-
-&lt;p&gt;Anyway, with my Bash script, I decided to apply a name constraint to &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt;, which is the root CA that Let’s Encrypt uses.  The name constraint I applied blacklists the &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; TLD (obviously I can’t use &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; for testing this, since no public CA’s are known to have issued a certificate for a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain).  And… it works!  The Bash script installed the local root CA as a trust anchor for p11-kit, installed the intermediate and cross-signed CA’s as trust-neutral certificates for p11-kit, and installed a copy of the original &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt; certificate to the p11-kit blacklist.  As a result, both Chromium and Firefox still work fine with Let’s Encrypt for &lt;code class=&quot;highlighter-rouge&quot;&gt;.com&lt;/code&gt; websites such as &lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;, but return an error for &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt; websites such as &lt;a href=&quot;https://www.namecoin.org/&quot;&gt;Namecoin.org&lt;/a&gt; – exactly the behavior we want.&lt;/p&gt;
-
-&lt;p&gt;I also made a modified version of my Bash script that installs the modified CA’s into a standard NSS sqlite3 database (without p11-kit), and confirmed that this works with both Firefox and Chromium on GNU/Linux.  So p11-kit probably won’t be a hard dependency of this approach, meaning that this approach is likely to work for Firefox on all OS’s, Chromium on all GNU/Linux distros, and anything else that uses NSS.&lt;/p&gt;
-
-&lt;p&gt;This code needs a lot of cleanup before it’s ready for release; among the ToDos are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Port the certificate handling code to a Go program instead of OpenSSL’s command line.&lt;/li&gt;
-  &lt;li&gt;Automatically detect which root CA’s exist in p11-kit, and apply the name constraint to all of them, instead of only using &lt;code class=&quot;highlighter-rouge&quot;&gt;DST Root CA X3&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Automatically detect when a public root CA is deleted from p11-kit (e.g. WoSign), and remove the name-constrained CA that corresponds to it.&lt;/li&gt;
-  &lt;li&gt;Preserve p11-kit’s attached attributes for trust anchors.&lt;/li&gt;
-  &lt;li&gt;Make the procedure idempotent.&lt;/li&gt;
-  &lt;li&gt;Test whether this works as intended for other p11-kit-supported libraries (Firefox and Chromium use NSS; p11-kit also supports OpenSSL, Java, and GnuTLS among others).&lt;/li&gt;
-  &lt;li&gt;Test whether a similar approach with name constraints can work for CryptoAPI (this would be relevant for most non-Mozilla browsers on Windows).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I’m hopeful that this work will allow us to continue supporting Chromium on GNU/Linux after Chromium removes HPKP, and that it will nicely complement the Firefox positive override support &lt;a href=&quot;/2018/02/20/ncdumpzone-firefox.html&quot;&gt;that I added to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdumpzone&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;It should be noted that this approach definitely will not work on most non-Mozilla macOS browsers, because macOS’s TLS implementation does not support name constraints.  I’m not aware of any practical way to do negative overrides on macOS (besides the deprecated HPKP support in Chromium), so there’s a chance that when we get around to macOS support, we’ll just not do negative overrides for macOS (meaning that while Namecoin certificates would work on macOS without errors, malicious public CA’s would still be able to do MITM attacks against macOS users just like they can for DNS domain names).  Firefox on macOS shouldn’t have this problem, since Firefox doesn’t use the OS for certificate verification.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 11 Mar 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/03/11/p11-kit-negative-overrides.html</guid>
         
         <category>News</category>
         
