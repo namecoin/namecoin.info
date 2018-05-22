@@ -6,9 +6,55 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 20 May 2018 16:18:01 +0000</pubDate>
-    <lastBuildDate>Sun, 20 May 2018 16:18:01 +0000</lastBuildDate>
+    <pubDate>Tue, 22 May 2018 02:19:03 +0000</pubDate>
+    <lastBuildDate>Tue, 22 May 2018 02:19:03 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>More Fun with tlsrestrict_nss_tool on Windows</title>
+        <description>&lt;p&gt;Last episode: When we last left our hero, tlsrestrict_nss_tool &lt;a href=&quot;/2018/05/20/testing-tlsrestrict-nss-tool-windows&quot;&gt;had a few unfixed bugs&lt;/a&gt; that made it unusable on Windows.  Everyone believed those bugs would be the final ones.  Were they?  And now, the conclusion to our 2-part special:&lt;/p&gt;
+
+&lt;p&gt;Spoiler alert: no, of course they weren’t the final bugs!  Obviously Murphy needs to keep showing up, otherwise life as an engineer would be boring, right?&lt;/p&gt;
+
+&lt;p&gt;Anyway, so I fixed the 3 known bugs:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Use of &lt;code class=&quot;highlighter-rouge&quot;&gt;cp&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;No warning when CKBI is empty.&lt;/li&gt;
+  &lt;li&gt;Broken Unicode in nicknames.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;And at this point, things &lt;em&gt;almost&lt;/em&gt; worked.  Specifically, I could apply a name constraint that blacklisted &lt;code class=&quot;highlighter-rouge&quot;&gt;.org&lt;/code&gt;, and accordingly &lt;a href=&quot;https://www.namecoin.org/&quot;&gt;the Namecoin website&lt;/a&gt; showed an error, while &lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt; still worked.  Seems good enough, right?  I certainly thought so, at least enough to announce on #namecoin-dev that I believed it was working.  Except then I had that insane urge to try to torture-test it a bit more.  So I ran tlsrestrict_nss_tool a 2nd time against the same NSS DB and the same CKBI library.  The expected behavior is that it will examine the CKBI and NSS DB, and decide that no additional cross-signing is needed.  Unfortunately, I instead was treated to a fatal error due to an ASN.1 parse error, specifically due to trailing data.&lt;/p&gt;
+
+&lt;p&gt;I’ve seen this error before, and it’s usually triggered by an NSS quirk.  NSS doesn’t actually keep track of each certificate uniquely.  If you put 2 certificates in an NSS DB that have the same Subject, and you ask certutil to give you one of them (doesn’t matter which), certutil will actually give you &lt;em&gt;both of them&lt;/em&gt;, concatenated.  This happens regularly in our usage, because the cross-signed CA and the (distrusted) original CA have the same Subject (by design).&lt;/p&gt;
+
+&lt;p&gt;Further examination of the logs showed that the errors were showing up while trying to handle certs that had a very odd characteristic: their names looked like what you would get from concatenating the Namecoin prefix with an empty string instead of with the name of the certificate.  Given that I had just spent time fixing issues with Unicode encoding of certificate names, this seemed to be a likely culprit.&lt;/p&gt;
+
+&lt;p&gt;So, I made 2 (overdue anyway) changes to the codebase:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Switch from DER to PEM encoding when communicating with certutil.  DER doesn’t have boundaries when you concatenate certificates, while PEM does.  Using PEM should make debugging a lot easier when multiple certs show up with the same name.&lt;/li&gt;
+  &lt;li&gt;When dumping a PEM cert from the NSS DB, explicitly check for multiple PEM certs, and if more than one is present, try to guess which one is correct by checking for the Namecoin prefix in its Subject CommonName and Issuer CommonName (this will be unambiguous under typical conditions).  If more than one cert is present that matches the expected prefixes, throw an error and log all of the PEM certs that showed up in the dump.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So, with those changes added, I ran it again, and quickly got an error telling me that 9 certs were being returned in a single dump.  How odd.  Conveniently, the log told me what certificate it was trying to dump when this happened: “Namecoin Restricted CKBI Intermediate CA for ePKI Root Certification Authority”.  This didn’t look like a Unicode issue at all – that name is entirely Latin.  So I Googled for “ePKI Root Certification Authority”, and quickly facepalmed.  That root CA &lt;em&gt;doesn’t have a CommonName!&lt;/em&gt;  Suddenly the symptoms made sense.  The root and intermediate CA’s that are created by cross_sign_name_constraint_tool prepend a Namecoin string to the CommonName of the input CA and discard the rest of the input CA’s Subject, meaning that if multiple input CA’s have a blank CommonName, their resulting Namecoin root and intermediate CA’s will end up with colliding Subjects.  Fail.&lt;/p&gt;
+
+&lt;p&gt;The fix, of course, is to append the SHA256 fingerprint of the input CA to the Subject CommonName of the root and intermediate Namecoin CA’s.  This ensures that we’ll get a unique Subject per input certificate.&lt;/p&gt;
+
+&lt;p&gt;And now, it works.  Repeated runs of tlsrestrict_nss_tool work as they should.  Kind of irritating to spend so much time chasing a silly fail like that, but on the bright side the switch to PEM resulted in cleaner code.&lt;/p&gt;
+
+&lt;p&gt;Next, I’ll be integrating tlsrestrict_nss_tool into ncdns.  Hopefully this will expose any remaining weirdness.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 21 May 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Testing tlsrestrict_nss_tool on Windows</title>
@@ -499,50 +545,6 @@ type tbsCertificate struct {
         <pubDate>Sun, 25 Mar 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/03/25/cross-signing-name-constraints-go.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/03/25/cross-signing-name-constraints-go.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin at 34C3: Slides and Videos</title>
-        <description>&lt;p&gt;CCC and Chaos West have posted the videos of Namecoin’s 34C3 talks.  I’ve also uploaded the corresponding slides.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&lt;/em&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://media.ccc.de/v/34c3-ChaosWest-3-namecoin_as_a_decentralized_alternative_to_certificate_authorities_for_tls&quot;&gt;Video recording&lt;/a&gt; by Chaos West, hosted by CCC.&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_TLS_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Namecoin for Tor Onion Service Naming (And Other Darknets)&lt;/em&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;em&gt;(No video recording available.)&lt;/em&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_Tor_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;A Blueprint for Making Namecoin Anonymous&lt;/em&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://media.ccc.de/v/34c3-ChaosWest-11-a_blueprint_for_making_namecoin_anonymous&quot;&gt;Video recording&lt;/a&gt; by Chaos West, hosted by CCC.&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;/resources/presentations/34C3/Namecoin_Anonymity_34C3_Monero_Assembly.pdf&quot;&gt;Slides&lt;/a&gt; hosted by Namecoin.org.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Again, a huge thank you to the following groups who facilitated our participation at 34C3:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Monero_Assembly&quot;&gt;The Monero Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Chaos_West&quot;&gt;The Chaos West Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://tehnoetic.com/&quot;&gt;Technoethical&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We’re looking forward to 35C3!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 19 Mar 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/03/19/34c3-slides-videos.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/03/19/34c3-slides-videos.html</guid>
         
         <category>News</category>
         
