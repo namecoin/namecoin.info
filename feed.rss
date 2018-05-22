@@ -6,13 +6,13 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 May 2018 02:19:03 +0000</pubDate>
-    <lastBuildDate>Tue, 22 May 2018 02:19:03 +0000</lastBuildDate>
+    <pubDate>Tue, 22 May 2018 03:54:18 +0000</pubDate>
+    <lastBuildDate>Tue, 22 May 2018 03:54:18 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
     
       <item>
         <title>More Fun with tlsrestrict_nss_tool on Windows</title>
-        <description>&lt;p&gt;Last episode: When we last left our hero, tlsrestrict_nss_tool &lt;a href=&quot;/2018/05/20/testing-tlsrestrict-nss-tool-windows&quot;&gt;had a few unfixed bugs&lt;/a&gt; that made it unusable on Windows.  Everyone believed those bugs would be the final ones.  Were they?  And now, the conclusion to our 2-part special:&lt;/p&gt;
+        <description>&lt;p&gt;Last episode: When we last left our hero, tlsrestrict_nss_tool &lt;a href=&quot;/2018/05/20/testing-tlsrestrict-nss-tool-windows.html&quot;&gt;had a few unfixed bugs&lt;/a&gt; that made it unusable on Windows.  Everyone believed those bugs would be the final ones.  Were they?  And now, the conclusion to our 2-part special:&lt;/p&gt;
 
 &lt;p&gt;Spoiler alert: no, of course they weren’t the final bugs!  Obviously Murphy needs to keep showing up, otherwise life as an engineer would be boring, right?&lt;/p&gt;
 
