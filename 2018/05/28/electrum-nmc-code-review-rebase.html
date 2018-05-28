@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin at 34C3: Slides and Videos</title>
+    <title>Electrum-NMC: Code Review and Rebase</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2018/03/19/34c3-slides-videos.html">
+    <link rel="canonical" href="https://namecoin.org//2018/05/28/electrum-nmc-code-review-rebase.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,94 +232,89 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin at 34C3: Slides and Videos</h1>
-<p class="post-meta">Mar 19, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC: Code Review and Rebase</h1>
+<p class="post-meta">May 28, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>CCC and Chaos West have posted the videos of Namecoin’s 34C3 talks.  I’ve also uploaded the corresponding slides.</p>
+<p>Last year, Ahmed <a href="/2017/06/17/progress-electrum-nmc.html">posted about his progress</a> porting Electrum to Namecoin.  Electrum-NMC has been on the back burner for me lately, due to the TLS and BitcoinJ efforts taking up most of my time.  However, today I found time to inspect Ahmed’s branch.</p>
 
-<ul>
-  <li><em>Namecoin as a Decentralized Alternative to Certificate Authorities for TLS</em>
-    <ul>
-      <li><a href="https://media.ccc.de/v/34c3-ChaosWest-3-namecoin_as_a_decentralized_alternative_to_certificate_authorities_for_tls">Video recording</a> by Chaos West, hosted by CCC.</li>
-      <li><a href="/resources/presentations/34C3/Namecoin_TLS_34C3_Monero_Assembly.pdf">Slides</a> hosted by Namecoin.org.</li>
-    </ul>
-  </li>
-  <li><em>Namecoin for Tor Onion Service Naming (And Other Darknets)</em>
-    <ul>
-      <li><em>(No video recording available.)</em></li>
-      <li><a href="/resources/presentations/34C3/Namecoin_Tor_34C3_Monero_Assembly.pdf">Slides</a> hosted by Namecoin.org.</li>
-    </ul>
-  </li>
-  <li><em>A Blueprint for Making Namecoin Anonymous</em>
-    <ul>
-      <li><a href="https://media.ccc.de/v/34c3-ChaosWest-11-a_blueprint_for_making_namecoin_anonymous">Video recording</a> by Chaos West, hosted by CCC.</li>
-      <li><a href="/resources/presentations/34C3/Namecoin_Anonymity_34C3_Monero_Assembly.pdf">Slides</a> hosted by Namecoin.org.</li>
-    </ul>
-  </li>
-</ul>
+<p>Three main things were on my agenda:</p>
 
-<p>Again, a huge thank you to the following groups who facilitated our participation at 34C3:</p>
+<ol>
+  <li>Code review of the existing changes.  Generally I don’t like to move code to the GitHub Namecoin organization unless I’ve actually reviewed it for sanity.  I made a few tweaks and bugfixes to Ahmed’s code, but for the most part the code review went smoothly.</li>
+  <li>Rebase against current master branch of Electrum.  This actually went surprisingly well, given that Ahmed’s branch is about 11 months old.  The vast majority of the merge conflicts were due to the <code class="highlighter-rouge">electrum</code> package being renamed to <code class="highlighter-rouge">electrum-nmc</code>, which causes unfortunate merge conflicts every time upstream messes with the <code class="highlighter-rouge">import</code> statements at the top of a Python file.  Unfortunately I don’t know of any way around this, and a cursory check of altcoin Electrum ports shows that they do the same thing, so I guess we’re going to live with it.  The good news is that those types of merge conflicts are very easy to manually resolve.</li>
+  <li>Additional rebranding beyond what Ahmed’s branch does.  In particular, I swapped out the ElectrumX Bitcoin server addresses and replaced them with ElectrumX Namecoin server addresses.  (Right now there’s only 1 public ElectrumX Namecoin server.  We need more of them — if you’d like to help us, please consider starting up an ElectrumX Namecoin server and sending a PR to ElectrumX that adds your server to the public list.)  I also swapped out the Bitcoin block explorers and replaced them with Namecoin explorers.  (I also gave the Namecoin explorers names that include scary warnings for the subset of explorers that are wiretapped by CloudFlare, discriminate against Tor users, don’t support names, or are non-libre.)</li>
+</ol>
 
-<ul>
-  <li><a href="https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Monero_Assembly">The Monero Assembly</a></li>
-  <li><a href="https://events.ccc.de/congress/2017/wiki/index.php/Assembly:Chaos_West">The Chaos West Assembly</a></li>
-  <li><a href="https://tehnoetic.com/">Technoethical</a></li>
-</ul>
+<p>The resulting code <a href="https://github.com/namecoin/electrum-nmc">is now on GitHub</a>.  I’ve successfully sent some coins from Namecoin Core to Electrum-NMC and back without any difficulty.</p>
 
-<p>We’re looking forward to 35C3!</p>
+<p>Regarding next steps, I’ll defer to Ahmed’s post:</p>
+
+<blockquote>
+  <p>On the roadmap now are:</p>
+
+  <ul>
+    <li>Extend electrumX NMC Support to allow for full veritification of AuxPow</li>
+    <li>Modify new electrum client to verify the new AuxPow</li>
+    <li>Add Name handling support to electrum</li>
+  </ul>
+</blockquote>
+
+<p>Hopefully these won’t be incredibly difficult.  I might post binaries of the current codebase before I try to tackle these (but note that I’m not familiar with the Electrum packaging scripts yet, so there’s a good chance that I’ll break something and/or find something that I broke earlier).</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -599,7 +594,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-03-19-34c3-slides-videos.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-28-electrum-nmc-code-review-rebase.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
