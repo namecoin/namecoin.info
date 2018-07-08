@@ -6,9 +6,76 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 02 Jul 2018 03:54:00 +0000</pubDate>
-    <lastBuildDate>Mon, 02 Jul 2018 03:54:00 +0000</lastBuildDate>
+    <pubDate>Sun, 08 Jul 2018 05:54:07 +0000</pubDate>
+    <lastBuildDate>Sun, 08 Jul 2018 05:54:07 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>The Great Namecoin Mining Brownout of June 17-20, 2018: Postmortem</title>
+        <description>&lt;p&gt;Recently, many Namecoin mining pools experienced an outage, causing transaction confirmation to slow down to 2.1 blocks/hour.  We’ve fixed the issue, and mining is back to normal.  This post summarizes what we know about the outage.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-cause&quot;&gt;The Cause&lt;/h2&gt;
+
+&lt;p&gt;On June 17, an unknown person appears to have built a pair of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions with the raw transaction API, and broadcast them both to the Namecoin P2P network at the same time.  This is not something that the normal Namecoin Core GUI or RPC API will let you do, because revealing your &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction before the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; has been confirmed allows 3rd parties to front-run your registration.  However, there’s nothing that prevents users from doing this via the raw transaction API.  Namecoin Core’s consensus rules require &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions to wait 12 blocks after &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; before they can be mined; any &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions whose &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; input doesn’t yet have 12 confirmations will be admitted to the memory pool but will not be mined.  Unfortunately, there was a bug in Namecoin Core’s mining code: while it was correctly choosing not to mine &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions whose &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; input had between 1 and 11 (inclusive) confirmations, it was erroneously trying to mine &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transactions whose &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; input had zero confirmations.  As a result, &lt;code class=&quot;highlighter-rouge&quot;&gt;getblocktemplate&lt;/code&gt; was building an invalid block, and then returning an error upon detecting that the block was invalid, which DoSed the mining pools.&lt;/p&gt;
+
+&lt;h2 id=&quot;our-initial-response&quot;&gt;Our Initial Response&lt;/h2&gt;
+
+&lt;p&gt;Cassini reported on June 18 that, during the prior 24 hours, only ViaBTC and BTC.COM had mined any Namecoin blocks.  He wasn’t sure what the cause of the outage was, but he did note that it didn’t seem to be related to BTC versus BCH mining, since ViaBTC was still using both parent chains for Namecoin mining as usual.  The obvious thing to do was to contact the mining pools to figure out whether they were seeing any errors on their end.  Jeremy began contacting the mining pools.  While we were waiting for mining pools to respond, we tried to analyze possible failure modes.  Cassini speculated that maybe an accidental consensus fork had occurred, and wondered whether the two pools who were still online had changed anything about their setup recently (e.g. updating their Bitcoin Core or Namecoin Core client).  Jeremy noted that clearly the pools who were still online hadn’t accidentally activated a hardfork, since Jeremy’s Namecoin Core node from 2 years ago was still accepting their blocks.  To verify whether an accidental softfork had been activated, Jeremy asked Redblade7 (who runs a Namecoin seed node) to check the output of &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoin-cli getchaintips&lt;/code&gt;.  The output revealed that no forks had been observed since June 3 (and that fork was only a single orphaned block), which made it clear that no softfork had occurred.  (In addition, the two pools who were still up composed a minority of the usual hashrate, which again pointed to this not being an accidental softfork.)&lt;/p&gt;
+
+&lt;h2 id=&quot;response-from-miners&quot;&gt;Response from Miners&lt;/h2&gt;
+
+&lt;p&gt;Wang Chun from F2Pool was the first mining pool operator to get back to us; he said F2Pool was investigating the issue from their side.  Shortly afterward, F2Pool’s mining came back online and mined 6 blocks.  Shortly afterward, crackfoo of zpool posted on GitHub saying that he was repeatedly getting &lt;code class=&quot;highlighter-rouge&quot;&gt;getblocktemplate&lt;/code&gt; errors that day.  crackfoo posted this in a GitHub issue that was fairly old: mining pools had occasionally been receiving that error for well over a year, but it had been difficult to reproduce.  However, the last post in that thread prior to crackfoo’s was from Yihao Peng of BTC.COM on June 17, saying that he had gotten the error that day and had fixed it by clearing his memory pool.  Yihao Peng’s post was the first one that provided debug logs, which allowed us to analyze what was happening.  Daniel quickly figured out that the issue was caused by the unconfirmed &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; pair, and Jeremy speculated that this was probably the reason for the outage.&lt;/p&gt;
+
+&lt;h2 id=&quot;immediate-fixes&quot;&gt;Immediate Fixes&lt;/h2&gt;
+
+&lt;p&gt;crackfoo asked whether there was any way to exclude the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; from block creation as a temporary fix while we were waiting for a Namecoin Core update.  Jeremy suggested using the &lt;code class=&quot;highlighter-rouge&quot;&gt;prioritisetransaction&lt;/code&gt; RPC call to prevent the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; from being included in blocks.  Jeremy then tested this locally, and verified that it fixed mining; Jeremy sent out a message to the Alerts mailing list notifying mining pools  that they could restore service by doing this.  Jeremy also suggested using &lt;code class=&quot;highlighter-rouge&quot;&gt;prioritisetransaction&lt;/code&gt; to accelerate the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction, since once it got mined, the problem would go away (even for mining pools who didn’t do anything).  Yihao Peng from BTC.COM offered to do so, and successfully mined the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction on June 20.  At this point, we observed the rest of the mining pools come back online.&lt;/p&gt;
+
+&lt;h2 id=&quot;proper-fixes&quot;&gt;Proper Fixes&lt;/h2&gt;
+
+&lt;p&gt;Daniel has fixed the relevant behavior in Namecoin Core’s block construction code; the fix is present in both the &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;0.16&lt;/code&gt; branches.  Miners are encouraged to upgrade so that this situation can’t happen again.&lt;/p&gt;
+
+&lt;h2 id=&quot;analysis&quot;&gt;Analysis&lt;/h2&gt;
+
+&lt;p&gt;Obviously, any kind of mining disruption is a bad thing, since it causes transactions to confirm more slowly and also increases exposure of the Namecoin network to potential 51% attacks.  In particular, when only 2 mining pools are mining blocks for a period of a day, the larger of the two pools obviously has the capacity to double-spend transactions.  We’re not aware of any reason to believe that any double-spend attacks occurred, which is consistent with our general experience that the Namecoin mining pools behave ethically and try to help us fix issues.  (AuxPoW researchers Paul Sztorc and Alexey Zamyatin have come to similar conclusions about Namecoin mining pools.)  In particular, BTC.COM (the pool that would have been capable of double-spending) was also the pool who reported debug logs to us and accelerated the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction to fix the problem for the other pools.&lt;/p&gt;
+
+&lt;p&gt;Generally speaking, our incident response went quite well.  In particular, service stayed up and running throughout the 3-day incident, although it took ~3x longer to get transactions to confirm than usual.  Compared to &lt;a href=&quot;/2014/09/09/great-aggregating-postmortem.html&quot;&gt;the previous notable outage, from 2014&lt;/a&gt;, where the network was totally unusable for 2 weeks, things certainly went a lot better this time around.  However, we wouldn’t be doing our jobs if we didn’t propose some additional steps we can take to further improve:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Streamline the process of contacting mining pools.  We already have an alerts mailing list that was set up long ago, but the alerts list is ill-suited to cases where we suspect a problem with a particular mining pool and don’t want to spam the other pools with noise.  Improving this is already on our radar, due to some upcoming softforks (yes, we’re finally activating P2SH and SegWit soon!) on which we need to closely coordinate with mining pools (and other service providers, such as exchanges, registrars, block explorers, ElectrumX operators, inproxies like OpenNIC, and analytic websites like CoinMarketCap, BitName.ru, and Blockchain-DNS.info).&lt;/li&gt;
+  &lt;li&gt;Automated monitoring.  Significant progress was made on this since the 2014 outage.  In particular, we have a free software script that can calculate hashrate distribution, and Cassini runs this script regularly.  However, that script is not maintained as well as it should be (both Cassini and Jeremy have some private changes that haven’t yet been merged due to lack of time to devote to it), and it would be beneficial to document exactly how to run the script in an automated fashion, with things like email or Matrix alerts when suspicious events occur.  We’re currently in the middle of re-evaluating our CI infrastructure (yes, we are aware of the GitHub buyout by a PRISM member and ICE supplier, and we’re not happy about it), and this is definitely one area that we’ll be exploring.  Coincidentally, several of our developers recently obtained a &lt;a href=&quot;https://www.raptorcs.com/&quot;&gt;Talos II from Raptor Computing Systems&lt;/a&gt; (yes, they are awesome, you should support Raptor), so this may give us additional infrastructure options.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And, to complement the above, some things that &lt;em&gt;aren’t&lt;/em&gt; critically needed for this particular issue:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Quick release of binaries for emergency fixes.  While this &lt;em&gt;would&lt;/em&gt; be highly useful for other reasons (and we’re exploring this possibility for CI infrastructure), we’ve been sufficiently successful at making Namecoin Core build reliably from source that the mining pools usually build Namecoin Core themselves.  At the time of the 2014 outage, Namecoin was a pain in the rear to build and a lot of mining pools were using our binaries.  Not a problem anymore.&lt;/li&gt;
+  &lt;li&gt;Adopt support for Matt Corallo’s decentralized pooled mining protocol.  While this would have substantial benefits in terms of both total hashrate and hashrate diversity, the problem at the root of this issue is a matter of (1) effective communication with miners and (2) attentive miners, both of which are made mildly worse by a more diverse hashrate distribution.  We do intend to pursue this as a long-term goal (it’s a hardfork, meaning that adopting it is a major bother), and we think it’s highly important for Namecoin to improve in this area, even though a more diverse hashrate is less effective for communication and attentiveness.&lt;/li&gt;
+  &lt;li&gt;Contingency plans for developers who are busy with external obligations.  Although more redundancy is always helpful, we currently have some developers who have sufficient funding for Namecoin to be their primary project.  This was not the case in 2014, when our primary responders were dealing with unrelated business trips or school coursework.  As a result, response to critical issues is substantially more reliable now than it was 4 years ago.  Don’t get me wrong, we still need more developers, and we still would benefit from more funding – but things are clearly moving in the right direction.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;The following people helped respond to the outage:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cassini&lt;/li&gt;
+  &lt;li&gt;Jeremy Rand&lt;/li&gt;
+  &lt;li&gt;Daniel Kraft&lt;/li&gt;
+  &lt;li&gt;Yihao Peng (BTC.COM)&lt;/li&gt;
+  &lt;li&gt;crackfoo (zpool)&lt;/li&gt;
+  &lt;li&gt;Wang Chun (F2Pool)&lt;/li&gt;
+  &lt;li&gt;Redblade7&lt;/li&gt;
+  &lt;li&gt;Luke Dashjr&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 08 Jul 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/07/08/brownout-june-17-20.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/07/08/brownout-june-17-20.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC: AuxPoW Deserialization</title>
@@ -260,52 +327,6 @@
         <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/04/19/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/04/19/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.2-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.0.6 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.0.6.  List of changes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Windows installer:
-    &lt;ul&gt;
-      &lt;li&gt;Bump ConsensusJ-Namecoin dependency to v0.2.7.&lt;/li&gt;
-      &lt;li&gt;Bump Dnssec-Trigger dependency to v0.15.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Bump dnssec-keygen dependency to v9.12.1.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  (Patch by Hugo Landau; reported by Jeremy Rand.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;NetBSD:
-    &lt;ul&gt;
-      &lt;li&gt;Disable NetBSD/ARM builds due to an upstream bug.  NetBSD/ARM builds will return later.  (Patch by Jeremy Rand.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;All OS’s:
-    &lt;ul&gt;
-      &lt;li&gt;certinject: Add support for NSS trust stores; this enables positive TLS overrides in Chromium on GNU/Linux (and probably various other software that uses NSS for certificate validation.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;ncdumpzone: Add &lt;code class=&quot;highlighter-rouge&quot;&gt;cert_override.txt&lt;/code&gt; output format; this enables positive TLS overrides in Firefox (and probably various other software based on Firefox).  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Fix TLSA records served over DNS (for the lucky users using software that supports DANE).  (Patch by Jeremy Rand; reported by Jefferson Carpenter.)&lt;/li&gt;
-      &lt;li&gt;Bundle miekg’s &lt;code class=&quot;highlighter-rouge&quot;&gt;q&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Bundle &lt;code class=&quot;highlighter-rouge&quot;&gt;dns-prop279&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Change default Namecoin RPC host from &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt;; should fix some RPC errors on Windows.  (Patch by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  (Patch by Jeremy Rand.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 17 Apr 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/04/17/ncdns-v0.0.6-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/04/17/ncdns-v0.0.6-released.html</guid>
         
         <category>Releases</category>
         

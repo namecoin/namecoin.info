@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>The Great Namecoin Mining Brownout of June 17-20, 2018: Postmortem</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2018/07/08/brownout-june-17-20.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">The Great Namecoin Mining Brownout of June 17-20, 2018: Postmortem</h1>
+<p class="post-meta">Jul 8, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Recently, many Namecoin mining pools experienced an outage, causing transaction confirmation to slow down to 2.1 blocks/hour.  We’ve fixed the issue, and mining is back to normal.  This post summarizes what we know about the outage.</p>
+
+<h2 id="the-cause">The Cause</h2>
+
+<p>On June 17, an unknown person appears to have built a pair of <code class="highlighter-rouge">name_new</code> and <code class="highlighter-rouge">name_firstupdate</code> transactions with the raw transaction API, and broadcast them both to the Namecoin P2P network at the same time.  This is not something that the normal Namecoin Core GUI or RPC API will let you do, because revealing your <code class="highlighter-rouge">name_firstupdate</code> transaction before the <code class="highlighter-rouge">name_new</code> has been confirmed allows 3rd parties to front-run your registration.  However, there’s nothing that prevents users from doing this via the raw transaction API.  Namecoin Core’s consensus rules require <code class="highlighter-rouge">name_firstupdate</code> transactions to wait 12 blocks after <code class="highlighter-rouge">name_new</code> before they can be mined; any <code class="highlighter-rouge">name_firstupdate</code> transactions whose <code class="highlighter-rouge">name_new</code> input doesn’t yet have 12 confirmations will be admitted to the memory pool but will not be mined.  Unfortunately, there was a bug in Namecoin Core’s mining code: while it was correctly choosing not to mine <code class="highlighter-rouge">name_firstupdate</code> transactions whose <code class="highlighter-rouge">name_new</code> input had between 1 and 11 (inclusive) confirmations, it was erroneously trying to mine <code class="highlighter-rouge">name_firstupdate</code> transactions whose <code class="highlighter-rouge">name_new</code> input had zero confirmations.  As a result, <code class="highlighter-rouge">getblocktemplate</code> was building an invalid block, and then returning an error upon detecting that the block was invalid, which DoSed the mining pools.</p>
+
+<h2 id="our-initial-response">Our Initial Response</h2>
+
+<p>Cassini reported on June 18 that, during the prior 24 hours, only ViaBTC and BTC.COM had mined any Namecoin blocks.  He wasn’t sure what the cause of the outage was, but he did note that it didn’t seem to be related to BTC versus BCH mining, since ViaBTC was still using both parent chains for Namecoin mining as usual.  The obvious thing to do was to contact the mining pools to figure out whether they were seeing any errors on their end.  Jeremy began contacting the mining pools.  While we were waiting for mining pools to respond, we tried to analyze possible failure modes.  Cassini speculated that maybe an accidental consensus fork had occurred, and wondered whether the two pools who were still online had changed anything about their setup recently (e.g. updating their Bitcoin Core or Namecoin Core client).  Jeremy noted that clearly the pools who were still online hadn’t accidentally activated a hardfork, since Jeremy’s Namecoin Core node from 2 years ago was still accepting their blocks.  To verify whether an accidental softfork had been activated, Jeremy asked Redblade7 (who runs a Namecoin seed node) to check the output of <code class="highlighter-rouge">namecoin-cli getchaintips</code>.  The output revealed that no forks had been observed since June 3 (and that fork was only a single orphaned block), which made it clear that no softfork had occurred.  (In addition, the two pools who were still up composed a minority of the usual hashrate, which again pointed to this not being an accidental softfork.)</p>
+
+<h2 id="response-from-miners">Response from Miners</h2>
+
+<p>Wang Chun from F2Pool was the first mining pool operator to get back to us; he said F2Pool was investigating the issue from their side.  Shortly afterward, F2Pool’s mining came back online and mined 6 blocks.  Shortly afterward, crackfoo of zpool posted on GitHub saying that he was repeatedly getting <code class="highlighter-rouge">getblocktemplate</code> errors that day.  crackfoo posted this in a GitHub issue that was fairly old: mining pools had occasionally been receiving that error for well over a year, but it had been difficult to reproduce.  However, the last post in that thread prior to crackfoo’s was from Yihao Peng of BTC.COM on June 17, saying that he had gotten the error that day and had fixed it by clearing his memory pool.  Yihao Peng’s post was the first one that provided debug logs, which allowed us to analyze what was happening.  Daniel quickly figured out that the issue was caused by the unconfirmed <code class="highlighter-rouge">name_new</code> and <code class="highlighter-rouge">name_firstupdate</code> pair, and Jeremy speculated that this was probably the reason for the outage.</p>
+
+<h2 id="immediate-fixes">Immediate Fixes</h2>
+
+<p>crackfoo asked whether there was any way to exclude the <code class="highlighter-rouge">name_firstupdate</code> from block creation as a temporary fix while we were waiting for a Namecoin Core update.  Jeremy suggested using the <code class="highlighter-rouge">prioritisetransaction</code> RPC call to prevent the <code class="highlighter-rouge">name_firstupdate</code> from being included in blocks.  Jeremy then tested this locally, and verified that it fixed mining; Jeremy sent out a message to the Alerts mailing list notifying mining pools  that they could restore service by doing this.  Jeremy also suggested using <code class="highlighter-rouge">prioritisetransaction</code> to accelerate the <code class="highlighter-rouge">name_new</code> transaction, since once it got mined, the problem would go away (even for mining pools who didn’t do anything).  Yihao Peng from BTC.COM offered to do so, and successfully mined the <code class="highlighter-rouge">name_new</code> transaction on June 20.  At this point, we observed the rest of the mining pools come back online.</p>
+
+<h2 id="proper-fixes">Proper Fixes</h2>
+
+<p>Daniel has fixed the relevant behavior in Namecoin Core’s block construction code; the fix is present in both the <code class="highlighter-rouge">master</code> and <code class="highlighter-rouge">0.16</code> branches.  Miners are encouraged to upgrade so that this situation can’t happen again.</p>
+
+<h2 id="analysis">Analysis</h2>
+
+<p>Obviously, any kind of mining disruption is a bad thing, since it causes transactions to confirm more slowly and also increases exposure of the Namecoin network to potential 51% attacks.  In particular, when only 2 mining pools are mining blocks for a period of a day, the larger of the two pools obviously has the capacity to double-spend transactions.  We’re not aware of any reason to believe that any double-spend attacks occurred, which is consistent with our general experience that the Namecoin mining pools behave ethically and try to help us fix issues.  (AuxPoW researchers Paul Sztorc and Alexey Zamyatin have come to similar conclusions about Namecoin mining pools.)  In particular, BTC.COM (the pool that would have been capable of double-spending) was also the pool who reported debug logs to us and accelerated the <code class="highlighter-rouge">name_new</code> transaction to fix the problem for the other pools.</p>
+
+<p>Generally speaking, our incident response went quite well.  In particular, service stayed up and running throughout the 3-day incident, although it took ~3x longer to get transactions to confirm than usual.  Compared to <a href="/2014/09/09/great-aggregating-postmortem.html">the previous notable outage, from 2014</a>, where the network was totally unusable for 2 weeks, things certainly went a lot better this time around.  However, we wouldn’t be doing our jobs if we didn’t propose some additional steps we can take to further improve:</p>
+
+<ul>
+  <li>Streamline the process of contacting mining pools.  We already have an alerts mailing list that was set up long ago, but the alerts list is ill-suited to cases where we suspect a problem with a particular mining pool and don’t want to spam the other pools with noise.  Improving this is already on our radar, due to some upcoming softforks (yes, we’re finally activating P2SH and SegWit soon!) on which we need to closely coordinate with mining pools (and other service providers, such as exchanges, registrars, block explorers, ElectrumX operators, inproxies like OpenNIC, and analytic websites like CoinMarketCap, BitName.ru, and Blockchain-DNS.info).</li>
+  <li>Automated monitoring.  Significant progress was made on this since the 2014 outage.  In particular, we have a free software script that can calculate hashrate distribution, and Cassini runs this script regularly.  However, that script is not maintained as well as it should be (both Cassini and Jeremy have some private changes that haven’t yet been merged due to lack of time to devote to it), and it would be beneficial to document exactly how to run the script in an automated fashion, with things like email or Matrix alerts when suspicious events occur.  We’re currently in the middle of re-evaluating our CI infrastructure (yes, we are aware of the GitHub buyout by a PRISM member and ICE supplier, and we’re not happy about it), and this is definitely one area that we’ll be exploring.  Coincidentally, several of our developers recently obtained a <a href="https://www.raptorcs.com/">Talos II from Raptor Computing Systems</a> (yes, they are awesome, you should support Raptor), so this may give us additional infrastructure options.</li>
+</ul>
+
+<p>And, to complement the above, some things that <em>aren’t</em> critically needed for this particular issue:</p>
+
+<ul>
+  <li>Quick release of binaries for emergency fixes.  While this <em>would</em> be highly useful for other reasons (and we’re exploring this possibility for CI infrastructure), we’ve been sufficiently successful at making Namecoin Core build reliably from source that the mining pools usually build Namecoin Core themselves.  At the time of the 2014 outage, Namecoin was a pain in the rear to build and a lot of mining pools were using our binaries.  Not a problem anymore.</li>
+  <li>Adopt support for Matt Corallo’s decentralized pooled mining protocol.  While this would have substantial benefits in terms of both total hashrate and hashrate diversity, the problem at the root of this issue is a matter of (1) effective communication with miners and (2) attentive miners, both of which are made mildly worse by a more diverse hashrate distribution.  We do intend to pursue this as a long-term goal (it’s a hardfork, meaning that adopting it is a major bother), and we think it’s highly important for Namecoin to improve in this area, even though a more diverse hashrate is less effective for communication and attentiveness.</li>
+  <li>Contingency plans for developers who are busy with external obligations.  Although more redundancy is always helpful, we currently have some developers who have sufficient funding for Namecoin to be their primary project.  This was not the case in 2014, when our primary responders were dealing with unrelated business trips or school coursework.  As a result, response to critical issues is substantially more reliable now than it was 4 years ago.  Don’t get me wrong, we still need more developers, and we still would benefit from more funding – but things are clearly moving in the right direction.</li>
+</ul>
+
+<h2 id="thanks">Thanks</h2>
+
+<p>The following people helped respond to the outage:</p>
+
+<ul>
+  <li>Cassini</li>
+  <li>Jeremy Rand</li>
+  <li>Daniel Kraft</li>
+  <li>Yihao Peng (BTC.COM)</li>
+  <li>crackfoo (zpool)</li>
+  <li>Wang Chun (F2Pool)</li>
+  <li>Redblade7</li>
+  <li>Luke Dashjr</li>
+</ul>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-08-brownout-june-17-20.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
