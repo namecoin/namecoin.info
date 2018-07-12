@@ -6,9 +6,37 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 09 Jul 2018 11:10:08 +0000</pubDate>
-    <lastBuildDate>Mon, 09 Jul 2018 11:10:08 +0000</lastBuildDate>
+    <pubDate>Thu, 12 Jul 2018 14:46:51 +0000</pubDate>
+    <lastBuildDate>Thu, 12 Jul 2018 14:46:51 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.2.2 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.2.2.  Here’s what’s new:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Trezor support.&lt;/li&gt;
+  &lt;li&gt;Support AuxPoW and timewarp hardforks.  (AuxPoW is still experimental, but it does successfully sync now.)&lt;/li&gt;
+  &lt;li&gt;Fix running the GNU/Linux release without installing first.&lt;/li&gt;
+  &lt;li&gt;Improvements from upstream Electrum.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Please note that due to a bugfix that was needed for Trezor support, any coins stored in wallets from older versions of Electrum-NMC will probably be inaccessible from this version.  We recommend that you empty your old Electrum-NMC wallets into Namecoin Core prior to installing this version, and then recreate your Electrum-NMC wallets after installing this version.&lt;/p&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 12 Jul 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC: AuxPoW Verification</title>
@@ -316,33 +344,6 @@
         <pubDate>Mon, 14 May 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/05/14/integrating-ncdumpzone-firefox.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/05/14/integrating-ncdumpzone-firefox.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Fixing DNAME records in madns and dns-prop279</title>
-        <description>&lt;p&gt;One of the more obscure DNS record types is &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; (AKA the Namecoin &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;translate&quot;&lt;/code&gt; JSON field), which is basically a DNS redirect for an entire subtree.  For example, currently &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; has a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; record pointing to &lt;code class=&quot;highlighter-rouge&quot;&gt;biteater.dtdns.net.&lt;/code&gt;, which means that any subdomain (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;batman.radio.bit.&lt;/code&gt;) becomes a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; redirect (e.g. to &lt;code class=&quot;highlighter-rouge&quot;&gt;batman.biteater.dtdns.net.&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; is not exactly a favorite of mine in the context of Namecoin, because it’s easy to misuse it in a way that assigns trust for a Namecoin domain name to 3rd party keys whom Namecoin is intended to not trust (e.g. if you &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; to a DNS domain name, you’re also assigning control of the &lt;code class=&quot;highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records for &lt;code class=&quot;highlighter-rouge&quot;&gt;_443._tcp.radio.bit.&lt;/code&gt; to whatever DNSSEC keys have the ability to sign for that DNS domain name, which probably includes a DNS registrar, a DNS registry, and the ICANN root key).  That said, &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; is part of the DNS, and so it &lt;em&gt;should&lt;/em&gt; work in Namecoin, even though there aren’t likely to be many good uses for it in Namecoin.&lt;/p&gt;
-
-&lt;p&gt;Which is why I was surprised to notice when I tested &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; today that it wasn’t actually working as intended in ncdns or dns-prop279.  Some digging revealed that madns (the authoritative DNS server library that ncdns utilizes) didn’t actually have any &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; support; the place in the code where it should have gone was just marked “TODO”.  This was a great excuse for me to get my feet wet with the madns codebase (Hugo usually handles that code), so I jumped in.&lt;/p&gt;
-
-&lt;p&gt;In the process of adding &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; support to madns, I got to read &lt;a href=&quot;https://tools.ietf.org/html/rfc6672#section-2.3&quot;&gt;RFC 6672&lt;/a&gt;, and noticed that it very much looks like Namecoin’s &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; (domain names JSON) spec is not quite compliant with the RFC.  Specifically, the &lt;a href=&quot;https://github.com/namecoin/proposals/blob/1b0043a98fe8f4cf1a85ec92fdbe98d38b5886b3/ifa-0001.md#item-suppression-rules&quot;&gt;Namecoin spec&lt;/a&gt; says that a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt; suppresses all other records at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt;, whereas the RFC says that other record types can coexist at &lt;code class=&quot;highlighter-rouge&quot;&gt;radio.bit.&lt;/code&gt;, with the sole exception of &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; records.  I’ve filed a bug to get the Namecoin spec brought in line with the RFC.&lt;/p&gt;
-
-&lt;p&gt;Once I got madns supporting &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; properly, that meant I could test dns-prop279 with &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.  Except testing quickly showed that dns-prop279 was crashing when it encountered a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.  A quick check of the stack trace showed that I had made a minor screw-up in the error checking in dns-prop279 (specifically, dns-prop279 is asking for a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;, but doesn’t properly handle the case where it receives both a &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt; and a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt;).  A quick bugfix later, and dns-prop279 was correctly handling &lt;code class=&quot;highlighter-rouge&quot;&gt;DNAME&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The fixes are expected to be included in the next release of ncdns and dns-prop279.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-
-&lt;p&gt;(Side note: some readers might have noticed that I was posting less frequently over the past month or so.  That’s because my master’s thesis defense was on May 3, and as a result I spent most of the last month getting ready for that.  I passed my defense, so things should be back to normal soon.)&lt;/p&gt;
-</description>
-        <pubDate>Sat, 12 May 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/05/12/fixing-dname-madns-dns-prop279.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/05/12/fixing-dname-madns-dns-prop279.html</guid>
         
         <category>News</category>
         

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>LibreTorNS Merged to Upstream TorNS</title>
+    <title>Electrum-NMC v3.2.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/07/07/libretorns-merged-upstream.html">
+    <link rel="canonical" href="https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,193 +232,204 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">LibreTorNS Merged to Upstream TorNS</h1>
-<p class="post-meta">Jul 7, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC v3.2.2 Released</h1>
+<p class="post-meta">Jul 12, 2018 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Generally I’m of the opinion that it’s better to get patches to other people’s projects merged upstream whenever feasible; accordingly I submitted the LibreTorNS patches upstream.  Happily, meejah has merged the LibreTorNS patches to <a href="https://github.com/meejah/torns">upstream TorNS</a>.  That means LibreTorNS is now obsolete, and you should use meejah’s upstream TorNS for testing dns-prop279 going forward.</p>
+<p>We’ve released Electrum-NMC v3.2.2.  Here’s what’s new:</p>
 
-<p>Huge thanks to meejah for accepting the patch!  Also thanks to meejah for the code review – there was a bug hiding in my initial submitted patch, which is one of the reasons I always prefer getting things reviewed by upstream.</p>
+<ul>
+  <li>Trezor support.</li>
+  <li>Support AuxPoW and timewarp hardforks.  (AuxPoW is still experimental, but it does successfully sync now.)</li>
+  <li>Fix running the GNU/Linux release without installing first.</li>
+  <li>Improvements from upstream Electrum.</li>
+</ul>
+
+<p>Please note that due to a bugfix that was needed for Trezor support, any coins stored in wallets from older versions of Electrum-NMC will probably be inaccessible from this version.  We recommend that you empty your old Electrum-NMC wallets into Namecoin Core prior to installing this version, and then recreate your Electrum-NMC wallets after installing this version.</p>
+
+<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+
+<p>This work was funded by Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -590,7 +601,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-07-07-libretorns-merged-upstream.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-12-electrum-nmc-v3.2.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
