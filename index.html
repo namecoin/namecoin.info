@@ -281,6 +281,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2018/07/15/electrumx-name-scripts.html">2018-07-15</a></strong> ElectrumX is the server component of Electrum.  Unlike the client component, which requires forking to enable altcoins, ElectrumX has altcoin support by default, including Namecoin <a href="#footnote1">[1]</a>.  ElectrumX already supports the AuxPoW features of Namecoin (which is why <a href="/2018/07/09/electrum-nmc-auxpow-verification.html">only Electrum-NMC needed modifications</a> for that), but name script support required some tweaks to ElectrumX.</p>
+
+<p><a href="/2018/07/15/electrumx-name-scripts.html">Read more…</a></p>
+
 <p><strong><a href="/2018/07/12/electrum-nmc-v3.2.2-released.html">2018-07-12</a></strong> We’ve released Electrum-NMC v3.2.2.  Here’s what’s new:</p>
 
 <p><a href="/2018/07/12/electrum-nmc-v3.2.2-released.html">Read more…</a></p>
@@ -316,10 +320,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">2018-05-17</a></strong> In a previous post <a href="/2018/03/26/integrating-cross-signing-name-constraints-nss.html">where I introduced <code class="highlighter-rouge">tlsrestrict_nss_tool</code></a>, I mentioned that NSS’s <code class="highlighter-rouge">certutil</code> doesn’t have official binaries for Windows, and that “At some point, we’ll probably need to start cross-compiling NSS ourselves, although I admit I’m not sure I’m going to enjoy that.”  Well, we’ve reached that point, and it was an interesting adventure.</p>
 
 <p><a href="/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">Read more…</a></p>
-
-<p><strong><a href="/2018/05/14/integrating-ncdumpzone-firefox.html">2018-05-14</a></strong> I <a href="/2018/02/20/ncdumpzone-firefox.html">discussed in a previous post</a> some experimental work on making ncdumpzone output a Firefox certificate override list.  At that time, the procedure wasn’t exactly user-friendly: you’d need to run ncdumpzone from a terminal, redirect the output to a file, close Firefox, delete whatever existing <code class="highlighter-rouge">.bit</code> entries existed in the existing Firefox certificate override file, append the ncdumpzone output to that file, and relaunch Firefox.  I’ve now integrated some code into ncdns that can automate this procedure.</p>
-
-<p><a href="/2018/05/14/integrating-ncdumpzone-firefox.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>ElectrumX: Name Scripts</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2018/07/15/electrumx-name-scripts.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/tls/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">ElectrumX: Name Scripts</h1>
+<p class="post-meta">Jul 15, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>ElectrumX is the server component of Electrum.  Unlike the client component, which requires forking to enable altcoins, ElectrumX has altcoin support by default, including Namecoin <a href="#footnote1">[1]</a>.  ElectrumX already supports the AuxPoW features of Namecoin (which is why <a href="/2018/07/09/electrum-nmc-auxpow-verification.html">only Electrum-NMC needed modifications</a> for that), but name script support required some tweaks to ElectrumX.</p>
+
+<p>The main issue here is that the Electrum protocol requires Electrum to supply scriptPubKey hashes to ElectrumX, for which ElectrumX will then reply with transaction ID’s.  This works great when the scriptPubKey can be easily determined by the client (a Bitcoin address can be deterministically converted to a scriptPubKey), but in Namecoin, a scriptPubKey for a name output contains some extra data that Electrum-NMC won’t know ahead of time.  Specifically, a <code class="highlighter-rouge">name_update</code> scriptPubKey includes the <code class="highlighter-rouge">OP_NAME_UPDATE</code> opcode, the name identifier, the name value, an <code class="highlighter-rouge">OP_2DROP</code> and <code class="highlighter-rouge">OP_DROP</code> opcode to empty the opcode, identifier, and value from the stack, and <em>then</em> a standard Bitcoin scriptPubKey that corresponds to the address that owns the name.  (A <code class="highlighter-rouge">name_firstupdate</code> scriptPubKey contains even more stuff.)  An Electrum-NMC client that wants to look up transactions by address won’t know the name identifier, and an Electrum-NMC client that wants to look up transactions by name identifier won’t know the address of the owner.  As a result, we need to mess with things.</p>
+
+<p>The approach I took was to tweak Namecoin’s altcoin definition in ElectrumX to do a few things:</p>
+
+<ul>
+  <li>When hashing a scriptPubKey, first detect whether the scriptPubKey is a name script, and strip away the name script prefix if present.  This leaves only a standard Bitcoin-style scriptPubKey that can be looked up via the standard Electrum protocol.</li>
+  <li>Add a secondary method of hashing a scriptPubKey, which detects <code class="highlighter-rouge">name_anyupdate</code> scripts, and rewrites them into a standard form that’s well-suited to name lookups (more on that below).</li>
+  <li>When indexing transactions, index the results of both the usual hashing method <em>and</em> the secondary method, so that we can reuse ElectrumX’s transaction index for both address lookups and name identifier lookups.</li>
+</ul>
+
+<p>How does this standard form work?  Here are the things it changes:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">name_firstupdate</code> scripts are converted to <code class="highlighter-rouge">name_update</code> scripts; the extra data that <code class="highlighter-rouge">name_firstupdate</code> scripts contain is stripped.</li>
+  <li>The name value is replaced with an empty string.  (Technically this means that we use <code class="highlighter-rouge">OP_0</code> instead of the usual push operation.)</li>
+  <li>The Bitcoin-style scriptPubKey after the <code class="highlighter-rouge">OP_DROP</code> is replaced with <code class="highlighter-rouge">OP_RETURN</code>.  (Technically this would be interpreted as an unspendable scriptPubKey.)</li>
+</ul>
+
+<p>What are the advantages of this approach?</p>
+
+<ul>
+  <li>Name scripts can be looked up by identifier using the standard Electrum protocol commands; no changes to Electrum’s protocol are needed.</li>
+  <li><code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> can both be looked up by the same Electrum protocol command.</li>
+  <li>The scripts being hashed are unambiguously name scripts, and are not going to appear by accident in other contexts.  It is, of course, certainly possible to deliberately produce a name script whose address is another name script followed by <code class="highlighter-rouge">OP_RETURN</code>, but Electrum’s protocol isn’t intended to prevent deliberate collisions anyway.  Any such weird transactions will be detectable when they’re downloaded by Electrum-NMC, just like other colliding scripts.  Using <code class="highlighter-rouge">OP_RETURN</code> as the scriptPubKey also makes it expensive for spammers to produce such collisions, because it means you need to destroy a name (thereby forfeiting your name registration fee) for each collision that you produce.</li>
+  <li>The script hash doesn’t trivially reveal what name is being looked up; it only reveals a hash.  This improves privacy and security when the name being looked up doesn’t actually exist yet in the blockchain (e.g. if you’re checking whether a name you want to register already exists).  It should be noted, however, that constructing a rainbow table for this hash function is straightforward, so if it’s critical that the names you’re looking up not be revealed to the ElectrumX server, you’re better off doing lookups via ConsensusJ-Namecoin’s <code class="highlighter-rouge">leveldbtxcache</code> mode instead of the Electrum protocol.  On the other hand, ElectrumX can’t actually determine whether the names being looked up are being used for DNS resolution or for registration purposes, so this might disincentivise ElectrumX servers from trying to frontrun registrations, since there’ll be a hell of a lot of noise from DNS-resolution-sourced lookups.</li>
+</ul>
+
+<p>Generally speaking, ElectrumX’s altcoin abstractions were very pleasant to work with (kudos to Neil Booth and the other ElectrumX contributors on this!), and making these changes wasn’t too hard.  Test results:</p>
+
+<ul>
+  <li>ElectrumX takes noticeably longer to sync from Namecoin Core with these changes, but in practical terms the difference isn’t a problem: it’s 33 minutes instead of 12 minutes on my <a href="https://www.raptorcs.com/">Talos II</a>.  (There might be ways to optimize the speed; I haven’t tried to do any optimizations yet.)</li>
+  <li>Looking up name transaction ID’s by address can be done via the Electrum-NMC console with no changes to Electrum-NMC.</li>
+  <li>Looking up name transaction ID’s by name identifier can be done via the Electrum-NMC console via the (present in upstream but undocumented) <code class="highlighter-rouge">network.get_history_for_scripthash</code> command.  However, this requires manually constructing a standard-form scriptPubKey hash from the name identifier, which isn’t exactly a fun process for those of us who don’t consider Bitcoin script as a native language.</li>
+  <li>Looking up unconfirmed name transactions doesn’t yet work, because my patch to ElectrumX doesn’t yet cover the UTXO index, only the history index.  I haven’t tried to fix this yet, and I might not bother for a while, since unconfirmed name transactions aren’t really trustworthy unless you’re verifying signatures relative to older transactions for that name (such a technique was first proposed years ago by Ryan Castellucci, but to my knowledge no one has actually deployed it yet).</li>
+  <li>The procedure for obtaining full transactions from transaction ID’s, and for obtaining Merkle proofs for those transactions, is considered out of scope for this work, because Electrum’s protocol already supports this, and shouldn’t need anything name-specific.  However, it might be interesting to combine those commands with the script hash lookup commands into a single wire protocol command to reduce latency (an interesting area of future work).</li>
+  <li>The procedure for parsing name transactions (either for wallet or name lookup purposes) after ElectrumX returns them is considered out of scope for this work, because that should be done by Electrum-NMC; this work only covers changes to ElectrumX.  The needed changes to Electrum-NMC will come later.</li>
+</ul>
+
+<p>I intend to submit these changes to upstream ElectrumX as a PR.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+<div id="footnote1">
+
+[1] I actually don't like to refer to Namecoin as an "altcoin", since the term means an "alternative" to Bitcoin, and Namecoin doesn't aim to achieve any of the use cases that Bitcoin does.  However, on a purely technical level, the process of adding Namecoin support to ElectrumX wasn't any different from most altcoins such as Dogecoin, so the umbrella of "altcoin support" does include Namecoin, as much as I dislike the public-relations implications of that label.
+
+</div>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://pay.reddit.com/r/namecoin"><i class="fa fa-users fa-2x" title="Reddit">Reddit</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-15-electrumx-name-scripts.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
