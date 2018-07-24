@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 15 Jul 2018 12:39:55 +0000</pubDate>
-    <lastBuildDate>Sun, 15 Jul 2018 12:39:55 +0000</lastBuildDate>
+    <pubDate>Mon, 23 Jul 2018 23:38:57 +0000</pubDate>
+    <lastBuildDate>Mon, 23 Jul 2018 23:38:57 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin's Jeremy Rand will be at Decentralized Web Summit 2018</title>
+        <description>&lt;p&gt;Namecoin developer Jeremy Rand will attend &lt;a href=&quot;https://decentralizedweb.net/&quot;&gt;Decentralized Web Summit 2018&lt;/a&gt; in San Francisco, July 31 - August 2, hosted by the &lt;a href=&quot;https://archive.org/&quot;&gt;Internet Archive&lt;/a&gt;.  Namecoin will be at the &lt;a href=&quot;https://decentralizedwebsummit2018.sched.com/event/FMJT/science-fair&quot;&gt;Science Fair&lt;/a&gt; and will give a Lightning Talk (schedule TBA).  We’re also open to meetups and hacking sessions independent of the official DWS schedule, so if you’re attending DWS (or if you’re in the SF area) and would like to chat or hack, get in touch with us!  We’re looking forward to the Summit!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ElectrumX: Name Scripts</title>
@@ -350,38 +363,6 @@
         <pubDate>Sun, 20 May 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Reproducible Builds of NSS certutil via Cross-Compiling with rbm</title>
-        <description>&lt;p&gt;In a previous post &lt;a href=&quot;/2018/03/26/integrating-cross-signing-name-constraints-nss.html&quot;&gt;where I introduced &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;&lt;/a&gt;, I mentioned that NSS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; doesn’t have official binaries for Windows, and that “At some point, we’ll probably need to start cross-compiling NSS ourselves, although I admit I’m not sure I’m going to enjoy that.”  Well, we’ve reached that point, and it was an interesting adventure.&lt;/p&gt;
-
-&lt;p&gt;Initially, I looked at the NSS build docs themselves, and was rather annoyed to find that there’s no documentation about how to cross-compile NSS.  To make matters worse, the only results I could find by Startpaging were people saying that they couldn’t figure out how to cross-compile NSS (including some well-known software projects’ developers).&lt;/p&gt;
-
-&lt;p&gt;However, it just so happens that there’s a very high-profile free software project whom I was certain is definitely cross-compiling NSS: The Tor Project.  Tor cross-compiles Firefox (including NSS) as part of their Tor Browser build scripts, so it seemed near-certain that their build scripts could be modified to build &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;.  However, Tor’s build scripts are rather nonstandard, since they build everything with rbm.  rbm is a container-based build system that’s superficially similar to the Gitian build system that Bitcoin Core and Namecoin Core use (indeed, The Tor Project used to use Gitian before they migrated to rbm).  I’ve been intending to get my feet wet with rbm for quite a while now, so this seemed like a great excuse to play with rbm a bit.&lt;/p&gt;
-
-&lt;p&gt;First off, I wanted to build Firefox in rbm without any changes.  This was actually quite easy – The Tor Project’s documentation is quite good, and I didn’t run into any snags (besides the issue that I initially assigned too little storage to the VM where I was doing this – The Tor Project should probably document the expected storage requirements).  The build command I used was:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Next, I looked at Tor’s Firefox build script… and I was delighted to see that Tor is &lt;em&gt;already&lt;/em&gt; building &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;.  In fact, you can &lt;a href=&quot;http://rqef5a5mebgq46y5.onion/torbrowser/&quot;&gt;download &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries from The Tor Project’s download server&lt;/a&gt; right now!  (You want the &lt;code class=&quot;highlighter-rouge&quot;&gt;mar-tools-*.zip&lt;/code&gt; packages.)  Except… their build script discards the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries for all non-GNU/Linux targets.  How sad.&lt;/p&gt;
-
-&lt;p&gt;Modifying the build script to also output &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; for Windows was reasonably straightforward – rbm even worked without erroring on the first try.  I did, however, need to try for a few iterations to make sure that I was outputting all of the needed &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files.  However, once I had all the required &lt;code class=&quot;highlighter-rouge&quot;&gt;.dll&lt;/code&gt; files, a rather odd symptom occurred when I tested it on a Windows machine.  When I ran &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; from a command prompt, it would immediately exit without printing anything.  Stranger, when I double-clicked &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; in Windows Explorer, it didn’t even pop up with a command prompt window before it exited.  In addition, I noticed that if I passed command line arguments to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; telling it to create a new database, it actually did create the database – but it still didn’t display any output.&lt;/p&gt;
-
-&lt;p&gt;This seemed to indicate that something was wrong not with &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt;’s actual functionality, but with its PE metadata: Windows was probably treating it as a GUI application rather than a console application.  Checking the PE metadata confirmed this: Tor’s build scripts were producing a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; whose PE metadata was marking it as a GUI application.  Some more quick searching revealed &lt;a href=&quot;https://stackoverflow.com/questions/2435816/how-do-i-poke-the-flag-in-a-win32-pe-that-controls-console-window-display/14806704#14806704&quot;&gt;a StackOverflow post&lt;/a&gt; providing a short Python2 script that could edit that part of the PE metadata.  I ran that script against &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt;… and now &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; works properly.  Yay!&lt;/p&gt;
-
-&lt;p&gt;The lack of &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; binaries was one of the major blockers for releasing negative TLS certificate overrides for Firefox on Windows.  Now that this barrier is behind us, I can get around to testing &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; on Windows, and hopefully do a release (with NSIS installer support).  And as a side bonus, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt; builds reproducibly, and I’ve now gotten some experience with rbm (meaning that reproducible builds for ncdns and our other Go software may be coming soon).&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 17 May 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html</guid>
         
         <category>News</category>
         
