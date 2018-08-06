@@ -6,9 +6,28 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 23 Jul 2018 23:38:57 +0000</pubDate>
-    <lastBuildDate>Mon, 23 Jul 2018 23:38:57 +0000</lastBuildDate>
+    <pubDate>Mon, 06 Aug 2018 20:51:02 +0000</pubDate>
+    <lastBuildDate>Mon, 06 Aug 2018 20:51:02 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC: Name Script Deserialization</title>
+        <description>&lt;p&gt;I previously wrote about &lt;a href=&quot;/2018/07/15/electrumx-name-scripts.html&quot;&gt;making ElectrumX (the server) handle name scripts&lt;/a&gt;.  Now that that’s out of the way, the next step is making Electrum-NMC (the client) handle name scripts as well.  I now have Electrum-NMC deserializing name scripts.&lt;/p&gt;
+
+&lt;p&gt;Most of the details of this work are fairly mundane implementation details that probably won’t interest most readers.  So, instead, how about a screenshot?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-07-17-Names-in-History-Tab.png&quot; alt=&quot;A screenshot of name transactions visible in the Electrum-NMC History tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin's Jeremy Rand will be at Decentralized Web Summit 2018</title>
@@ -339,30 +358,6 @@
         <pubDate>Mon, 21 May 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Testing tlsrestrict_nss_tool on Windows</title>
-        <description>&lt;p&gt;Now that we got &lt;a href=&quot;/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html&quot;&gt;NSS &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; reproducibly cross-compiled for Windows&lt;/a&gt;, initial testing has begun on &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; for Windows.&lt;/p&gt;
-
-&lt;p&gt;Besides the obvious and rather boring fail that &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; was trying to execute &lt;code class=&quot;highlighter-rouge&quot;&gt;cp&lt;/code&gt;, which of course isn’t going to work on Windows (that particular code segment is a relic from quick prototyping that wasn’t ever intended to stay in the codebase), two more interesting issues were identified:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;rbm builds &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; with the Visual C++ 2010 runtime, so running &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; without that runtime installed produces an obvious error.  However, in order to properly detect the built-in certificates (“CKBI”) that Firefox ships with, &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; makes &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; load the CKBI module that Firefox distributes (&lt;em&gt;not&lt;/em&gt; the CKBI module that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; was built with).  This means that, when &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; is asked to load Firefox’s CKBI module, the Visual C++ runtime used by Firefox’s CKBI module also needs to be present.  Which happens to be Visual C++ 2015.  Without that, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; looks like it’s working – but the moment the Firefox CKBI module is loaded into &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; exits with a missing DLL error.  However, the situation is worsened by the fact that, as far as I can tell, a missing DLL error in Windows doesn’t impact the exit code.  So &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; doesn’t actually know thet &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; encountered an error; it just thinks it succeeded, and happened to produce no output.  What happens if &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; produces no output when dumping the CKBI list?  Well, &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; just figures that you’re using a Firefox build &lt;em&gt;that doesn’t have any default trusted CA’s!&lt;/em&gt;  This is bad enough when you first run &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;, since it will basically be a no-op.  But even worse, if you &lt;em&gt;did&lt;/em&gt; have the Visual C++ dependency from Firefox, but then Firefox upgraded it, then the next time you try to run &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;, all of the name constraints that were previously added will get &lt;em&gt;deleted&lt;/em&gt;, because &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; figures that those CA’s have vanished.  How sad.  The fix here is probably to make &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; explicitly error if the CKBI module appears to have 0 certificates in it.  Such a scenario pretty much always indicates that &lt;em&gt;something&lt;/em&gt; has gone horribly wrong involving the CKBI module, and it’s generally best to treat it as an error.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;’s certificate dumping functions require selecting a certificate by its nickname.  What’s a nickname?  In practice, for the CKBI module it seems to be the CommonName of the certificate.  The nickname is passed to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; via a command line flag.  What could possibly go wrong here?  Certificate nicknames can be arbitrary text, including Unicode.  What happens when you pass Unicode as a command line argument in Windows?  Nothing good happens, that’s for sure.  In my testing, Windows will corrupt all of the non-ASCII characters, which results in &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; receiving a corrupted nickname to look up (and it correctly replies that no such nickname exists in the database).  The fix here is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;’s “batch command” feature.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; allows you to put a sequence of commands into a &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file, and you can pass that &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file’s path to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; with a command line flag; &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; will then run all of those commands.  Since the &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file isn’t parsed by Windows’s broken command line text decoder, Unicode inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;.txt&lt;/code&gt; file passes through unharmed.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Now, I haven’t actually &lt;em&gt;fixed&lt;/em&gt; these bugs yet.  But, progress is progress.  Hopefully fixes will be coming very soon.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 20 May 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html</guid>
         
         <category>News</category>
         
