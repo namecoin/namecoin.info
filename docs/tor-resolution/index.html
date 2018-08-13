@@ -281,7 +281,9 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="running-it">Running it</h2>
 
-<p>Make sure that the name lookup client, ncdns, and Tor are running.  Then, run <code class="highlighter-rouge">python poc.py</code> in the TorNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.</p>
+<p>Make sure that the name lookup client, ncdns, and Tor are running.  Then, run <code class="highlighter-rouge">python poc.py</code> in the TorNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.  Here’s a screenshot of <a href="http://federalistpapers.bit.onion/">the Tor example rendezvous points page</a>:</p>
+
+<p><img src="/images/screenshots/tor/tor-browser-onion-2018-08-01.png" alt="Screenshot." /></p>
 
 <p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion</code> names are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
 

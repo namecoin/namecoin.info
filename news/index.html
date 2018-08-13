@@ -235,6 +235,37 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">cross_sign_name_constraint_tool Drops Support for Go v1.9.x; Users Who Self-Built It With Go v1.9.x Should Update Immediately</h1>
+    <p class="post-meta">Aug 13, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p><code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (or its underlying library) is used by other Namecoin projects, such as <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (which integrates <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> easy to use on Windows).  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to fail with an error like this:</p>
+
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&lt;nil&gt; tag:&lt;nil&gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
+</code></pre>
+      </div>
+    </div>
+
+    <p>The error only occurs with a small subset of CA certificates; the specific CA that triggered this error for me was <code class="highlighter-rouge">Verisign Class 3 Public Primary Certification Authority - G3</code> (which is trusted by Fedora).</p>
+
+    <p>This bug doesn’t affect users of our official binaries, because the official binaries weren’t built with an affected Go version.  My WIP ncdns PR for automatically integrating <code class="highlighter-rouge">tlsrestrict_nss_tool</code> would have made such an error very obvious: it causes ncdns to stop resolving <code class="highlighter-rouge">.bit</code> domains when such an error is observed, so there’s no risk to users from name constraints being incompletely applied.  However, users who built their own <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> or <code class="highlighter-rouge">tlsrestrict_nss_tool</code> using Go 1.9.x, and who failed to notice a prominent error message when running it, would potentially be left incompletely protected from the threats that <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> is designed to protect against.</p>
+
+    <p>If you’re running a self-built <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> or <code class="highlighter-rouge">tlsrestrict_nss_tool</code> that was built with Go 1.9.x, I strongly recommend that you rebuild with Go 1.10.x and re-apply your desired name constraints.  I don’t have any reason to believe that any CA has exploited this in the wild.  (Any CA who tried to exploit it would probably have been detected by certificate transparency.)  And remember, <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> is designed to protect against attacks that users of the DNS are <em>completely</em> vulnerable to – this bug is not a downgrade from the security model of the DNS.  (Indeed, even with this bug, affected users were still protected from a random subset of their system’s trusted CA’s, so security in this aspect was still somewhat higher than that of the DNS.)</p>
+
+    <p>I’ve submitted a test case to <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, which will ensure that anyone who tries to build it with an affected Go version will receive a test failure.  ncdns will also be updated to use Go 1.10.x prior to the release that integrates <code class="highlighter-rouge">tlsrestrict_nss_tool</code>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Electrum-NMC: Name Script Deserialization</h1>
     <p class="post-meta">Aug 6, 2018 • Jeremy Rand </p>
   </header>

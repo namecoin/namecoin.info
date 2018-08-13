@@ -281,6 +281,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html">2018-08-13</a></strong> <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (or its underlying library) is used by other Namecoin projects, such as <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (which integrates <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> easy to use on Windows).  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to fail with an error like this:</p>
+
+<p><a href="/2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html">Read more…</a></p>
+
 <p><strong><a href="/2018/08/06/electrum-nmc-name-script-deserialization.html">2018-08-06</a></strong> I previously wrote about <a href="/2018/07/15/electrumx-name-scripts.html">making ElectrumX (the server) handle name scripts</a>.  Now that that’s out of the way, the next step is making Electrum-NMC (the client) handle name scripts as well.  I now have Electrum-NMC deserializing name scripts.</p>
 
 <p><a href="/2018/08/06/electrum-nmc-name-script-deserialization.html">Read more…</a></p>
@@ -314,10 +318,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2018/05/28/electrum-nmc-code-review-rebase.html">2018-05-28</a></strong> Last year, Ahmed <a href="/2017/06/17/progress-electrum-nmc.html">posted about his progress</a> porting Electrum to Namecoin.  Electrum-NMC has been on the back burner for me lately, due to the TLS and BitcoinJ efforts taking up most of my time.  However, today I found time to inspect Ahmed’s branch.</p>
 
 <p><a href="/2018/05/28/electrum-nmc-code-review-rebase.html">Read more…</a></p>
-
-<p><strong><a href="/2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html">2018-05-21</a></strong> Last episode: When we last left our hero, tlsrestrict_nss_tool <a href="/2018/05/20/testing-tlsrestrict-nss-tool-windows.html">had a few unfixed bugs</a> that made it unusable on Windows.  Everyone believed those bugs would be the final ones.  Were they?  And now, the conclusion to our 2-part special:</p>
-
-<p><a href="/2018/05/21/more-fun-tlsrestrict-nss-tool-windows.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
