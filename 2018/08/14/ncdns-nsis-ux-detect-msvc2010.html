@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Testing tlsrestrict_nss_tool on Windows</title>
+    <title>ncdns NSIS Installer UX: Detection of Visual C++ 2010 Redistributable Package</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2018/05/20/testing-tlsrestrict-nss-tool-windows.html">
+    <link rel="canonical" href="https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,78 +232,87 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Testing tlsrestrict_nss_tool on Windows</h1>
-<p class="post-meta">May 20, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns NSIS Installer UX: Detection of Visual C++ 2010 Redistributable Package</h1>
+<p class="post-meta">Aug 14, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Now that we got <a href="/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">NSS <code class="highlighter-rouge">certutil</code> reproducibly cross-compiled for Windows</a>, initial testing has begun on <code class="highlighter-rouge">tlsrestrict_nss_tool</code> for Windows.</p>
+<p>If you’ve used ConsensusJ-Namecoin (our lightweight SPV name lookup client), you’ve probably noticed that we instruct users (on the Download page) to install the Microsoft Visual C++ 2010 Redistributable Package.  Failing to do this will result in the LevelDB library failing to load, which ends up causing some incredibly misleading error messages, after which <code class="highlighter-rouge">namecoinj-daemon</code> will terminate.  Unfortunately, in the Real World™, users don’t reliably follow instructions.  (Confession: I’ve failed to follow this instruction when setting up test VM’s before, and took quite a while to figure out what was broken.)</p>
 
-<p>Besides the obvious and rather boring fail that <code class="highlighter-rouge">tlsrestrict_nss_tool</code> was trying to execute <code class="highlighter-rouge">cp</code>, which of course isn’t going to work on Windows (that particular code segment is a relic from quick prototyping that wasn’t ever intended to stay in the codebase), two more interesting issues were identified:</p>
+<p>But how to improve the UX here?  Distributing the relevant package is legally questionable, so we can’t do that.  However, an alternative is to make the ncdns NSIS installer (which handles user-friendly installation on Windows) detect whether the package is already installed, and display a more user-friendly error during installation so that users know what’s wrong and how to fix it.</p>
 
-<ol>
-  <li>rbm builds <code class="highlighter-rouge">certutil</code> with the Visual C++ 2010 runtime, so running <code class="highlighter-rouge">certutil</code> without that runtime installed produces an obvious error.  However, in order to properly detect the built-in certificates (“CKBI”) that Firefox ships with, <code class="highlighter-rouge">tlsrestrict_nss_tool</code> makes <code class="highlighter-rouge">certutil</code> load the CKBI module that Firefox distributes (<em>not</em> the CKBI module that <code class="highlighter-rouge">certutil</code> was built with).  This means that, when <code class="highlighter-rouge">certutil</code> is asked to load Firefox’s CKBI module, the Visual C++ runtime used by Firefox’s CKBI module also needs to be present.  Which happens to be Visual C++ 2015.  Without that, <code class="highlighter-rouge">certutil</code> looks like it’s working – but the moment the Firefox CKBI module is loaded into <code class="highlighter-rouge">certutil</code>, <code class="highlighter-rouge">certutil</code> exits with a missing DLL error.  However, the situation is worsened by the fact that, as far as I can tell, a missing DLL error in Windows doesn’t impact the exit code.  So <code class="highlighter-rouge">tlsrestrict_nss_tool</code> doesn’t actually know thet <code class="highlighter-rouge">certutil</code> encountered an error; it just thinks it succeeded, and happened to produce no output.  What happens if <code class="highlighter-rouge">certutil</code> produces no output when dumping the CKBI list?  Well, <code class="highlighter-rouge">tlsrestrict_nss_tool</code> just figures that you’re using a Firefox build <em>that doesn’t have any default trusted CA’s!</em>  This is bad enough when you first run <code class="highlighter-rouge">tlsrestrict_nss_tool</code>, since it will basically be a no-op.  But even worse, if you <em>did</em> have the Visual C++ dependency from Firefox, but then Firefox upgraded it, then the next time you try to run <code class="highlighter-rouge">tlsrestrict_nss_tool</code>, all of the name constraints that were previously added will get <em>deleted</em>, because <code class="highlighter-rouge">tlsrestrict_nss_tool</code> figures that those CA’s have vanished.  How sad.  The fix here is probably to make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> explicitly error if the CKBI module appears to have 0 certificates in it.  Such a scenario pretty much always indicates that <em>something</em> has gone horribly wrong involving the CKBI module, and it’s generally best to treat it as an error.</li>
-  <li><code class="highlighter-rouge">certutil</code>’s certificate dumping functions require selecting a certificate by its nickname.  What’s a nickname?  In practice, for the CKBI module it seems to be the CommonName of the certificate.  The nickname is passed to <code class="highlighter-rouge">certutil</code> via a command line flag.  What could possibly go wrong here?  Certificate nicknames can be arbitrary text, including Unicode.  What happens when you pass Unicode as a command line argument in Windows?  Nothing good happens, that’s for sure.  In my testing, Windows will corrupt all of the non-ASCII characters, which results in <code class="highlighter-rouge">certutil</code> receiving a corrupted nickname to look up (and it correctly replies that no such nickname exists in the database).  The fix here is to use <code class="highlighter-rouge">certutil</code>’s “batch command” feature.  <code class="highlighter-rouge">certutil</code> allows you to put a sequence of commands into a <code class="highlighter-rouge">.txt</code> file, and you can pass that <code class="highlighter-rouge">.txt</code> file’s path to <code class="highlighter-rouge">certutil</code> with a command line flag; <code class="highlighter-rouge">certutil</code> will then run all of those commands.  Since the <code class="highlighter-rouge">.txt</code> file isn’t parsed by Windows’s broken command line text decoder, Unicode inside the <code class="highlighter-rouge">.txt</code> file passes through unharmed.</li>
-</ol>
+<p>We already handle this concept to some extent.  For example, here’s what the NSIS installer displays when Java isn’t already installed:</p>
 
-<p>Now, I haven’t actually <em>fixed</em> these bugs yet.  But, progress is progress.  Hopefully fixes will be coming very soon.</p>
+<p><img src="/images/screenshots/ncdns-nsis/spv-missing-java-2018-08-10.png" alt="&quot;Cannot use BitcoinJ SPV client (Java must be installed)&quot;" /></p>
+
+<p>Compare this to the typical display when Java <em>is</em> installed:</p>
+
+<p><img src="/images/screenshots/ncdns-nsis/select-spv-dnssec-trigger-2018-07-31.png" alt="&quot;Install and use the BitcoinJ SPV client (lighter, less secure)&quot;" /></p>
+
+<p>So, over the last day or so, I hacked on the ncdns NSIS script to make it detect the Microsoft Visual C++ 2010 Redistributable Package (like we already do for Java), and refuse to install ConsensusJ-Namecoin if it’s not found:</p>
+
+<p><img src="/images/screenshots/ncdns-nsis/spv-missing-vc2010-2018-08-10.png" alt="&quot;Cannot use BitcoinJ SPV client (Microsoft Visual C++ Redistributable Package must be installed)&quot;" /></p>
+
+<p>This was an excellent excuse for me to get some more experience with NSIS.  Hopefully it saves some users from head-banging confusion.</p>
+
+<p>(It should be noted, of course, that the “right way” to solve this is to actually make ConsensusJ-Namecoin not require any non-free Microsoft dependencies.  This is something we’ll probably look into as we move towards reproducible builds.  That said, Windows users are already trusting non-free Microsoft code, so this isn’t as big a deal as one might think.)</p>
 
 <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -619,7 +628,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-20-testing-tlsrestrict-nss-tool-windows.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-08-14-ncdns-nsis-ux-detect-msvc2010.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
