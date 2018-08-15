@@ -6,9 +6,42 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 13 Aug 2018 16:16:32 +0000</pubDate>
-    <lastBuildDate>Mon, 13 Aug 2018 16:16:32 +0000</lastBuildDate>
+    <pubDate>Wed, 15 Aug 2018 03:08:18 +0000</pubDate>
+    <lastBuildDate>Wed, 15 Aug 2018 03:08:18 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>ncdns NSIS Installer UX: Detection of Visual C++ 2010 Redistributable Package</title>
+        <description>&lt;p&gt;If you’ve used ConsensusJ-Namecoin (our lightweight SPV name lookup client), you’ve probably noticed that we instruct users (on the Download page) to install the Microsoft Visual C++ 2010 Redistributable Package.  Failing to do this will result in the LevelDB library failing to load, which ends up causing some incredibly misleading error messages, after which &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoinj-daemon&lt;/code&gt; will terminate.  Unfortunately, in the Real World™, users don’t reliably follow instructions.  (Confession: I’ve failed to follow this instruction when setting up test VM’s before, and took quite a while to figure out what was broken.)&lt;/p&gt;
+
+&lt;p&gt;But how to improve the UX here?  Distributing the relevant package is legally questionable, so we can’t do that.  However, an alternative is to make the ncdns NSIS installer (which handles user-friendly installation on Windows) detect whether the package is already installed, and display a more user-friendly error during installation so that users know what’s wrong and how to fix it.&lt;/p&gt;
+
+&lt;p&gt;We already handle this concept to some extent.  For example, here’s what the NSIS installer displays when Java isn’t already installed:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/spv-missing-java-2018-08-10.png&quot; alt=&quot;&amp;quot;Cannot use BitcoinJ SPV client (Java must be installed)&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Compare this to the typical display when Java &lt;em&gt;is&lt;/em&gt; installed:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/select-spv-dnssec-trigger-2018-07-31.png&quot; alt=&quot;&amp;quot;Install and use the BitcoinJ SPV client (lighter, less secure)&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So, over the last day or so, I hacked on the ncdns NSIS script to make it detect the Microsoft Visual C++ 2010 Redistributable Package (like we already do for Java), and refuse to install ConsensusJ-Namecoin if it’s not found:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/spv-missing-vc2010-2018-08-10.png&quot; alt=&quot;&amp;quot;Cannot use BitcoinJ SPV client (Microsoft Visual C++ Redistributable Package must be installed)&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This was an excellent excuse for me to get some more experience with NSIS.  Hopefully it saves some users from head-banging confusion.&lt;/p&gt;
+
+&lt;p&gt;(It should be noted, of course, that the “right way” to solve this is to actually make ConsensusJ-Namecoin not require any non-free Microsoft dependencies.  This is something we’ll probably look into as we move towards reproducible builds.  That said, Windows users are already trusting non-free Microsoft code, so this isn’t as big a deal as one might think.)&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>cross_sign_name_constraint_tool Drops Support for Go v1.9.x; Users Who Self-Built It With Go v1.9.x Should Update Immediately</title>
@@ -301,45 +334,6 @@
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: Code Review and Rebase</title>
-        <description>&lt;p&gt;Last year, Ahmed &lt;a href=&quot;/2017/06/17/progress-electrum-nmc.html&quot;&gt;posted about his progress&lt;/a&gt; porting Electrum to Namecoin.  Electrum-NMC has been on the back burner for me lately, due to the TLS and BitcoinJ efforts taking up most of my time.  However, today I found time to inspect Ahmed’s branch.&lt;/p&gt;
-
-&lt;p&gt;Three main things were on my agenda:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Code review of the existing changes.  Generally I don’t like to move code to the GitHub Namecoin organization unless I’ve actually reviewed it for sanity.  I made a few tweaks and bugfixes to Ahmed’s code, but for the most part the code review went smoothly.&lt;/li&gt;
-  &lt;li&gt;Rebase against current master branch of Electrum.  This actually went surprisingly well, given that Ahmed’s branch is about 11 months old.  The vast majority of the merge conflicts were due to the &lt;code class=&quot;highlighter-rouge&quot;&gt;electrum&lt;/code&gt; package being renamed to &lt;code class=&quot;highlighter-rouge&quot;&gt;electrum-nmc&lt;/code&gt;, which causes unfortunate merge conflicts every time upstream messes with the &lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt; statements at the top of a Python file.  Unfortunately I don’t know of any way around this, and a cursory check of altcoin Electrum ports shows that they do the same thing, so I guess we’re going to live with it.  The good news is that those types of merge conflicts are very easy to manually resolve.&lt;/li&gt;
-  &lt;li&gt;Additional rebranding beyond what Ahmed’s branch does.  In particular, I swapped out the ElectrumX Bitcoin server addresses and replaced them with ElectrumX Namecoin server addresses.  (Right now there’s only 1 public ElectrumX Namecoin server.  We need more of them — if you’d like to help us, please consider starting up an ElectrumX Namecoin server and sending a PR to ElectrumX that adds your server to the public list.)  I also swapped out the Bitcoin block explorers and replaced them with Namecoin explorers.  (I also gave the Namecoin explorers names that include scary warnings for the subset of explorers that are wiretapped by CloudFlare, discriminate against Tor users, don’t support names, or are non-libre.)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The resulting code &lt;a href=&quot;https://github.com/namecoin/electrum-nmc&quot;&gt;is now on GitHub&lt;/a&gt;.  I’ve successfully sent some coins from Namecoin Core to Electrum-NMC and back without any difficulty.&lt;/p&gt;
-
-&lt;p&gt;Regarding next steps, I’ll defer to Ahmed’s post:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;On the roadmap now are:&lt;/p&gt;
-
-  &lt;ul&gt;
-    &lt;li&gt;Extend electrumX NMC Support to allow for full veritification of AuxPow&lt;/li&gt;
-    &lt;li&gt;Modify new electrum client to verify the new AuxPow&lt;/li&gt;
-    &lt;li&gt;Add Name handling support to electrum&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Hopefully these won’t be incredibly difficult.  I might post binaries of the current codebase before I try to tackle these (but note that I’m not familiar with the Electrum packaging scripts yet, so there’s a good chance that I’ll break something and/or find something that I broke earlier).&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 28 May 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/05/28/electrum-nmc-code-review-rebase.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/05/28/electrum-nmc-code-review-rebase.html</guid>
-        
-        <category>News</category>
         
         
       </item>
