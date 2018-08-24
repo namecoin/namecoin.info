@@ -235,6 +235,75 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">ncdns v0.0.8 Released</h1>
+    <p class="post-meta">Aug 21, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.0.8.  <em>But the previous release was v0.0.6, what happened to v0.0.7</em>, you ask?  Well, since we’re a human rights project, we didn’t want to stain our release with a reference to the criminal organization that overthrew the democratically elected Iranian government, so v0.0.7 got skipped.  [1]  List of changes in v0.0.8:</p>
+
+    <ul>
+  <li>TLS interoperability:
+    <ul>
+      <li>Firefox TLS certificate positive overrides via <code class="highlighter-rouge">cert_override.txt</code> are now built into ncdns; manually running <code class="highlighter-rouge">ncdumpzone</code> is no longer needed.  Some config file settings must be set manually for this to work.</li>
+    </ul>
+  </li>
+  <li>DNS interoperability:
+    <ul>
+      <li>Fix support for DNAME records (AKA the Namecoin <code class="highlighter-rouge">translate</code> field) in madns / ncdns.</li>
+    </ul>
+  </li>
+  <li>Tor interoperability:
+    <ul>
+      <li>Fix support for DNAME records (AKA the Namecoin <code class="highlighter-rouge">translate</code> field) in <code class="highlighter-rouge">dns-prop279</code>.</li>
+    </ul>
+  </li>
+  <li>Tools:
+    <ul>
+      <li><code class="highlighter-rouge">generate_nmc_cert</code>: Rebase against Go v1.8.3 standard library.</li>
+      <li><code class="highlighter-rouge">generate_nmc_cert</code>: Use P256 curve by default.</li>
+      <li><code class="highlighter-rouge">ncdumpzone</code>: Use <code class="highlighter-rouge">easyconfig</code> instead of <code class="highlighter-rouge">kingpin</code>; this allows config files to be used with <code class="highlighter-rouge">ncdumpzone</code>.</li>
+    </ul>
+  </li>
+  <li>Windows:
+    <ul>
+      <li>Upgrade dnssec-keygen to v9.13.2.</li>
+      <li>Upgrade DNSSEC-Trigger to v0.17.</li>
+      <li>Fix default <code class="highlighter-rouge">$APPDATA</code> path for Namecoin Core.  This should fix a bug where Namecoin Core would crash with a permission error on 2nd run if Namecoin Core was installed for the first time via ncdns.</li>
+      <li>Disable cookie authentication when ConsensusJ-Namecoin is selected.  This should fix a bug where ncdns couldn’t connect to ConsensusJ-Namecoin.</li>
+      <li>Detect if Visual C++ 2010 Redistributable Package is missing.  This should fix a bug where ConsensusJ-Namecoin would crash on startup.</li>
+    </ul>
+  </li>
+  <li>NetBSD:
+    <ul>
+      <li>NetBSD/ARM binaries are now available again.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Upgrade Go to v1.10.3.</li>
+    </ul>
+  </li>
+  <li>Miscellaneous:
+    <ul>
+      <li>Many code quality improvements.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+    <p>[1] Actually, I screwed up the release scripts and didn’t notice until after v0.0.7 was already tagged, so v0.0.7 was unreleaseable.  But I like the above reason better.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">ncdns NSIS Installer UX: Detection of Visual C++ 2010 Redistributable Package</h1>
     <p class="post-meta">Aug 14, 2018 • Jeremy Rand </p>
   </header>
