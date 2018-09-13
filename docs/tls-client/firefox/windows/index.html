@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>How to get namecoins</title>
+    <title>TLS for Firefox on Windows</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//get-started/get-namecoins/">
+    <link rel="canonical" href="https://namecoin.org//docs/tls-client/firefox/windows/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -227,34 +227,33 @@ Decentralized<br /><strong>secure</strong> names.
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">How to get namecoins</h1>
+    <h1 class="post-title">TLS for Firefox on Windows</h1>
   </header>
 
   <article class="post-content">
     
-<p>Namecoins are a token-like currency used to register and update Namecoin names.  If you want to register a Namecoin name, you’ll need to obtain some namecoins.</p>
+<h2 id="tls-positive-overrides">TLS Positive Overrides</h2>
 
-<h2 id="prerequisites">Prerequisites</h2>
+<p>Firefox for Windows can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
 
-<p>To get namecoins, you first need a Namecoin wallet such as Namecoin Core.  See the <a href="/download/">Downloads</a> page.</p>
+<ol>
+  <li>Find your Firefox profile folder; it will usually be a subfolder of <code class="highlighter-rouge">%APPDATA%/Mozilla/Firefox/Profiles</code>.  For example, <code class="highlighter-rouge">%APPDATA%/Mozilla/Firefox/Profiles/r3a8ono6.default</code>.  Note that you must use forward slashes, not backslashes.</li>
+  <li>Make sure that your Firefox profile folder is readable and writeable by the user who is running ncdns.  If you installed ncdns via the installer, ncdns is run by the user <code class="highlighter-rouge">NT SERVICE\ncdns</code>.</li>
+  <li>
+    <p>Add the following to <code class="highlighter-rouge">ncdns.conf</code>, substituting your Firefox profile folder for <code class="highlighter-rouge">$PROFILEDIR</code>:</p>
 
-<h2 id="exchanges">Exchanges</h2>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[tlsoverridefirefox]
+sync=true
+profiledir="$PROFILEDIR"
+</code></pre></div>    </div>
+  </li>
+  <li>Restart ncdns.</li>
+</ol>
 
-<p>The easiest way to get namecoins is to purchase them on an exchange.  See the <a href="/exchanges/">list of exchanges</a>.</p>
+<p>TLS positive overrides will only be synchronized to Firefox while Firefox is not running; this means that, every so often, you should close Firefox for a few minutes and then re-open it.</p>
 
-<p>You can check current <a href="https://www.cryptocoincharts.info/coins/show/nmc">Namecoin prices at CryptoCoinCharts</a>, current <a href="https://markets.bisq.network/?market=nmc_btc">Namecoin prices at Bisq</a>, and <a href="https://bitcoinwisdom.com/markets/btce/nmcusd">Namecoin historical price charts at BitcoinWisdom</a>.</p>
+<p>You can now visit in Firefox a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="highlighter-rouge">.bit</code> domain</a>.  The website should load in Firefox without errors.</p>
 
-<h2 id="mining">Mining</h2>
-
-<p>If you don’t wish to purchase namecoins on an exchange, you can also mine them.</p>
-
-<p>Namecoins can be mined in the same way as bitcoins. However, it is recommended to do merged mining, i.e. namecoins are mined as a free by-product of Bitcoin mining.</p>
-
-<p>Only a few mining pools offer merged-mining, see <a href="https://en.bitcoin.it/wiki/Comparison_of_mining_pools">Comparison of Mining Pools</a> and check the “Merged Mining” column. Ask your favorite <a href="https://blockchain.info/pools">Bitcoin pool</a> to offer merged mining of Namecoin in case they don’t.</p>
-
-<p>You can also run your own mining pool. <a href="https://bitcointalk.org/index.php?topic=61731.0">Eloipool</a> and <a href="https://github.com/p2pool/p2pool">P2Pool</a> software has support for <a href="https://en.bitcoin.it/wiki/Merged_mining_specification">merged mining</a>.</p>
-
-<p>If you don’t have specialized hardware (ASICs) for Bitcoin mining, consider <a href="https://bitcointalk.org/index.php?board=160.0">mining a CPU-friendly or GPU-friendly coin</a> and then exchanging it for NMC (or for BTC and then NMC).</p>
 
   </article>
 
@@ -275,7 +274,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/get-started/get-namecoins/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/firefox/windows/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
