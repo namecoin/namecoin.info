@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>How to get namecoins</title>
+    <title>DNSSEC delegation (for name owners)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//get-started/get-namecoins/">
+    <link rel="canonical" href="https://namecoin.org//docs/name-owners/dnssec/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -227,34 +227,55 @@ Decentralized<br /><strong>secure</strong> names.
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">How to get namecoins</h1>
+    <h1 class="post-title">DNSSEC delegation (for name owners)</h1>
   </header>
 
   <article class="post-content">
     
-<p>Namecoins are a token-like currency used to register and update Namecoin names.  If you want to register a Namecoin name, you’ll need to obtain some namecoins.</p>
+<p><code class="highlighter-rouge">.bit</code> domains can delegate to DNSSEC via the <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code> JSON fields (which correspond to the <code class="highlighter-rouge">NS</code> and <code class="highlighter-rouge">DS</code> DNS record types).</p>
 
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="downsides-of-using-ns-and-ds">Downsides of using <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code></h2>
 
-<p>To get namecoins, you first need a Namecoin wallet such as Namecoin Core.  See the <a href="/download/">Downloads</a> page.</p>
+<ul>
+  <li>Lookups will be slightly slower, since the latency of contacting the authoritative nameserver is added, whereas if the full zone is in the blockchain you’ll only need to look things up from localhost.</li>
+  <li>Currently incompatible with Tor (unless you run a recursive resolver inside a Whonix VM, which is a bad idea since you’ll deanonymize yourself via stream isolation leaks). This might be fixable by implementing stream isolation support in a DNS recursive resolver (e.g. a Go-based recursive resolver), but it’s probably not going to happen anytime soon (unless someone decides they want to sponsor that development work).</li>
+  <li>Currently incompatible with ncdns’s <code class="highlighter-rouge">certinject</code> feature, which means that TLS will only work if your applications natively support DANE (with ncdns’s DNSSEC trust anchor).  This is probably fixable in the future.</li>
+  <li>If all of the authoritative nameservers that you specify are DoSed, or decide they want to censor your domain, your domain will be inaccessible until one of the nameservers restores service. You can use multiple authoritative nameservers to attempt to mitigate this, but it’s not going to be as good as keeping your zone in the blockchain.  (You <em>could</em> mitigate this by switching away from <code class="highlighter-rouge">ns</code>/<code class="highlighter-rouge">ds</code> in favor of storing your zone on the blockchain in the event that you actually encounter such DoS/censorship.  This allows you to benefit from DNSSEC’s improved scalability as long as you’re not being DoSed/censored, but it will mean a brief service interruption between the beginning of a DoS/censorship attack and when you notice and submit a <code class="highlighter-rouge">name_update</code> transaction.)</li>
+  <li>You’re more vulnerable to replay attacks, because DNSSEC signatures expire much more slowly than the DMMS signatures in the blockchain. If you urgently need to revoke your DNSSEC signatures without waiting for them to expire, you can replace your <code class="highlighter-rouge">ds</code> field in the blockchain, which isn’t really any worse than replacing a <code class="highlighter-rouge">tls</code> field in the blockchain (both will take effect equally fast).</li>
+  <li>Most DNSSEC software accepts weak signatures, e.g. RSA-1024 and SHA-1.</li>
+  <li>Authoritative nameserver hosting services might cost money (but note that you’ll save money on NMC fees, see below).</li>
+  <li>Authoritative nameserver hosting services might not respect your anonymity when you sign up for service (but note that right now Namecoin doesn’t yet respect your anonymity either).</li>
+  <li>Signatures are less flexible.  It might be possible to do multisig via threshold signatures (we’re not sure how feasible this is), but you definitely won’t have the expressiveness of Bitcoin Script.</li>
+</ul>
 
-<h2 id="exchanges">Exchanges</h2>
+<h2 id="benefits-of-using-ns-and-ds">Benefits of using <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code></h2>
 
-<p>The easiest way to get namecoins is to purchase them on an exchange.  See the <a href="/exchanges/">list of exchanges</a>.</p>
+<ul>
+  <li>Your name’s value will probably be smaller, which saves you fees and decreases blockchain bloat.</li>
+  <li>Your name’s value can probably be updated less often, which saves you fees and decreases blockchain bloat.</li>
+  <li>You can more effectively hide the contents of your zone, since someone who wants to map out your zone will need to brute-force your authoritative nameserver instead of just reading your Namecoin value.</li>
+  <li>You can use contextual rules for returning records to users, e.g. you can use geolocation of the source IP in order to point your users to an IP that minimizes latency. (Technically this could be added to the Namecoin JSON data format, but this is probably not going to happen anytime soon.)</li>
+</ul>
 
-<p>You can check current <a href="https://www.cryptocoincharts.info/coins/show/nmc">Namecoin prices at CryptoCoinCharts</a>, current <a href="https://markets.bisq.network/?market=nmc_btc">Namecoin prices at Bisq</a>, and <a href="https://bitcoinwisdom.com/markets/btce/nmcusd">Namecoin historical price charts at BitcoinWisdom</a>.</p>
+<h2 id="aspects-in-which-both-approaches-work-equally-well">Aspects in which both approaches work equally well</h2>
 
-<h2 id="mining">Mining</h2>
+<ul>
+  <li>No one can forge records unless they have your private key.</li>
+  <li>No one can forge nonexistence of your domain unless they have your private key.</li>
+  <li>No one can steal your domain unless they have your private key.</li>
+</ul>
 
-<p>If you don’t wish to purchase namecoins on an exchange, you can also mine them.</p>
+<h2 id="using-ns-without-ds">Using <code class="highlighter-rouge">ns</code> <em>without</em> <code class="highlighter-rouge">ds</code></h2>
 
-<p>Namecoins can be mined in the same way as bitcoins. However, it is recommended to do merged mining, i.e. namecoins are mined as a free by-product of Bitcoin mining.</p>
+<p>Using <code class="highlighter-rouge">ns</code> <em>without</em> <code class="highlighter-rouge">ds</code> is probably a bad idea, <em>unless</em> your zone is deliberately set up in a way that distrusts the nameserver.  For example, you could store a <code class="highlighter-rouge">tls</code> record in Namecoin, and use a nameserver exclusively for a dynamic IP address, in which case there’s not much need for DNSSEC since IP addresses aren’t a cryptographic identifier anyway.</p>
 
-<p>Only a few mining pools offer merged-mining, see <a href="https://en.bitcoin.it/wiki/Comparison_of_mining_pools">Comparison of Mining Pools</a> and check the “Merged Mining” column. Ask your favorite <a href="https://blockchain.info/pools">Bitcoin pool</a> to offer merged mining of Namecoin in case they don’t.</p>
+<h2 id="private-keys">Private Keys</h2>
 
-<p>You can also run your own mining pool. <a href="https://bitcointalk.org/index.php?topic=61731.0">Eloipool</a> and <a href="https://github.com/p2pool/p2pool">P2Pool</a> software has support for <a href="https://en.bitcoin.it/wiki/Merged_mining_specification">merged mining</a>.</p>
+<p>If you use a <code class="highlighter-rouge">ds</code> record for which someone else (e.g. your DNS hosting provider) has the private key, that party can forge both records and nonexistence for your zone.  You can avoid this circumstance by using a DNS hosting service that allows you to keep your DNSSEC private keys under your sole control; the key thing to look for is “secondary DNS with hidden master”.</p>
 
-<p>If you don’t have specialized hardware (ASICs) for Bitcoin mining, consider <a href="https://bitcointalk.org/index.php?board=160.0">mining a CPU-friendly or GPU-friendly coin</a> and then exchanging it for NMC (or for BTC and then NMC).</p>
+<h2 id="dns-delegation-is-required-in-some-cases-for-namecoins-scalability">DNS delegation is required (in some cases) for Namecoin’s scalability</h2>
+
+<p>Generally speaking, if Namecoin achieved usage levels anywhere near what the DNS has, Namecoin would collapse if all the zones were stored in the blockchain. That doesn’t imply that <em>all</em> Namecoin domains need to only have <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code> fields set – the choice of what’s right for you is likely to depend on your security needs, how large your zone is, and how often you update it. (An extreme example is a CDN that has an incredibly complex configuration that changes every few seconds.)</p>
 
   </article>
 
@@ -275,7 +296,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/get-started/get-namecoins/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/dnssec/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
