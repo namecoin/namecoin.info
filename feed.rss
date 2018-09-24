@@ -6,9 +6,55 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 22 Sep 2018 09:31:28 +0000</pubDate>
-    <lastBuildDate>Sat, 22 Sep 2018 09:31:28 +0000</lastBuildDate>
+    <pubDate>Mon, 24 Sep 2018 00:53:08 +0000</pubDate>
+    <lastBuildDate>Mon, 24 Sep 2018 00:53:08 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>How Centralized Inproxies Make Everyone Less Safe (A Case Study)</title>
+        <description>&lt;p&gt;Readers who have followed Namecoin for a while know that I’ve been sharply critical of centralized inproxies since I joined Namecoin development in 2013.  For readers who are unfamiliar with the concept, a centralized inproxy is a piece of infrastructure (run by a trusted third party) that allows users who aren’t part of a P2P network to access resources that are hosted inside that P2P network.  You can think of it as analogous to a web wallet in the Bitcoin world, except that whereas web wallets are for people who &lt;em&gt;own&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites, centralized inproxies are for people who &lt;em&gt;view&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; websites.  Centralized inproxies introduce security problems that are likely to be obvious to anyone familiar with the history of Bitcoin web wallets (I’m among the people who were around when &lt;em&gt;MyBitcoin&lt;/em&gt; existed but refused to use it; we were proven right when &lt;em&gt;MyBitcoin&lt;/em&gt; exit-scammed).&lt;/p&gt;
+
+&lt;p&gt;However, for reasons that elude me, the concept of centralized inproxies seems to have an irritatingly persistent set of proponents.  It’s rare that a month goes by without having some rando on the Internet ask us to endorse, collaborate with, or develop a centralized inproxy (it’s only the 18th of this month as I write the first draft of this article, and it’s already happened twice this month).  I’ve personally been accused of trying to kill Namecoin via stagnation because I don’t support centralized inproxies.  The degree to which the advocacy for centralized inproxies is actually organic is dubious at best (there is evidence that at least one particularly loud and aggressive proponent of the concept has been motivated by undisclosed financial incentives).  However, regardless of how inorganic it may be, we encounter the request often enough that we actually added an entry to our FAQ about why we don’t support centralized inproxies.  In this post, I’d like to draw attention to the “Security concerns” section of that FAQ entry, specifically the 3rd bullet point:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;ul&gt;
+    &lt;li&gt;ISP’s would be in a position to censor names without easy detection.&lt;/li&gt;
+    &lt;li&gt;ISP’s would be in a position to serve fraudulent PKI data (e.g. TLSA records), which would enable ISP’s to easily wiretap users and infect users with malware.&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Either of the above security concerns would even endanger users who are running Namecoin locally, because it would make it much more difficult to detect misconfigured systems that are accidentally leaking Namecoin queries to the ISP.&lt;/strong&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The 3rd bullet point is intended as a debunking of the disturbingly common claim that “The security drawbacks only affect users who have opted into the centralized inproxy, and we would encourage users who care about security to install Namecoin locally.”  Even though I’ve been citing this concern for years, I had mostly been citing it in the sense of “This is going to burn someone eventually if centralized inproxies become widespread”; I hadn’t been citing it in the sense of “I personally have seen this happen in the wild.”&lt;/p&gt;
+
+&lt;p&gt;Which brings us to a case study that I accidentally initiated recently.&lt;/p&gt;
+
+&lt;p&gt;I was recently setting up a VM for Namecoin-related testing purposes.  In particular, this VM was to be used for some search-engine-related research (those of you who saw my science fair exhibit at the 2018 Decentralized Web Summit will be able to guess what I was doing).  I have a relatively standard procedure for setting up Namecoin VM’s, but admittedly I don’t do it very often.  I was particularly rusty in this case because I usually set up a Namecoin VM in Qubes/Xen, while this time I was using Debian/KVM (this is because my search engine needed a lot of RAM, meaning it was running on my Talos, and Qubes/Xen doesn’t run on the Talos yet).  Somehow, I managed to goof up the setup of the VM, and Namecoin resolution wasn’t actually running on it when I thought it was.  However, at the time I didn’t know this; it definitely looked like Namecoin was working.  I proceeded to do my search engine testing, and eventually (after about 30 minutes of clicking &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; links continuously) I noticed something odd.  I had clicked on a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; link that I recalled (from previous testing many months prior) was misconfigured by the name owner, and therefore didn’t work in standards-compliant Namecoin implementations – but the name in question &lt;em&gt;did&lt;/em&gt; work in buggy inproxies like OpenNIC.  And, lo and behold, the link loaded without any errors in my VM.  My initial impression was to figure that maybe the name owner finally got around to fixing their broken name.  But I was curious to see when the change had been made, so I checked the name in the Cyphrs block explorer to see the transaction history of the name.  Hmm, that’s odd, no such fix ever was deployed.&lt;/p&gt;
+
+&lt;p&gt;At this point, I was suspicious, so I started testing my network configuration.  And I discovered, to my surprise, that my &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; DNS traffic wasn’t being routed through ncdns and Namecoin Core – a network sysadmin upstream of my machine’s network connection had set their DNS to use OpenNIC’s resolver, and my &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; DNS traffic was being resolved by OpenNIC.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at some mitigating factors that helped me notice as quickly as I did:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I was visiting a wide variety of &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; sites from that VM; most users won’t be visiting many &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; sites.&lt;/li&gt;
+  &lt;li&gt;I already had memorized a few &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains that had a broken configuration, and already knew that OpenNIC had incorrect handling of that broken configuration; most users have no idea how to identify a broken domain name configuration on sight (and certainly won’t have memorized a set of domains that have such configurations), and won’t have any knowledge of whatever obscure standards-compliance quirks exist in specific inproxy implementations.&lt;/li&gt;
+  &lt;li&gt;I knew how to use a block explorer as a debugging tool; most users of Namecoin don’t use block explorers, just like most users of the DNS don’t use DNS “looking glass” tools.&lt;/li&gt;
+  &lt;li&gt;I was able to walk down the hall to check with the network sysadmin, and knew exactly what question to ask him: “Is your network using OpenNIC’s DNS resolvers?”  Most users have never heard of OpenNIC, nor would they have any idea to ask such a question, nor would they necessarily be able to easily contact their network sysadmin, nor would they necessarily have a network sysadmin who would know the answer.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Despite these substantial mitigating factors, it took me at least a half hour to notice.  That’s half an hour of web traffic that was trivially vulnerable to censorship and hijacking.  Would a typical user notice this kind of misconfiguration within a month?  I’m skeptical that they would.&lt;/p&gt;
+
+&lt;p&gt;Now consider the threat models that a significant portion of the Internet’s users deal with.  For many Internet users (e.g. activists and dissidents), having the government be able to censor and hijack their traffic for a month without detection can easily lead to kidnapping, torture, and death.  There is a strong reason why the &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; suTLD designation requires that DNS infrastructure (in particular, the ICANN root servers) return &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt; for all &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; domain names, rather than permitting ICANN or DNS infrastructure operators to run inproxies for &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt;.  That reason is that it is important for users of misconfigured systems to quickly notice that something is broken, rather than to have the system silently fall back to an insecure behavior that still looks on the surface like it works.  IETF and ICANN are doing exactly the right thing by making sure that &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; stays secure so that at-risk users don’t get murdered.  The draft spec for adding &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; as a suTLD (along with I2P’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.i2p&lt;/code&gt; and GNUnet’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.gnu&lt;/code&gt;) made the same guarantees (and ICANN is currently doing the right thing for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; by not having allocated it as a DNS TLD).&lt;/p&gt;
+
+&lt;p&gt;For me, the experience of accidentally using a centralized inproxy was primarily a waste of under an hour of my time, and a bit of embarrassment.  (Also, my network sysadmin promptly dropped OpenNIC from his configuration when I told him of the incident.)  But I hope that the community can take this as a learning opportunity, to better appreciate the inevitability of something catastrophic eventually happening if centralized inproxies are allowed to proliferate.  Let’s not be the project that ends up getting one of our users killed as collateral damage in a quest for rapidly-deployed ease-of-use.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core 0.16.3 Released</title>
@@ -292,34 +338,6 @@
         <guid isPermaLink="true">https://namecoin.org//2018/07/15/electrumx-name-scripts.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v3.2.2 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v3.2.2.  Here’s what’s new:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Trezor support.&lt;/li&gt;
-  &lt;li&gt;Support AuxPoW and timewarp hardforks.  (AuxPoW is still experimental, but it does successfully sync now.)&lt;/li&gt;
-  &lt;li&gt;Fix running the GNU/Linux release without installing first.&lt;/li&gt;
-  &lt;li&gt;Improvements from upstream Electrum.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Please note that due to a bugfix that was needed for Trezor support, any coins stored in wallets from older versions of Electrum-NMC will probably be inaccessible from this version.  We recommend that you empty your old Electrum-NMC wallets into Namecoin Core prior to installing this version, and then recreate your Electrum-NMC wallets after installing this version.&lt;/p&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 12 Jul 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>
