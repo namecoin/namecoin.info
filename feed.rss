@@ -6,9 +6,24 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 24 Sep 2018 00:53:08 +0000</pubDate>
-    <lastBuildDate>Mon, 24 Sep 2018 00:53:08 +0000</lastBuildDate>
+    <pubDate>Thu, 27 Sep 2018 05:39:30 +0000</pubDate>
+    <lastBuildDate>Thu, 27 Sep 2018 05:39:30 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>NSS certutil Windows rbm Build Scripts Submitted Upstream to The Tor Project</title>
+        <description>&lt;p&gt;Previously, I covered &lt;a href=&quot;/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html&quot;&gt;cross-compiling NSS certutil for Windows&lt;/a&gt; via Tor’s rbm build scripts.  Since I like to be a good neighbor, I’ve since reached out to the very nice people at Tor, and have submitted a patch to get this merged upstream.  I’ve already received a Concept ACK, although they cautioned me that they’re quite busy with other Tor Browser things at the moment and it may take a while for them to review my patch.  The Tor people requested that I consider adding macOS support as well; I’ve done so and that patch is also submitted to Tor for review.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/09/27/certutil-windows-rbm-submitted-tor-project.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/09/27/certutil-windows-rbm-submitted-tor-project.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>How Centralized Inproxies Make Everyone Less Safe (A Case Study)</title>
@@ -275,67 +290,6 @@
         <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ElectrumX: Name Scripts</title>
-        <description>&lt;p&gt;ElectrumX is the server component of Electrum.  Unlike the client component, which requires forking to enable altcoins, ElectrumX has altcoin support by default, including Namecoin &lt;a href=&quot;#footnote1&quot;&gt;[1]&lt;/a&gt;.  ElectrumX already supports the AuxPoW features of Namecoin (which is why &lt;a href=&quot;/2018/07/09/electrum-nmc-auxpow-verification.html&quot;&gt;only Electrum-NMC needed modifications&lt;/a&gt; for that), but name script support required some tweaks to ElectrumX.&lt;/p&gt;
-
-&lt;p&gt;The main issue here is that the Electrum protocol requires Electrum to supply scriptPubKey hashes to ElectrumX, for which ElectrumX will then reply with transaction ID’s.  This works great when the scriptPubKey can be easily determined by the client (a Bitcoin address can be deterministically converted to a scriptPubKey), but in Namecoin, a scriptPubKey for a name output contains some extra data that Electrum-NMC won’t know ahead of time.  Specifically, a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; scriptPubKey includes the &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_NAME_UPDATE&lt;/code&gt; opcode, the name identifier, the name value, an &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_2DROP&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_DROP&lt;/code&gt; opcode to empty the opcode, identifier, and value from the stack, and &lt;em&gt;then&lt;/em&gt; a standard Bitcoin scriptPubKey that corresponds to the address that owns the name.  (A &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; scriptPubKey contains even more stuff.)  An Electrum-NMC client that wants to look up transactions by address won’t know the name identifier, and an Electrum-NMC client that wants to look up transactions by name identifier won’t know the address of the owner.  As a result, we need to mess with things.&lt;/p&gt;
-
-&lt;p&gt;The approach I took was to tweak Namecoin’s altcoin definition in ElectrumX to do a few things:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;When hashing a scriptPubKey, first detect whether the scriptPubKey is a name script, and strip away the name script prefix if present.  This leaves only a standard Bitcoin-style scriptPubKey that can be looked up via the standard Electrum protocol.&lt;/li&gt;
-  &lt;li&gt;Add a secondary method of hashing a scriptPubKey, which detects &lt;code class=&quot;highlighter-rouge&quot;&gt;name_anyupdate&lt;/code&gt; scripts, and rewrites them into a standard form that’s well-suited to name lookups (more on that below).&lt;/li&gt;
-  &lt;li&gt;When indexing transactions, index the results of both the usual hashing method &lt;em&gt;and&lt;/em&gt; the secondary method, so that we can reuse ElectrumX’s transaction index for both address lookups and name identifier lookups.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;How does this standard form work?  Here are the things it changes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; scripts are converted to &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; scripts; the extra data that &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; scripts contain is stripped.&lt;/li&gt;
-  &lt;li&gt;The name value is replaced with an empty string.  (Technically this means that we use &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_0&lt;/code&gt; instead of the usual push operation.)&lt;/li&gt;
-  &lt;li&gt;The Bitcoin-style scriptPubKey after the &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_DROP&lt;/code&gt; is replaced with &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_RETURN&lt;/code&gt;.  (Technically this would be interpreted as an unspendable scriptPubKey.)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;What are the advantages of this approach?&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Name scripts can be looked up by identifier using the standard Electrum protocol commands; no changes to Electrum’s protocol are needed.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; can both be looked up by the same Electrum protocol command.&lt;/li&gt;
-  &lt;li&gt;The scripts being hashed are unambiguously name scripts, and are not going to appear by accident in other contexts.  It is, of course, certainly possible to deliberately produce a name script whose address is another name script followed by &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_RETURN&lt;/code&gt;, but Electrum’s protocol isn’t intended to prevent deliberate collisions anyway.  Any such weird transactions will be detectable when they’re downloaded by Electrum-NMC, just like other colliding scripts.  Using &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_RETURN&lt;/code&gt; as the scriptPubKey also makes it expensive for spammers to produce such collisions, because it means you need to destroy a name (thereby forfeiting your name registration fee) for each collision that you produce.&lt;/li&gt;
-  &lt;li&gt;The script hash doesn’t trivially reveal what name is being looked up; it only reveals a hash.  This improves privacy and security when the name being looked up doesn’t actually exist yet in the blockchain (e.g. if you’re checking whether a name you want to register already exists).  It should be noted, however, that constructing a rainbow table for this hash function is straightforward, so if it’s critical that the names you’re looking up not be revealed to the ElectrumX server, you’re better off doing lookups via ConsensusJ-Namecoin’s &lt;code class=&quot;highlighter-rouge&quot;&gt;leveldbtxcache&lt;/code&gt; mode instead of the Electrum protocol.  On the other hand, ElectrumX can’t actually determine whether the names being looked up are being used for DNS resolution or for registration purposes, so this might disincentivise ElectrumX servers from trying to frontrun registrations, since there’ll be a hell of a lot of noise from DNS-resolution-sourced lookups.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Generally speaking, ElectrumX’s altcoin abstractions were very pleasant to work with (kudos to Neil Booth and the other ElectrumX contributors on this!), and making these changes wasn’t too hard.  Test results:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ElectrumX takes noticeably longer to sync from Namecoin Core with these changes, but in practical terms the difference isn’t a problem: it’s 33 minutes instead of 12 minutes on my &lt;a href=&quot;https://www.raptorcs.com/&quot;&gt;Talos II&lt;/a&gt;.  (There might be ways to optimize the speed; I haven’t tried to do any optimizations yet.)&lt;/li&gt;
-  &lt;li&gt;Looking up name transaction ID’s by address can be done via the Electrum-NMC console with no changes to Electrum-NMC.&lt;/li&gt;
-  &lt;li&gt;Looking up name transaction ID’s by name identifier can be done via the Electrum-NMC console via the (present in upstream but undocumented) &lt;code class=&quot;highlighter-rouge&quot;&gt;network.get_history_for_scripthash&lt;/code&gt; command.  However, this requires manually constructing a standard-form scriptPubKey hash from the name identifier, which isn’t exactly a fun process for those of us who don’t consider Bitcoin script as a native language.&lt;/li&gt;
-  &lt;li&gt;Looking up unconfirmed name transactions doesn’t yet work, because my patch to ElectrumX doesn’t yet cover the UTXO index, only the history index.  I haven’t tried to fix this yet, and I might not bother for a while, since unconfirmed name transactions aren’t really trustworthy unless you’re verifying signatures relative to older transactions for that name (such a technique was first proposed years ago by Ryan Castellucci, but to my knowledge no one has actually deployed it yet).&lt;/li&gt;
-  &lt;li&gt;The procedure for obtaining full transactions from transaction ID’s, and for obtaining Merkle proofs for those transactions, is considered out of scope for this work, because Electrum’s protocol already supports this, and shouldn’t need anything name-specific.  However, it might be interesting to combine those commands with the script hash lookup commands into a single wire protocol command to reduce latency (an interesting area of future work).&lt;/li&gt;
-  &lt;li&gt;The procedure for parsing name transactions (either for wallet or name lookup purposes) after ElectrumX returns them is considered out of scope for this work, because that should be done by Electrum-NMC; this work only covers changes to ElectrumX.  The needed changes to Electrum-NMC will come later.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I intend to submit these changes to upstream ElectrumX as a PR.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-
-&lt;div id=&quot;footnote1&quot;&gt;
-
-[1] I actually don't like to refer to Namecoin as an &quot;altcoin&quot;, since the term means an &quot;alternative&quot; to Bitcoin, and Namecoin doesn't aim to achieve any of the use cases that Bitcoin does.  However, on a purely technical level, the process of adding Namecoin support to ElectrumX wasn't any different from most altcoins such as Dogecoin, so the umbrella of &quot;altcoin support&quot; does include Namecoin, as much as I dislike the public-relations implications of that label.
-
-&lt;/div&gt;
-</description>
-        <pubDate>Sun, 15 Jul 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/07/15/electrumx-name-scripts.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/07/15/electrumx-name-scripts.html</guid>
         
         <category>News</category>
         
