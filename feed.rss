@@ -6,9 +6,59 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 27 Sep 2018 05:39:30 +0000</pubDate>
-    <lastBuildDate>Thu, 27 Sep 2018 05:39:30 +0000</lastBuildDate>
+    <pubDate>Thu, 04 Oct 2018 02:16:06 +0000</pubDate>
+    <lastBuildDate>Thu, 04 Oct 2018 02:16:06 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Halving Day (Block 420000)</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/block/420000&quot;&gt;Block number 420000&lt;/a&gt; (hash &lt;code class=&quot;highlighter-rouge&quot;&gt;145f72ea59018ca4117015e3c25a2ed24e22e67c948841dd46a200db11d778be&lt;/code&gt;) was mined at &lt;code class=&quot;highlighter-rouge&quot;&gt;2018-10-04 01:10:19 +0000&lt;/code&gt; by Slush Pool with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Oct 2018 02:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/04/halving-day.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/04/halving-day.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Electrum-NMC: Name Script Deserialization (Round 2: Name History Display, Name Lookups, and Manage Names Tab)</title>
+        <description>&lt;p&gt;I previously wrote about some work on &lt;a href=&quot;/2018/08/06/electrum-nmc-name-script-deserialization.html&quot;&gt;making Electrum-NMC handle name scripts&lt;/a&gt;.  In the last few days I hacked on that code some more.&lt;/p&gt;
+
+&lt;p&gt;As you may have noticed from the screenshot in the previous article, I’m initially testing this code with watching-only wallets, since there are fewer moving parts there and I don’t have to worry about constructing and signing transactions.  When looking for addresses to add to the watching-only wallet, I usually just look through the &lt;a href=&quot;https://namecoin.cyphrs.com/&quot;&gt;Cyphrs block explorer&lt;/a&gt; and take the first few name transactions that show up of each desired type.  Interestingly, I noticed that a subset of the name transactions I picked from the explorer this time weren’t visible in the Electrum-NMC GUI.  Some querying of my ElectrumX server indicated that the transactions were definitely being delivered to Electrum-NMC, and inspecting Electrum-NMC’s wallet file showed that the transactions were definitely being added to the wallet.  But for some reason, Electrum-NMC wasn’t displaying them.&lt;/p&gt;
+
+&lt;p&gt;After quite a lot of tracing through the code, I figured out that the transactions in question had name scripts that weren’t successfully being recognized as name scripts.  Some more tracing led me to figure out that the code was failing to parse any &lt;code class=&quot;highlighter-rouge&quot;&gt;name_anyupdate&lt;/code&gt; script whose value was the empty string.  Turns out that upstream Electrum has a wildcard-like script matching function that can detect arbitrary data pushes (which I was using) – but for some reason they don’t treat &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_0&lt;/code&gt; as a data push for the purpose of that wildcard matching.  Pushing the empty string to the stack is implemented by… you guessed it, &lt;code class=&quot;highlighter-rouge&quot;&gt;OP_0&lt;/code&gt;.  I filed a GitHub issue with upstream Electrum about this, and it looks like they’ve fixed it upstream (quite quickly, too).  While I was waiting for them to fix it, I did implement a (very hacky) workaround in Electrum-NMC’s name script parser, but that workaround will most likely be removed (yay!) when I next merge from upstream Electrum.  Kudos to the upstream Electrum devs on this; they’ve consistently been quite helpful (and quick) at implementing fixes that make life easier for downstream projects like Electrum-NMC.&lt;/p&gt;
+
+&lt;p&gt;I had previously implemented some special UI code for displaying that a name transaction is a transfer operation.  This is a UX improvement over Namecoin Core, which confusingly displays both incoming and outgoing name transfers identically to name updates.  I had defined a name transfer as “a name transaction for which the wallet owns a name input XOR the wallet owns a name output”.  Do you see a problem here?  Yeah, that definition matches &lt;strong&gt;all&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions where the wallet owns the output, because &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions &lt;em&gt;don’t have a name input&lt;/em&gt;.  D’oh.  Fixed that.&lt;/p&gt;
+
+&lt;p&gt;Up next was displaying the name identifiers in the UI.  Again, I’m trying to improve on Namecoin Core’s UX here.  For example, I prefer to make &lt;code class=&quot;highlighter-rouge&quot;&gt;d/wikileaks&lt;/code&gt; show up as &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.  My code also recognizes invalid &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; names, e.g. names with uppercase characters, and indicates that they’re not valid domain names.  Ditto for &lt;code class=&quot;highlighter-rouge&quot;&gt;id/&lt;/code&gt; names.  In addition, if the namespace is unknown or the identifier isn’t valid under the namespace rules, I actually check whether the identifier consists entirely of ASCII printable characters.  If it does, I print it in ASCII; if it doesn’t, I print it in hex.  Similar checks are in place for values.  The Namecoin consensus rules have always allowed binary data to exist in identifiers and values, but the UI for this functionality was pretty much always missing.  Electrum-NMC should handle this kind of thing without trouble.  One practical example of how this could be used in the future is storing values as CBOR rather than JSON.  CBOR is substantially more compact, especially when encoding binary data like TLS certificates, which means &lt;em&gt;moar scaling&lt;/em&gt; and &lt;em&gt;moar savings on transaction fees&lt;/em&gt;.  (CBOR also seems to be a common choice by the DNS community, including people at IETF and ICANN.)&lt;/p&gt;
+
+&lt;p&gt;Then, I implemented the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; console command.  For readers unfamiliar with the Namecoin Core RPC API, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; is the command that &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; resolvers like ncdns use to look up name data from Namecoin Core and ConsensusJ-Namecoin.  My &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; implementation in Electrum-NMC includes SPV verification, just like Electrum’s history tab.  Every output JSON field from Namecoin Core is present, although currently none of the optional input fields are supported.  It probably wouldn’t be very difficult to hook this into ncdns.  However, it should be noted that Electrum’s SPV verification is a weaker security model than ConsensusJ-Namecoin’s leveldbtxcache SPV security model.  In addition, there’s only one public Namecoin ElectrumX server instance, so the concept of the “chain with most work” isn’t exactly meaningful.  Even so, it’s vastly more secure than centralized inproxies like OpenNIC, and it might be useful for some people.  Hopefully more people will step up to run public Namecoin ElectrumX servers so that the SPV security model can actually work as intended.&lt;/p&gt;
+
+&lt;p&gt;Finally, I implemented a first pass at the Manage Names tab.  Display of the name identifier, value, and expiration block count are working.  This was a lot easier than implementing from scratch would be, because the Manage Names tab (referred to in the code as the UNO List widget) is actually just a subclass of the Coins tab (referred to in the code as the UTXO List widget).&lt;/p&gt;
+
+&lt;p&gt;So, with that explanation out of the way, here’s what you really came here for: &lt;em&gt;screenshots!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-09-29-Names-in-History-Tab.png&quot; alt=&quot;A screenshot of name transactions visible in the Electrum-NMC History tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-09-29-Name-in-Transaction-Details.png&quot; alt=&quot;A screenshot of name data visible in the Electrum-NMC Transaction Details tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-09-29-Name-Show-in-Console-Tab.png&quot; alt=&quot;A screenshot of a name_show command's output in the Electrum-NMC Console tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-01-Manage-Names-Tab.png&quot; alt=&quot;A screenshot of the Electrum-NMC Manage Names tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/04/electrum-nmc-name-script-deserialization-round-2.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/04/electrum-nmc-name-script-deserialization-round-2.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>NSS certutil Windows rbm Build Scripts Submitted Upstream to The Tor Project</title>
@@ -258,38 +308,6 @@
         <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: Name Script Deserialization</title>
-        <description>&lt;p&gt;I previously wrote about &lt;a href=&quot;/2018/07/15/electrumx-name-scripts.html&quot;&gt;making ElectrumX (the server) handle name scripts&lt;/a&gt;.  Now that that’s out of the way, the next step is making Electrum-NMC (the client) handle name scripts as well.  I now have Electrum-NMC deserializing name scripts.&lt;/p&gt;
-
-&lt;p&gt;Most of the details of this work are fairly mundane implementation details that probably won’t interest most readers.  So, instead, how about a screenshot?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-07-17-Names-in-History-Tab.png&quot; alt=&quot;A screenshot of name transactions visible in the Electrum-NMC History tab.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin's Jeremy Rand will be at Decentralized Web Summit 2018</title>
-        <description>&lt;p&gt;Namecoin developer Jeremy Rand will attend &lt;a href=&quot;https://decentralizedweb.net/&quot;&gt;Decentralized Web Summit 2018&lt;/a&gt; in San Francisco, July 31 - August 2, hosted by the &lt;a href=&quot;https://archive.org/&quot;&gt;Internet Archive&lt;/a&gt;.  Namecoin will be at the &lt;a href=&quot;https://decentralizedwebsummit2018.sched.com/event/FMJT/science-fair&quot;&gt;Science Fair&lt;/a&gt; and will give a Lightning Talk (schedule TBA).  We’re also open to meetups and hacking sessions independent of the official DWS schedule, so if you’re attending DWS (or if you’re in the SF area) and would like to chat or hack, get in touch with us!  We’re looking forward to the Summit!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/07/23/decentralized-web-summit-2018.html</guid>
         
         <category>News</category>
         
