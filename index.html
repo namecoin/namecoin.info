@@ -281,6 +281,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2018/10/04/halving-day.html">2018-10-04</a></strong> <a href="https://namecoin.cyphrs.com/block/420000">Block number 420000</a> was mined at <code class="highlighter-rouge">2018-10-04 01:10:19 +0000</code> with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!</p>
+
 <p><strong><a href="/2018/10/04/electrum-nmc-name-script-deserialization-round-2.html">2018-10-04</a></strong> I previously wrote about some work on <a href="/2018/08/06/electrum-nmc-name-script-deserialization.html">making Electrum-NMC handle name scripts</a>.  In the last few days I hacked on that code some more.</p>
 
 <p><a href="/2018/10/04/electrum-nmc-name-script-deserialization-round-2.html">Read more…</a></p>
@@ -314,10 +316,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html">2018-08-13</a></strong> <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (or its underlying library) is used by other Namecoin projects, such as <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (which integrates <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> easy to use on Windows).  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to fail with an error like this:</p>
 
 <p><a href="/2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html">Read more…</a></p>
-
-<p><strong><a href="/2018/08/06/electrum-nmc-name-script-deserialization.html">2018-08-06</a></strong> I previously wrote about <a href="/2018/07/15/electrumx-name-scripts.html">making ElectrumX (the server) handle name scripts</a>.  Now that that’s out of the way, the next step is making Electrum-NMC (the client) handle name scripts as well.  I now have Electrum-NMC deserializing name scripts.</p>
-
-<p><a href="/2018/08/06/electrum-nmc-name-script-deserialization.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

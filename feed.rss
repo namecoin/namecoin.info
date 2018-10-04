@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 04 Oct 2018 01:30:20 +0000</pubDate>
-    <lastBuildDate>Thu, 04 Oct 2018 01:30:20 +0000</lastBuildDate>
+    <pubDate>Thu, 04 Oct 2018 02:05:45 +0000</pubDate>
+    <lastBuildDate>Thu, 04 Oct 2018 02:05:45 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Halving Day (Block 420000)</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/block/420000&quot;&gt;Block number 420000&lt;/a&gt; was mined at &lt;code class=&quot;highlighter-rouge&quot;&gt;2018-10-04 01:10:19 +0000&lt;/code&gt; with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Oct 2018 02:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/04/halving-day.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/04/halving-day.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC: Name Script Deserialization (Round 2: Name History Display, Name Lookups, and Manage Names Tab)</title>
@@ -295,25 +308,6 @@
         <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: Name Script Deserialization</title>
-        <description>&lt;p&gt;I previously wrote about &lt;a href=&quot;/2018/07/15/electrumx-name-scripts.html&quot;&gt;making ElectrumX (the server) handle name scripts&lt;/a&gt;.  Now that that’s out of the way, the next step is making Electrum-NMC (the client) handle name scripts as well.  I now have Electrum-NMC deserializing name scripts.&lt;/p&gt;
-
-&lt;p&gt;Most of the details of this work are fairly mundane implementation details that probably won’t interest most readers.  So, instead, how about a screenshot?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-07-17-Names-in-History-Tab.png&quot; alt=&quot;A screenshot of name transactions visible in the Electrum-NMC History tab.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/08/06/electrum-nmc-name-script-deserialization.html</guid>
         
         <category>News</category>
         
