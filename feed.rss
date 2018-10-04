@@ -6,13 +6,13 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 04 Oct 2018 02:05:45 +0000</pubDate>
-    <lastBuildDate>Thu, 04 Oct 2018 02:05:45 +0000</lastBuildDate>
+    <pubDate>Thu, 04 Oct 2018 02:16:06 +0000</pubDate>
+    <lastBuildDate>Thu, 04 Oct 2018 02:16:06 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
     
       <item>
         <title>Halving Day (Block 420000)</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/block/420000&quot;&gt;Block number 420000&lt;/a&gt; was mined at &lt;code class=&quot;highlighter-rouge&quot;&gt;2018-10-04 01:10:19 +0000&lt;/code&gt; with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!&lt;/p&gt;
+        <description>&lt;p&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/block/420000&quot;&gt;Block number 420000&lt;/a&gt; (hash &lt;code class=&quot;highlighter-rouge&quot;&gt;145f72ea59018ca4117015e3c25a2ed24e22e67c948841dd46a200db11d778be&lt;/code&gt;) was mined at &lt;code class=&quot;highlighter-rouge&quot;&gt;2018-10-04 01:10:19 +0000&lt;/code&gt; by Slush Pool with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!&lt;/p&gt;
 </description>
         <pubDate>Thu, 04 Oct 2018 02:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/10/04/halving-day.html</link>
