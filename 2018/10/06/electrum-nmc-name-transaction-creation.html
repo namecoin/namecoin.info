@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Electrum-NMC: Name Transaction Creation</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//2018/10/06/electrum-nmc-name-transaction-creation.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Electrum-NMC: Name Transaction Creation</h1>
+<p class="post-meta">Oct 6, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In a previous article, I wrote about <a href="/2018/10/04/electrum-nmc-name-script-deserialization-round-2.html">the “reading” side of Electrum-NMC’s name script support</a> (i.e. detecting and displaying name transactions in the wallet, and doing name lookups).  Obviously, the logical next step is the “writing” side, i.e. creating name transactions.</p>
+
+<p>I started out by trying to implement <code class="highlighter-rouge">name_new</code>.  Electrum’s command API is quite flexible (yet quite user-friendly), so most of the relevant functionality was fairly straightforward to implement by adding slight modifications to the existing transaction creation commands.  These modifications essentially just add an extra output to the transaction that has a non-null name operation.  I did, however, need to add some extra functionality to the accounting, to adjust for the fact that a <code class="highlighter-rouge">name_new</code> transaction destroys 0.01 NMC by permanently locking it inside an output.  (Usually, it’s desirable to treat that locked namecent as zero for display purposes, but when funding a transaction, treating it as zero would produce Bad Things ™.)</p>
+
+<p>Electrum’s API philosophy differs from that of Bitcoin Core, in that while Bitcoin Core wallet commands tend to broadcast the result automatically, Electrum wallet commands tend to simply return a transaction, which you’re expected to broadcast with the <code class="highlighter-rouge">broadcast</code> command.  I’m following this approach for the name wallet commands.  Creating the <code class="highlighter-rouge">name_new</code> transaction completed rather easily without errors; however, when I tried to broadcast the <code class="highlighter-rouge">name_new</code> transaction, it was rejected by my Namecoin Core node that serves as the backend for my ElectrumX instance.  I inspected my Namecoin Core node’s <code class="highlighter-rouge">debug.log</code>, and quickly found the issue: I had forgotten to set the transaction’s <code class="highlighter-rouge">nVersion</code> field to the value that permits name operations.  Namecoin requires all name operations to appear in transactions with an <code class="highlighter-rouge">nVersion</code> field of <code class="highlighter-rouge">0x7100</code>, which is a value that doesn’t show up in Bitcoin at all.  I decided not to modify the transaction construction API’s in Electrum to allow manual setting of the <code class="highlighter-rouge">nVersion</code> field per command (end users don’t want to think about these details), and instead decided that it was easier to simply add a couple of lines to the <code class="highlighter-rouge">Transaction</code> class so that if you supply it with an output that has a name operation attached to it, the resulting transaction will automatically have its <code class="highlighter-rouge">nVersion</code> modified.</p>
+
+<p>With that fix, I could create <code class="highlighter-rouge">name_new</code> transactions and broadcast them.  I sent a <code class="highlighter-rouge">name_new</code> from Electrum-NMC to my Namecoin Core wallet and also created one that stayed within Electrum-NMC.  The underlying logic here was two-fold: (1) I wanted to make sure that both explicitly-specified recipient addresses and automatically-generated local addresses worked properly, and (2) if an issue happened while trying to spend the <code class="highlighter-rouge">name_new</code> outputs with Electrum-NMC, I wanted to be able to quickly compare the results with Namecoin Core so that I would know whether the problem was with the code trying to spend the output or with the code that created the output.</p>
+
+<p>While both <code class="highlighter-rouge">name_new</code> transactions were reaching their required 12 blocks of confirmations, I implemented <code class="highlighter-rouge">name_firstupdate</code> support.  This was a little bit more interesting, because it meant I had to explicitly add a mandatory name <strong>input</strong> (the <code class="highlighter-rouge">name_new</code>) in addition to a mandatory name <strong>output</strong> (the <code class="highlighter-rouge">name_firstupdate</code>).  Electrum makes it very easy to add mandatory outputs, since that’s commonplace in Bitcoinland.  Adding mandatory inputs, however, is not exactly straightforward.  I ended up modifying a few of the coin selection algorithms to allow specifying mandatory inputs that would be applied before any other inputs are added, and while I wish it could be done with fewer changes, I’m reasonably happy with the result.</p>
+
+<p>Creating the <code class="highlighter-rouge">name_firstupdate</code> transaction was relatively easy to do from Electrum-NMC without errors.  Unfortunately, once again the transaction was rejected by my ElectrumX instance’s Namecoin Core node.  This time the error was a lot less intelligible; the error had something to do with the signature check failing, but it wasn’t clear to me exactly what the problem was.  To narrow down the issue, I tried spending the <code class="highlighter-rouge">name_new</code> that I had sent to my Namecoin Core wallet into a <code class="highlighter-rouge">name_firstupdate</code>, and that one worked fine.  So clearly the issue was in the <code class="highlighter-rouge">name_firstupdate</code> code in Electrum-NMC, and not anything broken in the <code class="highlighter-rouge">name_new</code> that was already created.  I ended up copying the invalid transaction into Namecoin Core’s <code class="highlighter-rouge">decoderawtransaction</code> RPC method, and then pasting the hex-encoded script into <a href="https://siminchen.github.io/bitcoinIDE/build/editor.html">Bitcoin IDE</a> to simulate exactly what was happening.  And it definitely was clear that something was wrong: the hash that the signature signed didn’t match the hash it was supposed to be signing.</p>
+
+<p>This seemed rather weird, since I hadn’t touched any of the signature code.  After some grep-fu of the Electrum codebase, I figured out what had happened.  In Bitcoin transactions, the signatures cover the scriptPubKeys of the previous transaction outputs.  This shouldn’t be a problem, but Electrum tries to be clever in order to avoid actually looking up the previous transactions.  Electrum actually guesses the previous scriptPubKey based on the scriptSig.  This actually works fine for the transaction types that one normally finds in Bitcoinland.  However, in Namecoin, name operations are prefixed to the scriptPubKey, and nothing about that name prefix (even whether one exists at all) can be inferred from the scriptSig that spends the name output.  As a result, the previous scriptPubKey that was being signed didn’t have a name prefix at all, which of course caused the hashes to mismatch.</p>
+
+<p>Modifying the wallet code to pass through name operations to the data structures that the scriptPubKey-guessing code has access to wasn’t particularly painful, nor was modifying the scriptPubKey-guessing code to prefix the correct name script when needed.  With that out of the way, a <code class="highlighter-rouge">name_firstupdate</code> from Electrum-NMC was able to broadcast successfully.</p>
+
+<p><code class="highlighter-rouge">name_update</code> was comparatively simple.  The main change needed for this one was that while <code class="highlighter-rouge">name_firstupdate</code> specified the mandatory name input by TXID, <code class="highlighter-rouge">name_update</code> specifies it by name identifier.  Adding this functionality to the coin selection algorithms wasn’t particularly unpleasant.  And thus, I was able to create and broadcast a <code class="highlighter-rouge">name_update</code> transaction as well.  Yay!</p>
+
+<p>The next future step is probably to hook these commands into the GUI.</p>
+
+<p>And, with that out of the way, here are some transactions I created with Electrum-NMC’s console:</p>
+
+<ul>
+  <li><a href="https://namecoin.cyphrs.com/tx/9204de3739850d6e0c9c8a5a838747485c1dabddc319a8abfc83f004694e3723"><code class="highlighter-rouge">name_new</code> created by Electrum-NMC, sent to Namecoin Core</a></li>
+  <li><a href="https://namecoin.cyphrs.com/tx/804631725e80ff334fecb8fba85ddbb76ede99ba36d951dac5ab41cb462a375f"><code class="highlighter-rouge">name_firstupdate</code> created by Namecoin Core, spending the <code class="highlighter-rouge">name_new</code> created by Electrum-NMC</a></li>
+  <li><a href="https://namecoin.cyphrs.com/tx/317c6391c94a14c0d777b56b6b31ff1124ce8a6c98874a447239a654f605018a"><code class="highlighter-rouge">name_firstupdate</code> created by Electrum-NMC</a></li>
+  <li><a href="https://namecoin.cyphrs.com/tx/978122fd205d2f87b333b433af51b2e0f9b67ed9b6270d2fa2cbb013e30c0ffd"><code class="highlighter-rouge">name_update</code> created by Electrum-NMC</a></li>
+</ul>
+
+<p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-10-06-electrum-nmc-name-transaction-creation.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>

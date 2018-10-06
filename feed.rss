@@ -6,9 +6,51 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 04 Oct 2018 02:16:06 +0000</pubDate>
-    <lastBuildDate>Thu, 04 Oct 2018 02:16:06 +0000</lastBuildDate>
+    <pubDate>Sat, 06 Oct 2018 10:30:55 +0000</pubDate>
+    <lastBuildDate>Sat, 06 Oct 2018 10:30:55 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC: Name Transaction Creation</title>
+        <description>&lt;p&gt;In a previous article, I wrote about &lt;a href=&quot;/2018/10/04/electrum-nmc-name-script-deserialization-round-2.html&quot;&gt;the “reading” side of Electrum-NMC’s name script support&lt;/a&gt; (i.e. detecting and displaying name transactions in the wallet, and doing name lookups).  Obviously, the logical next step is the “writing” side, i.e. creating name transactions.&lt;/p&gt;
+
+&lt;p&gt;I started out by trying to implement &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;.  Electrum’s command API is quite flexible (yet quite user-friendly), so most of the relevant functionality was fairly straightforward to implement by adding slight modifications to the existing transaction creation commands.  These modifications essentially just add an extra output to the transaction that has a non-null name operation.  I did, however, need to add some extra functionality to the accounting, to adjust for the fact that a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction destroys 0.01 NMC by permanently locking it inside an output.  (Usually, it’s desirable to treat that locked namecent as zero for display purposes, but when funding a transaction, treating it as zero would produce Bad Things ™.)&lt;/p&gt;
+
+&lt;p&gt;Electrum’s API philosophy differs from that of Bitcoin Core, in that while Bitcoin Core wallet commands tend to broadcast the result automatically, Electrum wallet commands tend to simply return a transaction, which you’re expected to broadcast with the &lt;code class=&quot;highlighter-rouge&quot;&gt;broadcast&lt;/code&gt; command.  I’m following this approach for the name wallet commands.  Creating the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction completed rather easily without errors; however, when I tried to broadcast the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction, it was rejected by my Namecoin Core node that serves as the backend for my ElectrumX instance.  I inspected my Namecoin Core node’s &lt;code class=&quot;highlighter-rouge&quot;&gt;debug.log&lt;/code&gt;, and quickly found the issue: I had forgotten to set the transaction’s &lt;code class=&quot;highlighter-rouge&quot;&gt;nVersion&lt;/code&gt; field to the value that permits name operations.  Namecoin requires all name operations to appear in transactions with an &lt;code class=&quot;highlighter-rouge&quot;&gt;nVersion&lt;/code&gt; field of &lt;code class=&quot;highlighter-rouge&quot;&gt;0x7100&lt;/code&gt;, which is a value that doesn’t show up in Bitcoin at all.  I decided not to modify the transaction construction API’s in Electrum to allow manual setting of the &lt;code class=&quot;highlighter-rouge&quot;&gt;nVersion&lt;/code&gt; field per command (end users don’t want to think about these details), and instead decided that it was easier to simply add a couple of lines to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Transaction&lt;/code&gt; class so that if you supply it with an output that has a name operation attached to it, the resulting transaction will automatically have its &lt;code class=&quot;highlighter-rouge&quot;&gt;nVersion&lt;/code&gt; modified.&lt;/p&gt;
+
+&lt;p&gt;With that fix, I could create &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions and broadcast them.  I sent a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; from Electrum-NMC to my Namecoin Core wallet and also created one that stayed within Electrum-NMC.  The underlying logic here was two-fold: (1) I wanted to make sure that both explicitly-specified recipient addresses and automatically-generated local addresses worked properly, and (2) if an issue happened while trying to spend the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; outputs with Electrum-NMC, I wanted to be able to quickly compare the results with Namecoin Core so that I would know whether the problem was with the code trying to spend the output or with the code that created the output.&lt;/p&gt;
+
+&lt;p&gt;While both &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions were reaching their required 12 blocks of confirmations, I implemented &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; support.  This was a little bit more interesting, because it meant I had to explicitly add a mandatory name &lt;strong&gt;input&lt;/strong&gt; (the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;) in addition to a mandatory name &lt;strong&gt;output&lt;/strong&gt; (the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;).  Electrum makes it very easy to add mandatory outputs, since that’s commonplace in Bitcoinland.  Adding mandatory inputs, however, is not exactly straightforward.  I ended up modifying a few of the coin selection algorithms to allow specifying mandatory inputs that would be applied before any other inputs are added, and while I wish it could be done with fewer changes, I’m reasonably happy with the result.&lt;/p&gt;
+
+&lt;p&gt;Creating the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction was relatively easy to do from Electrum-NMC without errors.  Unfortunately, once again the transaction was rejected by my ElectrumX instance’s Namecoin Core node.  This time the error was a lot less intelligible; the error had something to do with the signature check failing, but it wasn’t clear to me exactly what the problem was.  To narrow down the issue, I tried spending the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; that I had sent to my Namecoin Core wallet into a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, and that one worked fine.  So clearly the issue was in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; code in Electrum-NMC, and not anything broken in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; that was already created.  I ended up copying the invalid transaction into Namecoin Core’s &lt;code class=&quot;highlighter-rouge&quot;&gt;decoderawtransaction&lt;/code&gt; RPC method, and then pasting the hex-encoded script into &lt;a href=&quot;https://siminchen.github.io/bitcoinIDE/build/editor.html&quot;&gt;Bitcoin IDE&lt;/a&gt; to simulate exactly what was happening.  And it definitely was clear that something was wrong: the hash that the signature signed didn’t match the hash it was supposed to be signing.&lt;/p&gt;
+
+&lt;p&gt;This seemed rather weird, since I hadn’t touched any of the signature code.  After some grep-fu of the Electrum codebase, I figured out what had happened.  In Bitcoin transactions, the signatures cover the scriptPubKeys of the previous transaction outputs.  This shouldn’t be a problem, but Electrum tries to be clever in order to avoid actually looking up the previous transactions.  Electrum actually guesses the previous scriptPubKey based on the scriptSig.  This actually works fine for the transaction types that one normally finds in Bitcoinland.  However, in Namecoin, name operations are prefixed to the scriptPubKey, and nothing about that name prefix (even whether one exists at all) can be inferred from the scriptSig that spends the name output.  As a result, the previous scriptPubKey that was being signed didn’t have a name prefix at all, which of course caused the hashes to mismatch.&lt;/p&gt;
+
+&lt;p&gt;Modifying the wallet code to pass through name operations to the data structures that the scriptPubKey-guessing code has access to wasn’t particularly painful, nor was modifying the scriptPubKey-guessing code to prefix the correct name script when needed.  With that out of the way, a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; from Electrum-NMC was able to broadcast successfully.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; was comparatively simple.  The main change needed for this one was that while &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; specified the mandatory name input by TXID, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; specifies it by name identifier.  Adding this functionality to the coin selection algorithms wasn’t particularly unpleasant.  And thus, I was able to create and broadcast a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; transaction as well.  Yay!&lt;/p&gt;
+
+&lt;p&gt;The next future step is probably to hook these commands into the GUI.&lt;/p&gt;
+
+&lt;p&gt;And, with that out of the way, here are some transactions I created with Electrum-NMC’s console:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/tx/9204de3739850d6e0c9c8a5a838747485c1dabddc319a8abfc83f004694e3723&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; created by Electrum-NMC, sent to Namecoin Core&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/tx/804631725e80ff334fecb8fba85ddbb76ede99ba36d951dac5ab41cb462a375f&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; created by Namecoin Core, spending the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; created by Electrum-NMC&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/tx/317c6391c94a14c0d777b56b6b31ff1124ce8a6c98874a447239a654f605018a&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; created by Electrum-NMC&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/tx/978122fd205d2f87b333b433af51b2e0f9b67ed9b6270d2fa2cbb013e30c0ffd&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; created by Electrum-NMC&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/06/electrum-nmc-name-transaction-creation.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/06/electrum-nmc-name-transaction-creation.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Halving Day (Block 420000)</title>
@@ -282,32 +324,6 @@
         <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>cross_sign_name_constraint_tool Drops Support for Go v1.9.x; Users Who Self-Built It With Go v1.9.x Should Update Immediately</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt;, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; (or its underlying library) is used by other Namecoin projects, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; (which integrates &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; easy to use on Windows).  &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt;’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; to fail with an error like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&amp;lt;nil&amp;gt; tag:&amp;lt;nil&amp;gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The error only occurs with a small subset of CA certificates; the specific CA that triggered this error for me was &lt;code class=&quot;highlighter-rouge&quot;&gt;Verisign Class 3 Public Primary Certification Authority - G3&lt;/code&gt; (which is trusted by Fedora).&lt;/p&gt;
-
-&lt;p&gt;This bug doesn’t affect users of our official binaries, because the official binaries weren’t built with an affected Go version.  My WIP ncdns PR for automatically integrating &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; would have made such an error very obvious: it causes ncdns to stop resolving &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains when such an error is observed, so there’s no risk to users from name constraints being incompletely applied.  However, users who built their own &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; using Go 1.9.x, and who failed to notice a prominent error message when running it, would potentially be left incompletely protected from the threats that &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; is designed to protect against.&lt;/p&gt;
-
-&lt;p&gt;If you’re running a self-built &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; that was built with Go 1.9.x, I strongly recommend that you rebuild with Go 1.10.x and re-apply your desired name constraints.  I don’t have any reason to believe that any CA has exploited this in the wild.  (Any CA who tried to exploit it would probably have been detected by certificate transparency.)  And remember, &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; is designed to protect against attacks that users of the DNS are &lt;em&gt;completely&lt;/em&gt; vulnerable to – this bug is not a downgrade from the security model of the DNS.  (Indeed, even with this bug, affected users were still protected from a random subset of their system’s trusted CA’s, so security in this aspect was still somewhat higher than that of the DNS.)&lt;/p&gt;
-
-&lt;p&gt;I’ve submitted a test case to &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt;, which will ensure that anyone who tries to build it with an affected Go version will receive a test failure.  ncdns will also be updated to use Go 1.10.x prior to the release that integrates &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html</guid>
         
         <category>News</category>
         
