@@ -240,7 +240,7 @@ Decentralized<br /><strong>secure</strong> names.
 </header>
 
 <article class="post-content">
-<p>I previously wrote about <a href="/2018/10/03/electrum-nmc-name-transaction-creation.html">creating name transactions in the Electrum-NMC console</a>.  Next up, adding GUI support.</p>
+<p>I previously wrote about <a href="/2018/10/06/electrum-nmc-name-transaction-creation.html">creating name transactions in the Electrum-NMC console</a>.  Next up, adding GUI support.</p>
 
 <p>The new <code class="highlighter-rouge">Renew Name</code> and <code class="highlighter-rouge">Configure Name...</code> buttons use the previously discussed <code class="highlighter-rouge">name_update</code> command as their backend, which makes implementation relatively simple, since it’s not difficult for GUI functions to access console commands.  I facilitated the <code class="highlighter-rouge">Renew Name</code> command by making the <code class="highlighter-rouge">value</code> parameter of <code class="highlighter-rouge">name_update</code> optional; if not supplied, it will be set to the current value of the name.</p>
 
