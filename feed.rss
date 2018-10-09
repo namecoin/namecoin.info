@@ -6,9 +6,40 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 06 Oct 2018 10:30:55 +0000</pubDate>
-    <lastBuildDate>Sat, 06 Oct 2018 10:30:55 +0000</lastBuildDate>
+    <pubDate>Tue, 09 Oct 2018 11:08:06 +0000</pubDate>
+    <lastBuildDate>Tue, 09 Oct 2018 11:08:06 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC: Name Update GUI</title>
+        <description>&lt;p&gt;I previously wrote about &lt;a href=&quot;/2018/10/03/electrum-nmc-name-transaction-creation.html&quot;&gt;creating name transactions in the Electrum-NMC console&lt;/a&gt;.  Next up, adding GUI support.&lt;/p&gt;
+
+&lt;p&gt;The new &lt;code class=&quot;highlighter-rouge&quot;&gt;Renew Name&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Configure Name...&lt;/code&gt; buttons use the previously discussed &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; command as their backend, which makes implementation relatively simple, since it’s not difficult for GUI functions to access console commands.  I facilitated the &lt;code class=&quot;highlighter-rouge&quot;&gt;Renew Name&lt;/code&gt; command by making the &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt; parameter of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; optional; if not supplied, it will be set to the current value of the name.&lt;/p&gt;
+
+&lt;p&gt;However, this introduces an interesting attack scenario: if an ElectrumX server falsely reports the current value of a name you own and you click the Renew button, you would be tricked into signing a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; transaction that contains the malicious value.  Therefore, to mitigate this scenario, &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt; is only optional if the latest transaction for the name has at least 12 confirmations.  I can’t picture any way that this mitigation would cause real-world UX problems; presumably no one wants to renew a name that was already last updated fewer than 12 blocks ago.&lt;/p&gt;
+
+&lt;p&gt;One nice UX improvement in Electrum-NMC compared to Namecoin-Qt is that you can renew multiple names at once: just select more than one name in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Manage Names&lt;/code&gt; tab, and then click &lt;code class=&quot;highlighter-rouge&quot;&gt;Renew Name&lt;/code&gt;.  Implementing this was a bit tricky, because Electrum’s coin selection algorithm doesn’t normally notice that a coin has been spent until it receives a copy from the ElectrumX server, which is usually a few seconds after we broadcast it to the ElectrumX server.  As a result, the coin selection algorithm would try to double-spend the same currency input for each name renewal.  I fixed this by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;addtransaction(tx)&lt;/code&gt; (which adds a transaction to the wallet) immediately after &lt;code class=&quot;highlighter-rouge&quot;&gt;broadcast(tx)&lt;/code&gt; returns success, before moving on to the the next name to renew.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that renewing multiple names at once will probably reveal to blockchain deanonymizers that the affected names have common ownership.  So, while this feature is potentially useful, it should be used with care.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Configure Name...&lt;/code&gt; button and associated dialog were relatively uneventful in terms of bugs.  That said, it did occur to me that it might be better to re-use Namecoin-Qt’s &lt;code class=&quot;highlighter-rouge&quot;&gt;.ui&lt;/code&gt; form files for this purpose instead of re-implementing the dialog in Python.  Unfortunately, Namecoin-Qt’s form files are a bit too specific to Bitcoin Core (e.g. they incorporate widgets that only exist in Bitcoin Core, which have different implementations in Electrum).  I think it would be plausible to improve the abstraction of Namecoin-Qt’s form files so that we could re-use them in Electrum-NMC and save on duplicated GUI effort; hopefully something will happen there after higher-priority tasks are dealt with in the Namecoin-Qt codebase.&lt;/p&gt;
+
+&lt;p&gt;And now, screenshots!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-06-Manage-Names-Tab.png&quot; alt=&quot;A screenshot of the &amp;quot;Renew Name&amp;quot; and &amp;quot;Configure Name...&amp;quot; buttons visible in the Electrum-NMC Manage Names tab.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-06-Configure-Name-Dialog.png&quot; alt=&quot;A screenshot of the &amp;quot;Configure Name&amp;quot; dialog in Electrum-NMC.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 09 Oct 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/09/electrum-nmc-name-update-gui.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/09/electrum-nmc-name-update-gui.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC: Name Transaction Creation</title>
@@ -293,39 +324,6 @@
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns NSIS Installer UX: Detection of Visual C++ 2010 Redistributable Package</title>
-        <description>&lt;p&gt;If you’ve used ConsensusJ-Namecoin (our lightweight SPV name lookup client), you’ve probably noticed that we instruct users (on the Download page) to install the Microsoft Visual C++ 2010 Redistributable Package.  Failing to do this will result in the LevelDB library failing to load, which ends up causing some incredibly misleading error messages, after which &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoinj-daemon&lt;/code&gt; will terminate.  Unfortunately, in the Real World™, users don’t reliably follow instructions.  (Confession: I’ve failed to follow this instruction when setting up test VM’s before, and took quite a while to figure out what was broken.)&lt;/p&gt;
-
-&lt;p&gt;But how to improve the UX here?  Distributing the relevant package is legally questionable, so we can’t do that.  However, an alternative is to make the ncdns NSIS installer (which handles user-friendly installation on Windows) detect whether the package is already installed, and display a more user-friendly error during installation so that users know what’s wrong and how to fix it.&lt;/p&gt;
-
-&lt;p&gt;We already handle this concept to some extent.  For example, here’s what the NSIS installer displays when Java isn’t already installed:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/spv-missing-java-2018-08-10.png&quot; alt=&quot;&amp;quot;Cannot use BitcoinJ SPV client (Java must be installed)&amp;quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Compare this to the typical display when Java &lt;em&gt;is&lt;/em&gt; installed:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/select-spv-dnssec-trigger-2018-07-31.png&quot; alt=&quot;&amp;quot;Install and use the BitcoinJ SPV client (lighter, less secure)&amp;quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So, over the last day or so, I hacked on the ncdns NSIS script to make it detect the Microsoft Visual C++ 2010 Redistributable Package (like we already do for Java), and refuse to install ConsensusJ-Namecoin if it’s not found:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/ncdns-nsis/spv-missing-vc2010-2018-08-10.png&quot; alt=&quot;&amp;quot;Cannot use BitcoinJ SPV client (Microsoft Visual C++ Redistributable Package must be installed)&amp;quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This was an excellent excuse for me to get some more experience with NSIS.  Hopefully it saves some users from head-banging confusion.&lt;/p&gt;
-
-&lt;p&gt;(It should be noted, of course, that the “right way” to solve this is to actually make ConsensusJ-Namecoin not require any non-free Microsoft dependencies.  This is something we’ll probably look into as we move towards reproducible builds.  That said, Windows users are already trusting non-free Microsoft code, so this isn’t as big a deal as one might think.)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/08/14/ncdns-nsis-ux-detect-msvc2010.html</guid>
-        
-        <category>News</category>
         
         
       </item>

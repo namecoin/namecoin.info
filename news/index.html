@@ -235,6 +235,38 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Electrum-NMC: Name Update GUI</h1>
+    <p class="post-meta">Oct 9, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>I previously wrote about <a href="/2018/10/03/electrum-nmc-name-transaction-creation.html">creating name transactions in the Electrum-NMC console</a>.  Next up, adding GUI support.</p>
+
+    <p>The new <code class="highlighter-rouge">Renew Name</code> and <code class="highlighter-rouge">Configure Name...</code> buttons use the previously discussed <code class="highlighter-rouge">name_update</code> command as their backend, which makes implementation relatively simple, since it’s not difficult for GUI functions to access console commands.  I facilitated the <code class="highlighter-rouge">Renew Name</code> command by making the <code class="highlighter-rouge">value</code> parameter of <code class="highlighter-rouge">name_update</code> optional; if not supplied, it will be set to the current value of the name.</p>
+
+    <p>However, this introduces an interesting attack scenario: if an ElectrumX server falsely reports the current value of a name you own and you click the Renew button, you would be tricked into signing a <code class="highlighter-rouge">name_update</code> transaction that contains the malicious value.  Therefore, to mitigate this scenario, <code class="highlighter-rouge">value</code> is only optional if the latest transaction for the name has at least 12 confirmations.  I can’t picture any way that this mitigation would cause real-world UX problems; presumably no one wants to renew a name that was already last updated fewer than 12 blocks ago.</p>
+
+    <p>One nice UX improvement in Electrum-NMC compared to Namecoin-Qt is that you can renew multiple names at once: just select more than one name in the <code class="highlighter-rouge">Manage Names</code> tab, and then click <code class="highlighter-rouge">Renew Name</code>.  Implementing this was a bit tricky, because Electrum’s coin selection algorithm doesn’t normally notice that a coin has been spent until it receives a copy from the ElectrumX server, which is usually a few seconds after we broadcast it to the ElectrumX server.  As a result, the coin selection algorithm would try to double-spend the same currency input for each name renewal.  I fixed this by calling <code class="highlighter-rouge">addtransaction(tx)</code> (which adds a transaction to the wallet) immediately after <code class="highlighter-rouge">broadcast(tx)</code> returns success, before moving on to the the next name to renew.</p>
+
+    <p>It should be noted that renewing multiple names at once will probably reveal to blockchain deanonymizers that the affected names have common ownership.  So, while this feature is potentially useful, it should be used with care.</p>
+
+    <p>The <code class="highlighter-rouge">Configure Name...</code> button and associated dialog were relatively uneventful in terms of bugs.  That said, it did occur to me that it might be better to re-use Namecoin-Qt’s <code class="highlighter-rouge">.ui</code> form files for this purpose instead of re-implementing the dialog in Python.  Unfortunately, Namecoin-Qt’s form files are a bit too specific to Bitcoin Core (e.g. they incorporate widgets that only exist in Bitcoin Core, which have different implementations in Electrum).  I think it would be plausible to improve the abstraction of Namecoin-Qt’s form files so that we could re-use them in Electrum-NMC and save on duplicated GUI effort; hopefully something will happen there after higher-priority tasks are dealt with in the Namecoin-Qt codebase.</p>
+
+    <p>And now, screenshots!</p>
+
+    <p><img src="/images/screenshots/electrum-nmc/2018-10-06-Manage-Names-Tab.png" alt="A screenshot of the &quot;Renew Name&quot; and &quot;Configure Name...&quot; buttons visible in the Electrum-NMC Manage Names tab." /></p>
+
+    <p><img src="/images/screenshots/electrum-nmc/2018-10-06-Configure-Name-Dialog.png" alt="A screenshot of the &quot;Configure Name&quot; dialog in Electrum-NMC." /></p>
+
+    <p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Electrum-NMC: Name Transaction Creation</h1>
     <p class="post-meta">Oct 6, 2018 • Jeremy Rand </p>
   </header>

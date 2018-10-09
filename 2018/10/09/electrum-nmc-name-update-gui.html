@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC v3.2.2 Released</title>
+    <title>Electrum-NMC: Name Update GUI</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2018/07/12/electrum-nmc-v3.2.2-released.html">
+    <link rel="canonical" href="https://namecoin.org//2018/10/09/electrum-nmc-name-update-gui.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,92 +232,97 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC v3.2.2 Released</h1>
-<p class="post-meta">Jul 12, 2018 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Electrum-NMC: Name Update GUI</h1>
+<p class="post-meta">Oct 9, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released Electrum-NMC v3.2.2.  Here’s what’s new:</p>
+<p>I previously wrote about <a href="/2018/10/03/electrum-nmc-name-transaction-creation.html">creating name transactions in the Electrum-NMC console</a>.  Next up, adding GUI support.</p>
 
-<ul>
-  <li>Trezor support.</li>
-  <li>Support AuxPoW and timewarp hardforks.  (AuxPoW is still experimental, but it does successfully sync now.)</li>
-  <li>Fix running the GNU/Linux release without installing first.</li>
-  <li>Improvements from upstream Electrum.</li>
-</ul>
+<p>The new <code class="highlighter-rouge">Renew Name</code> and <code class="highlighter-rouge">Configure Name...</code> buttons use the previously discussed <code class="highlighter-rouge">name_update</code> command as their backend, which makes implementation relatively simple, since it’s not difficult for GUI functions to access console commands.  I facilitated the <code class="highlighter-rouge">Renew Name</code> command by making the <code class="highlighter-rouge">value</code> parameter of <code class="highlighter-rouge">name_update</code> optional; if not supplied, it will be set to the current value of the name.</p>
 
-<p>Please note that due to a bugfix that was needed for Trezor support, any coins stored in wallets from older versions of Electrum-NMC will probably be inaccessible from this version.  We recommend that you empty your old Electrum-NMC wallets into Namecoin Core prior to installing this version, and then recreate your Electrum-NMC wallets after installing this version.</p>
+<p>However, this introduces an interesting attack scenario: if an ElectrumX server falsely reports the current value of a name you own and you click the Renew button, you would be tricked into signing a <code class="highlighter-rouge">name_update</code> transaction that contains the malicious value.  Therefore, to mitigate this scenario, <code class="highlighter-rouge">value</code> is only optional if the latest transaction for the name has at least 12 confirmations.  I can’t picture any way that this mitigation would cause real-world UX problems; presumably no one wants to renew a name that was already last updated fewer than 12 blocks ago.</p>
 
-<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+<p>One nice UX improvement in Electrum-NMC compared to Namecoin-Qt is that you can renew multiple names at once: just select more than one name in the <code class="highlighter-rouge">Manage Names</code> tab, and then click <code class="highlighter-rouge">Renew Name</code>.  Implementing this was a bit tricky, because Electrum’s coin selection algorithm doesn’t normally notice that a coin has been spent until it receives a copy from the ElectrumX server, which is usually a few seconds after we broadcast it to the ElectrumX server.  As a result, the coin selection algorithm would try to double-spend the same currency input for each name renewal.  I fixed this by calling <code class="highlighter-rouge">addtransaction(tx)</code> (which adds a transaction to the wallet) immediately after <code class="highlighter-rouge">broadcast(tx)</code> returns success, before moving on to the the next name to renew.</p>
 
-<p>This work was funded by Cyphrs.</p>
+<p>It should be noted that renewing multiple names at once will probably reveal to blockchain deanonymizers that the affected names have common ownership.  So, while this feature is potentially useful, it should be used with care.</p>
+
+<p>The <code class="highlighter-rouge">Configure Name...</code> button and associated dialog were relatively uneventful in terms of bugs.  That said, it did occur to me that it might be better to re-use Namecoin-Qt’s <code class="highlighter-rouge">.ui</code> form files for this purpose instead of re-implementing the dialog in Python.  Unfortunately, Namecoin-Qt’s form files are a bit too specific to Bitcoin Core (e.g. they incorporate widgets that only exist in Bitcoin Core, which have different implementations in Electrum).  I think it would be plausible to improve the abstraction of Namecoin-Qt’s form files so that we could re-use them in Electrum-NMC and save on duplicated GUI effort; hopefully something will happen there after higher-priority tasks are dealt with in the Namecoin-Qt codebase.</p>
+
+<p>And now, screenshots!</p>
+
+<p><img src="/images/screenshots/electrum-nmc/2018-10-06-Manage-Names-Tab.png" alt="A screenshot of the &quot;Renew Name&quot; and &quot;Configure Name...&quot; buttons visible in the Electrum-NMC Manage Names tab." /></p>
+
+<p><img src="/images/screenshots/electrum-nmc/2018-10-06-Configure-Name-Dialog.png" alt="A screenshot of the &quot;Configure Name&quot; dialog in Electrum-NMC." /></p>
+
+<p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -662,7 +667,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-12-electrum-nmc-v3.2.2-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-10-09-electrum-nmc-name-update-gui.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
