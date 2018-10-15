@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>PKCS11 and p11-kit Development Notes</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//docs/dev/pkcs11/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">PKCS11 and p11-kit Development Notes</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>This is a set of notes compiled by the Namecoin developers (in particular, Jeremy Rand) on using the pkcs11 API and/or the p11-kit software as a TLS interoperability method.  These notes were last updated on 2018 October 9.</p>
+
+<ul>
+  <li>pkcs11  -Jeremy
+    <ul>
+      <li>pkcs11 specification:  -Jeremy
+        <ul>
+          <li>https://www.oasis-open.org/standards#pkcs11-base-v2.40  -Jeremy</li>
+        </ul>
+      </li>
+      <li>pkcs11 allows certificates to be looked up by subject.  -Jeremy
+        <ul>
+          <li>NSS sometimes uses this.  https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/PKCS11/FAQ  -Jeremy</li>
+          <li>The subject of a dehydrated certificate will contain the .bit domain, so we can look it up in real-time.  -Jeremy</li>
+        </ul>
+      </li>
+      <li>pkcs11 allows certificates to be looked up by DER value.  -Jeremy
+        <ul>
+          <li>NSS sometimes uses this.  https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/PKCS11/FAQ  -Jeremy</li>
+          <li>The DER value of a dehydrated certificate will contain the .bit domain, so we can look it up in real-time.  -Jeremy</li>
+        </ul>
+      </li>
+      <li>pkcs11 allows application to ask pkcs11 smartcard to enumerate all known certificates.  -Jeremy
+        <ul>
+          <li>NSS sometimes uses this.  https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/PKCS11/FAQ  -Jeremy</li>
+          <li>If absolutely necessary, we can probably hook DNS lookups, and then return all dehydrated certs that were recently looked up.  We should test with NSS whether this is actually needed for our use case.  -Jeremy</li>
+        </ul>
+      </li>
+      <li>If we want to force NSS to use a different function, we can reportedly return CKR_FUNCTION_NOT_SUPPORTED.  https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/PKCS11/FAQ  -Jeremy</li>
+      <li>pkcs11 uses the C ABI.  Articles on creating C ABI shared libraries in Go:  -Jeremy
+        <ul>
+          <li>Filippo Valsorda: https://blog.filippo.io/building-python-modules-with-go-1-5/  -Jeremy</li>
+          <li>https://id-rsa.pub/post/go15-calling-go-shared-libs-from-firefox-addon/  -Jeremy</li>
+          <li>https://www.darkcoding.net/software/building-shared-libraries-in-go-part-1/  -Jeremy</li>
+          <li>https://www.darkcoding.net/software/building-shared-libraries-in-go-part-2/  -Jeremy</li>
+          <li>Info on cgo:  -Jeremy
+            <ul>
+              <li>https://golang.org/cmd/cgo/  -Jeremy</li>
+              <li>https://blog.golang.org/c-go-cgo  -Jeremy</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>pkcs11 client library by Miek Gieben is at https://github.com/miekg/pkcs11 .  -Jeremy</li>
+      <li>Software pkcs11 modules:  -Jeremy
+        <ul>
+          <li>C++ SoftHSM by OpenDNSSEC is at https://github.com/opendnssec/SoftHSMv2 .  -Jeremy</li>
+          <li>p11-kit trust module implements a pkcs11 API provider.  -Jeremy
+            <ul>
+              <li>So we could use it as a base for a pkcs11 module for Namecoin cert lookups.  -Jeremy</li>
+            </ul>
+          </li>
+          <li>NSS CKBI module also implements a pkcs11 provider.  -Jeremy
+            <ul>
+              <li>https://dxr.mozilla.org/mozilla-central/source/security/nss/lib/ckfw/builtins  -Jeremy</li>
+              <li>Looks like less volume of code than p11-kit trust module, but also appears to be way less readable than p11-kit’s code.  -Jeremy</li>
+            </ul>
+          </li>
+          <li>pkcs11-mock  -Jeremy
+            <ul>
+              <li>https://github.com/Pkcs11Interop/pkcs11-mock  -Jeremy</li>
+              <li>Windows build scripts use Visual Studio :(  -Jeremy</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Docs on using pkcs11 with NSS: https://raymii.org/s/articles/Nitrokey_HSM_in_Apache_with_mod_nss.html  -Jeremy</li>
+      <li>Docs on using pkcs11 with GnuTLS: https://gnutls.org/manual/html_node/Installing-for-a-software-distribution.html  -Jeremy</li>
+      <li>NSS pkcs11 Module Logger: https://www-archive.mozilla.org/projects/security/pki/nss/tech-notes/tn2.html  -Jeremy
+        <ul>
+          <li>Works with default NSS packages in Fedora.  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Some info on Fedora pkcs11 policy (not relevant to us, since it only covers objects where the user has the private key):  -Jeremy
+        <ul>
+          <li>https://fedoraproject.org/wiki/User:Nmav/Pkcs11Status  -Jeremy</li>
+          <li>https://fedoraproject.org/wiki/Packaging:SSLCertificateHandling  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Some info on Fedora pkcs11 policy for trust anchor policy:  -Jeremy
+        <ul>
+          <li>https://fedoraproject.org/wiki/Features/SharedSystemCertificates  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Would p11-kit’s proxy pkcs11 module be well-suited to rewriting certificates (e.g. by passing all CKBI certs through cross_sign_name_constraint_tool)?  -Jeremy</li>
+    </ul>
+  </li>
+  <li>p11-kit.  -Jeremy
+    <ul>
+      <li>p11-glue GitHub org:  -Jeremy
+        <ul>
+          <li>https://github.com/p11-glue  -Jeremy</li>
+        </ul>
+      </li>
+      <li>p11-kit is used by default on Fedora, and can output cert databases for NSS, OpenSSL, Java, and anything that uses PEM CA bundles.  -Jeremy</li>
+      <li>pkcs11 support status for various applications:  -Jeremy
+        <ul>
+          <li>https://p11-glue.github.io/p11-glue/pkcs11-support.html  -Jeremy</li>
+        </ul>
+      </li>
+      <li>p11-kit trust module status for Debian inclusion:  -Jeremy
+        <ul>
+          <li>https://lists.freedesktop.org/archives/p11-glue/2017-July/000672.html  -Jeremy</li>
+        </ul>
+      </li>
+      <li>p11-kit includes a PEM extension that allows adding arbitrary x509 extensions to a certificate.  -Jeremy
+        <ul>
+          <li>Example of applying a name constraint: https://github.com/p11-glue/p11-kit/blob/master/trust/input/extensions.p11-kit  -Jeremy</li>
+          <li>Does this work for certificate PEM’s, or only public key PEM’s?  -Jeremy
+            <ul>
+              <li>This suggests that at least certificate PEM’s work in .p11-kit.  Doesn’t imply that x-certificate-extension works with certificate PEM’s though.  https://github.com/p11-glue/p11-kit/blob/master/trust/persist.c#L595  -Jeremy</li>
+            </ul>
+          </li>
+          <li>There’s something called “attached extensions” (formerly called “stapled extensions”) which I <em>think</em> allows storing the x509 extensions in a separate file from the PEM certificate.  https://github.com/p11-glue/p11-kit/search?q=stapled&amp;type=Commits&amp;utf8=%E2%9C%93  -Jeremy
+            <ul>
+              <li>This suggests that the stapling uses the public key as the link.  https://github.com/p11-glue/p11-kit/commit/7d4941715b5afc2ef8ea18716990d28965737c70  -Jeremy</li>
+            </ul>
+          </li>
+          <li>Looks like attached name constraint extensions aren’t currently compatible with p11-kit’s crypto library retrofitting.  https://p11-glue.github.io/p11-glue/doc/storing-trust-policy/storing-trust-retrofit.html  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Registering a pkcs11 provider module (e.g. a hypothetical Namecoin certificate pkcs11 module) with p11-kit in Fedora: https://fedoraproject.org/wiki/PackagingDrafts/Pkcs11Support  -Jeremy</li>
+      <li>How to reset the RHEL p11-kit trust store to default settings  -Jeremy
+        <ul>
+          <li>https://access.redhat.com/solutions/1549003  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Does Tor Browser include libnssckbi.so?  If so, could we substitute p11-kit’s drop-in replacement, and thereby make it use Namecoin via p11-kit?  -Jeremy
+        <ul>
+          <li>Probably would still require changes to Firefox in order to allow end-entity trust anchors.  -Jeremy</li>
+        </ul>
+      </li>
+      <li>Mozilla bug about Firefox not using system-wide trust store.  -Jeremy
+        <ul>
+          <li>https://bugzilla.mozilla.org/show_bug.cgi?id=449498  -Jeremy</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/dev/pkcs11/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
