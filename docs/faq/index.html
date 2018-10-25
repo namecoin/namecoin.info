@@ -188,8 +188,16 @@ html.nojs .navbar-header {
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
                             <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
                             <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
                             <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
                         </ul>
                     </li>
                     <li><a href="/docs/faq/">FAQ</a></li>
@@ -651,8 +659,8 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
   <li><strong>Multisig</strong> (similar to Bitcoin) would allow names to be controlled by M-of-N keys.  Some of these keys could belong to the various directors of a company, be stored in a secure location, or be stored by semi-trusted service providers.  This is currently supported by the Namecoin protocol and consensus rules, but not well-exposed to end users.</li>
   <li><strong>Offline signing</strong> (similar to Bitcoin) would allow names to be controlled by keys that are located on an air-gapped computer, an isolated offline Qubes virtual machine, or a hardware wallet.  This is currently supported by the Namecoin protocol and consensus rules, but not well-exposed to end users.</li>
   <li><strong>Delegated renewal</strong> (Namecoin-specific) would allow a key to be authorized to renew a name, but not change its value or its owner.  Efforts are underway to add this to the Namecoin protocol and consensus rules.</li>
-  <li><strong>Delegated alteration</strong> (Namecoin-specific) would allow a key to be authorized to alter the value of a name, but not change its owner.  This is supported, but not well exposed to end users. Further improvements are underway.</li>
-  <li><strong>Delegated partial alteration</strong> (Namecoin-specific) would allow a key to be authorized to alter a specific subset of the value of a name (for example, be allowed to change a domain name’s IP address but not its TLS certificate), but not change other parts of the value or its owner.  This is supported, but not well-exposed to end users.  Further improvements are underway.</li>
+  <li><strong>Delegated alteration</strong> (Namecoin-specific) would allow a key to be authorized to alter the value of a name, but not change its owner.  This is supported, but not well exposed to end users. Further improvements are underway.  See the docs on <a href="/docs/name-owners/delegated-alteration">delegated alteration</a>.</li>
+  <li><strong>Delegated partial alteration</strong> (Namecoin-specific) would allow a key to be authorized to alter a specific subset of the value of a name (for example, be allowed to change a domain name’s IP address but not its TLS certificate), but not change other parts of the value or its owner.  This is supported, but not well-exposed to end users.  Further improvements are underway.  See the docs on <a href="/docs/name-owners/delegated-alteration">delegated alteration</a>.</li>
 </ul>
 
 <p>The above features can, of course, be combined arbitrarily for additional layered security.</p>
