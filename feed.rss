@@ -6,9 +6,26 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 21 Oct 2018 22:00:38 +0000</pubDate>
-    <lastBuildDate>Sun, 21 Oct 2018 22:00:38 +0000</lastBuildDate>
+    <pubDate>Fri, 26 Oct 2018 01:06:37 +0000</pubDate>
+    <lastBuildDate>Fri, 26 Oct 2018 01:06:37 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>ElectrumX: Name Script Support Merged by Upstream</title>
+        <description>&lt;p&gt;A few months ago I wrote about &lt;a href=&quot;/2018/07/15/electrumx-name-scripts.html&quot;&gt;name script support in ElectrumX&lt;/a&gt;.  Neil from ElectrumX has now merged that code into ElectrumX master branch.  I’ve also notified the operator of the public ElectrumX Namecoin instance, so hopefully soon it will be possible to use Electrum-NMC’s name script support with the default public ElectrumX instance.  Kudos to Neil for accepting the pull request!&lt;/p&gt;
+
+&lt;p&gt;(This is probably a good time to remind readers that we need more ElectrumX instances… please consider running one if you have a server with spare resources!)&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/25/electrumx-name-scripts-merged.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/25/electrumx-name-scripts-merged.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC: Name Registration GUI</title>
@@ -286,28 +303,6 @@
         <category>Releases</category>
         
         <category>Namecoin Core Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ConsensusJ-Namecoin v0.3.1 Released</title>
-        <description>&lt;p&gt;We’ve released ConsensusJ-Namecoin v0.3.1.  Here’s what’s new:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Some of the Namecoin-specific code has been merged upstream to ConsensusJ, and has therefore benefited from more peer review.&lt;/li&gt;
-  &lt;li&gt;Improvements from upstream ConsensusJ.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#consensusj-namecoin&quot;&gt;Beta Downloads&lt;/a&gt; page.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 21 Sep 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/09/21/consensusj-namecoin-v0.3.1-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/09/21/consensusj-namecoin-v0.3.1-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>libdohj Releases</category>
         
         
       </item>

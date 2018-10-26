@@ -188,8 +188,16 @@ html.nojs .navbar-header {
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
                             <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
                             <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
                             <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
                         </ul>
                     </li>
                     <li><a href="/docs/faq/">FAQ</a></li>
@@ -258,7 +266,19 @@ profiledir="$PROFILEDIR"
 
 <p>Firefox for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
+<p><strong>Important warning for users of TLS intercepting proxies: these instructions will probably cause your intercepting proxy to produce an HPKP error for HTTPS websites that use HPKP.  Right now, Namecoin TLS negative overrides for Firefox are not compatible with TLS intercepting proxies that try to intercept HPKP-enabled websites.  If you haven’t deliberately installed a TLS intercepting proxy, or if you don’t know what a TLS intercepting proxy is, you can probably ignore this warning.</strong></p>
+
+<p><strong>Note: Installing Namecoin TLS negative overrides for Firefox might cause previously-unnoticed attacks against you, e.g. from malicious surveillance infrastructure, to produce visible errors (even if those attacks are trying to intercept non-Namecoin connections).</strong></p>
+
 <ol>
+  <li>Go to <code class="highlighter-rouge">about:config</code> in Firefox.</li>
+  <li>Search for <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code>.</li>
+  <li>Double-click the <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code> preference.</li>
+  <li>Enter <code class="highlighter-rouge">2</code> and click OK.</li>
+  <li>Search for <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code></li>
+  <li>Double-click the <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code> preference until the <code class="highlighter-rouge">Value</code> column says <code class="highlighter-rouge">true</code>.</li>
+  <li>Close the <code class="highlighter-rouge">about:config</code> tab in Firefox.</li>
+  <li>Restart Firefox.</li>
   <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Firefox certificate database.</li>
   <li>Find your NSS directory; it will usually be a subdirectory of <code class="highlighter-rouge">$HOME/.mozilla/firefox</code>.  For example, <code class="highlighter-rouge">$HOME/.mozilla/firefox/r3a8ono6.default</code>.</li>
   <li>
@@ -270,7 +290,7 @@ profiledir="$PROFILEDIR"
   <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
 </ol>
 
-<p>You’ll need to redo the above steps whenever the built-in certificate list is updated.</p>
+<p>You’ll need to rerun the above <code class="highlighter-rouge">tlsrestrict_nss_tool</code> command whenever the built-in certificate list is updated.  You won’t need to redo the <code class="highlighter-rouge">about:config</code> steps, though.</p>
 
 <p>If you’ve manually imported any non-built-in TLS trust anchors to Firefox, and you want to restrict them from intercepting <code class="highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
 
@@ -288,10 +308,30 @@ profiledir="$PROFILEDIR"
   <li>Import <code class="highlighter-rouge">intermediate.crt</code> and <code class="highlighter-rouge">cross-signed.crt</code> into Firefox; do not mark them as trusted.</li>
 </ol>
 
-<p>If you decide later that you want to remove the negative overrides from Firefox, run the following:</p>
+<p>If you decide later that you want to remove the negative overrides from Firefox, follow these instructions:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR" --tlsrestrict.undo
-</code></pre></div></div>
+<ol>
+  <li>
+    <p>Run the following:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR" --tlsrestrict.undo
+</code></pre></div>    </div>
+  </li>
+  <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
+  <li>If you want to restore compatibility with TLS intercepting proxies, follow these steps.  If you don’t want to use a TLS intercepting proxy, or if you don’t know what a TLS intercepting proxy is, you probably don’t need to do this.
+    <ol>
+      <li>Go to <code class="highlighter-rouge">about:config</code> in Firefox.</li>
+      <li>Search for <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code>.</li>
+      <li>Right-click the <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code> preference.</li>
+      <li>Click <code class="highlighter-rouge">Reset</code>.</li>
+      <li>Search for <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code>.</li>
+      <li>Right-click the <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code> preference.</li>
+      <li>Click <code class="highlighter-rouge">Reset</code>.</li>
+      <li>Close the <code class="highlighter-rouge">about:config</code> tab in Firefox.</li>
+      <li>Restart Firefox.</li>
+    </ol>
+  </li>
+</ol>
 
 <h3 id="screenshot">Screenshot</h3>
 
