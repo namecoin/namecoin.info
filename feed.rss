@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 26 Oct 2018 01:06:37 +0000</pubDate>
-    <lastBuildDate>Fri, 26 Oct 2018 01:06:37 +0000</lastBuildDate>
+    <pubDate>Mon, 29 Oct 2018 06:25:49 +0000</pubDate>
+    <lastBuildDate>Mon, 29 Oct 2018 06:25:49 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin's Daniel Kraft will be a speaker at Malta Blockchain Summit 2018</title>
+        <description>&lt;p&gt;Namecoin’s Chief Scientist Daniel Kraft will be a speaker at &lt;a href=&quot;https://maltablockchainsummit.com/&quot;&gt;Malta Blockchain Summit 2018&lt;/a&gt;, October 31 - November 3.  Daniel is on the “Permissioned vs Permissionless Blockchains” panel at 9:30-9:50 on November 2.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 29 Oct 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/10/29/malta-blockchain-summit-2018.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/10/29/malta-blockchain-summit-2018.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ElectrumX: Name Script Support Merged by Upstream</title>
@@ -288,21 +301,6 @@
         <guid isPermaLink="true">https://namecoin.org//2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core 0.16.3 Released</title>
-        <description>&lt;p&gt;Namecoin Core 0.16.3 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/09/22/namecoin-core-0.16.3-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/09/22/namecoin-core-0.16.3-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Namecoin Core Releases</category>
         
         
       </item>
