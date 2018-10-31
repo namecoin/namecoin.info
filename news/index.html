@@ -243,6 +243,50 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">cross_sign_name_constraint_tool v0.0.3 and tlsrestrict_nss_tool v0.0.3 Released</h1>
+    <p class="post-meta">Oct 31, 2018 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> v0.0.3 and <code class="highlighter-rouge">tlsrestrict_nss_tool</code> v0.0.3.  Here’s what’s new:</p>
+
+    <ul>
+  <li>Both <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> and <code class="highlighter-rouge">tlsrestrict_nss_tool</code>:
+    <ul>
+      <li>Properly handle input CA’s that don’t have a CommonName.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">tlsrestrict_nss_tool</code> only:
+    <ul>
+      <li>Compatibility fixes for Windows:
+        <ul>
+          <li>Stop using <code class="highlighter-rouge">cp</code> to enable CKBI visibility, since no such command exists on Windows.</li>
+          <li>Pass cert nicknames in NSS <code class="highlighter-rouge">certutil</code> batch files instead of as command-line args, because Windows doesn’t handle Unicode command-line args correctly.</li>
+        </ul>
+      </li>
+      <li>Error when CKBI appears to be empty; this is usually a symptom of missing libraries.</li>
+      <li>Communicate with <code class="highlighter-rouge">certutil</code> via PEM instead of DER; this should reduce the risk of concatenated certs not having a clearly defined boundary.</li>
+      <li>Fix compatibility with Go 1.11 and higher.</li>
+      <li>Fix cert deletion on Fedora 28 and higher (and probably various other platforms too).</li>
+      <li>Partial support for bundling both 32-bit and 64-bit <code class="highlighter-rouge">certutil</code> on Windows.</li>
+      <li>Partial support for continuously syncing an NSS DB on Windows whenever CKBI is updated (not yet ready for use; will be included in a future ncdns release).</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#cross_sign_name_constraint_tool">Beta Downloads page</a>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Namecoin’s Daniel Kraft will be a speaker at Malta Blockchain Summit 2018</h1>
     <p class="post-meta">Oct 29, 2018 • Jeremy Rand </p>
   </header>
