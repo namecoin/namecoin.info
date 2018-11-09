@@ -6,9 +6,24 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 02 Nov 2018 23:00:32 +0000</pubDate>
-    <lastBuildDate>Fri, 02 Nov 2018 23:00:32 +0000</lastBuildDate>
+    <pubDate>Fri, 09 Nov 2018 08:41:08 +0000</pubDate>
+    <lastBuildDate>Fri, 09 Nov 2018 08:41:08 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin's Jeremy Rand will be a speaker at Internet Governance Forum 2018</title>
+        <description>&lt;p&gt;I (Jeremy Rand) will be a speaker at &lt;a href=&quot;https://www.intgovforum.org/multilingual/&quot;&gt;Internet Governance Forum 2018&lt;/a&gt;, November 12 - November 14, in Paris (chartered by the UN and hosted at the UNESCO headquarters).  I’ll be speaking on the &lt;a href=&quot;https://www.intgovforum.org/multilingual/content/igf-2018-ws-408-dns-enhancements-and-alternatives-for-the-future-internet&quot;&gt;“DNS enhancements and alternatives for the Future Internet” panel&lt;/a&gt; at 9:00 AM - 10:30 AM (local time) on Monday, November 12.  Huge thanks to Chiara Petrioli from Università degli Studi di Roma La Sapienza for inviting me!&lt;/p&gt;
+
+&lt;p&gt;While I’m in Paris, I’ll also be on an &lt;a href=&quot;https://www.eventbrite.com/e/internet-of-trust-tickets-51945113232?aff=ebdssbdestsearch&quot;&gt;“Internet of Trust” panel&lt;/a&gt; at 6:30 PM - 8:30 PM (local time) on Tuesday, November 13, hosted by Jean-Christophe Finidori.  Thanks to Jean-Christophe for inviting me!&lt;/p&gt;
+</description>
+        <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/11/09/internet-governance-forum-2018.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/11/09/internet-governance-forum-2018.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Decentralized Web Summit 2018 Summary</title>
@@ -340,19 +355,6 @@
         <pubDate>Sat, 06 Oct 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/10/06/electrum-nmc-name-transaction-creation.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/10/06/electrum-nmc-name-transaction-creation.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Halving Day (Block 420000)</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://namecoin.cyphrs.com/block/420000&quot;&gt;Block number 420000&lt;/a&gt; (hash &lt;code class=&quot;highlighter-rouge&quot;&gt;145f72ea59018ca4117015e3c25a2ed24e22e67c948841dd46a200db11d778be&lt;/code&gt;) was mined at &lt;code class=&quot;highlighter-rouge&quot;&gt;2018-10-04 01:10:19 +0000&lt;/code&gt; by Slush Pool with a block reward of 12.5 NMC plus fees.  From all of us at Namecoin, Happy Halving Day, everyone!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 04 Oct 2018 02:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/10/04/halving-day.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/10/04/halving-day.html</guid>
         
         <category>News</category>
         
