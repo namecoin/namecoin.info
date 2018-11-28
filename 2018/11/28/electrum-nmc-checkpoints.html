@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: Name Update GUI</title>
+    <title>Electrum-NMC: Checkpoints</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2018/10/09/electrum-nmc-name-update-gui.html">
+    <link rel="canonical" href="https://namecoin.org//2018/11/28/electrum-nmc-checkpoints.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -240,77 +240,73 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: Name Update GUI</h1>
-<p class="post-meta">Oct 9, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC: Checkpoints</h1>
+<p class="post-meta">Nov 28, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>I previously wrote about <a href="/2018/10/06/electrum-nmc-name-transaction-creation.html">creating name transactions in the Electrum-NMC console</a>.  Next up, adding GUI support.</p>
+<p>I decided to spend some time auditing Electrum-NMC’s bandwidth usage, to see if any optimizations were possible and/or needed.  Using the excellent <a href="https://github.com/raboof/nethogs">nethogs</a> tool by Arnout Engelen, I determined that Electrum-NMC’s initial syncup downloads 672 MB, which is quite a lot.  Clearly some optimizations would be highly welcome.</p>
 
-<p>The new <code class="highlighter-rouge">Renew Name</code> and <code class="highlighter-rouge">Configure Name...</code> buttons use the previously discussed <code class="highlighter-rouge">name_update</code> command as their backend, which makes implementation relatively simple, since it’s not difficult for GUI functions to access console commands.  I facilitated the <code class="highlighter-rouge">Renew Name</code> command by making the <code class="highlighter-rouge">value</code> parameter of <code class="highlighter-rouge">name_update</code> optional; if not supplied, it will be set to the current value of the name.</p>
+<p>Upstream Electrum avoids downloading most of the Bitcoin blockchain’s headers via checkpoints.  Basically, a checkpoint consists of a hardcoded block hash (and a difficulty target), specifically one for each difficulty retargeting period (2016 blocks).  Electrum doesn’t typically download any headers that are between two checkpoints; instead it only downloads such headers if it needs to verify a transaction from one of those blocks.  This reduces bandwidth usage considerably.  Electrum’s debug console can generate a checkpoint file (assuming that you’re connected to a trustworthy ElectrumX server; I’m using my own ElectrumX server connected to my own Namecoin Core node, so my server is indeed trustworthy to me).  Electrum-NMC hadn’t yet gotten around to setting any checkpoints, due to it being a lower priority than getting name transactions working.  But now that name transactions pretty much work, I was able to try out checkpoints.</p>
 
-<p>However, this introduces an interesting attack scenario: if an ElectrumX server falsely reports the current value of a name you own and you click the Renew button, you would be tricked into signing a <code class="highlighter-rouge">name_update</code> transaction that contains the malicious value.  Therefore, to mitigate this scenario, <code class="highlighter-rouge">value</code> is only optional if the latest transaction for the name has at least 12 confirmations.  I can’t picture any way that this mitigation would cause real-world UX problems; presumably no one wants to renew a name that was already last updated fewer than 12 blocks ago.</p>
+<p>Interestingly, after I set checkpoints through about 38 kiloblocks ago (more on why I chose that below), Electrum-NMC started reporting blockchain validation errors, most of which seemed to be related to missing headers.  After quite a bit of debugging, I figured out why this was happening: in Bitcoin, calculating the new difficulty target requires some information from the first and last block header for a given retargeting period.  Electrum’s checkpoints supply this information.  However, this is actually not mathematically correct behavior, and exposes the blockchain to what’s called a <em>timewarp attack</em>.  A timewarp attack can only be successfully pulled off by an attacker who can already do a 51% attack, so the attack is difficult, but if it’s successfully done, the attacker can make the difficulty continually drop, thus allowing them to mint more coins than the expected subsidy per 2 weeks.  Because a timewarp attack is difficult to pull off, and because fixing it constitutes a hardfork, Bitcoin never actually fixed that vulnerability.  Namecoin, however, did fix it, at the same time that we hardforked to enable merged mining.  How does the timewarp fix work?  Well, it actually needs a block header from the <em>previous</em> retargeting period in order to calculate the new target.  Guess what, Electrum’s checkpoints do not supply such information (which would be useless in Bitcoin).  And thus, the target calculation code in Electrum-NMC was complaining that the header from the previous retargeting period wasn’t present.</p>
 
-<p>One nice UX improvement in Electrum-NMC compared to Namecoin-Qt is that you can renew multiple names at once: just select more than one name in the <code class="highlighter-rouge">Manage Names</code> tab, and then click <code class="highlighter-rouge">Renew Name</code>.  Implementing this was a bit tricky, because Electrum’s coin selection algorithm doesn’t normally notice that a coin has been spent until it receives a copy from the ElectrumX server, which is usually a few seconds after we broadcast it to the ElectrumX server.  As a result, the coin selection algorithm would try to double-spend the same currency input for each name renewal.  I fixed this by calling <code class="highlighter-rouge">addtransaction(tx)</code> (which adds a transaction to the wallet) immediately after <code class="highlighter-rouge">broadcast(tx)</code> returns success, before moving on to the the next name to renew.</p>
+<p>After quite a bit of trying to find a way to solve the issue without highly invasive changes, I eventually stumbled on an easy hack.  I did a one-line change of the code that reports the number of checkpoints available, so that if <em>n</em> checkpoints exist, Electrum-NMC calculates the block height to download under the impression that <em>n-1</em> checkpoints exist.  This means that Electrum-NMC will actually download the final checkpoint’s set of 2016 block headers before it moves on to the uncheckpointed headers.  As a result, it actually <em>will</em> have the previous retargeting period’s headers available when it tries to calculate the new difficulty target.  It’s a stupid hack, but it definitely seems to work.</p>
 
-<p>It should be noted that renewing multiple names at once will probably reveal to blockchain deanonymizers that the affected names have common ownership.  So, while this feature is potentially useful, it should be used with care.</p>
+<p>So, with checkpoints set through 38 kiloblocks ago, I measured Electrum-NMC’s bandwidth usage with nethogs again, and this time it had dropped to 66 MB of downloaded data.  Not bad!</p>
 
-<p>The <code class="highlighter-rouge">Configure Name...</code> button and associated dialog were relatively uneventful in terms of bugs.  That said, it did occur to me that it might be better to re-use Namecoin-Qt’s <code class="highlighter-rouge">.ui</code> form files for this purpose instead of re-implementing the dialog in Python.  Unfortunately, Namecoin-Qt’s form files are a bit too specific to Bitcoin Core (e.g. they incorporate widgets that only exist in Bitcoin Core, which have different implementations in Electrum).  I think it would be plausible to improve the abstraction of Namecoin-Qt’s form files so that we could re-use them in Electrum-NMC and save on duplicated GUI effort; hopefully something will happen there after higher-priority tasks are dealt with in the Namecoin-Qt codebase.</p>
+<p>But why did I set the last checkpoint at 38 kiloblocks ago?  Well, if we’re doing name lookups, we always want to have block headers for the last 36 kiloblocks, since unexpired names could be anywhere within that range.  As an experiment, I tried setting a checkpoint at circa 3 kiloblocks ago, and found that Electrum-NMC’s bandwidth usage dropped to 4.9 MB of downloaded data during initial syncup.  However, trying to do a name lookup resulted in a “missing header” error.  Not much of a surprise there.  However, upstream Electrum handles this situation just fine when verifying currency transactions – if you try to verify a currency transaction that’s behind a checkpoint, Electrum just downloads the necessary headers before trying to verify it.  I quickly figured out where that code was, and adapted it to work with the <code class="highlighter-rouge">name_show</code> console command.  With this change, if a name is behind a checkpoint, the lookup succeeds – but if you haven’t already downloaded the relevant headers, Electrum-NMC downloads 2016 headers (about 3.2 MB according to nethogs) before verifying the name.</p>
 
-<p>And now, screenshots!</p>
+<p>For now, I don’t intend to put checkpoints beyond 38 kiloblocks ago into Electrum-NMC, because downloading 3.2 MB to do a lookup adds noticeable delay.  There are probably some ways this amount of data can be optimized significantly, but that’ll have to wait for another day.  That said, 66 MB instead of 672 MB is pretty nice savings.</p>
 
-<p><img src="/images/screenshots/electrum-nmc/2018-10-06-Manage-Names-Tab.png" alt="A screenshot of the &quot;Renew Name&quot; and &quot;Configure Name...&quot; buttons visible in the Electrum-NMC Manage Names tab." /></p>
-
-<p><img src="/images/screenshots/electrum-nmc/2018-10-06-Configure-Name-Dialog.png" alt="A screenshot of the &quot;Configure Name&quot; dialog in Electrum-NMC." /></p>
-
-<p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -715,7 +711,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-10-09-electrum-nmc-name-update-gui.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-11-28-electrum-nmc-checkpoints.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
