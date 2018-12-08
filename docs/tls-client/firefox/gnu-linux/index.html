@@ -275,12 +275,12 @@ profiledir="$PROFILEDIR"
   <li>Search for <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code>.</li>
   <li>Double-click the <code class="highlighter-rouge">security.cert_pinning.enforcement_level</code> preference.</li>
   <li>Enter <code class="highlighter-rouge">2</code> and click OK.</li>
-  <li>Search for <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code></li>
+  <li>Search for <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code>.</li>
   <li>Double-click the <code class="highlighter-rouge">security.cert_pinning.process_headers_from_non_builtin_roots</code> preference until the <code class="highlighter-rouge">Value</code> column says <code class="highlighter-rouge">true</code>.</li>
   <li>Close the <code class="highlighter-rouge">about:config</code> tab in Firefox.</li>
   <li>Restart Firefox.</li>
-  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Firefox certificate database.</li>
-  <li>Find your NSS directory; it will usually be a subdirectory of <code class="highlighter-rouge">$HOME/.mozilla/firefox</code>.  For example, <code class="highlighter-rouge">$HOME/.mozilla/firefox/r3a8ono6.default</code>.</li>
+  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Firefox certificate database.  Note its path; make sure you use forward-slashes instead of backslashes, and leave off the trailing slash.</li>
+  <li>Find your NSS directory; it will usually be a subdirectory of <code class="highlighter-rouge">$HOME/.mozilla/firefox</code>.  For example, <code class="highlighter-rouge">$HOME/.mozilla/firefox/r3a8ono6.default</code>.  Make sure you use forward-slashes instead of backslashes, and leave off the trailing slash.</li>
   <li>
     <p>Run the following, substituting the temporary directory and NSS directory for <code class="highlighter-rouge">$TEMP_DIR</code> and <code class="highlighter-rouge">$NSS_DIR</code>:</p>
 
