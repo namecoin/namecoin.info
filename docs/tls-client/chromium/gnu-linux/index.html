@@ -290,7 +290,7 @@ nssdbdir="$NSSDBDIR"
 <p>Chromium for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
 <ol>
-  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Chromium certificate database.</li>
+  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Chromium certificate database.  Note its path; make sure you use forward-slashes instead of backslashes, and leave off the trailing slash.</li>
   <li>
     <p>Run the following, substituting the temporary directory for <code class="highlighter-rouge">$TEMP_DIR</code>:</p>
 
