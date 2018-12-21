@@ -6,9 +6,37 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 08 Dec 2018 00:05:44 +0000</pubDate>
-    <lastBuildDate>Sat, 08 Dec 2018 00:05:44 +0000</lastBuildDate>
+    <pubDate>Fri, 21 Dec 2018 10:26:52 +0000</pubDate>
+    <lastBuildDate>Fri, 21 Dec 2018 10:26:52 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.2.4b1 Beta Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.2.4b1.  This is a beta release (even more so than the other downloads on the Beta Downloads page); expect a higher risk of bugs than usual.  (As one example of a bug due to it being a beta, it doesn’t build for Windows without errors, so this release is for GNU/Linux users only.)  Here’s what’s new:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Name support.&lt;/li&gt;
+  &lt;li&gt;Checkpoint at height 385055.&lt;/li&gt;
+  &lt;li&gt;Fix macOS build issue.&lt;/li&gt;
+  &lt;li&gt;Code quality improvements.&lt;/li&gt;
+  &lt;li&gt;From upstream Electrum: the Safe-T mini hardware wallet from Archos is now supported.&lt;/li&gt;
+  &lt;li&gt;Other improvements from upstream Electrum.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>ElectrumX v1.8.8 Released by Upstream, Includes Name Script Support</title>
@@ -282,66 +310,6 @@
         <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/10/25/electrumx-name-scripts-merged.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/10/25/electrumx-name-scripts-merged.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: Name Registration GUI</title>
-        <description>&lt;p&gt;Now that &lt;a href=&quot;/2018/10/09/electrum-nmc-name-update-gui.html&quot;&gt;Electrum-NMC GUI support for updating names&lt;/a&gt; is a thing, it’s time to advance to name registration GUI support.&lt;/p&gt;
-
-&lt;p&gt;Whereas the &lt;code class=&quot;highlighter-rouge&quot;&gt;Renew Name&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Configure Name...&lt;/code&gt; buttons each map directly to a single sequence of two console commands (&lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; followed by &lt;code class=&quot;highlighter-rouge&quot;&gt;broadcast&lt;/code&gt;), which makes their implementation relatively straightforward, &lt;em&gt;registering&lt;/em&gt; a name is more complicated, due to the two-step procedure in which a salted commitment (&lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;) is broadcast 12 blocks before the name registration itself (&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;) in order to prevent frontrunning attacks.  Given that the name registration procedure was going to be a bit complicated, it seemed like a good idea to create a new console command for this purpose, so that the GUI can maintain a simple mapping to console commands.&lt;/p&gt;
-
-&lt;p&gt;In fact, I ended up creating a few different console commands.  The first console command (&lt;code class=&quot;highlighter-rouge&quot;&gt;queuetransaction&lt;/code&gt;) is used for storing transactions in the wallet that are intended to be broadcasted in the future once a trigger condition has occurred.  An entry in the transaction queue consists of:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Either a transaction ID or a name identifier&lt;/li&gt;
-  &lt;li&gt;A depth (in blocks)&lt;/li&gt;
-  &lt;li&gt;A raw transaction&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;When the specified transaction ID (or the most recent transaction for the specified name identifier) attains sufficient confirmations in the blockchain, the raw transaction will be broadcasted.  In order to register a name, the following transaction queue entry would be used:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Transaction ID of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Depth of 12 blocks&lt;/li&gt;
-  &lt;li&gt;Raw transaction of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;There are some other use cases for the transaction queue, such as automatically renewing names when they’re approaching expiration, or automatically registering a name if/when its previous owner lets them expire.  For now, we’ll focus on name registration.&lt;/p&gt;
-
-&lt;p&gt;Next up was a console command &lt;code class=&quot;highlighter-rouge&quot;&gt;updatequeuedtransactions&lt;/code&gt;, which examines each of the transaction queue entries, and broadcasts and unqueues each of the entries whose trigger condition has been achieved.  This wasn’t too complicated, although I did do some deliberating on when exactly to unqueue a transaction.  In theory, an ElectrumX server could claim to have broadcasted a transaction but not actually do so, and if Electrum-NMC unqueues a transaction in this case, then the transaction will never actually get mined.  A sledgehammer-style workaround here would be to try to re-broadcast each block until Electrum-NMC sees an SPV proof indicating that the transaction has, say, 12 confirmations (indicating that it very likely did get broadcasted and mined).  However, I ended up deciding that this kind of attack is simply out of scope for the transaction queue, since the attack can apply equally well to arbitrary other transactions that get broadcasted.  Solving this attack is probably something better done in upstream Electrum than by whatever hacky and poorly peer-reviewed approach we’d take in Electrum-NMC.  So, we unqueue the transaction as soon as it’s broadcast.  Easy enough.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;updatequeuedtransactions&lt;/code&gt; is cool, but we want this to happen every block, automatically.  So the next step was to add a hook that calls &lt;code class=&quot;highlighter-rouge&quot;&gt;updatequeuedtransactions&lt;/code&gt; whenever a new block arrives.  This should have been simple, but I quickly noticed that whenever this hook resulted in broadcasting a transaction, an assertion error would get logged, and the transaction would never broadcast.  A quick inspection showed that the &lt;code class=&quot;highlighter-rouge&quot;&gt;broadcast&lt;/code&gt; console command should never be called from the network thread, and the hook was indeed being called from the network thread (where the incoming block event came from).  After a little bit of tinkering, I determined that the simplest approach was just to re-emit the incoming block event to the GUI thread, and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;updatequeuedtransactions&lt;/code&gt; from the GUI thread’s event.&lt;/p&gt;
-
-&lt;p&gt;Okay, so the groundwork is laid, now to actually implement a console command for name registration.  In theory, this should be easy: it should consist of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;broadcast&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;queuetransaction&lt;/code&gt;, right?  Actually, things are a lot more complicated, because if any of the currency inputs to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction get spent in the 12-block interval before it gets broadcasted, then the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; will be rejected as a double-spend.  Hypothetically, I could have fixed this by abusing the address-freezing functionality of Electrum, but there’s a better way: pure name transactions.&lt;/p&gt;
-
-&lt;p&gt;Pure name transactions are a highly interesting form of Namecoin transaction, where currency is embedded inside a name instead of being kept in a separate input/output.  This works because the 0.01 NMC cost of registering a name is actually enforced as a &lt;em&gt;minimum&lt;/em&gt; amount of a name output, not an &lt;em&gt;exact&lt;/em&gt; amount.  You can put, for example, 0.03 NMC into a name output, and you can later withdraw the excess 0.02 NMC by spending that name output.  As long as the amount never drops below the 0.01 NMC minimum, the Namecoin consensus rules don’t care.  There are two major use cases for pure name transactions:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Reducing transaction size.  Obviously, 1 input and 1 output will yield a smaller transaction than 2 inputs and 2 outputs, which reduces blockchain bloat and transaction fees.  (As far as I know, this use case was first described in a discussion at ICANN58 about Namecoin scalability.)&lt;/li&gt;
-  &lt;li&gt;Keeping coins organized.  If you’ve ever tried to renew more than 25 names in Namecoin Core at once, you might have noticed that you got an error about a long chain of unconfirmed transactions.  This happens because each renewal uses a currency input that’s the currency output of the previous renewal, forming a long chain of transactions.  The Namecoin Core error happens because Namecoin Core considers it risky to have a chain of more than 25 unconfirmed transactions (if the first one never got confirmed, all the others would be stuck too).  However, with pure name transactions, each name has its own currency coins, which are temporarily earmarked for use with that name, so operations with different names can’t interfere with each other.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The latter use case is what we’ll use here.  We create a &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction with no currency outputs, but whose name output has an extra 0.005 NMC attached to it.  When we create the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction, we instruct Electrum-NMC’s coin selection algorithm to only use the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; input, and to pay any fees out of the extra 0.005 NMC.  (Coincidentally, I’m pretty sure that Mikhail’s Namecoin-Qt client, from the era before Namecoin Core, did the same thing.)  As a result, we can be confident that no accidental double-spends will occur, because we definitely won’t be spending the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; output before we broadcast the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; transaction.  Interestingly, making this work actually needed some minor changes to the Electrum-NMC coin selection algorithm, because parts of the coin selector are not designed to work properly with zero currency inputs being selected.  (Which is understandable, since such a transaction would never be possible in Bitcoin.)&lt;/p&gt;
-
-&lt;p&gt;With that, we have a single console command, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_autoregister&lt;/code&gt;, which does what we want, so now it’s time to create a GUI for it.  This was relatively uneventful, but it’s notable that I decided to have a separate &lt;code class=&quot;highlighter-rouge&quot;&gt;Buy Names&lt;/code&gt; tab instead of putting the registration widgets on the existing &lt;code class=&quot;highlighter-rouge&quot;&gt;Manage Names&lt;/code&gt; tab.  The reasoning for this is that the &lt;code class=&quot;highlighter-rouge&quot;&gt;Buy Names&lt;/code&gt; tab is a convenient place to show other widgets that don’t exist yet, such as giving you the opportunity to atomically trade NMC for a name if the name you want is already registered.&lt;/p&gt;
-
-&lt;p&gt;And now, here’s your regular fix of screenshots:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Entry.png&quot; alt=&quot;A screenshot of entering a name on the Electrum-NMC Buy Names tab.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Available.png&quot; alt=&quot;A screenshot of a name available for registration on the Electrum-NMC Buy Names tab.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Taken.png&quot; alt=&quot;A screenshot of a name already taken on the Electrum-NMC Buy Names tab.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 21 Oct 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/10/21/electrum-nmc-name-registration-gui.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/10/21/electrum-nmc-name-registration-gui.html</guid>
         
         <category>News</category>
         
