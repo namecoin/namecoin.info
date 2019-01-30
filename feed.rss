@@ -6,9 +6,34 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 24 Dec 2018 11:01:50 +0000</pubDate>
-    <lastBuildDate>Mon, 24 Dec 2018 11:01:50 +0000</lastBuildDate>
+    <pubDate>Wed, 30 Jan 2019 16:09:56 +0000</pubDate>
+    <lastBuildDate>Wed, 30 Jan 2019 16:09:56 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Internet Governance Forum 2018 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2018/11/09/internet-governance-forum-2018.html&quot;&gt;previously announced&lt;/a&gt;, I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://www.intgovforum.org/multilingual/&quot;&gt;Internet Governance Forum 2018&lt;/a&gt; in Paris.&lt;/p&gt;
+
+&lt;p&gt;My panel at IGF (moderated by Chiara Petrioli from Università degli Studi di Roma La Sapienza) went reasonably well, and a quite diverse set of perspectives were represented.  I suspect that a lot of the attendees had never been exposed to the cypherpunk philosophy of “trusted third parties are security holes” (credit to Nick Szabo for that phrasing), and I hope I did a good job of providing that exposure so that maybe we’ll have some new allies.  As with ICANN58, I continued my adherence to the Fluffypony way of answering questions: don’t hype things, and always be quick to admit disadvantages.  This worked well at ICANN, and I think it worked well at IGF.  (Special thanks to the guy from Verisign who asked a question in the Q&amp;amp;A that will shortly be immortalized in the Namecoin.org FAQ!)&lt;/p&gt;
+
+&lt;p&gt;IGF has published a &lt;a href=&quot;https://www.intgovforum.org/multilingual/content/igf-2018-day-1-salle-vi-ws408-dns-enhancements-and-alternatives-for-the-future-internet&quot;&gt;transcript&lt;/a&gt;[1], a &lt;a href=&quot;https://www.youtube.com/watch?v=WyTNAXdd7Qc&amp;amp;pbjreload=10&quot;&gt;video recording&lt;/a&gt;, and a &lt;a href=&quot;https://www.intgovforum.org/multilingual/content/igf-2018-ws-408-dns-enhancements-and-alternatives-for-the-future-internet&quot;&gt;report&lt;/a&gt;.  The transcript and report should work fine in Tor Browser at High Security settings; the video recording can be viewed via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).  I’ve also posted &lt;a href=&quot;/resources/presentations/IGF_2018/Namecoin_IGF_2018.pdf&quot;&gt;my slides&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The next day, I was on a panel hosted by Jean-Christophe Finidori.  This one was a bit more in my comfort zone, as the attendees were mostly blockchain enthusiasts, and there were a lot of quite sophisticated questions about the details of Namecoin’s design.  Unfortunately, I’m not aware of any recordings of this event.&lt;/p&gt;
+
+&lt;p&gt;Of course, I had lots of other meetings while I was in Paris, but as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  That said, the result of one of those conversations is likely to be posted very soon.&lt;/p&gt;
+
+&lt;p&gt;Thanks to Chiara and Jean-Christophe for inviting me; I enjoyed visiting Paris!&lt;/p&gt;
+
+&lt;p&gt;[1] Reading the official transcript makes me realize how lucky I am that I’m not hearing-impaired.  Hearing-impaired people are going to have a miserable time trying to understand the transcript.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 30 Jan 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/01/30/internet-governance-forum-2018-summary.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/01/30/internet-governance-forum-2018-summary.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin's Jeremy Rand and Jonas Ostman will be at 35C3</title>
@@ -297,19 +322,6 @@
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin's Daniel Kraft will be a speaker at Malta Blockchain Summit 2018</title>
-        <description>&lt;p&gt;Namecoin’s Chief Scientist Daniel Kraft will be a speaker at &lt;a href=&quot;https://maltablockchainsummit.com/&quot;&gt;Malta Blockchain Summit 2018&lt;/a&gt;, October 31 - November 3.  Daniel is on the “Permissioned vs Permissionless Blockchains” panel at 9:30-9:50 on November 2.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 29 Oct 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/10/29/malta-blockchain-summit-2018.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/10/29/malta-blockchain-summit-2018.html</guid>
-        
-        <category>News</category>
         
         
       </item>
