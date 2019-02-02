@@ -6,9 +6,41 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 30 Jan 2019 16:09:56 +0000</pubDate>
-    <lastBuildDate>Wed, 30 Jan 2019 16:09:56 +0000</lastBuildDate>
+    <pubDate>Sat, 02 Feb 2019 09:58:56 +0000</pubDate>
+    <lastBuildDate>Sat, 02 Feb 2019 09:58:56 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC: Checkpointed AuxPoW Truncation</title>
+        <description>&lt;p&gt;I posted previously about &lt;a href=&quot;/2018/11/28/electrum-nmc-checkpoints.html&quot;&gt;auditing Electrum-NMC’s bandwidth usage&lt;/a&gt;.  In that post, I mentioned that there were probably optimizations that could be done to reduce the 3.2 MB per 2016 block headers that get downloaded when looking up a name that’s covered by a checkpoint.  I’ve now implemented one of them: AuxPoW truncation.&lt;/p&gt;
+
+&lt;p&gt;Some background: AuxPoW (auxilliary proof of work) is the portion of Namecoin block headers that allows clients to verify that the PoW expended by miners on the parent chain (usually Bitcoin) applies to Namecoin as well.  As a result, SPV clients such as Electrum-NMC (which verify PoW) need to download the AuxPoW data.  However, the AuxPoW data in a Namecoin block header &lt;em&gt;does not contribute to the block hash&lt;/em&gt;.  As a result, the commitment in a Namecoin block header to the previous block header can be verified without having access to any AuxPoW data.&lt;/p&gt;
+
+&lt;p&gt;Why does this matter?  AuxPoW is by far the largest part of a Namecoin block header, because it contains a coinbase transaction from the parent chain.  Coinbase transactions can frequently be quite large, especially if the parent block is mined by a mining pool that’s paying a large number of miners via the coinbase transaction.  If we can omit the AuxPoW data from Namecoin block headers, then that saves a lot of bytes.&lt;/p&gt;
+
+&lt;p&gt;Obviously, we can’t get rid of the AuxPoW data completely, since SPV validation requires PoW verification.  But not all blocks are verified via SPV – blocks that are covered by a checkpoint don’t need to have their PoW checked, since the checkpoint implies validity.  So, we can simply not check the AuxPoW for any blocks that are committed to by a checkpoint.  And if we don’t need to check the AuxPoW for such blocks, we don’t need to download it either.&lt;/p&gt;
+
+&lt;p&gt;Conveniently, the Electrum protocol includes a feature that allows the client to tell the server what height its checkpoint is set to.  This feature isn’t actually used yet in the Electrum client, but we can use that feature to have Electrum-NMC tell ElectrumX what height its checkpoint is set to, such that ElectrumX will then truncate AuxPoW data from the block headers it responds with.  I’ve submitted a PR for ElectrumX that does exactly that: with this PR, ElectrumX truncates AuxPoW data from block headers when the client supplies a checkpoint height that is higher than the height of the block header.  Neil from ElectrumX has already merged my PR; once it’s in a tagged release, I’ll push the relevant changes to Electrum-NMC as well.&lt;/p&gt;
+
+&lt;p&gt;What does the data transfer look like now?&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Before: 3.2 MB per 2016 headers&lt;/li&gt;
+  &lt;li&gt;After: 323 KB per 2016 headers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So that’s roughly a 90% reduction.  Not bad.  There are probably some additional optimizations that can still be done, but those will have to wait for another day.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 02 Feb 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Internet Governance Forum 2018 Summary</title>
@@ -277,51 +309,6 @@
         <guid isPermaLink="true">https://namecoin.org//2018/11/01/nytimes-allegation-saudi-targeting-namecoin-moxie.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>cross_sign_name_constraint_tool v0.0.3 and tlsrestrict_nss_tool v0.0.3 Released</title>
-        <description>&lt;p&gt;We’ve released &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; v0.0.3 and &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; v0.0.3.  Here’s what’s new:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Both &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_sign_name_constraint_tool&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;Properly handle input CA’s that don’t have a CommonName.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrict_nss_tool&lt;/code&gt; only:
-    &lt;ul&gt;
-      &lt;li&gt;Compatibility fixes for Windows:
-        &lt;ul&gt;
-          &lt;li&gt;Stop using &lt;code class=&quot;highlighter-rouge&quot;&gt;cp&lt;/code&gt; to enable CKBI visibility, since no such command exists on Windows.&lt;/li&gt;
-          &lt;li&gt;Pass cert nicknames in NSS &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; batch files instead of as command-line args, because Windows doesn’t handle Unicode command-line args correctly.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Error when CKBI appears to be empty; this is usually a symptom of missing libraries.&lt;/li&gt;
-      &lt;li&gt;Communicate with &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; via PEM instead of DER; this should reduce the risk of concatenated certs not having a clearly defined boundary.&lt;/li&gt;
-      &lt;li&gt;Fix compatibility with Go 1.11 and higher.&lt;/li&gt;
-      &lt;li&gt;Fix cert deletion on Fedora 28 and higher (and probably various other platforms too).&lt;/li&gt;
-      &lt;li&gt;Partial support for bundling both 32-bit and 64-bit &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; on Windows.&lt;/li&gt;
-      &lt;li&gt;Partial support for continuously syncing an NSS DB on Windows whenever CKBI is updated (not yet ready for use; will be included in a future ncdns release).&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#cross_sign_name_constraint_tool&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
