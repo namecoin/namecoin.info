@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>LibreTorNS Merged to Upstream TorNS</title>
+    <title>Name Lookup Clients</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//2017/07/07/libretorns-merged-upstream.html">
+    <link rel="canonical" href="https://namecoin.org//get-started/name-lookup-clients/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -232,485 +232,32 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        
+        <div class="post">
 
+  <header class="post-header">
+    <h1 class="post-title">Name Lookup Clients</h1>
+  </header>
 
+  <article class="post-content">
+    
+<p>To look up Namecoin names (e.g. in conjunction with ncdns), you need a Namecoin name lookup client.</p>
 
+<p>Your options are:</p>
 
+<ul>
+  <li><strong>Namecoin Core</strong><br />
+ Namecoin Core is the port of Bitcoin Core to Namecoin.  Namecoin Core is a fully validating node, is reproducibly built, and supports Tor.  You can download Namecoin Core at the <a href="/download/">Downloads</a> page.</li>
+  <li><strong>ConsensusJ-Namecoin</strong><br />
+ ConsensusJ-Namecoin is a lightweight SPV name lookup client, based on ConsensusJ, libdohj, and BitcoinJ (also used in the Schildbach Android Bitcoin Wallet).  ConsensusJ-Namecoin is written in a memory-safe language (Java), which is more secure than Namecoin Core, but it isn’t a fully validating node, which is less secure than Namecoin Core.  ConsensusJ-Namecoin is not reproducibly built and does not support Tor.  <a href="/docs/bitcoinj-name-lookups/">ConsensusJ-Namecoin documentation is here.</a></li>
+  <li><strong>Electrum-NMC</strong><br />
+ Electrum-NMC is the port of Electrum to Namecoin.  Electrum-NMC is written in a memory-safe language (Python), which is more secure than Namecoin Core, but it doesn’t verify completeness of blocks, which is less secure than Namecoin Core and ConsensusJ-Namecoin.  Electrum-NMC is not reproducibly built.  Electrum-NMC supports Tor.  <!-- TODO: link to Electrum-NMC docs. --></li>
+</ul>
 
+<p>After you’ve installed a Namecoin name lookup client, if your goal is to access <code class="highlighter-rouge">.bit</code> domain names, your next step will be installing <a href="/docs/ncdns/">ncdns</a>.</p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">LibreTorNS Merged to Upstream TorNS</h1>
-<p class="post-meta">Jul 7, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
-</header>
-
-<article class="post-content">
-<p>Generally I’m of the opinion that it’s better to get patches to other people’s projects merged upstream whenever feasible; accordingly I submitted the LibreTorNS patches upstream.  Happily, meejah has merged the LibreTorNS patches to <a href="https://github.com/meejah/torns">upstream TorNS</a>.  That means LibreTorNS is now obsolete, and you should use meejah’s upstream TorNS for testing dns-prop279 going forward.</p>
-
-<p>Huge thanks to meejah for accepting the patch!  Also thanks to meejah for the code review – there was a bug hiding in my initial submitted patch, which is one of the reasons I always prefer getting things reviewed by upstream.</p>
-
-</article>
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -727,7 +274,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-07-07-libretorns-merged-upstream.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/get-started/name-lookup-clients/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
