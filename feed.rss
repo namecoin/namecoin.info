@@ -6,9 +6,32 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 03 Feb 2019 23:35:50 +0000</pubDate>
-    <lastBuildDate>Sun, 03 Feb 2019 23:35:50 +0000</lastBuildDate>
+    <pubDate>Sun, 10 Feb 2019 16:22:15 +0000</pubDate>
+    <lastBuildDate>Sun, 10 Feb 2019 16:22:15 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.3.3.1.1 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.3.1.1.  This release includes an important fix for name transactions (both wallet and lookups), and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Remove mandatory wallet dependency for name_show&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/02/10/electrum-nmc-v3.3.3.1.1-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/02/10/electrum-nmc-v3.3.3.1.1-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.3.1 Released</title>
@@ -243,25 +266,6 @@
         <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/11/09/internet-governance-forum-2018.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/11/09/internet-governance-forum-2018.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Decentralized Web Summit 2018 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2018/07/23/decentralized-web-summit-2018.html&quot;&gt;previously announced&lt;/a&gt;, I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://decentralizedweb.net/&quot;&gt;Decentralized Web Summit 2018&lt;/a&gt; in San Francisco.&lt;/p&gt;
-
-&lt;p&gt;This time, the focus of my attendance was less on giving talks and more about talking with other attendees about possible collaborations.  As usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
-
-&lt;p&gt;That said, I did give a lightning talk.  You can view the &lt;a href=&quot;https://decentralizedweb.net/videos/lightning-talks-new-discoveries-session-1/&quot;&gt;official recording page&lt;/a&gt; (JavaScript required, yuck!), or you can view &lt;a href=&quot;https://ia801508.us.archive.org/11/items/dweb-8_1_18_HyperRoom_lightningTalksNewDiscoveries-1/8_1_18_HyperRoom_lightning%20Talks%20New%20Discoveries-1.mp4&quot;&gt;the video file itself&lt;/a&gt; (no JavaScript required; my lightning talk is at 24:15 - 32:08).&lt;/p&gt;
-
-&lt;p&gt;Thanks to Internet Archive for inviting me, we’re looking forward to the next event!&lt;/p&gt;
-</description>
-        <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/11/02/decentralized-web-summit-2018-summary.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/11/02/decentralized-web-summit-2018-summary.html</guid>
         
         <category>News</category>
         
