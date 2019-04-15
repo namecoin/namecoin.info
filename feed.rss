@@ -6,9 +6,32 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 08 Apr 2019 00:48:41 +0000</pubDate>
-    <lastBuildDate>Mon, 08 Apr 2019 00:48:41 +0000</lastBuildDate>
+    <pubDate>Mon, 15 Apr 2019 21:59:23 +0000</pubDate>
+    <lastBuildDate>Mon, 15 Apr 2019 21:59:23 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Progress on reproducibility of ncdns builds</title>
+        <description>&lt;p&gt;As part of work to ensure that all Namecoin software can be built and
+distributed in a reproducible fashion, RBM build scripts for ncdns are &lt;a href=&quot;https://github.com/hlandau/ncdns-repro&quot;&gt;now
+available&lt;/a&gt;. These scripts are currently
+experimental, but will become the preferred way to build ncdns.&lt;/p&gt;
+
+&lt;p&gt;The RBM build system is specifically designed to facilitate reproducible builds
+and is also commonly used to build Tor Browser. The RBM build scripts for ncdns
+build on the existing Tor Browser build system, which will ease future
+integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/04/15/ncdns-repro.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/04/15/ncdns-repro.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum: Merkle Checkpoints</title>
@@ -243,25 +266,6 @@
         <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</link>
         <guid isPermaLink="true">https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ElectrumX v1.8.8 Released by Upstream, Includes Name Script Support</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/kyuupichan/electrumx&quot;&gt;Upstream ElectrumX&lt;/a&gt; has released v1.8.8, which includes &lt;a href=&quot;/2018/10/25/electrumx-name-scripts-merged.html&quot;&gt;name script support&lt;/a&gt;.  (ElectrumX then subsequently released some other minor revisions, which seem to mostly be bug fixes; the latest release is currently v1.8.12.)  If you run a Namecoin ElectrumX server, please consider upgrading to the latest ElectrumX release so that your users will be able to use name scripts.&lt;/p&gt;
-
-&lt;p&gt;(And a reminder that we need more ElectrumX instances… please consider running one if you have a server with spare resources!)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 07 Dec 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/12/07/electrumx-v1.8.8-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/12/07/electrumx-v1.8.8-released.html</guid>
         
         <category>Releases</category>
         
