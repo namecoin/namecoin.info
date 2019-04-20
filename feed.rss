@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 15 Apr 2019 21:59:23 +0000</pubDate>
-    <lastBuildDate>Mon, 15 Apr 2019 21:59:23 +0000</lastBuildDate>
+    <pubDate>Sat, 20 Apr 2019 22:04:05 +0000</pubDate>
+    <lastBuildDate>Sat, 20 Apr 2019 22:04:05 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin's Daniel Kraft at Grazer Linuxtage 2015 (Video)</title>
+        <description>&lt;p&gt;Back in 2015, Namecoin Chief Scientist Daniel Kraft gave a German-language talk at Grazer Linuxtage.  A &lt;a href=&quot;https://www.youtube.com/watch?v=bp2V281-AnE&quot;&gt;video of his talk&lt;/a&gt; is available for interested viewers.  The video can be viewed via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).&lt;/p&gt;
+</description>
+        <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Progress on reproducibility of ncdns builds</title>
@@ -242,34 +255,6 @@ integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
         <guid isPermaLink="true">https://namecoin.org//2018/12/22/35c3.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v3.2.4b1 Beta Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v3.2.4b1.  This is a beta release (even more so than the other downloads on the Beta Downloads page); expect a higher risk of bugs than usual.  (As one example of a bug due to it being a beta, it doesn’t build for Windows without errors, so this release is for GNU/Linux users only.)  Here’s what’s new:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Name support.&lt;/li&gt;
-  &lt;li&gt;Checkpoint at height 385055.&lt;/li&gt;
-  &lt;li&gt;Fix macOS build issue.&lt;/li&gt;
-  &lt;li&gt;Code quality improvements.&lt;/li&gt;
-  &lt;li&gt;From upstream Electrum: the Safe-T mini hardware wallet from Archos is now supported.&lt;/li&gt;
-  &lt;li&gt;Other improvements from upstream Electrum.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/12/21/electrum-nmc-v3.2.4b1-beta-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>
