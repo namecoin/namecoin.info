@@ -6,9 +6,22 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 20 Apr 2019 22:04:05 +0000</pubDate>
-    <lastBuildDate>Sat, 20 Apr 2019 22:04:05 +0000</lastBuildDate>
+    <pubDate>Wed, 24 Apr 2019 16:53:37 +0000</pubDate>
+    <lastBuildDate>Wed, 24 Apr 2019 16:53:37 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Daniel Kraft at Malta Blockchain Summit 2018 (Video)</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2018/10/29/malta-blockchain-summit-2018.html&quot;&gt;previously announced&lt;/a&gt;, Namecoin Chief Scientist Daniel Kraft was a panelist at &lt;a href=&quot;https://maltablockchainsummit.com/&quot;&gt;Malta Blockchain Summit 2018&lt;/a&gt;, on the “Permissioned vs Permissionless Blockchains” panel.  A &lt;a href=&quot;https://www.youtube.com/watch?v=q7T4cDABvYo&quot;&gt;video of the panel&lt;/a&gt; is now available.    The video can be viewed via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Apr 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/04/24/malta-blockchain-summit-2018-video.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/04/24/malta-blockchain-summit-2018-video.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin's Daniel Kraft at Grazer Linuxtage 2015 (Video)</title>
@@ -238,21 +251,6 @@ integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
         <pubDate>Wed, 30 Jan 2019 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2019/01/30/internet-governance-forum-2018-summary.html</link>
         <guid isPermaLink="true">https://namecoin.org//2019/01/30/internet-governance-forum-2018-summary.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin's Jeremy Rand and Jonas Ostman will be at 35C3</title>
-        <description>&lt;p&gt;You might have noticed that we’ve been a bit quiet on this news feed as well as social media for the last month.  Not to worry, there’s a reason: same as last year, I (Jeremy Rand) and Jonas Ostman will represent Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2018/wiki/index.php/Main_Page&quot;&gt;35C3 (the 35th Chaos Communication Congress)&lt;/a&gt; in Leipzig, December 27-30.  And this time, our R&amp;amp;D lab has been very busy cooking up some cool stuff for 35C3, which is why we haven’t posted much in the last month.&lt;/p&gt;
-
-&lt;p&gt;Once again, we’ll be hosted by the Monero Assembly.  The schedule for Monero Assembly events isn’t yet finalized, but keep an eye on &lt;a href=&quot;https://frab.riat.at/en/35C3/public/schedule&quot;&gt;the schedule&lt;/a&gt; for details.  We heard a rumor that talks might get recorded and live-streamed.  We’re looking forward to the Congress!&lt;/p&gt;
-</description>
-        <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2018/12/22/35c3.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2018/12/22/35c3.html</guid>
         
         <category>News</category>
         
