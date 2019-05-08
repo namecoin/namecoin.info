@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>35C3 TLS Workshop Notes</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://namecoin.org//resources/presentations/35C3/tls-workshop/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">35C3 TLS Workshop Notes</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>Welcome to the 35C3 Namecoin TLS Workshop, home of the code that first worked a few days ago.  We’ll walk you through the steps below, feel free to follow along in this document.</p>
+
+<h2 id="get-a-namecoin-lookup-client">Get a Namecoin lookup client</h2>
+
+<p>You only need one of ConsensusJ-Namecoin or Electrum-NMC.  ConsensusJ-Namecoin requires x86 architecture (either 32-bit or 64-bit).  Electrum-NMC requires Python 3.6 or higher.</p>
+
+<h3 id="consensusj-namecoin">ConsensusJ-Namecoin</h3>
+
+<ul>
+  <li><a href="https://www.namecoin.org/download/betas/#consensusj-namecoin">https://www.namecoin.org/download/betas/#consensusj-namecoin</a></li>
+</ul>
+
+<h3 id="electrum-nmc">Electrum-NMC</h3>
+
+<ul>
+  <li><a href="https://www.namecoin.org/download/betas/#electrum-nmc">https://www.namecoin.org/download/betas/#electrum-nmc</a> (you want the v3.2.4b1 Beta)</li>
+</ul>
+
+<h2 id="install-a-namecoin-lookup-client">Install a Namecoin lookup client</h2>
+
+<p>You only need one of ConsensusJ-Namecoin or Electrum-NMC.</p>
+
+<h3 id="consensusj-namecoin-1">ConsensusJ-Namecoin</h3>
+
+<ol>
+  <li>Install Java.  In Debian, this can be done via <code class="highlighter-rouge">sudo apt-get install openjdk-8-jre</code>; in Fedora, use <code class="highlighter-rouge">sudo dnf install java-1.8.0-openjdk</code></li>
+  <li>In a dedicated terminal: <code class="highlighter-rouge">java -jar ./namecoinj-daemon-0.3.2-SNAPSHOT.jar --connection.proxyenabled=false --connection.streamisolation=false --server.port=8336 --namelookup.latest.algo=leveldbtxcache</code></li>
+  <li>It’ll take a few minutes to sync.</li>
+</ol>
+
+<h3 id="electrum-nmc-1">Electrum-NMC</h3>
+
+<ol>
+  <li>Install Python3-PyQt5.  In Debian, this can be done via <code class="highlighter-rouge">sudo apt-get install python3-pyqt5</code> ; in Fedora, use <code class="highlighter-rouge">sudo dnf install python3-qt5</code></li>
+  <li><code class="highlighter-rouge">./run_electrum_nmc setconfig rpcport 8336</code></li>
+  <li><code class="highlighter-rouge">./run_electrum_nmc setconfig rpcuser whateverusernameyouwant</code></li>
+  <li><code class="highlighter-rouge">./run_electrum_nmc setconfig rpcpassword whateverpasswordyouwant</code></li>
+  <li>In a dedicated terminal: <code class="highlighter-rouge">./run_electrum_nmc</code>
+    <ol>
+      <li>Choose “Select server manually” and click “Next”</li>
+      <li>Use server “ulrichard.ch”, port 50006, then click “Next”</li>
+      <li>Create a Standard wallet with a Legacy seed type; use whatever other settings you like.</li>
+      <li>Once the setup wizard finishes, click “Tools” -&gt; “Network”, and check that the block count next to “Blockchain” matches the one listed next to each “Connected node”.  It might take some time to sync, if it’s not fully synced yet, feel free to move onto the next step while it syncs.</li>
+    </ol>
+  </li>
+  <li><code class="highlighter-rouge">./run_electrum_nmc daemon load_wallet</code></li>
+</ol>
+
+<h3 id="for-both-consensusj-namecoin-and-electrum-nmc">For both ConsensusJ-Namecoin and Electrum-NMC</h3>
+
+<ul>
+  <li>Test lookups with <code class="highlighter-rouge">curl --data-binary '{"id":"curltext","method":"name_show","params":["d/ca-test"]}' http://whateverusernameyouwant:whateverpasswordyouwant@127.0.0.1:8336</code> ; it should show some JSON that includes an IP address.</li>
+</ul>
+
+<h2 id="get-ncdns">Get ncdns</h2>
+
+<h3 id="binary-downloads">Binary downloads</h3>
+
+<ul>
+  <li><a href="https://www.namecoin.org/download/betas/#ncdns">https://www.namecoin.org/download/betas/#ncdns</a></li>
+</ul>
+
+<h3 id="build-from-source">Build from source</h3>
+
+<ol>
+  <li>Install Go: <a href="https://golang.org/dl/">https://golang.org/dl/</a></li>
+  <li><code class="highlighter-rouge">go get -d github.com/namecoin/ncdns/...</code></li>
+  <li><code class="highlighter-rouge">go generate github.com/namecoin/ncdns/...</code></li>
+  <li><code class="highlighter-rouge">go get github.com/namecoin/ncdns/...</code></li>
+</ol>
+
+<h2 id="install-ncdns">Install ncdns</h2>
+
+<h3 id="if-youre-using-electrum-nmc">If you’re using Electrum-NMC</h3>
+
+<ol>
+  <li>Create <code class="highlighter-rouge">ncdns.conf</code> in the directory where ncdns is, and fill in the following, substituting your Electrum-NMC username and password:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ncdns]
+bind="127.0.0.1:5391"
+namecoinrpcusername="whateverusernameyouwant"
+namecoinrpcpassword="whateverpasswordyouwant"
+[xlog]
+severity="debug"
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="if-youre-using-consensusj-namecoin">If you’re using ConsensusJ-Namecoin</h3>
+
+<ol>
+  <li>Create <code class="highlighter-rouge">ncdns.conf</code> in the directory where ncdns is, and fill in the following, using any username and password that you like:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ncdns]
+bind="127.0.0.1:5391"
+namecoinrpcusername="whateverusernameyouwant"
+namecoinrpcpassword="whateverpasswordyouwant"
+[xlog]
+severity="debug"
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="for-either-electrum-nmc-or-consensusj-namecoin">For either Electrum-NMC or ConsensusJ-Namecoin</h3>
+
+<ol>
+  <li>Install socat; in Debian, this can be done via <code class="highlighter-rouge">sudo apt-get install socat</code></li>
+  <li>In a dedicated terminal: <code class="highlighter-rouge">./ncdns</code></li>
+  <li>In a dedicated terminal: <code class="highlighter-rouge">sudo socat tcp-listen:53,fork tcp:127.0.0.1:5391</code></li>
+  <li>In a dedicated terminal: <code class="highlighter-rouge">sudo socat udp-listen:53,fork udp:127.0.0.1:5391</code></li>
+  <li>To test: <code class="highlighter-rouge">./q @127.0.0.1 ca-test.bit</code> ; it should return an IP address.  If it times out, try again (Electrum-NMC can be especially slow).</li>
+  <li>You can switch your OS’s DNS to 127.0.0.1 now if you like.  Note that this will prevent resolving non-Namecoin domains, so you’ll want to switch it back to what it was before if you want to access non-Namecoin domains.</li>
+</ol>
+
+<h2 id="get-dns-prop279">Get dns-prop279</h2>
+
+<p>Only needed if you want to use Tor Browser over Tor.</p>
+
+<h3 id="binary-downloads-1">Binary downloads</h3>
+
+<p>Included in ncdns binary downloads; see above.</p>
+
+<h3 id="build-from-source-1">Build from source</h3>
+
+<ol>
+  <li><code class="highlighter-rouge">go get github.com/namecoin/dns-prop279</code></li>
+</ol>
+
+<h2 id="install-dns-prop279">Install dns-prop279</h2>
+
+<ol>
+  <li>See instructions at <a href="https://www.namecoin.org/docs/tor-resolution/#install-torns">https://www.namecoin.org/docs/tor-resolution/#install-torns</a> .</li>
+</ol>
+
+<h2 id="get-certdehydrate-dane-rest-api">Get certdehydrate-dane-rest-api</h2>
+
+<h3 id="binary-downloads-2">Binary downloads</h3>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_386.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_386.tar.gz</a></li>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_amd64.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_amd64.tar.gz</a></li>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_arm64.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_arm64.tar.gz</a></li>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_arm.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_arm.tar.gz</a></li>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_ppc64le.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_ppc64le.tar.gz</a></li>
+  <li><a href="https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_ppc64.tar.gz">https://www.namecoin.org/files/certdehydrate-dane-rest-api/master-2018-12-22/certdehydrate-dane-rest-api-HEAD-linux_ppc64.tar.gz</a></li>
+</ul>
+
+<h3 id="build-from-source-2">Build from source</h3>
+
+<ol>
+  <li>Install Go: <a href="https://golang.org/dl/">https://golang.org/dl/</a></li>
+  <li><code class="highlighter-rouge">go get github.com/namecoin/certdehydrate-dane-rest-api</code></li>
+  <li>If you get an error mentioning miekg/dns, then do this: <code class="highlighter-rouge">pushd $(go env GOPATH)/src/github.com/miekg/dns; git checkout v1.0.15; popd</code> and then try again.</li>
+</ol>
+
+<h2 id="install-certdehydrate-dane-rest-api">Install certdehydrate-dane-rest-api</h2>
+
+<ol>
+  <li>In a dedicated terminal, <code class="highlighter-rouge">./certdehydrate-dane-rest-api</code></li>
+  <li>If you haven’t already switched your OS’s network settings to use DNS <code class="highlighter-rouge">127.0.0.1</code>, do so now to test.</li>
+  <li>You can test it by running <code class="highlighter-rouge">curl http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> ; it should show a base64-encoded certificate.</li>
+  <li>If you want, you can restore your DNS settings to the default until we’re ready to test ncp11.</li>
+</ol>
+
+<h2 id="get-ncp11">Get ncp11</h2>
+
+<h3 id="binary-downloads-3">Binary downloads</h3>
+
+<p>Only available for amd64; if you’re on another arch, you’ll need to build from source.</p>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncp11/master-2018-12-23/ncp11-linux-amd64.tar.gz">https://www.namecoin.org/files/ncp11/master-2018-12-23/ncp11-linux-amd64.tar.gz</a></li>
+</ul>
+
+<h3 id="build-from-source-3">Build from source</h3>
+
+<ol>
+  <li>Install the <code class="highlighter-rouge">libltdl</code> development headers.  On Debian, this can be done via <code class="highlighter-rouge">sudo apt-get install libldtl-dev</code></li>
+  <li>Install Go: <a href="https://golang.org/dl/">https://golang.org/dl/</a></li>
+  <li><code class="highlighter-rouge">go get -d github.com/namecoin/ncp11</code></li>
+  <li><code class="highlighter-rouge">cd $(go env GOPATH)/src/github.com/namecoin/ncp11</code></li>
+  <li><code class="highlighter-rouge">make</code> ; if you get an error about constants overflowing ints, run <code class="highlighter-rouge">pushd $(go env GOPATH)/src/github.com/miekg/pkcs11; git remote add JeremyRand https://github.com/JeremyRand/pkcs11; git fetch JeremyRand; git checkout JeremyRand/32bit-hack; popd</code> and then try again.</li>
+</ol>
+
+<h2 id="install-ncp11">Install ncp11</h2>
+
+<ol>
+  <li>Build ncp11 from source (see above) or download binaries from Namecoin.org.</li>
+  <li>Install <a href="https://github.com/namecoin/certdehydrate-dane-rest-api/">certdehydrate-dane-rest-api</a> and make sure that it’s running.  (You’ll probably want to set it to launch automatically on boot.)</li>
+  <li>Follow the instructions below for your desired TLS implementation:</li>
+</ol>
+
+<h3 id="generic-nss-anything-that-uses-the-shared-nss-trust-store-eg-chromium">Generic NSS (Anything that uses the shared NSS trust store, e.g. Chromium)</h3>
+
+<ol>
+  <li><code class="highlighter-rouge">sudo make install</code></li>
+  <li>Find the <code class="highlighter-rouge">libnssckbi.so</code> file that shipped with NSS.  You can easily search for it via <code class="highlighter-rouge">find /usr/ -name libnssckbi.so</code>.  Commonly found locations include <code class="highlighter-rouge">/usr/lib64/nss/libnssckbi.so</code> (on Fedora for amd64) and <code class="highlighter-rouge">/usr/lib/x86_64-linux-gnu/nss/libnssckbi.so</code> (on Debian for amd64).</li>
+  <li>Copy <code class="highlighter-rouge">libnssckbi.so</code> to <code class="highlighter-rouge">/usr/local/namecoin/libnssckbi-namecoin-target.so</code>.  For example, <code class="highlighter-rouge">sudo cp /usr/lib64/nss/libnssckbi.so /usr/local/namecoin/libnssckbi-namecoin-target.so</code>.</li>
+  <li><code class="highlighter-rouge">make nss-shared-install</code></li>
+</ol>
+
+<p>You’ll need to restart your NSS-using programs (e.g. Chromium) if you want them to notice that ncp11 is installed.</p>
+
+<p>Remember to re-copy <code class="highlighter-rouge">libnssckbi.so</code> whenever NSS is upgraded on your system!</p>
+
+<p>TODO: If it breaks, use the Tor Browser method.</p>
+
+<h3 id="firefox">Firefox</h3>
+
+<ol>
+  <li><code class="highlighter-rouge">sudo make install</code></li>
+  <li>Find the <code class="highlighter-rouge">libnssckbi.so</code> file that shipped with Firefox.  You can easily search for it via <code class="highlighter-rouge">find /usr/ -name libnssckbi.so</code>.  Commonly found locations include <code class="highlighter-rouge">/usr/lib/firefox-esr/libnssckbi.so</code> (on Debian Stretch).  Some operating systems (e.g. Fedora, and Debian Buster) don’t ship an NSS that’s specific to Firefox and instead make Firefox use the system NSS; if you’re on such an OS, use the system <code class="highlighter-rouge">libnssckbi.so</code>.</li>
+  <li>Copy <code class="highlighter-rouge">libnssckbi.so</code> to <code class="highlighter-rouge">/usr/local/namecoin/libnssckbi-namecoin-target.so</code>.  For example, <code class="highlighter-rouge">sudo cp /usr/lib/firefox-esr/libnssckbi.so /usr/local/namecoin/libnssckbi-namecoin-target.so</code>.</li>
+  <li><code class="highlighter-rouge">make nss-firefox-install</code></li>
+</ol>
+
+<p>Note that it’s a very bad idea to install both Generic NSS and Firefox support at the same time, because the copied <code class="highlighter-rouge">libnssckbi.so</code> instances will conflict.  However, if your OS’s Firefox package uses the system NSS (e.g. Fedora or Debian Buster), then it’s totally fine to install both simultaneously (since the <code class="highlighter-rouge">libnssckbi.so</code> files are identical).</p>
+
+<p>You’ll need to restart Firefox if you want it to notice that ncp11 is installed.</p>
+
+<p>Remember to re-copy <code class="highlighter-rouge">libnssckbi.so</code> whenever NSS is upgraded on your system!</p>
+
+<p>TODO: If it breaks, use the Tor Browser method.</p>
+
+<h3 id="tor-browser">Tor Browser</h3>
+
+<ol>
+  <li>Make sure that Tor Browser isn’t currently running.</li>
+  <li>Rename <code class="highlighter-rouge">libnssckbi.so</code> in the Tor Browser <code class="highlighter-rouge">Browser</code> directory to <code class="highlighter-rouge">libnssckbi-namecoin-target.so</code>.</li>
+  <li>Copy <code class="highlighter-rouge">libnamecoin.so</code> from ncp11 to the Tor Browser <code class="highlighter-rouge">Browser</code> directory.</li>
+  <li>Rename <code class="highlighter-rouge">libnamecoin.so</code> in the Tor Browser <code class="highlighter-rouge">Browser</code> directory to <code class="highlighter-rouge">libnssckbi.so</code>.</li>
+</ol>
+
+<p>You can now start Tor Browser.</p>
+
+<p>Remember to re-do these steps whenever Tor Browser is upgraded on your system!</p>
+
+<h2 id="bonus-content-get-generate_nmc_cert">Bonus content: Get generate_nmc_cert</h2>
+
+<p>TODO</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/presentations/35C3/tls-workshop/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
