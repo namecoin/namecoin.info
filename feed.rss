@@ -6,9 +6,43 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 08 May 2019 06:10:50 +0000</pubDate>
-    <lastBuildDate>Wed, 08 May 2019 06:10:50 +0000</lastBuildDate>
+    <pubDate>Thu, 16 May 2019 15:45:37 +0000</pubDate>
+    <lastBuildDate>Thu, 16 May 2019 15:45:37 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>ncdns rbm build scripts added support for Linux32, Win64, and Win32 targets</title>
+        <description>&lt;p&gt;As Hugo &lt;a href=&quot;/2019/04/15/ncdns-repro.html&quot;&gt;mentioned previously&lt;/a&gt;, rbm-based build scripts for ncdns are available.  rbm is the build system used by Tor Browser.  This work paves the way for reproducible builds of ncdns, improves the security of the build process against supply-chain attacks, and also paves the way for Windows and macOS support in our next-gen TLS interoperability codebase, ncp11 [1].  I’ve been spending some time improving those build scripts; here’s what’s new:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Considerable effort has gone into shrinking the diff compared to upstream tor-browser-build as much as possible.  Upstream Tor has much better QA resources, so it’s important to avoid deviating from what they do unless it’s critically important.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;binutils&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;gcc&lt;/code&gt; are now dependencies of Go projects that use cgo.  This means that we build the compiler from a fixed version of the source code rather than using whatever compiler Debian ships with.  This brings us closer in line with what upstream tor-browser-build does, probably fixes some compiler bugs, and probably improves reproducibility.&lt;/li&gt;
+  &lt;li&gt;Linux cross-compiling was fixed.  Currently, this means that 32-bit x86 Linux targets now build.  In the future, once upstream tor-browser-build merges &lt;a href=&quot;https://wiki.raptorcs.com/wiki/Porting/Tor_Browser&quot;&gt;my (currently WIP) patch&lt;/a&gt; for cross-compiled Linux non-x86 targets (e.g. ARM and POWER), those targets should work fine with ncdns as well.&lt;/li&gt;
+  &lt;li&gt;Windows targets were fixed.  This mostly consisted of fiddling with dependencies (ncdns uses different libraries on Linux and Windows), but also meant adding the &lt;code class=&quot;highlighter-rouge&quot;&gt;mingw-w64&lt;/code&gt; project from upstream tor-browser-build.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All of the above improvements are currently awaiting code review.&lt;/p&gt;
+
+&lt;p&gt;The next things I’ll be working on are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fixing macOS targets.  So far, all of the dependencies for ncdns build without errors, but ncdns itself fails because of an interesting bug that seems to manifest when two different cgo-enabled packages have the same name.  ncdns includes a fork of the Go standard library’s &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; package; both the forked package and the original package are dependencies of the ncdns package, and it turns out that the only OS where cgo is used in &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; is… macOS.  We never noticed this before, because our existing ncdns macOS binaries are built without cgo (because no macOS cross-compiler was present); now that we’re building in an environment where cgo is present for macOS, we’re subject to whatever quirks impact cgo on macOS.  I think this is going to be pretty easy to work around by disabling cgo for the ncdns &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; fork, but the cleanest way to do that is going to require getting a patch merged upstream to &lt;code class=&quot;highlighter-rouge&quot;&gt;tor-browser-build&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Adding an &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdns-nsis&lt;/code&gt; project, so that rbm builds the Windows installer.  This is already started, but I haven’t gotten very far yet.&lt;/li&gt;
+  &lt;li&gt;Adding other Namecoin Go projects, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;crosssignnameconstraint&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ncp11&lt;/code&gt;.  ncp11 is going to be especially interesting, due to its exercising of cgo code paths that almost no one uses.  This should be useful in finally getting ncp11 binaries for Windows and macOS [1].&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;p&gt;[1] Wait, you haven’t heard about ncp11 yet?  Go check out &lt;a href=&quot;/2019/05/08/35c3-summary.html&quot;&gt;my 35C3 slides and workshop notes&lt;/a&gt; about that!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 16 May 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/05/16/ncdns-rbm-linux32-win64-win32.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/05/16/ncdns-rbm-linux32-win64-win32.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>35C3 Summary</title>
@@ -258,38 +292,6 @@ integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: Checkpointed AuxPoW Truncation</title>
-        <description>&lt;p&gt;I posted previously about &lt;a href=&quot;/2018/11/28/electrum-nmc-checkpoints.html&quot;&gt;auditing Electrum-NMC’s bandwidth usage&lt;/a&gt;.  In that post, I mentioned that there were probably optimizations that could be done to reduce the 3.2 MB per 2016 block headers that get downloaded when looking up a name that’s covered by a checkpoint.  I’ve now implemented one of them: AuxPoW truncation.&lt;/p&gt;
-
-&lt;p&gt;Some background: AuxPoW (auxilliary proof of work) is the portion of Namecoin block headers that allows clients to verify that the PoW expended by miners on the parent chain (usually Bitcoin) applies to Namecoin as well.  As a result, SPV clients such as Electrum-NMC (which verify PoW) need to download the AuxPoW data.  However, the AuxPoW data in a Namecoin block header &lt;em&gt;does not contribute to the block hash&lt;/em&gt;.  As a result, the commitment in a Namecoin block header to the previous block header can be verified without having access to any AuxPoW data.&lt;/p&gt;
-
-&lt;p&gt;Why does this matter?  AuxPoW is by far the largest part of a Namecoin block header, because it contains a coinbase transaction from the parent chain.  Coinbase transactions can frequently be quite large, especially if the parent block is mined by a mining pool that’s paying a large number of miners via the coinbase transaction.  If we can omit the AuxPoW data from Namecoin block headers, then that saves a lot of bytes.&lt;/p&gt;
-
-&lt;p&gt;Obviously, we can’t get rid of the AuxPoW data completely, since SPV validation requires PoW verification.  But not all blocks are verified via SPV – blocks that are covered by a checkpoint don’t need to have their PoW checked, since the checkpoint implies validity.  So, we can simply not check the AuxPoW for any blocks that are committed to by a checkpoint.  And if we don’t need to check the AuxPoW for such blocks, we don’t need to download it either.&lt;/p&gt;
-
-&lt;p&gt;Conveniently, the Electrum protocol includes a feature that allows the client to tell the server what height its checkpoint is set to.  This feature isn’t actually used yet in the Electrum client, but we can use that feature to have Electrum-NMC tell ElectrumX what height its checkpoint is set to, such that ElectrumX will then truncate AuxPoW data from the block headers it responds with.  I’ve submitted a PR for ElectrumX that does exactly that: with this PR, ElectrumX truncates AuxPoW data from block headers when the client supplies a checkpoint height that is higher than the height of the block header.  Neil from ElectrumX has already merged my PR; once it’s in a tagged release, I’ll push the relevant changes to Electrum-NMC as well.&lt;/p&gt;
-
-&lt;p&gt;What does the data transfer look like now?&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Before: 3.2 MB per 2016 headers&lt;/li&gt;
-  &lt;li&gt;After: 323 KB per 2016 headers&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;So that’s roughly a 90% reduction.  Not bad.  There are probably some additional optimizations that can still be done, but those will have to wait for another day.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 02 Feb 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html</guid>
-        
-        <category>News</category>
         
         
       </item>
