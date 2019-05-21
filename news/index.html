@@ -243,6 +243,103 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Electrum-NMC v3.3.6 Released</h1>
+    <p class="post-meta">May 21, 2019 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released Electrum-NMC v3.3.6.  This release includes important security fixes, and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1.1:</p>
+
+    <ul>
+  <li>From upstream Electrum:
+    <ul>
+      <li>AppImage: we now also distribute self-contained binaries for x86_64 Linux in the form of an AppImage (#5042). The Python interpreter, PyQt5, libsecp256k1, PyCryptodomex, zbar, hidapi/libusb (including hardware wallet libraries) are all bundled. Note that users of hw wallets still need to set udev rules themselves.</li>
+      <li>hw wallets: fix a regression during transaction signing that prompts the user too many times for confirmations (commit 2729909)</li>
+      <li>transactions now set nVersion to 2, to mimic Bitcoin Core</li>
+      <li>fix Qt bug that made all hw wallets unusable on Windows 8.1 (#4960)</li>
+      <li>fix bugs in wallet creation wizard that resulted in corrupted wallets being created in rare cases (#5082, #5057)</li>
+      <li>fix compatibility with Qt 5.12 (#5109)</li>
+      <li>The logging system has been overhauled (#5296).  Logs can now also optionally be written to disk, disabled by default.</li>
+      <li>Fix a bug in synchronizer (#5122) where client could get stuck.  Also, show the progress of history sync in the GUI. (#5319)</li>
+      <li>fix Revealer in Windows and MacOS binaries (#5027)</li>
+      <li>fiat rate providers:
+        <ul>
+          <li>added CoinGecko.com and CoinCap.io</li>
+          <li>BitcoinAverage now only provides historical exchange rates for paying customers. Changed default provider to CoinGecko.com (#5188)</li>
+        </ul>
+      </li>
+      <li>hardware wallets:
+        <ul>
+          <li>Ledger: Nano X is now recognized (#5140)</li>
+          <li>KeepKey:
+            <ul>
+              <li>device was not getting detected using Windows binary (#5165)</li>
+              <li>support firmware 6.0.0+ (#5205)</li>
+              <li>Trezor: implemented “seedless” mode (#5118)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Coin Control in Qt: implemented freezing individual UTXOs in addition to freezing addresses (#5152)</li>
+      <li>TrustedCoin (2FA wallets):
+        <ul>
+          <li>better error messages (#5184)</li>
+          <li>longer signing timeout (#5221)</li>
+        </ul>
+      </li>
+      <li>Kivy:
+        <ul>
+          <li>fix bug with local transactions (#5156)</li>
+          <li>allow selecting fiat rate providers without historical data (#5162)</li>
+        </ul>
+      </li>
+      <li>fix CPFP: the fees already paid by the parent were not included in the calculation, so it always overestimated (#5244)</li>
+      <li>Testnet: there is now a warning when the client is started in testnet mode as there were a number of reports of users getting scammed through social engineering (#5295)</li>
+      <li>CoinChooser: performance of creating transactions has been improved significantly for large wallets. (d56917f4)</li>
+      <li>Importing/sweeping WIF keys: stricter checks (#4638, #5290)</li>
+      <li>Electrum protocol: the client’s “user agent” has been changed from “3.3.5” to “electrum/3.3.5”. Other libraries connecting to servers can consider not “spoofing” to be Electrum. (#5246)</li>
+      <li>Several other minor bugfixes and usability improvements.</li>
+      <li>qt: fix crash during 2FA wallet creation (#5334)</li>
+      <li>fix synchronizer not to keep resubscribing to addresses of already closed wallets (e415c0d9)</li>
+      <li>fix removing addresses/keys from imported wallets (#4481)</li>
+      <li>kivy: fix crash when aborting 2FA wallet creation (#5333)</li>
+      <li>kivy: fix rare crash when changing exchange rate settings (#5329)</li>
+      <li>A few other minor bugfixes and usability improvements.</li>
+    </ul>
+  </li>
+  <li>Namecoin-specific:
+    <ul>
+      <li><a href="/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">Checkpointed AuxPoW truncation</a>.  This requires servers to run ElectrumX v1.9.2 or higher.  All public servers have upgraded; if you run a private server, please make sure that you’ve upgraded if you want Electrum-NMC to keep working.</li>
+      <li>Pending registrations in Manage Names tab now show the name and value rather than a blank line.</li>
+      <li>Manage Names tab now shows an estimated expiration date in addition to a block count.</li>
+      <li>Manage Names tab now allows copying identifiers and values to the clipboard.</li>
+      <li>Status bar now shows a count of registered names and pending registrations next to the NMC balance.</li>
+      <li>Set memo in name wallet commands.  This improves Coin Control, which paves the way for anonymity.</li>
+      <li>We now distribute Android APK binaries and GNU/Linux AppImage binaries (in addition to the previously existing Python tarball binaries and Windows binaries).  Android and AppImage binaries are not tested in any way (they might not even boot) – please test them and let us know what’s broken.</li>
+      <li>Notify when a new version of Electrum-NMC is available.</li>
+      <li>Add 2 new servers.</li>
+      <li>Remove 2 old servers that are now being decommissioned.</li>
+      <li>Various fixes for exception handling.</li>
+      <li>Various unit tests and fixes for AuxPoW.</li>
+      <li>Various rebranding fixes.</li>
+      <li>Various code quality improvements.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>I want to draw attention in particular to one of the code quality improvements.  Most forks of Electrum rename the <code class="highlighter-rouge">electrum</code> Python package, in order to avoid causing namespace conflicts if both Electrum and an Electrum fork are installed on the same system.  Unfortunately, the result of this is that any change to <code class="highlighter-rouge">import</code> statements in upstream usually triggers a merge conflict.  I brought up this subject with SomberNight from upstream Electrum, in the hopes that we could find a solution that would avoid the merge conflicts.  My initial suggestion was for upstream to switch to relative imports; SomberNight shot that down due to code readability concerns, but he posted a code snippet that was a (non-working) attempt to work around the issue.  Based on the rough direction of his code snippet, I managed to produce a working patch to Electrum-NMC that allows the imports to revert to the upstream version.  For an idea of how much improvement this is, prior to this patch, merging one release tag’s worth of commits (i.e. about a month of commits) would typically take me a day or so.  Now, it takes me about 30 minutes.  Kudos to SomberNight for his excellent efforts working with me to get us to a solution that optimizes productivity for both upstream and downstream.</p>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">ncdns rbm build scripts added support for Linux32, Win64, and Win32 targets</h1>
     <p class="post-meta">May 16, 2019 • Jeremy Rand </p>
   </header>
