@@ -6,9 +6,28 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 21 May 2019 19:23:29 +0000</pubDate>
-    <lastBuildDate>Tue, 21 May 2019 19:23:29 +0000</lastBuildDate>
+    <pubDate>Thu, 23 May 2019 05:43:36 +0000</pubDate>
+    <lastBuildDate>Thu, 23 May 2019 05:43:36 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.3.6.1 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.6.1.  This release includes a fix for a PyInstaller build script issue that was introduced in v3.3.6, which unfortunately slipped by us until a few minutes after v3.3.6 was released.  The only binaries affected by that issue were the Windows-specific binaries; users of the v3.3.6 Python, GNU/Linux, and Android binaries are unaffected.&lt;/p&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.6 Released</title>
@@ -320,29 +339,6 @@ integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
         <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2019/03/06/electrumx-v1.9.2-released.html</link>
         <guid isPermaLink="true">https://namecoin.org//2019/03/06/electrumx-v1.9.2-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v3.3.3.1.1 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.3.1.1.  This release includes an important fix for name transactions (both wallet and lookups), and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Remove mandatory wallet dependency for name_show&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 10 Feb 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/02/10/electrum-nmc-v3.3.3.1.1-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/02/10/electrum-nmc-v3.3.3.1.1-released.html</guid>
         
         <category>Releases</category>
         
