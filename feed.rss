@@ -6,9 +6,24 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 23 May 2019 05:43:36 +0000</pubDate>
-    <lastBuildDate>Thu, 23 May 2019 05:43:36 +0000</lastBuildDate>
+    <pubDate>Mon, 03 Jun 2019 20:09:38 +0000</pubDate>
+    <lastBuildDate>Mon, 03 Jun 2019 20:09:38 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Tor Browser 8.5 Released; Includes Namecoin's certutil Windows/macOS Patch</title>
+        <description>&lt;p&gt;The Tor Project has &lt;a href=&quot;https://blog.torproject.org/new-release-tor-browser-85&quot;&gt;released&lt;/a&gt; Tor Browser 8.5.  Among the usual interesting changes, Namecoin users will be interested to note that Tor Browser 8.5 includes &lt;a href=&quot;/2018/10/15/certutil-rbm-merged-tor-project.html&quot;&gt;Namecoin’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; Windows/macOS patch&lt;/a&gt;, which paves the way for better Namecoin TLS support in Firefox on Windows and macOS.  For the #reckless among you who want to experiment, the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; binaries are available &lt;a href=&quot;http://rqef5a5mebgq46y5.onion/torbrowser/&quot;&gt;here&lt;/a&gt; (or &lt;a href=&quot;https://dist.torproject.org/torbrowser/&quot;&gt;here&lt;/a&gt; for those of you who can’t access onion services); specifically you want the &lt;code class=&quot;highlighter-rouge&quot;&gt;mar-tools&lt;/code&gt; downloads.  Kudos to The Tor Project on getting Tor Browser 8.5 released!&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 03 Jun 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.6.1 Released</title>
@@ -315,34 +330,6 @@ integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
         <guid isPermaLink="true">https://namecoin.org//2019/03/25/cloudfest-2019.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ElectrumX v1.9.2 Released by Upstream, Includes Checkpointed AuxPoW Truncation</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/kyuupichan/electrumx&quot;&gt;Upstream ElectrumX&lt;/a&gt; has released v1.9.2, which includes several Namecoin-related changes (all of which were submitted by me and merged by Neil).  Here’s what’s new for Namecoin:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Add 2 new servers.&lt;/li&gt;
-  &lt;li&gt;Use the correct default Namecoin Core RPC port; this means ElectrumX server operators won’t need to manually set the RPC port via an environment variable anymore.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html&quot;&gt;Checkpointed AuxPoW truncation&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Use a correct &lt;code class=&quot;highlighter-rouge&quot;&gt;MAX_SEND&lt;/code&gt; by default for AuxPoW chains.  The previous default of 1 MB doesn’t work with AuxPoW chains because AuxPoW headers are substantially larger than Bitcoin headers; the new default of 10 MB for AuxPoW chains allows Namecoin to sync properly.  This means ElectrumX server operators won’t need to manually set the &lt;code class=&quot;highlighter-rouge&quot;&gt;MAX_SEND&lt;/code&gt; via an environment variable anymore.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;ElectrumX then subsequently released some other revisions, none of which are specific to Namecoin; the latest release is currently v1.9.5.  At least 2 of the 3 public Namecoin ElectrumX servers have already upgraded; as a result, I’ve merged checkpointed AuxPoW truncation into Electrum-NMC’s master branch.  If you run a Namecoin ElectrumX server and haven’t yet upgraded, please consider upgrading to the latest ElectrumX release so that your users will be able to use future releases of Electrum-NMC (which will require checkpointed AuxPoW truncation) without any trouble.&lt;/p&gt;
-
-&lt;p&gt;(And a reminder that we need more ElectrumX instances… please consider running one if you have a server with spare resources!)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/03/06/electrumx-v1.9.2-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/03/06/electrumx-v1.9.2-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>
