@@ -6,9 +6,28 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 13 Jun 2019 05:45:01 +0000</pubDate>
-    <lastBuildDate>Thu, 13 Jun 2019 05:45:01 +0000</lastBuildDate>
+    <pubDate>Sat, 15 Jun 2019 05:55:49 +0000</pubDate>
+    <lastBuildDate>Sat, 15 Jun 2019 05:55:49 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>ncp11 Now Builds for Windows Targets</title>
+        <description>&lt;p&gt;ncp11 (our next-gen Namecoin TLS interoperability software for Firefox, Tor Browser, and other NSS-based software) now builds without errors for Windows targets, including rbm descriptors.  Getting it to build was a little bit more involved than just tweaking the rbm end of things, because the PKCS#11 spec requires that structs be packed on Windows, while Go doesn’t support packed structs.  So, some minor hackery was needed (I wrote a C function that converts between packed and unpacked structs).  Kudos to Miek Gieben (author of the Go pkcs11 package) for his useful sample code, which made this fix quite easy to code up.&lt;/p&gt;
+
+&lt;p&gt;Meanwhile, qlib (our Go library for DNS queries, based on Miek’s q command-line tool) has also been fixed to build in rbm for Windows targets.  This was just a matter of fixing some sloppiness that snuck into the rbm descriptors, which happened to not be causing any problems on GNU/Linux targets due to dumb luck.  All of our rbm projects that depend on qlib (specifically, certdehydrate-dane-rest-api and dnssec-hsts-native) also now build for Windows targets.&lt;/p&gt;
+
+&lt;p&gt;It should be noted that ncp11 probably doesn’t actually &lt;em&gt;work&lt;/em&gt; as intended on Windows and macOS targets yet.  I already fixed a couple of GNU/Linux-specific assumptions in ncp11’s codebase yesterday, and there are likely to be more that will need fixing before ncp11 will actually be usable on Windows and macOS targets.  Presumably these will be teased out with further testing.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>More rbm Projects Added: DNSSEC-HSTS, certdehydrate-dane-rest-api, Dependencies, and macOS Support</title>
@@ -305,29 +324,6 @@
         <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html</link>
         <guid isPermaLink="true">https://namecoin.org//2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Progress on reproducibility of ncdns builds</title>
-        <description>&lt;p&gt;As part of work to ensure that all Namecoin software can be built and
-distributed in a reproducible fashion, RBM build scripts for ncdns are &lt;a href=&quot;https://github.com/hlandau/ncdns-repro&quot;&gt;now
-available&lt;/a&gt;. These scripts are currently
-experimental, but will become the preferred way to build ncdns.&lt;/p&gt;
-
-&lt;p&gt;The RBM build system is specifically designed to facilitate reproducible builds
-and is also commonly used to build Tor Browser. The RBM build scripts for ncdns
-build on the existing Tor Browser build system, which will ease future
-integration of ncdns with Tor Browser in a reproducible manner.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 15 Apr 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/04/15/ncdns-repro.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/04/15/ncdns-repro.html</guid>
         
         <category>News</category>
         

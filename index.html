@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/06/15/ncp11-now-builds-for-windows.html">2019-06-15</a></strong> ncp11 (our next-gen Namecoin TLS interoperability software for Firefox, Tor Browser, and other NSS-based software) now builds without errors for Windows targets, including rbm descriptors.  Getting it to build was a little bit more involved than just tweaking the rbm end of things, because the PKCS#11 spec requires that structs be packed on Windows, while Go doesn’t support packed structs.  So, some minor hackery was needed (I wrote a C function that converts between packed and unpacked structs).  Kudos to Miek Gieben (author of the Go pkcs11 package) for his useful sample code, which made this fix quite easy to code up.</p>
+
+<p><a href="/2019/06/15/ncp11-now-builds-for-windows.html">Read more…</a></p>
+
 <p><strong><a href="/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">2019-06-13</a></strong> A few days ago I <a href="/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">mentioned </a> that ncp11 now builds in rbm.  As you may recall, rbm is the build system used by Tor Browser; it facilitates reproducible builds, which improves the security of the build process against supply-chain attacks.  I’ve now added several new projects/targets to Namecoin’s rbm descriptors:</p>
 
 <p><a href="/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">Read more…</a></p>
@@ -320,13 +324,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/04/24/malta-blockchain-summit-2018-video.html">2019-04-24</a></strong> As was <a href="/2018/10/29/malta-blockchain-summit-2018.html">previously announced</a>, Namecoin Chief Scientist Daniel Kraft was a panelist at <a href="https://maltablockchainsummit.com/">Malta Blockchain Summit 2018</a>, on the “Permissioned vs Permissionless Blockchains” panel.  A <a href="https://www.youtube.com/watch?v=q7T4cDABvYo">video of the panel</a> is now available.    The video can be viewed via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).</p>
 
 <p><strong><a href="/2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html">2019-04-20</a></strong> Back in 2015, Namecoin Chief Scientist Daniel Kraft gave a German-language talk at Grazer Linuxtage.  A <a href="https://www.youtube.com/watch?v=bp2V281-AnE">video of his talk</a> is available for interested viewers.  The video can be viewed via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).</p>
-
-<p><strong><a href="/2019/04/15/ncdns-repro.html">2019-04-15</a></strong> As part of work to ensure that all Namecoin software can be built and
-distributed in a reproducible fashion, RBM build scripts for ncdns are <a href="https://github.com/hlandau/ncdns-repro">now
-available</a>. These scripts are currently
-experimental, but will become the preferred way to build ncdns.</p>
-
-<p><a href="/2019/04/15/ncdns-repro.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
