@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html">2019-06-18</a></strong> ncp11 is now working (both positive and negative TLS certificate overrides) in Tor Browser for Windows.  It turned out that the only things keeping it from working properly once it <a href="/2019/06/15/ncp11-now-builds-for-windows.html">built without errors</a> were a couple of GNU/Linux-specific file path assumptions, both of which were quite easy to fix.</p>
+
+<p><a href="/2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html">Read more…</a></p>
+
 <p><strong><a href="/2019/06/15/ncp11-now-builds-for-windows.html">2019-06-15</a></strong> ncp11 (our next-gen Namecoin TLS interoperability software for Firefox, Tor Browser, and other NSS-based software) now builds without errors for Windows targets, including rbm descriptors.  Getting it to build was a little bit more involved than just tweaking the rbm end of things, because the PKCS#11 spec requires that structs be packed on Windows, while Go doesn’t support packed structs.  So, some minor hackery was needed (I wrote a C function that converts between packed and unpacked structs).  Kudos to Miek Gieben (author of the Go pkcs11 package) for his useful sample code, which made this fix quite easy to code up.</p>
 
 <p><a href="/2019/06/15/ncp11-now-builds-for-windows.html">Read more…</a></p>
@@ -322,8 +326,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><a href="/2019/05/08/35c3-summary.html">Read more…</a></p>
 
 <p><strong><a href="/2019/04/24/malta-blockchain-summit-2018-video.html">2019-04-24</a></strong> As was <a href="/2018/10/29/malta-blockchain-summit-2018.html">previously announced</a>, Namecoin Chief Scientist Daniel Kraft was a panelist at <a href="https://maltablockchainsummit.com/">Malta Blockchain Summit 2018</a>, on the “Permissioned vs Permissionless Blockchains” panel.  A <a href="https://www.youtube.com/watch?v=q7T4cDABvYo">video of the panel</a> is now available.    The video can be viewed via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).</p>
-
-<p><strong><a href="/2019/04/20/daniel-kraft-at-grazer-linuxtage-2015-video.html">2019-04-20</a></strong> Back in 2015, Namecoin Chief Scientist Daniel Kraft gave a German-language talk at Grazer Linuxtage.  A <a href="https://www.youtube.com/watch?v=bp2V281-AnE">video of his talk</a> is available for interested viewers.  The video can be viewed via <a href="https://rg3.github.io/youtube-dl/">youtube-dl</a> (<a href="https://packages.debian.org/stretch/youtube-dl">Debian package</a>) (<a href="https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918">recommendation by Whonix</a>) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).</p>
 
 <p><a href="/news/">Earlier news</a></p>
 
