@@ -6,9 +6,53 @@
 --></description>
     <link>https://namecoin.org//</link>
     <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 18 Jun 2019 16:46:29 +0000</pubDate>
-    <lastBuildDate>Tue, 18 Jun 2019 16:46:29 +0000</lastBuildDate>
+    <pubDate>Fri, 05 Jul 2019 00:00:33 +0000</pubDate>
+    <lastBuildDate>Fri, 05 Jul 2019 00:00:33 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Namecoin Core 0.18.0 Released, Softfork Incoming at Mainnet Block Height 475,000</title>
+        <description>&lt;p&gt;Namecoin Core 0.18.0 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.  This release schedules a softfork for block height 475,000 on mainnet.  Contained in the softfork are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;P2SH&lt;/li&gt;
+  &lt;li&gt;CSV&lt;/li&gt;
+  &lt;li&gt;SegWit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All three of these softfork components are already active in Bitcoin, and should be uncontroversial.  We had originally discussed lowering the block weight limit as part of this softfork, but we decided to defer block weight discussion for a later date, as the extra review procedures involved in changing the block weight limit would have delayed the release, and we wanted to get the softfork activated as soon as feasible.  So, for this softfork, the block weight limit is the same as that of Bitcoin.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Due to the softfork, we strongly recommend that miners, exchanges, registrars, explorers, ElectrumX servers, and all other service providers upgrade as soon as possible.&lt;/strong&gt;  End users who do not need the name management GUI are also strongly encouraged to upgrade.&lt;/p&gt;
+
+&lt;p&gt;At this time, the estimated activation date of the softfork is 82 days from now.  However, this may vary depending on hashrate fluctuations, so do not wait until the last minute to upgrade.&lt;/p&gt;
+
+&lt;p&gt;See &lt;a href=&quot;https://github.com/namecoin/namecoin-core/issues/239&quot;&gt;#239&lt;/a&gt; for more details on the softfork.&lt;/p&gt;
+
+&lt;p&gt;Also included in this release:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Windows binaries are available again.&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;options&lt;/code&gt; argument for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; can now be used to specify per-RPC encodings for names and values by setting the &lt;code class=&quot;highlighter-rouge&quot;&gt;nameEncoding&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;valueEncoding&lt;/code&gt; fields, respectively.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_scan&lt;/code&gt; now accepts an optional &lt;code class=&quot;highlighter-rouge&quot;&gt;options&lt;/code&gt; argument, which can be used to specify filtering conditions (based on number of confirmations, prefix and regexp matches of a name).  See &lt;a href=&quot;https://github.com/namecoin/namecoin-core/issues/237&quot;&gt;#237&lt;/a&gt; for more details.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_filter&lt;/code&gt; has been removed.  Instead, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_scan&lt;/code&gt; with the newly added filtering options can be used.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ismine&lt;/code&gt; is no longer added to RPC results if no wallet is associated to an RPC call.&lt;/li&gt;
+  &lt;li&gt;Numerous improvements from upstream Bitcoin Core.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 05 Jul 2019 00:00:00 +0000</pubDate>
+        <link>https://namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</link>
+        <guid isPermaLink="true">https://namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</guid>
+        
+        <category>Alerts</category>
+        
+        <category>Namecoin Core Alerts</category>
+        
+        <category>Releases</category>
+        
+        <category>Namecoin Core Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>ncp11 Now Works in Tor Browser for Windows</title>
@@ -338,19 +382,6 @@
         <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
         <link>https://namecoin.org//2019/05/08/35c3-summary.html</link>
         <guid isPermaLink="true">https://namecoin.org//2019/05/08/35c3-summary.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Daniel Kraft at Malta Blockchain Summit 2018 (Video)</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2018/10/29/malta-blockchain-summit-2018.html&quot;&gt;previously announced&lt;/a&gt;, Namecoin Chief Scientist Daniel Kraft was a panelist at &lt;a href=&quot;https://maltablockchainsummit.com/&quot;&gt;Malta Blockchain Summit 2018&lt;/a&gt;, on the “Permissioned vs Permissionless Blockchains” panel.  A &lt;a href=&quot;https://www.youtube.com/watch?v=q7T4cDABvYo&quot;&gt;video of the panel&lt;/a&gt; is now available.    The video can be viewed via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/stretch/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).&lt;/p&gt;
-</description>
-        <pubDate>Wed, 24 Apr 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/04/24/malta-blockchain-summit-2018-video.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/04/24/malta-blockchain-summit-2018-video.html</guid>
         
         <category>News</category>
         
