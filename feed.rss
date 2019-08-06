@@ -4,11 +4,41 @@
     <title>Namecoin</title>
     <description><!--Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 --></description>
-    <link>https://namecoin.org//</link>
-    <atom:link href="https://namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 30 Jul 2019 10:15:34 +0000</pubDate>
-    <lastBuildDate>Tue, 30 Jul 2019 10:15:34 +0000</lastBuildDate>
+    <link>https://www.namecoin.org//</link>
+    <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 06 Aug 2019 01:40:39 +0000</pubDate>
+    <lastBuildDate>Tue, 06 Aug 2019 01:40:39 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Decoupling ncdns Versions from Go Compiler Versions</title>
+        <description>&lt;p&gt;One of the many pieces of witchcraft that Namecoin’s TLS interoperability requires is the ability to splice a signature into an X.509 certificate without otherwise modifying the certificate.  Unfortunately, while the Go standard crypto library is generally quite pleasant to use (and is certainly better-designed than most other crypto libraries such as OpenSSL), the functions relevant to splicing a signature are not exported.  This is understandable, since it’s not functionality that most users have any need for.  However, since Namecoin &lt;em&gt;does&lt;/em&gt; need that functionality, my only option back when this code was being written was to fork the &lt;code class=&quot;highlighter-rouge&quot;&gt;crypto/x509&lt;/code&gt; package from Go’s standard library.&lt;/p&gt;
+
+&lt;p&gt;I didn’t want to be responsible for maintaining or distributing a fork of Go’s library, though.  So, the best option I could come up with was to use &lt;code class=&quot;highlighter-rouge&quot;&gt;go generate&lt;/code&gt;, which is a fun feature in Go’s build system.  In Namecoin’s case, the ncdns build process uses &lt;code class=&quot;highlighter-rouge&quot;&gt;go generate&lt;/code&gt; to copy the source code from the official &lt;code class=&quot;highlighter-rouge&quot;&gt;crypto/x509&lt;/code&gt; package into the &lt;code class=&quot;highlighter-rouge&quot;&gt;github.com/namecoin/ncdns/x509&lt;/code&gt; package, which (when combined with the single existing source code file, &lt;code class=&quot;highlighter-rouge&quot;&gt;x509_splice.go&lt;/code&gt;), produces a package that’s identical to upstream &lt;code class=&quot;highlighter-rouge&quot;&gt;crypto/x509&lt;/code&gt; but with an extra exported function (&lt;code class=&quot;highlighter-rouge&quot;&gt;CreateCertificateWithSplicedSignature&lt;/code&gt;) that calls out to the unexported upstream functions in order to do what we want.  The benefit here is that whenever those unexported upstream functions are updated in a new Go release, Namecoin’s forked package will automatically inherit those changes without the Namecoin developers needing to do anything.  In fact, in theory the same forked package will work unmodified with arbitrary versions of the Go standard library, without us needing to do anything special.&lt;/p&gt;
+
+&lt;p&gt;Alas, theory does not always equal practice.  The most obvious scenario in which this theory will fall apart is if the unexported functions called by &lt;code class=&quot;highlighter-rouge&quot;&gt;CreateCertificateWithSplicedSignature&lt;/code&gt; change their API.  Upstream is well within their rights to do this, of course: they’re not exported functions, so there’s no reason to expect a stable API.  However, in practice, this API changes quite rarely.  The more common issue I’ve been encountering, surprisingly, is that the &lt;code class=&quot;highlighter-rouge&quot;&gt;go generate&lt;/code&gt; script has trouble &lt;em&gt;finding and copying&lt;/em&gt; the upstream library, because upstream seems to keep changing the details of where this library and its dependencies (some of which are internal-only libraries) can be found.  The result is that I’ve had to rebase our fork against upstream every couple of major Go releases to keep things working well.&lt;/p&gt;
+
+&lt;p&gt;The problem here is that this has the effect of coupling a specific commit hash of the &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdns&lt;/code&gt; repository to a specific range of Go compiler versions.  If Namecoin rebases against a new Go standard library version, and then issues an ncdns bug fix that’s unrelated to our &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; fork, everyone who’s downstream of us needs to update their Go compiler in order to get the bug fix.  This is generally problematic since lots of downstream distributors have other considerations for when they update their compiler.  It was specifically causing me problems for getting ncdns to build in Tor’s rbm-based build system, because Tor is not likely to update their Go compiler exactly when Namecoin does.&lt;/p&gt;
+
+&lt;p&gt;So, what to do?  Well, note that there’s no fundamentally important reason for the &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; package to be a subpackage of ncdns.  It ended up there by default because it was initially only used by ncdns and there wasn’t an obvious reason to create a new Git repo, but now we have a good reason to move it to its own repo: if the Git commit hash of ncdns and &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; are independent, then downstream distributors can pick the version of ncdns with whatever bug fixes they want, and independently choose the version of &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; that supports whatever Go compiler version they want.  I’ve now done this.  &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; now lives at &lt;a href=&quot;https://github.com/namecoin/x509-signature-splice/tree/master/x509&quot;&gt;github.com/namecoin/x509-signature-splice/x509&lt;/a&gt; , and branches are available for every version of the Go compiler that we’ve ever supported, ranging from Go 1.5.x all the way through Go 1.13.x.  (Note that the Go 1.12.x and Go 1.13.x support is new, as both of those Go releases required rebases in order for &lt;code class=&quot;highlighter-rouge&quot;&gt;go generate&lt;/code&gt; to run without errors.  So if you use one of those Go versions, you’ll find this work especially useful.)&lt;/p&gt;
+
+&lt;p&gt;The two final steps here are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Removing &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; from the ncdns repo and switching over to the new repo; this has now been merged.&lt;/li&gt;
+  &lt;li&gt;Updating ncdns-repro to use the new ncdns version; this will happen soon.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 06 Aug 2019 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2019/08/06/decoupling-ncdns-go-versions.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/08/06/decoupling-ncdns-go-versions.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>OpenNIC does the right thing: listens to security concerns and shuts down its centralized Namecoin inproxy</title>
@@ -21,8 +51,8 @@
 &lt;p&gt;&lt;em&gt;This news post was intended to be posted near the beginning of July 2019, but was delayed because I was busy attending the Tor developer meeting in Stockholm.  I apologize for the delay.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</guid>
+        <link>https://www.namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</guid>
         
         <category>News</category>
         
@@ -59,8 +89,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Fri, 05 Jul 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</guid>
+        <link>https://www.namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html</guid>
         
         <category>Alerts</category>
         
@@ -105,8 +135,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Tue, 18 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html</guid>
+        <link>https://www.namecoin.org//2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/06/18/ncp11-now-works-in-tor-browser-for-windows.html</guid>
         
         <category>News</category>
         
@@ -124,8 +154,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</guid>
+        <link>https://www.namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</guid>
         
         <category>News</category>
         
@@ -156,8 +186,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</guid>
+        <link>https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</guid>
         
         <category>News</category>
         
@@ -171,8 +201,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Wed, 12 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</guid>
+        <link>https://www.namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</guid>
         
         <category>News</category>
         
@@ -186,8 +216,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Mon, 03 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</guid>
+        <link>https://www.namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html</guid>
         
         <category>News</category>
         
@@ -203,8 +233,8 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
 </description>
         <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</guid>
+        <link>https://www.namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</guid>
         
         <category>Releases</category>
         
@@ -301,46 +331,12 @@
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
 </description>
         <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</guid>
+        <link>https://www.namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</guid>
         
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns rbm build scripts added support for Linux32, Win64, and Win32 targets</title>
-        <description>&lt;p&gt;As Hugo &lt;a href=&quot;/2019/04/15/ncdns-repro.html&quot;&gt;mentioned previously&lt;/a&gt;, rbm-based build scripts for ncdns are available.  rbm is the build system used by Tor Browser.  This work paves the way for reproducible builds of ncdns, improves the security of the build process against supply-chain attacks, and also paves the way for Windows and macOS support in our next-gen TLS interoperability codebase, ncp11 [1].  I’ve been spending some time improving those build scripts; here’s what’s new:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Considerable effort has gone into shrinking the diff compared to upstream tor-browser-build as much as possible.  Upstream Tor has much better QA resources, so it’s important to avoid deviating from what they do unless it’s critically important.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;binutils&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;gcc&lt;/code&gt; are now dependencies of Go projects that use cgo.  This means that we build the compiler from a fixed version of the source code rather than using whatever compiler Debian ships with.  This brings us closer in line with what upstream tor-browser-build does, probably fixes some compiler bugs, and probably improves reproducibility.&lt;/li&gt;
-  &lt;li&gt;Linux cross-compiling was fixed.  Currently, this means that 32-bit x86 Linux targets now build.  In the future, once upstream tor-browser-build merges &lt;a href=&quot;https://wiki.raptorcs.com/wiki/Porting/Tor_Browser&quot;&gt;my (currently WIP) patch&lt;/a&gt; for cross-compiled Linux non-x86 targets (e.g. ARM and POWER), those targets should work fine with ncdns as well.&lt;/li&gt;
-  &lt;li&gt;Windows targets were fixed.  This mostly consisted of fiddling with dependencies (ncdns uses different libraries on Linux and Windows), but also meant adding the &lt;code class=&quot;highlighter-rouge&quot;&gt;mingw-w64&lt;/code&gt; project from upstream tor-browser-build.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All of the above improvements are currently awaiting code review.&lt;/p&gt;
-
-&lt;p&gt;The next things I’ll be working on are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Fixing macOS targets.  So far, all of the dependencies for ncdns build without errors, but ncdns itself fails because of an interesting bug that seems to manifest when two different cgo-enabled packages have the same name.  ncdns includes a fork of the Go standard library’s &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; package; both the forked package and the original package are dependencies of the ncdns package, and it turns out that the only OS where cgo is used in &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; is… macOS.  We never noticed this before, because our existing ncdns macOS binaries are built without cgo (because no macOS cross-compiler was present); now that we’re building in an environment where cgo is present for macOS, we’re subject to whatever quirks impact cgo on macOS.  I think this is going to be pretty easy to work around by disabling cgo for the ncdns &lt;code class=&quot;highlighter-rouge&quot;&gt;x509&lt;/code&gt; fork, but the cleanest way to do that is going to require getting a patch merged upstream to &lt;code class=&quot;highlighter-rouge&quot;&gt;tor-browser-build&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Adding an &lt;code class=&quot;highlighter-rouge&quot;&gt;ncdns-nsis&lt;/code&gt; project, so that rbm builds the Windows installer.  This is already started, but I haven’t gotten very far yet.&lt;/li&gt;
-  &lt;li&gt;Adding other Namecoin Go projects, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;crosssignnameconstraint&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ncp11&lt;/code&gt;.  ncp11 is going to be especially interesting, due to its exercising of cgo code paths that almost no one uses.  This should be useful in finally getting ncp11 binaries for Windows and macOS [1].&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-
-&lt;p&gt;[1] Wait, you haven’t heard about ncp11 yet?  Go check out &lt;a href=&quot;/2019/05/08/35c3-summary.html&quot;&gt;my 35C3 slides and workshop notes&lt;/a&gt; about that!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 16 May 2019 00:00:00 +0000</pubDate>
-        <link>https://namecoin.org//2019/05/16/ncdns-rbm-linux32-win64-win32.html</link>
-        <guid isPermaLink="true">https://namecoin.org//2019/05/16/ncdns-rbm-linux32-win64-win32.html</guid>
-        
-        <category>News</category>
         
         
       </item>

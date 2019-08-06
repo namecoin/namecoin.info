@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://namecoin.org//">
+    <link rel="canonical" href="https://www.namecoin.org//">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/08/06/decoupling-ncdns-go-versions.html">2019-08-06</a></strong> One of the many pieces of witchcraft that Namecoin’s TLS interoperability requires is the ability to splice a signature into an X.509 certificate without otherwise modifying the certificate.  Unfortunately, while the Go standard crypto library is generally quite pleasant to use (and is certainly better-designed than most other crypto libraries such as OpenSSL), the functions relevant to splicing a signature are not exported.  This is understandable, since it’s not functionality that most users have any need for.  However, since Namecoin <em>does</em> need that functionality, my only option back when this code was being written was to fork the <code class="highlighter-rouge">crypto/x509</code> package from Go’s standard library.</p>
+
+<p><a href="/2019/08/06/decoupling-ncdns-go-versions.html">Read more…</a></p>
+
 <p><strong><a href="/2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html">2019-07-30</a></strong> In September 2018, I published <a href="/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">a case study</a> about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, <a href="https://prism-break.org/">PRISM Break</a> maintainer Yegor Timoshenko (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.</p>
 
 <p><a href="/2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html">Read more…</a></p>
@@ -324,10 +328,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/05/21/electrum-nmc-v3.3.6-released.html">2019-05-21</a></strong> We’ve released Electrum-NMC v3.3.6.  This release includes important security fixes, and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1.1:</p>
 
 <p><a href="/2019/05/21/electrum-nmc-v3.3.6-released.html">Read more…</a></p>
-
-<p><strong><a href="/2019/05/16/ncdns-rbm-linux32-win64-win32.html">2019-05-16</a></strong> As Hugo <a href="/2019/04/15/ncdns-repro.html">mentioned previously</a>, rbm-based build scripts for ncdns are available.  rbm is the build system used by Tor Browser.  This work paves the way for reproducible builds of ncdns, improves the security of the build process against supply-chain attacks, and also paves the way for Windows and macOS support in our next-gen TLS interoperability codebase, ncp11 [1].  I’ve been spending some time improving those build scripts; here’s what’s new:</p>
-
-<p><a href="/2019/05/16/ncdns-rbm-linux32-win64-win32.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
