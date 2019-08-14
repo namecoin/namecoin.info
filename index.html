@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/08/14/killing-namecoin-fork-of-conformal-btcd.html">2019-08-14</a></strong> One of the lesser-known dirty secrets of the ncdns codebase [1] is that it relies on an unmaintained fork of Conformal’s btcd, which dates back to 2015.  Specifically, ncdns uses a fork of the JSON-RPC client from btcd in order to query Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC.  Why did Namecoin not find upstream btcd to be sufficient?</p>
+
+<p><a href="/2019/08/14/killing-namecoin-fork-of-conformal-btcd.html">Read more…</a></p>
+
 <p><strong><a href="/2019/08/06/decoupling-ncdns-go-versions.html">2019-08-06</a></strong> One of the many pieces of witchcraft that Namecoin’s TLS interoperability requires is the ability to splice a signature into an X.509 certificate without otherwise modifying the certificate.  Unfortunately, while the Go standard crypto library is generally quite pleasant to use (and is certainly better-designed than most other crypto libraries such as OpenSSL), the functions relevant to splicing a signature are not exported.  This is understandable, since it’s not functionality that most users have any need for.  However, since Namecoin <em>does</em> need that functionality, my only option back when this code was being written was to fork the <code class="highlighter-rouge">crypto/x509</code> package from Go’s standard library.</p>
 
 <p><a href="/2019/08/06/decoupling-ncdns-go-versions.html">Read more…</a></p>
@@ -324,10 +328,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/05/23/electrum-nmc-v3.3.6.1-released.html">2019-05-23</a></strong> We’ve released Electrum-NMC v3.3.6.1.  This release includes a fix for a PyInstaller build script issue that was introduced in v3.3.6, which unfortunately slipped by us until a few minutes after v3.3.6 was released.  The only binaries affected by that issue were the Windows-specific binaries; users of the v3.3.6 Python, GNU/Linux, and Android binaries are unaffected.</p>
 
 <p><a href="/2019/05/23/electrum-nmc-v3.3.6.1-released.html">Read more…</a></p>
-
-<p><strong><a href="/2019/05/21/electrum-nmc-v3.3.6-released.html">2019-05-21</a></strong> We’ve released Electrum-NMC v3.3.6.  This release includes important security fixes, and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1.1:</p>
-
-<p><a href="/2019/05/21/electrum-nmc-v3.3.6-released.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

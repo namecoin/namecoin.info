@@ -6,9 +6,40 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Aug 2019 01:40:39 +0000</pubDate>
-    <lastBuildDate>Tue, 06 Aug 2019 01:40:39 +0000</lastBuildDate>
+    <pubDate>Wed, 14 Aug 2019 20:59:07 +0000</pubDate>
+    <lastBuildDate>Wed, 14 Aug 2019 20:59:07 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Killing Namecoin's Fork of Conformal's btcd</title>
+        <description>&lt;p&gt;One of the lesser-known dirty secrets of the ncdns codebase [1] is that it relies on an unmaintained fork of Conformal’s btcd, which dates back to 2015.  Specifically, ncdns uses a fork of the JSON-RPC client from btcd in order to query Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC.  Why did Namecoin not find upstream btcd to be sufficient?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;btcd’s RPC client expected a modern Bitcoin Core codebase to be used, and in 2015 Namecoin was somewhat behind upstream Bitcoin Core.  Thus Hugo needed to add a patch to avoid compatibility issues.&lt;/li&gt;
+  &lt;li&gt;btcd’s RPC client expected JSON-RPC 1.0 to be used, and errored when it encountered JSON-RPC 2.0.  Both ConsensusJ-Namecoin and Electrum-NMC use JSON-RPC 2.0, so I had to add a patch to avoid that error.&lt;/li&gt;
+  &lt;li&gt;btcd’s RPC client didn’t support cookie authentication, and Namecoin Core is easiest to set up when cookie authentication is in use.  Thus Hugo had to implement cookie authentication.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To make matters more complicated, Conformal decided to rewrite btcd’s JSON-RPC client from scratch a few months after Namecoin forked it; the rewrite has a completely different API, so it wasn’t a drop-in replacement.  This was yet further complicated by the fact that one of the features in the original btcd JSON-RPC client’s API allowed adding custom RPC methods for altcoins (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_scan&lt;/code&gt;), which ncdns relied on; the rewrite’s API doesn’t expose that functionality nearly as cleanly.&lt;/p&gt;
+
+&lt;p&gt;We’ve been throwing around the idea of using upstream Conformal’s btcd package for a while, but finally I decided to start implementing it.  Happily, Conformal includes example code for using the new API, so it wasn’t hard to get it to talk to Namecoin Core.  I submitted a patch to Conformal that exposes the API features needed for custom RPC methods (the patch was pretty easy to write, and hopefully will be merged soon).  I also implemented &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_scan&lt;/code&gt; for btcd.  (ncdns also includes support for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_filter&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_sync&lt;/code&gt;, but these methods weren’t actually used for anything and aren’t even included in current Namecoin Core releases, so I didn’t bother implementing them.)  Happily, issues (1) and (2) are no longer relevant, because ancient versions of Namecoin Core have long ago been phased out, and upstream btcd now supports JSON-RPC 2.0 without erroring.  Conveniently, the new API looks very similar to a custom high-level API that ncdns had implemented itself, so I was able to kill off quite a lot of glue code in ncdns as well.&lt;/p&gt;
+
+&lt;p&gt;Finally, I ported Hugo’s cookie authentication code to btcd.  This wasn’t particularly difficult, since most of the relevant code could be copied from ncdns into btcd without major changes.  (ncdns is GPLv3+-licensed, while btcd is ISC-licensed, but Hugo is the only developer who’s touched the relevant code, and he’s authorized re-licensing that code to both MIT and ISC licenses, so licensing concerns aren’t an issue.)&lt;/p&gt;
+
+&lt;p&gt;Killing off the legacy Namecoin fork of btcd will be an important step toward making Namecoin more secure, since unmaintained code is a potential source of bugs and vulnerabilities.  It also means we’ll benefit from whatever features Conformal has added since 2015, and whatever features they add in the future.  Now we just wait for Conformal to review the patches.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;p&gt;[1] Of course, nothing is really secret in the ncdns codebase, since it’s free software.  That said, it’s rare for people to actually thoroughly check the dependency tree of free software they work with, which makes it a bit of a de facto secret.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 14 Aug 2019 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2019/08/14/killing-namecoin-fork-of-conformal-btcd.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/08/14/killing-namecoin-fork-of-conformal-btcd.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Decoupling ncdns Versions from Go Compiler Versions</title>
@@ -235,104 +266,6 @@
         <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/05/23/electrum-nmc-v3.3.6.1-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v3.3.6 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.6.  This release includes important security fixes, and we recommend that all users upgrade.  Here’s what’s new since v3.3.3.1.1:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;From upstream Electrum:
-    &lt;ul&gt;
-      &lt;li&gt;AppImage: we now also distribute self-contained binaries for x86_64 Linux in the form of an AppImage (#5042). The Python interpreter, PyQt5, libsecp256k1, PyCryptodomex, zbar, hidapi/libusb (including hardware wallet libraries) are all bundled. Note that users of hw wallets still need to set udev rules themselves.&lt;/li&gt;
-      &lt;li&gt;hw wallets: fix a regression during transaction signing that prompts the user too many times for confirmations (commit 2729909)&lt;/li&gt;
-      &lt;li&gt;transactions now set nVersion to 2, to mimic Bitcoin Core&lt;/li&gt;
-      &lt;li&gt;fix Qt bug that made all hw wallets unusable on Windows 8.1 (#4960)&lt;/li&gt;
-      &lt;li&gt;fix bugs in wallet creation wizard that resulted in corrupted wallets being created in rare cases (#5082, #5057)&lt;/li&gt;
-      &lt;li&gt;fix compatibility with Qt 5.12 (#5109)&lt;/li&gt;
-      &lt;li&gt;The logging system has been overhauled (#5296).  Logs can now also optionally be written to disk, disabled by default.&lt;/li&gt;
-      &lt;li&gt;Fix a bug in synchronizer (#5122) where client could get stuck.  Also, show the progress of history sync in the GUI. (#5319)&lt;/li&gt;
-      &lt;li&gt;fix Revealer in Windows and MacOS binaries (#5027)&lt;/li&gt;
-      &lt;li&gt;fiat rate providers:
-        &lt;ul&gt;
-          &lt;li&gt;added CoinGecko.com and CoinCap.io&lt;/li&gt;
-          &lt;li&gt;BitcoinAverage now only provides historical exchange rates for paying customers. Changed default provider to CoinGecko.com (#5188)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;hardware wallets:
-        &lt;ul&gt;
-          &lt;li&gt;Ledger: Nano X is now recognized (#5140)&lt;/li&gt;
-          &lt;li&gt;KeepKey:
-            &lt;ul&gt;
-              &lt;li&gt;device was not getting detected using Windows binary (#5165)&lt;/li&gt;
-              &lt;li&gt;support firmware 6.0.0+ (#5205)&lt;/li&gt;
-              &lt;li&gt;Trezor: implemented “seedless” mode (#5118)&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Coin Control in Qt: implemented freezing individual UTXOs in addition to freezing addresses (#5152)&lt;/li&gt;
-      &lt;li&gt;TrustedCoin (2FA wallets):
-        &lt;ul&gt;
-          &lt;li&gt;better error messages (#5184)&lt;/li&gt;
-          &lt;li&gt;longer signing timeout (#5221)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Kivy:
-        &lt;ul&gt;
-          &lt;li&gt;fix bug with local transactions (#5156)&lt;/li&gt;
-          &lt;li&gt;allow selecting fiat rate providers without historical data (#5162)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;fix CPFP: the fees already paid by the parent were not included in the calculation, so it always overestimated (#5244)&lt;/li&gt;
-      &lt;li&gt;Testnet: there is now a warning when the client is started in testnet mode as there were a number of reports of users getting scammed through social engineering (#5295)&lt;/li&gt;
-      &lt;li&gt;CoinChooser: performance of creating transactions has been improved significantly for large wallets. (d56917f4)&lt;/li&gt;
-      &lt;li&gt;Importing/sweeping WIF keys: stricter checks (#4638, #5290)&lt;/li&gt;
-      &lt;li&gt;Electrum protocol: the client’s “user agent” has been changed from “3.3.5” to “electrum/3.3.5”. Other libraries connecting to servers can consider not “spoofing” to be Electrum. (#5246)&lt;/li&gt;
-      &lt;li&gt;Several other minor bugfixes and usability improvements.&lt;/li&gt;
-      &lt;li&gt;qt: fix crash during 2FA wallet creation (#5334)&lt;/li&gt;
-      &lt;li&gt;fix synchronizer not to keep resubscribing to addresses of already closed wallets (e415c0d9)&lt;/li&gt;
-      &lt;li&gt;fix removing addresses/keys from imported wallets (#4481)&lt;/li&gt;
-      &lt;li&gt;kivy: fix crash when aborting 2FA wallet creation (#5333)&lt;/li&gt;
-      &lt;li&gt;kivy: fix rare crash when changing exchange rate settings (#5329)&lt;/li&gt;
-      &lt;li&gt;A few other minor bugfixes and usability improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Namecoin-specific:
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html&quot;&gt;Checkpointed AuxPoW truncation&lt;/a&gt;.  This requires servers to run ElectrumX v1.9.2 or higher.  All public servers have upgraded; if you run a private server, please make sure that you’ve upgraded if you want Electrum-NMC to keep working.&lt;/li&gt;
-      &lt;li&gt;Pending registrations in Manage Names tab now show the name and value rather than a blank line.&lt;/li&gt;
-      &lt;li&gt;Manage Names tab now shows an estimated expiration date in addition to a block count.&lt;/li&gt;
-      &lt;li&gt;Manage Names tab now allows copying identifiers and values to the clipboard.&lt;/li&gt;
-      &lt;li&gt;Status bar now shows a count of registered names and pending registrations next to the NMC balance.&lt;/li&gt;
-      &lt;li&gt;Set memo in name wallet commands.  This improves Coin Control, which paves the way for anonymity.&lt;/li&gt;
-      &lt;li&gt;We now distribute Android APK binaries and GNU/Linux AppImage binaries (in addition to the previously existing Python tarball binaries and Windows binaries).  Android and AppImage binaries are not tested in any way (they might not even boot) – please test them and let us know what’s broken.&lt;/li&gt;
-      &lt;li&gt;Notify when a new version of Electrum-NMC is available.&lt;/li&gt;
-      &lt;li&gt;Add 2 new servers.&lt;/li&gt;
-      &lt;li&gt;Remove 2 old servers that are now being decommissioned.&lt;/li&gt;
-      &lt;li&gt;Various fixes for exception handling.&lt;/li&gt;
-      &lt;li&gt;Various unit tests and fixes for AuxPoW.&lt;/li&gt;
-      &lt;li&gt;Various rebranding fixes.&lt;/li&gt;
-      &lt;li&gt;Various code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I want to draw attention in particular to one of the code quality improvements.  Most forks of Electrum rename the &lt;code class=&quot;highlighter-rouge&quot;&gt;electrum&lt;/code&gt; Python package, in order to avoid causing namespace conflicts if both Electrum and an Electrum fork are installed on the same system.  Unfortunately, the result of this is that any change to &lt;code class=&quot;highlighter-rouge&quot;&gt;import&lt;/code&gt; statements in upstream usually triggers a merge conflict.  I brought up this subject with SomberNight from upstream Electrum, in the hopes that we could find a solution that would avoid the merge conflicts.  My initial suggestion was for upstream to switch to relative imports; SomberNight shot that down due to code readability concerns, but he posted a code snippet that was a (non-working) attempt to work around the issue.  Based on the rough direction of his code snippet, I managed to produce a working patch to Electrum-NMC that allows the imports to revert to the upstream version.  For an idea of how much improvement this is, prior to this patch, merging one release tag’s worth of commits (i.e. about a month of commits) would typically take me a day or so.  Now, it takes me about 30 minutes.  Kudos to SomberNight for his excellent efforts working with me to get us to a solution that optimizes productivity for both upstream and downstream.&lt;/p&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/05/21/electrum-nmc-v3.3.6-released.html</guid>
         
         <category>Releases</category>
         
