@@ -347,20 +347,52 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The ncdns Windows installer also automatically installs and configures a Namecoin client (Namecoin Core or ConsensusJ-Namecoin) and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code class="highlighter-rouge">.bit</code> domain names.</p>
 
-<p><strong>Before running the ncdns Windows installer, you will need to install the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679">Visual C++ Redistributable for Visual Studio 2012</a>.</strong></p>
+<p><strong>Before running the ncdns Windows installer, you will need to install the following:</strong></p>
+
+<ul>
+  <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=30679">Visual C++ Redistributable for Visual Studio 2012</a></li>
+  <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=53587">Visual C++ Redistributable for Visual Studio 2015</a></li>
+</ul>
 
 <p>ncdns plain binaries are also available for most major operating systems.  These are useful for advanced users or for users who are not on Windows.  Using these will require setting up Namecoin Core and a recursive DNS resolver (e.g. Unbound) separately; they can sometimes be used for TLS certificate validation, but additional setup is required.</p>
 
 <ul>
-  <li><a href="https://www.namecoin.org/files/ncdns-v0.0.8/ncdns-v0.0.8-win64-install.exe">ncdns v0.0.8 Windows (64-bit) installer</a></li>
-  <li><a href="https://www.namecoin.org/files/ncdns-v0.0.8/ncdns-v0.0.8-win32-install.exe">ncdns v0.0.8 Windows (32-bit) installer</a></li>
-  <li><a href="https://www.namecoin.org/files/ncdns-v0.0.8/ncdns-v0.0.8-win.SHA256SUMS.asc">ncdns v0.0.8 Windows Signature (Release signed by Jeremy Rand)</a></li>
-  <li><a href="https://github.com/namecoin/ncdns/releases/tag/v0.0.8">ncdns v0.0.8 plain binaries for GNU/Linux, DragonFlyBSD, FreeBSD, NetBSD, OpenBSD, Solaris, Windows, macOS (hosted by GitHub)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-linux-x86_64.tar.gz">ncdns v0.0.9.2 GNU/Linux (64-bit x86) plain binaries</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-linux-i686.tar.gz">ncdns v0.0.9.2 GNU/Linux (32-bit x86) plain binaries</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-windows-x86_64-install.exe">ncdns v0.0.9.2 Windows (64-bit x86) installer</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-windows-x86_64.tar.gz">ncdns v0.0.9.2 Windows (64-bit x86) plain binaries</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-windows-i686-install.exe">ncdns v0.0.9.2 Windows (32-bit x86) installer</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-windows-i686.tar.gz">ncdns v0.0.9.2 Windows (32-bit x86) plain binaries</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2-osx-x86_64.tar.gz">ncdns v0.0.9.2 macOS (64-bit x86) plain binaries</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2.SHA256SUMS.asc">ncdns v0.0.9.2 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns/releases/tag/v0.0.9">ncdns v0.0.9 plain binaries for GNU/Linux (non-x86), DragonFlyBSD, FreeBSD, NetBSD, OpenBSD, and Solaris (hosted by GitHub)</a></li>
   <li><a href="https://github.com/namecoin/ncdns-nsis">ncdns Windows Installer Source Code</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">ncdns rbm Build Harness Source Code</a></li>
   <li><a href="https://github.com/namecoin/ncdns">ncdns Source Code</a></li>
 </ul>
 
 <h3 id="known-issues-3">Known Issues</h3>
+
+<ul>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
+<h2 id="certdehydrate-dane-rest-api">certdehydrate-dane-rest-api</h2>
+
+<p>certdehydrate-dane-rest-api is a dependency of ncp11 and the Chromium version of DNSSEC-HSTS.</p>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/certdehydrate-dane-rest-api-0.0.1-linux-x86_64.tar.gz">certdehydrate-dane-rest-api v0.0.1 for GNU/Linux (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/certdehydrate-dane-rest-api-0.0.1-linux-i686.tar.gz">certdehydrate-dane-rest-api v0.0.1 for GNU/Linux (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/certdehydrate-dane-rest-api-0.0.1-windows-x86_64.tar.gz">certdehydrate-dane-rest-api v0.0.1 for Windows (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/certdehydrate-dane-rest-api-0.0.1-windows-i686.tar.gz">certdehydrate-dane-rest-api v0.0.1 for Windows (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/certdehydrate-dane-rest-api-0.0.1-osx-x86_64.tar.gz">certdehydrate-dane-rest-api v0.0.1 for macOS (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2.SHA256SUMS.asc">certdehydrate-dane-rest-api v0.0.1 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">certdehydrate-dane-rest-api rbm Build Harness Source Code</a></li>
+  <li><a href="https://github.com/namecoin/certdehydrate-dane-rest-api">certdehydrate-dane-rest-api Source Code</a></li>
+</ul>
+
+<h3 id="known-issues-4">Known Issues</h3>
 
 <ul>
   <li>Build is not yet reproducible.</li>
@@ -383,7 +415,51 @@ Decentralized<br /><strong>secure</strong> names.
   <li><a href="https://github.com/namecoin/crosssignnameconstraint">cross_sign_name_constraint_tool Source Code at GitHub.</a></li>
 </ul>
 
-<h3 id="known-issues-4">Known Issues</h3>
+<h3 id="known-issues-5">Known Issues</h3>
+
+<ul>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
+<h2 id="dnssec-hsts">DNSSEC-HSTS</h2>
+
+<p>DNSSEC-HSTS enforces TLS for Namecoin websites that support TLS, which protects against sslstrip attacks.  Firefox users need both the WebExtensions Component and the Native Component.  Chromium users need the WebExtensions component and certdehydrate-dane-rest-api (see above), but not the Native Component.</p>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-0.0.1.xpi">DNSSEC-HSTS WebExtensions Component v0.0.1 for Firefox</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-native-0.0.1-linux-x86_64.tar.gz">DNSSEC-HSTS Native Component v0.0.1 for GNU/Linux (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-native-0.0.1-linux-i686.tar.gz">DNSSEC-HSTS Native Component v0.0.1 for GNU/Linux (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-native-0.0.1-windows-x86_64.tar.gz">DNSSEC-HSTS Native Component v0.0.1 for Windows (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-native-0.0.1-windows-i686.tar.gz">DNSSEC-HSTS Native Component v0.0.1 for Windows (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/dnssec-hsts-native-0.0.1-osx-x86_64.tar.gz">DNSSEC-HSTS Native Component v0.0.1 for macOS (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2.SHA256SUMS.asc">DNSSEC-HSTS v0.0.1 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">DNSSEC-HSTS rbm Build Harness Source Code</a></li>
+  <li><a href="https://github.com/namecoin/dnssec-hsts">DNSSEC-HSTS WebExtensions Component Source Code</a></li>
+  <li><a href="https://github.com/namecoin/dnssec-hsts-native">DNSSEC-HSTS Native Component Source Code</a></li>
+</ul>
+
+<h3 id="known-issues-6">Known Issues</h3>
+
+<ul>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
+<h2 id="ncp11">ncp11</h2>
+
+<p>ncp11 enables Namecoin TLS in applications that support PKCS#11, such as Tor Browser.</p>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncp11-0.0.1-linux-x86_64.tar.gz">ncp11 v0.0.1 for GNU/Linux (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncp11-0.0.1-linux-i686.tar.gz">ncp11 v0.0.1 for GNU/Linux (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncp11-0.0.1-windows-x86_64.tar.gz">ncp11 v0.0.1 for Windows (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncp11-0.0.1-windows-i686.tar.gz">ncp11 v0.0.1 for Windows (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncp11-0.0.1-osx-x86_64.tar.gz">ncp11 v0.0.1 for macOS (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2.SHA256SUMS.asc">ncp11 v0.0.1 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">ncp11 rbm Build Harness Source Code</a></li>
+  <li><a href="https://github.com/namecoin/ncp11">ncp11 Source Code</a></li>
+</ul>
+
+<h3 id="known-issues-7">Known Issues</h3>
 
 <ul>
   <li>Build is not yet reproducible.</li>
@@ -405,7 +481,7 @@ Decentralized<br /><strong>secure</strong> names.
   <li><a href="https://github.com/namecoin/tlsrestrictnss">tlsrestrict_nss_tool Source Code at GitHub.</a></li>
 </ul>
 
-<h3 id="known-issues-5">Known Issues</h3>
+<h3 id="known-issues-8">Known Issues</h3>
 
 <ul>
   <li>This tool will probably prevent HPKP from working as intended, unless HPKP is applied to user-defined trust anchors. Firefox is capable of doing this (though it’s not the default); Chromium is not (as far as we know).</li>
@@ -418,15 +494,15 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>See the <a href="/docs/tor-resolution">Namecoin Tor resolution documentation</a></p>
 <ul>
-  <li>Binaries distributed with ncdns.</li>
+  <li>Binaries distributed with <a href="https://github.com/namecoin/ncdns/releases/tag/v0.0.8">ncdns v0.0.8 plain binaries for GNU/Linux, DragonFlyBSD, FreeBSD, NetBSD, OpenBSD, Solaris, Windows, and macOS (hosted by GitHub)</a>.</li>
   <li><a href="https://github.com/namecoin/dns-prop279">Source code at GitHub.</a></li>
 </ul>
 
-<h3 id="known-issues-6">Known Issues</h3>
+<h3 id="known-issues-9">Known Issues</h3>
 
 <ul>
   <li>Prop279 is still an early draft, and might change heavily.  dns-prop279 will change accordingly.</li>
-  <li><code class="highlighter-rouge">tor</code> doesn’t implement Prop279 (see above point); the <a href="https://github.com/meejah/TorNS">TorNS</a> shim is required if you want to use or test dns-prop279.</li>
+  <li><code class="highlighter-rouge">tor</code> doesn’t implement Prop279 (see above point); the <a href="https://github.com/namecoin/StemNS">StemNS</a> or <a href="https://github.com/meejah/TorNS">TorNS</a> shim is required if you want to use or test dns-prop279.</li>
   <li>dns-prop279 doesn’t follow the current Namecoin Domain Names specification for onion service records (we might amend the specification to match dns-prop279’s behavior).</li>
   <li>dns-prop279 doesn’t properly return error codes; all errors will be treated as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
   <li>dns-prop279 hasn’t been carefully checked for proxy leaks.</li>
@@ -434,6 +510,36 @@ Decentralized<br /><strong>secure</strong> names.
   <li>Stream isolation for streams opened by applications (e.g. Tor Browser) should work fine.  However, stream isolation metadata won’t propagate to streams opened by the DNS server.  That means you should only use <code class="highlighter-rouge">dns-prop279</code> with a DNS server that will not generate outgoing traffic when you query it.  ncdns is probably fine as long as it’s using a full-block-receive Namecoin node such as Namecoin Core or libdohj-namecoin in leveldbtxcache mode.  ncdns should <strong>not</strong> be used with headers-only name lookup clients such as Electrum-NMC.  Unbound is also not a good idea.</li>
   <li>Nothing in dns-prop279 prevents the configured DNS server from caching lookups. If lookups are cached, this could be used to fingerprint users. ncdns has caching enabled by default.</li>
   <li>DNSSEC support hasn’t been tested at all, and is probably totally unsafe right now. Only use dns-prop279 when you fully trust the configured DNS server and your network path to it.</li>
+  <li>Build is not yet reproducible.</li>
+</ul>
+
+<h2 id="ncprop279">ncprop279</h2>
+
+<p>ncprop279 enables Namecoin naming (but not DNS naming) to be used with Tor, via the draft Prop279 pluggable naming API.  ncprop279 is somewhat smaller and more efficient than dns-prop279.  <code class="highlighter-rouge">.bit</code> domains can point to IP addresses (A/AAAA records), DNS names (CNAME records), and onion services.</p>
+
+<p>See the <a href="/docs/tor-resolution">Namecoin Tor resolution documentation</a>.</p>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncprop279-0.0.1-linux-x86_64.tar.gz">ncprop279 v0.0.1 for GNU/Linux (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncprop279-0.0.1-linux-i686.tar.gz">ncprop279 v0.0.1 for GNU/Linux (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncprop279-0.0.1-windows-x86_64.tar.gz">ncprop279 v0.0.1 for Windows (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncprop279-0.0.1-windows-i686.tar.gz">ncprop279 v0.0.1 for Windows (32-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncprop279-0.0.1-osx-x86_64.tar.gz">ncprop279 v0.0.1 for macOS (64-bit x86)</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.9.2/ncdns-0.0.9.2.SHA256SUMS.asc">ncprop279 v0.0.1 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">ncprop279 rbm Build Harness Source Code</a></li>
+  <li><a href="https://github.com/namecoin/ncprop279">ncprop279 Source Code</a></li>
+</ul>
+
+<h3 id="known-issues-10">Known Issues</h3>
+
+<ul>
+  <li>Prop279 is still an early draft, and might change heavily.  ncprop279 will change accordingly.</li>
+  <li><code class="highlighter-rouge">tor</code> doesn’t implement Prop279 (see above point); the <a href="https://github.com/namecoin/StemNS">StemNS</a> or <a href="https://github.com/meejah/TorNS">TorNS</a> shim is required if you want to use or test ncprop279.</li>
+  <li>ncprop279 doesn’t follow the current Namecoin Domain Names specification for onion service records (we might amend the specification to match ncprop279’s behavior).</li>
+  <li>ncprop279 hasn’t been carefully checked for proxy leaks.</li>
+  <li>Using ncprop279 will make you stand out from other Tor users.</li>
+  <li>Stream isolation for streams opened by applications (e.g. Tor Browser) should work fine.  However, stream isolation metadata won’t propagate to streams opened by the Namecoin client.  That means you should only use <code class="highlighter-rouge">ncprop279</code> with a Namecoin client that will not generate outgoing traffic when you query it.  A full-block-receive Namecoin node such as Namecoin Core or libdohj-namecoin in leveldbtxcache mode is probably fine.  A headers-only name lookup client such as Electrum-NMC should <strong>not</strong> be used.</li>
+  <li>ncprop279 probably caches lookups.  This could be used to fingerprint users.</li>
   <li>Build is not yet reproducible.</li>
 </ul>
 
