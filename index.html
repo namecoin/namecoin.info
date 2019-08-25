@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">2019-08-25</a></strong> As I’ve <a href="/2019/08/06/decoupling-ncdns-go-versions.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  Naturally, one of the important ways to test a reproducible build system is to build a binary twice in a row and see if the hashes are the same.  If the hashes don’t match, then tools like <a href="https://diffoscope.org/">Diffoscope</a> can be used to figure out what the source of the reproducibility failure is.  Now that Namecoin’s usage of rbm is reasonably stable (i.e. working binaries are produced for most of Namecoin’s software now), it’s a good time to look into how reproducible our binaries are.</p>
+
+<p><a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">Read more…</a></p>
+
 <p><strong><a href="/2019/08/15/ncdns-v0.0.9.2-released.html">2019-08-15</a></strong> We’ve released ncdns v0.0.9.2.  List of changes in v0.0.9.2:</p>
 
 <p><a href="/2019/08/15/ncdns-v0.0.9.2-released.html">Read more…</a></p>
@@ -324,10 +328,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">2019-06-12</a></strong> ncp11 is the next-gen Namecoin TLS interoperability project that Aerth and I have been cooking up in the Namecoin R&amp;D lab for a while.  (See my <a href="/2019/05/08/35c3-summary.html">35C3 slides and workshop notes</a> for more info on it if you haven’t heard about it yet.)  Last month, I <a href="/2019/05/16/ncdns-rbm-linux32-win64-win32.html">mentioned</a> that I intended to get ncp11 building in rbm.  I now have ncp11 building in rbm for GNU/Linux 64-bit and 32-bit x86 targets.  32-bit support involved fixing a bug in ncdns’s usage of PKCS#11 (specifically, ncp11 was making type assumptions that are only valid on 64-bit targets, which produced a build error on 32-bit targets).  I’ve tested the resulting 64-bit binary in a Debian Buster VM, and it works fine when used as a drop-in replacement for NSS’s CKBI library.  (It looks like there are issues when loaded alongside CKBI, which I’ll need to debug when I have some free time, but this isn’t a release blocker, and the same issues are reproducible with the non-rbm binary I used at 35C3.)</p>
 
 <p><a href="/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">Read more…</a></p>
-
-<p><strong><a href="/2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html">2019-06-03</a></strong> The Tor Project has <a href="https://blog.torproject.org/new-release-tor-browser-85">released</a> Tor Browser 8.5.  Among the usual interesting changes, Namecoin users will be interested to note that Tor Browser 8.5 includes <a href="/2018/10/15/certutil-rbm-merged-tor-project.html">Namecoin’s <code class="highlighter-rouge">certutil</code> Windows/macOS patch</a>, which paves the way for better Namecoin TLS support in Firefox on Windows and macOS.  For the #reckless among you who want to experiment, the <code class="highlighter-rouge">certutil</code> binaries are available <a href="http://rqef5a5mebgq46y5.onion/torbrowser/">here</a> (or <a href="https://dist.torproject.org/torbrowser/">here</a> for those of you who can’t access onion services); specifically you want the <code class="highlighter-rouge">mar-tools</code> downloads.  Kudos to The Tor Project on getting Tor Browser 8.5 released!</p>
-
-<p><a href="/2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
