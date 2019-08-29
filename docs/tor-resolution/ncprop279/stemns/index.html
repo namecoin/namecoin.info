@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>TLS for Tor Browser on GNU/Linux</title>
+    <title>Namecoin Resolution with Tor via ncprop279 and StemNS</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//docs/tls-client/tor-browser/gnu-linux/">
+    <link rel="canonical" href="https://www.namecoin.org//docs/tor-resolution/ncprop279/stemns/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -235,37 +235,64 @@ Decentralized<br /><strong>secure</strong> names.
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">TLS for Tor Browser on GNU/Linux</h1>
+    <h1 class="post-title">Namecoin Resolution with Tor via ncprop279 and StemNS</h1>
   </header>
 
   <article class="post-content">
     
-<h2 id="tls-positive-and-negative-overrides">TLS Positive and Negative Overrides</h2>
+<p>Namecoin can be used for name resolution with Tor.  This guide covers how to set this up using ncprop279 and StemNS.</p>
 
-<p>Tor Browser for GNU/Linux can be used with Namecoin for TLS positive and negative overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors, and prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
+<p><strong>Warning: this is beta software, and is not suitable for production use.  It is being made available for testing purposes only.  It’s using experimental API’s that may be replaced or removed in the future, and it will make your Tor client stand out from everyone else.</strong></p>
 
-<ol>
-  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
-  <li>Download and extract certdehydrate-dane-rest-api and ncp11 from the <a href="/download/betas/">Beta Downloads</a> page.</li>
-  <li>
-    <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
+<h2 id="install-tor">Install Tor</h2>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
-nameserver="127.0.0.1"
-port="5391"
-</code></pre></div>    </div>
-  </li>
-  <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
-  <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
-  <li>Make sure Tor Browser is installed.</li>
-  <li>Make sure Tor Browser is already <a href="/docs/tor-resolution/">configured to use Namecoin for Tor name resolution</a>.</li>
-  <li>Make sure Tor Browser is shut down.</li>
-  <li>In Tor Browser’s <code class="highlighter-rouge">Browser</code> folder, rename <code class="highlighter-rouge">libnssckbi.so</code> to <code class="highlighter-rouge">libnssckbi-namecoin-target.so</code>.</li>
-  <li>Copy <code class="highlighter-rouge">libncp11.so</code> to Tor Browser’s <code class="highlighter-rouge">Browser</code> folder.</li>
-  <li>In Tor Browser’s <code class="highlighter-rouge">Browser</code> folder, rename <code class="highlighter-rouge">libncp11.so</code> to <code class="highlighter-rouge">libnssckbi.so</code>.</li>
-</ol>
+<p>Hopefully you’ve already done this.  Note that these instructions are not tested in any way with Whonix, Tails, or Subgraph OS; such systems use control port filters that may cause problems.</p>
 
-<p>You can now visit in Tor Browser a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://ca-test.bit/">the ncp11 test page</a>.  The website should load in Tor Browser without errors.  Note that only CA trust anchors are accepted; end-entity trust anchors are not accepted.  This means that some older <code class="highlighter-rouge">.bit</code> domains will have their certificates rejected in Tor Browser.  We are working on contacting the affected <code class="highlighter-rouge">.bit</code> domain owners to ask them to upgrade their setup.</p>
+<h2 id="install-a-namecoin-name-lookup-client">Install a Namecoin name lookup client</h2>
+
+<p>This could be either Namecoin Core or ConsensusJ-Namecoin.  Note that if you’re using Namecoin Core, you may wish to make Namecoin Core route its traffic over Tor (this procedure should be identical as what you’d do for Bitcoin Core).  ConsensusJ-Namecoin doesn’t yet support routing its traffic over Tor.  If you’re using ConsensusJ-Namecoin, it is strongly recommended that you use <code class="highlighter-rouge">leveldbtxcache</code> mode (this is the default if you’re running the shortcut created by the ncdns for Windows installer; it is <strong>not</strong> the default if you’re running it from the command line); this is because the other modes will generate network traffic that isn’t subject to stream isolation.  Electrum-NMC is not recommended because it will generate network traffic that isn’t subject to stream isolation.</p>
+
+<h2 id="install-ncprop279">Install ncprop279</h2>
+
+<p>ncprop279 can be downloaded at the <a href="/download/betas/#ncprop279">Beta Downloads</a> page.  The build is not yet reproducible.</p>
+
+<p>If you want to build from source:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go get github.com/namecoin/ncprop279
+</code></pre></div></div>
+
+<h2 id="install-stemns">Install StemNS</h2>
+
+<p>StemNS  is <a href="https://github.com/namecoin/StemNS">available on GitHub.</a></p>
+
+<p>The <code class="highlighter-rouge">_service_to_command</code> configuration in  <code class="highlighter-rouge">settings_services.py</code> should look like this (fill in the path to where your ncprop279 binary is located accordingly):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_service_to_command = {
+    "bit.onion": ['/path/to/ncprop279'],
+    "bit": ['/path/to/ncprop279'],
+}
+</code></pre></div></div>
+
+<p>If you’re using Tor Browser Bundle, or are otherwise using a non-default Tor control port, you’ll need to update the control port in   <code class="highlighter-rouge">settings_port.py</code>.</p>
+
+<h2 id="configure-tor">Configure Tor</h2>
+
+<p>Tor must be configured with the following option:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>__LeaveStreamsUnattached 1
+</code></pre></div></div>
+
+<p>In a typical Tor Browser installation, <code class="highlighter-rouge">torrc-defaults</code> is the correct place to add this option.</p>
+
+<h2 id="running-it">Running it</h2>
+
+<p>Make sure that the name lookup client and Tor are running.  Then, run <code class="highlighter-rouge">python3 poc.py</code> in the StemNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.  Here’s a screenshot of <a href="http://federalistpapers.bit.onion/">the Tor example rendezvous points page</a>:</p>
+
+<p><img src="/images/screenshots/tor/tor-browser-onion-2018-08-01.png" alt="Screenshot." /></p>
+
+<p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion</code> names are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
+
+<p>Namecoin name owners can specify a <code class="highlighter-rouge">.onion</code> domain via the <code class="highlighter-rouge">txt</code> field in the <code class="highlighter-rouge">_tor</code> subdomain of their name.  This specification is open to revision later, as the Tor community evolves its canonical naming specifications.  (In particular, it is possible that <code class="highlighter-rouge">TXT</code> records might be replaced with <code class="highlighter-rouge">SRV</code> records.)</p>
 
 
   </article>
@@ -287,7 +314,7 @@ port="5391"
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/tor-browser/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tor-resolution/ncprop279/stemns/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
