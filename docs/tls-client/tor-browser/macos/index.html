@@ -246,20 +246,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <ol>
   <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
-  <li>
-    <p>On a GNU/Linux system, build certdehydrate-dane-rest-api and ncp11 from source, like this:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/namecoin/ncdns-repro.git
-cd ncdns-repro
-make submodule-update
-./rbm/rbm build certdehydrate-dane-rest-api --target release --target ncdns-osx-x86_64
-./rbm/rbm build ncp11 --target release --target ncdns-osx-x86_64
-</code></pre></div>    </div>
-  </li>
-  <li>The certdehydrate-dane-rest-api binary will be a <code class="highlighter-rouge">.tar.gz</code> file in <code class="highlighter-rouge">./out/certdehydrate-dane-rest-api/</code>.</li>
-  <li>The ncp11 binary will be a <code class="highlighter-rouge">.tar.gz</code> file in <code class="highlighter-rouge">./out/ncp11/</code>.</li>
-  <li>Extract <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> from the certdehydrate-dane-rest-api <code class="highlighter-rouge">.tar.gz</code> file and copy it to your macOS system where Tor Browser will be used.</li>
-  <li>Extract <code class="highlighter-rouge">libncp11.dylib</code> from the ncp11 <code class="highlighter-rouge">.tar.gz</code> file and copy it to your macOS system where Tor Browser will be used.</li>
+  <li>Download and extract certdehydrate-dane-rest-api and ncp11 from the <a href="/download/betas/">Beta Downloads</a> page.</li>
   <li>
     <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 

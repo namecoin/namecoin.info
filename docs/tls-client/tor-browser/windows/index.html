@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>TLS for Tor Browser on Windows (64-bit)</title>
+    <title>TLS for Tor Browser on Windows</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -235,7 +235,7 @@ Decentralized<br /><strong>secure</strong> names.
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">TLS for Tor Browser on Windows (64-bit)</h1>
+    <h1 class="post-title">TLS for Tor Browser on Windows</h1>
   </header>
 
   <article class="post-content">
@@ -246,20 +246,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <ol>
   <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
-  <li>
-    <p>On a GNU/Linux system, build certdehydrate-dane-rest-api and ncp11 from source, like this:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/namecoin/ncdns-repro.git
-cd ncdns-repro
-make submodule-update
-./rbm/rbm build certdehydrate-dane-rest-api --target release --target ncdns-windows-x86_64
-./rbm/rbm build ncp11 --target release --target ncdns-windows-x86_64
-</code></pre></div>    </div>
-  </li>
-  <li>The certdehydrate-dane-rest-api binary will be a <code class="highlighter-rouge">.tar.gz</code> file in <code class="highlighter-rouge">./out/certdehydrate-dane-rest-api/</code>.</li>
-  <li>The ncp11 binary will be a <code class="highlighter-rouge">.tar.gz</code> file in <code class="highlighter-rouge">./out/ncp11/</code>.</li>
-  <li>Extract <code class="highlighter-rouge">certdehydrate-dane-rest-api.exe</code> from the certdehydrate-dane-rest-api <code class="highlighter-rouge">.tar.gz</code> file and copy it to your Windows system where Tor Browser will be used.</li>
-  <li>Extract <code class="highlighter-rouge">ncp11.dll</code> from the ncp11 <code class="highlighter-rouge">.tar.gz</code> file and copy it to your Windows system where Tor Browser will be used.</li>
+  <li>Download and extract certdehydrate-dane-rest-api and ncp11 from the <a href="/download/betas/">Beta Downloads</a> page.</li>
   <li>
     <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api.exe</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 
