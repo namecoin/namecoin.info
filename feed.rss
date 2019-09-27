@@ -6,9 +6,65 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 29 Aug 2019 18:13:22 +0000</pubDate>
-    <lastBuildDate>Thu, 29 Aug 2019 18:13:22 +0000</lastBuildDate>
+    <pubDate>Fri, 27 Sep 2019 16:37:38 +0000</pubDate>
+    <lastBuildDate>Fri, 27 Sep 2019 16:37:38 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.3.7 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.7.  Here’s what’s new since v3.3.6.1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;From upstream Electrum:
+    &lt;ul&gt;
+      &lt;li&gt;The AppImage Linux x86_64 binary and the Windows setup.exe (so now all Windows binaries) are now built reproducibly.&lt;/li&gt;
+      &lt;li&gt;Bump fee (RBF) improvements: Implemented a new fee-bump strategy that can add new inputs, so now any tx can be fee-bumped (d0a4366). The old strategy was to decrease the value of outputs (starting with change).  We will now try the new strategy first, and only use the old as a fallback (needed e.g. when spending “Max”).&lt;/li&gt;
+      &lt;li&gt;CoinChooser improvements:
+        &lt;ul&gt;
+          &lt;li&gt;more likely to construct txs without change (when possible)&lt;/li&gt;
+          &lt;li&gt;less likely to construct txs with really small change (e864fa5)&lt;/li&gt;
+          &lt;li&gt;will now only spend negative effective value coins when beneficial for privacy (cb69aa8)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;fix long-standing bug that broke wallets with &amp;gt;65k addresses (#5366)&lt;/li&gt;
+      &lt;li&gt;Windows binaries: we now build the PyInstaller boot loader ourselves, as this seems to reduce anti-virus false positives (1d0f679)&lt;/li&gt;
+      &lt;li&gt;Android: (fix) BIP70 payment requests could not be paid (#5376)&lt;/li&gt;
+      &lt;li&gt;Android: allow copy-pasting partial transactions from/to clipboard&lt;/li&gt;
+      &lt;li&gt;Fix a performance regression for large wallets (c6a54f0)&lt;/li&gt;
+      &lt;li&gt;Qt: fix some high DPI issues related to text fields (37809be)&lt;/li&gt;
+      &lt;li&gt;Trezor:
+        &lt;ul&gt;
+          &lt;li&gt;allow bypassing “too old firmware” error (#5391)&lt;/li&gt;
+          &lt;li&gt;use only the Bridge to scan devices if it is available (#5420)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;hw wallets: (known issue) on Win10-1903, some hw devices (that also have U2F functionality) can only be detected with Administrator privileges. (see #5420 and #5437)  A workaround is to run as Admin, or for Trezor to install the Bridge.&lt;/li&gt;
+      &lt;li&gt;Several other minor bugfixes and usability improvements.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Namecoin-specific:
+    &lt;ul&gt;
+      &lt;li&gt;Fix issue affecting plugin detection.  If you were encountering hardware wallet bugs, they might be fixed now.&lt;/li&gt;
+      &lt;li&gt;Various rebranding fixes.&lt;/li&gt;
+      &lt;li&gt;Various code quality improvements.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 27 Sep 2019 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2019/09/27/electrum-nmc-v3.3.7-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/09/27/electrum-nmc-v3.3.7-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Fixing a gzip Reproducibility Bug in Tor Browser and rbm</title>
@@ -285,21 +341,6 @@
         <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncp11 Now Builds in rbm for GNU/Linux (64-bit and 32-bit)</title>
-        <description>&lt;p&gt;ncp11 is the next-gen Namecoin TLS interoperability project that Aerth and I have been cooking up in the Namecoin R&amp;amp;D lab for a while.  (See my &lt;a href=&quot;/2019/05/08/35c3-summary.html&quot;&gt;35C3 slides and workshop notes&lt;/a&gt; for more info on it if you haven’t heard about it yet.)  Last month, I &lt;a href=&quot;/2019/05/16/ncdns-rbm-linux32-win64-win32.html&quot;&gt;mentioned&lt;/a&gt; that I intended to get ncp11 building in rbm.  I now have ncp11 building in rbm for GNU/Linux 64-bit and 32-bit x86 targets.  32-bit support involved fixing a bug in ncdns’s usage of PKCS#11 (specifically, ncp11 was making type assumptions that are only valid on 64-bit targets, which produced a build error on 32-bit targets).  I’ve tested the resulting 64-bit binary in a Debian Buster VM, and it works fine when used as a drop-in replacement for NSS’s CKBI library.  (It looks like there are issues when loaded alongside CKBI, which I’ll need to debug when I have some free time, but this isn’t a release blocker, and the same issues are reproducible with the non-rbm binary I used at 35C3.)&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 12 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html</guid>
         
         <category>News</category>
         
