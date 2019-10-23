@@ -339,6 +339,36 @@ profiledir="$PROFILEDIR"
 
 <p><img src="/images/screenshots/tls/tls-reject-firefox-linux-2018-08-01.png" alt="start.fedoraproject.org uses an invalid security certificate.  The certificate is not trusted because the issuer certificate is unknown.  The server might not be sending the appropriate intermediate certificates.  An additional root certificate may need to be imported." /></p>
 
+<h2 id="strict-transport-security">Strict Transport Security</h2>
+
+<p>Firefox for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
+
+<ol>
+  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
+  <li>Download and extract the DNSSEC-HSTS Native Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
+  <li>
+    <p>Install the DNSSEC-HSTS Native Component like this:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp ./org.namecoin.dnssec_hsts.json /usr/lib64/mozilla/native-messaging-hosts/
+sudo cp ./dnssec_hsts /usr/bin/
+</code></pre></div>    </div>
+  </li>
+  <li>Download the DNSSEC-HSTS WebExtensions Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
+  <li>
+    <p>Install the DNSSEC-HSTS WebExtensions Component like this:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip -d ./dnssec-hsts ./dnssec-hsts-*.xpi
+sudo rm -rf /usr/share/webext/dnssec-hsts/
+sudo cp -a ./dnssec-hsts /usr/share/webext/dnssec-hsts
+sudo ln -s -T /usr/share/webext/dnssec-hsts "/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/dnssec-hsts"
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>You may need to restart Firefox.  You may need to enable DNSSEC-HSTS in the Firefox Addons dialog.</p>
+
+<p><code class="highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Firefox.</p>
+
 
   </article>
 
