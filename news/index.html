@@ -254,7 +254,7 @@ Decentralized<br /><strong>secure</strong> names.
 
     <p>Second, Chrome doesn’t support SVG images as extension logos, which was causing Chrome to reject the DNSSEC-HSTS extension.  This was quite trivial to work around, since the Namecoin logo is also available as a PNG image.</p>
 
-    <p>Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packed by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.</p>
+    <p>Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packaged by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.</p>
 
     <p>With these changes, DNSSEC-HSTS appears to work on Chrome; the changes will be included in the next release.</p>
 
