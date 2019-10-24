@@ -346,14 +346,14 @@ nssdbdir="$NSSDBDIR"
   <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
   <li>Download and extract certdehydrate-dane-rest-api from the <a href="/download/betas/">Beta Downloads</a> page.</li>
   <li>
-    <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where `` is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
+    <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
 nameserver="127.0.0.1"
 port="5391"
 </code></pre></div>    </div>
   </li>
-  <li>Run ``.</li>
+  <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
   <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
   <li>Download the DNSSEC-HSTS WebExtensions Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
   <li>
