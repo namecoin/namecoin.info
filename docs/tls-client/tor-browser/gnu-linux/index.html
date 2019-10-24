@@ -267,6 +267,32 @@ port="5391"
 
 <p>You can now visit in Tor Browser a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://ca-test.bit/">the ncp11 test page</a>.  The website should load in Tor Browser without errors.  Note that only CA trust anchors are accepted; end-entity trust anchors are not accepted.  This means that some older <code class="highlighter-rouge">.bit</code> domains will have their certificates rejected in Tor Browser.  We are working on contacting the affected <code class="highlighter-rouge">.bit</code> domain owners to ask them to upgrade their setup.</p>
 
+<h2 id="strict-transport-security">Strict Transport Security</h2>
+
+<p>Tor Browser for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
+
+<ol>
+  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
+  <li>Download and extract the DNSSEC-HSTS Native Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
+  <li>
+    <p>Install the DNSSEC-HSTS Native Component like this (substitute your Tor Browser directory):</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir -p tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
+sudo cp ./org.namecoin.dnssec_hsts.json tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
+sudo cp ./dnssec_hsts /usr/bin/
+</code></pre></div>    </div>
+  </li>
+  <li>Go to <code class="highlighter-rouge">about:config</code> in Tor Browser.</li>
+  <li>Search for <code class="highlighter-rouge">xpinstall.signatures.required</code>.</li>
+  <li>If the <code class="highlighter-rouge">Value</code> column says <code class="highlighter-rouge">true</code>, double-click it to turn it to <code class="highlighter-rouge">false</code>.</li>
+  <li>Close the <code class="highlighter-rouge">about:config</code> tab in Tor Browser.</li>
+  <li>Restart Tor Browser.</li>
+  <li>Download the DNSSEC-HSTS WebExtensions Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
+  <li>Open the DNSSEC-HSTS <code class="highlighter-rouge">.xpi</code> file in Tor Browser, and accept the extension installation dialog.</li>
+</ol>
+
+<p><code class="highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Tor Browser.</p>
+
 
   </article>
 

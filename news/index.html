@@ -243,6 +243,30 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">Porting DNSSEC-HSTS to Chrome</h1>
+    <p class="post-meta">Oct 23, 2019 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>As was discussed in my 35C3 slides, DNSSEC-HSTS is a WebExtension that prevents sslstrip attacks by using DNSSEC.  DNSSEC-HSTS is already available for Firefox, but (as a WebExtension) it should be easily portable to Chrome.  Not so fast: Chrome has a number of quirks that make this nontrivial.</p>
+
+    <p>First off, Chrome doesn’t support asynchronous blocking WebRequest, which is a feature that DNSSEC-HSTS uses in order to retrieve DNS data from a native application.  I was able to work around this by converting the native messaging code used in the Firefox version into a standard HTTP request for Chrome.  HTTP is substantially less secure than native messaging, but since the Chrome developers don’t seem to have any interest in security, we have to accept the reality that Chrome users will have less security than Firefox users.</p>
+
+    <p>Second, Chrome doesn’t support SVG images as extension logos, which was causing Chrome to reject the DNSSEC-HSTS extension.  This was quite trivial to work around, since the Namecoin logo is also available as a PNG image.</p>
+
+    <p>Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packaged by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.</p>
+
+    <p>With these changes, DNSSEC-HSTS appears to work on Chrome; the changes will be included in the next release.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Electrum-NMC v3.3.7 Released</h1>
     <p class="post-meta">Sep 27, 2019 • Jeremy Rand </p>
   </header>
@@ -3607,7 +3631,7 @@ and on the <a href="https://www.reddit.com/r/Namecoin/">Namecoin Subreddit</a>.<
   </li>
 </ul>
 
-    <p>As usual, you can download it at the <a href="/download/betas/">Beta Downloads page</a>.</p>
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
     <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -3765,7 +3789,7 @@ is then available.</p>
   <article class="post-content">
     <p>We’ve released ncdns v0.0.4.  This release incorporates a bugfix in the madns dependency, which fixes a DNSSEC signing bug.  The ncdns Windows installer in this release also updated the Dnssec-Trigger dependency.</p>
 
-    <p>As usual, you can download it at the <a href="/download/betas/">Beta Downloads page</a>.</p>
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
     <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -3781,7 +3805,7 @@ is then available.</p>
   </header>
 
   <article class="post-content">
-    <p>After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the <a href="/download/betas/">Beta Downloads page</a>.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.</p>
+    <p>After quite a bit of code cleanup, we’ve released a new beta of ncdns for Windows, which includes Namecoin-based TLS certificate validation for Chromium, Google Chrome, and Opera on Windows.  This includes both the CryptoAPI certificate injection and NUMS HPKP injection that were discussed previously.  You can download it on the <a href="/download/betas/#ncdns">Beta Downloads page</a>.  We’ve also posted binaries of ncdns (without install scripts or TLS support) for a number of other operating systems; they’re also linked on the Beta Downloads page.</p>
 
     <p>Credit for this release goes to:</p>
 
@@ -3877,7 +3901,7 @@ is then available.</p>
 
     <p>One issue I encountered is that TorNS currently implements a rather unfortunate restriction that input and output domain names must be in the <code class="highlighter-rouge">.onion</code> TLD.  I’ve created a fork of TorNS (which I call <a href="https://github.com/namecoin/LibreTorNS">LibreTorNS</a>) which removes this restriction.  LibreTorNS is currently required for Namecoin usage.</p>
 
-    <p>The code is available from the <a href="/download/betas/">Beta Downloads page</a>.  Please let me know what works and what doesn’t.  And remember, using Namecoin naming with Tor will make you heavily stand out, so don’t use this in any scenario where you need anonymity.  (Also please refer to the extensive additional scary warnings in the readme if you’re under the mistaken impression that using this in production is a good idea.)</p>
+    <p>The code is available from the <a href="/download/betas/#dns-prop279">Beta Downloads page</a>.  Please let me know what works and what doesn’t.  And remember, using Namecoin naming with Tor will make you heavily stand out, so don’t use this in any scenario where you need anonymity.  (Also please refer to the extensive additional scary warnings in the readme if you’re under the mistaken impression that using this in production is a good idea.)</p>
 
     <p>This development was funded by NLnet.</p>
 
@@ -4396,7 +4420,7 @@ of the ncdns-nsis installer.</p>
   <article class="post-content">
     <p>If you watched <a href="https://archive.org/details/DecentralizedWeb20160609pt1?start=21490">my lightning talk at Decentralized Web Summit 2016</a> (and if you didn’t, shame on you – go watch it right now along with <a href="https://archive.org/details/decentralizedwebsummit2016?&amp;sort=publicdate">the other talks</a>!), you’ll remember that I announced SPV name lookups were working.  I’m happy to announce that that code is now published <em>in preliminary form</em> on GitHub, and binaries are available for testing.</p>
 
-    <p>You can download it at the <a href="/download/betas/">Beta Downloads</a> page.  Once installed, it’s basically a drop-in replacement for Namecoin Core for any application that does name lookups (such as ncdns).  Test reports are greatly appreciated so that we can do a proper release sooner.</p>
+    <p>You can download it at the <a href="/download/betas/#consensusj-namecoin">Beta Downloads</a> page.  Once installed, it’s basically a drop-in replacement for Namecoin Core for any application that does name lookups (such as ncdns).  Test reports are greatly appreciated so that we can do a proper release sooner.</p>
 
     <p>Initial syncup using a residential clearnet cable modem connection takes between 5 minutes and 10 minutes, depending on the settings.  (It is probably feasible to improve this.)  Lookup latency for <code class="highlighter-rouge">name_show</code> varies from 2 seconds to 4 milliseconds, depending on the settings.  (It is also probably feasible to improve this.)</p>
 

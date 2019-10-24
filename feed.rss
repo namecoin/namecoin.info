@@ -6,9 +6,32 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 27 Sep 2019 16:37:38 +0000</pubDate>
-    <lastBuildDate>Fri, 27 Sep 2019 16:37:38 +0000</lastBuildDate>
+    <pubDate>Thu, 24 Oct 2019 01:06:58 +0000</pubDate>
+    <lastBuildDate>Thu, 24 Oct 2019 01:06:58 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Porting DNSSEC-HSTS to Chrome</title>
+        <description>&lt;p&gt;As was discussed in my 35C3 slides, DNSSEC-HSTS is a WebExtension that prevents sslstrip attacks by using DNSSEC.  DNSSEC-HSTS is already available for Firefox, but (as a WebExtension) it should be easily portable to Chrome.  Not so fast: Chrome has a number of quirks that make this nontrivial.&lt;/p&gt;
+
+&lt;p&gt;First off, Chrome doesn’t support asynchronous blocking WebRequest, which is a feature that DNSSEC-HSTS uses in order to retrieve DNS data from a native application.  I was able to work around this by converting the native messaging code used in the Firefox version into a standard HTTP request for Chrome.  HTTP is substantially less secure than native messaging, but since the Chrome developers don’t seem to have any interest in security, we have to accept the reality that Chrome users will have less security than Firefox users.&lt;/p&gt;
+
+&lt;p&gt;Second, Chrome doesn’t support SVG images as extension logos, which was causing Chrome to reject the DNSSEC-HSTS extension.  This was quite trivial to work around, since the Namecoin logo is also available as a PNG image.&lt;/p&gt;
+
+&lt;p&gt;Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packaged by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.&lt;/p&gt;
+
+&lt;p&gt;With these changes, DNSSEC-HSTS appears to work on Chrome; the changes will be included in the next release.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2019/10/23/porting-dnssec-hsts-to-chrome.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/10/23/porting-dnssec-hsts-to-chrome.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.7 Released</title>
@@ -309,38 +332,6 @@
         <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/06/15/ncp11-now-builds-for-windows.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>More rbm Projects Added: DNSSEC-HSTS, certdehydrate-dane-rest-api, Dependencies, and macOS Support</title>
-        <description>&lt;p&gt;A few days ago I &lt;a href=&quot;/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html&quot;&gt;mentioned &lt;/a&gt; that ncp11 now builds in rbm.  As you may recall, rbm is the build system used by Tor Browser; it facilitates reproducible builds, which improves the security of the build process against supply-chain attacks.  I’ve now added several new projects/targets to Namecoin’s rbm descriptors:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DNSSEC-HSTS now builds.  For those of you who aren’t familiar with DNSSEC-HSTS, see my &lt;a href=&quot;/2019/05/08/35c3-summary.html&quot;&gt;35C3 slides&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;certdehydrate-dane-rest-api now builds.  This is a backend tool that’s used by both ncp11 and DNSSEC-HSTS.&lt;/li&gt;
-  &lt;li&gt;Dependencies of the above, including:
-    &lt;ul&gt;
-      &lt;li&gt;qlib (a library for flexible DNS queries, based on Miek Gieben’s excellent q CLI tool).&lt;/li&gt;
-      &lt;li&gt;crosssign (a library for cross-signing X.509 certificates).&lt;/li&gt;
-      &lt;li&gt;safetlsa (a library for converting DNS TLSA records into certificates that are safe to import into a TLS trust store, using dehydrated certificates and name constraints).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncdns can now be built as a library, not just as an executable.  This was needed in order to build certdehydrate-dane-rest-api.&lt;/li&gt;
-  &lt;li&gt;ncdns now builds for macOS.&lt;/li&gt;
-  &lt;li&gt;Several library dependencies were updated; this fixes a number of bugs that existed due to accidentally using outdated dependencies.  (Chief among them was a bug that broke ncdns’s ability to talk to ConsensusJ-Namecoin and Electrum-NMC.)  Thanks to grringo for catching this.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I’ve also submitted a patch to upstream Tor that will hopefully allow us to make our rbm descriptors a lot cleaner.  Specifically, upstream Tor has a special template for building Go libraries, but it doesn’t work for Go executables, so Go executable projects need to have a bunch of boilerplate.  My patch allows the Go library template to work with executable projects as well.  That patch is currently awaiting review.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html</guid>
         
         <category>News</category>
         

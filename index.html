@@ -289,6 +289,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/10/23/porting-dnssec-hsts-to-chrome.html">2019-10-23</a></strong> As was discussed in my 35C3 slides, DNSSEC-HSTS is a WebExtension that prevents sslstrip attacks by using DNSSEC.  DNSSEC-HSTS is already available for Firefox, but (as a WebExtension) it should be easily portable to Chrome.  Not so fast: Chrome has a number of quirks that make this nontrivial.</p>
+
+<p><a href="/2019/10/23/porting-dnssec-hsts-to-chrome.html">Read more…</a></p>
+
 <p><strong><a href="/2019/09/27/electrum-nmc-v3.3.7-released.html">2019-09-27</a></strong> We’ve released Electrum-NMC v3.3.7.  Here’s what’s new since v3.3.6.1:</p>
 
 <p><a href="/2019/09/27/electrum-nmc-v3.3.7-released.html">Read more…</a></p>
@@ -324,10 +328,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/06/15/ncp11-now-builds-for-windows.html">2019-06-15</a></strong> ncp11 (our next-gen Namecoin TLS interoperability software for Firefox, Tor Browser, and other NSS-based software) now builds without errors for Windows targets, including rbm descriptors.  Getting it to build was a little bit more involved than just tweaking the rbm end of things, because the PKCS#11 spec requires that structs be packed on Windows, while Go doesn’t support packed structs.  So, some minor hackery was needed (I wrote a C function that converts between packed and unpacked structs).  Kudos to Miek Gieben (author of the Go pkcs11 package) for his useful sample code, which made this fix quite easy to code up.</p>
 
 <p><a href="/2019/06/15/ncp11-now-builds-for-windows.html">Read more…</a></p>
-
-<p><strong><a href="/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">2019-06-13</a></strong> A few days ago I <a href="/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">mentioned </a> that ncp11 now builds in rbm.  As you may recall, rbm is the build system used by Tor Browser; it facilitates reproducible builds, which improves the security of the build process against supply-chain attacks.  I’ve now added several new projects/targets to Namecoin’s rbm descriptors:</p>
-
-<p><a href="/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

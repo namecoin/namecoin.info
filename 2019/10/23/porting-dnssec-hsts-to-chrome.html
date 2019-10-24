@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ElectrumX v1.9.2 Released by Upstream, Includes Checkpointed AuxPoW Truncation</title>
+    <title>Porting DNSSEC-HSTS to Chrome</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -163,7 +163,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2019/03/06/electrumx-v1.9.2-released.html">
+    <link rel="canonical" href="https://www.namecoin.org//2019/10/23/porting-dnssec-hsts-to-chrome.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -240,120 +240,117 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">ElectrumX v1.9.2 Released by Upstream, Includes Checkpointed AuxPoW Truncation</h1>
-<p class="post-meta">Mar 6, 2019 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Porting DNSSEC-HSTS to Chrome</h1>
+<p class="post-meta">Oct 23, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p><a href="https://github.com/kyuupichan/electrumx">Upstream ElectrumX</a> has released v1.9.2, which includes several Namecoin-related changes (all of which were submitted by me and merged by Neil).  Here’s what’s new for Namecoin:</p>
+<p>As was discussed in my 35C3 slides, DNSSEC-HSTS is a WebExtension that prevents sslstrip attacks by using DNSSEC.  DNSSEC-HSTS is already available for Firefox, but (as a WebExtension) it should be easily portable to Chrome.  Not so fast: Chrome has a number of quirks that make this nontrivial.</p>
 
-<ul>
-  <li>Add 2 new servers.</li>
-  <li>Use the correct default Namecoin Core RPC port; this means ElectrumX server operators won’t need to manually set the RPC port via an environment variable anymore.</li>
-  <li><a href="/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">Checkpointed AuxPoW truncation</a>.</li>
-  <li>Use a correct <code class="highlighter-rouge">MAX_SEND</code> by default for AuxPoW chains.  The previous default of 1 MB doesn’t work with AuxPoW chains because AuxPoW headers are substantially larger than Bitcoin headers; the new default of 10 MB for AuxPoW chains allows Namecoin to sync properly.  This means ElectrumX server operators won’t need to manually set the <code class="highlighter-rouge">MAX_SEND</code> via an environment variable anymore.</li>
-</ul>
+<p>First off, Chrome doesn’t support asynchronous blocking WebRequest, which is a feature that DNSSEC-HSTS uses in order to retrieve DNS data from a native application.  I was able to work around this by converting the native messaging code used in the Firefox version into a standard HTTP request for Chrome.  HTTP is substantially less secure than native messaging, but since the Chrome developers don’t seem to have any interest in security, we have to accept the reality that Chrome users will have less security than Firefox users.</p>
 
-<p>ElectrumX then subsequently released some other revisions, none of which are specific to Namecoin; the latest release is currently v1.9.5.  At least 2 of the 3 public Namecoin ElectrumX servers have already upgraded; as a result, I’ve merged checkpointed AuxPoW truncation into Electrum-NMC’s master branch.  If you run a Namecoin ElectrumX server and haven’t yet upgraded, please consider upgrading to the latest ElectrumX release so that your users will be able to use future releases of Electrum-NMC (which will require checkpointed AuxPoW truncation) without any trouble.</p>
+<p>Second, Chrome doesn’t support SVG images as extension logos, which was causing Chrome to reject the DNSSEC-HSTS extension.  This was quite trivial to work around, since the Namecoin logo is also available as a PNG image.</p>
 
-<p>(And a reminder that we need more ElectrumX instances… please consider running one if you have a server with spare resources!)</p>
+<p>Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packaged by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.</p>
 
-<p>This work was funded by Cyphrs.</p>
+<p>With these changes, DNSSEC-HSTS appears to work on Chrome; the changes will be included in the next release.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -830,7 +827,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-03-06-electrumx-v1.9.2-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-10-23-porting-dnssec-hsts-to-chrome.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
