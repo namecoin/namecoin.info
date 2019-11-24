@@ -238,7 +238,7 @@ Decentralized<br /><strong>secure</strong> names.
     
 <p>Because both currency transactions and name operations share a common technical backing (the Namecoin blockchain), it is possible to construct transactions that transfer both namecoins and a name <em>atomically</em>. This means that it is guaranteed that either both transfers succeed or both transfers are not executed at all. A potentially very useful application of this technique is trading of names for namecoins, since this makes it possible to sell or buy a name in a completely trustless manner without the necessity to use escrow.</p>
 
-<p>At the moment, it is possible to make such transfers only using RPC commands to namecoind directly. But in the future, hopefully an easy-to-use UI will be developed that handles all the technicalities. On this page, the basic work-flow will be described with RPC commands. We will assume as an example that Bob wants to buy <code class="highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC. The work-flow for this transaction is shown below on the testnet.</p>
+<p>At the moment, it is possible to make such transfers only using RPC commands to Namecoin Core directly. But in the future, hopefully an easy-to-use UI will be developed that handles all the technicalities. On this page, the basic work-flow will be described with RPC commands. We will assume as an example that Bob wants to buy <code class="highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC. The work-flow for this transaction is shown below on the testnet.</p>
 
 <h2 id="bob-prepares-a-buy-offer">Bob Prepares a Buy Offer</h2>
 
@@ -261,7 +261,7 @@ Decentralized<br /><strong>secure</strong> names.
 <ul>
   <li>Currency inputs: These will be provided by Bob to pay the 10 NMC to Sally as well as the transaction fee.</li>
   <li>Currency outputs: 10 NMC to Sally’s address and potential change back to Bob.</li>
-  <li>A name_update operation to be performed.</li>
+  <li>A <code class="highlighter-rouge">name_update</code> operation to be performed.</li>
 </ul>
 
 <p>In this example, these three parts will be written in seperate files for simplicity, and then these files will be used in the final RPC command. Of course, it is also possible to write everything directly onto the command line.</p>
@@ -304,7 +304,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h3 id="the-name-operation">The Name Operation</h3>
 
-<p>The last part of the transaction that needs to be created is the name operation. It should be a name_update of <code class="highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="highlighter-rouge">tx.op</code> is this:</p>
+<p>The last part of the transaction that needs to be created is the name operation. It should be a <code class="highlighter-rouge">name_update</code> of <code class="highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="highlighter-rouge">tx.op</code> is this:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "op": "name_update",
@@ -337,7 +337,7 @@ Decentralized<br /><strong>secure</strong> names.
         "asm" : "",
         "hex" : ""
       },
-      "value" : **974.90000000**,
+      "value" : &lt;strong&gt;974.90000000&lt;/strong&gt;,
       "sequence" : 4294967295
     },
     {
@@ -353,7 +353,7 @@ Decentralized<br /><strong>secure</strong> names.
   ],
   "vout" : [
     {
-      "value" : **10.00000000**,
+      "value" : &lt;strong&gt;10.00000000&lt;/strong&gt;,
       "n" : 0,
       "scriptPubKey" : {
         "asm" : "OP_DUP OP_HASH160 3c4b7d4b93bc6194087bbbc422fd6cd1a40f820e OP_EQUALVERIFY OP_CHECKSIG",
@@ -361,12 +361,12 @@ Decentralized<br /><strong>secure</strong> names.
         "reqSigs" : 1,
         "type" : "pubkeyhash",
         "addresses" : [
-          "**mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw**"
+          "&lt;strong&gt;mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw&lt;/strong&gt;"
         ]
       }
     },
     {
-      "value" : **964.89500000**,
+      "value" : &lt;strong&gt;964.89500000&lt;/strong&gt;,
       "n" : 1,
       "scriptPubKey" : {
         "asm" : "OP_DUP OP_HASH160 ab96c9bfb7c55de825be7f12bd38dd25b62be02b OP_EQUALVERIFY OP_CHECKSIG",
@@ -374,7 +374,7 @@ Decentralized<br /><strong>secure</strong> names.
         "reqSigs" : 1,
         "type" : "pubkeyhash",
         "addresses" : [
-          "**mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj**"
+          "&lt;strong&gt;mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj&lt;/strong&gt;"
         ]
       }
     },
@@ -392,12 +392,12 @@ Decentralized<br /><strong>secure</strong> names.
         "reqSigs" : 1,
         "type" : "pubkeyhash",
         "addresses" : [
-          "**mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR**"
+          "&lt;strong&gt;mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR&lt;/strong&gt;"
         ]
       }
     }
   ],
-  "fees" : **0.00500000**
+  "fees" : &lt;strong&gt;0.00500000&lt;/strong&gt;
 }
 </code></pre></div></div>
 
@@ -495,7 +495,7 @@ Decentralized<br /><strong>secure</strong> names.
 }
 </code></pre></div></div>
 
-<p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use “signrawtransactionwithwallet” with this private key as optional argument.</p>
+<p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use <code class="highlighter-rouge">signrawtransactionwithwallet</code> with this private key as optional argument.</p>
 
 <p>When everything is fine, Sally can sign her parts of the input:</p>
 
