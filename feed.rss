@@ -6,9 +6,28 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 14 Nov 2019 07:24:57 +0000</pubDate>
-    <lastBuildDate>Thu, 14 Nov 2019 07:24:57 +0000</lastBuildDate>
+    <pubDate>Sun, 24 Nov 2019 12:17:21 +0000</pubDate>
+    <lastBuildDate>Sun, 24 Nov 2019 12:17:21 +0000</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Building Electrum in rbm</title>
+        <description>&lt;p&gt;As I’ve &lt;a href=&quot;/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html&quot;&gt;discussed before&lt;/a&gt;, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.&lt;/p&gt;
+
+&lt;p&gt;At this time, I’ve successfully gotten rbm to build an Electrum-NMC Python tarball that behaves pretty much the same as the standard build method (including the dependency bundling) – except that it should be substantially more reproducible.  The only two components that aren’t being built by my rbm descriptor are the Protobuf definition for the Payment Protocol (should be fixable easily, since I’m already building the Protobuf compiler) and the locales folder (hopefully easy to handle, I just haven’t looked at it yet).&lt;/p&gt;
+
+&lt;p&gt;Building the Windows binaries in rbm is something I intend to look into later, though it’s not at the top of my priority queue.  Obviously, the intent is to contribute all of this work upstream to Electrum.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2019/11/24/building-electrum-in-rbm.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2019/11/24/building-electrum-in-rbm.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.8 Released</title>
@@ -296,25 +315,6 @@
         <pubDate>Tue, 06 Aug 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/08/06/decoupling-ncdns-go-versions.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/08/06/decoupling-ncdns-go-versions.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>OpenNIC does the right thing: listens to security concerns and shuts down its centralized Namecoin inproxy</title>
-        <description>&lt;p&gt;In September 2018, I published &lt;a href=&quot;/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html&quot;&gt;a case study&lt;/a&gt; about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, &lt;a href=&quot;https://prism-break.org/&quot;&gt;PRISM Break&lt;/a&gt; maintainer Yegor Timoshenko (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.&lt;/p&gt;
-
-&lt;p&gt;Guess what?  OpenNIC listened to the concerns of Yegor and myself, and has decided to shut down their centralized Namecoin inproxy.  This was probably not an easy decision, as OpenNIC’s Namecoin inproxy had been a significant usage draw for OpenNIC, and it is likely that a significant portion of OpenNIC users (who were using OpenNIC solely for its Namecoin inproxy) will move to decentralized methods and leave OpenNIC’s other TLD’s behind.  Most corporate actors probably wouldn’t have done this.  But it was the right decision.&lt;/p&gt;
-
-&lt;p&gt;I’d like to thank OpenNIC for taking Yegor’s and my concerns seriously.  I regularly recommend OpenNIC (the non-&lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; TLD’s) to users who don’t need Namecoin’s security model but who want a regulatory environment that isn’t subject to ICANN policies; I will continue to do so.  If you happen to hang around the OpenNIC community, I encourage you to thank OpenNIC for this decision as well.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;This news post was intended to be posted near the beginning of July 2019, but was delayed because I was busy attending the Tor developer meeting in Stockholm.  I apologize for the delay.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html</guid>
         
         <category>News</category>
         

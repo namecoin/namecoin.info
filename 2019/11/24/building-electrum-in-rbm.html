@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC v3.3.3.1 Released</title>
+    <title>Building Electrum in rbm</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -159,7 +159,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2019/02/03/electrum-nmc-v3.3.3.1-released.html">
+    <link rel="canonical" href="https://www.namecoin.org//2019/11/24/building-electrum-in-rbm.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -236,159 +236,137 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC v3.3.3.1 Released</h1>
-<p class="post-meta">Feb 3, 2019 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Building Electrum in rbm</h1>
+<p class="post-meta">Nov 24, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released Electrum-NMC v3.3.3.1.  This release includes important security fixes from upstream Electrum, and we recommend that all users upgrade.  Here’s what’s new since v3.2.4b1:</p>
+<p>As I’ve <a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.</p>
 
-<ul>
-  <li>Fix accidental Namecoin rebranding in the AuxPoW branch that was causing the AuxPoW branch to error.</li>
-  <li>Fix some tests that were failing.</li>
-  <li>Fix broken imports in revealer plugin.</li>
-  <li>Various fixes for the Android port.</li>
-  <li>Rebranding fixes for the Qt GUI.</li>
-  <li>Fix filter columns in the Manage Names tab.</li>
-  <li>Fix compatibility of Manage Names tab with current upstream Electrum.</li>
-  <li>Fix bug where some names were missing from the Manage Names tab.</li>
-  <li>Fix Renew and Configure buttons in Manage Names tab.</li>
-  <li>Fix Max button on Send tab.</li>
-  <li>Rebranding fixes for history list.</li>
-  <li>Rebranding fixes for exported history.</li>
-  <li>Fix broken imports in KeepKey plugin.</li>
-  <li>Fix broken imports in Labels plugin.</li>
-  <li>Fix bug that prevented using Coin Control for name updates.</li>
-  <li>Add 2 new servers.</li>
-  <li>Improve documentation of timewarp hardfork.</li>
-  <li>Rebranding fixes for update check.</li>
-  <li>Fix icons.</li>
-  <li>Windows binaries are available again.</li>
-  <li>Improvements from upstream Electrum (<strong>including security fixes</strong>).</li>
-</ul>
+<p>At this time, I’ve successfully gotten rbm to build an Electrum-NMC Python tarball that behaves pretty much the same as the standard build method (including the dependency bundling) – except that it should be substantially more reproducible.  The only two components that aren’t being built by my rbm descriptor are the Protobuf definition for the Payment Protocol (should be fixable easily, since I’m already building the Protobuf compiler) and the locales folder (hopefully easy to handle, I just haven’t looked at it yet).</p>
 
-<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+<p>Building the Windows binaries in rbm is something I intend to look into later, though it’s not at the top of my priority queue.  Obviously, the intent is to contribute all of this work upstream to Electrum.</p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+<p>This work was funded by Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -857,7 +835,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-02-03-electrum-nmc-v3.3.3.1-released.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-11-24-building-electrum-in-rbm.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

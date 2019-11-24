@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Atomic Name Trading</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://www.namecoin.org//docs/name-owners/atomic-name-trading/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Atomic Name Trading</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>Because both currency transactions and name operations share a common technical backing (the Namecoin blockchain), it is possible to construct transactions that transfer both namecoins and a name <em>atomically</em>. This means that it is guaranteed that either both transfers succeed or both transfers are not executed at all. A potentially very useful application of this technique is trading of names for namecoins, since this makes it possible to sell or buy a name in a completely trustless manner without the necessity to use escrow.</p>
+
+<p>At the moment, it is possible to make such transfers only using RPC commands to namecoind directly. But in the future, hopefully an easy-to-use UI will be developed that handles all the technicalities. On this page, the basic work-flow will be described with RPC commands. We will assume as an example that Bob wants to buy <code class="highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC. The work-flow for this transaction is shown below on the testnet.</p>
+
+<h2 id="bob-prepares-a-buy-offer">Bob Prepares a Buy Offer</h2>
+
+<p>Bob finds the domain of interest and Sally’s offer to sell the domain. This could happen, for instance, via Sally using a special value for the domain or by some other channel out of the scope of this page. For instance:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli name_show d/my-cool-domain
+{
+  "name" : "d/my-cool-domain",
+  "value" : "for sale by Sally for 10 NMC, pay to mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw",
+  "txid" : "00abd8282558574369038722d24c65355e1b98ca3f00d7d09cb7bea8732b598a",
+  "address" : "mt2vTvKfvfb9TKfxB8ns7NVrY4cYzRs73b",
+  "expires_in" : 36000
+}
+</code></pre></div></div>
+
+<p>Now, Bob can prepare an atomic transaction that sends 10 NMC to Sally and transfers <code class="highlighter-rouge">d/my-cool-domain</code> at the same time to himself. We assume that Sally wants the 10 NMC sent to <code class="highlighter-rouge">mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw</code>, while Bob wants the name to be transferred to <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>.</p>
+
+<p>To construct the transaction, Bob needs to use the <code class="highlighter-rouge">createrawtransaction</code> RPC command. It needs three pieces of information:</p>
+
+<ul>
+  <li>Currency inputs: These will be provided by Bob to pay the 10 NMC to Sally as well as the transaction fee.</li>
+  <li>Currency outputs: 10 NMC to Sally’s address and potential change back to Bob.</li>
+  <li>A name_update operation to be performed.</li>
+</ul>
+
+<p>In this example, these three parts will be written in seperate files for simplicity, and then these files will be used in the final RPC command. Of course, it is also possible to write everything directly onto the command line.</p>
+
+<h3 id="currency-inputs">Currency Inputs</h3>
+
+<p>Assuming a transaction fee of 0.005 NMC is appropriate, Bob needs to find one of his unspent inputs of at least 10.005 NMC to include in the transaction. For this, the <code class="highlighter-rouge">listunspent</code> command can be used. A suitable input could be this one:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli listunspent
+[
+  {
+    "txid" : "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
+    "vout" : 0,
+    "scriptPubKey" : "41040a1b1f8d3b497c7ee13e441539b9e1fe5b4ea96696a4827a74e02aa6c4df4383209de42bbc02ce90e28e5e109b9b1b7dcfd14b02449603c4320faf394719a8f1ac",
+    "amount" : 974.90000000,
+    "confirmations" : 2
+  }
+]
+</code></pre></div></div>
+
+<p>With a size of 974.9 NMC, it is large enough. It will produce <code class="highlighter-rouge">974.9 - 10.005 = 964.895 NMC</code> change. The interesting data fields for our purpose are <code class="highlighter-rouge">txid</code> and <code class="highlighter-rouge">vout</code>. They will form the currency input for <code class="highlighter-rouge">createrawtransaction</code>, so Bob writes into the file <code class="highlighter-rouge">tx.in</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
+  "txid": "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
+  "vout": 0
+}]
+</code></pre></div></div>
+
+<p>If no single unspent output is large enough, Bob could instead either include multiple inputs into this file, or produce a suitable output first by sending a sufficiently large amount to himself.</p>
+
+<h3 id="currency-outputs">Currency Outputs</h3>
+
+<p>Required currency outputs are the price paid to Sally as well as the change paid back to Bob. So Bob first creates a new address of his own to receive the change. We will use <code class="highlighter-rouge">mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj</code> for this purpose. Then, the corresponding data to be put in <code class="highlighter-rouge">tx.out</code> is:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw": 10.0,
+  "mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj": 964.895
+}
+</code></pre></div></div>
+
+<h3 id="the-name-operation">The Name Operation</h3>
+
+<p>The last part of the transaction that needs to be created is the name operation. It should be a name_update of <code class="highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="highlighter-rouge">tx.op</code> is this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "op": "name_update",
+  "name": "d/my-cool-domain",
+  "value": "thanks from Sally",
+  "address": "mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR"
+}
+</code></pre></div></div>
+
+<h3 id="finishing-the-offer">Finishing the Offer</h3>
+
+<p>With all this in place, the transaction can be created:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "cat tx.in" "cat tx.out" "cat tx.op"
+0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed120000000000ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000
+</code></pre></div></div>
+
+<p>Now Bob can check that everything is fine:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
+{
+  "txid" : "88180e13968cea5ea611fcb34d26b5391bdc9118f8a35fad2495b07be9e88c7b",
+  "version" : 28928,
+  "locktime" : 0,
+  "vin" : [
+    {
+      "txid" : "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
+      "vout" : 0,
+      "scriptSig" : {
+        "asm" : "",
+        "hex" : ""
+      },
+      "value" : **974.90000000**,
+      "sequence" : 4294967295
+    },
+    {
+      "txid" : "00abd8282558574369038722d24c65355e1b98ca3f00d7d09cb7bea8732b598a",
+      "vout" : 1,
+      "scriptSig" : {
+        "asm" : "",
+        "hex" : ""
+      },
+      "value" : 0.01000000,
+      "sequence" : 4294967295
+    }
+  ],
+  "vout" : [
+    {
+      "value" : **10.00000000**,
+      "n" : 0,
+      "scriptPubKey" : {
+        "asm" : "OP_DUP OP_HASH160 3c4b7d4b93bc6194087bbbc422fd6cd1a40f820e OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "76a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "**mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw**"
+        ]
+      }
+    },
+    {
+      "value" : **964.89500000**,
+      "n" : 1,
+      "scriptPubKey" : {
+        "asm" : "OP_DUP OP_HASH160 ab96c9bfb7c55de825be7f12bd38dd25b62be02b OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "76a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "**mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj**"
+        ]
+      }
+    },
+    {
+      "value" : 0.01000000,
+      "n" : 2,
+      "scriptPubKey" : {
+        "nameOp" : {
+          "op" : "name_update",
+          "name" : "d/my-cool-domain",
+          "value" : "thanks from Sally"
+        },
+        "asm" : "NAME_OPERATION OP_DUP OP_HASH160 ad4a0929e9c7c95910534b93ec0727058a27f2b9 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "**mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR**"
+        ]
+      }
+    }
+  ],
+  "fees" : **0.00500000**
+}
+</code></pre></div></div>
+
+<p>The most important pieces to check are highlighted above, but they are obviously the addresses as well as the amounts to be sent. It is also a good idea to check the calculated fees to make sure there’s no typo in the amounts resulting in exorbitantly high fees.</p>
+
+<p>When everything looks fine, Bob can sign his inputs to the transaction (after unlocking the wallet if it is password-protected):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+{
+  "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502202131c98c98a3dfe19713ec0e48917a502063028766abf292b46fb8e8a96d80df022100f22198c86e814eff3a2562a36de5249a425c08080cb174eace7da9529e6e16b801ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
+  "complete" : false
+}
+</code></pre></div></div>
+
+<p>Finally, Bob can now again check the signed transaction with “decoderawtransaction”, although this is not strictly necessary. He can now pass the partially-signed transaction (the hex string above) to Sally.</p>
+
+<h2 id="sally-accepts-the-offer">Sally Accepts the Offer</h2>
+
+<p>After Sally receives the partial transaction from Bob, she can check that everything is fine:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
+{
+  "txid" : "92a50d2495d66cbfb13ae87deaec059ab605a7bf737b10935f9e0f80065debac",
+  "version" : 28928,
+  "locktime" : 0,
+  "vin" : [
+    {
+      "txid" : "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
+      "vout" : 0,
+      "scriptSig" : {
+        "asm" : "304502202131c98c98a3dfe19713ec0e48917a502063028766abf292b46fb8e8a96d80df022100f22198c86e814eff3a2562a36de5249a425c08080cb174eace7da9529e6e16b801",
+        "hex" : "48304502202131c98c98a3dfe19713ec0e48917a502063028766abf292b46fb8e8a96d80df022100f22198c86e814eff3a2562a36de5249a425c08080cb174eace7da9529e6e16b801"
+      },
+      "value" : 974.90000000,
+      "sequence" : 4294967295
+    },
+    {
+      "txid" : "00abd8282558574369038722d24c65355e1b98ca3f00d7d09cb7bea8732b598a",
+      "vout" : 1,
+      "scriptSig" : {
+        "asm" : "",
+        "hex" : ""
+      },
+      "value" : 0.01000000,
+      "sequence" : 4294967295
+    }
+  ],
+  "vout" : [
+    {
+      "value" : 10.00000000,
+      "n" : 0,
+      "scriptPubKey" : {
+        "asm" : "OP_DUP OP_HASH160 3c4b7d4b93bc6194087bbbc422fd6cd1a40f820e OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "76a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw"
+        ]
+      }
+    },
+    {
+      "value" : 964.89500000,
+      "n" : 1,
+      "scriptPubKey" : {
+        "asm" : "OP_DUP OP_HASH160 ab96c9bfb7c55de825be7f12bd38dd25b62be02b OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "76a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj"
+        ]
+      }
+    },
+    {
+      "value" : 0.01000000,
+      "n" : 2,
+      "scriptPubKey" : {
+        "nameOp" : {
+          "op" : "name_update",
+          "name" : "d/my-cool-domain",
+          "value" : "thanks from Sally"
+        },
+        "asm" : "NAME_OPERATION OP_DUP OP_HASH160 ad4a0929e9c7c95910534b93ec0727058a27f2b9 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex" : "5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac",
+        "reqSigs" : 1,
+        "type" : "pubkeyhash",
+        "addresses" : [
+          "mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR"
+        ]
+      }
+    }
+  ],
+  "fees" : 0.00500000
+}
+</code></pre></div></div>
+
+<p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use “signrawtransactionwithwallet” with this private key as optional argument.</p>
+
+<p>When everything is fine, Sally can sign her parts of the input:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+{
+  "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502206114a73cb307e17ec0d4c5d7caa9d87a2136da511a94b7bd8027aab726b2e67a022100bcebf433a9fa13d50c602f0cf54e1e7ab2ac851ca1ed9017ecf95d7dc02e25e401ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab00010000008a47304402202620285799e7314e3da0573fe473354b6bf0eb29640254f073a124fe1454dc9d022019e4884853a5aba76059ff2bd23e6e5b6e8c607df0e46e83cbfc2ea26e67da4a01410467d20dd8d4c08674a13ea14540f09d62389c7d96bed805f5bbbb4079210dbf2ede9eeced9ab638a8d6ed01a909b91473e78a1ff65ba3de19b38203cf22c9d12dffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
+  "complete" : true
+}
+</code></pre></div></div>
+
+<p>The transaction is now completely signed (when <code class="highlighter-rouge">"complete": true</code> is returned). Sally can check it again, and if everything is fine, she can relay it to the network:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli sendrawtransaction &lt;large hex string&gt;
+bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
+</code></pre></div></div>
+
+<p>That’s it. When the transaction is confirmed, the trade is completed. However, there’s no risk to either Bob or Sally that the trade could ever be done only partially, i.e., someone cheat the other.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/atomic-name-trading/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
