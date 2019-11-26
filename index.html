@@ -285,6 +285,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">2019-11-25</a></strong> We’ve released DNSSEC-HSTS v0.0.2 for Google Chrome.  v0.0.2 is identical to v0.0.1 except for Chrome-related compatibility fixes; we are therefore not releasing v0.0.2 binaries for Firefox.</p>
+
+<p><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">Read more…</a></p>
+
 <p><strong><a href="/2019/11/24/building-electrum-in-rbm.html">2019-11-24</a></strong> As I’ve <a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.</p>
 
 <p><a href="/2019/11/24/building-electrum-in-rbm.html">Read more…</a></p>
@@ -318,10 +322,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2019/08/14/killing-namecoin-fork-of-conformal-btcd.html">2019-08-14</a></strong> One of the lesser-known dirty secrets of the ncdns codebase [1] is that it relies on an unmaintained fork of Conformal’s btcd, which dates back to 2015.  Specifically, ncdns uses a fork of the JSON-RPC client from btcd in order to query Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC.  Why did Namecoin not find upstream btcd to be sufficient?</p>
 
 <p><a href="/2019/08/14/killing-namecoin-fork-of-conformal-btcd.html">Read more…</a></p>
-
-<p><strong><a href="/2019/08/06/decoupling-ncdns-go-versions.html">2019-08-06</a></strong> One of the many pieces of witchcraft that Namecoin’s TLS interoperability requires is the ability to splice a signature into an X.509 certificate without otherwise modifying the certificate.  Unfortunately, while the Go standard crypto library is generally quite pleasant to use (and is certainly better-designed than most other crypto libraries such as OpenSSL), the functions relevant to splicing a signature are not exported.  This is understandable, since it’s not functionality that most users have any need for.  However, since Namecoin <em>does</em> need that functionality, my only option back when this code was being written was to fork the <code class="highlighter-rouge">crypto/x509</code> package from Go’s standard library.</p>
-
-<p><a href="/2019/08/06/decoupling-ncdns-go-versions.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 

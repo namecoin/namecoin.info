@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>TLS for Google Chrome on GNU/Linux</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+*[id]:before {
+    display: block;
+    content: " ";
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    *[id]:before {
+        display: block;
+        content: " ";
+        visibility: hidden;
+    }
+}
+
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://www.namecoin.org//docs/tls-client/chrome/gnu-linux/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">TLS for Google Chrome on GNU/Linux</h1>
+  </header>
+
+  <article class="post-content">
+    
+<h2 id="tls-positive-overrides">TLS Positive Overrides</h2>
+
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
+
+<ol>
+  <li>Create a certificate storage directory for ncdns.  Make sure that it is only readable and writeable by the user running ncdns.</li>
+  <li>Run <code class="highlighter-rouge">echo "$HOME/.pki/nssdb"</code> and note the output; this is your NSS database directory.</li>
+  <li>
+    <p>Add the following to your <code class="highlighter-rouge">ncdns.conf</code>.  Substitute the certificate storage directory you created above for <code class="highlighter-rouge">$CERTDIR</code>, and substitute the NSS database directory that you found above for <code class="highlighter-rouge">$NSSDBDIR</code>.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certstore]
+
+nss=true
+nsscertdir="$CERTDIR"
+nssdbdir="$NSSDBDIR"
+</code></pre></div>    </div>
+  </li>
+  <li>Restart ncdns.</li>
+</ol>
+
+<p>You can now visit in Google Chrome a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="highlighter-rouge">.bit</code> domain</a>.  The website should load in Google Chrome without errors, like in this screenshot:</p>
+
+<p><img src="/images/screenshots/tls/tls-success-chromium-linux-2018-07-31.png" alt="Screenshot." /></p>
+
+<h2 id="tls-negative-overrides-method-a">TLS Negative Overrides (Method A)</h2>
+
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
+
+<ol>
+  <li>Exit Google Chrome.</li>
+  <li>
+    <p>Run the following, and note the output:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls $HOME/.config/google-chrome/*/TransportSecurity
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>For each <code class="highlighter-rouge">TransportSecurity</code> file that you found above, run the following, substituting the full path of the <code class="highlighter-rouge">TransportSecurity</code> file for <code class="highlighter-rouge">$TS_PATH</code>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
+</code></pre></div>    </div>
+  </li>
+  <li>You can now re-launch Google Chrome.</li>
+</ol>
+
+<h2 id="tls-negative-overrides-method-b">TLS Negative Overrides (Method B)</h2>
+
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
+
+<ol>
+  <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Google Chrome certificate database.  Note its path; make sure you use forward-slashes instead of backslashes, and leave off the trailing slash.</li>
+  <li>
+    <p>Run the following, substituting the temporary directory for <code class="highlighter-rouge">$TEMP_DIR</code>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
+</code></pre></div>    </div>
+  </li>
+  <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
+</ol>
+
+<p>You’ll need to rerun the above <code class="highlighter-rouge">tlsrestrict_nss_tool</code> command whenever the built-in certificate list is updated.</p>
+
+<p>If you’ve manually imported any non-built-in TLS trust anchors to Google Chrome, and you want to restrict them from intercepting <code class="highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
+
+<ol>
+  <li>Get a DER-encoded certificate of the trust anchor.</li>
+  <li>
+    <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+</code></pre></div>    </div>
+  </li>
+  <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
+  <li>Delete the existing trust anchor from Google Chrome.</li>
+  <li>Import <code class="highlighter-rouge">root.crt</code> into Google Chrome; mark it as a trusted TLS root CA.</li>
+  <li>Import <code class="highlighter-rouge">intermediate.crt</code> and <code class="highlighter-rouge">cross-signed.crt</code> into Google Chrome; do not mark them as trusted.</li>
+</ol>
+
+<p>If you decide later that you want to remove the negative overrides from Google Chrome, follow these instructions:</p>
+
+<ol>
+  <li>
+    <p>Run the following:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</p>
+  </li>
+</ol>
+
+<h3 id="screenshot">Screenshot</h3>
+
+<p>If a <code class="highlighter-rouge">.bit</code> HTTPS website uses a CA-signed certificate that doesn’t match the Namecoin blockchain, an error like this will be displayed:</p>
+
+<p><img src="/images/screenshots/tls/tls-reject-firefox-linux-2018-08-01.png" alt="start.fedoraproject.org uses an invalid security certificate.  The certificate is not trusted because the issuer certificate is unknown.  The server might not be sending the appropriate intermediate certificates.  An additional root certificate may need to be imported." /></p>
+
+<h2 id="strict-transport-security">Strict Transport Security</h2>
+
+<p>Google Chrome for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
+
+<ol>
+  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
+  <li>Download and extract certdehydrate-dane-rest-api from the <a href="/download/betas/#certdehydrate-dane-rest-api">Beta Downloads</a> page.</li>
+  <li>
+    <p>Create a text file called <code class="highlighter-rouge">certdehydrate-dane-rest-api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
+nameserver="127.0.0.1"
+port="5391"
+</code></pre></div>    </div>
+  </li>
+  <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
+  <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
+  <li>Download and extract the DNSSEC-HSTS WebExtensions Component for Google Chrome from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
+  <li>
+    <p>Install the DNSSEC-HSTS WebExtensions Component like this:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /usr/local/namecoin/ /usr/share/google-chrome/extensions/
+sudo cp ./dnssec-hsts*.crx /usr/local/namecoin/dnssec-hsts.crx
+sudo cp ./ogimlildljgffpifafnhjggflenjhljf.json /usr/share/google-chrome/extensions/
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>You may need to restart Google Chrome.</p>
+
+<p><code class="highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Google Chrome.</p>
+
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/chrome/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
