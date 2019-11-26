@@ -112,21 +112,32 @@ td, th {
     padding: 0.5em;
 }
 
+/* Fix deeplinks to elements */
 *[id]:before {
     display: block;
     content: " ";
+    margin-top: -51px;
+    height: 51px;
     visibility: hidden;
 }
 
 /* TODO: refactor this */
 @media (max-width: 1003px) and (min-width: 768px) {
+    /* Fix deeplinks to elements (double-height menu bar) */
     *[id]:before {
         display: block;
         content: " ";
+        margin-top: -101px;
+        height: 101px;
         visibility: hidden;
     }
 }
 
+/* Fix invisible occlusion caused by above deeplink fix */
+*[id] {
+    position: relative;
+    z-index: -1;
+}
 
 /* Begin nojs */
 
@@ -318,7 +329,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>With all this in place, the transaction can be created:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "cat tx.in" "cat tx.out" "cat tx.op"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "$(cat tx.in)" "$(cat tx.out)" "$(cat tx.op)"
 0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed120000000000ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000
 </code></pre></div></div>
 
