@@ -112,21 +112,32 @@ td, th {
     padding: 0.5em;
 }
 
+/* Fix deeplinks to elements */
 *[id]:before {
     display: block;
     content: " ";
+    margin-top: -51px;
+    height: 51px;
     visibility: hidden;
 }
 
 /* TODO: refactor this */
 @media (max-width: 1003px) and (min-width: 768px) {
+    /* Fix deeplinks to elements (double-height menu bar) */
     *[id]:before {
         display: block;
         content: " ";
+        margin-top: -101px;
+        height: 101px;
         visibility: hidden;
     }
 }
 
+/* Fix invisible occlusion caused by above deeplink fix */
+*[id] {
+    position: relative;
+    z-index: -1;
+}
 
 /* Begin nojs */
 
