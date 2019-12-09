@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Stream Isolation for Namecoin Name Lookups</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    height: 99px;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+/* Fix deeplinks to elements */
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    /* Fix deeplinks to elements (double-height menu bar) */
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+/* Fix invisible occlusion caused by above deeplink fix */
+/* Only do headings, otherwise it breaks the top menu bar drop-downs */
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+    position: relative;
+    z-index: -1;
+}
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://www.namecoin.org//2019/12/09/stream-isolation-for-namecoin-name-lookups.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Stream Isolation for Namecoin Name Lookups</h1>
+<p class="post-meta">Dec 9, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>The documentation for using Namecoin for name lookups with Tor (via ncprop279) includes a warning about stream isolation.  Specifically, it states that while TCP connections issued by the application (e.g. Tor Browser) will be stream-isolated as usual, stream isolation will <em>not</em> be applied to whatever network traffic might be induced by the Namecoin lookup.  As a result, our documentation recommends against using Electrum-NMC with ncprop279, since Electrum-NMC will produce network traffic on each lookup.  Our documentation instead recommends Namecoin Core or ConsensusJ-Namecoin’s leveldbtxcache mode, neither of which produce any network traffic per lookup.  However, this situation is non-ideal; Electrum-NMC has some very real advantages, and it’s a shame that we can’t recommend it for this purpose.  Can we do better?</p>
+
+<p>For background, stream isolation is a little-known but highly important feature in Tor, which prevents different TCP connections from different activities from sharing a single Tor circuit.  Imagine if this weren’t the case.  Keith, who runs an exit relay (or wiretaps one) could easily observe that Ed visited a website of a restaurant in Hawaii, and also visited the website of the WikiLeaks submission system.  Keith doesn’t need to know who Ed is or what his real IP address is; Keith has learned that someone in Hawaii is likely a WikiLeaks source, which is valuable information.  In other words, Ed has only achieved <em>pseudonymity</em>, i.e. his real name and IP address are hidden, but all of his activities are linkable to a single pseudonym.  Stream isolation unlinks these activities, so that Keith instead sees that someone accessed a Hawaiian restaurant’s website and also sees that someone accessed WikiLeaks’s submission system, but doesn’t have any idea if they are the same person.  Stream isolation enables users to be <em>anonymous</em> rather than <em>pseudonymous</em>.</p>
+
+<p>How does stream isolation work in Tor?  Applications can decide which TCP connections can share a circuit without leaking private information, and they communicate this to Tor by setting the SOCKS5 username and password fields.  Tor makes sure that any two TCP connections that have different SOCKS5 username+password values will never share a circuit.  (Technically I’m oversimplifying here; I’ll come back to this.)  So, in order for this to work properly with Namecoin, we need to make sure that the Namecoin software is able to access the SOCKS5 username and password that the application used when talking to Tor, and pass this (or derivative data, see below) through to Tor when Electrum-NMC is doing lookups.  In practice, this means that every piece of software in the chain (starting with Tor’s control port, which talks to StemNS, and ending with aiorpcX, which is the library used by Electrum-NMC to open the TCP connections via Tor’s SOCKS port) must be patched to preserve the SOCKS5 username and password that the application used, and pass it through to the next piece of software in the chain.</p>
+
+<p>So, let’s look at how we handled this, starting at the end of the chain and working backwards to the beginning.</p>
+
+<h2 id="aiorpcx">aiorpcX</h2>
+
+<p>aiorpcX is the network library used by Electrum.  It has its own SOCKS5 implementation, which already supports username/password authentication, so you might think there’s nothing to patch here.  However, observing Bitcoin Core’s behavior yields a hint for how we can improve aiorpcX.</p>
+
+<p>Bitcoin Core (and, by extension, Namecoin Core) open each peer connection using a random SOCKS5 username and password.  The effect is that each peer connection will go over its own Tor circuit.  This has several advantages.  It improves Sybil-resistance (by making it impossible for a single malicious Tor exit relay to control a Bitcoin node’s view of the blockchain).  It also avoids situations where a malicious user gets a Tor exit banned by most of the Bitcoin network, and then other users who end up on that Tor exit can’t connect.  These advantages are beneficial even without worrying about privacy specifically.</p>
+
+<p>I submitted a patch to aiorpcX that allows applications to request that a random SOCKS5 username+password be used per connection.  This makes things quite a bit cleaner.  The patch has been merged by Neil.</p>
+
+<h2 id="electrum-nmc">Electrum-NMC</h2>
+
+<p>Patching Electrum-NMC to use the above aiorpcX feature was fairly straightforward.  However, I also needed to add an RPC argument to <code class="highlighter-rouge">name_show</code>, so that the caller can specify a “stream isolation ID”, which has a similar role as the SOCKS5 username+password in the Tor SOCKS port.  Electrum-NMC executes <code class="highlighter-rouge">name_show</code> with a different server connection for each unique stream isolation ID that it is passed.</p>
+
+<p>You may be wondering why we’re not just passing through the stream isolation ID to aiorpcX’s SOCKS5 username; why go through the trouble of randomizing the username and then maintaining a mapping inside Electrum-NMC?  The reason is that Electrum-NMC needs to preemptively open server connections before <code class="highlighter-rouge">name_show</code> is called.  Otherwise, each name lookup would be delayed by an Electrum protocol handshake, which would be an unacceptable latency penalty.</p>
+
+<p>These patches are also useful for non-Namecoin use cases, and accordingly I’ve also sent them upstream to Electrum, where they’re awaiting review.</p>
+
+<h2 id="btcd">btcd</h2>
+
+<p>btcd is best-known as an alternate implementation of a Bitcoin full node, but it’s also the primary implementation of a Bitcoin RPC client in Go.  Up until recently, ncdns used an ancient 2015 fork of btcd to talk to Namecoin Core and Electrum-NMC.  This fork dealt with the arguments to <code class="highlighter-rouge">name_show</code>.  I wasn’t really fond of piling more and more hacks onto an ancient fork, so I looked into what would be needed to use modern btcd with Namecoin.  There were only 2 features missing from current btcd that we needed: extensible commands (so that we could add <code class="highlighter-rouge">name_show</code> as an RPC method) and cookie authentication (so that the user doesn’t need to set up RPC passwords manually).  Both of these were pretty easy to implement, and I’ve sent patches for both to the btcd developers.  They’re both undergoing review.</p>
+
+<p>With that out of the way, I was able to get the Namecoin <code class="highlighter-rouge">name_show</code> command working with current btcd (I’m currently maintaining a fork of btcd until the above 2 patches are merged), via the new <code class="highlighter-rouge">ncbtcjson</code> and <code class="highlighter-rouge">ncrpcclient</code> packages.  These packages now support passing a stream isolation ID to Namecoin Core and Electrum-NMC.  (Namecoin Core ignores it, since it doesn’t generate any network traffic per lookup.)</p>
+
+<p>I also needed to hack Electrum-NMC a bit to make the new btcd’s stream isolation ID argument work with it.  This is because Electrum, by convention, expects optional arguments to be passed in a slightly different way than Bitcoin Core, and since the stream isolation ID is an optional argument, I needed to rig Electrum-NMC to also recognize the Namecoin Core style.</p>
+
+<h2 id="ncdns">ncdns</h2>
+
+<p>Rewriting ncdns’s integration with btcd was quite enjoyable, because modern btcd is much simpler to use than the ancient 2015 fork we were using previously.  This meant that I got to rip out quite a lot of code that was no longer needed.  Adding a stream isolation ID argument to ncdns’s lookup code that gets passed through to btcd was pretty easy, but there’s another important thing that was necessary.  ncdns caches responses for performance reasons, and it’s important to isolate the cache based on the stream isolation ID.  So, now ncdns creates a new cache for each new stream isolation ID that it sees.</p>
+
+<h2 id="madns">madns</h2>
+
+<p>madns is the authoritative DNS library that ncdns uses.  Even though ncprop279 doesn’t include a DNS server, it uses madns to handle various DNS protocol functionality (e.g. wildcard domains) that one would expect a naming system to handle.  Making madns pass a stream isolation ID to ncdns was pretty easy (though it required breaking the madns stable API).  But where would madns get the stream isolation ID from, since usually it receives requests via the DNS wire protocol?</p>
+
+<p>The solution Hugo and I found was to use EDNS0, which is a protocol extension mechanism in the DNS wire protocol.  I created an EDNS0 extension that allows DNS clients to specify a stream isolation ID; madns then passes it to ncdns.</p>
+
+<p>This has other interesting implications.  For example, a method of supporting stream isolation in the DNS wire protocol would be interesting to explore for the Tor DNS port, as well as Unbound and other locally-run DNS servers.</p>
+
+<h2 id="ncprop279">ncprop279</h2>
+
+<p>Modifying ncprop279 to pass a stream isolation ID to madns via EDNS0 was straightforward.  I also had to modify the Prop279 protocol a bit so that ncprop279 knows what stream isolation ID to use.  This was pretty easy.</p>
+
+<h2 id="stemns">StemNS</h2>
+
+<p>Making StemNS pass a stream isolation ID to ncprop279 was pretty easy.  But how to calculate the stream isolation ID?  Alas, simply using the SOCKS5 username+password wasn’t going to fly.  Remember how I said I was oversimplifying how Tor decides which connections to isolate?  In reality, there are a variety of different data fields associated with a connection made through Tor besides the SOCKS5 username/password.  Other fields that are relevant include the source IP (useful if you have multiple VM’s that access a common Tor instance and you want each VM to be stream-isolated) and the destination IP/port (useful if you have an application that talks to multiple servers via Tor’s Trans port and you want each server to be stream-isolated).  Additionally, Tor can be configured to enable or disable stream isolation for each of these fields independently.  And did I mention that Tor can run multiple listener ports, and each of these ports can have independent stream isolation settings?</p>
+
+<p>Trying to reliably compress this data into some kind of hash that we could use as a stream isolation ID seemed error-prone, so I instead copied Nick Mathewson’s English description of the logic that Tor itself uses to decide whether two given Tor streams can go over the same circuit, and I made StemNS store the relevant raw data.  StemNS deletes this data every time Tor cycles to a new identity (typically every 10 minutes, though this can vary by settings, and also happens immediately if the user clicks the New Identity button), so it shouldn’t eat up too much memory.  Whenever StemNS finds that a newly requested stream isn’t compatible with any of the streams previously assigned to a stream isolation ID, it makes up a new stream isolation ID and assigns the stream to that one.  Not too bad.</p>
+
+<h2 id="tor">Tor</h2>
+
+<p>StemNS talks to Tor via the control port protocol.  Unfortunately, quite a few of the relevant fields (including the SOCKS username/password) weren’t actually available via the control port’s <code class="highlighter-rouge">STREAM</code> event, which is the event we need to hook in order to do name resolution.  The control port <em>does</em> make the SOCKS username/password available via other events, but those events don’t fire until it’s too late to do name resolution.</p>
+
+<p>So I ended up patching Tor to make all of those fields available over the control port.  Because the control port protocol follows a spec, that also meant patching the spec.  After a few revisions of the spec and code as per review, Nick from Tor merged my patches.  Nightly builds of Tor now support the necessary control port features for StemNS to handle stream isolation properly.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Getting this implemented across the stack was an interesting and nontrivial endeavor, due to the large number of codebases involved, many of which involve third parties.  But I think it was worth it.  New release tags of the relevant codebases will hopefully be coming soon, which means we’ll finally be able to get rid of the scary warning against using Electrum-NMC with ncprop279.  Considering that Electrum-NMC syncs by far the quickest of any Namecoin name lookup client, which is a big deal given Tor’s bandwidth constraints, this is a major UX win.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-12-09-stream-isolation-for-namecoin-name-lookups.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
