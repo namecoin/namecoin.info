@@ -251,6 +251,75 @@ Decentralized<br /><strong>secure</strong> names.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title">DNS Builder GUI for Electrum-NMC</h1>
+    <p class="post-meta">Dec 12, 2019 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>In November 2017, Brandon posted some WIP code for adding a DNS Builder GUI to Namecoin-Qt.  To refresh your memory, it looked like this:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/dns-builder-2017-11-19.gif" alt="A screenshot of the DNS builder for Namecoin-Qt." /></p>
+
+    <p>Unfortunately, merging that code to Namecoin Core is blocked by several other tasks, so it may be a while before it makes its way into a Namecoin Core release.  However, in the meantime, all is not lost.  Thanks to the magic of Qt GUI’s being in XML format, and therefore easy to port between C++ and Python, I’ve been spending some time porting Brandon’s DNS Builder GUI to Electrum-NMC.</p>
+
+    <p>Things are still a bit rough around the edges, but it’s beginning to take shape.  Check out the below screenshot:</p>
+
+    <p><img src="/images/screenshots/electrum-nmc/2019-12-02-DNS-Builder.png" alt="A screenshot of the DNS builder for Electrum-NMC." /></p>
+
+    <p>So far, the following features work:</p>
+
+    <ul>
+  <li>Creating and parsing the following record types:
+    <ul>
+      <li>IPv4 addresses</li>
+      <li>IPv6 addresses</li>
+      <li>Tor onion services</li>
+      <li>I2P eepsites</li>
+      <li>Freenet freesites</li>
+      <li>ZeroNet zites</li>
+      <li>NS delegations</li>
+      <li>DS fingerprints</li>
+      <li>CNAME aliases</li>
+      <li>TLS fingerprints</li>
+      <li>SSH fingerprints</li>
+      <li>TXT records</li>
+      <li>SRV records</li>
+      <li>Domain data imports</li>
+    </ul>
+  </li>
+  <li>Parsing subdomains (recursively)</li>
+  <li>Creating and sorting subdomains</li>
+  <li>Input validation (only verifying that integer fields are valid integers, and no real-time feedback)</li>
+  <li>Repairing the deprecated forms of Tor and ZeroNet records</li>
+  <li>Size optimizations, e.g. setting <code class="highlighter-rouge">"ip6"</code> to a string instead of an array containing one string</li>
+</ul>
+
+    <p>The following features still need implementation:</p>
+
+    <ul>
+  <li>Creating and parsing the following record types:
+    <ul>
+      <li>WHOIS info</li>
+      <li>DNAME subtree aliases (not particularly high priority because it’s a footgun)</li>
+    </ul>
+  </li>
+  <li>Editing existing records (this is partially implemented)</li>
+  <li>Deleting existing records</li>
+  <li>More input validation (the sharp-eyed among you probably noticed that it allowed me to enter <code class="highlighter-rouge">blah.onion</code> as a Tor onion service despite that string being invalid), with real-time feedback</li>
+  <li>More friendly guidance for some parameters (e.g. the “Cert. usage”, “Selector”, and “Matching Type” parameters in the TLS tab would probably be more suitable as a drop-down list or combo box)</li>
+</ul>
+
+    <p>Hopefully this work will improve the UX so that Namecoin domain owners aren’t expected to handle JSON manually.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title">Stream Isolation for Namecoin Name Lookups</h1>
     <p class="post-meta">Dec 9, 2019 • Jeremy Rand </p>
   </header>
