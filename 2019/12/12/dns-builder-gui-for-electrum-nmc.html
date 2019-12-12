@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: AuxPoW Deserialization</title>
+    <title>DNS Builder GUI for Electrum-NMC</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -171,7 +171,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2018/07/01/electrum-nmc-auxpow.html">
+    <link rel="canonical" href="https://www.namecoin.org//2019/12/12/dns-builder-gui-for-electrum-nmc.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -248,293 +248,334 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: AuxPoW Deserialization</h1>
-<p class="post-meta">Jul 1, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">DNS Builder GUI for Electrum-NMC</h1>
+<p class="post-meta">Dec 12, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin’s merged mining, which allows miners to simultaneously mine a parent chain (usually Bitcoin) and any number of child chains (e.g. Namecoin and Huntercoin), is made possible by AuxPoW (auxilliary proof of work).  AuxPoW is a clever trick (first proposed by Bitcoin founder Satoshi Nakamoto, and first implemented by Namecoin founder Vincent Durham) that allows a block in the parent chain to commit to a block in any number of child chains, such that the child block can reference the parent block’s PoW and thereby prove that the PoW committed to both the parent and child block.  AuxPoW doesn’t impose any changes for the parent chain’s consensus rules, but it does constitute a hardfork for the child chain (even for lightweight SPV clients of the child chain).  As a result, making Electrum-NMC validate PoW properly requires patching Electrum to support AuxPoW.</p>
+<p>In November 2017, Brandon posted some WIP code for adding a DNS Builder GUI to Namecoin-Qt.  To refresh your memory, it looked like this:</p>
 
-<p>Recently I started hacking on Electrum-NMC to support AuxPoW.  This is not an entirely new problem; a previous Electrum fork (<a href="https://github.com/electrumalt/electrum-doge">Electrum-DOGE</a>) already tried to implement AuxPoW.  Unfortunately, Electrum-DOGE’s code quality is not exactly up to my standards, and besides that, it’s a fork of a 3.5-year-old version of Electrum.  Electrum has evolved substantially since then, to the point that a straightforward merge isn’t possible.  Additionally, it’s not clear how many people have actually audited Electrum-DOGE for correctness.  That said, Electrum-DOGE’s implementation is definitely a useful reference for determining how to do AuxPoW in Electrum.</p>
+<p><img src="/images/screenshots/namecoin-core/dns-builder-2017-11-19.gif" alt="A screenshot of the DNS builder for Namecoin-Qt." /></p>
 
-<p>Upon adding some debug output to Electrum-NMC, I observed that the first error that showed up was in deserializing block headers.  This makes sense, since in Bitcoin, all block headers are exactly 80 bytes, whereas in Namecoin, the 80 bytes are optionally followed by a variable-length AuxPoW header, which includes things such as the parent block’s header, the parent block’s coinbase transaction (variable length), and two Merkle branches (also variable length).  Electrum-DOGE’s code for deserializing block headers wasn’t directly mergeable, but it definitely was sufficient reference material to implement AuxPoW header deserialization in Electrum-NMC.</p>
+<p>Unfortunately, merging that code to Namecoin Core is blocked by several other tasks, so it may be a while before it makes its way into a Namecoin Core release.  However, in the meantime, all is not lost.  Thanks to the magic of Qt GUI’s being in XML format, and therefore easy to port between C++ and Python, I’ve been spending some time porting Brandon’s DNS Builder GUI to Electrum-NMC.</p>
 
-<p>The next error that showed up was related to deserializing <strong>chunks</strong> of block headers.  Electrum groups block headers into chunks, where each chunk corresponds to a difficulty period (2016 block headers).  Electrum was, of course, assuming in the chunking code that a chunk was exactly <code class="highlighter-rouge">2016 * 80</code> bytes, which wasn’t going to work with AuxPoW.  Fixing this was straightforward enough that I did so without using Electrum-DOGE as a reference (the chunking code has evolved enough in the last 3.5 years that using Electrum-DOGE as a reference would probably have taken more time than reimplementing from scratch).</p>
+<p>Things are still a bit rough around the edges, but it’s beginning to take shape.  Check out the below screenshot:</p>
 
-<p>The next step is dealing with serialization/deserialization of block headers to/from disk.  Naturally, Electrum’s block header storage format assumes 80-byte headers, so fixing that will take some work.</p>
+<p><img src="/images/screenshots/electrum-nmc/2019-12-02-DNS-Builder.png" alt="A screenshot of the DNS builder for Electrum-NMC." /></p>
 
-<p>There’s also a licensing side effect of using Electrum-DOGE as a reference.  Electrum’s license used to be GPLv3+, but since then they’ve relicensed to MIT.  Electrum-DOGE was forked from Electrum before the license change, and Electrum-DOGE’s authors never relicensed.  As a result, the code I wrote that’s based on Electrum-DOGE’s codebase is a derivative work of GPLv3+-licensed code.  All of the code from upstream Electrum, as well as all of Namecoin’s changes to Electrum and Electrum-DOGE, are still MIT-licensed, but the full combined work that constitutes Electrum-NMC is GPLv3-licensed.  This isn’t really a huge problem (GPLv3+ is a perfectly fine free software license, and I wasn’t intending to submit any of the AuxPoW code upstream anyway), but it’s definitely noteworthy.</p>
+<p>So far, the following features work:</p>
 
-<p>More Electrum AuxPoW work will be covered in future posts.</p>
+<ul>
+  <li>Creating and parsing the following record types:
+    <ul>
+      <li>IPv4 addresses</li>
+      <li>IPv6 addresses</li>
+      <li>Tor onion services</li>
+      <li>I2P eepsites</li>
+      <li>Freenet freesites</li>
+      <li>ZeroNet zites</li>
+      <li>NS delegations</li>
+      <li>DS fingerprints</li>
+      <li>CNAME aliases</li>
+      <li>TLS fingerprints</li>
+      <li>SSH fingerprints</li>
+      <li>TXT records</li>
+      <li>SRV records</li>
+      <li>Domain data imports</li>
+    </ul>
+  </li>
+  <li>Parsing subdomains (recursively)</li>
+  <li>Creating and sorting subdomains</li>
+  <li>Input validation (only verifying that integer fields are valid integers, and no real-time feedback)</li>
+  <li>Repairing the deprecated forms of Tor and ZeroNet records</li>
+  <li>Size optimizations, e.g. setting <code class="highlighter-rouge">"ip6"</code> to a string instead of an array containing one string</li>
+</ul>
 
-<p>This work was funded by Cyphrs.</p>
+<p>The following features still need implementation:</p>
+
+<ul>
+  <li>Creating and parsing the following record types:
+    <ul>
+      <li>WHOIS info</li>
+      <li>DNAME subtree aliases (not particularly high priority because it’s a footgun)</li>
+    </ul>
+  </li>
+  <li>Editing existing records (this is partially implemented)</li>
+  <li>Deleting existing records</li>
+  <li>More input validation (the sharp-eyed among you probably noticed that it allowed me to enter <code class="highlighter-rouge">blah.onion</code> as a Tor onion service despite that string being invalid), with real-time feedback</li>
+  <li>More friendly guidance for some parameters (e.g. the “Cert. usage”, “Selector”, and “Matching Type” parameters in the TLS tab would probably be more suitable as a drop-down list or combo box)</li>
+</ul>
+
+<p>Hopefully this work will improve the UX so that Namecoin domain owners aren’t expected to handle JSON manually.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -867,7 +908,7 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-01-electrum-nmc-auxpow.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-12-12-dns-builder-gui-for-electrum-nmc.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
