@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -258,10 +262,10 @@ Decentralized<br /><strong>secure</strong> names.
   <li>
     <p>Create a text file called <code class="highlighter-rouge">certdehydrate_dane_rest_api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
+    <div class="highlighter-rouge"><pre class="codehilite"><code>[certdehydrate-dane-rest-api]
 nameserver="127.0.0.1"
 port="5391"
-</code></pre></div>    </div>
+</code></pre>    </div>
   </li>
   <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
   <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
@@ -285,10 +289,10 @@ port="5391"
   <li>
     <p>Install the DNSSEC-HSTS Native Component like this (substitute your Tor Browser directory):</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir -p tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
+    <div class="highlighter-rouge"><pre class="codehilite"><code>sudo mkdir -p tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
 sudo cp ./org.namecoin.dnssec_hsts.json tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
 sudo cp ./dnssec_hsts /usr/bin/
-</code></pre></div>    </div>
+</code></pre>    </div>
   </li>
   <li>Go to <code class="highlighter-rouge">about:config</code> in Tor Browser.</li>
   <li>Search for <code class="highlighter-rouge">xpinstall.signatures.required</code>.</li>
@@ -322,6 +326,24 @@ sudo cp ./dnssec_hsts /usr/bin/
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/tor-browser/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

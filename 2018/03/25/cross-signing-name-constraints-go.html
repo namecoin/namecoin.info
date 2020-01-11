@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 </p></div></div>
 
@@ -241,6 +245,10 @@ Decentralized<br /><strong>secure</strong> names.
     <div id="content">
       <div class="container-fluid">
         
+
+
+
+
 
 
 
@@ -582,7 +590,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Here’s the Go struct that’s returned when an x509 certificate’s raw DER form is passed to the <code class="highlighter-rouge">ParseCertificate</code> function in the standard library’s <code class="highlighter-rouge">x509</code> package:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// A Certificate represents an X.509 certificate.
+<div class="highlighter-rouge"><pre class="codehilite"><code>// A Certificate represents an X.509 certificate.
 type Certificate struct {
 	Raw                     []byte // Complete ASN.1 DER content (certificate, signature algorithm and signature).
 	RawTBSCertificate       []byte // Certificate part of raw ASN.1 DER content.
@@ -681,13 +689,13 @@ type Certificate struct {
 
 	PolicyIdentifiers []asn1.ObjectIdentifier
 }
-</code></pre></div></div>
+</code></pre></div>
 
 <p>Holy crap, that’s a lot of parsing that’s clearly happening.  Among other things, we can even see special types being used for date/time values, IP addresses, and URL’s.  I definitely don’t want all that stuff being added to the attack surface of my cross-signing code – it seems almost certain that some mutation would end up happening, and it would be insane to try to audit the safety of whatever mutation occurs.</p>
 
 <p>However, under the hood, after the above monstrosity is serialized and is ready to be signed, a far more manageable set of structs is used by the <code class="highlighter-rouge">x509</code> package for the actual signing procedure:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// These structures reflect the ASN.1 structure of X.509 certificates.:
+<div class="highlighter-rouge"><pre class="codehilite"><code>// These structures reflect the ASN.1 structure of X.509 certificates.:
 
 type certificate struct {
 	Raw                asn1.RawContent
@@ -709,7 +717,7 @@ type tbsCertificate struct {
 	SubjectUniqueId    asn1.BitString   `asn1:"optional,tag:2"`
 	Extensions         []pkix.Extension `asn1:"optional,explicit,tag:3"`
 }
-</code></pre></div></div>
+</code></pre></div>
 
 <p>Readers unfamiliar with Go programming should note that in Go, structs whose name has an uppercase first letter are public (accessible by code outside the Go standard library’s <code class="highlighter-rouge">x509</code> package), while structs whose name has a lowercase first letter are private (only accessible from the Go standard library’s <code class="highlighter-rouge">x509</code> package).  These more manageable structs are private, so we can’t access them directly.  But, the important thing to note is that when a raw DER-encoded byte array is parsed into a crazy-complicated <code class="highlighter-rouge">Certificate</code>, as well as when a crazy-complicated <code class="highlighter-rouge">Certificate</code> is signed (resulting in a raw DER-encoded byte array), these private structs (<code class="highlighter-rouge">certificate</code> and <code class="highlighter-rouge">tbsCertificate</code>) are used as intermediate steps, and are actually processed by the <code class="highlighter-rouge">asn1</code> package (not the <code class="highlighter-rouge">x509</code> package) when converting to and from raw DER-encoded byte arrays.</p>
 
@@ -733,7 +741,7 @@ type tbsCertificate struct {
 
 <p>When a field is of type <code class="highlighter-rouge">asn1.RawValue</code>, it means that Go won’t try to parse its content in any way (it’s just a binary blob).  This is exactly the behavior we want for all the fields that we pass-through.  Unfortunately, <code class="highlighter-rouge">tbsCertificate</code> has a bunch of other fields besides the above 5 replaced fields that aren’t of the type <code class="highlighter-rouge">asn1.RawValue</code>.  What can we do about that?  Well, since these are private structs to the <code class="highlighter-rouge">x509</code> package, we’re clearly going to have to copy their definitions anyway – so how about we simplify them while we’re at it?  Below are my modified structs:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// These are modified from the x509 package; they store any field that isn't
+<div class="highlighter-rouge"><pre class="codehilite"><code>// These are modified from the x509 package; they store any field that isn't
 // replaced by cross-signing as an asn1.RawValue.
 
 type certificate struct {
@@ -756,7 +764,7 @@ type tbsCertificate struct {
 	SubjectUniqueId    asn1.RawValue   `asn1:"optional,tag:2"`
 	Extensions         []asn1.RawValue `asn1:"optional,explicit,tag:3"`
 }
-</code></pre></div></div>
+</code></pre></div>
 
 <p>From there, I created a modified version of the <code class="highlighter-rouge">x509</code> package’s signing code, which creates a <code class="highlighter-rouge">tbsCertificate</code> by parsing the original CA certificate that we’re cross-signing (instead of populating it with serialized data from the crazy-complicated <code class="highlighter-rouge">Certificate</code> struct as the <code class="highlighter-rouge">x509</code> package does), and then signs it (via ECDSA) and serializes it (via the <code class="highlighter-rouge">asn1</code> package) as usual.  It then outputs a DER-encoded x509 certificate that’s identical to the original root CA cert, except for the 5 fields that I listed above as relevant to cross-signing.</p>
 
@@ -1080,6 +1088,24 @@ type tbsCertificate struct {
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-03-25-cross-signing-name-constraints-go.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

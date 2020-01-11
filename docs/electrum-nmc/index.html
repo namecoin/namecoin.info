@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Freedom</strong><br>of information.
 </noscript>
 </p></div></div>
 
@@ -287,8 +291,8 @@ Decentralized<br /><strong>secure</strong> names.
 <ol>
   <li>Enable Electrum-NMC’s JSON-RPC interface, as per <a href="https://electrum.readthedocs.io/en/latest/merchant.html#jsonrpc-interface">the instructions from upstream Electrum</a>.</li>
   <li>To test the RPC server, try running the following from a terminal (substitute your username, password, and port accordingly): <code class="highlighter-rouge">curl --data-binary '{"id":"curltext","method":"name_show","params":["d/nf"]}' http://username:password@127.0.0.1:7777</code>.  You should get something like this:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"result": {"name": "d/nf", "name_encoding": "ascii", "value": "{\"ip\":\"94.23.252.190\",\"map\":{\"_tcp\":{\"map\":{\"_443\":{\"tls\":[{\"d8\":[1,\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5L89jiJKW7bX5P4MxuvO4KN7k1WOJyjKZSrycMZMKWrfOPGNVBBAz3M2wB3bPz0imdjK0ppSyz0GXEWSIglQXw==\",5007168,5533056,10,\"MEUCIQC8wiAAU2/RemIHlxRZ4wkp4QiYpA6yvTFuk2UwBFHd4gIgRjJQqO7ovcVsVYvEFHY0Z+SjTKRCPa2QAyrQiUyZhIs=\"]}]}}}},\"fingerprint\":[\"69:16:99:8B:A7:62:6F:BE:2A:F6:AF:62:E4:DA:4D:8F:32:B8:52:28\"]}", "value_encoding": "ascii", "txid": "fd21e49f5f29de1f38a67201fb009abf8df609fd0b123f7454a04c7f556af7e4", "vout": 0, "address": "NFPRh1m3CPzAoBpbr1YMW2cDqfLit8eheg", "height": 404601, "expires_in": 9896, "expired": false, "ismine": false}, "id": "curltext", "error": null}
-</code></pre></div>    </div>
+    <div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="nt">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d/nf"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name_encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ascii"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{\"ip\":\"94.23.252.190\",\"map\":{\"_tcp\":{\"map\":{\"_443\":{\"tls\":[{\"d8\":[1,\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5L89jiJKW7bX5P4MxuvO4KN7k1WOJyjKZSrycMZMKWrfOPGNVBBAz3M2wB3bPz0imdjK0ppSyz0GXEWSIglQXw==\",5007168,5533056,10,\"MEUCIQC8wiAAU2/RemIHlxRZ4wkp4QiYpA6yvTFuk2UwBFHd4gIgRjJQqO7ovcVsVYvEFHY0Z+SjTKRCPa2QAyrQiUyZhIs=\"]}]}}}},\"fingerprint\":[\"69:16:99:8B:A7:62:6F:BE:2A:F6:AF:62:E4:DA:4D:8F:32:B8:52:28\"]}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"value_encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ascii"</span><span class="p">,</span><span class="w"> </span><span class="nt">"txid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fd21e49f5f29de1f38a67201fb009abf8df609fd0b123f7454a04c7f556af7e4"</span><span class="p">,</span><span class="w"> </span><span class="nt">"vout"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NFPRh1m3CPzAoBpbr1YMW2cDqfLit8eheg"</span><span class="p">,</span><span class="w"> </span><span class="nt">"height"</span><span class="p">:</span><span class="w"> </span><span class="mi">404601</span><span class="p">,</span><span class="w"> </span><span class="nt">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">9896</span><span class="p">,</span><span class="w"> </span><span class="nt">"expired"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"ismine"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"curltext"</span><span class="p">,</span><span class="w"> </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">}</span><span class="w">
+</span></code></pre>    </div>
   </li>
   <li>You can now configure ncdns (or any other application that expects a Namecoin-Core-like <code class="highlighter-rouge">name_show</code> interface) to connect to Electrum-NMC’s RPC server; everything should “just work”.</li>
 </ol>
@@ -313,6 +317,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/electrum-nmc/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

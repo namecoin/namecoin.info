@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -310,7 +314,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Namespaces are name prefixes used by applications to distinguish between different type of names in Namecoin.  For example, <code class="highlighter-rouge">d/example</code> is the domain name <code class="highlighter-rouge">example.bit</code>, and <code class="highlighter-rouge">id/example</code> is an identity.  Namespaces help prevent multiple applications from accidentally conflicting.  Namecoin itself isn’t aware of namespaces, and namespaces don’t have any effect on validation rules; they are only used by higher-level applications that use Namecoin.</p>
 
-<h3 id="why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</h3>
+<h3 id="why-is-there-a-separate-namenew-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</h3>
 
 <p>This is to prevent others from stealing your new name by registering it quickly themselves when they see your transaction. The name is not broadcasted during the <code class="highlighter-rouge">name_new</code> step, only a salted hash of it. There is a mandatory minimum delay of 12 blocks before you can broadcast your name with <code class="highlighter-rouge">name_firstupdate</code>; this means that by the time other people know what name you’re registering, they would have to reverse at least 12 blocks in order to steal the name.</p>
 
@@ -407,7 +411,7 @@ Decentralized<br /><strong>secure</strong> names.
   <li>The most important commands are: <code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code>, and <code class="highlighter-rouge">name_update</code>.</li>
   <li>The coins used to pay for a <code class="highlighter-rouge">name_firstupdate</code> operation are destroyed, i.e. every new name reduces the finally usable maximum of 21 million NMC by 0.01 NMC.</li>
   <li><code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> contain a pair of name/value which expires after 36,000 blocks (between 200 and 250 days).</li>
-  <li>The <code class="highlighter-rouge">d/</code> prefix is used to register a domain name, without the .bit TLD: <code class="highlighter-rouge">{     "name" : "d/opennic",     "value" : "what you want",     "expires_in" : 10227 }</code></li>
+  <li>The <code class="highlighter-rouge">d/</code> prefix is used to register a domain name, without the .bit TLD: <code class="highlighter-rouge"><span class="p">{</span><span class="w">     </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"d/opennic"</span><span class="p">,</span><span class="w">     </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"what you want"</span><span class="p">,</span><span class="w">     </span><span class="nt">"expires_in"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10227</span><span class="w"> </span><span class="p">}</span></code></li>
   <li>The <code class="highlighter-rouge">id/</code> prefix is used to register an identity, see <a href="https://nameid.org/">NameID</a>.</li>
   <li>Energy-efficient: if you are already mining bitcoins you can merge-mine namecoins at no extra cost for hardware and electricity. Examples for merge-mining pools: mmpool.org, eligius.st, p2pool.org and many others.</li>
 </ul>
@@ -771,6 +775,24 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/faq/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
