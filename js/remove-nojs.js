@@ -8,8 +8,8 @@ var taglines = [
     '<strong>Against<br />censorship.</strong>',
     '<strong>Supporting<br />free speech.</strong>',
     'Decentralized<br /><strong>secure</strong> names.',
-    '<b>Decentralize</b><br>all the things!',
-    '<b>Freedom</b><br>of information.'
+    '<strong>Decentralize</strong><br>all the things!',
+    '<strong>Freedom</strong><br>of information.'
     ];
 var rand = taglines[Math.floor(Math.random() * taglines.length)];
 document.getElementById("tagline").innerHTML = rand;

@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Against<br />censorship.</strong>
 </noscript>
 </p></div></div>
 
@@ -405,7 +409,7 @@ Decentralized<br /><strong>secure</strong> names.
   <li>Build is not yet reproducible.</li>
 </ul>
 
-<h2 id="cross_sign_name_constraint_tool">cross_sign_name_constraint_tool</h2>
+<h2 id="crosssignnameconstrainttool">cross_sign_name_constraint_tool</h2>
 
 <p>This tool applies a name constraint exclusion to a DER-encoded TLS trust anchor via cross-signing, without that trust anchor’s consent. The intended use case is to disallow a CA from issuing certificates for a domain name that it has no legitimate business issuing certificates for. For example:</p>
 
@@ -474,7 +478,7 @@ Decentralized<br /><strong>secure</strong> names.
   <li>Build is not yet reproducible.</li>
 </ul>
 
-<h2 id="tlsrestrict_nss_tool">tlsrestrict_nss_tool</h2>
+<h2 id="tlsrestrictnsstool">tlsrestrict_nss_tool</h2>
 
 <p>This tool applies a name constraint exclusion to an NSS sqlite database for all CKBI (built-in) TLS trust anchors, without those trust anchors’ consent. The intended use case is to disallow public CA’s from issuing certificates for TLD’s with unique regulatory or policy requirements, such as:</p>
 
@@ -572,6 +576,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/download/betas/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

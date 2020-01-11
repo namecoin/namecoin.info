@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Against<br />censorship.</strong>
 </noscript>
 </p></div></div>
 
@@ -254,88 +258,88 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Example usage (Dehydrated form):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit
+<div class="highlighter-rouge"><pre class="codehilite"><code>$ ./generate_nmc_cert -host www.example.bit
 2019/12/11 06:47:41 written cert.pem
 2019/12/11 06:47:41 written key.pem
 2019/12/11 06:47:41 Your Namecoin cert is: {"d8":[1,"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEOcD7/hnngrlW3XrTviUjXHgbvraj3mw7Wa872Iti6Dp0Jrb9P6ZsINAZSU4mucH37zX7/pscyb6UBO08SqDP+w==",5253561,5358681,10,"MEUCIQDQF/IAHUv1UqGTGrWMvu/Tfj6PiNRBb3eTerpyZmTJjAIgeEc3a8yyNY09PrDSGkEOh0T6ZmVqbesqnZVLYszEnWI="]}
 2019/12/11 06:47:41 SUCCESS: The cert rehydrated to an identical form.  Place the generated files in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre></div></div>
+</code></pre></div>
 
 <p>To produce a Constrained certificate instead, use the <code class="highlighter-rouge">-use-ca</code> command-line flag, like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca
+<div class="highlighter-rouge"><pre class="codehilite"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca
 2019/12/11 06:54:39 Your CA's "tls" record is: [2, 1, 0, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEm1nvuS+A5WFgafCeYmzVSZOsokU1Fmnh5ZiBC7h0pRkbkx7cCA/MYPPh6zDdMB75ELvXSt0eLaoQQYaz1QDijw=="]
 2019/12/11 06:54:39 written caKey.pem
 2019/12/11 06:54:39 written cert.pem
 2019/12/11 06:54:39 written key.pem
 2019/12/11 06:54:39 SUCCESS.  Place cert.pem and key.pem in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre></div></div>
+</code></pre></div>
 
 <p>If you’re using the Constrained form, you can produce multiple certificates for a single Namecoin record.  This allows you to, for example, rotate TLS keys periodically without needing to update your Namecoin record.  To create a new certificate using an existing Namecoin record, set the <code class="highlighter-rouge">-parent-key</code> command-line argument to the <code class="highlighter-rouge">caKey.pem</code> file that you created with the first certificate, like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca -parent-key ./caKey-www.example.bit.pem
+<div class="highlighter-rouge"><pre class="codehilite"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca -parent-key ./caKey-www.example.bit.pem
 2019/12/11 07:11:06 Using existing CA private key
 2019/12/11 07:11:06 Your CA's "tls" record is: [2, 1, 0, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEm1nvuS+A5WFgafCeYmzVSZOsokU1Fmnh5ZiBC7h0pRkbkx7cCA/MYPPh6zDdMB75ELvXSt0eLaoQQYaz1QDijw=="]
 2019/12/11 07:11:06 written cert.pem
 2019/12/11 07:11:06 written key.pem
 2019/12/11 07:11:06 SUCCESS.  Place cert.pem and key.pem in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre></div></div>
+</code></pre></div>
 
 <p>By default, certificates use the P256 curve and are valid from generation time for approximately 1 year.  Users who know what they are doing can choose different ECDSA curves or validity periods; use the <code class="highlighter-rouge">-help</code> command-line flag to see the list of available options.</p>
 
 <p>The JSON object displayed should be enclosed in an array, and placed in the <code class="highlighter-rouge">tls</code> field for the domain where you want the TLSA record to appear.  Usually, this will be the <code class="highlighter-rouge">_443._tcp</code> subdomain of the domain name that points to the website.  An example of a typical configuration (using the Dehydrated form) is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-    "ip": "73.239.16.12", 
-    "map": {
-        "_tcp": {
-            "map": {
-                "_443": {
-                    "tls": [
-                        {
-                            "d8": [
-                                1, 
-                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
-                                4944108, 
-                                5259468, 
-                                10, 
-                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
-                            ]
-                        }
-                    ]
-                }
-            }
-        }
-    }
-}
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"73.239.16.12"</span><span class="p">,</span><span class="w"> 
+    </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"_tcp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"_443"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="nt">"tls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                        </span><span class="p">{</span><span class="w">
+                            </span><span class="nt">"d8"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                                </span><span class="mi">1</span><span class="p">,</span><span class="w"> 
+                                </span><span class="s2">"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA=="</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">4944108</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">5259468</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">10</span><span class="p">,</span><span class="w"> 
+                                </span><span class="s2">"MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="</span><span class="w">
+                            </span><span class="p">]</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">]</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 
 <p>Remember that if you have an <code class="highlighter-rouge">ns</code> record above the <code class="highlighter-rouge">tls</code> record, the <code class="highlighter-rouge">ns</code> record will suppress the <code class="highlighter-rouge">tls</code> record.  For example, the following configuration will <strong>not</strong> work:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-    "ns": "ns21.cloudns.net.",
-    "map": {
-        "_tcp": {
-            "map": {
-                "_443": {
-                    "tls": [
-                        {
-                            "d8": [
-                                1, 
-                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
-                                4944108, 
-                                5259468, 
-                                10, 
-                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
-                            ]
-                        }
-                    ]
-                }
-            }
-        }
-    }
-}
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"ns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ns21.cloudns.net."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"_tcp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"map"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nt">"_443"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="nt">"tls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                        </span><span class="p">{</span><span class="w">
+                            </span><span class="nt">"d8"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                                </span><span class="mi">1</span><span class="p">,</span><span class="w"> 
+                                </span><span class="s2">"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA=="</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">4944108</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">5259468</span><span class="p">,</span><span class="w"> 
+                                </span><span class="mi">10</span><span class="p">,</span><span class="w"> 
+                                </span><span class="s2">"MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="</span><span class="w">
+                            </span><span class="p">]</span><span class="w">
+                        </span><span class="p">}</span><span class="w">
+                    </span><span class="p">]</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 
 <p>The <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
 
@@ -363,6 +367,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/tls/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

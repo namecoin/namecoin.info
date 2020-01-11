@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Decentralize</strong><br>all the things!
 </noscript>
 </p></div></div>
 
@@ -266,8 +270,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>If you want to build from source:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go get github.com/namecoin/ncprop279
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="codehilite"><code>go get github.com/namecoin/ncprop279
+</code></pre></div>
 
 <h2 id="install-stemns">Install StemNS</h2>
 
@@ -275,11 +279,11 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The <code class="highlighter-rouge">_service_to_command</code> configuration in  <code class="highlighter-rouge">settings_services.py</code> should look like this (fill in the path to where your ncprop279 binary is located accordingly):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_service_to_command = {
+<div class="highlighter-rouge"><pre class="codehilite"><code>_service_to_command = {
     "bit.onion": ['/path/to/ncprop279'],
     "bit": ['/path/to/ncprop279'],
 }
-</code></pre></div></div>
+</code></pre></div>
 
 <p>If you’re using Tor Browser Bundle, or are otherwise using a non-default Tor control port, you’ll need to update the control port in   <code class="highlighter-rouge">settings_port.py</code>.</p>
 
@@ -287,8 +291,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Tor must be configured with the following option:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>__LeaveStreamsUnattached 1
-</code></pre></div></div>
+<div class="highlighter-rouge"><pre class="codehilite"><code>__LeaveStreamsUnattached 1
+</code></pre></div>
 
 <p>In a typical Tor Browser installation, <code class="highlighter-rouge">torrc-defaults</code> is the correct place to add this option.</p>
 
@@ -323,6 +327,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tor-resolution/ncprop279/stemns/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

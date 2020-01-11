@@ -6,9 +6,72 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 09 Jan 2020 22:22:48 +0000</pubDate>
-    <lastBuildDate>Thu, 09 Jan 2020 22:22:48 +0000</lastBuildDate>
-    <generator>Jekyll v3.6.0</generator>
+    <pubDate>Sat, 11 Jan 2020 02:09:06 +0000</pubDate>
+    <lastBuildDate>Sat, 11 Jan 2020 02:09:06 +0000</lastBuildDate>
+    <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>36C3 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2019/12/20/36c3.html&quot;&gt;previously announced&lt;/a&gt;, I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2019/wiki/index.php/Main_Page&quot;&gt;36C3&lt;/a&gt; in Leipzig, Germany.  As usual, it was an excellent event.  As usual for conferences that I attend, I engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
+
+&lt;p&gt;Namecoin gave 2 talks, as well as a workshop, all of which were hosted by the Monero Assembly and the Critical Decentralization Cluster (CDC).  Here are the slides and videos of Namecoin’s talks, as well as the notes from Namecoin’s workshop:&lt;/p&gt;
+
+&lt;h2 id=&quot;lightning-talk-intro-to-namecoin&quot;&gt;Lightning talk: Intro to Namecoin&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Namecoin is a blockchain (first project forked from Bitcoin) that implements a decentralized DNS and public key infrastructure, which is resistant to censorship, hijacking, and other tampering. This talk will explain the basics of how Namecoin works and what it can be used for.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/Namecoin_Introduction_36C3_CDC.pdf&quot;&gt;Slides are here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/Xu_QH6oi7oA?t=4763&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;lecture-adventures-and-experiments-adding-namecoin-to-tor-browser&quot;&gt;Lecture: Adventures and Experiments Adding Namecoin to Tor Browser&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this talk, I’ll cover the goals of the experiment, the work that went into getting here, and the work that remains to be done.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Disclaimer: Although the work covered in this talk is a collaboration between Namecoin and Tor, this talk is solely from Namecoin’s perspective.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/Adventures_and_Experiments_Adding_Namecoin_to_Tor_Browser_36C3_CDC.pdf&quot;&gt;Slides are here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://youtu.be/mc51zyflpa8?t=22638&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;workshop-demo-and-discussion-namecoin-in-tor-browser&quot;&gt;Workshop: Demo and Discussion: Namecoin in Tor Browser&lt;/h2&gt;
+
+&lt;p&gt;Workshop Host: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this workshop, you’ll be able to try it out yourself. Bring a GNU/Linux machine (bare-metal or VM are both fine). After the demo, I’d love your feedback on what our next steps should be in this area.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I highly recommend attending my talk “Adventures and Experiments Adding Namecoin to Tor Browser” prior to this workshop, but this is not a hard requirement; attendees who didn’t attend that talk are still welcome.&lt;/p&gt;
+
+&lt;p&gt;Disclaimer: Although the work covered in this workshop is a collaboration between Namecoin and Tor, this workshop is solely from Namecoin’s perspective.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/tor-workshop/&quot;&gt;Notes are here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The Monero Assembly&lt;/li&gt;
+  &lt;li&gt;The Critical Decentralization Cluster&lt;/li&gt;
+  &lt;li&gt;Replicant&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We’re looking forward to 37C3 in December 2020!&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/01/11/36c3-summary.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/01/11/36c3-summary.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core 0.19.0.1 Released</title>
@@ -33,7 +96,7 @@
       </item>
     
       <item>
-        <title>Namecoin's Jeremy Rand will be at 36C3</title>
+        <title>Namecoin&#39;s Jeremy Rand will be at 36C3</title>
         <description>&lt;p&gt;You might have noticed a relative quietness on this news feed and on our social media in the last few months.  If you’re a particularly astute student of history, you might have noticed that something very similar happened around the same time last year, and that this was because Aerth and I were busy cooking up ncp11 for a 35C3 talk and workshop.  If you’ve gotten that far, you might have gone one step further and guessed that something similar is responsible for the quietness this year.  You’d be right!  I (Jeremy Rand) will represent Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2019/wiki/index.php/Main_Page&quot;&gt;36C3 (the 36th Chaos Communication Congress)&lt;/a&gt; in Leipzig, December 27-30.  (Alas, Jonas and Cassini won’t be there this year.)&lt;/p&gt;
 
 &lt;p&gt;Unfortunately, we’re running &lt;em&gt;very&lt;/em&gt; down to the wire on our content for 36C3.  To the point that we are not yet sure which content we’ll be able to present.  We’re doing everything in our power to try to ensure that we’ll have a kickass talk and workshop ready for you at 36C3, but it is likely that the details will not be finalized until shortly before the Congress begins.  The good news is that this is for a good reason: the content we &lt;em&gt;want&lt;/em&gt; to be able to present at 36C3 is, arguably, even cooler than ncp11 last year.&lt;/p&gt;
@@ -314,29 +377,6 @@
         <pubDate>Tue, 05 Nov 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/11/05/matching-tor-browser-build-conventions-in-ncdns-repro.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/11/05/matching-tor-browser-build-conventions-in-ncdns-repro.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Porting DNSSEC-HSTS to Chrome</title>
-        <description>&lt;p&gt;As was discussed in my 35C3 slides, DNSSEC-HSTS is a WebExtension that prevents sslstrip attacks by using DNSSEC.  DNSSEC-HSTS is already available for Firefox, but (as a WebExtension) it should be easily portable to Chrome.  Not so fast: Chrome has a number of quirks that make this nontrivial.&lt;/p&gt;
-
-&lt;p&gt;First off, Chrome doesn’t support asynchronous blocking WebRequest, which is a feature that DNSSEC-HSTS uses in order to retrieve DNS data from a native application.  I was able to work around this by converting the native messaging code used in the Firefox version into a standard HTTP request for Chrome.  HTTP is substantially less secure than native messaging, but since the Chrome developers don’t seem to have any interest in security, we have to accept the reality that Chrome users will have less security than Firefox users.&lt;/p&gt;
-
-&lt;p&gt;Second, Chrome doesn’t support SVG images as extension logos, which was causing Chrome to reject the DNSSEC-HSTS extension.  This was quite trivial to work around, since the Namecoin logo is also available as a PNG image.&lt;/p&gt;
-
-&lt;p&gt;Third, Chrome doesn’t support loading unpacked extensions from the system.  (Chromium, as packaged by many GNU/Linux distros, does support this, but Google’s binaries do not.)  I was able to work around this by packaging DNSSEC-HSTS as a CRX file.  Unfortunately, I’m not aware of any existing tools for supporting detached signatures for CRX files, which means that the CRX version of DNSSEC-HSTS will probably not be possible to build reproducibly.  This is unfortunate, but again, we have to accept the reality that the Chrome developers simply don’t care about security, so Chrome users are going to have less security than Firefox users.&lt;/p&gt;
-
-&lt;p&gt;With these changes, DNSSEC-HSTS appears to work on Chrome; the changes will be included in the next release.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/10/23/porting-dnssec-hsts-to-chrome.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/10/23/porting-dnssec-hsts-to-chrome.html</guid>
         
         <category>News</category>
         

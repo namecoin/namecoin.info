@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -241,6 +245,10 @@ Decentralized<br /><strong>secure</strong> names.
     <div id="content">
       <div class="container-fluid">
         
+
+
+
+
 
 
 
@@ -738,7 +746,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Oh, wait.  We’re talking about Microsoft.  <em>Everything</em> is complicated, usually for no discernable reason whatsoever.  Also, the most complicated things usually have the least documentation.  I know people who have long-ago adopted a policy of getting their Windows documentation from the ReactOS source code instead of the Microsoft website, because a small, minimally funded project that’s reverse-engineering everything writes more accurate documentation than the wildly successful company who actually engineered the system and wrote the original source code.  Anyway, I looked at the contents of the binary blob in the registry, and noticed that it didn’t look right.  More specifically, it wasn’t a DER-encoded x.509 structure, nor was it even PEM-encoded.  Actually, there was a substring that <em>did</em> correspond to the DER-encoded x.509 structure, but there was a crapload of extra data too.  For reference, it looked like this (in <code class="highlighter-rouge">.reg</code> format):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Windows Registry Editor Version 5.00
+<div class="highlighter-rouge"><pre class="codehilite"><code>Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\SystemCertificates\trust\Certificates\BBC2FAE0B710372FC293E092904F7E628D3D4546]
 "Blob"=hex:04,00,00,00,01,00,00,00,10,00,00,00,97,30,35,47,95,5b,3b,e4,05,71,\
@@ -768,7 +776,7 @@ Decentralized<br /><strong>secure</strong> names.
   18,c7,de,6f,42,89,27,47,08,90,e1,ed,bb,23,e0,d7,51,69,04,f0,be,9d,98,bc,00,\
   88,69,dc,02,20,5b,b4,45,f5,9e,76,48,37,1d,58,1b,34,f9,17,1f,12,c6,98,cb,c0,\
   d0,d3,50,19,2a,db,63,69,6b,31,cb,20
-</code></pre></div></div>
+</code></pre></div>
 
 <p>Just to see what would happen, I took a raw DER-encoded x.509 certificate and shoved it into the registry to see if CryptoAPI would accept it, but of course it didn’t, so I needed to figure out what that extra data was.  Now, as a middle school student, as a high school student, and as an undergraduate student (though sadly not as a graduate student), I did a lot of reverse-engineering of various binary formats (making a Mega Drive Zero Wing ROM include custom dialogue between “Cracker” and “Admin” about how “All your 802.11b are belong to us” and that “You are on the way to DDoS microsoft.com” was a few days of work in 7th grade).  So I was quite ready to go that route.  However, I learned long ago that it’s always better to spend a few hours on Google to see if someone else has already done your dirty work for you, because usually someone has.  So I did that.</p>
 
@@ -940,6 +948,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-05-27-reverse-engineering-cryptoapi-cert-blobs.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

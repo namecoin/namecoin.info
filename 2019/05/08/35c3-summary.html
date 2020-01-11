@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -241,6 +245,10 @@ Decentralized<br /><strong>secure</strong> names.
     <div id="content">
       <div class="container-fluid">
         
+
+
+
+
 
 
 
@@ -356,7 +364,7 @@ Decentralized<br /><strong>secure</strong> names.
 </header>
 
 <article class="post-content">
-<p>As was <a href="/2018/12/22/35c3.html">previously announced</a>, Jonas Ostman, Cassini, and I (Jeremy Rand) represented Namecoin at <a href="https://events.ccc.de/congress/2017/wiki/index.php/Main_Page">35C3</a> in Leipzig, Germany.  Same as last year, we had an awesome time there.  As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  However, the first fruits of those discussions started showing up on GitHub by January 2019, so hopefully you won’t be waiting too long.  I <em>would</em> like to give a special shout-out to Diego “rehrar” Salazar and Dimi “m2049r” Divak from the Monero community, with whom I spent quite a lot of time hanging out during the Congress – very fun people to talk to.</p>
+<p>As was <a href="/2018/12/22/35c3.html">previously announced</a>, Jonas Ostman, Cassini, and I (Jeremy Rand) represented Namecoin at <a href="https://events.ccc.de/congress/2018/wiki/index.php/Main_Page">35C3</a> in Leipzig, Germany.  Same as last year, we had an awesome time there.  As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  However, the first fruits of those discussions started showing up on GitHub by January 2019, so hopefully you won’t be waiting too long.  I <em>would</em> like to give a special shout-out to Diego “rehrar” Salazar and Dimi “m2049r” Divak from the Monero community, with whom I spent quite a lot of time hanging out during the Congress – very fun people to talk to.</p>
 
 <p>Namecoin gave 2 talks, as well as a workshop, all of which were hosted by the Monero Assembly and the Critical Decentralization Cluster (CDC).  We’re still waiting for the CDC to post videos of Namecoin’s talks, but in the meantime, here are the slides from Namecoin’s talks, as well as the notes from Namecoin’s workshop:</p>
 
@@ -911,6 +919,24 @@ Decentralized<br /><strong>secure</strong> names.
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-05-08-35c3-summary.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>

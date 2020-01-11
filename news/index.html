@@ -39,7 +39,10 @@ h2 {
 
 body > footer {
     background: #292e3c url(/images/fancy.jpg) center bottom;
-    height: 99px;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -233,7 +236,8 @@ html.nojs .navbar-header {
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
-Decentralized<br /><strong>secure</strong> names.
+
+<strong>Against<br />censorship.</strong>
 </noscript>
 </p></div></div>
 
@@ -248,6 +252,70 @@ Decentralized<br /><strong>secure</strong> names.
 
   <article class="post-content">
     
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">36C3 Summary</h1>
+    <p class="post-meta">Jan 11, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>As was <a href="/2019/12/20/36c3.html">previously announced</a>, I (Jeremy Rand) represented Namecoin at <a href="https://events.ccc.de/congress/2019/wiki/index.php/Main_Page">36C3</a> in Leipzig, Germany.  As usual, it was an excellent event.  As usual for conferences that I attend, I engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.</p>
+
+    <p>Namecoin gave 2 talks, as well as a workshop, all of which were hosted by the Monero Assembly and the Critical Decentralization Cluster (CDC).  Here are the slides and videos of Namecoin’s talks, as well as the notes from Namecoin’s workshop:</p>
+
+    <h2 id="lightning-talk-intro-to-namecoin">Lightning talk: Intro to Namecoin</h2>
+
+    <p>Speaker: Jeremy Rand</p>
+
+    <p><em>Namecoin is a blockchain (first project forked from Bitcoin) that implements a decentralized DNS and public key infrastructure, which is resistant to censorship, hijacking, and other tampering. This talk will explain the basics of how Namecoin works and what it can be used for.</em></p>
+
+    <p><a href="/resources/presentations/36C3/Namecoin_Introduction_36C3_CDC.pdf">Slides are here.</a></p>
+
+    <p><a href="https://youtu.be/Xu_QH6oi7oA?t=4763">Video is here.</a></p>
+
+    <h2 id="lecture-adventures-and-experiments-adding-namecoin-to-tor-browser">Lecture: Adventures and Experiments Adding Namecoin to Tor Browser</h2>
+
+    <p>Speaker: Jeremy Rand</p>
+
+    <p><em>The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this talk, I’ll cover the goals of the experiment, the work that went into getting here, and the work that remains to be done.</em></p>
+
+    <p>Disclaimer: Although the work covered in this talk is a collaboration between Namecoin and Tor, this talk is solely from Namecoin’s perspective.</p>
+
+    <p><a href="/resources/presentations/36C3/Adventures_and_Experiments_Adding_Namecoin_to_Tor_Browser_36C3_CDC.pdf">Slides are here.</a></p>
+
+    <p><a href="https://youtu.be/mc51zyflpa8?t=22638">Video is here.</a></p>
+
+    <h2 id="workshop-demo-and-discussion-namecoin-in-tor-browser">Workshop: Demo and Discussion: Namecoin in Tor Browser</h2>
+
+    <p>Workshop Host: Jeremy Rand</p>
+
+    <p><em>The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this workshop, you’ll be able to try it out yourself. Bring a GNU/Linux machine (bare-metal or VM are both fine). After the demo, I’d love your feedback on what our next steps should be in this area.</em></p>
+
+    <p>I highly recommend attending my talk “Adventures and Experiments Adding Namecoin to Tor Browser” prior to this workshop, but this is not a hard requirement; attendees who didn’t attend that talk are still welcome.</p>
+
+    <p>Disclaimer: Although the work covered in this workshop is a collaboration between Namecoin and Tor, this workshop is solely from Namecoin’s perspective.</p>
+
+    <p><a href="/resources/presentations/36C3/tor-workshop/">Notes are here.</a></p>
+
+    <h2 id="thanks">Thanks</h2>
+
+    <p>Huge thank you to the following groups who facilitated our participation:</p>
+
+    <ul>
+  <li>The Monero Assembly</li>
+  <li>The Critical Decentralization Cluster</li>
+  <li>Replicant</li>
+</ul>
+
+    <p>We’re looking forward to 37C3 in December 2020!</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+
+  </article>
+
+</div>
+
 <div class="post">
 
   <header class="post-header">
@@ -1112,7 +1180,7 @@ Decentralized<br /><strong>secure</strong> names.
   </header>
 
   <article class="post-content">
-    <p>As was <a href="/2018/12/22/35c3.html">previously announced</a>, Jonas Ostman, Cassini, and I (Jeremy Rand) represented Namecoin at <a href="https://events.ccc.de/congress/2017/wiki/index.php/Main_Page">35C3</a> in Leipzig, Germany.  Same as last year, we had an awesome time there.  As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  However, the first fruits of those discussions started showing up on GitHub by January 2019, so hopefully you won’t be waiting too long.  I <em>would</em> like to give a special shout-out to Diego “rehrar” Salazar and Dimi “m2049r” Divak from the Monero community, with whom I spent quite a lot of time hanging out during the Congress – very fun people to talk to.</p>
+    <p>As was <a href="/2018/12/22/35c3.html">previously announced</a>, Jonas Ostman, Cassini, and I (Jeremy Rand) represented Namecoin at <a href="https://events.ccc.de/congress/2018/wiki/index.php/Main_Page">35C3</a> in Leipzig, Germany.  Same as last year, we had an awesome time there.  As usual for conferences that we attend, we engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.  However, the first fruits of those discussions started showing up on GitHub by January 2019, so hopefully you won’t be waiting too long.  I <em>would</em> like to give a special shout-out to Diego “rehrar” Salazar and Dimi “m2049r” Divak from the Monero community, with whom I spent quite a lot of time hanging out during the Congress – very fun people to talk to.</p>
 
     <p>Namecoin gave 2 talks, as well as a workshop, all of which were hosted by the Monero Assembly and the Critical Decentralization Cluster (CDC).  We’re still waiting for the CDC to post videos of Namecoin’s talks, but in the meantime, here are the slides from Namecoin’s talks, as well as the notes from Namecoin’s workshop:</p>
 
@@ -2191,10 +2259,8 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
     <p><code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (or its underlying library) is used by other Namecoin projects, such as <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (which integrates <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> easy to use on Windows).  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to fail with an error like this:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&lt;nil&gt; tag:&lt;nil&gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
+      <pre class="codehilite"><code>Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&lt;nil&gt; tag:&lt;nil&gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
 </code></pre>
-      </div>
     </div>
 
     <p>The error only occurs with a small subset of CA certificates; the specific CA that triggered this error for me was <code class="highlighter-rouge">Verisign Class 3 Public Primary Certification Authority - G3</code> (which is trusted by Fedora).</p>
@@ -2613,10 +2679,8 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
     <p>First off, I wanted to build Firefox in rbm without any changes.  This was actually quite easy – The Tor Project’s documentation is quite good, and I didn’t run into any snags (besides the issue that I initially assigned too little storage to the VM where I was doing this – The Tor Project should probably document the expected storage requirements).  The build command I used was:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
+      <pre class="codehilite"><code>./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
 </code></pre>
-      </div>
     </div>
 
     <p>Next, I looked at Tor’s Firefox build script… and I was delighted to see that Tor is <em>already</em> building <code class="highlighter-rouge">certutil</code>.  In fact, you can <a href="http://rqef5a5mebgq46y5.onion/torbrowser/">download <code class="highlighter-rouge">certutil</code> binaries from The Tor Project’s download server</a> right now!  (You want the <code class="highlighter-rouge">mar-tools-*.zip</code> packages.)  Except… their build script discards the <code class="highlighter-rouge">certutil</code> binaries for all non-GNU/Linux targets.  How sad.</p>
@@ -2860,8 +2924,7 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
     <p>Here’s the Go struct that’s returned when an x509 certificate’s raw DER form is passed to the <code class="highlighter-rouge">ParseCertificate</code> function in the standard library’s <code class="highlighter-rouge">x509</code> package:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>// A Certificate represents an X.509 certificate.
+      <pre class="codehilite"><code>// A Certificate represents an X.509 certificate.
 type Certificate struct {
 	Raw                     []byte // Complete ASN.1 DER content (certificate, signature algorithm and signature).
 	RawTBSCertificate       []byte // Certificate part of raw ASN.1 DER content.
@@ -2961,7 +3024,6 @@ type Certificate struct {
 	PolicyIdentifiers []asn1.ObjectIdentifier
 }
 </code></pre>
-      </div>
     </div>
 
     <p>Holy crap, that’s a lot of parsing that’s clearly happening.  Among other things, we can even see special types being used for date/time values, IP addresses, and URL’s.  I definitely don’t want all that stuff being added to the attack surface of my cross-signing code – it seems almost certain that some mutation would end up happening, and it would be insane to try to audit the safety of whatever mutation occurs.</p>
@@ -2969,8 +3031,7 @@ type Certificate struct {
     <p>However, under the hood, after the above monstrosity is serialized and is ready to be signed, a far more manageable set of structs is used by the <code class="highlighter-rouge">x509</code> package for the actual signing procedure:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>// These structures reflect the ASN.1 structure of X.509 certificates.:
+      <pre class="codehilite"><code>// These structures reflect the ASN.1 structure of X.509 certificates.:
 
 type certificate struct {
 	Raw                asn1.RawContent
@@ -2993,7 +3054,6 @@ type tbsCertificate struct {
 	Extensions         []pkix.Extension `asn1:"optional,explicit,tag:3"`
 }
 </code></pre>
-      </div>
     </div>
 
     <p>Readers unfamiliar with Go programming should note that in Go, structs whose name has an uppercase first letter are public (accessible by code outside the Go standard library’s <code class="highlighter-rouge">x509</code> package), while structs whose name has a lowercase first letter are private (only accessible from the Go standard library’s <code class="highlighter-rouge">x509</code> package).  These more manageable structs are private, so we can’t access them directly.  But, the important thing to note is that when a raw DER-encoded byte array is parsed into a crazy-complicated <code class="highlighter-rouge">Certificate</code>, as well as when a crazy-complicated <code class="highlighter-rouge">Certificate</code> is signed (resulting in a raw DER-encoded byte array), these private structs (<code class="highlighter-rouge">certificate</code> and <code class="highlighter-rouge">tbsCertificate</code>) are used as intermediate steps, and are actually processed by the <code class="highlighter-rouge">asn1</code> package (not the <code class="highlighter-rouge">x509</code> package) when converting to and from raw DER-encoded byte arrays.</p>
@@ -3019,8 +3079,7 @@ type tbsCertificate struct {
     <p>When a field is of type <code class="highlighter-rouge">asn1.RawValue</code>, it means that Go won’t try to parse its content in any way (it’s just a binary blob).  This is exactly the behavior we want for all the fields that we pass-through.  Unfortunately, <code class="highlighter-rouge">tbsCertificate</code> has a bunch of other fields besides the above 5 replaced fields that aren’t of the type <code class="highlighter-rouge">asn1.RawValue</code>.  What can we do about that?  Well, since these are private structs to the <code class="highlighter-rouge">x509</code> package, we’re clearly going to have to copy their definitions anyway – so how about we simplify them while we’re at it?  Below are my modified structs:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>// These are modified from the x509 package; they store any field that isn't
+      <pre class="codehilite"><code>// These are modified from the x509 package; they store any field that isn't
 // replaced by cross-signing as an asn1.RawValue.
 
 type certificate struct {
@@ -3044,7 +3103,6 @@ type tbsCertificate struct {
 	Extensions         []asn1.RawValue `asn1:"optional,explicit,tag:3"`
 }
 </code></pre>
-      </div>
     </div>
 
     <p>From there, I created a modified version of the <code class="highlighter-rouge">x509</code> package’s signing code, which creates a <code class="highlighter-rouge">tbsCertificate</code> by parsing the original CA certificate that we’re cross-signing (instead of populating it with serialized data from the crazy-complicated <code class="highlighter-rouge">Certificate</code> struct as the <code class="highlighter-rouge">x509</code> package does), and then signs it (via ECDSA) and serializes it (via the <code class="highlighter-rouge">asn1</code> package) as usual.  It then outputs a DER-encoded x509 certificate that’s identical to the original root CA cert, except for the 5 fields that I listed above as relevant to cross-signing.</p>
@@ -3216,22 +3274,18 @@ type tbsCertificate struct {
     <p>For example, this command:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>./ncdumpzone --format=firefox-override --rpcuser=user --rpcpass=pass &gt; firefox.txt
+      <pre class="codehilite"><code>./ncdumpzone --format=firefox-override --rpcuser=user --rpcpass=pass &gt; firefox.txt
 </code></pre>
-      </div>
     </div>
 
     <p>Resulted in the following file being saved:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>nf.bit:443	OID.2.16.840.1.101.3.4.2.1	13:E7:03:D6:A2:70:1E:77:41:21:F5:84:6D:3E:0B:FD:5F:00:B7:6B:47:96:82:E3:A2:B0:54:A0:25:76:0A:1A	U	AAAAAAAAAAAAAAAAAAAAAA==
+      <pre class="codehilite"><code>nf.bit:443	OID.2.16.840.1.101.3.4.2.1	13:E7:03:D6:A2:70:1E:77:41:21:F5:84:6D:3E:0B:FD:5F:00:B7:6B:47:96:82:E3:A2:B0:54:A0:25:76:0A:1A	U	AAAAAAAAAAAAAAAAAAAAAA==
 test.veclabs.bit:443	OID.2.16.840.1.101.3.4.2.1	66:86:29:37:ED:53:B3:CE:2B:9B:A5:30:4D:59:83:35:4C:EC:80:9A:1F:39:DC:37:87:6E:00:4B:AF:08:3E:BA	U	AAAAAAAAAAAAAAAAAAAAAA==
 www.aoeu2code.bit:443	OID.2.16.840.1.101.3.4.2.1	13:E3:2D:1B:05:B5:DC:57:94:3D:17:EC:99:25:3F:AF:54:87:7E:62:FC:51:18:06:B7:F4:87:51:62:3A:3B:1C	U	AAAAAAAAAAAAAAAAAAAAAA==
 markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:CE:75:55:31:C9:DB:60:AF:06:C3:65:E5:28:62:08:20:DD:62:F4:70:0E:7D	U	AAAAAAAAAAAAAAAAAAAAAA==
 </code></pre>
-      </div>
     </div>
 
     <p>These 4 lines correspond to the only 4 TLSA records that exist in the Namecoin blockchain right now.  Obviously, the first part of each line is the domain name and port of the website.  <code class="highlighter-rouge">OID.2.16.840.1.101.3.4.2.1</code> signifies that the fingerprint uses the SHA256 algorithm.  (This is the only one that Firefox has ever supported, but Firefox is designed to be future-proof in case a newer hash function becomes necessary.)  Next comes the fingerprint itself, in uppercase colon-delimited hex.  <code class="highlighter-rouge">U</code> indicates that the positive override is capable of overriding an “untrusted” error (it can’t override validity period or domain name mismatch errors).  The interesting part is <code class="highlighter-rouge">AAAAAAAAAAAAAAAAAAAAAA==</code>, which Mozilla’s source code refers to as a <code class="highlighter-rouge">dbKey</code>.  Mozilla’s source code always calculates this using the issuer and serial number of the certificate.  However, empirically it works just fine if I instead use all 0’s (in the same base64 encoding).  Looking at the Mozilla source code, the dbKey isn’t actually utilized in the process of checking whether an override exists.  I’m not certain exactly what Mozilla is using it for (it seems to be used in a code path that’s related to enumerating all the overrides that exist).  Since the issuer and serial number aren’t always derivable from TLSA records (you generally need either a dehydrated certficate or a full certificate for this; my goal here is to work even if only the SHA256 fingerprint of a cert is known), we just set it to all 0’s.</p>
@@ -3268,10 +3322,8 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
     <p>The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
+      <pre class="codehilite"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
 </code></pre>
-      </div>
     </div>
 
     <p>Allowed <a href="https://nf.bit/">the Namecoin Forum’s <code class="highlighter-rouge">.bit</code> domain</a> to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue <code class="highlighter-rouge">.bit</code> certs that would still be accepted by Chromium).</p>
@@ -3483,10 +3535,8 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
     <p>However, Bleeping Computer is actually substantially wrong on this point.  Why?  Take a look in the Namecha.in block explorer at <a href="https://namecha.in/name/d/bleepingcomputer">the Namecoin value of <code class="highlighter-rouge">bleepingcomputer.bit</code></a>, which is one of the alleged C&amp;C domains:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>{"ns":["A.DNSPOD.COM","B.DNSPOD.COM"]}
-</code></pre>
-      </div>
+      <pre class="codehilite"><code><span class="p">{</span><span class="nt">"ns"</span><span class="p">:[</span><span class="s2">"A.DNSPOD.COM"</span><span class="p">,</span><span class="s2">"B.DNSPOD.COM"</span><span class="p">]}</span><span class="w">
+</span></code></pre>
     </div>
 
     <p>First off, note that this is actually a completely invalid Namecoin configuration, because <a href="https://help.directadmin.com/item.php?id=541">the trailing period is missing</a> from the authoritative nameserver addresses, so any DNS software that tries to process that Namecoin domain will return <code class="highlighter-rouge">SERVFAIL</code>.  Second, note that the authoritative nameservers listed are… the <code class="highlighter-rouge">dnspod.com</code> nameservers.  This makes it pretty clear that <code class="highlighter-rouge">a.dnspod.com</code> isn’t actually a Namecoin DNS inproxy.  If it were, and even if the trailing-period fail were corrected in the Namecoin value, the inproxy would end up in a recursion loop.  <code class="highlighter-rouge">a.dnspod.com</code> is actually just a random authoritative nameserver that happens to be serving records for a domain name that ends in <code class="highlighter-rouge">.bit</code>.  <strong>Namecoin isn’t used anywhere by GandCrab, and killing the Namecoin domain wouldn’t have any effect on GandCrab.</strong>  Of course, this raises questions about why exactly that domain name is even registered in Namecoin.  The simplest explanations are:</p>
@@ -3499,12 +3549,10 @@ markasoftware.bit:443	OID.2.16.840.1.101.3.4.2.1	43:B4:EA:FC:FF:25:CC:85:A9:3D:C
     <p>It’s conceivable that <code class="highlighter-rouge">dnspod.com</code>’s nameservers will only allow a <code class="highlighter-rouge">.bit</code> domain’s records to be served from their systems if that <code class="highlighter-rouge">.bit</code> domain’s Namecoin data points to <code class="highlighter-rouge">dnspod.com</code>’s namservers, and it’s further possible that their systems are misconfigured to not notice that the trailing period is missing.  However, this seemed rather unlikely to me.  Why?  Well, first, take a look at the WHOIS data for <code class="highlighter-rouge">dnspod.com</code>:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>Registrar URL: http://www.dnspod.cn
+      <pre class="codehilite"><code>Registrar URL: http://www.dnspod.cn
 Registrar: DNSPod, Inc.
 Registrar IANA ID: 1697
 </code></pre>
-      </div>
     </div>
 
     <p>So DNSPod is apparently an ICANN-accredited DNS registrar, with a primary domain name in China.  Which of these scenarios fits better with Occam’s Razor:</p>
@@ -3519,8 +3567,7 @@ Registrar IANA ID: 1697
     <p>However, since empiricism is informative, Ryan Castellucci tested this with an account on DNSPod, and confirmed that no such validation occurs:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
+      <pre class="codehilite"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 ;; global options: +cmd
@@ -3547,14 +3594,12 @@ jeremyrandissomesortofhumanperson.bit. 600 IN NS a.dnspod.com.
 ;; WHEN: Wed Jan 31 03:04:24 UTC 2018
 ;; MSG SIZE  rcvd: 160
 </code></pre>
-      </div>
     </div>
 
     <p>(Ryan doesn’t own <code class="highlighter-rouge">jeremyrandissomesortofhumanperson.bit</code>.)  Ryan also did the same for <code class="highlighter-rouge">bleepingcomputer.iq</code>, implying that DNSPod isn’t verifying ownership of DNS domain names either:</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
+      <pre class="codehilite"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp bleepingcomputer.iq @a.dnspod.com A
 ;; global options: +cmd
@@ -3581,7 +3626,6 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
 ;; WHEN: Wed Jan 31 03:00:39 UTC 2018
 ;; MSG SIZE  rcvd: 142
 </code></pre>
-      </div>
     </div>
 
     <p>Ryan tried registering a <code class="highlighter-rouge">.onion</code> domain and <code class="highlighter-rouge">bleepingcomputer.malware</code> on DNSPod as well, but these were rejected as invalid TLD’s.  Ryan and I have no clue why <code class="highlighter-rouge">.bit</code> is on DNSPod’s TLD whitelist while <code class="highlighter-rouge">.onion</code> isn’t – probably because a customer asked for it and DNSPod just doesn’t care.</p>
@@ -4403,8 +4447,7 @@ development by Jeremy Rand. This will be incorporated in a future release.</p>
     <p>Oh, wait.  We’re talking about Microsoft.  <em>Everything</em> is complicated, usually for no discernable reason whatsoever.  Also, the most complicated things usually have the least documentation.  I know people who have long-ago adopted a policy of getting their Windows documentation from the ReactOS source code instead of the Microsoft website, because a small, minimally funded project that’s reverse-engineering everything writes more accurate documentation than the wildly successful company who actually engineered the system and wrote the original source code.  Anyway, I looked at the contents of the binary blob in the registry, and noticed that it didn’t look right.  More specifically, it wasn’t a DER-encoded x.509 structure, nor was it even PEM-encoded.  Actually, there was a substring that <em>did</em> correspond to the DER-encoded x.509 structure, but there was a crapload of extra data too.  For reference, it looked like this (in <code class="highlighter-rouge">.reg</code> format):</p>
 
     <div class="highlighter-rouge">
-      <div class="highlight">
-        <pre class="highlight"><code>Windows Registry Editor Version 5.00
+      <pre class="codehilite"><code>Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\SystemCertificates\trust\Certificates\BBC2FAE0B710372FC293E092904F7E628D3D4546]
 "Blob"=hex:04,00,00,00,01,00,00,00,10,00,00,00,97,30,35,47,95,5b,3b,e4,05,71,\
@@ -4435,7 +4478,6 @@ development by Jeremy Rand. This will be incorporated in a future release.</p>
   88,69,dc,02,20,5b,b4,45,f5,9e,76,48,37,1d,58,1b,34,f9,17,1f,12,c6,98,cb,c0,\
   d0,d3,50,19,2a,db,63,69,6b,31,cb,20
 </code></pre>
-      </div>
     </div>
 
     <p>Just to see what would happen, I took a raw DER-encoded x.509 certificate and shoved it into the registry to see if CryptoAPI would accept it, but of course it didn’t, so I needed to figure out what that extra data was.  Now, as a middle school student, as a high school student, and as an undergraduate student (though sadly not as a graduate student), I did a lot of reverse-engineering of various binary formats (making a Mega Drive Zero Wing ROM include custom dialogue between “Cracker” and “Admin” about how “All your 802.11b are belong to us” and that “You are on the way to DDoS microsoft.com” was a few days of work in 7th grade).  So I was quite ready to go that route.  However, I learned long ago that it’s always better to spend a few hours on Google to see if someone else has already done your dirty work for you, because usually someone has.  So I did that.</p>
@@ -5391,6 +5433,24 @@ of the ncdns-nsis installer.</p>
 
         <div class="container-fluid" style="float:right;">
 	    <a href="https://github.com/namecoin/namecoin.org/blob/master/news/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+            </ul>
         </div>
 
         <script src="/js/jquery-1.11.0.min.js"></script>
