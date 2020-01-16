@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Decentralized Web Summit Recap</title>
+    <title>ncdns v0.0.10.3 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -174,7 +174,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2016/07/03/decentralized-web-summit.html">
+    <link rel="canonical" href="https://www.namecoin.org//2020/01/16/ncdns-v0.0.10.3-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -237,7 +237,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -252,553 +252,595 @@ html.nojs .navbar-header {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Decentralized Web Summit Recap</h1>
-<p class="post-meta">Jul 3, 2016 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.0.10.3 Released</h1>
+<p class="post-meta">Jan 16, 2020 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>As was mentioned on the forum and /r/Namecoin, I represented Namecoin at the Decentralized Web Summit at the Internet Archive in San Francisco, June 6 - June 10.  Lots of awesomeness occurred.</p>
+<p>We’ve released ncdns v0.0.10.3.  Here’s what’s new since v0.0.9.2:</p>
 
-<p>I participated in a panel on naming and identity systems on Wednesday.  Other panelists were Christopher Allen (Blockstream), Muneeb Ali (Blockstack), and Joachim Lohkamp (Jolocom); Chelsea Barabas (MIT Center for Civic Media) moderated.  The panel had a diverse set of perspectives, and I think the discussion was informative.</p>
+<ul>
+  <li>DNSSEC-HSTS:
+    <ul>
+      <li>Support Chromium and Google Chrome (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>madns:
+    <ul>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand, merged by Hugo Landau).</li>
+    </ul>
+  </li>
+  <li>ncdns:
+    <ul>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand).</li>
+      <li>Use modern btcd for JSON-RPC client (patch by Jeremy Rand).</li>
+      <li>Make TLSA support disableable at build time (patch by Jeremy Rand).</li>
+      <li>Documentation improvements (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>ncdumpzone:
+    <ul>
+      <li>Fix infinite loop when dumping with Namecoin Core 0.18.0 and higher (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>ncprop279:
+    <ul>
+      <li>Add “Only Onion mode” (patch by Jeremy Rand).</li>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand).</li>
+      <li>Use modern btcd for JSON-RPC client (patch by Jeremy Rand).</li>
+      <li>Make TLSA support disableable at build time (patch by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>qlib:
+    <ul>
+      <li>Fix build error on current Go compiler versions (patch by Zigmund, merged upstream by Miek Gieben).</li>
+      <li>Support configurable timeouts (patch by Jeremy Rand, merged upstream by Miek Gieben).</li>
+    </ul>
+  </li>
+  <li>tlsrestrictnss:
+    <ul>
+      <li>Code quality improvements (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>x509-signature-splice:
+    <ul>
+      <li>Support multiple Go compiler versions (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Bump rbm dependencies to latest releases (patches by Jeremy Rand).</li>
+      <li>Bump NSIS dependencies to latest releases (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+      <li>Build reproducibility improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+</ul>
 
-<p>On Thursday, I did a lightning talk.  The talk briefly introduced Namecoin, and then went on to new developments, specifically new announcements about HTTPS and SPV.  The lightning talk concluded with an invitation to talk to us about collaboration, and a plug for my workshop (which immediately followed).</p>
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
-<p>The workshop was basically an intro to actually using Namecoin.  I walked the attendees through registering domain names and identities, viewing domain names with ncdns, and logging into websites with NameID.  We had some minor technical issues during the workshop (which is to be expected), but nothing too bad.  At the end of the workshop, I showed a demo of the TLS code working.  (Major thanks go out to fellow Namecoin developers Brandon Roberts, Jonas Östman, Joseph Bisch, and Cassini for helping me put together the workshop.)</p>
-
-<p>But of course, I didn’t fly to San Francisco <em>just</em> to do a panel, lightning talk, and workshop.  A major goal was to talk to as many other projects as possible to see where we could collaborate.  (No single project is going to decentralize the entire Web, but working together, we might have a shot.)  I won’t list all the conversations I had on this post, because I want people to be able to talk freely to me at conferences without being worried that the conversation will be posted for the world to see, but the number of orgs I talked to stands at at least 23.  Hopefully we’ll be able to announce some results of these conversations in the near future.</p>
-
-<p>And of course, it wouldn’t be an event by the Internet Archive without archived videos, so here are some of the highlights that Namecoiners will find particularly interesting:</p>
-
-<p><a href="https://archive.org/details/DecentralizedWeb20160609pt1?start=21490">Lightning Talk: Jeremy Rand of Namecoin</a></p>
-
-<p><a href="https://archive.org/details/DecentralizedWeb20160607pt3?start=3015">Builder’s Day Interview: Tamas Kocsis of ZeroNet (uses Namecoin)</a></p>
-
-<p><a href="https://archive.org/details/DecentralizedWeb20160609pt1?start=10987">Lightning Talk: Tamas Kocsis of ZeroNet (uses Namecoin)</a></p>
-
-<p><a href="https://archive.org/details/DecentralizedWeb20160608pt1?start=11888">Naming and User Identities Panel</a></p>
-
-<p>Overall, it was an excellent event.  I highly recommend watching all the other non-Namecoin content as well: <a href="https://archive.org/details/decentralizedwebsummit2016?&amp;sort=publicdate">full archives of all the talks are here</a>.</p>
-
-<p>I also want to thank Brewster Kahle and Wendy Hanamura for organizing the summit, and Kyle Drake of Neocities, Greg Slepak of okTurtles, and John Light of Bitseed for inviting me to attend.  Also thanks to all the other organizers, speakers, and attendees: you’re all awesome.  I really hope that Internet Archive makes this a regular event.</p>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -899,7 +941,7 @@ html.nojs .navbar-header {
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2016-07-03-decentralized-web-summit.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-01-16-ncdns-v0.0.10.3-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
@@ -907,13 +949,13 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
