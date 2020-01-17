@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Contribute</title>
+    <title>ncdns v0.0.10.3 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -174,7 +174,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//contribute/">
+    <link rel="canonical" href="https://www.namecoin.org//2020/01/16/ncdns-v0.0.10.3-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 </head>
 
@@ -237,87 +237,694 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Freedom</strong><br>of information.
 </noscript>
 </p></div></div>
 
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Contribute</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>So you’d like to support Namecoin?  Great!  There are several ways you can help keep Namecoin strong.</p>
 
-<h2 id="donate">Donate</h2>
 
-<p>Donations help our developers pay the bills, and sometimes can even enable new developers to join the project.  <a href="/donate/">You can donate to the Namecoin project here.</a></p>
 
-<h2 id="run-a-full-node">Run a full node</h2>
 
-<p>Full nodes (Namecoin Core nodes) are the core of the Namecoin P2P network.  The more people run full nodes, and the more geographically and jurisdictionally diverse those full nodes are, the stronger the Namecoin P2P network becomes.  Please consider running <a href="/download/#namecoin-core-client-with-qt-name-tab">Namecoin Core</a> on as many of the following networks as you can:</p>
 
-<ul>
-  <li>IPv4 (preferably allowing incoming connections)</li>
-  <li>IPv6 (preferably allowing incoming connections)</li>
-  <li>Ephemeral Tor onion service (<a href="https://github.com/namecoin/namecoin-core/blob/master/doc/tor.md">docs</a>)</li>
-  <li>Stable Tor onion service (<a href="https://github.com/namecoin/namecoin-core/blob/master/doc/tor.md">docs</a>)</li>
-</ul>
+<div class="post">
 
-<h2 id="test-betas">Test betas</h2>
+<header class="post-header">
+<h1 class="post-title">ncdns v0.0.10.3 Released</h1>
+<p class="post-meta">Jan 16, 2020 • Jeremy Rand <i class="fa fa-tags"></i></p>
+</header>
 
-<p>Do you enjoy living on the cutting edge?  Are you highly skilled at breaking things?  You can help us by testing <a href="/download/betas/">beta releases of Namecoin software</a>, and letting us know what we can improve.</p>
-
-<h2 id="run-a-bit-website">Run a <code class="highlighter-rouge">.bit</code> website</h2>
-
-<p>Do you have a website?  Register a <code class="highlighter-rouge">.bit</code> domain for it with Namecoin, enable TLS on it, and tell your website’s visitors that they can optionally access your site via Namecoin.</p>
-
-<p>Don’t have a website?  Ask your favorite websites’ operators to get a <code class="highlighter-rouge">.bit</code> domain.</p>
-
-<h2 id="improve-decentralized-exchange-liquidity">Improve decentralized exchange liquidity</h2>
-
-<p>Decentralized exchanges offer better security and privacy than centralized exchanges.  You can help make decentralized exchanges easier to use by posting buy and sell offers on them.  <a href="/exchanges/#decentralized-exchanges">See the list of decentralized exchanges here.</a></p>
-
-<h2 id="run-a-dns-seed">Run a DNS seed</h2>
-
-<p>DNS seeds help Namecoin users find peers.  You can run a DNS seed via <a href="https://github.com/gombadi/dnsseeder">dnsseeder</a>; ask us for details on Matrix or IRC.</p>
-
-<h2 id="run-an-electrumx-server">Run an ElectrumX server</h2>
-
-<p>ElectrumX servers help Electrum-NMC users synchronize the blockchain more quickly and securely.  You can run one by installing <a href="https://github.com/kyuupichan/electrumx">ElectrumX</a>.  Please consider running ElectrumX on as many of the following networks as you can:</p>
+<article class="post-content">
+<p>We’ve released ncdns v0.0.10.3.  Here’s what’s new since v0.0.9.2:</p>
 
 <ul>
-  <li>Raw IPv4 address</li>
-  <li>Raw IPv6 address</li>
-  <li>Domain name pointing to IPv4 address</li>
-  <li>Domain name pointing to IPv6 address</li>
-  <li>Tor onion service</li>
+  <li>DNSSEC-HSTS:
+    <ul>
+      <li>Support Chromium and Google Chrome (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>madns:
+    <ul>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand, merged by Hugo Landau).</li>
+    </ul>
+  </li>
+  <li>ncdns:
+    <ul>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand).</li>
+      <li>Use modern btcd for JSON-RPC client (patch by Jeremy Rand).</li>
+      <li>Make TLSA support disableable at build time (patch by Jeremy Rand).</li>
+      <li>Documentation improvements (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>ncdumpzone:
+    <ul>
+      <li>Fix infinite loop when dumping with Namecoin Core 0.18.0 and higher (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>ncprop279:
+    <ul>
+      <li>Add “Only Onion mode” (patch by Jeremy Rand).</li>
+      <li>Support stream isolation via EDNS0 (patch by Jeremy Rand).</li>
+      <li>Use modern btcd for JSON-RPC client (patch by Jeremy Rand).</li>
+      <li>Make TLSA support disableable at build time (patch by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>qlib:
+    <ul>
+      <li>Fix build error on current Go compiler versions (patch by Zigmund, merged upstream by Miek Gieben).</li>
+      <li>Support configurable timeouts (patch by Jeremy Rand, merged upstream by Miek Gieben).</li>
+    </ul>
+  </li>
+  <li>tlsrestrictnss:
+    <ul>
+      <li>Code quality improvements (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>x509-signature-splice:
+    <ul>
+      <li>Support multiple Go compiler versions (patch by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Bump rbm dependencies to latest releases (patches by Jeremy Rand).</li>
+      <li>Bump NSIS dependencies to latest releases (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+      <li>Build reproducibility improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="merge-mine-namecoin">Merge-mine Namecoin</h2>
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
-<p>Do you mine Bitcoin at a mining pool?  Consider using a Bitcoin mining pool that also merge-mines Namecoin.  You can help keep Namecoin mining decentralized by using the lowest-hashrate pool available that still meets your requirements, or by using <a href="https://github.com/p2pool/p2pool">P2Pool</a> or solo-mining.</p>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
 
-<h2 id="write-documentation">Write documentation</h2>
-
-<p>Is our documentation not clear about (or just plain missing) something?  Are you good at creating text, image, or video tutorials?  You can help us by improving our documentation.  Talk to us (Matrix or IRC preferred) and we’ll be happy to assist.</p>
-
-<h2 id="write-code">Write code</h2>
-
-<p>Are you a coder?  We’d love some help coding Namecoin!  Talk to us (Matrix or IRC preferred) and we’ll find some tasks that are well-suited to your interests and skill set.</p>
-
-<h2 id="tell-your-friends">Tell your friends</h2>
-
-<p>Are you a journalist?  Do you have a social media platform?  Heck, do you just have a few like-minded friends?  Spread the word about Namecoin and why it matters to you.</p>
-
-  </article>
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -334,7 +941,7 @@ html.nojs .navbar-header {
         </div>
 
         <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/contribute/index.md"><i>Submit corrections or improvements to this page</i></a>
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-01-16-ncdns-v0.0.10.3-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
@@ -342,13 +949,13 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
