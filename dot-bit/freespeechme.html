@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>FreeSpeechMe Is Replaced</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+    /* Work in progress, created by Ben <dotbitgod@gmail.com>. */
+
+body {
+    background: #F7F7F7;
+    background: #292e3c;
+    font-size: 18px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    word-wrap: break-word;
+}
+
+body > header {
+    background: #999;
+}
+
+.lead {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #495f7e;
+}
+
+body > footer {
+    background: #292e3c url(/images/fancy.jpg) center bottom;
+    /* This height makes the background fully cover the footer in Tor Browser
+     * Desktop, even if zoomed in or out a few times
+     */
+    height: 11em;
+}
+
+body > footer > .container, body > footer > .container-fluid {
+    opacity: 0.6;
+    padding-top: 33px;
+}
+
+
+body > footer a, body > footer a:hover {
+    color: #FFF;
+}
+
+nav ul li {
+    display: inline;
+}
+
+#fancy-graphic {
+    height: 350px;
+    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    padding-top: 125px;
+}
+
+#fancy-graphic p {
+    font-size: 4em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #FFF;
+    margin: 0px 0px 0px 40px !important;
+    line-height: 1;
+    text-shadow: 1px 1px 1px #000;
+    opacity: 0.6;
+    position: fixed;
+    z-index: 0;
+}
+
+@media (max-width: 549px) {
+  #fancy-graphic {
+    height: 262.5px;
+    padding-top: 93.75px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 3em;
+  }
+}
+
+@media (max-width: 399px) {
+  #fancy-graphic {
+    height: 218.75px;
+    padding-top: 78.125px;
+  }
+  
+  #fancy-graphic p {
+    font-size: 2.5em;
+  }
+}
+
+#content {
+    position: relative;
+    z-index: 9;
+    background: #F7F7F7;
+    padding: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+/* Fix deeplinks to elements */
+*[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -51px;
+    height: 51px;
+    visibility: hidden;
+}
+
+/* TODO: refactor this */
+@media (max-width: 1003px) and (min-width: 768px) {
+    /* Fix deeplinks to elements (double-height menu bar) */
+    *[id]:before {
+        display: block;
+        content: " ";
+        margin-top: -101px;
+        height: 101px;
+        visibility: hidden;
+    }
+}
+
+/* Fix invisible occlusion caused by above deeplink fix */
+/* Only do headings, otherwise it breaks the top menu bar drop-downs */
+h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+    position: relative;
+    z-index: -1;
+}
+
+/* Begin nojs */
+
+html.nojs .dropdown-toggle:focus + .dropdown-menu, html.nojs .dropdown-toggle:active + .dropdown-menu, html.nojs .dropdown-menu:focus, html.nojs .dropdown-menu:active, html.nojs .dropdown-menu:hover {
+    display: block;
+}
+
+html.nojs .navbar-header {
+    float: left;
+}
+@media (max-width: 767px) {
+    html.nojs .navbar-toggle:focus + .collapse, html.nojs .navbar-toggle:active + .collapse, html.nojs .collapse:focus, html.nojs .collapse:active, html.nojs .collapse:hover {
+        display: block;
+    }
+    
+    html.nojs .collapse {
+        padding-top: 2em;
+        max-height: none;
+    }
+    
+    html.nojs .dropdown-menu {
+        float: none;
+        position: static;
+    }
+}
+@media (min-width: 768px) {
+}
+
+/* End nojs */
+
+    </style>
+    
+    <link rel="canonical" href="https://www.namecoin.org//dot-bit/freespeechme.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+
+<strong>In information</strong><br />we <strong>trust</strong>.
+</noscript>
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">FreeSpeechMe Is Replaced</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>FreeSpeechMe (AKA Convergence for Namecoin) was previously used for Namecoin TLS and Tor support.  This functionality is now implemented by other projects.  See the following links for current replacements:</p>
+
+<ul>
+  <li><a href="/docs/tls-client/">TLS</a></li>
+  <li><a href="/docs/tor-resolution/">Tor</a></li>
+</ul>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" style="float:left;">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" style="float:right;">
+	    <a href="https://github.com/namecoin/namecoin.org/blob/master/dot-bit/freespeechme.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+            </ul>
+        </div>
+
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
