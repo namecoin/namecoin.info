@@ -176,6 +176,10 @@ html.nojs .navbar-header {
     
     <link rel="canonical" href="https://www.namecoin.org//">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
 </head>
 
 
@@ -218,7 +222,6 @@ html.nojs .navbar-header {
                             <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
                             <li><a href="/resources/presentations/">Presentations</a></li>
                             <li><a href="/explorers/">Explorers</a></li>
-                            <li><a href="https://wiki.namecoin.org">Wiki&#10138;</a></li>
                             <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
                         </ul>
                     </li>
@@ -237,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -287,7 +290,7 @@ html.nojs .navbar-header {
       <li>Lookups do not generate network traffic (improves privacy).</li>
     </ul>
 
-    <p><strong>Namecoin</strong> was the first fork of <a href="https://bitcoin.org">Bitcoin</a> and still is one of the most innovative “altcoins”.  It was first to implement <a href="https://bitcoin.stackexchange.com/questions/273/how-does-merged-mining-work">merged mining</a> and a <a href="https://bit.namecoin.org">decentralized DNS</a>.  <strong>Namecoin</strong> was also the first solution to <a href="https://en.wikipedia.org/wiki/Zooko%27s_triangle">Zooko’s Triangle</a>, the long-standing problem of producing a naming system that is simultaneously secure, decentralized, and human-meaningful.</p>
+    <p><strong>Namecoin</strong> was the first fork of <a href="https://bitcoin.org">Bitcoin</a> and still is one of the most innovative “altcoins”.  It was first to implement <a href="https://bitcoin.stackexchange.com/questions/273/how-does-merged-mining-work">merged mining</a> and a <a href="/dot-bit/">decentralized DNS</a>.  <strong>Namecoin</strong> was also the first solution to <a href="https://en.wikipedia.org/wiki/Zooko%27s_triangle">Zooko’s Triangle</a>, the long-standing problem of producing a naming system that is simultaneously secure, decentralized, and human-meaningful.</p>
 
   </div>
 </div>
@@ -296,10 +299,14 @@ html.nojs .navbar-header {
 
 <ul>
   <li><a href="https://nameid.org">Namecoin Identities</a></li>
-  <li><a href="https://bit.namecoin.org/">.bit DNS</a></li>
+  <li><a href="/dot-bit/">.bit DNS</a></li>
 </ul>
 
 <h2 id="news">News</h2>
+
+<p><strong><a href="/2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html">2020-01-26</a></strong> The Tor Project has <a href="https://blog.torproject.org/node/1828">released</a> Tor 0.4.3.1-alpha.  Among the usual interesting changes, Namecoin users will be interested to note that Tor 0.4.3.1-alpha includes <a href="/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">Namecoin’s stream isolation patch for Tor controllers such as StemNS</a>, which paves the way for better Namecoin resolution support for Tor.  Kudos to The Tor Project on getting Tor 0.4.3.1-alpha released!</p>
+
+<p><a href="/2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html">Read more…</a></p>
 
 <p><strong><a href="/2020/01/16/ncdns-v0.0.10.3-released.html">2020-01-16</a></strong> We’ve released ncdns v0.0.10.3.  Here’s what’s new since v0.0.9.2:</p>
 
@@ -336,10 +343,6 @@ html.nojs .navbar-header {
 <p><strong><a href="/2019/11/24/building-electrum-in-rbm.html">2019-11-24</a></strong> As I’ve <a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.</p>
 
 <p><a href="/2019/11/24/building-electrum-in-rbm.html">Read more…</a></p>
-
-<p><strong><a href="/2019/11/14/electrum-nmc-v3.3.8-released.html">2019-11-14</a></strong> We’ve released Electrum-NMC v3.3.8.  This release includes a large number of improvements, mostly focused on performance (both initial syncup speed and name lookup latency) and anonymity (in particular support for Tor stream isolation).  Here’s what’s new since v3.3.7:</p>
-
-<p><a href="/2019/11/14/electrum-nmc-v3.3.8-released.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -380,13 +383,13 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
