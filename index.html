@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 </p></div></div>
 
@@ -304,6 +304,10 @@ html.nojs .navbar-header {
 
 <h2 id="news">News</h2>
 
+<p><strong><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">2020-02-27</a></strong> Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide <a href="https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/">some excellent UX review</a> of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:</p>
+
+<p><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">Read more…</a></p>
+
 <p><strong><a href="/2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html">2020-01-26</a></strong> The Tor Project has <a href="https://blog.torproject.org/node/1828">released</a> Tor 0.4.3.1-alpha.  Among the usual interesting changes, Namecoin users will be interested to note that Tor 0.4.3.1-alpha includes <a href="/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">Namecoin’s stream isolation patch for Tor controllers such as StemNS</a>, which paves the way for better Namecoin resolution support for Tor.  Kudos to The Tor Project on getting Tor 0.4.3.1-alpha released!</p>
 
 <p><a href="/2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html">Read more…</a></p>
@@ -339,10 +343,6 @@ html.nojs .navbar-header {
 <p><strong><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">2019-11-25</a></strong> We’ve released DNSSEC-HSTS v0.0.2 for Google Chrome.  v0.0.2 is identical to v0.0.1 except for Chrome-related compatibility fixes; we are therefore not releasing v0.0.2 binaries for Firefox.</p>
 
 <p><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">Read more…</a></p>
-
-<p><strong><a href="/2019/11/24/building-electrum-in-rbm.html">2019-11-24</a></strong> As I’ve <a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.</p>
-
-<p><a href="/2019/11/24/building-electrum-in-rbm.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -383,15 +383,15 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>

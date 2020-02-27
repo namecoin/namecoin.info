@@ -6,9 +6,26 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 26 Jan 2020 10:25:31 +0000</pubDate>
-    <lastBuildDate>Sun, 26 Jan 2020 10:25:31 +0000</lastBuildDate>
+    <pubDate>Thu, 27 Feb 2020 07:46:23 +0000</pubDate>
+    <lastBuildDate>Thu, 27 Feb 2020 07:46:23 +0000</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Electrum-NMC: ETA Display for Name Registrations</title>
+        <description>&lt;p&gt;Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide &lt;a href=&quot;https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/&quot;&gt;some excellent UX review&lt;/a&gt; of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2020-02-20-Registration-ETA.png&quot; alt=&quot;A screenshot of the Manage Names tab in Electrum-NMC showing &amp;quot;ETA 130min&amp;quot;.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Forest provided quite a bit of additional UX review; I intend to address those points in the future.  Thanks Forest for making Namecoin better!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 27 Feb 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Tor 0.4.3.1-alpha Released; Includes Namecoin Stream Isolation Patch</title>
@@ -389,25 +406,6 @@
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Building Electrum in rbm</title>
-        <description>&lt;p&gt;As I’ve &lt;a href=&quot;/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html&quot;&gt;discussed before&lt;/a&gt;, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  I’m now looking into building Electrum in rbm as well.  Upstream Electrum’s Python tarball binaries aren’t reproducible at all, and their Windows binaries’ reproducible builds are heavily dependent on sketchy dependencies that I’d prefer not to trust.  rbm offers a potential solution.&lt;/p&gt;
-
-&lt;p&gt;At this time, I’ve successfully gotten rbm to build an Electrum-NMC Python tarball that behaves pretty much the same as the standard build method (including the dependency bundling) – except that it should be substantially more reproducible.  The only two components that aren’t being built by my rbm descriptor are the Protobuf definition for the Payment Protocol (should be fixable easily, since I’m already building the Protobuf compiler) and the locales folder (hopefully easy to handle, I just haven’t looked at it yet).&lt;/p&gt;
-
-&lt;p&gt;Building the Windows binaries in rbm is something I intend to look into later, though it’s not at the top of my priority queue.  Obviously, the intent is to contribute all of this work upstream to Electrum.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/11/24/building-electrum-in-rbm.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/11/24/building-electrum-in-rbm.html</guid>
-        
-        <category>News</category>
         
         
       </item>
