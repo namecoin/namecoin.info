@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -552,8 +552,8 @@ Decentralized<br /><strong>secure</strong> names.
   <li>ncprop279 doesn’t follow the current Namecoin Domain Names specification for onion service records (we might amend the specification to match ncprop279’s behavior).</li>
   <li>ncprop279 hasn’t been carefully checked for proxy leaks.</li>
   <li>Using ncprop279 will make you stand out from other Tor users.</li>
-  <li>Stream isolation for streams opened by applications (e.g. Tor Browser) should work fine.  However, stream isolation metadata won’t propagate to streams opened by the Namecoin client.  That means you should only use <code class="highlighter-rouge">ncprop279</code> with a Namecoin client that will not generate outgoing traffic when you query it.  A full-block-receive Namecoin node such as Namecoin Core or ConsensusJ-Namecoin in leveldbtxcache mode is probably fine.  A headers-only name lookup client such as Electrum-NMC should <strong>not</strong> be used.</li>
-  <li>ncprop279 probably caches lookups.  This could be used to fingerprint users.</li>
+  <li>Stream isolation for streams opened by applications (e.g. Tor Browser) should work fine.  However, stream isolation metadata will only propagate to streams opened by the Namecoin client if you’re running Tor 0.4.3.1-alpha or higher with a recent StemNS (TorNS hasn’t merged the needed changes yet).  If you meet those requirements, then any Namecoin client is fine.  If not, that means you should only use <code class="highlighter-rouge">ncprop279</code> with a Namecoin client that will not generate outgoing traffic when you query it.  A full-block-receive Namecoin node such as Namecoin Core or ConsensusJ-Namecoin in leveldbtxcache mode is probably fine.  A headers-only name lookup client such as Electrum-NMC should <strong>not</strong> be used without Tor 0.4.3.1-alpha or higher with a recent StemNS.</li>
+  <li>ncprop279 caches lookups.  Isolation of the caching has the same dependencies as stream isolation.  If you don’t have the needed Tor and StemNS version, ncprop279’s caching could be used to fingerprint you.</li>
   <li>Build is not yet reproducible.</li>
 </ul>
 
@@ -584,13 +584,13 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
