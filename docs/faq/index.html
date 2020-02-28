@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Decentralize</strong><br>all the things!
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 </p></div></div>
 
@@ -306,6 +306,10 @@ html.nojs .navbar-header {
 <p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 35,999 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  An example of this usage is the ability to delegate .bit domain names to an external DNSSEC nameserver, authenticated by a DS record in the blockchain.</p>
 
 <p>If you’re developing an application, consider doing your development on the Namecoin Testnet.  This prevents your testing from bloating the production blockchain, and also allows you to test without spending real money on names.  If more than one implementation might have the same use case, consider writing a spec so that incompatible implementations of similar ideas don’t become a problem.</p>
+
+<h3 id="do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin">Do I need to download the entire Namecoin blockchain to use Namecoin?</h3>
+
+<p>No, but you will get better security if you choose to do so.  A <em>full node</em> such as Namecoin Core gives you maximum security by downloading the entire blockchain and validating that all transactions comply with the Namecoin consensus rules.  However, if you don’t wish to download the entire blockchain, you can instead use a <em>lightweight SPV node</em> such as Electrum-NMC, which only downloads block headers (along with transactions that are relevant to you), which are much smaller than the entire blockchain.  Namecoin also makes possible some security models that don’t directly correspond to Bitcoin.  For example, the ConsensusJ-Namecoin node downloads block headers like Electrum-NMC, but also downloads the entire blocks from the past year only (i.e. all blocks that contain unexpired name transactions), which provides a security level somewhere between Electrum-NMC and Namecoin Core.</p>
 
 <h3 id="what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</h3>
 
@@ -449,19 +453,19 @@ html.nojs .navbar-header {
   <tbody>
     <tr>
       <td><strong>Lightweight validation mode</strong></td>
-      <td><a href="https://bitcoin.org/en/glossary/simplified-payment-verification">SPV</a> backed by <a href="https://bitcoin.org/en/glossary/proof-of-work">PoW</a> (e.g. BitcoinJ+libdohj).</td>
+      <td><a href="https://bitcoin.org/en/glossary/simplified-payment-verification">SPV</a> backed by <a href="https://bitcoin.org/en/glossary/proof-of-work">PoW</a> (e.g. BitcoinJ+libdohj or Electrum-NMC).</td>
       <td>Checkpoints provided by a trusted 3rd party. Blockstack refers to this as “Consensus Hashes”, “SNV” (“Simplified Name Verification”), or (confusingly) “SPV”. Is not backed by PoW and has no relation to Bitcoin’s SPV threat model.</td>
-      <td>SPV backed by PoW (e.g. BitcoinJ).</td>
+      <td>SPV backed by PoW (e.g. BitcoinJ or Electrum).</td>
     </tr>
     <tr>
       <td><strong>Hashrate attesting to transaction ordering</strong></td>
-      <td>~71% of Bitcoin as of 2017 Aug 31.</td>
+      <td>~95% of Bitcoin as of 2020 Jan 12.</td>
       <td>100% of Bitcoin.</td>
       <td>100% of Bitcoin.</td>
     </tr>
     <tr>
       <td><strong>Hashrate attesting to transaction validity</strong></td>
-      <td>~71% of Bitcoin as of 2017 Aug 31.</td>
+      <td>~95% of Bitcoin as of 2020 Jan 12.</td>
       <td>0% of Bitcoin (miners do not attest to transaction validity).</td>
       <td>100% of Bitcoin.</td>
     </tr>
@@ -497,9 +501,9 @@ html.nojs .navbar-header {
     </tr>
     <tr>
       <td><strong>Scalability (blockchain download size, fully validating node)</strong></td>
-      <td>5.08 GB as of 2017 Aug 31 (<a href="https://bitinfocharts.com/namecoin/">source</a>) (includes name values).</td>
-      <td>154.47 GB as of 2017 Aug 31 (<a href="https://bitinfocharts.com/bitcoin/">source</a>), plus name values.</td>
-      <td>154.47 GB as of 2017 Aug 31 (<a href="https://bitinfocharts.com/bitcoin/">source</a>).</td>
+      <td>6.06 GB as of 2020 Jan 12 (<a href="https://bitinfocharts.com/namecoin/">source</a>) (includes name values).</td>
+      <td>300.79 GB as of 2020 Jan 12 (<a href="https://bitinfocharts.com/bitcoin/">source</a>), plus name values.</td>
+      <td>300.79 GB as of 2020 Jan 12 (<a href="https://bitinfocharts.com/bitcoin/">source</a>).</td>
     </tr>
     <tr>
       <td><strong>Scalability (maximum name updates per hour)</strong></td>
@@ -785,15 +789,15 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
