@@ -42,7 +42,7 @@ body > footer {
     /* This height makes the background fully cover the footer in Tor Browser
      * Desktop, even if zoomed in or out a few times
      */
-    height: 11em;
+    height: 13em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -304,6 +304,10 @@ html.nojs .navbar-header {
 
 <h2 id="news">News</h2>
 
+<p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<p><strong><a href="/2020/04/02/namecoin.bit.html">2020-04-02</a></strong> The Namecoin website is now available via Namecoin at <a href="https://namecoin.bit/">https://namecoin.bit/</a>.  The TLS certificate should work in most Namecoin-supported <a href="/docs/tls-client">TLS clients</a>, but unfortunately doesn’t yet work with Tor Browser.  This will be fixed in the future.</p>
+
 <p><strong><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">2020-02-27</a></strong> Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide <a href="https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/">some excellent UX review</a> of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:</p>
 
 <p><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">Read more…</a></p>
@@ -340,10 +344,6 @@ html.nojs .navbar-header {
 
 <p><a href="/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">Read more…</a></p>
 
-<p><strong><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">2019-11-25</a></strong> We’ve released DNSSEC-HSTS v0.0.2 for Google Chrome.  v0.0.2 is identical to v0.0.1 except for Chrome-related compatibility fixes; we are therefore not releasing v0.0.2 binaries for Firefox.</p>
-
-<p><a href="/2019/11/25/dnssec-hsts-v0.0.2-chrome-released.html">Read more…</a></p>
-
 <p><a href="/news/">Earlier news</a></p>
 
 <p>For the latest news go to the <a href="https://forum.namecoin.org/">Namecoin forum</a> or check out <a href="https://www.reddit.com/r/namecoin">r/namecoin</a>.</p>
@@ -374,8 +374,16 @@ html.nojs .navbar-header {
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/index.md"><i>Submit corrections or improvements to this page</i></a>
+        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/">Namecoin (namecoin.bit)</a></li>
+            </ul>
         </div>
 
         <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
@@ -383,15 +391,15 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
