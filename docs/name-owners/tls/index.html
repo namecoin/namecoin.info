@@ -42,7 +42,7 @@ body > footer {
     /* This height makes the background fully cover the footer in Tor Browser
      * Desktop, even if zoomed in or out a few times
      */
-    height: 11em;
+    height: 13em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -346,6 +346,8 @@ html.nojs .navbar-header {
 
 <p>The <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
 
+<p>If you are using the Dehydrated form, or the default settings for the Constrained form, you will need to make sure that your HTTPS server supports either <code class="highlighter-rouge">ECDHE-ECDSA</code> or <code class="highlighter-rouge">DHE-ECDSA</code> ciphersuites.  If you require non-forward-secret ciphersuites or non-ECDSA keys, you will need to use the Constrained form to generate a CA, and then manually use that CA to sign an end-entity certificate (via whatever non-Namecoin tooling you like) that uses the desired <code class="highlighter-rouge">KeyUsage</code> value or key type.</p>
+
 <p>Note that wildcard certificates are not currently supported; each domain name needs its own certificate.</p>
 
 <p>You can test your setup by visiting your <code class="highlighter-rouge">.bit</code> domain in a <a href="/docs/tls-client/">Namecoin-supported TLS client</a>.</p>
@@ -368,8 +370,16 @@ html.nojs .navbar-header {
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right;">
-	    <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/tls/index.md"><i>Submit corrections or improvements to this page</i></a>
+        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/tls/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/docs/name-owners/tls/">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/docs/name-owners/tls/">Namecoin (namecoin.bit)</a></li>
+            </ul>
         </div>
 
         <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
@@ -377,15 +387,15 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
