@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -256,6 +256,28 @@ html.nojs .navbar-header {
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2020/04/09/transproxy-support-in-zeronet.html">Transproxy Support in ZeroNet</a></h1>
+    <p class="post-meta">Apr 9, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p><a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
+
+    <p>In a word, yes.  I’ve added <em>transproxy</em> support to ZeroNet, which facilitates a much better UX.  This feature uses the HTTP Host header to determine which <code class="highlighter-rouge">.bit</code> site is being accessed.  So if the <code class="highlighter-rouge">.bit</code> site points to <code class="highlighter-rouge">127.0.0.1</code>, you can type in the domain into your web browser, and your browser will automagically tell ZeroNet which website to display.</p>
+
+    <p>As an example, here’s ZeroTalk displayed in Firefox in transproxy mode:</p>
+
+    <p><img src="/images/screenshots/zeronet/zeronet-trans-proxy-2018-08-01.png" alt="A screenshot of ZeroTalk; the URL bar shows &quot;talk.zeronetwork.bit&quot;." /></p>
+
+    <p>This screenshot was obtained by fiddling with the OS’s <code class="highlighter-rouge">hosts</code> file, but automatic ZeroNet integration could be added to ncdns in the future.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -5601,15 +5623,15 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>

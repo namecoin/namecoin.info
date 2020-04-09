@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Tor Browser 8.5 Released; Includes Namecoin's certutil Windows/macOS Patch</title>
+    <title>Transproxy Support in ZeroNet</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -174,7 +174,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html">
+    <link rel="canonical" href="https://www.namecoin.org//2020/04/09/transproxy-support-in-zeronet.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Against<br />censorship.</strong>
 </noscript>
 </p></div></div>
 
@@ -255,133 +255,139 @@ html.nojs .navbar-header {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Tor Browser 8.5 Released; Includes Namecoin's certutil Windows/macOS Patch</h1>
-<p class="post-meta">Jun 3, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Transproxy Support in ZeroNet</h1>
+<p class="post-meta">Apr 9, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>The Tor Project has <a href="https://blog.torproject.org/new-release-tor-browser-85">released</a> Tor Browser 8.5.  Among the usual interesting changes, Namecoin users will be interested to note that Tor Browser 8.5 includes <a href="/2018/10/15/certutil-rbm-merged-tor-project.html">Namecoin’s <code class="highlighter-rouge">certutil</code> Windows/macOS patch</a>, which paves the way for better Namecoin TLS support in Firefox on Windows and macOS.  For the #reckless among you who want to experiment, the <code class="highlighter-rouge">certutil</code> binaries are available <a href="http://rqef5a5mebgq46y5.onion/torbrowser/">here</a> (or <a href="https://dist.torproject.org/torbrowser/">here</a> for those of you who can’t access onion services); specifically you want the <code class="highlighter-rouge">mar-tools</code> downloads.  Kudos to The Tor Project on getting Tor Browser 8.5 released!</p>
+<p><a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>In a word, yes.  I’ve added <em>transproxy</em> support to ZeroNet, which facilitates a much better UX.  This feature uses the HTTP Host header to determine which <code class="highlighter-rouge">.bit</code> site is being accessed.  So if the <code class="highlighter-rouge">.bit</code> site points to <code class="highlighter-rouge">127.0.0.1</code>, you can type in the domain into your web browser, and your browser will automagically tell ZeroNet which website to display.</p>
+
+<p>As an example, here’s ZeroTalk displayed in Firefox in transproxy mode:</p>
+
+<p><img src="/images/screenshots/zeronet/zeronet-trans-proxy-2018-08-01.png" alt="A screenshot of ZeroTalk; the URL bar shows &quot;talk.zeronetwork.bit&quot;." /></p>
+
+<p>This screenshot was obtained by fiddling with the OS’s <code class="highlighter-rouge">hosts</code> file, but automatic ZeroNet integration could be added to ncdns in the future.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -898,14 +904,14 @@ html.nojs .navbar-header {
         </div>
 
         <div class="container-fluid" style="float:right; margin-bottom: 10px;">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-06-03-tor-browser-8.5-released-includes-namecoin-certutil-patch.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-09-transproxy-support-in-zeronet.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2019/06/03/tor-browser-8.5-released-includes-namecoin-certutil-patch.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2020/04/09/transproxy-support-in-zeronet.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2020/04/09/transproxy-support-in-zeronet.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -916,13 +922,13 @@ html.nojs .navbar-header {
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
