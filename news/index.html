@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Against<br />censorship.</strong>
 </noscript>
 </p></div></div>
 
@@ -256,6 +256,55 @@ html.nojs .navbar-header {
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Electrum-NMC v3.3.9.1 Released</a></h1>
+    <p class="post-meta">Apr 17, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
+
+    <p>Here’s what’s new since v3.3.8:</p>
+
+    <ul>
+  <li>From upstream Electrum:
+    <ul>
+      <li>Build script fixes backported from Electrum v4.0.0.</li>
+    </ul>
+  </li>
+  <li>Namecoin-specific:
+    <ul>
+      <li>Features:
+        <ul>
+          <li>Add DNS builder GUI based on Namecoin Core.  (Patch by Jeremy Rand; based on a Namecoin Core patch by Brandon Roberts.)</li>
+          <li>Add more servers.  (Patches by Jeremy Rand; thanks to deafboy, ccomp, and s7r for running the servers.)</li>
+          <li>Allow pausing network on startup; unpause via an RPC command (mostly relevant for Tor Browser integration).  (Patch by Jeremy Rand; thanks to Georg Koppen and mjgill89 for reporting Tor Browser issue; thanks to SomberNight for brainstorming solutions.)</li>
+          <li>Update checkpoint.  (Patch by Jeremy Rand.)</li>
+        </ul>
+      </li>
+      <li>Bug fixes:
+        <ul>
+          <li>Return correct error code when looking up nonexistent names.  Fixes issue where ncdns was recognizing this error as <code class="highlighter-rouge">SERVFAIL</code> instead of <code class="highlighter-rouge">NXDOMAIN</code>.  (Patch by Jeremy Rand; thanks to Georg Koppen for reporting Tor Browser issue.)</li>
+          <li>Fix connectivity issues that could cause slow syncup or syncup getting stuck completely (these bugs were related to the stream isolation and parallel chain download patches).  (Patches by Jeremy Rand; thanks to Georg Koppen, mjgill89, and s7r for reporting issues.)</li>
+          <li>Fix minor error handling bugs in name registration GUI and <code class="highlighter-rouge">name_show</code> RPC command.  (Patches by Jeremy Rand; thanks to s7r for reporting issues.)</li>
+          <li>Add some additional AuxPoW checks.  (Patches by Jeremy Rand.)</li>
+          <li>Disable stream-isolated server pool if in <code class="highlighter-rouge">oneserver</code> mode (fixes a privacy leak).  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
+          <li>Fix missing help text for <code class="highlighter-rouge">name_show</code> RPC command.  (Patch by Jeremy Rand.)</li>
+          <li>Fix missing locale data in Python binaries.  (Patch by Jeremy Rand.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -5623,15 +5672,15 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
