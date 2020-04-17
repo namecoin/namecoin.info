@@ -6,9 +6,59 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 09 Apr 2020 09:40:36 +0000</pubDate>
-    <lastBuildDate>Thu, 09 Apr 2020 09:40:36 +0000</lastBuildDate>
+    <pubDate>Fri, 17 Apr 2020 16:33:52 +0000</pubDate>
+    <lastBuildDate>Fri, 17 Apr 2020 16:33:52 +0000</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Electrum-NMC v3.3.9.1 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.&lt;/p&gt;
+
+&lt;p&gt;Here’s what’s new since v3.3.8:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;From upstream Electrum:
+    &lt;ul&gt;
+      &lt;li&gt;Build script fixes backported from Electrum v4.0.0.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Namecoin-specific:
+    &lt;ul&gt;
+      &lt;li&gt;Features:
+        &lt;ul&gt;
+          &lt;li&gt;Add DNS builder GUI based on Namecoin Core.  (Patch by Jeremy Rand; based on a Namecoin Core patch by Brandon Roberts.)&lt;/li&gt;
+          &lt;li&gt;Add more servers.  (Patches by Jeremy Rand; thanks to deafboy, ccomp, and s7r for running the servers.)&lt;/li&gt;
+          &lt;li&gt;Allow pausing network on startup; unpause via an RPC command (mostly relevant for Tor Browser integration).  (Patch by Jeremy Rand; thanks to Georg Koppen and mjgill89 for reporting Tor Browser issue; thanks to SomberNight for brainstorming solutions.)&lt;/li&gt;
+          &lt;li&gt;Update checkpoint.  (Patch by Jeremy Rand.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Bug fixes:
+        &lt;ul&gt;
+          &lt;li&gt;Return correct error code when looking up nonexistent names.  Fixes issue where ncdns was recognizing this error as &lt;code class=&quot;highlighter-rouge&quot;&gt;SERVFAIL&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.  (Patch by Jeremy Rand; thanks to Georg Koppen for reporting Tor Browser issue.)&lt;/li&gt;
+          &lt;li&gt;Fix connectivity issues that could cause slow syncup or syncup getting stuck completely (these bugs were related to the stream isolation and parallel chain download patches).  (Patches by Jeremy Rand; thanks to Georg Koppen, mjgill89, and s7r for reporting issues.)&lt;/li&gt;
+          &lt;li&gt;Fix minor error handling bugs in name registration GUI and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC command.  (Patches by Jeremy Rand; thanks to s7r for reporting issues.)&lt;/li&gt;
+          &lt;li&gt;Add some additional AuxPoW checks.  (Patches by Jeremy Rand.)&lt;/li&gt;
+          &lt;li&gt;Disable stream-isolated server pool if in &lt;code class=&quot;highlighter-rouge&quot;&gt;oneserver&lt;/code&gt; mode (fixes a privacy leak).  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)&lt;/li&gt;
+          &lt;li&gt;Fix missing help text for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC command.  (Patch by Jeremy Rand.)&lt;/li&gt;
+          &lt;li&gt;Fix missing locale data in Python binaries.  (Patch by Jeremy Rand.)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/04/17/electrum-nmc-v3.3.9.1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/04/17/electrum-nmc-v3.3.9.1-released.html</guid>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Transproxy Support in ZeroNet</title>
@@ -274,74 +324,6 @@
         <pubDate>Fri, 20 Dec 2019 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2019/12/20/36c3.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2019/12/20/36c3.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>DNS Builder GUI for Electrum-NMC</title>
-        <description>&lt;p&gt;In November 2017, Brandon posted some WIP code for adding a DNS Builder GUI to Namecoin-Qt.  To refresh your memory, it looked like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/dns-builder-2017-11-19.gif&quot; alt=&quot;A screenshot of the DNS builder for Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, merging that code to Namecoin Core is blocked by several other tasks, so it may be a while before it makes its way into a Namecoin Core release.  However, in the meantime, all is not lost.  Thanks to the magic of Qt GUI’s being in XML format, and therefore easy to port between C++ and Python, I’ve been spending some time porting Brandon’s DNS Builder GUI to Electrum-NMC.&lt;/p&gt;
-
-&lt;p&gt;Things are still a bit rough around the edges, but it’s beginning to take shape.  Check out the below screenshot:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2019-12-02-DNS-Builder.png&quot; alt=&quot;A screenshot of the DNS builder for Electrum-NMC.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So far, the following features work:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Creating and parsing the following record types:
-    &lt;ul&gt;
-      &lt;li&gt;IPv4 addresses&lt;/li&gt;
-      &lt;li&gt;IPv6 addresses&lt;/li&gt;
-      &lt;li&gt;Tor onion services&lt;/li&gt;
-      &lt;li&gt;I2P eepsites&lt;/li&gt;
-      &lt;li&gt;Freenet freesites&lt;/li&gt;
-      &lt;li&gt;ZeroNet zites&lt;/li&gt;
-      &lt;li&gt;NS delegations&lt;/li&gt;
-      &lt;li&gt;DS fingerprints&lt;/li&gt;
-      &lt;li&gt;CNAME aliases&lt;/li&gt;
-      &lt;li&gt;TLS fingerprints&lt;/li&gt;
-      &lt;li&gt;SSH fingerprints&lt;/li&gt;
-      &lt;li&gt;TXT records&lt;/li&gt;
-      &lt;li&gt;SRV records&lt;/li&gt;
-      &lt;li&gt;Domain data imports&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Parsing subdomains (recursively)&lt;/li&gt;
-  &lt;li&gt;Creating and sorting subdomains&lt;/li&gt;
-  &lt;li&gt;Input validation (only verifying that integer fields are valid integers, and no real-time feedback)&lt;/li&gt;
-  &lt;li&gt;Repairing the deprecated forms of Tor and ZeroNet records&lt;/li&gt;
-  &lt;li&gt;Size optimizations, e.g. setting &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;ip6&quot;&lt;/code&gt; to a string instead of an array containing one string&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The following features still need implementation:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Creating and parsing the following record types:
-    &lt;ul&gt;
-      &lt;li&gt;WHOIS info&lt;/li&gt;
-      &lt;li&gt;DNAME subtree aliases (not particularly high priority because it’s a footgun)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Editing existing records (this is partially implemented)&lt;/li&gt;
-  &lt;li&gt;Deleting existing records&lt;/li&gt;
-  &lt;li&gt;More input validation (the sharp-eyed among you probably noticed that it allowed me to enter &lt;code class=&quot;highlighter-rouge&quot;&gt;blah.onion&lt;/code&gt; as a Tor onion service despite that string being invalid), with real-time feedback&lt;/li&gt;
-  &lt;li&gt;More friendly guidance for some parameters (e.g. the “Cert. usage”, “Selector”, and “Matching Type” parameters in the TLS tab would probably be more suitable as a drop-down list or combo box)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Hopefully this work will improve the UX so that Namecoin domain owners aren’t expected to handle JSON manually.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 12 Dec 2019 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2019/12/12/dns-builder-gui-for-electrum-nmc.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2019/12/12/dns-builder-gui-for-electrum-nmc.html</guid>
         
         <category>News</category>
         
