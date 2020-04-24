@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>DNS Builder GUI for Electrum-NMC</title>
+    <title>Namecoin Merchandise Now Available at Cypher Market</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -174,7 +174,7 @@ html.nojs .navbar-header {
 
     </style>
     
-    <link rel="canonical" href="https://www.namecoin.org//2019/12/12/dns-builder-gui-for-electrum-nmc.html">
+    <link rel="canonical" href="https://www.namecoin.org//2020/04/24/merchandise-cypher-market.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -240,7 +240,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Decentralize</strong><br>all the things!
 </noscript>
 </p></div></div>
 
@@ -255,118 +255,63 @@ html.nojs .navbar-header {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">DNS Builder GUI for Electrum-NMC</h1>
-<p class="post-meta">Dec 12, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin Merchandise Now Available at Cypher Market</h1>
+<p class="post-meta">Apr 24, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>In November 2017, Brandon posted some WIP code for adding a DNS Builder GUI to Namecoin-Qt.  To refresh your memory, it looked like this:</p>
-
-<p><img src="/images/screenshots/namecoin-core/dns-builder-2017-11-19.gif" alt="A screenshot of the DNS builder for Namecoin-Qt." /></p>
-
-<p>Unfortunately, merging that code to Namecoin Core is blocked by several other tasks, so it may be a while before it makes its way into a Namecoin Core release.  However, in the meantime, all is not lost.  Thanks to the magic of Qt GUI’s being in XML format, and therefore easy to port between C++ and Python, I’ve been spending some time porting Brandon’s DNS Builder GUI to Electrum-NMC.</p>
-
-<p>Things are still a bit rough around the edges, but it’s beginning to take shape.  Check out the below screenshot:</p>
-
-<p><img src="/images/screenshots/electrum-nmc/2019-12-02-DNS-Builder.png" alt="A screenshot of the DNS builder for Electrum-NMC." /></p>
-
-<p>So far, the following features work:</p>
-
-<ul>
-  <li>Creating and parsing the following record types:
-    <ul>
-      <li>IPv4 addresses</li>
-      <li>IPv6 addresses</li>
-      <li>Tor onion services</li>
-      <li>I2P eepsites</li>
-      <li>Freenet freesites</li>
-      <li>ZeroNet zites</li>
-      <li>NS delegations</li>
-      <li>DS fingerprints</li>
-      <li>CNAME aliases</li>
-      <li>TLS fingerprints</li>
-      <li>SSH fingerprints</li>
-      <li>TXT records</li>
-      <li>SRV records</li>
-      <li>Domain data imports</li>
-    </ul>
-  </li>
-  <li>Parsing subdomains (recursively)</li>
-  <li>Creating and sorting subdomains</li>
-  <li>Input validation (only verifying that integer fields are valid integers, and no real-time feedback)</li>
-  <li>Repairing the deprecated forms of Tor and ZeroNet records</li>
-  <li>Size optimizations, e.g. setting <code class="highlighter-rouge">"ip6"</code> to a string instead of an array containing one string</li>
-</ul>
-
-<p>The following features still need implementation:</p>
-
-<ul>
-  <li>Creating and parsing the following record types:
-    <ul>
-      <li>WHOIS info</li>
-      <li>DNAME subtree aliases (not particularly high priority because it’s a footgun)</li>
-    </ul>
-  </li>
-  <li>Editing existing records (this is partially implemented)</li>
-  <li>Deleting existing records</li>
-  <li>More input validation (the sharp-eyed among you probably noticed that it allowed me to enter <code class="highlighter-rouge">blah.onion</code> as a Tor onion service despite that string being invalid), with real-time feedback</li>
-  <li>More friendly guidance for some parameters (e.g. the “Cert. usage”, “Selector”, and “Matching Type” parameters in the TLS tab would probably be more suitable as a drop-down list or combo box)</li>
-</ul>
-
-<p>Hopefully this work will improve the UX so that Namecoin domain owners aren’t expected to handle JSON manually.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+<p><a href="https://www.cyphermarket.com/namecoin/">Namecoin-branded merchandise</a> (e.g. T-shirts and stickers) are now for sale from our friends at Cypher Market.  Not only is this a good way to spread the word about Namecoin, but Cypher Market also donates a cut of the profits to support Namecoin development.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -959,14 +904,14 @@ html.nojs .navbar-header {
         </div>
 
         <div class="container-fluid" style="float:right; margin-bottom: 10px;">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-12-12-dns-builder-gui-for-electrum-nmc.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-24-merchandise-cypher-market.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/12/12/dns-builder-gui-for-electrum-nmc.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2019/12/12/dns-builder-gui-for-electrum-nmc.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2020/04/24/merchandise-cypher-market.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2020/04/24/merchandise-cypher-market.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -975,15 +920,15 @@ html.nojs .navbar-header {
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
