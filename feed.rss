@@ -6,9 +6,84 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 30 Apr 2020 11:19:29 +0000</pubDate>
-    <lastBuildDate>Thu, 30 Apr 2020 11:19:29 +0000</lastBuildDate>
+    <pubDate>Sun, 10 May 2020 00:12:23 +0000</pubDate>
+    <lastBuildDate>Sun, 10 May 2020 00:12:23 +0000</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Deterministic Salts</title>
+        <description>&lt;p&gt;When Namecoin was first being designed, an attack had to be dealt with: the &lt;em&gt;frontrunning attack&lt;/em&gt;.  The attack works like this:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Julian broadcasts a transaction, indicating that he wants to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Keith sees Julian’s transaction as soon as it gets broadcasted.&lt;/li&gt;
+  &lt;li&gt;Keith infers that Julian places a significant value on &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Keith broadcasts his own transaction, trying to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Keith bribes a miner to mine his transaction rather than Julian’s.  (This could be done by using a much higher transaction fee than Julian’s transaction, or it could be done via out-of-band channels, perhaps a court order.)&lt;/li&gt;
+  &lt;li&gt;Keith now owns &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, not Julian, even though Julian was the first person to try to buy it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Astute readers will note that the fundamental problem here is that DNS-like systems are supposed to be “first-come-first-served”, but a blockchain isn’t able to meaningfully determine which transaction came first if they were both broadcasted before either was mined.  Similar problems happen in Bitcoin when an attacker tries to spend the same coins to two different destination addresses at the same block height: there’s no reliable way to determine which spend came first, so it’s up to the miners to decide.&lt;/p&gt;
+
+&lt;p&gt;So, how was this fixed?  Via &lt;em&gt;commitments&lt;/em&gt;.  When Julian wants to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, he first broadcasts a &lt;em&gt;commitment&lt;/em&gt; transaction.  The transaction doesn’t reveal the name he wants to buy; it instead consists of a hash of two things: the name he wants to buy, and a secret randomly generated string (called a &lt;em&gt;salt&lt;/em&gt;).  Without knowing the salt and the name already, Keith can’t determine what name Julian is buying.  And since the salt is randomly generated and is high in entropy, Keith can’t even mount a dictionary attack on the hash; even if Keith suspects that Julian is buying &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, Keith can’t verify this without knowing the salt.&lt;/p&gt;
+
+&lt;p&gt;After the commitment transaction has received 12 confirmations, Julian broadcasts a 2nd transaction that reveals the name and the salt.  Once this 2nd transaction is mined, Julian officially owns &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.  The key point here is that once the 2nd transaction is broadcasted, Julian only needs 1 block to be mined in order to obtain the name – but if Keith tries to register it, he’ll need to broadcast his own commitment (now that he knows the name) and wait for 12 blocks before he can register the name.  In other words, the existence of the commitment gives Julian a 12-block head start against Keith, which should ensure that Julian gets the name (unless Keith has successfully bribed the miners of 12 blocks in a row, which seems unlikely).&lt;/p&gt;
+
+&lt;p&gt;This scheme brings important security, but it also poses a problem.  Imagine the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Matthew broadcasts a commitment transaction for &lt;code class=&quot;highlighter-rouge&quot;&gt;theintercept.bit&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Sometime in the next 12 blocks, Matthew’s hard drive dies.&lt;/li&gt;
+  &lt;li&gt;Matthew restores his wallet from his seed phrase on another machine.&lt;/li&gt;
+  &lt;li&gt;Matthew tries to register &lt;code class=&quot;highlighter-rouge&quot;&gt;theintercept.bit&lt;/code&gt; by spending the commitment transaction in his wallet.&lt;/li&gt;
+  &lt;li&gt;Uh oh.  Matthew’s wallet doesn’t know what the salt is!  It was only on the hard drive that died.  Matthew forfeits the name registration fee, and has to start over.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Can we improve this situation?  Yes!  The answer is &lt;em&gt;deterministic salts&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;On a high level, we want the wallet application to pick a salt that is reliably predictable to the wallet owner, but still unpredictable to anyone else.  We homed in on the following secret knowledge:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The private key of the address that owns the commitment transaction.&lt;/li&gt;
+  &lt;li&gt;The name being registered.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We don’t want the name to be the only input to the salt, since at that point the salt is pretty much ineffectual: remember that the purpose of the salt is to stop people who can guess the name from figuring out whether their guess is accurate!  We also don’t want the private key to be the only input, because this would imply predictable salt reuse if address reuse occurs.  (Yes, I know, address reuse is bad.  But address reuse is typically only a privacy harm; there’s no reason to unnecessarily exacerbate the impact of address reuse by turning it into a name theft harm too.)&lt;/p&gt;
+
+&lt;p&gt;So, how do we combine the private key and the name to get a salt?  It turns out that there’s a standard cryptographic function for this: &lt;a href=&quot;https://tools.ietf.org/html/rfc5869&quot;&gt;HKDF (RFC 5869)&lt;/a&gt;.  Conveniently, HKDF is already present in both Bitcoin Core and Electrum, so no additional libraries need to be imported.  Specifically, we can use the following HKDF parameters:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Initial key material: private key&lt;/li&gt;
+  &lt;li&gt;Salt: name identifier&lt;/li&gt;
+  &lt;li&gt;Info: “Namecoin Registration Salt”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The “Info” parameter is designed to prevent cross-protocol attacks, where someone uses the same construction for two completely different purposes in order to induce a user of one protocol to compromise themselves in the other protocol.&lt;/p&gt;
+
+&lt;p&gt;I’ve now implemented HKDF-based deterministic salts in Electrum-NMC.  For example, you can now do the following command as before:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;name_new(&quot;d/example&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And you’ll get back a transaction and a salt, like before.  But, you’re now free to ignore this salt, because you don’t need it anymore!  You can complete the registration 12 blocks later like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;name_firstupdate(&quot;d/example&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that you don’t need to enter a salt or a TXID anymore!  Electrum-NMC checks each &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; UTXO in its wallet to see if the output of HKDF yields the commitment in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;, and if it does, Electrum-NMC uses that TXID and salt automatically.  This works even if you’re running &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; after restoring the wallet from a seed on a different machine than the one that produced the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction.&lt;/p&gt;
+
+&lt;p&gt;Pretty cool, huh?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Thanks to s7r for the idea of deterministic salts; thanks to Ryan Castellucci for cryptographic advice; and thanks to Daniel Kraft for discussions about Namecoin Core integration.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/05/10/deterministic-salts.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/05/10/deterministic-salts.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Video Recordings of ICANN60 Joint Meeting of ICANN Board and Technical Experts Group</title>
@@ -273,69 +348,6 @@ Video without slides.
         <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2020/01/13/cloudfest-2019-video.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2020/01/13/cloudfest-2019-video.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>36C3 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2019/12/20/36c3.html&quot;&gt;previously announced&lt;/a&gt;, I (Jeremy Rand) represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2019/wiki/index.php/Main_Page&quot;&gt;36C3&lt;/a&gt; in Leipzig, Germany.  As usual, it was an excellent event.  As usual for conferences that I attend, I engaged in a large number of conversations with other attendees.  Also as usual, I won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to me at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
-
-&lt;p&gt;Namecoin gave 2 talks, as well as a workshop, all of which were hosted by the Monero Assembly and the Critical Decentralization Cluster (CDC).  Below are the slides and videos of Namecoin’s talks, as well as the notes from Namecoin’s workshop.  The videos can be viewed via &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt; (&lt;a href=&quot;https://packages.debian.org/buster/youtube-dl&quot;&gt;Debian package&lt;/a&gt;) (&lt;a href=&quot;https://forums.whonix.org/t/vlc-apparmor-profile-wip-streaming-documentation-for-whonix-install-youtube-dl-by-default/2918&quot;&gt;recommendation by Whonix&lt;/a&gt;) if you don’t trust YouTube’s JavaScript (and there’s no reason why you should trust YouTube’s JavaScript!).&lt;/p&gt;
-
-&lt;h2 id=&quot;lightning-talk-intro-to-namecoin&quot;&gt;Lightning Talk: Intro to Namecoin&lt;/h2&gt;
-
-&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Namecoin is a blockchain (first project forked from Bitcoin) that implements a decentralized DNS and public key infrastructure, which is resistant to censorship, hijacking, and other tampering. This talk will explain the basics of how Namecoin works and what it can be used for.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/Namecoin_Introduction_36C3_CDC.pdf&quot;&gt;Slides are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=b-sWa2YzJjE&amp;amp;list=PLsSYUeVwrHBn07zTBg7fGHRW5Kn_Z3FJL&amp;amp;index=9&amp;amp;t=0s&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;lecture-adventures-and-experiments-adding-namecoin-to-tor-browser&quot;&gt;Lecture: Adventures and Experiments Adding Namecoin to Tor Browser&lt;/h2&gt;
-
-&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this talk, I’ll cover the goals of the experiment, the work that went into getting here, and the work that remains to be done.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Disclaimer: Although the work covered in this talk is a collaboration between Namecoin and Tor, this talk is solely from Namecoin’s perspective.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/Adventures_and_Experiments_Adding_Namecoin_to_Tor_Browser_36C3_CDC.pdf&quot;&gt;Slides are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=7C6x0Duql5U&amp;amp;list=PLsSYUeVwrHBn07zTBg7fGHRW5Kn_Z3FJL&amp;amp;index=29&amp;amp;t=0s&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;workshop-demo-and-discussion-namecoin-in-tor-browser&quot;&gt;Workshop: Demo and Discussion: Namecoin in Tor Browser&lt;/h2&gt;
-
-&lt;p&gt;Workshop Host: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;The Namecoin and Tor developers are running a new experiment: the GNU/Linux Nightly Builds of Tor Browser now have optional support for resolving Namecoin’s .bit domains. This experiment aims to provide a fix for the long-standing UX problem with .onion domains: the lack of human-meaningful names. With Namecoin, you can access onion services via nice, memorable addresses like http://federalistpapers.bit/ instead of http://7fa6xlti5joarlmkuhjaifa47ukgcwz6tfndgax45ocyn4rixm632jid.onion/ . In this workshop, you’ll be able to try it out yourself. Bring a GNU/Linux machine (bare-metal or VM are both fine). After the demo, I’d love your feedback on what our next steps should be in this area.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I highly recommend attending my talk “Adventures and Experiments Adding Namecoin to Tor Browser” prior to this workshop, but this is not a hard requirement; attendees who didn’t attend that talk are still welcome.&lt;/p&gt;
-
-&lt;p&gt;Disclaimer: Although the work covered in this workshop is a collaboration between Namecoin and Tor, this workshop is solely from Namecoin’s perspective.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/36C3/tor-workshop/&quot;&gt;Notes are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
-
-&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.getmonero.org/&quot;&gt;The Monero Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://decentral.community/&quot;&gt;The Critical Decentralization Cluster&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://replicant.us/&quot;&gt;The Replicant Assembly&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We’re looking forward to 37C3 in December 2020!&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/01/11/36c3-summary.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/01/11/36c3-summary.html</guid>
         
         <category>News</category>
         
