@@ -106,6 +106,10 @@ nav ul li {
     padding: 40px;
 }
 
+#content video, #content img {
+    max-width: 100%;
+}
+
 table {
     border-collapse: collapse;
 }
@@ -240,7 +244,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -256,6 +260,52 @@ html.nojs .navbar-header {
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2020/06/07/electrum-nmc-v3.3.10-released.html">Electrum-NMC v3.3.10 Released</a></h1>
+    <p class="post-meta">Jun 7, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released Electrum-NMC v3.3.10.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
+
+    <p>Here’s what’s new since v3.3.9.1:</p>
+
+    <ul>
+  <li>From upstream Electrum:
+    <ul>
+      <li>Build script fixes.  (Backported from Electrum v4.0.0.)</li>
+      <li>Fix connecting to non-DNS IPv6 servers on Windows.  (Backported from Electrum v4.0.0.)</li>
+    </ul>
+  </li>
+  <li>Namecoin-specific:
+    <ul>
+      <li>Features:
+        <ul>
+          <li>Enable Renew/Configure buttons based on selection.  (Patch by Jeremy Rand.)</li>
+        </ul>
+      </li>
+      <li>Bug fixes:
+        <ul>
+          <li>Fix <code class="highlighter-rouge">name_show</code> fault detection.  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
+          <li>Fix exception when right-clicking on a <code class="highlighter-rouge">name_new</code> for which the name identifier is unknown in <code class="highlighter-rouge">UNOList</code>.  (Patch by Jeremy Rand; thanks to ghost for reporting issue.)</li>
+          <li>Fix exception handling in name registration Qt GUI.  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
+          <li>Fix Mempool-based fee estimation limits.  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    <p>Unfortunately, due to a currently-unresolved upstream bug, we are not able to provide Android/Linux binaries at this time.  Android/Linux users should remain on v3.3.9.1.</p>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -5807,15 +5857,15 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
