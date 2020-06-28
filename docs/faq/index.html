@@ -244,7 +244,7 @@ html.nojs .navbar-header {
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -444,6 +444,26 @@ html.nojs .navbar-header {
 <h3 id="how-does-namecoin-compare-to-tor-onion-services">How does Namecoin compare to Tor Onion Services?</h3>
 
 <p>The Tor Project’s Onion Services (which have a <code class="highlighter-rouge">.onion</code> top-level domain) use domains which are a public key hash.  This means that their domain names are not human-meaningful, whereas Namecoin domain names are human-meaningful.  Namecoin’s <code class="highlighter-rouge">.bit</code> domains can point to <code class="highlighter-rouge">.onion</code> domains, providing a human-meaningful naming layer on top of Tor Onion Services.  Blockchain-based systems like Namecoin are, at this time, unable to match the cryptographic security guarantees (against impersonation or deanonymization attacks) that systems like Onion Service names provide when used directly, but Namecoin’s human-meaningful names do make Namecoin more resistant than Onion Service names to some classes of attacks that exploit human psychology rather than breaking cryptography.  For example, humans have trouble remembering a public key hash or recognizing a public key hash as the correct one; this is much better with meaningful names such as Namecoin names (or DNS names).  Attackers can exploit this property of Onion Service names in order to trick users into visiting the incorrect website.  We believe that both systems serve a useful purpose, and determining whether direct usage of Onion Service names or Namecoin naming for Onion Services is more secure for a given user requires consideration of that user’s threat model.</p>
+
+<h1 id="how-does-namecoin-compare-to-lets-encrypt">How does Namecoin compare to Let’s Encrypt?</h1>
+
+<p>Let’s Encrypt constitutes a trusted 3rd party, i.e. the Let’s Encrypt certificate authority can issue fraudulent certificates to 3rd parties for your domain without your consent.  In contrast, using TLS with Namecoin (assuming that negative certificate overrides are supported by your TLS client) does not involve a trusted 3rd party; only certificates that chain to a <code class="highlighter-rouge">TLSA</code> record in your name’s value will be accepted.</p>
+
+<p>Let’s Encrypt also has the ability to censor your ability to receive TLS certificates.  Let’s Encrypt routinely uses this capacity to engage in geopolitical censorship.  For example, in response to a <a href="https://community.letsencrypt.org/t/error-policy-forbids-issuing-for-name/52233/2">support request pertaining to an error “Policy forbids issuing for name”</a>, Josh Aas (Executive Director of ISRG, the corporation that operates Let’s Encrypt) stated on February 6, 2018:</p>
+
+<blockquote>
+  <p>The People’s Republic of Donetsk is on the U.S. Treasury Department Specially Designated Nationals list. The website you are inquiring about appears to be a part of, or a state enterprise of, the People’s Republic of Donetsk, thus we cannot provide service according to U.S. law.</p>
+</blockquote>
+
+<p>Let’s Encrypt also routinely censors journalism websites for political purposes.  For example, on January 2, 2019, Let’s Encrypt <a href="https://www.mcclatchydc.com/news/policy/technology/cyber-security/article223832790.html">revoked the TLS certificate for an allegedly-Russian-funded journalism website</a> aimed at American audiences, <a href="https://home.treasury.gov/news/press-releases/sm577">on the grounds</a> that the website allegedly “engaged in efforts to post content focused on divisive political issues” and “attempted to hold a political rally in the United States”.</p>
+
+<p><a href="https://community.letsencrypt.org/t/according-to-mcclatchydc-com-lets-encrypt-revoqued-and-banned-usareally-com/81517/10">ISRG executive director Josh Aas stated</a> on January 4, 2019, that “This happens to maybe one domain per month”.</p>
+
+<p>In contrast, Namecoin does not have any 3rd party who can censor your ability to receive TLS certificates.</p>
+
+<p>Let’s Encrypt’s services are entirely gratis.  For Namecoin, the pricing is more complicated.  In Namecoin, you create a private CA and place its public key into the blockchain; you can use that CA to issue as many certificates for your domain as you like without requiring additional blockchain transactions.  Issuing certificates from your private CA (e.g. to rotate your TLS server’s keys) is gratis.  However, changing the set of private CA’s (e.g. to immediately revoke old certificates before they expire) does require a blockchain transaction, which means you’ll have to pay a transaction fee.  The extra storage used by your private CA’s public key also implies that renewing your domain name will incur a higher transaction fee than if you weren’t using TLS.</p>
+
+<p>TLS certificates issued by Let’s Encrypt will work in most TLS clients (without security warnings) without any changes from defaults.  In contrast, Namecoin TLS certificates will only work (without security warnings) if Namecoin is installed.</p>
 
 <h3 id="how-does-namecoin-compare-to-blockstack">How does Namecoin compare to Blockstack?</h3>
 
@@ -805,15 +825,15 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
