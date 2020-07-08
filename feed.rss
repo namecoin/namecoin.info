@@ -6,9 +6,59 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 29 Jun 2020 04:53:25 +0000</pubDate>
-    <lastBuildDate>Mon, 29 Jun 2020 04:53:25 +0000</lastBuildDate>
+    <pubDate>Wed, 08 Jul 2020 03:01:03 +0000</pubDate>
+    <lastBuildDate>Wed, 08 Jul 2020 03:01:03 +0000</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>We oppose the takeover of Open Technology Fund -- closed-source projects are scams and must not receive &quot;Internet Freedom&quot; funding</title>
+        <description>&lt;p&gt;We are watching with alarm the currently-ongoing takeover of the Open Technology Fund (OTF) by the Trump Administration’s newly appointed CEO of the US Agency for Global Media (USAGM, formerly known as BBG), Michael Pack.  In the first week of the new USAGM leadership, Michael has fired OTF CEO Libby Liu and OTF President Laura Cunningham, and (according to a document released by Libby) is apparently preparing to redirect OTF funding away from the current diverse set of open-source tools in favor of a small set of tools, narrowly focused on censorship circumvention, including the closed-source scam projects “Freegate” and “Ultrasurf”.&lt;/p&gt;
+
+&lt;p&gt;Developers of Internet Freedom software, including but not limited to Namecoin, are on the known target lists of intelligence agencies of repressive governments.  The open-source nature of our tools is a prerequisite for users to verify that we have not backdoored the software (e.g. to get dissidents killed).  Furthermore, our own safety as developers is dependent on those intelligence agencies being aware that trying to coerce us to add a backdoor would be futile due to our software’s open-source nature.&lt;/p&gt;
+
+&lt;p&gt;For this reason, Namecoin doesn’t just settle for releasing our code under an OSI/FSF-approved license; we lead by example and push forward the front lines of openness.  For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We strive for reproducible builds in all software we release.&lt;/li&gt;
+  &lt;li&gt;We use computers with open-source firmware such as the Asus C201 and the Raptor Talos II for as much of our workflow as possible.&lt;/li&gt;
+  &lt;li&gt;We contribute patches to upstream software infrastructure for reproducible builds (e.g. the Gitian and rbm tools used by Tor include patches we authored).&lt;/li&gt;
+  &lt;li&gt;We contribute code to software projects improving support for platforms with open-source firmware (e.g. we contribute patches to PrawnOS, we reverse-engineered the Talos II NIC firmware, and we are in the process of porting Tor Browser to ARM and POWER).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Let us be very clear: software projects that claim to enable “Internet Freedom” but which do not share this commitment to open-source principles are scams.  They actively endanger dissidents who are unwise enough to use them.  Under no circumstances should they receive OTF funding, or any other type of taxpayer-derived funding.&lt;/p&gt;
+
+&lt;p&gt;In addition, the needs of dissidents are substantially more diverse than solely censorship circumvention.  Software to defend against surveillance is also critical, as are security audits, bug bounty programs, and countless other areas that OTF currently funds.  If anything, OTF’s remit would benefit from expansion; narrowing their focus to solely censorship circumvention will leave critical projects in the lurch, endangering the safety of dissidents worldwide.  We are particularly concerned about the harm caused by a narrow focus on censorship circumvention functionality due to the following considerations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Users have empirically been demonstrated to not understand the difference between anonymity and anti-censorship functionality, and giving them software that’s not safe for anonymity will result in many users using it in ways that are dangerous.&lt;/li&gt;
+  &lt;li&gt;Even in a fantasy world where 100% of the users who actually need anonymity stick with tools that are safe for that use case, an exodus of the rest of the users will leave the anonymity-requiring users with a dangerously small anonymity set.  It is well-known that the reason NRL opened onion routing to the public is that an anonymity network only used by the US Navy doesn’t actually help anonymize the US Navy.  For the same reason, an anonymity network used by Chinese dissidents who require anonymity to stay safe must have a large amount of cover traffic, and users who are circumventing censorship are a major source of that cover traffic.&lt;/li&gt;
+  &lt;li&gt;Censorship circumvention software that relies on security by obscurity is more likely to be censored, potentially with catastrophic timing.&lt;/li&gt;
+  &lt;li&gt;Closed-source software, even if it is not required to preserve anonymity, is likely to be vulnerable to non-anonymity security bugs due to lack of peer review.  At this point we’re not even talking about repressive governments &lt;em&gt;deanonymizing&lt;/em&gt; users, we’re talking about repressive governments &lt;em&gt;obtaining remote code execution&lt;/em&gt; on dissidents’ machines.  At that point dissidents are screwed.&lt;/li&gt;
+  &lt;li&gt;These closed-source censorship circumvention systems consider the centralized operators to be completely trusted 3rd parties.  There is nothing preventing these operators from covertly collecting logs of the activity of dissidents, and selling them to the highest bidder (which will probably be the governments of the countries in which the dissidents reside).  Even in the fictional scenario where these operators don’t intend to do this, an intelligence agency who compromises the operators’ infrastructure can pull off this attack without the operators’ knowledge or consent.  Again, at this point dissidents are screwed.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We have signed an open letter asking Members of U.S. Congress to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Require USAGM to honor existing FY2019 and FY2020 spending plans to support the Open Technology Fund;&lt;/li&gt;
+  &lt;li&gt;Require all US-Government internet freedom funds to be awarded via an open, fair, competitive, and evidence-based decision process;&lt;/li&gt;
+  &lt;li&gt;Require all internet freedom technologies supported with US-Government funds to remain fully open-source in perpetuity;&lt;/li&gt;
+  &lt;li&gt;Require regular security audits for all internet freedom technologies supported with US-Government funds; and&lt;/li&gt;
+  &lt;li&gt;Pass the Open Technology Fund Authorization Act.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While it is regrettable that so much Internet Freedom infrastructure is dependent on OTF (Decentralize All The Things!), and it would be advisable for affected projects to investigate diversifying their funding sources, that cannot be done overnight.  The damage done by a successful hijacking of OTF &lt;em&gt;will&lt;/em&gt; occur overnight, and will cause lasting damage that cannot be mitigated by a long-term strategy of diversification.  As such, it is critical that the decentralization community oppose the OTF takeover.&lt;/p&gt;
+
+&lt;p&gt;Help us save OTF from takeover.  &lt;a href=&quot;https://saveinternetfreedom.tech/information/how-to-help/&quot;&gt;You can find more information on how to help here.&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v3.3.10 Released</title>
@@ -297,85 +347,6 @@ Video without slides.
         <guid isPermaLink="true">https://www.namecoin.org//2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html</guid>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.0.10.3 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.0.10.3.  Here’s what’s new since v0.0.9.2:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;DNSSEC-HSTS:
-    &lt;ul&gt;
-      &lt;li&gt;Support Chromium and Google Chrome (patch by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;madns:
-    &lt;ul&gt;
-      &lt;li&gt;Support stream isolation via EDNS0 (patch by Jeremy Rand, merged by Hugo Landau).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncdns:
-    &lt;ul&gt;
-      &lt;li&gt;Support stream isolation via EDNS0 (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Use modern btcd for JSON-RPC client (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Make TLSA support disableable at build time (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Documentation improvements (patches by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Code quality improvements (patches by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncdumpzone:
-    &lt;ul&gt;
-      &lt;li&gt;Fix infinite loop when dumping with Namecoin Core 0.18.0 and higher (patch by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncprop279:
-    &lt;ul&gt;
-      &lt;li&gt;Add “Only Onion mode” (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Support stream isolation via EDNS0 (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Use modern btcd for JSON-RPC client (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Make TLSA support disableable at build time (patch by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Code quality improvements (patches by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;qlib:
-    &lt;ul&gt;
-      &lt;li&gt;Fix build error on current Go compiler versions (patch by Zigmund, merged upstream by Miek Gieben).&lt;/li&gt;
-      &lt;li&gt;Support configurable timeouts (patch by Jeremy Rand, merged upstream by Miek Gieben).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;tlsrestrictnss:
-    &lt;ul&gt;
-      &lt;li&gt;Code quality improvements (patch by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;x509-signature-splice:
-    &lt;ul&gt;
-      &lt;li&gt;Support multiple Go compiler versions (patch by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Build system:
-    &lt;ul&gt;
-      &lt;li&gt;Bump rbm dependencies to latest releases (patches by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Bump NSIS dependencies to latest releases (patches by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Code quality improvements (patches by Jeremy Rand).&lt;/li&gt;
-      &lt;li&gt;Build reproducibility improvements (patches by Jeremy Rand).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/01/16/ncdns-v0.0.10.3-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/01/16/ncdns-v0.0.10.3-released.html</guid>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
