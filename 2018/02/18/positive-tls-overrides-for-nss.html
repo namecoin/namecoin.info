@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 </p></div></div>
 
@@ -498,8 +498,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
-</code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
+</code></pre></div></div>
 
 <p>Allowed <a href="https://nf.bit/">the Namecoin Forum’s <code class="highlighter-rouge">.bit</code> domain</a> to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue <code class="highlighter-rouge">.bit</code> certs that would still be accepted by Chromium).</p>
 
@@ -794,7 +794,7 @@ Decentralized<br /><strong>secure</strong> names.
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -803,11 +803,11 @@ Decentralized<br /><strong>secure</strong> names.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-18-positive-tls-overrides-for-nss.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/02/18/positive-tls-overrides-for-nss.html">DNS (namecoin.org)</a></li>
@@ -815,20 +815,20 @@ Decentralized<br /><strong>secure</strong> names.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>

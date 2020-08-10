@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 </p></div></div>
 
@@ -103,7 +103,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>Bob finds the domain of interest and Sally’s offer to sell the domain. This could happen, for instance, via Sally using a special value for the domain or by some other channel out of the scope of this page. For instance:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli name_show d/my-cool-domain
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli name_show d/my-cool-domain
 {
   "name" : "d/my-cool-domain",
   "value" : "for sale by Sally for 10 NMC, pay to mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw",
@@ -111,7 +111,7 @@ A <strong>trust anchor</strong><br />for the Internet.
   "address" : "mt2vTvKfvfb9TKfxB8ns7NVrY4cYzRs73b",
   "expires_in" : 36000
 }
-</code></pre></div>
+</code></pre></div></div>
 
 <p>Now, Bob can prepare an atomic transaction that sends 10 NMC to Sally and transfers <code class="highlighter-rouge">d/my-cool-domain</code> at the same time to himself. We assume that Sally wants the 10 NMC sent to <code class="highlighter-rouge">mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw</code>, while Bob wants the name to be transferred to <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>.</p>
 
@@ -129,7 +129,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>Assuming a transaction fee of 0.005 NMC is appropriate, Bob needs to find one of his unspent inputs of at least 10.005 NMC to include in the transaction. For this, the <code class="highlighter-rouge">listunspent</code> command can be used. A suitable input could be this one:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli listunspent
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli listunspent
 [
   {
     "txid" : "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
@@ -139,15 +139,15 @@ A <strong>trust anchor</strong><br />for the Internet.
     "confirmations" : 2
   }
 ]
-</code></pre></div>
+</code></pre></div></div>
 
 <p>With a size of 974.9 NMC, it is large enough. It will produce <code class="highlighter-rouge">974.9 - 10.005 = 964.895 NMC</code> change. The interesting data fields for our purpose are <code class="highlighter-rouge">txid</code> and <code class="highlighter-rouge">vout</code>. They will form the currency input for <code class="highlighter-rouge">createrawtransaction</code>, so Bob writes into the file <code class="highlighter-rouge">tx.in</code>:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>[{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
   "txid": "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
   "vout": 0
 }]
-</code></pre></div>
+</code></pre></div></div>
 
 <p>If no single unspent output is large enough, Bob could instead either include multiple inputs into this file, or produce a suitable output first by sending a sufficiently large amount to himself.</p>
 
@@ -155,31 +155,31 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>Required currency outputs are the price paid to Sally as well as the change paid back to Bob. So Bob first creates a new address of his own to receive the change. We will use <code class="highlighter-rouge">mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj</code> for this purpose. Then, the corresponding data to be put in <code class="highlighter-rouge">tx.out</code> is:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw"</span><span class="p">:</span><span class="w"> </span><span class="mf">10.0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj"</span><span class="p">:</span><span class="w"> </span><span class="mf">964.895</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw": 10.0,
+  "mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj": 964.895
+}
+</code></pre></div></div>
 
 <h3 id="the-name-operation">The Name Operation</h3>
 
 <p>The last part of the transaction that needs to be created is the name operation. It should be a <code class="highlighter-rouge">name_update</code> of <code class="highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="highlighter-rouge">tx.op</code> is this:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name_update"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d/my-cool-domain"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"thanks from Sally"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "op": "name_update",
+  "name": "d/my-cool-domain",
+  "value": "thanks from Sally",
+  "address": "mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR"
+}
+</code></pre></div></div>
 
 <h3 id="finishing-the-offer">Finishing the Offer</h3>
 
 <p>With all this in place, the transaction can be created:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli createrawtransaction "$(cat tx.in)" "$(cat tx.out)" "$(cat tx.op)"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "$(cat tx.in)" "$(cat tx.out)" "$(cat tx.op)"
 0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed120000000000ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000
-</code></pre></div>
+</code></pre></div></div>
 
 <p>Now Bob can check that everything is fine:</p>
 
@@ -263,12 +263,12 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>When everything looks fine, Bob can sign his inputs to the transaction (after unlocking the wallet if it is password-protected):</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
 {
   "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502202131c98c98a3dfe19713ec0e48917a502063028766abf292b46fb8e8a96d80df022100f22198c86e814eff3a2562a36de5249a425c08080cb174eace7da9529e6e16b801ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
   "complete" : false
 }
-</code></pre></div>
+</code></pre></div></div>
 
 <p>Finally, Bob can now again check the signed transaction with <code class="highlighter-rouge">decoderawtransaction</code>, although this is not strictly necessary. He can now pass the partially-signed transaction (the hex string above) to Sally.</p>
 
@@ -276,7 +276,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>After Sally receives the partial transaction from Bob, she can check that everything is fine:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
 {
   "txid" : "92a50d2495d66cbfb13ae87deaec059ab605a7bf737b10935f9e0f80065debac",
   "version" : 28928,
@@ -351,24 +351,24 @@ A <strong>trust anchor</strong><br />for the Internet.
   ],
   "fees" : 0.00500000
 }
-</code></pre></div>
+</code></pre></div></div>
 
 <p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use <code class="highlighter-rouge">signrawtransactionwithwallet</code> with this private key as optional argument.</p>
 
 <p>When everything is fine, Sally can sign her parts of the input:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
 {
   "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502206114a73cb307e17ec0d4c5d7caa9d87a2136da511a94b7bd8027aab726b2e67a022100bcebf433a9fa13d50c602f0cf54e1e7ab2ac851ca1ed9017ecf95d7dc02e25e401ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab00010000008a47304402202620285799e7314e3da0573fe473354b6bf0eb29640254f073a124fe1454dc9d022019e4884853a5aba76059ff2bd23e6e5b6e8c607df0e46e83cbfc2ea26e67da4a01410467d20dd8d4c08674a13ea14540f09d62389c7d96bed805f5bbbb4079210dbf2ede9eeced9ab638a8d6ed01a909b91473e78a1ff65ba3de19b38203cf22c9d12dffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
   "complete" : true
 }
-</code></pre></div>
+</code></pre></div></div>
 
 <p>The transaction is now completely signed (when <code class="highlighter-rouge">"complete": true</code> is returned). Sally can check it again, and if everything is fine, she can relay it to the network:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ namecoin-cli sendrawtransaction &lt;large hex string&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli sendrawtransaction &lt;large hex string&gt;
 bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
-</code></pre></div>
+</code></pre></div></div>
 
 <p>That’s it. When the transaction is confirmed, the trade is completed. However, there’s no risk to either Bob or Sally that the trade could ever be done only partially, i.e., someone cheat the other.</p>
 
@@ -381,7 +381,7 @@ bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -390,11 +390,11 @@ bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/atomic-name-trading/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/atomic-name-trading/">DNS (namecoin.org)</a></li>
@@ -402,20 +402,20 @@ bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>

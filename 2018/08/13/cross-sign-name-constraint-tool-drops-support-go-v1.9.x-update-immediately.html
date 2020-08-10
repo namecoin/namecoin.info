@@ -397,8 +397,8 @@
 <article class="post-content">
 <p><code class="highlighter-rouge">cross_sign_name_constraint_tool</code>, as you may remember, is a Namecoin-developed tool that applies name constraints to a certificate authority, without requiring any permission from that CA.  It can be used to prevent malicious CA’s from issuing certificates for Namecoin domain names, even if those CA’s are trusted for DNS domain names.  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> (or its underlying library) is used by other Namecoin projects, such as <code class="highlighter-rouge">tlsrestrict_nss_tool</code> (which integrates <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> with the NSS cert store used by Firefox and the GNU/Linux version of Chromium) and ncdns (which will soon make <code class="highlighter-rouge">tlsrestrict_nss_tool</code> easy to use on Windows).  <code class="highlighter-rouge">cross_sign_name_constraint_tool</code>’s official binaries are produced using Go v1.10.x.  Recently, I happened to notice a bug in Go v1.9.x (which is fixed in Go v1.10.0 and higher) that causes <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> to fail with an error like this:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&lt;nil&gt; tag:&lt;nil&gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
-</code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error generating cross-signed CA: Couldn't unmarshal original certificate: asn1: structure error: tags don't match (2 vs {class:0 tag:16 length:13 isCompound:true}) {optional:false explicit:false application:false defaultValue:&lt;nil&gt; tag:&lt;nil&gt; stringType:0 timeType:0 set:false omitEmpty:false}  @21
+</code></pre></div></div>
 
 <p>The error only occurs with a small subset of CA certificates; the specific CA that triggered this error for me was <code class="highlighter-rouge">Verisign Class 3 Public Primary Certification Authority - G3</code> (which is trusted by Fedora).</p>
 
@@ -763,7 +763,7 @@
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -772,11 +772,11 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-08-13-cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/08/13/cross-sign-name-constraint-tool-drops-support-go-v1.9.x-update-immediately.html">DNS (namecoin.org)</a></li>
@@ -784,20 +784,20 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>

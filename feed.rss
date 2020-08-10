@@ -6,9 +6,9 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 08 Jul 2020 03:01:03 +0000</pubDate>
-    <lastBuildDate>Wed, 08 Jul 2020 03:01:03 +0000</lastBuildDate>
-    <generator>Jekyll v3.1.6</generator>
+    <pubDate>Mon, 10 Aug 2020 19:56:07 +0000</pubDate>
+    <lastBuildDate>Mon, 10 Aug 2020 19:56:07 +0000</lastBuildDate>
+    <generator>Jekyll v3.8.3</generator>
     
       <item>
         <title>We oppose the takeover of Open Technology Fund -- closed-source projects are scams and must not receive &quot;Internet Freedom&quot; funding</title>
@@ -159,13 +159,13 @@
 
 &lt;p&gt;I’ve now implemented HKDF-based deterministic salts in Electrum-NMC.  For example, you can now do the following command as before:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;name_new(&quot;d/example&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_new(&quot;d/example&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;And you’ll get back a transaction and a salt, like before.  But, you’re now free to ignore this salt, because you don’t need it anymore!  You can complete the registration 12 blocks later like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;codehilite&quot;&gt;&lt;code&gt;name_firstupdate(&quot;d/example&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_firstupdate(&quot;d/example&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Note that you don’t need to enter a salt or a TXID anymore!  Electrum-NMC checks each &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; UTXO in its wallet to see if the output of HKDF yields the commitment in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;, and if it does, Electrum-NMC uses that TXID and salt automatically.  This works even if you’re running &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; after restoring the wallet from a seed on a different machine than the one that produced the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction.&lt;/p&gt;
 

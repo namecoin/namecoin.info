@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -113,8 +113,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>If you want to build from source:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>go get github.com/namecoin/ncprop279
-</code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go get github.com/namecoin/ncprop279
+</code></pre></div></div>
 
 <h2 id="install-stemns">Install StemNS</h2>
 
@@ -122,11 +122,11 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The <code class="highlighter-rouge">_service_to_command</code> configuration in  <code class="highlighter-rouge">settings_services.py</code> should look like this (fill in the path to where your ncprop279 binary is located accordingly):</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>_service_to_command = {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_service_to_command = {
     "bit.onion": ['/path/to/ncprop279'],
     "bit": ['/path/to/ncprop279'],
 }
-</code></pre></div>
+</code></pre></div></div>
 
 <p>If you’re using Tor Browser Bundle, or are otherwise using a non-default Tor control port, you’ll need to update the control port in   <code class="highlighter-rouge">settings_port.py</code>.</p>
 
@@ -134,8 +134,8 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Tor must be configured with the following option:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>__LeaveStreamsUnattached 1
-</code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>__LeaveStreamsUnattached 1
+</code></pre></div></div>
 
 <p>In a typical Tor Browser installation, <code class="highlighter-rouge">torrc-defaults</code> is the correct place to add this option.</p>
 
@@ -159,7 +159,7 @@ Decentralized<br /><strong>secure</strong> names.
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -168,11 +168,11 @@ Decentralized<br /><strong>secure</strong> names.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tor-resolution/ncprop279/stemns/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/tor-resolution/ncprop279/stemns/">DNS (namecoin.org)</a></li>
@@ -180,20 +180,20 @@ Decentralized<br /><strong>secure</strong> names.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>

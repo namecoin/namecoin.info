@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Against<br />censorship.</strong>
+<strong>Freedom</strong><br>of information.
 </noscript>
 </p></div></div>
 
@@ -103,7 +103,7 @@
   <li>You want to require your regular computer in order to transfer a name, but you want to allow a publicly facing server to alter the name’s value automatically (e.g. for dynamic DNS functionality such as provided by DyName).</li>
 </ul>
 
-<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="highlighter-rouge">dd/</code> namespace (<code class="highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="highlighter-rouge">d/valuablename</code> and <code class="highlighter-rouge">dd/useless</code>.  You then set the value of <code class="highlighter-rouge">d/valuablename</code> to <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"import"</span><span class="p">:</span><span class="s2">"dd/useless"</span><span class="p">}</span></code>.  You can then set the value of <code class="highlighter-rouge">dd/useless</code> to <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"ip"</span><span class="p">:</span><span class="s2">"123.45.67.89"</span><span class="p">}</span></code>.  The result is that the domain name <code class="highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="highlighter-rouge">123.45.67.89</code>.  The owner of <code class="highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="highlighter-rouge">valuablename.bit</code>.  If <code class="highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="highlighter-rouge">d/valuablename</code> can register a new <code class="highlighter-rouge">dd/</code> name, change the value of <code class="highlighter-rouge">d/valuablename</code> to point to the new <code class="highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="highlighter-rouge">d/</code> name and the <code class="highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
+<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="highlighter-rouge">dd/</code> namespace (<code class="highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="highlighter-rouge">d/valuablename</code> and <code class="highlighter-rouge">dd/useless</code>.  You then set the value of <code class="highlighter-rouge">d/valuablename</code> to <code class="highlighter-rouge">{"import":"dd/useless"}</code>.  You can then set the value of <code class="highlighter-rouge">dd/useless</code> to <code class="highlighter-rouge">{"ip":"123.45.67.89"}</code>.  The result is that the domain name <code class="highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="highlighter-rouge">123.45.67.89</code>.  The owner of <code class="highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="highlighter-rouge">valuablename.bit</code>.  If <code class="highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="highlighter-rouge">d/valuablename</code> can register a new <code class="highlighter-rouge">dd/</code> name, change the value of <code class="highlighter-rouge">d/valuablename</code> to point to the new <code class="highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="highlighter-rouge">d/</code> name and the <code class="highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
 
 <p>You can also use <strong>delegated partial alteration</strong>.  This prevents the <code class="highlighter-rouge">dd/</code> name from setting certain JSON fields.  For example, you can set a <code class="highlighter-rouge">tls</code> field in the <code class="highlighter-rouge">d/</code> name (alongside the <code class="highlighter-rouge">import</code> field), which will prevent the <code class="highlighter-rouge">dd/</code> name from setting a <code class="highlighter-rouge">tls</code> field for that domain name.  In this example, if the <code class="highlighter-rouge">dd/</code> name is stolen, the thief could change the IP address but not the TLS fingerprint, which would prevent the thief from performing MITM attacks (even before you switch to a new <code class="highlighter-rouge">dd/</code> name).  If the thief does change the IP address to a server she controls, then visitors to the website will get a TLS error, which converts a MITM attack (very bad) to a DoS attack (much less bad).</p>
 
@@ -118,7 +118,7 @@
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -127,11 +127,11 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/delegated-alteration/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/delegated-alteration/">DNS (namecoin.org)</a></li>
@@ -139,20 +139,20 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
