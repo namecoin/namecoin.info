@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 </p></div></div>
 
@@ -525,8 +525,8 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>However, Bleeping Computer is actually substantially wrong on this point.  Why?  Take a look in the Namecha.in block explorer at <a href="https://namecha.in/name/d/bleepingcomputer">the Namecoin value of <code class="highlighter-rouge">bleepingcomputer.bit</code></a>, which is one of the alleged C&amp;C domains:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code><span class="p">{</span><span class="nt">"ns"</span><span class="p">:[</span><span class="s2">"A.DNSPOD.COM"</span><span class="p">,</span><span class="s2">"B.DNSPOD.COM"</span><span class="p">]}</span><span class="w">
-</span></code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"ns":["A.DNSPOD.COM","B.DNSPOD.COM"]}
+</code></pre></div></div>
 
 <p>First off, note that this is actually a completely invalid Namecoin configuration, because <a href="https://help.directadmin.com/item.php?id=541">the trailing period is missing</a> from the authoritative nameserver addresses, so any DNS software that tries to process that Namecoin domain will return <code class="highlighter-rouge">SERVFAIL</code>.  Second, note that the authoritative nameservers listed are… the <code class="highlighter-rouge">dnspod.com</code> nameservers.  This makes it pretty clear that <code class="highlighter-rouge">a.dnspod.com</code> isn’t actually a Namecoin DNS inproxy.  If it were, and even if the trailing-period fail were corrected in the Namecoin value, the inproxy would end up in a recursion loop.  <code class="highlighter-rouge">a.dnspod.com</code> is actually just a random authoritative nameserver that happens to be serving records for a domain name that ends in <code class="highlighter-rouge">.bit</code>.  <strong>Namecoin isn’t used anywhere by GandCrab, and killing the Namecoin domain wouldn’t have any effect on GandCrab.</strong>  Of course, this raises questions about why exactly that domain name is even registered in Namecoin.  The simplest explanations are:</p>
 
@@ -537,10 +537,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>It’s conceivable that <code class="highlighter-rouge">dnspod.com</code>’s nameservers will only allow a <code class="highlighter-rouge">.bit</code> domain’s records to be served from their systems if that <code class="highlighter-rouge">.bit</code> domain’s Namecoin data points to <code class="highlighter-rouge">dnspod.com</code>’s namservers, and it’s further possible that their systems are misconfigured to not notice that the trailing period is missing.  However, this seemed rather unlikely to me.  Why?  Well, first, take a look at the WHOIS data for <code class="highlighter-rouge">dnspod.com</code>:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>Registrar URL: http://www.dnspod.cn
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Registrar URL: http://www.dnspod.cn
 Registrar: DNSPod, Inc.
 Registrar IANA ID: 1697
-</code></pre></div>
+</code></pre></div></div>
 
 <p>So DNSPod is apparently an ICANN-accredited DNS registrar, with a primary domain name in China.  Which of these scenarios fits better with Occam’s Razor:</p>
 
@@ -553,7 +553,7 @@ Registrar IANA ID: 1697
 
 <p>However, since empiricism is informative, Ryan Castellucci tested this with an account on DNSPod, and confirmed that no such validation occurs:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 ;; global options: +cmd
@@ -579,11 +579,11 @@ jeremyrandissomesortofhumanperson.bit. 600 IN NS a.dnspod.com.
 ;; SERVER: 101.226.79.205#53(101.226.79.205)
 ;; WHEN: Wed Jan 31 03:04:24 UTC 2018
 ;; MSG SIZE  rcvd: 160
-</code></pre></div>
+</code></pre></div></div>
 
 <p>(Ryan doesn’t own <code class="highlighter-rouge">jeremyrandissomesortofhumanperson.bit</code>.)  Ryan also did the same for <code class="highlighter-rouge">bleepingcomputer.iq</code>, implying that DNSPod isn’t verifying ownership of DNS domain names either:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp bleepingcomputer.iq @a.dnspod.com A
 ;; global options: +cmd
@@ -609,7 +609,7 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
 ;; SERVER: 101.226.79.205#53(101.226.79.205)
 ;; WHEN: Wed Jan 31 03:00:39 UTC 2018
 ;; MSG SIZE  rcvd: 142
-</code></pre></div>
+</code></pre></div></div>
 
 <p>Ryan tried registering a <code class="highlighter-rouge">.onion</code> domain and <code class="highlighter-rouge">bleepingcomputer.malware</code> on DNSPod as well, but these were rejected as invalid TLD’s.  Ryan and I have no clue why <code class="highlighter-rouge">.bit</code> is on DNSPod’s TLD whitelist while <code class="highlighter-rouge">.onion</code> isn’t – probably because a customer asked for it and DNSPod just doesn’t care.</p>
 
@@ -862,7 +862,7 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -871,11 +871,11 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-01-30-recent-reports-ransomware-using-namecoin-missing-real-story.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">DNS (namecoin.org)</a></li>
@@ -883,20 +883,20 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>

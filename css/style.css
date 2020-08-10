@@ -40,6 +40,30 @@ body > footer a, body > footer a:hover {
     color: #FFF;
 }
 
+footer #social, footer #page-alternate, footer #funders {
+    float: left;
+}
+
+footer #page-source {
+    float: right;
+    margin-bottom: 10px;
+}
+
+footer #page-alternate {
+    width: 100%;
+}
+
+footer #page-alternate, footer #funders {
+    text-align: center;
+    padding-top: 0px;
+    color: #FFF;
+}
+
+footer #funders .funder {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 nav ul li {
     display: inline;
 }
@@ -130,6 +154,31 @@ td, th {
 h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
     position: relative;
     z-index: -1;
+}
+
+/* Sponsored exchanges styling (only present on Exchanges page) */
+
+.exchanges-gold {
+    font-size: 130%;
+}
+.exchanges-silver {
+    font-size: 115%;
+}
+.exchanges-bronze {
+    font-size: 100%;
+}
+.exchanges-basic {
+    font-size: 85%;
+}
+
+.exchange-logo {
+    height: 4em;
+}
+
+/* The provided FreeBitcoins logo needs to be cropped to display properly; this CSS trick does so. */
+.exchange-logo-freebitcoins {
+    width: 12em;
+    object-fit: cover;
 }
 
 /* Begin nojs */

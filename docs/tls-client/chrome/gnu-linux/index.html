@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 </p></div></div>
 
@@ -105,12 +105,12 @@
   <li>
     <p>Add the following to your <code class="highlighter-rouge">ncdns.conf</code>.  Substitute the certificate storage directory you created above for <code class="highlighter-rouge">$CERTDIR</code>, and substitute the NSS database directory that you found above for <code class="highlighter-rouge">$NSSDBDIR</code>.</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>[certstore]
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certstore]
 
 nss=true
 nsscertdir="$CERTDIR"
 nssdbdir="$NSSDBDIR"
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
   <li>Restart ncdns.</li>
 </ol>
@@ -128,14 +128,14 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Run the following, and note the output:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>ls $HOME/.config/google-chrome/*/TransportSecurity
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls $HOME/.config/google-chrome/*/TransportSecurity
+</code></pre></div>    </div>
   </li>
   <li>
     <p>For each <code class="highlighter-rouge">TransportSecurity</code> file that you found above, run the following, substituting the full path of the <code class="highlighter-rouge">TransportSecurity</code> file for <code class="highlighter-rouge">$TS_PATH</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
+</code></pre></div>    </div>
   </li>
   <li>You can now re-launch Google Chrome.</li>
 </ol>
@@ -149,8 +149,8 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Run the following, substituting the temporary directory for <code class="highlighter-rouge">$TEMP_DIR</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
+</code></pre></div>    </div>
   </li>
   <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
 </ol>
@@ -164,8 +164,8 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+</code></pre></div>    </div>
   </li>
   <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
   <li>Delete the existing trust anchor from Google Chrome.</li>
@@ -179,8 +179,8 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Run the following:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</p>
@@ -203,10 +203,10 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Create a text file called <code class="highlighter-rouge">certdehydrate_dane_rest_api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>[certdehydrate-dane-rest-api]
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
 nameserver="127.0.0.1"
 port="5391"
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
   <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
   <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
@@ -214,12 +214,12 @@ port="5391"
   <li>
     <p>Install the DNSSEC-HSTS WebExtensions Component like this:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>sudo mkdir /usr/local/namecoin/ /usr/share/google-chrome/extensions/
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /usr/local/namecoin/ /usr/share/google-chrome/extensions/
 sudo cp ./dnssec-hsts*.crx /usr/local/namecoin/dnssec-hsts.crx
 sudo chmod +r /usr/local/namecoin/dnssec-hsts.crx
 sudo cp ./ogimlildljgffpifafnhjggflenjhljf.json /usr/share/google-chrome/extensions/
 sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhljf.json
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -237,7 +237,7 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -246,11 +246,11 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/chrome/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/tls-client/chrome/gnu-linux/">DNS (namecoin.org)</a></li>
@@ -258,20 +258,20 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>

@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Against<br />censorship.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 </p></div></div>
 
@@ -451,8 +451,8 @@
 
 <p>First off, I wanted to build Firefox in rbm without any changes.  This was actually quite easy – The Tor Project’s documentation is quite good, and I didn’t run into any snags (besides the issue that I initially assigned too little storage to the VM where I was doing this – The Tor Project should probably document the expected storage requirements).  The build command I used was:</p>
 
-<div class="highlighter-rouge"><pre class="codehilite"><code>./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
-</code></pre></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./rbm/rbm build firefox --target nightly --target torbrowser-windows-i686
+</code></pre></div></div>
 
 <p>Next, I looked at Tor’s Firefox build script… and I was delighted to see that Tor is <em>already</em> building <code class="highlighter-rouge">certutil</code>.  In fact, you can <a href="http://rqef5a5mebgq46y5.onion/torbrowser/">download <code class="highlighter-rouge">certutil</code> binaries from The Tor Project’s download server</a> right now!  (You want the <code class="highlighter-rouge">mar-tools-*.zip</code> packages.)  Except… their build script discards the <code class="highlighter-rouge">certutil</code> binaries for all non-GNU/Linux targets.  How sad.</p>
 
@@ -769,7 +769,7 @@
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -778,11 +778,11 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-17-reproducible-builds-certutil-cross-compiling-rbm.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">DNS (namecoin.org)</a></li>
@@ -790,20 +790,20 @@
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>

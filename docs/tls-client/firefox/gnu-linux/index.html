@@ -105,10 +105,10 @@
   <li>
     <p>Add the following to <code class="highlighter-rouge">ncdns.conf</code>, substituting your Firefox profile folder for <code class="highlighter-rouge">$PROFILEDIR</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>[tlsoverridefirefox]
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[tlsoverridefirefox]
 sync=true
 profiledir="$PROFILEDIR"
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
   <li>Restart ncdns.</li>
 </ol>
@@ -139,8 +139,8 @@ profiledir="$PROFILEDIR"
   <li>
     <p>Run the following, substituting the temporary directory and NSS directory for <code class="highlighter-rouge">$TEMP_DIR</code> and <code class="highlighter-rouge">$NSS_DIR</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR"
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR"
+</code></pre></div>    </div>
   </li>
   <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
 </ol>
@@ -154,8 +154,8 @@ profiledir="$PROFILEDIR"
   <li>
     <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+</code></pre></div>    </div>
   </li>
   <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
   <li>Delete the existing trust anchor from Firefox.</li>
@@ -169,8 +169,8 @@ profiledir="$PROFILEDIR"
   <li>
     <p>Run the following:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR" --tlsrestrict.undo
-</code></pre>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$NSS_DIR" --tlsrestrict.undo
+</code></pre></div>    </div>
   </li>
   <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
   <li>If you want to restore compatibility with TLS intercepting proxies, follow these steps.  If you don’t want to use a TLS intercepting proxy, or if you don’t know what a TLS intercepting proxy is, you probably don’t need to do this.
@@ -204,19 +204,19 @@ profiledir="$PROFILEDIR"
   <li>
     <p>Install the DNSSEC-HSTS Native Component like this:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>sudo cp ./org.namecoin.dnssec_hsts.json /usr/lib64/mozilla/native-messaging-hosts/
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo cp ./org.namecoin.dnssec_hsts.json /usr/lib64/mozilla/native-messaging-hosts/
 sudo cp ./dnssec_hsts /usr/bin/
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
   <li>Download the DNSSEC-HSTS WebExtensions Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
   <li>
     <p>Install the DNSSEC-HSTS WebExtensions Component like this:</p>
 
-    <div class="highlighter-rouge"><pre class="codehilite"><code>unzip -d ./dnssec-hsts ./dnssec-hsts-*.xpi
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip -d ./dnssec-hsts ./dnssec-hsts-*.xpi
 sudo rm -rf /usr/share/webext/dnssec-hsts/
 sudo cp -a ./dnssec-hsts /usr/share/webext/dnssec-hsts
 sudo ln -s -T /usr/share/webext/dnssec-hsts "/usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/dnssec-hsts"
-</code></pre>    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -234,7 +234,7 @@ sudo ln -s -T /usr/share/webext/dnssec-hsts "/usr/share/mozilla/extensions/{ec80
 
     <footer class="site-footer">
 
-        <div class="container-fluid" style="float:left;">
+        <div class="container-fluid" id="social">
             <ul class="list-inline">
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
@@ -243,11 +243,11 @@ sudo ln -s -T /usr/share/webext/dnssec-hsts "/usr/share/mozilla/extensions/{ec80
             </ul>
         </div>
 
-        <div class="container-fluid" style="float:right; margin-bottom: 10px;">
+        <div class="container-fluid" id="page-source">
             <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/firefox/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
-        <div class="container-fluid" style="float: left; width: 100%; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/tls-client/firefox/gnu-linux/">DNS (namecoin.org)</a></li>
@@ -255,20 +255,20 @@ sudo ln -s -T /usr/share/webext/dnssec-hsts "/usr/share/mozilla/extensions/{ec80
             </ul>
         </div>
 
-        <div class="container-fluid" style="float: left; text-align: center; padding-top: 0px; color: #FFF;">
+        <div class="container-fluid" id="funders">
             <p>Thanks to our funders:</p>
             
             <ul class="list-inline">
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li style="padding-left: 10px; padding-right: 10px;">Cyphrs</li>
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
