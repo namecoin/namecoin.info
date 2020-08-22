@@ -6,9 +6,52 @@
 --></description>
     <link>https://www.namecoin.org//</link>
     <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 20 Aug 2020 19:31:33 +0000</pubDate>
-    <lastBuildDate>Thu, 20 Aug 2020 19:31:33 +0000</lastBuildDate>
+    <pubDate>Sat, 22 Aug 2020 05:30:33 +0000</pubDate>
+    <lastBuildDate>Sat, 22 Aug 2020 05:30:33 +0000</lastBuildDate>
     <generator>Jekyll v3.8.3</generator>
+    
+      <item>
+        <title>Namecoin Core name_show name expiration</title>
+        <description>&lt;p&gt;Namecoin Core will, starting version 0.21, change the default behavior of the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC API call in the presence of certain errors to better match the documentation, the behavior of Electrum-NMC, and the behavior expected by users.&lt;/p&gt;
+
+&lt;p&gt;When Namecoin Core was first written, it exposed name resolution using an inconsistent API.
+When querying for a name that was not active, the behavior varied by the history of the name.
+If it had never been registered, Namecoin would return an error.
+If it had once been registered in the past, but was now expired, Namecoin would return a response that was deceptively similar to that returned when querying for names that were still active.&lt;/p&gt;
+
+&lt;p&gt;Owing to this inconsistency, some applications using Namecoin Core came to treat expired names as if they were still active.
+This was a security problem.
+Users continued to use services identified by the names as usual, and as such their operators did not re-register them, but Namecoin does not afford unregistered names any protection.
+Therefore, anyone could have registered the names, thereby hijacking the services.
+While this may be considered immaterial, it is our opinion that Namecoin should not indirectly encourage such dangerous use-cases.&lt;/p&gt;
+
+&lt;p&gt;Furthermore, those applications’ use of the API for this purpose was incorrect.
+Expired names should not be considered alive, and it can hardly be thought that considering them as such would have been the intent in implementing it.
+A programmer who relied solely on the documentation (“Looks up the current data for the given name. Fails if the name doesn’t exist.”) would not be left with the impression that the operation would, in fact, only fail for never-registered names.&lt;/p&gt;
+
+&lt;p&gt;For these reasons, a change to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; API in Namecoin Core has been made.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; will now by default throw an error when attempting to resolve an expired name.
+This brings the default behavior in line with Electrum-NMC, which has always thrown an error.
+The old behavior can be preserved by setting the allowExpired option or -allow_expired command-line parameter to true.
+There are presently no plans to deprecate these flags.&lt;/p&gt;
+
+&lt;p&gt;This change will be included in version 0.21 of Namecoin Core.
+Downstream users who use &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; to resolve names for user-facing purposes should not need to make any changes to their usage.
+Downstream users who use &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; to resolve names, but who would also like to distinguish between names that have expired and names that have never been registered, are encouraged to explore the allowExpired field in the JSON RPC options argument and the -allowexpired command line parameter.
+In such cases, the old behavior still applies, whereby downstream users are expected to consider the value of the &lt;code class=&quot;highlighter-rouge&quot;&gt;expired&lt;/code&gt; field to ascertain whether a domain has expired.&lt;/p&gt;
+
+&lt;p&gt;This change does not affect the resolution of active names in any way.
+This change does not affect the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_history&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;name_scan&lt;/code&gt; RPC calls.
+This change does not affect Electrum-NMC.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org//2020/08/22/namecoin-core-name-show-expiration.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org//2020/08/22/namecoin-core-name-show-expiration.html</guid>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>We oppose the takeover of Open Technology Fund -- closed-source projects are scams and must not receive &quot;Internet Freedom&quot; funding</title>
@@ -330,21 +373,6 @@ Video without slides.
         <pubDate>Thu, 27 Feb 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</link>
         <guid isPermaLink="true">https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Tor 0.4.3.1-alpha Released; Includes Namecoin Stream Isolation Patch</title>
-        <description>&lt;p&gt;The Tor Project has &lt;a href=&quot;https://blog.torproject.org/node/1828&quot;&gt;released&lt;/a&gt; Tor 0.4.3.1-alpha.  Among the usual interesting changes, Namecoin users will be interested to note that Tor 0.4.3.1-alpha includes &lt;a href=&quot;/2019/12/09/stream-isolation-for-namecoin-name-lookups.html&quot;&gt;Namecoin’s stream isolation patch for Tor controllers such as StemNS&lt;/a&gt;, which paves the way for better Namecoin resolution support for Tor.  Kudos to The Tor Project on getting Tor 0.4.3.1-alpha released!&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 26 Jan 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/01/26/tor-0.4.3.1-alpha-released-includes-namecoin-stream-isolation-patch.html</guid>
         
         <category>News</category>
         
