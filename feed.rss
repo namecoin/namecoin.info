@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Namecoin</title>
     <description><!--Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 --></description>
-    <link>https://www.namecoin.org//</link>
-    <atom:link href="https://www.namecoin.org//feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 22 Aug 2020 05:30:33 +0000</pubDate>
-    <lastBuildDate>Sat, 22 Aug 2020 05:30:33 +0000</lastBuildDate>
-    <generator>Jekyll v3.8.3</generator>
+    <link>https://www.namecoin.org/</link>
+    <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <pubDate>Sun, 23 Aug 2020 19:20:02 +0000</pubDate>
+    <lastBuildDate>Sun, 23 Aug 2020 19:20:02 +0000</lastBuildDate>
+    <generator>Jekyll</generator>
+    <image>
+      <url>https://www.namecoin.org/images/logo.png</url>
+      <title>Namecoin</title>
+      <link>https://www.namecoin.org/</link>
+      <width>134</width>
+      <height>25</height>
+    </image>
+    
+      <item>
+        <title>Namecoin Core name_list GUI</title>
+        <description>&lt;p&gt;Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.&lt;/p&gt;
+
+&lt;p&gt;Brandon accurately observed that a way to mitigate this issue is to expose all of the functionality that the GUI needs as RPC methods, and then simply make the GUI call RPC functions.  (Bitcoin Core includes a built-in API for internally calling RPC functions.)  This minimizes the amount of logic that the GUI needs to carry, which both enables integration testing and eliminates private API usage in the GUI code.  This was partially done in Brandon’s branch that was used for the name tab binaries that we released, but unfortunately, there was still some logic that needed internal API’s.&lt;/p&gt;
+
+&lt;p&gt;So, I’m picking up where Brandon left off.  For one thing, I’m splitting the code into multiple PR’s, which can be merged independently: the GUI equivalents of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_autoregister&lt;/code&gt;.  The first of these, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt;, is used for displaying the current name inventory.  I’ve spent some time forward-porting the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI to current Namecoin Core, and here’s a preliminary result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/manage-names-2020-08-19.png&quot; alt=&quot;A screenshot of the Manage Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s still some more code cleanup needed before it can be merged, but I’m optimistic that we can get a merge to happen soon.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2020/08/23/namecoin-core-name-list-gui.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/08/23/namecoin-core-name-list-gui.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core name_show name expiration</title>
@@ -45,8 +76,9 @@ This change does not affect the &lt;code class=&quot;highlighter-rouge&quot;&gt;
 This change does not affect Electrum-NMC.&lt;/p&gt;
 </description>
         <pubDate>Sat, 22 Aug 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/08/22/namecoin-core-name-show-expiration.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/08/22/namecoin-core-name-show-expiration.html</guid>
+        <link>https://www.namecoin.org/2020/08/22/namecoin-core-name-show-expiration.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/08/22/namecoin-core-name-show-expiration.html</guid>
+        <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
         
@@ -95,8 +127,9 @@ This change does not affect Electrum-NMC.&lt;/p&gt;
 &lt;p&gt;Help us save OTF from takeover.  &lt;a href=&quot;https://saveinternetfreedom.tech/information/how-to-help/&quot;&gt;You can find more information on how to help here.&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 08 Jul 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</guid>
+        <link>https://www.namecoin.org/2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/07/08/we-oppose-the-takeover-of-open-technology-fund.html</guid>
+        <dc:creator>Jeremy Rand, Daniel Kraft, Andy Colosimo, Ahmed Bodiwala, Somewhat, and Anonymous Namecoin Developer(s)</dc:creator>
         
         <category>News</category>
         
@@ -140,8 +173,9 @@ This change does not affect Electrum-NMC.&lt;/p&gt;
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/06/07/electrum-nmc-v3.3.10-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/06/07/electrum-nmc-v3.3.10-released.html</guid>
+        <link>https://www.namecoin.org/2020/06/07/electrum-nmc-v3.3.10-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/06/07/electrum-nmc-v3.3.10-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
         
@@ -217,8 +251,9 @@ This change does not affect Electrum-NMC.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Thanks to s7r for the idea of deterministic salts; thanks to Ryan Castellucci for cryptographic advice; and thanks to Daniel Kraft for discussions about Namecoin Core integration.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/05/10/deterministic-salts.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/05/10/deterministic-salts.html</guid>
+        <link>https://www.namecoin.org/2020/05/10/deterministic-salts.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/05/10/deterministic-salts.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
@@ -257,8 +292,9 @@ Video without slides.
 &lt;p&gt;The above free-software-friendly recordings are converted from &lt;a href=&quot;https://icann60abudhabi2017.sched.com/event/CbHh/joint-meeting-icann-board-technical-experts-group-teg&quot;&gt;ICANN’s official recordings&lt;/a&gt;.  Copyright ICANN; used with permission.  Additional material, e.g. audio-only recordings, slides, and transcripts, can be found on ICANN’s website.&lt;/p&gt;
 </description>
         <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/04/30/icann-60-teg-recordings.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/04/30/icann-60-teg-recordings.html</guid>
+        <link>https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
@@ -270,8 +306,9 @@ Video without slides.
         <description>&lt;p&gt;&lt;a href=&quot;https://www.cyphermarket.com/namecoin/&quot;&gt;Namecoin-branded merchandise&lt;/a&gt; (e.g. T-shirts and stickers) are now for sale from our friends at Cypher Market.  Not only is this a good way to spread the word about Namecoin, but Cypher Market also donates a cut of the profits to support Namecoin development.&lt;/p&gt;
 </description>
         <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/04/24/merchandise-cypher-market.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/04/24/merchandise-cypher-market.html</guid>
+        <link>https://www.namecoin.org/2020/04/24/merchandise-cypher-market.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/04/24/merchandise-cypher-market.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
@@ -318,8 +355,9 @@ Video without slides.
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/04/17/electrum-nmc-v3.3.9.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/04/17/electrum-nmc-v3.3.9.1-released.html</guid>
+        <link>https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
         
@@ -341,8 +379,9 @@ Video without slides.
 &lt;p&gt;This screenshot was obtained by fiddling with the OS’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hosts&lt;/code&gt; file, but automatic ZeroNet integration could be added to ncdns in the future.&lt;/p&gt;
 </description>
         <pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/04/09/transproxy-support-in-zeronet.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/04/09/transproxy-support-in-zeronet.html</guid>
+        <link>https://www.namecoin.org/2020/04/09/transproxy-support-in-zeronet.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/04/09/transproxy-support-in-zeronet.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
@@ -354,25 +393,9 @@ Video without slides.
         <description>&lt;p&gt;The Namecoin website is now available via Namecoin at &lt;a href=&quot;https://namecoin.bit/&quot;&gt;https://namecoin.bit/&lt;/a&gt;.  The TLS certificate should work in most Namecoin-supported &lt;a href=&quot;/docs/tls-client&quot;&gt;TLS clients&lt;/a&gt;, but unfortunately doesn’t yet work with Tor Browser.  This will be fixed in the future.&lt;/p&gt;
 </description>
         <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/04/02/namecoin.bit.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/04/02/namecoin.bit.html</guid>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC: ETA Display for Name Registrations</title>
-        <description>&lt;p&gt;Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide &lt;a href=&quot;https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/&quot;&gt;some excellent UX review&lt;/a&gt; of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/2020-02-20-Registration-ETA.png&quot; alt=&quot;A screenshot of the Manage Names tab in Electrum-NMC showing &amp;quot;ETA 130min&amp;quot;.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Forest provided quite a bit of additional UX review; I intend to address those points in the future.  Thanks Forest for making Namecoin better!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 27 Feb 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org//2020/02/27/electrum-nmc-name-registration-eta-display.html</guid>
+        <link>https://www.namecoin.org/2020/04/02/namecoin.bit.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/04/02/namecoin.bit.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
