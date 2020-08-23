@@ -175,6 +175,10 @@
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<p><strong><a href="/2020/08/23/namecoin-core-name-list-gui.html">2020-08-23</a></strong> Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.</p>
+
+<p><a href="/2020/08/23/namecoin-core-name-list-gui.html">Read more…</a></p>
+
 <p><strong><a href="/2020/08/22/namecoin-core-name-show-expiration.html">2020-08-22</a></strong> Namecoin Core will, starting version 0.21, change the default behavior of the <code class="highlighter-rouge">name_show</code> RPC API call in the presence of certain errors to better match the documentation, the behavior of Electrum-NMC, and the behavior expected by users.</p>
 
 <p><a href="/2020/08/22/namecoin-core-name-show-expiration.html">Read more…</a></p>
@@ -206,10 +210,6 @@
 <p><a href="/2020/04/09/transproxy-support-in-zeronet.html">Read more…</a></p>
 
 <p><strong><a href="/2020/04/02/namecoin.bit.html">2020-04-02</a></strong> The Namecoin website is now available via Namecoin at <a href="https://namecoin.bit/">https://namecoin.bit/</a>.  The TLS certificate should work in most Namecoin-supported <a href="/docs/tls-client">TLS clients</a>, but unfortunately doesn’t yet work with Tor Browser.  This will be fixed in the future.</p>
-
-<p><strong><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">2020-02-27</a></strong> Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide <a href="https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/">some excellent UX review</a> of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:</p>
-
-<p><a href="/2020/02/27/electrum-nmc-name-registration-eta-display.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -262,11 +262,11 @@
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
