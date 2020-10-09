@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -175,6 +175,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<p><strong><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">2020-10-09</a></strong> As you no doubt remember <a href="/2020/01/11/36c3-summary.html">from 36C3</a>, the GNU/Linux version of Tor Browser Nightly comes with Namecoin support included.  While we’ve received significant test feedback (overwhelmingly positive), it’s been pointed out that supporting Windows would enable additional test feedback, since not everyone has a GNU/Linux machine to test things on.  So, I’ve been porting the Namecoin support in Tor Browser Nightly to Windows.</p>
+
+<p><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Read more…</a></p>
+
 <p><strong><a href="/2020/08/23/namecoin-core-name-list-gui.html">2020-08-23</a></strong> Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.</p>
 
 <p><a href="/2020/08/23/namecoin-core-name-list-gui.html">Read more…</a></p>
@@ -208,8 +212,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2020/04/09/transproxy-support-in-zeronet.html">2020-04-09</a></strong> <a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
 
 <p><a href="/2020/04/09/transproxy-support-in-zeronet.html">Read more…</a></p>
-
-<p><strong><a href="/2020/04/02/namecoin.bit.html">2020-04-02</a></strong> The Namecoin website is now available via Namecoin at <a href="https://namecoin.bit/">https://namecoin.bit/</a>.  The TLS certificate should work in most Namecoin-supported <a href="/docs/tls-client">TLS clients</a>, but unfortunately doesn’t yet work with Tor Browser.  This will be fixed in the future.</p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -260,13 +262,17 @@ Decentralized<br /><strong>secure</strong> names.
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>

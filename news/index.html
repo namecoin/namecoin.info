@@ -129,6 +129,88 @@ A <strong>trust anchor</strong><br />for the Internet.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Porting Namecoin in Tor Browser to Windows</a></h1>
+    <p class="post-meta">Oct 9, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>As you no doubt remember <a href="/2020/01/11/36c3-summary.html">from 36C3</a>, the GNU/Linux version of Tor Browser Nightly comes with Namecoin support included.  While we’ve received significant test feedback (overwhelmingly positive), it’s been pointed out that supporting Windows would enable additional test feedback, since not everyone has a GNU/Linux machine to test things on.  So, I’ve been porting the Namecoin support in Tor Browser Nightly to Windows.</p>
+
+    <h2 id="stemns-and-tor-bootstrap">StemNS and Tor Bootstrap</h2>
+
+    <p>First off, since this endeavor was going to involve some changes to StemNS, I figured this was a good opportunity to investigate an odd bug that was happening in StemNS sometimes.  I had noticed last year that in a fresh Tor Browser install, if Namecoin was enabled on the first run, Tor Launcher would indicate that Tor bootstrap had stalled at the “loading authority certificates” stage.  I found that spamming the Tor Launcher buttons to cancel and retry connecting would usually make the connection succeed after 5-10 tries, which seemed to suggest a race condition.  After quite a lot of manual inspection of StemNS logs, I found something odd.</p>
+
+    <p>While the Tor control spec states that the <code class="highlighter-rouge">__LeaveStreamsUnattached</code> config option will cause all streams to wait for the controller (StemNS in this case) to attach them, this was empirically not what was happening.  Rather, streams created as a result of user traffic (e.g. Firefox or Electrum-NMC) were waiting for StemNS to attach them, but streams created by Tor’s bootstrap were still automatically being attached.  The Tor control spec goes on to say the following:</p>
+
+    <blockquote>
+      <p>Attempting to attach streams
+via TC when “__LeaveStreamsUnattached” is false may cause a race between
+Tor and the controller, as both attempt to attach streams to circuits.</p>
+
+      <p>You can try to attachstream to a stream that
+has already sent a connect or resolve request but hasn’t succeeded
+yet, in which case Tor will detach the stream from its current circuit
+before proceeding with the new attach request.</p>
+    </blockquote>
+
+    <p>This certainly explained what had been happening.  Tor was opening a stream to bootstrap (attaching the stream to a circuit in the process), and (depending on exact timing) StemNS was trying to attach it a 2nd time, which caused the stream to be detached, thus killing the bootstrap.</p>
+
+    <p>At this point, I decided to ask the Tor developers whether this was a bug in the spec or the C implementation.  Roger Dingledine pointed me to the exact C code that handled this, which indicated exactly how StemNS could detect this case and handle it properly.  Roger also indicated that the C code was correct, and that the spec was incorrect.  I concurred that this made sense.</p>
+
+    <p>I was then able to modify StemNS to handle this properly by detecting whether a new stream was created by user traffic or internal bootstrap, and only attaching streams from the former.  Testing confirmed that the bug was fixed.  Great, now let’s move on.</p>
+
+    <h2 id="exiting-namecoin-when-tor-browser-exits">Exiting Namecoin when Tor Browser Exits</h2>
+
+    <p>The existing Namecoin support in Tor Browser relies on a Bash script that signals Electrum-NMC and StemNS to exit after Firefox exits.  Alas, Bash is only used as a launcher in GNU/Linux, so I needed to port this to a more cross-platform approach.</p>
+
+    <p>Tor Browser already solves this problem for the Tor daemon: Tor needs to exit when Firefox has done so.  Tor Browser does this by having Firefox send the <code class="highlighter-rouge">TAKEOWNERSHIP</code> command to Tor, which instructs Tor to exit when Firefox closes the control port connection.  This inspired me to do something similar in StemNS: I added an event listener to StemNS that triggers when Tor closes the control port connection to StemNS (which will happen when Tor exits).  I configured the event listener to send an RPC <code class="highlighter-rouge">stop</code> command to Electrum-NMC (which will make Electrum-NMC exit), and then exit StemNS as well.  (The latter took some DuckDuckGo-fu, as it turns out that <code class="highlighter-rouge">sys.exit()</code> can’t be called from a child thread in Python; the correct way to exit from a child thread is <code class="highlighter-rouge">os._exit()</code>.)</p>
+
+    <p>Some testing revealed that this worked; I was able to remove the Bash code that terminated Electrum-NMC and StemNS, and they still exited properly.  Moving on…</p>
+
+    <h2 id="launching-namecoin-when-tor-browser-starts">Launching Namecoin when Tor Browser Starts</h2>
+
+    <p>Of course, the other part of the Bash launcher for Namecoin was the code that launches Electrum-NMC and StemNS.  For this, I ended up copying/pasting the code in Tor Launcher that launches the Tor daemon.  As XPCOM-based JavaScript code goes, Tor Launcher is pretty readable, so the copy/paste job wasn’t particularly eventful.  I <em>did</em> notice that the documentation for debugging Tor Launcher was outdated, but the Tor developers on IRC were able to point me in the right direction there.</p>
+
+    <p>I won’t bore you with too many details on this part; it was mostly grunt work.  But I got it working.  Excellent, moving on….</p>
+
+    <h2 id="windows-and-python">Windows and Python</h2>
+
+    <p>By this point, all of the GNU/Linux-specific code had been replaced with cross-platform code.  So we were ready to move onto enabling Windows support.  Most of this was as simple as tweaking the rbm descriptors to enable Namecoin on Windows, and fixing a few bugs where the Go dependencies for certain rbm projects were wrong on Windows.  But, there was one issue that needed dealing with: Python.</p>
+
+    <p>Both Electrum-NMC and StemNS are written in Python.  GNU/Linux systems generally have Python available by default, but this is not the case for Windows.  In addition, on GNU/Linux, Python scripts are executable programs, but on Windows, they’re data files that need to be explicitly opened with the Python interpreter.  This means that some Windows-specific things need to be done.</p>
+
+    <p>For Python being available, I took the easy way out: I simply defined [1] it to be out of scope, i.e. the user is responsible for installing Python themselves before enabling Namecoin in Tor Browser.  I also rigged Tor Launcher to check every directory in the <code class="highlighter-rouge">PATH</code> for a Python interpreter, and to use the discovered Python binary as the executable, passing the Electrum-NMC or StemNS path as a command-line argument instead.  Worked pretty well.</p>
+
+    <p>Finally, I re-implemented verbose logging for Namecoin (which was also part of the Bash code that I had removed).  This was done via a <code class="highlighter-rouge">TOR_VERBOSE_NAMECOIN</code> environment variable.  It does two things when enabled:</p>
+
+    <ol>
+  <li>Pass the <code class="highlighter-rouge">-v</code> argument to Electrum-NMC, which enables verbose output.</li>
+  <li>On Windows, use <code class="highlighter-rouge">python.exe</code> (which pops up a command prompt window with logs) instead of <code class="highlighter-rouge">pythonw.exe</code> (which doesn’t spawn a command window).</li>
+</ol>
+
+    <p>Oh, and I had to tweak the linker flags for <code class="highlighter-rouge">ncprop279</code> to make it avoid launching a command prompt window on Windows as well.</p>
+
+    <p><img src="/images/screenshots/tor/tor-browser-windows-2020-08-20.png" alt="A screenshot of Namecoin in Tor Browser on Windows." /></p>
+
+    <h2 id="epilogue">Epilogue</h2>
+
+    <p>I sent in the code to the Tor Browser Team, and it’s now awaiting review.</p>
+
+    <p>In the meantime, I noticed that the <code class="highlighter-rouge">__LeaveStreamsUnattached</code> issue has a more correct fix now.  The master branch of Tor and Stem recently added a new stream status, <code class="highlighter-rouge">CONTROLLER_WAIT</code>, which indicates specifically that a stream is now waiting for the controller to attach it.  Thus, I’ve updated StemNS to only check for this status, rather than the mildly-convoluted previously-existing method of guessing whether a stream was waiting for this.  That means StemNS’s master branch is now incompatible with Tor 0.4.5.0, Stem 1.8.0, and earlier.  I’ve tagged a stable release that doesn’t include this refactor, and if any important bugfixes make their way into StemNS before the new Tor and Stem behavior gets into releases, I’ll probably backport them to a stable branch.</p>
+
+    <p>And now, we wait for code review from the Tor Browser Team.  Let the bikeshedding begin!</p>
+
+    <p>This work was funded by Cyphrs and Cyberia Computer Club.</p>
+
+    <p>[1] This is a totally legit usage of definitional discretion.  <a href="https://old.reddit.com/r/Jokes/comments/77zo3h/an_engineer_a_physicist_and_a_mathematician_are/">Really.</a></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/2020/08/23/namecoin-core-name-list-gui.html">Namecoin Core name_list GUI</a></h1>
     <p class="post-meta">Aug 23, 2020 • Jeremy Rand </p>
   </header>
@@ -5871,15 +5953,19 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
                     <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
