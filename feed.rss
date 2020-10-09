@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 09 Oct 2020 11:10:30 +0000</pubDate>
-    <lastBuildDate>Fri, 09 Oct 2020 11:10:30 +0000</lastBuildDate>
+    <pubDate>Fri, 09 Oct 2020 11:21:05 +0000</pubDate>
+    <lastBuildDate>Fri, 09 Oct 2020 11:21:05 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -31,12 +31,12 @@
 &lt;blockquote&gt;
   &lt;p&gt;Attempting to attach streams
 via TC when “__LeaveStreamsUnattached” is false may cause a race between
-Tor and the controller, as both attempt to attach streams to circuits.}&lt;/p&gt;
+Tor and the controller, as both attempt to attach streams to circuits.&lt;/p&gt;
 
   &lt;p&gt;You can try to attachstream to a stream that
 has already sent a connect or resolve request but hasn’t succeeded
 yet, in which case Tor will detach the stream from its current circuit
-before proceeding with the new attach request.}&lt;/p&gt;
+before proceeding with the new attach request.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;This certainly explained what had been happening.  Tor was opening a stream to bootstrap (attaching the stream to a circuit in the process), and (depending on exact timing) StemNS was trying to attach it a 2nd time, which caused the stream to be detached, thus killing the bootstrap.&lt;/p&gt;
