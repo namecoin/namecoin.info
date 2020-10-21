@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Blockchain Explorers</title>
+    <title>Notes on building Python for Windows using RBM</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//explorers/">
+    <link rel="canonical" href="https://www.namecoin.org//2020/10/21/notes-on-building-python-for-windows-using-rbm.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -116,28 +116,716 @@ A <strong>trust anchor</strong><br />for the Internet.
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Blockchain Explorers</h1>
-  </header>
 
-  <article class="post-content">
-    
-<h3 id="with-support-for-name-and-currency-operations">With support for name and currency operations</h3>
 
-<p><a href="https://namecoin.cyphrs.com/">Cyphrs Namecoin Explorer</a> (free software; consensus-safe)<br />
-<a href="https://www.namebrow.se/">Namebrow.se</a> (non-free software)<br /><a href="https://namecha.in/">namecha.in</a> (non-free software)<br /></p>
 
-<h3 id="currency-operations-only">Currency operations only</h3>
 
-<p><a href="https://nmc.tokenview.com/">Tokenview</a><br /><a href="https://bitinfocharts.com/namecoin/explorer/">BitInfoCharts</a><br /></p>
 
-<p>To get on the list please post on the <a href="https://forum.namecoin.org">forum</a>.</p>
 
-  </article>
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Notes on building Python for Windows using RBM</h1>
+<p class="post-meta">Oct 21, 2020 • yanmaani <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Namecoin would like for Tor Browser to support .bit domains.  The only mature, lightweight way to do this is to use the wallet qua name resolver Electrum-NMC.  It is written in Python.  To run Python software, you need an interpreter, like CPython.</p>
+
+<p>Namecoin and Tor are both intended to be secure projects.  All their binaries have to build reproducibly.  The Tor Browser is also intended to be portable.  It’s not acceptable for users to have to install additional software on their computer to run Tor Browser.</p>
+
+<p>This means a Python interpreter would have to be bundled in order for Electrum-NMC to be includible in Tor Browser.  And since Tor Browser is a secure project, said Python interpreter has to be built reproducibly.  For this reason, the <code class="highlighter-rouge">tor-browser-build</code> repository has received some patches to reproducibly build such binaries.</p>
+
+<p>This post details the problems encountered while making them.</p>
+
+<p>Building CPython reproducibly for Linux is trivial.  Download the source code, patch it to disable build timestamps, and compile.  That’s it, you’re done.</p>
+
+<p>The situation is markedly different on Windows.  The official Python documentation suggests <a href="https://github.com/python/cpython/blob/master/PCbuild/readme.txt">building with Microsoft Visual Studio 2017</a>.  This is no good.  That compiler doesn’t support reproducible builds, it’s closed-source, and it would have to run in Wine.</p>
+
+<p>There should be another way.  CPython is written in standard C.  GCC can cross-compile C software for Windows using MinGW - the compiler runs on Linux, but produces binaries for Windows.  That’s how the Tor Project build Tor Browser for Windows.  In theory, it should be possible to use GCC to cross-compile CPython for Windows, and a lot of Tor’s tooling should be possible to re-use.</p>
+
+<p>In practice, Python’s ordinary build system doesn’t support this.  It isn’t made for cross-compilation.  Thankfully, one <a href="https://github.com/erikjanss">Erik Janssens</a> had created an alternative <a href="https://mesonbuild.com/">Meson</a>-based <a href="https://github.com/v-finance/cross-python">build script</a> to compile Python for Windows with Linux using GCC and MinGW.  Many thanks!</p>
+
+<p>This build script needed some minor adaptations to properly integrate it with the Tor Project’s RBM build system.  Meson and RBM both have built-in features for dependency handling, such as downloading files from URLs, verifying their hashes, and caching them.  Doing this requires Internet access.  When compiling, RBM disables Internet access.</p>
+
+<p>The configuration script will thus have to download the binaries and move them into the cache directory used by Meson.  This change also makes the build faster - RBM uses a fresh VM for each build, so unless the cache is outside of the VM, it will be wiped on each new build.</p>
+
+<p>After this was done, RBM was able to produce something resembling a Python 3.8 interpreter.  However, it wasn’t functional.  Owing to what presumably was an idiosyncracy of the MinGW system, a critical library named <code class="highlighter-rouge">libwinpthread-1.dll</code> wasn’t included.</p>
+
+<p>This problem turned out to be easy to fix.  Ruben Van Boxem, a contributor to the MinGW project, <a href="https://stackoverflow.com/a/14033674">suggested</a> on StackOverflow that the compiler/linker simply be explicitly told to link this library statically.  This worked:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wine python.exe
+Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
+&gt;&gt;&gt;
+</code></pre></div></div>
+
+<p>The changes are now submitted and subject to review.</p>
+
+<p>We think other projects that use Python might find these efforts useful.  In particular, upstream Electrum may benefit from using a reproducible build of Python.  We want to help others, so we try to submit patches and contribute where appropriate:</p>
+
+<ul>
+  <li>The RBM build descriptor carries a custom patch to omit build timestamps in CPython.  With this merged upstream, reproducible builds of CPython would become easier, and the maintenance burden lower.</li>
+  <li>I have submitted some <a href="https://github.com/v-finance/cross-python/pull/1">minor documentation changes</a> for Mr. Janssens’s build script.</li>
+  <li>The RBM build descriptor can be used to build Python, without necessarily building the Tor Browser.</li>
+</ul>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -154,14 +842,14 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/explorers/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-10-21-notes-on-building-python-for-windows-using-rbm.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/explorers/">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/explorers/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -170,19 +858,19 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>

@@ -128,8 +128,8 @@ td, th {
     padding: 0.5em;
 }
 
-/* Fix deeplinks to elements */
-*[id]:before {
+/* Fix deeplinks to elements ("a" exception is for FAQ ToC) */
+*:not(a)[id]:before {
     display: block;
     content: " ";
     margin-top: -51px;
@@ -139,8 +139,8 @@ td, th {
 
 /* TODO: refactor this */
 @media (max-width: 1003px) and (min-width: 768px) {
-    /* Fix deeplinks to elements (double-height menu bar) */
-    *[id]:before {
+    /* Fix deeplinks to elements (double-height menu bar) ("a" exception is for FAQ ToC) */
+    *:not(a)[id]:before {
         display: block;
         content: " ";
         margin-top: -101px;
