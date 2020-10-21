@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Freedom</strong><br>of information.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -179,6 +179,13 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Read more…</a></p>
 
+<p><strong><a href="/2020/09/14/notes-on-building-python-for-windows-using-rbm.html">2020-09-14</a></strong> Namecoin would like for Tor Browser to support .bit domains.
+The only mature, lightweight way to do this is to use the wallet qua name resolver Electrum-NMC.
+It is written in Python.
+To run Python software, you need an interpreter, like CPython.</p>
+
+<p><a href="/2020/09/14/notes-on-building-python-for-windows-using-rbm.html">Read more…</a></p>
+
 <p><strong><a href="/2020/08/23/namecoin-core-name-list-gui.html">2020-08-23</a></strong> Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.</p>
 
 <p><a href="/2020/08/23/namecoin-core-name-list-gui.html">Read more…</a></p>
@@ -208,10 +215,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2020/04/17/electrum-nmc-v3.3.9.1-released.html">2020-04-17</a></strong> We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
 
 <p><a href="/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Read more…</a></p>
-
-<p><strong><a href="/2020/04/09/transproxy-support-in-zeronet.html">2020-04-09</a></strong> <a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
-
-<p><a href="/2020/04/09/transproxy-support-in-zeronet.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -260,19 +263,19 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
