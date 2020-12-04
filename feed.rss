@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 04 Dec 2020 18:19:12 +0000</pubDate>
-    <lastBuildDate>Fri, 04 Dec 2020 18:19:12 +0000</lastBuildDate>
+    <pubDate>Fri, 04 Dec 2020 18:50:21 +0000</pubDate>
+    <lastBuildDate>Fri, 04 Dec 2020 18:50:21 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -62,6 +62,22 @@ Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
         <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</guid>
+        <dc:creator>yanmaani</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Namecoin Core name_firstupdate, name_update default values</title>
+        <description>&lt;p&gt;Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;. This simplifies a common workflow.&lt;/p&gt;
+
+&lt;p&gt;This change is being made as part of the effort to simplify the RPC API for name management.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2020/10/21/namecoin-core-name-firstupdate-name-update-default-values.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/10/21/namecoin-core-name-firstupdate-name-update-default-values.html</guid>
         <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
@@ -444,57 +460,6 @@ Video without slides.
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v3.3.9.1 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.&lt;/p&gt;
-
-&lt;p&gt;Here’s what’s new since v3.3.8:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;From upstream Electrum:
-    &lt;ul&gt;
-      &lt;li&gt;Build script fixes backported from Electrum v4.0.0.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Namecoin-specific:
-    &lt;ul&gt;
-      &lt;li&gt;Features:
-        &lt;ul&gt;
-          &lt;li&gt;Add DNS builder GUI based on Namecoin Core.  (Patch by Jeremy Rand; based on a Namecoin Core patch by Brandon Roberts.)&lt;/li&gt;
-          &lt;li&gt;Add more servers.  (Patches by Jeremy Rand; thanks to deafboy, ccomp, and s7r for running the servers.)&lt;/li&gt;
-          &lt;li&gt;Allow pausing network on startup; unpause via an RPC command (mostly relevant for Tor Browser integration).  (Patch by Jeremy Rand; thanks to Georg Koppen and mjgill89 for reporting Tor Browser issue; thanks to SomberNight for brainstorming solutions.)&lt;/li&gt;
-          &lt;li&gt;Update checkpoint.  (Patch by Jeremy Rand.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Bug fixes:
-        &lt;ul&gt;
-          &lt;li&gt;Return correct error code when looking up nonexistent names.  Fixes issue where ncdns was recognizing this error as &lt;code class=&quot;highlighter-rouge&quot;&gt;SERVFAIL&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.  (Patch by Jeremy Rand; thanks to Georg Koppen for reporting Tor Browser issue.)&lt;/li&gt;
-          &lt;li&gt;Fix connectivity issues that could cause slow syncup or syncup getting stuck completely (these bugs were related to the stream isolation and parallel chain download patches).  (Patches by Jeremy Rand; thanks to Georg Koppen, mjgill89, and s7r for reporting issues.)&lt;/li&gt;
-          &lt;li&gt;Fix minor error handling bugs in name registration GUI and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC command.  (Patches by Jeremy Rand; thanks to s7r for reporting issues.)&lt;/li&gt;
-          &lt;li&gt;Add some additional AuxPoW checks.  (Patches by Jeremy Rand.)&lt;/li&gt;
-          &lt;li&gt;Disable stream-isolated server pool if in &lt;code class=&quot;highlighter-rouge&quot;&gt;oneserver&lt;/code&gt; mode (fixes a privacy leak).  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)&lt;/li&gt;
-          &lt;li&gt;Fix missing help text for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC command.  (Patch by Jeremy Rand.)&lt;/li&gt;
-          &lt;li&gt;Fix missing locale data in Python binaries.  (Patch by Jeremy Rand.)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>

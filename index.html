@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Freedom</strong><br>of information.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -179,6 +179,10 @@
 
 <p><a href="/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">Read more…</a></p>
 
+<p><strong><a href="/2020/10/21/namecoin-core-name-firstupdate-name-update-default-values.html">2020-10-21</a></strong> Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the <code class="highlighter-rouge">name_update</code> and <code class="highlighter-rouge">name_firstupdate</code> RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with <code class="highlighter-rouge">name_show</code>. This simplifies a common workflow.</p>
+
+<p><a href="/2020/10/21/namecoin-core-name-firstupdate-name-update-default-values.html">Read more…</a></p>
+
 <p><strong><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">2020-10-09</a></strong> As you no doubt remember <a href="/2020/01/11/36c3-summary.html">from 36C3</a>, the GNU/Linux version of Tor Browser Nightly comes with Namecoin support included.  While we’ve received significant test feedback (overwhelmingly positive), it’s been pointed out that supporting Windows would enable additional test feedback, since not everyone has a GNU/Linux machine to test things on.  So, I’ve been porting the Namecoin support in Tor Browser Nightly to Windows.</p>
 
 <p><a href="/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Read more…</a></p>
@@ -208,10 +212,6 @@
 <p><a href="/2020/04/30/icann-60-teg-recordings.html">Read more…</a></p>
 
 <p><strong><a href="/2020/04/24/merchandise-cypher-market.html">2020-04-24</a></strong> <a href="https://www.cyphermarket.com/namecoin/">Namecoin-branded merchandise</a> (e.g. T-shirts and stickers) are now for sale from our friends at Cypher Market.  Not only is this a good way to spread the word about Namecoin, but Cypher Market also donates a cut of the profits to support Namecoin development.</p>
-
-<p><strong><a href="/2020/04/17/electrum-nmc-v3.3.9.1-released.html">2020-04-17</a></strong> We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
-
-<p><a href="/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -260,19 +260,19 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>

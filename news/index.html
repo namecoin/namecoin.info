@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Against<br />censorship.</strong>
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -176,6 +176,22 @@ Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
   <li>I have submitted some <a href="https://github.com/v-finance/cross-python/pull/1">minor documentation changes</a> for Mr. Janssens’s build script.</li>
   <li>The RBM build descriptor can be used to build Python, without necessarily building the Tor Browser.</li>
 </ul>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2020/10/21/namecoin-core-name-firstupdate-name-update-default-values.html">Namecoin Core name_firstupdate, name_update default values</a></h1>
+    <p class="post-meta">Oct 21, 2020 • yanmaani </p>
+  </header>
+
+  <article class="post-content">
+    <p>Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the <code class="highlighter-rouge">name_update</code> and <code class="highlighter-rouge">name_firstupdate</code> RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with <code class="highlighter-rouge">name_show</code>. This simplifies a common workflow.</p>
+
+    <p>This change is being made as part of the effort to simplify the RPC API for name management.</p>
 
   </article>
 
@@ -6008,17 +6024,17 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
