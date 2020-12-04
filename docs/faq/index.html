@@ -146,6 +146,7 @@ A <strong>trust anchor</strong><br />for the Internet.
       <li><a href="#why-is-there-a-separate-name_new-step" id="markdown-toc-why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</a></li>
       <li><a href="#how-are-names-represented" id="markdown-toc-how-are-names-represented">How are names represented?</a></li>
       <li><a href="#what-if-i-spend-that-special-coin-by-mistake" id="markdown-toc-what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</a></li>
+      <li><a href="#does-namecoin-support-layer-2-technologies" id="markdown-toc-does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</a></li>
       <li><a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so" id="markdown-toc-why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</a></li>
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
       <li><a href="#why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss" id="markdown-toc-why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss">Why focus on getting existing browsers and OS’s to support Namecoin instead of forking those browsers and OS’s?</a></li>
@@ -221,7 +222,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h3 id="what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</h3>
 
-<p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 35,999 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  An example of this usage is the ability to delegate .bit domain names to an external DNSSEC nameserver, authenticated by a DS record in the blockchain.</p>
+<p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 35,999 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  See our <a href="/docs/layer-2/">Layer 2</a> documentation for examples of such usage.</p>
 
 <p>If you’re developing an application, consider doing your development on the Namecoin Testnet.  This prevents your testing from bloating the production blockchain, and also allows you to test without spending real money on names.  If more than one implementation might have the same use case, consider writing a spec so that incompatible implementations of similar ideas don’t become a problem.</p>
 
@@ -250,6 +251,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 <h3 id="what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</h3>
 
 <p>The code prevents those coins from being used for normal payments.</p>
+
+<h3 id="does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</h3>
+
+<p>Yes.  See our <a href="/docs/layer-2/">Layer 2</a> documentation.</p>
 
 <h3 id="why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</h3>
 
@@ -739,19 +744,19 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
