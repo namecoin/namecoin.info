@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 04 Dec 2020 19:11:35 +0000</pubDate>
-    <lastBuildDate>Fri, 04 Dec 2020 19:11:35 +0000</lastBuildDate>
+    <pubDate>Sat, 05 Dec 2020 04:28:53 +0000</pubDate>
+    <lastBuildDate>Sat, 05 Dec 2020 04:28:53 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,36 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Core Name Renew GUI</title>
+        <description>&lt;p&gt;Now that Namecoin Core’s &lt;a href=&quot;/2020/08/23/namecoin-core-name-list-gui.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI&lt;/a&gt; is merged to &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; branch (it’ll be in the v22.0 release!), it’s time to move on to renewing names.  As with the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI, I’m trying to follow the principles of (1) keeping PR’s small, and (2) keeping all the interesting logic in the RPC method rather than the GUI.&lt;/p&gt;
+
+&lt;p&gt;In service of principle 1, I’m not touching the “Configure Name” GUI, nor am I touching the “Renew Name” button; this only adds the right-click context menu for renewing names.  In service of principle 2, yanmaani has done the excellent work of &lt;a href=&quot;/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html&quot;&gt;adding a renew mode&lt;/a&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; RPC method, which simplifies the GUI logic considerably.&lt;/p&gt;
+
+&lt;p&gt;So, without further rambling, here are some screenshots:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-single-context-menu-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names context menu in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-single-confirmation-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names confirmation dialog in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-multiple-context-menu-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names context menu for multiple names in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-multiple-confirmation-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names confirmation dialog for multiple names in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Astute readers will have noticed that you can now renew multiple names at once, like in Electrum-NMC.  This was a minimal enough change from Brandon’s GUI that I figured I’d toss it in.&lt;/p&gt;
+
+&lt;p&gt;Some more code review will be needed, but I don’t expect any major obstacles getting this merged.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 05 Dec 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core name_firstupdate, name_update default values</title>
@@ -443,20 +473,6 @@ Video without slides.
         <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Merchandise Now Available at Cypher Market</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://www.cyphermarket.com/namecoin/&quot;&gt;Namecoin-branded merchandise&lt;/a&gt; (e.g. T-shirts and stickers) are now for sale from our friends at Cypher Market.  Not only is this a good way to spread the word about Namecoin, but Cypher Market also donates a cut of the profits to support Namecoin development.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/04/24/merchandise-cypher-market.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/04/24/merchandise-cypher-market.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
