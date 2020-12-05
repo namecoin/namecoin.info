@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -125,6 +125,36 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2020/12/05/namecoin-core-name-renew-gui.html">Namecoin Core Name Renew GUI</a></h1>
+    <p class="post-meta">Dec 5, 2020 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Now that Namecoin Core’s <a href="/2020/08/23/namecoin-core-name-list-gui.html"><code class="highlighter-rouge">name_list</code> GUI</a> is merged to <code class="highlighter-rouge">master</code> branch (it’ll be in the v22.0 release!), it’s time to move on to renewing names.  As with the <code class="highlighter-rouge">name_list</code> GUI, I’m trying to follow the principles of (1) keeping PR’s small, and (2) keeping all the interesting logic in the RPC method rather than the GUI.</p>
+
+    <p>In service of principle 1, I’m not touching the “Configure Name” GUI, nor am I touching the “Renew Name” button; this only adds the right-click context menu for renewing names.  In service of principle 2, yanmaani has done the excellent work of <a href="/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">adding a renew mode</a> to the <code class="highlighter-rouge">name_update</code> RPC method, which simplifies the GUI logic considerably.</p>
+
+    <p>So, without further rambling, here are some screenshots:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/name-renew-single-context-menu-2020-12-04.png" alt="A screenshot of the Renew Names context menu in Namecoin-Qt." /></p>
+
+    <p><img src="/images/screenshots/namecoin-core/name-renew-single-confirmation-2020-12-04.png" alt="A screenshot of the Renew Names confirmation dialog in Namecoin-Qt." /></p>
+
+    <p><img src="/images/screenshots/namecoin-core/name-renew-multiple-context-menu-2020-12-04.png" alt="A screenshot of the Renew Names context menu for multiple names in Namecoin-Qt." /></p>
+
+    <p><img src="/images/screenshots/namecoin-core/name-renew-multiple-confirmation-2020-12-04.png" alt="A screenshot of the Renew Names confirmation dialog for multiple names in Namecoin-Qt." /></p>
+
+    <p>Astute readers will have noticed that you can now renew multiple names at once, like in Electrum-NMC.  This was a minimal enough change from Brandon’s GUI that I figured I’d toss it in.</p>
+
+    <p>Some more code review will be needed, but I don’t expect any major obstacles getting this merged.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6024,11 +6054,7 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
@@ -6037,6 +6063,10 @@ of the ncdns-nsis installer.</p>
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
