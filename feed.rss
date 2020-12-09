@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 05 Dec 2020 04:28:53 +0000</pubDate>
-    <lastBuildDate>Sat, 05 Dec 2020 04:28:53 +0000</lastBuildDate>
+    <pubDate>Wed, 09 Dec 2020 01:36:01 +0000</pubDate>
+    <lastBuildDate>Wed, 09 Dec 2020 01:36:01 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,22 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Will Present at Next Generation Internet Webinar on Naming Systems</title>
+        <description>&lt;p&gt;I will present at the webinar &lt;a href=&quot;https://www.ngi.eu/event/ngi-projects-contribution-to-technological-developments-of-dns-and-naming-systems/?instance_id=423&quot;&gt;“Next Generation Internet projects’ contribution to technological developments of DNS and naming systems”&lt;/a&gt; hosted by the European Commission.&lt;/p&gt;
+
+&lt;p&gt;The presentation will cover work by Lola, yanmaani, and Ahmed.  It will be December 10, 2020, 2:00 pm – 4:00 pm CET, and should be open to the public &lt;a href=&quot;https://bbb.tbm.tudelft.nl/b/mic-hhp-gxg-uyc&quot;&gt;via NLnet Foundation&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core Name Renew GUI</title>
@@ -432,47 +448,6 @@ This change does not affect Electrum-NMC.&lt;/p&gt;
         <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/05/10/deterministic-salts.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/05/10/deterministic-salts.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Video Recordings of ICANN60 Joint Meeting of ICANN Board and Technical Experts Group</title>
-        <description>&lt;p&gt;At Namecoin, we generally try to be good citizens in the broader community.  This means that we regularly engage in analysis, peer review, and patch writing for projects that aren’t strictly part of Namecoin.  In that spirit, today we are posting free-software-friendly video recordings of the Joint Meeting of the ICANN Board and the ICANN Technical Experts Group at ICANN60 in Abu Dhabi on November 1, 2017.  We hope that making this session more accessible to free software users will facilitate increased peer review, analysis, and research.&lt;/p&gt;
-
-&lt;p&gt;This session included the following presentations:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Alain Durand and Fernando Lopez: &lt;em&gt;DOA-like Persistent Identifiers over DNS: a Prototype&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;Leonard Tan: &lt;em&gt;Ethereum Name Service&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;Michael Palage and Pindar Wong: &lt;em&gt;Distributed Ledger Technology (aka Blockchain): Evolution or Revolution&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;Steve Crocker: &lt;em&gt;Tamperproof Root Zone Management System&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;low-quality-free-software-friendly-video-recording-with-slides&quot;&gt;Low-Quality Free-Software-Friendly Video Recording (With Slides)&lt;/h2&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-LQ-Video-with-Slides.webm#t=62&quot; type=&quot;video/webm&quot; /&gt;
-Video with slides.
-&lt;/video&gt;
-
-&lt;h2 id=&quot;high-quality-free-software-friendly-video-recording-without-slides&quot;&gt;High-Quality Free-Software-Friendly Video Recording (Without Slides)&lt;/h2&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-HQ-Video-Only.webm#t=624&quot; type=&quot;video/webm&quot; /&gt;
-Video without slides.
-&lt;/video&gt;
-
-&lt;h2 id=&quot;credits&quot;&gt;Credits&lt;/h2&gt;
-
-&lt;p&gt;The above free-software-friendly recordings are converted from &lt;a href=&quot;https://icann60abudhabi2017.sched.com/event/CbHh/joint-meeting-icann-board-technical-experts-group-teg&quot;&gt;ICANN’s official recordings&lt;/a&gt;.  Copyright ICANN; used with permission.  Additional material, e.g. audio-only recordings, slides, and transcripts, can be found on ICANN’s website.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 30 Apr 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
