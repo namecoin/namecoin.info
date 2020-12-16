@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 09 Dec 2020 02:02:15 +0000</pubDate>
-    <lastBuildDate>Wed, 09 Dec 2020 02:02:15 +0000</lastBuildDate>
+    <pubDate>Wed, 16 Dec 2020 12:51:43 +0000</pubDate>
+    <lastBuildDate>Wed, 16 Dec 2020 12:51:43 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -20,7 +20,7 @@
     
       <item>
         <title>Namecoin Will Present at Next Generation Internet Webinar on Naming Systems</title>
-        <description>&lt;p&gt;I will present at the webinar &lt;a href=&quot;https://www.ngi.eu/event/ngi-projects-contribution-to-technological-developments-of-dns-and-naming-systems/?instance_id=423&quot;&gt;“Next Generation Internet projects’ contribution to technological developments of DNS and naming systems”&lt;/a&gt; hosted by the European Commission.&lt;/p&gt;
+        <description>&lt;p&gt;I will present at the webinar &lt;a href=&quot;https://www.ngi.eu/event/ngi-projects-contribution-to-technological-developments-of-dns-and-naming-systems/?instance_id=423&quot;&gt;“Next Generation Internet projects’ contribution to technological developments of DNS and naming systems”&lt;/a&gt; hosted by NLnet Foundation.&lt;/p&gt;
 
 &lt;p&gt;The presentation will cover work by Lola, yanmaani, and Ahmed.  It will be December 10, 2020, 2:00 pm – 4:00 pm CET, and should be open to the public &lt;a href=&quot;https://bbb.tbm.tudelft.nl/b/mic-hhp-gxg-uyc&quot;&gt;via NLnet Foundation&lt;/a&gt;.&lt;/p&gt;
 </description>
