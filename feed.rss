@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 16 Dec 2020 12:51:43 +0000</pubDate>
-    <lastBuildDate>Wed, 16 Dec 2020 12:51:43 +0000</lastBuildDate>
+    <pubDate>Fri, 01 Jan 2021 20:13:50 +0000</pubDate>
+    <lastBuildDate>Fri, 01 Jan 2021 20:13:50 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,36 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Presentation at Grayhat 2020 Monero Village</title>
+        <description>&lt;p&gt;I gave a talk on October 31, 2020, at the &lt;a href=&quot;https://grayhat.co/&quot;&gt;Grayhat 2020&lt;/a&gt; &lt;a href=&quot;https://monerovillage.org/&quot;&gt;Monero Village&lt;/a&gt;, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:&lt;/p&gt;
+
+&lt;video controls=&quot;&quot;&gt;
+&lt;source src=&quot;https://www.namecoin.org/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
+Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&quot; at Grayhat 2020.
+&lt;/video&gt;
+
+&lt;p&gt;Slides are here:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_1_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 1)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_2_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 2)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Huge thanks to Diego “rehrar” Salazar from Monero for inviting me!&lt;/p&gt;
+
+&lt;p&gt;License information: Diego’s introduction in the video is under a CC-BY 4.0 license.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Will Present at Next Generation Internet Webinar on Naming Systems</title>
@@ -375,82 +405,6 @@ This change does not affect Electrum-NMC.&lt;/p&gt;
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Deterministic Salts</title>
-        <description>&lt;p&gt;When Namecoin was first being designed, an attack had to be dealt with: the &lt;em&gt;frontrunning attack&lt;/em&gt;.  The attack works like this:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Julian broadcasts a transaction, indicating that he wants to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Keith sees Julian’s transaction as soon as it gets broadcasted.&lt;/li&gt;
-  &lt;li&gt;Keith infers that Julian places a significant value on &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Keith broadcasts his own transaction, trying to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Keith bribes a miner to mine his transaction rather than Julian’s.  (This could be done by using a much higher transaction fee than Julian’s transaction, or it could be done via out-of-band channels, perhaps a court order.)&lt;/li&gt;
-  &lt;li&gt;Keith now owns &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, not Julian, even though Julian was the first person to try to buy it.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Astute readers will note that the fundamental problem here is that DNS-like systems are supposed to be “first-come-first-served”, but a blockchain isn’t able to meaningfully determine which transaction came first if they were both broadcasted before either was mined.  Similar problems happen in Bitcoin when an attacker tries to spend the same coins to two different destination addresses at the same block height: there’s no reliable way to determine which spend came first, so it’s up to the miners to decide.&lt;/p&gt;
-
-&lt;p&gt;So, how was this fixed?  Via &lt;em&gt;commitments&lt;/em&gt;.  When Julian wants to buy &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, he first broadcasts a &lt;em&gt;commitment&lt;/em&gt; transaction.  The transaction doesn’t reveal the name he wants to buy; it instead consists of a hash of two things: the name he wants to buy, and a secret randomly generated string (called a &lt;em&gt;salt&lt;/em&gt;).  Without knowing the salt and the name already, Keith can’t determine what name Julian is buying.  And since the salt is randomly generated and is high in entropy, Keith can’t even mount a dictionary attack on the hash; even if Keith suspects that Julian is buying &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;, Keith can’t verify this without knowing the salt.&lt;/p&gt;
-
-&lt;p&gt;After the commitment transaction has received 12 confirmations, Julian broadcasts a 2nd transaction that reveals the name and the salt.  Once this 2nd transaction is mined, Julian officially owns &lt;code class=&quot;highlighter-rouge&quot;&gt;wikileaks.bit&lt;/code&gt;.  The key point here is that once the 2nd transaction is broadcasted, Julian only needs 1 block to be mined in order to obtain the name – but if Keith tries to register it, he’ll need to broadcast his own commitment (now that he knows the name) and wait for 12 blocks before he can register the name.  In other words, the existence of the commitment gives Julian a 12-block head start against Keith, which should ensure that Julian gets the name (unless Keith has successfully bribed the miners of 12 blocks in a row, which seems unlikely).&lt;/p&gt;
-
-&lt;p&gt;This scheme brings important security, but it also poses a problem.  Imagine the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Matthew broadcasts a commitment transaction for &lt;code class=&quot;highlighter-rouge&quot;&gt;theintercept.bit&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Sometime in the next 12 blocks, Matthew’s hard drive dies.&lt;/li&gt;
-  &lt;li&gt;Matthew restores his wallet from his seed phrase on another machine.&lt;/li&gt;
-  &lt;li&gt;Matthew tries to register &lt;code class=&quot;highlighter-rouge&quot;&gt;theintercept.bit&lt;/code&gt; by spending the commitment transaction in his wallet.&lt;/li&gt;
-  &lt;li&gt;Uh oh.  Matthew’s wallet doesn’t know what the salt is!  It was only on the hard drive that died.  Matthew forfeits the name registration fee, and has to start over.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Can we improve this situation?  Yes!  The answer is &lt;em&gt;deterministic salts&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;On a high level, we want the wallet application to pick a salt that is reliably predictable to the wallet owner, but still unpredictable to anyone else.  We homed in on the following secret knowledge:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;The private key of the address that owns the commitment transaction.&lt;/li&gt;
-  &lt;li&gt;The name being registered.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We don’t want the name to be the only input to the salt, since at that point the salt is pretty much ineffectual: remember that the purpose of the salt is to stop people who can guess the name from figuring out whether their guess is accurate!  We also don’t want the private key to be the only input, because this would imply predictable salt reuse if address reuse occurs.  (Yes, I know, address reuse is bad.  But address reuse is typically only a privacy harm; there’s no reason to unnecessarily exacerbate the impact of address reuse by turning it into a name theft harm too.)&lt;/p&gt;
-
-&lt;p&gt;So, how do we combine the private key and the name to get a salt?  It turns out that there’s a standard cryptographic function for this: &lt;a href=&quot;https://tools.ietf.org/html/rfc5869&quot;&gt;HKDF (RFC 5869)&lt;/a&gt;.  Conveniently, HKDF is already present in both Bitcoin Core and Electrum, so no additional libraries need to be imported.  Specifically, we can use the following HKDF parameters:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Initial key material: private key&lt;/li&gt;
-  &lt;li&gt;Salt: name identifier&lt;/li&gt;
-  &lt;li&gt;Info: “Namecoin Registration Salt”&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The “Info” parameter is designed to prevent cross-protocol attacks, where someone uses the same construction for two completely different purposes in order to induce a user of one protocol to compromise themselves in the other protocol.&lt;/p&gt;
-
-&lt;p&gt;I’ve now implemented HKDF-based deterministic salts in Electrum-NMC.  For example, you can now do the following command as before:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_new(&quot;d/example&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And you’ll get back a transaction and a salt, like before.  But, you’re now free to ignore this salt, because you don’t need it anymore!  You can complete the registration 12 blocks later like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_firstupdate(&quot;d/example&quot;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that you don’t need to enter a salt or a TXID anymore!  Electrum-NMC checks each &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; UTXO in its wallet to see if the output of HKDF yields the commitment in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;, and if it does, Electrum-NMC uses that TXID and salt automatically.  This works even if you’re running &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; after restoring the wallet from a seed on a different machine than the one that produced the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transaction.&lt;/p&gt;
-
-&lt;p&gt;Pretty cool, huh?&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Thanks to s7r for the idea of deterministic salts; thanks to Ryan Castellucci for cryptographic advice; and thanks to Daniel Kraft for discussions about Namecoin Core integration.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/05/10/deterministic-salts.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/05/10/deterministic-salts.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
