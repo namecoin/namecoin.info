@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>External Name Constraints in certinject</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="https://www.namecoin.org//2021/01/15/external-name-constraints-in-certinject.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/download/">Download</a></li>
+                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
+                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
+                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dot-bit/">Home</a></li>
+                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
+                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="/resources/presentations/">Presentations</a></li>
+                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/news/">News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/contribute/">Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<noscript>
+
+Decentralized<br /><strong>secure</strong> names.
+</noscript>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">External Name Constraints in certinject</h1>
+<p class="post-meta">Jan 15, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In my <a href="/2021/01/14/undocumented-windows-feature-external-name-constraints.html">previous post</a>, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility <code class="highlighter-rouge">certutil</code> can be tricked into setting this Property on a certificate using the <code class="highlighter-rouge">-repairstore</code> command.  Alas, abusing <code class="highlighter-rouge">certutil</code> to do this comes with some problems:</p>
+
+<ol>
+  <li>The <code class="highlighter-rouge">-repairstore</code> command looks suspiciously like it’s intended to be used for totally different purposes, and I simply do not trust it to only set a name constraint and nothing else.</li>
+  <li>Using <code class="highlighter-rouge">certutil</code> to edit a public CA requires Administrator privileges, which is not great from a sandboxing perspective.</li>
+  <li>We’d ideally like to apply the name constraint to <em>all</em> of the root CA’s in the certificate store, not just a single one.  The <code class="highlighter-rouge">certutil</code> API doesn’t exactly make this <em>impossible</em>, but the UX is a lot worse than, say, the <code class="highlighter-rouge">tlsrestrictnss</code> tool I wrote that does something comparable for the NSS TLS library.</li>
+</ol>
+
+<p>Those of you who’ve looked at the ncdns source code will recall that ncdns includes a library called <code class="highlighter-rouge">certinject</code>, which is designed to interact with Windows cert stores without needing Administrator privileges.  Since <code class="highlighter-rouge">certutil</code> isn’t free software, but <code class="highlighter-rouge">certinject</code> is, and <code class="highlighter-rouge">certinject</code> already solves the privilege issue for us, Aerth and I have been extending <code class="highlighter-rouge">certinject</code> to do what’s needed for external name constraints.</p>
+
+<h2 id="injecting-to-arbitrary-cert-stores">Injecting to Arbitrary Cert Stores</h2>
+
+<p>The original <code class="highlighter-rouge">certinject</code> code only could write to the <code class="highlighter-rouge">Root</code> logical cert store in the <code class="highlighter-rouge">Enterprise</code> physical cert store.  This is where root CA’s added by the system administrator would, by convention, be stored.  This is fine for <code class="highlighter-rouge">certinject</code>’s original purpose of injecting self-signed certs for Namecoin websites, but all the CA’s we want to apply a name constraint to are elsewhere: generally in either the <code class="highlighter-rouge">Root</code> or <code class="highlighter-rouge">AuthRoot</code> logical cert store in the <code class="highlighter-rouge">System</code> physical cert store.  (<code class="highlighter-rouge">Root</code> is where the Microsoft root CA’s live; <code class="highlighter-rouge">AuthRoot</code> is where the root CA’s run by non-Microsoft corporations live.)  <code class="highlighter-rouge">certinject</code> can now inject certs into arbitrary logical stores (including the <code class="highlighter-rouge">Disallowed</code> logical store, which is used to mark a certificate as revoked), and now supports the <code class="highlighter-rouge">System</code> and <code class="highlighter-rouge">Group-Policy</code> physical stores in addition to the previously supported <code class="highlighter-rouge">Enterprise</code> physical store.</p>
+
+<h2 id="serializing-properties">Serializing Properties</h2>
+
+<p>Originally, <code class="highlighter-rouge">certinject</code> only serialized Blobs that included the DER-encoded certificate, with no other Properties set.  This worked fine for its original purpose, but we needed to make it more flexible.  <code class="highlighter-rouge">certinject</code> can now serialize Blobs with arbitrary Properties set.  <code class="highlighter-rouge">certinject</code>’s list of Properties supported by Windows is generated (to Go source code) via a Bash script (lots of <code class="highlighter-rouge">grep</code> and <code class="highlighter-rouge">sed</code>) using the <code class="highlighter-rouge">wincrypt.h</code> file from ReactOS as input.  Curiously, <code class="highlighter-rouge">wincrypt.h</code> only seems to contain the Properties supported by Windows XP.  A bunch of extra Properties were added in Windows Vista, but these are only listed in another header file, <code class="highlighter-rouge">certenroll.h</code>, which does not appear to exist in the ReactOS source code yet.  At the moment, we don’t have any urgent need for the Vista Properties, so we’re sticking with the ReactOS header file for maximum free-software-ness.</p>
+
+<p><code class="highlighter-rouge">certinject</code> can also now generate the binary data for Properties involving either EKU (extended key usage) or name constraints.  The Golang standard library doesn’t exactly make this easy; we settled on the approach of setting the EKU or name constraint fields in an <code class="highlighter-rouge">x509.Certificate</code> template, serializing the entire certificate, deserializing the result back to a template, and searching the template’s list of parsed <code class="highlighter-rouge">Extensions</code> for something that matched the OID of either EKU or name constraints.  A tad inefficient, but this approach does seem to maximize the usage of stable, production-grade standard library API’s compared to custom parsing code on our end, so I think it’s safer than trying to roll our own super-efficient implementation.</p>
+
+<p>While I was writing the EKU serialization code, I noticed that the Go standard library supports two EKU values that I had never heard of: <code class="highlighter-rouge">ExtKeyUsageMicrosoftServerGatedCrypto</code> and <code class="highlighter-rouge">ExtKeyUsageNetscapeServerGatedCrypto</code>.  Some DDG-ing revealed that these are a historical relic of 1990’s-era export-grade cryptography (also referred to as “International Step-Up”).  In particular, I found a Mozilla Bugzilla bug indicating that modern TLS implementations still support these 1990’s-era abominations because there exist public CA certs that rely on those particular EKU values, which didn’t expire until 2020.  I decided to explicitly not support these EKU values in <code class="highlighter-rouge">certinject</code>; users who desire to see some mildly more colorful language describing my opinion of this functionality can grep the <code class="highlighter-rouge">certinject</code> source code for “beehive”.</p>
+
+<p>We intend to add support for more Properties later; there are several other Properties that have caught our eye, although they’re not a very high priority for us right now.</p>
+
+<p>The only other notable issue we encountered in Blob serialization is that we found experimentally that the Property containing the DER-encoded certificate <strong>must</strong> be the final Property in the serialized Blob.  Any Properties that come after the DER-encoded certificate will be silently ignored.  (This meant that our first try, which sorted Properties by ascending Property ID, didn’t work as intended, because the name constraint Property has a greater Property ID than the DER-encoded certificate.  Oops!)  Interestingly, Aerth was able to dig up a Microsoft documentation page indicating that listing any Properties after the certificate itself would yield undefined behavior.  I guess now we know what that undefined behavior is.</p>
+
+<h2 id="editing-existing-blobs">Editing Existing Blobs</h2>
+
+<p><code class="highlighter-rouge">certinject</code> was always a one-way thing: you put in the cert you want, and it spits out a Blob.  However, this is not really desirable for the purpose of applying an external name constraint, because we don’t want to overwrite the Properties that already exist in the certificate store.  (Many of them, e.g. EKU, are probably security-critical.)  So we added functionality to read an existing Blob from the cert store and use that as the starting point, instead of creating an empty Blob with just the DER-encoded certificate.</p>
+
+<p>This is not as complete as it could be.  In the future, we intend to support fine-grained editing within a Property, e.g. adding a domain name to the name constraints list without destroying the existing name constraints.</p>
+
+<h2 id="searching-for-certificates-by-hash">Searching for Certificates by Hash</h2>
+
+<p>Originally, <code class="highlighter-rouge">certinject</code> was designed to accept a certificate as input, and it would then calculate the SHA1 hash itself for use as a Windows registry key.  (Yes, Windows still uses SHA1 as a certificate identifier.  Yes, this is stupid.  No, it’s not our problem.)  This made sense when the intent was to inject a cert that previously didn’t exist in the cert store, but since we now want to use it to edit existing certs, there’s no reason to force the user to know the preimage.  <code class="highlighter-rouge">certinject</code> now allows the user to specify a SHA1 hash of a certificate, which will get passed through directly when constructing the registry key.  This makes things a lot easier, and also leads to the next item.</p>
+
+<h2 id="applying-operations-store-wide">Applying Operations Store-Wide</h2>
+
+<p>Our intent for external name constraints is to Constrain All The Things, i.e. we want <strong>all</strong> built-in root CA’s to be prohibited from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Put another way, for those of you who’ve worked with our NSS cross-signing tools, we want the UX to be more like <code class="highlighter-rouge">tlsrestrictnss</code> and not <code class="highlighter-rouge">crosssignnameconstraint</code>.  <code class="highlighter-rouge">certinject</code> can now crawl the list of all certificates in a given certificate store, and apply the specified EKU or name constraint operations to all of them.  For practical purposes, this would usually entail applying the name constraint to all certs in the <code class="highlighter-rouge">Root</code> and <code class="highlighter-rouge">AuthRoot</code> logical stores of the <code class="highlighter-rouge">System</code> physical store.  Optionally, users might also want to apply the name constraint to the <code class="highlighter-rouge">Root</code> logical store of the <code class="highlighter-rouge">Enterprise</code> and <code class="highlighter-rouge">Group-Policy</code> physical stores.</p>
+
+<p>This is not quite as complete as it could be.  In the future, we intend to support tagging certificates with a “magic value”, which allows users to designate specific root CA’s that they want to exempt from the name constraint; <code class="highlighter-rouge">certinject</code> would then avoid applying the name constraint to those specific CA’s when doing a store-wide operation.  This could be used to allow users to deliberately run a MITM proxy on <code class="highlighter-rouge">.bit</code> traffic for diagnostic purposes, without losing protection from other root CA’s that the user doesn’t want to intercept <code class="highlighter-rouge">.bit</code> traffic.  (<code class="highlighter-rouge">certinject</code> already has some skeleton support for magic values, which ncdns uses for cleaning up expired certificates for privacy purposes.  So this will not be hard to add.)</p>
+
+<h2 id="adding-a-command-line-utility">Adding a Command-line Utility</h2>
+
+<p><code class="highlighter-rouge">certinject</code> now can be built as a command-line <code class="highlighter-rouge">certinject.exe</code> utility, which facilitates users who want to use it as an alternative to <code class="highlighter-rouge">certutil</code> from the command-line.  It also supports both DER and PEM certficates, for maximal ease of use.</p>
+
+<h2 id="adding-extensive-integration-tests">Adding Extensive Integration Tests</h2>
+
+<p>Cirrus CI now tests <code class="highlighter-rouge">certinject</code> daily for a variety of use cases against a real TLS client in a real Windows VM.  This has already surfaced a few bugs (which we fixed), and also ensures that if Microsoft ships an update that changes the behavior we’re relying on, we will automatically get notified.</p>
+
+<p>An interesting issue that we encountered here was that Windows tends to cache TLS cert verification results, which caused integration tests to interfere with each other.  This caching is generally done on a per-process basis, so spawning a separate PowerShell process for each TLS handshake worked pretty well for avoiding this issue.  (An exception is that Windows has some kind of special caching mechanism for “revoked” status, which is not on a per-process basis.  This meant that our tests for the <code class="highlighter-rouge">Disallowed</code> logical store needed to take extra precautions, specifically sleeping for 30 seconds between consecutive TLS handshakes, so that the cache would expire.  Yes, this is stupid.)</p>
+
+<p>Another more boring (yet also more amusing) issue we found is that our initial on-a-whim choice of using <code class="highlighter-rouge">github.com</code> as a test case of a TLS cert that was publicly trusted backfired, because <code class="highlighter-rouge">github.com</code> promptly blacklisted our CI VM for rate-limit violations, causing our tests to start failing nondeterministically as soon as we had more than a few test cases.  Oops.  We switched these tests to use <code class="highlighter-rouge">namecoin.org</code>, which seems a tad more ethical, and all is okay now.</p>
+
+<p>We also did a bunch of code cleanup, based on feedback from static analyzers.</p>
+
+<h2 id="so-whats-next">So what’s next?</h2>
+
+<p>Stay tuned for a future post on how we’re going to integrate this new <code class="highlighter-rouge">certinject</code> functionality into Namecoin.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-15-external-name-constraints-in-certinject.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+            </ul>
+        </div>
+
+        <script src="/js/jquery-2.2.4.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/script.js"></script>
+        <script src="/js/remove-nojs.js"></script>
+        
+</footer>
+
+
+  </body>
+
+</html>
