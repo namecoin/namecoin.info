@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//2021/01/08/external-name-constraints-in-certinject.html">
+    <link rel="canonical" href="https://www.namecoin.org//2021/01/15/external-name-constraints-in-certinject.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -124,19 +124,15 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
 <div class="post">
 
 <header class="post-header">
 <h1 class="post-title">External Name Constraints in certinject</h1>
-<p class="post-meta">Jan 8, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<p class="post-meta">Jan 15, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>In my <a href="/2021/01/07/undocumented-windows-feature-external-name-constraints.html">previous post</a>, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility <code class="highlighter-rouge">certutil</code> can be tricked into setting this Property on a certificate using the <code class="highlighter-rouge">-repairstore</code> command.  Alas, abusing <code class="highlighter-rouge">certutil</code> to do this comes with some problems:</p>
+<p>In my <a href="/2021/01/14/undocumented-windows-feature-external-name-constraints.html">previous post</a>, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility <code class="highlighter-rouge">certutil</code> can be tricked into setting this Property on a certificate using the <code class="highlighter-rouge">-repairstore</code> command.  Alas, abusing <code class="highlighter-rouge">certutil</code> to do this comes with some problems:</p>
 
 <ol>
   <li>The <code class="highlighter-rouge">-repairstore</code> command looks suspiciously like it’s intended to be used for totally different purposes, and I simply do not trust it to only set a name constraint and nothing else.</li>
@@ -872,6 +868,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
       </div>
     </div>
 
@@ -887,14 +887,14 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-08-external-name-constraints-in-certinject.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-15-external-name-constraints-in-certinject.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/01/08/external-name-constraints-in-certinject.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2021/01/08/external-name-constraints-in-certinject.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -903,19 +903,19 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
