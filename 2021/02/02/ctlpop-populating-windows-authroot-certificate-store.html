@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//2021/01/09/ctlpop-populating-windows-authroot-certificate-store.html">
+    <link rel="canonical" href="https://www.namecoin.org//2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -30,7 +30,7 @@
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
                 </div>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
                     <span class="sr-only">Toggle navigation</span>
@@ -42,34 +42,34 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/download/">Download</a></li>
-                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
-                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
-                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/dot-bit/">Home</a></li>
-                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
-                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
                         </ul>
                     </li>
-                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
                             <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
-                            <li><a href="/resources/presentations/">Presentations</a></li>
-                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
                             <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
                         </ul>
                     </li>
-                    <li><a href="/team/">Team</a></li>
-                    <li><a href="/news/">News</a></li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/contribute/">Contribute</a></li>
+                    <li><a href='/contribute/'>Contribute</a></li>
                 </ul>
                 </div>
             </div>
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+Decentralized<br /><strong>secure</strong> names.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -124,23 +124,15 @@
 
 
 
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
 <h1 class="post-title">CTLPop: Populating the Windows AuthRoot Certificate Store</h1>
-<p class="post-meta">Jan 9, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<p class="post-meta">Feb 2, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>In my <a href="/2021/01/08/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
+<p>In my <a href="/2021/01/15/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
 
 <h2 id="wait-what">Wait, What?</h2>
 
@@ -870,6 +862,14 @@
 
 
 
+
+
+
+
+
+
+
+
       </div>
     </div>
 
@@ -885,14 +885,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-09-ctlpop-populating-windows-authroot-certificate-store.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-02-02-ctlpop-populating-windows-authroot-certificate-store.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/01/09/ctlpop-populating-windows-authroot-certificate-store.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2021/01/09/ctlpop-populating-windows-authroot-certificate-store.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -901,19 +901,19 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
