@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 02 Feb 2021 09:36:54 +0000</pubDate>
-    <lastBuildDate>Tue, 02 Feb 2021 09:36:54 +0000</lastBuildDate>
+    <pubDate>Tue, 02 Feb 2021 09:55:26 +0000</pubDate>
+    <lastBuildDate>Tue, 02 Feb 2021 09:55:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -34,7 +34,7 @@
 
 &lt;h2 id=&quot;what-can-we-do&quot;&gt;What Can We Do?&lt;/h2&gt;
 
-&lt;p&gt;It’s entirely feasible to download the full list of certificate preimages that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; refers to.  There’s even an undocumented [1] &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; command for this.  But what do we want to do with it?  Two ideas occurred to me:&lt;/p&gt;
+&lt;p&gt;It’s entirely feasible to download the full list of certificate preimages that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; refers to.  There’s even a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; command for this: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -v -syncWithWU -f -f .\&lt;/code&gt;.  But what do we want to do with it?  Two ideas occurred to me:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to import it to the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; is the right logical store to import them?  Seems suboptimal.&lt;/li&gt;

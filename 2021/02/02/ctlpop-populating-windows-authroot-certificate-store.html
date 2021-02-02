@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-Decentralized<br /><strong>secure</strong> names.
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -146,7 +146,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <h2 id="what-can-we-do">What Can We Do?</h2>
 
-<p>It’s entirely feasible to download the full list of certificate preimages that <code class="highlighter-rouge">AuthRoot.stl</code> refers to.  There’s even an undocumented [1] <code class="highlighter-rouge">certutil</code> command for this.  But what do we want to do with it?  Two ideas occurred to me:</p>
+<p>It’s entirely feasible to download the full list of certificate preimages that <code class="highlighter-rouge">AuthRoot.stl</code> refers to.  There’s even a <code class="highlighter-rouge">certutil</code> command for this: <code class="highlighter-rouge">certutil -v -syncWithWU -f -f .\</code>.  But what do we want to do with it?  Two ideas occurred to me:</p>
 
 <ol>
   <li>We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask <code class="highlighter-rouge">certutil</code> to import it to the <code class="highlighter-rouge">AuthRoot</code> logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that <code class="highlighter-rouge">AuthRoot</code> is the right logical store to import them?  Seems suboptimal.</li>
@@ -901,19 +901,19 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
             </ul>
         </div>
