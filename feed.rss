@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 02 Feb 2021 09:55:26 +0000</pubDate>
-    <lastBuildDate>Tue, 02 Feb 2021 09:55:26 +0000</lastBuildDate>
+    <pubDate>Tue, 02 Feb 2021 10:07:26 +0000</pubDate>
+    <lastBuildDate>Tue, 02 Feb 2021 10:07:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -34,7 +34,7 @@
 
 &lt;h2 id=&quot;what-can-we-do&quot;&gt;What Can We Do?&lt;/h2&gt;
 
-&lt;p&gt;It’s entirely feasible to download the full list of certificate preimages that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; refers to.  There’s even a &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; command for this: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -v -syncWithWU -f -f .\&lt;/code&gt;.  But what do we want to do with it?  Two ideas occurred to me:&lt;/p&gt;
+&lt;p&gt;It’s entirely feasible to download the full list of certificate preimages that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; refers to.  There’s even a mostly-undocumented [1] &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; &lt;a href=&quot;https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn265983(v=ws.11)#new-certutil-options&quot;&gt;command&lt;/a&gt; for this.  But what do we want to do with it?  Two ideas occurred to me:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to import it to the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; is the right logical store to import them?  Seems suboptimal.&lt;/li&gt;
@@ -72,7 +72,9 @@
 
 &lt;h2 id=&quot;epilogue&quot;&gt;Epilogue&lt;/h2&gt;
 
-&lt;p&gt;After this post was written, but before publication, I discovered that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a built-in mostly-undocumented command that will do exactly the same thing as CTLPop: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -v -f -verifyCTL AuthRootWU&lt;/code&gt;.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.&lt;/p&gt;
+&lt;p&gt;After this post was written, but before publication, I discovered that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a built-in command that will do exactly the same thing as CTLPop: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -v -f -verifyCTL AuthRootWU&lt;/code&gt;.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.&lt;/p&gt;
+
+&lt;p&gt;[1] It’s not documented at &lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil&quot;&gt;the certutil manual&lt;/a&gt;, but is mentioned elsewhere on Microsoft’s website.&lt;/p&gt;
 </description>
         <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>

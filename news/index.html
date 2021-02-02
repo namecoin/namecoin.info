@@ -148,7 +148,7 @@
 
     <h2 id="what-can-we-do">What Can We Do?</h2>
 
-    <p>It’s entirely feasible to download the full list of certificate preimages that <code class="highlighter-rouge">AuthRoot.stl</code> refers to.  There’s even a <code class="highlighter-rouge">certutil</code> command for this: <code class="highlighter-rouge">certutil -v -syncWithWU -f -f .\</code>.  But what do we want to do with it?  Two ideas occurred to me:</p>
+    <p>It’s entirely feasible to download the full list of certificate preimages that <code class="highlighter-rouge">AuthRoot.stl</code> refers to.  There’s even a mostly-undocumented [1] <code class="highlighter-rouge">certutil</code> <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn265983(v=ws.11)#new-certutil-options">command</a> for this.  But what do we want to do with it?  Two ideas occurred to me:</p>
 
     <ol>
   <li>We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask <code class="highlighter-rouge">certutil</code> to import it to the <code class="highlighter-rouge">AuthRoot</code> logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that <code class="highlighter-rouge">AuthRoot</code> is the right logical store to import them?  Seems suboptimal.</li>
@@ -186,7 +186,9 @@
 
     <h2 id="epilogue">Epilogue</h2>
 
-    <p>After this post was written, but before publication, I discovered that <code class="highlighter-rouge">certutil</code> actually has a built-in mostly-undocumented command that will do exactly the same thing as CTLPop: <code class="highlighter-rouge">certutil -v -f -verifyCTL AuthRootWU</code>.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.</p>
+    <p>After this post was written, but before publication, I discovered that <code class="highlighter-rouge">certutil</code> actually has a built-in command that will do exactly the same thing as CTLPop: <code class="highlighter-rouge">certutil -v -f -verifyCTL AuthRootWU</code>.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.</p>
+
+    <p>[1] It’s not documented at <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil">the certutil manual</a>, but is mentioned elsewhere on Microsoft’s website.</p>
 
   </article>
 
@@ -6281,19 +6283,19 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
