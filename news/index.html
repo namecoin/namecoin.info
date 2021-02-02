@@ -30,7 +30,7 @@
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
                 </div>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
                     <span class="sr-only">Toggle navigation</span>
@@ -42,34 +42,34 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/download/">Download</a></li>
-                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
-                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
-                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/dot-bit/">Home</a></li>
-                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
-                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
                         </ul>
                     </li>
-                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
                             <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
-                            <li><a href="/resources/presentations/">Presentations</a></li>
-                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
                             <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
                         </ul>
                     </li>
-                    <li><a href="/team/">Team</a></li>
-                    <li><a href="/news/">News</a></li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/contribute/">Contribute</a></li>
+                    <li><a href='/contribute/'>Contribute</a></li>
                 </ul>
                 </div>
             </div>
@@ -125,6 +125,74 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">CTLPop: Populating the Windows AuthRoot Certificate Store</a></h1>
+    <p class="post-meta">Feb 2, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>In my <a href="/2021/01/15/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
+
+    <h2 id="wait-what">Wait, What?</h2>
+
+    <p>Yep.  Allow me to explain.  The root CA list in Windows is pretty large (420 root CA’s at the moment, if my count is correct), and can also be updated on the fly via Windows Update.  However, due to what Microsoft claims are performance concerns, only 24 of those root CA’s are actually populated in the cert store on a fresh Windows installation.  The full list lives in a file called <code class="highlighter-rouge">AuthRoot.stl</code>, which ships with Windows, and can also be updated via Windows Update.  This file is a <em>CTL</em> (certificate trust list), meaning it only stores the hashes of the certificates (and a bit of other metadata), not the certificate preimages.  (Why does a “CTL” have the file extension <code class="highlighter-rouge">.stl</code> rather than <code class="highlighter-rouge">.ctl</code>?  Don’t ask.  Just accept that Microsoft hates you.  It’ll be easier that way.)  When Windows tries to verify a certificate that chains back to a certificate in <code class="highlighter-rouge">AuthRoot.stl</code> but isn’t in the Windows certificate store, it automatically fetches the certificate preimage from Windows Update, and inserts it into the certificate store (typically in the <code class="highlighter-rouge">AuthRoot</code> logical store) prior to proceeding with the verification.  This is all transparent to the user under typical circumstances.</p>
+
+    <p>Personally I am highly dubious that this is a meaningful performance optimization, especially since this system was created (AFAICT) around 2 decades ago, so even if it helped performance when it was introduced, I doubt that this performance gain is applicable on modern hardware (especially since today, network latency is a much bigger contributor to perceived performance than any kind of local CPU or IO performance, and this system entails extra network latency when verifying certificates with a previously-unseen root CA).</p>
+
+    <h2 id="so-whats-the-problem">So What’s the Problem?</h2>
+
+    <p>Well, unfortunately, if a root CA is being downloaded on-the-fly during certificate verification, that prevents <code class="highlighter-rouge">certinject</code> from applying a name constraint to it before it gets used.  This is unfortunate, since it means that most of the root CA’s in Windows cannot be reliably constrained via <code class="highlighter-rouge">certinject</code>.</p>
+
+    <h2 id="what-can-we-do">What Can We Do?</h2>
+
+    <p>It’s entirely feasible to download the full list of certificate preimages that <code class="highlighter-rouge">AuthRoot.stl</code> refers to.  There’s even a mostly-undocumented [1] <code class="highlighter-rouge">certutil</code> <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn265983(v=ws.11)#new-certutil-options">command</a> for this.  But what do we want to do with it?  Two ideas occurred to me:</p>
+
+    <ol>
+  <li>We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask <code class="highlighter-rouge">certutil</code> to import it to the <code class="highlighter-rouge">AuthRoot</code> logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that <code class="highlighter-rouge">AuthRoot</code> is the right logical store to import them?  Seems suboptimal.</li>
+  <li>We could download the full set of certs to individual files, and use <code class="highlighter-rouge">certinject</code> to individually inject them to the <code class="highlighter-rouge">AuthRoot</code> store, with Properties manually parsed from the <code class="highlighter-rouge">AuthRoot.stl</code> file.  While this does avoid running with Administrator privileges by virtue of using <code class="highlighter-rouge">certinject</code>, it means we’d have to carefully parse the Properties from <code class="highlighter-rouge">AuthRoot.stl</code>, and make sure that <code class="highlighter-rouge">certinject</code> is applying them correctly.  Seems like a lot of attack surface.  Also, we still don’t know for sure that they all belong in the <code class="highlighter-rouge">AuthRoot</code> logical store, and it still requires write privileges to the <code class="highlighter-rouge">AuthRoot</code> store’s registry key.  So this is still not great.</li>
+</ol>
+
+    <p>Since neither of these jumped out at me as “obviously this is the right way to do it”, I came up with another idea.</p>
+
+    <h2 id="make-windows-do-our-job-for-us">Make Windows Do Our Job For Us!</h2>
+
+    <p>If you were reading the first section of this post carefully, you might have noted that Windows itself will happily insert the certificates from <code class="highlighter-rouge">AuthRoot.stl</code> into the certificate store under certain circumstances, specifically when it’s necessary for certificate verification.  Hmm, this sounds like something we can abuse!  What happens if we download the full set of certificates to individual files from Windows Update, and then just politely ask <code class="highlighter-rouge">certutil</code> to <strong>verify</strong> all of them?  Intuitively, this seems like the kind of thing that will cause the following Series of <del>un</del>Fortunate Events:</p>
+
+    <ol>
+  <li>CryptoAPI tries to verify the certificate by chaining it to a root CA in the certificate store.  This, naturally, fails.</li>
+  <li>CryptoAPI checks whether the certificate chains to a root CA in <code class="highlighter-rouge">AuthRoot.stl</code>.  Yes, the certificate does claim to be issued by a root CA in <code class="highlighter-rouge">AuthRoot.stl</code>.  (In reality, that’s because the certificate is issued by <strong>itself</strong>, but CryptoAPI can’t know this until it sees the issuing certificate.)</li>
+  <li>CryptoAPI helpfully fetches the root CA referenced by <code class="highlighter-rouge">AuthRoot.stl</code> from Windows Update, and adds it to the certificate store.  <strong>Yay, we’ve achieved our goal!</strong></li>
+  <li>CryptoAPI discovers that the certificate we’re trying to verify is now marked as trusted, and <code class="highlighter-rouge">certutil</code> tells us that verification succeeded.  That’s cool and such, but we don’t really care about this step.</li>
+</ol>
+
+    <p>And the beauty of this trick is that we don’t need <strong>any</strong> elevated permissions for the certificate store (all we did was ask Windows to verify some certificates, which is obviously an unprivileged operation; Windows messed with the certificate store for us), nor did we need to worry about the Property metadata (again, Windows does this for us; there’s nothing we can screw up there no matter how buggy our code is).</p>
+
+    <p>And indeed, based on testing, the above workflow works exactly as I was hoping it would!  Running <code class="highlighter-rouge">certutil</code> to verify a certificate in <code class="highlighter-rouge">AuthRoot.stl</code> downloaded from Windows Update does indeed result in the certificate being immediately imported to the certificate store.  How cool is that?</p>
+
+    <p>(Side note: it turns out I was absolutely right to be wary of assuming that the <code class="highlighter-rouge">AuthRoot</code> logical store is the right place.  In fact, the <code class="highlighter-rouge">AuthRoot.stl</code> CTL also covers a small number of Microsoft-operated root CA’s, which go in the <code class="highlighter-rouge">Root</code> logical store – <code class="highlighter-rouge">AuthRoot</code> is only for built-in root CA’s <strong>not</strong> operated by Microsoft.)</p>
+
+    <h2 id="ctlpop-the-authroot-certificate-trust-list-populator">CTLPop: the AuthRoot Certificate Trust List Populator</h2>
+
+    <p>I’ve created a simple PowerShell script called CTLPop, which automates this procedure.  Just create a temporary directory (e.g. <code class="highlighter-rouge">.\place-to-store-certs</code>) to download certificates to, run <code class="highlighter-rouge">ctlpop.ps1 -sync_dir .\place-to-store-certs</code>, wait a few minutes (Travis CI indicates that it takes 4 minutes and 26 seconds to run twice in a row on their VM), and voila: now all 420 of the built-in root CA’s are part of your certificate store, ready for you to apply name constraints via <code class="highlighter-rouge">certinject</code>!</p>
+
+    <h2 id="so-whats-next">So What’s Next?</h2>
+
+    <p>The easiest way to use CTLPop and <code class="highlighter-rouge">certinject</code> is to simply run CTLPop once as part of the ncdns NSIS installer, and then run <code class="highlighter-rouge">certinject</code> to apply the name constraint globally (again, as part of the NSIS installer).  This is probably what we’ll ship initially, since it’s very simple and mostly works fine.  However, it’s not great in terms of sandboxing (the NSIS installer runs as Administrator), and it’s also not as robust as I’d like (because if Microsoft updates the <code class="highlighter-rouge">AuthRoot.stl</code> list later, the new root CA’s won’t get the name constraint unless ncdns is reinstalled).  The “right” way to do this is to have a daemon that continuously watches for <code class="highlighter-rouge">AuthRoot.stl</code> updates,  and runs CTLPop and <code class="highlighter-rouge">certinject</code> whenever an update is observed.  We could even add a dead-man’s switch to make ncdns automatically stop resolving <code class="highlighter-rouge">.bit</code> domains if the <code class="highlighter-rouge">AuthRoot.stl</code>-watching daemon encounters some kind of unexpected error.  We’ll probably migrate to this approach in the future, since it’s much more friendly to sandboxing (CTLPop, which involves network access and parsing untrusted data via <code class="highlighter-rouge">certutil</code>, can run completely unprivileged, and <code class="highlighter-rouge">certinject</code>, which does not touch the network and doesn’t parse untrusted data, only needs read+write privileges to the <code class="highlighter-rouge">Root</code> and <code class="highlighter-rouge">AuthRoot</code> certificate stores), and also will handle new root CA’s gracefully.</p>
+
+    <p>Expect to see name constraints via CTLPop and <code class="highlighter-rouge">certinject</code> coming soon to an ncdns for Windows installer near you!</p>
+
+    <h2 id="epilogue">Epilogue</h2>
+
+    <p>After this post was written, but before publication, I discovered that <code class="highlighter-rouge">certutil</code> actually has a built-in command that will do exactly the same thing as CTLPop: <code class="highlighter-rouge">certutil -v -f -verifyCTL AuthRootWU</code>.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.</p>
+
+    <p>[1] It’s not documented at <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil">the certutil manual</a>, but is mentioned elsewhere on Microsoft’s website.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6215,11 +6283,7 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
@@ -6227,7 +6291,11 @@ of the ncdns-nsis installer.</p>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>

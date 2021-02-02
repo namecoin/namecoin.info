@@ -30,7 +30,7 @@
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="Namecoin" /></a>
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
                 </div>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
                     <span class="sr-only">Toggle navigation</span>
@@ -42,34 +42,34 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/download/">Download</a></li>
-                            <li><a href="/get-started/name-wallets/">Name Wallets</a></li>
-                            <li><a href="/get-started/get-namecoins/">Get Namecoins</a></li>
-                            <li><a href="/docs/name-owners/">Docs for Domain Owners</a></li>
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/dot-bit/">Home</a></li>
-                            <li><a href="/dot-bit/browsing-instructions/">Browsing Instructions</a></li>
-                            <li><a href="/dot-bit/security-model/">Security Model</a></li>
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
                         </ul>
                     </li>
-                    <li><a href="/docs/faq/">FAQ</a></li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
                         <ul class="dropdown-menu">
-                            <li><a href="/resources/chat/">Matrix/IRC Chat</a></li>
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
                             <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
-                            <li><a href="/resources/presentations/">Presentations</a></li>
-                            <li><a href="/explorers/">Explorers</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
                             <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
                         </ul>
                     </li>
-                    <li><a href="/team/">Team</a></li>
-                    <li><a href="/news/">News</a></li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/contribute/">Contribute</a></li>
+                    <li><a href='/contribute/'>Contribute</a></li>
                 </ul>
                 </div>
             </div>
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -174,6 +174,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<p><strong><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">2021-02-02</a></strong> In my <a href="/2021/01/15/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
+
+<p><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">Read more…</a></p>
+
 <p><strong><a href="/2021/01/15/external-name-constraints-in-certinject.html">2021-01-15</a></strong> In my <a href="/2021/01/14/undocumented-windows-feature-external-name-constraints.html">previous post</a>, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility <code class="highlighter-rouge">certutil</code> can be tricked into setting this Property on a certificate using the <code class="highlighter-rouge">-repairstore</code> command.  Alas, abusing <code class="highlighter-rouge">certutil</code> to do this comes with some problems:</p>
 
 <p><a href="/2021/01/15/external-name-constraints-in-certinject.html">Read more…</a></p>
@@ -209,10 +213,6 @@ A <strong>trust anchor</strong><br />for the Internet.
 <p><strong><a href="/2020/08/23/namecoin-core-name-list-gui.html">2020-08-23</a></strong> Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.</p>
 
 <p><a href="/2020/08/23/namecoin-core-name-list-gui.html">Read more…</a></p>
-
-<p><strong><a href="/2020/08/22/namecoin-core-name-show-expiration.html">2020-08-22</a></strong> Namecoin Core will, starting version 0.21, change the default behavior of the <code class="highlighter-rouge">name_show</code> RPC API call in the presence of certain errors to better match the documentation, the behavior of Electrum-NMC, and the behavior expected by users.</p>
-
-<p><a href="/2020/08/22/namecoin-core-name-show-expiration.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -261,19 +261,19 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
