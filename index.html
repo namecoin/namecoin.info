@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//">
+    <link rel="canonical" href="https://www.namecoin.org/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -174,6 +174,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<p><strong><a href="/2021/02/05/ncdns-v0.1-released.html">2021-02-05</a></strong> We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
+
+<p><a href="/2021/02/05/ncdns-v0.1-released.html">Read more…</a></p>
+
 <p><strong><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">2021-02-02</a></strong> In my <a href="/2021/01/15/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
 
 <p><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">Read more…</a></p>
@@ -185,10 +189,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/2021/01/14/undocumented-windows-feature-external-name-constraints.html">2021-01-14</a></strong> Name constraints are a little-known gem of a feature in X.509 certificates, which are used for TLS.  A name constraint is a certificate extension, applied to a CA’s certificate, that contains a whitelist and/or blacklist of names (e.g. domain names) that the CA can issue certs for.  There are 3 main reasons why a CA might want to have a name constraint:</p>
 
 <p><a href="/2021/01/14/undocumented-windows-feature-external-name-constraints.html">Read more…</a></p>
-
-<p><strong><a href="/2021/01/14/ncdns-v0.1-released.html">2021-01-14</a></strong> We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
-
-<p><a href="/2021/01/14/ncdns-v0.1-released.html">Read more…</a></p>
 
 <p><strong><a href="/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">2021-01-01</a></strong> I gave a talk on October 31, 2020, at the <a href="https://grayhat.co/">Grayhat 2020</a> <a href="https://monerovillage.org/">Monero Village</a>, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:</p>
 
@@ -261,17 +261,17 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
