@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Matching tor-browser-build Conventions in ncdns-repro</title>
+    <title>ncdns v0.1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//2019/11/05/matching-tor-browser-build-conventions-in-ncdns-repro.html">
+    <link rel="canonical" href="https://www.namecoin.org//2021/01/14/ncdns-v0.1-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Against<br />censorship.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -136,149 +136,163 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Matching tor-browser-build Conventions in ncdns-repro</h1>
-<p class="post-meta">Nov 5, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.1 Released</h1>
+<p class="post-meta">Jan 14, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>As I’ve <a href="/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  Namecoin’s relevant Git repository, ncdns-repro, is heavily based on a Tor repo, tor-browser-build.  As we gained more experience with using rbm, it became more clear that even trivial deviations from upstream tor-browser-build can cause interoperability headaches.  So, I’ve been bringing ncdns-repro more in line with tor-browser-build conventions.  In particular, two noticeable changes have been made.</p>
+<p>We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
 
-<p>First off, rbm divides the build scripts into “projects”.  For example, in Tor Browser, OpenSSL is a project, as is Tor, as is Firefox, as is GCC, etc.  Projects can depend on each other (for example, Tor depends on OpenSSL, and OpenSSL, Tor, and Firefox all depend on GCC).  When ncdns-repro was initially created, we didn’t really think much about the project names, and on a whim decided to the projects written in Go names that reflected their full package path.  For example, the Go package <code class="highlighter-rouge">golang.org/x/crypto</code> was given an rbm project name of <code class="highlighter-rouge">golang.org,x,crypto</code> in ncdns-repro.  In contrast, upstream tor-browser-build gives their Go-based projects abbreviated names, e.g. the aforementioned package was given an rbm project name of <code class="highlighter-rouge">goxcrypto</code> [1].  Unfortunately, we figured out via experience that this causes problems, especially when ncdns-repro pulls in data from tor-browser-build (or vice versa) as a Git submodule, because it means that if a project from one repo wants to pull in a project from another repo as a dependency, the project names will be inconsistent.</p>
+<p>Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
 
-<p>Second, ncdns-repro stored all of the Git hashes for its projects in a root-directory-level file called <code class="highlighter-rouge">hashlist</code>, whereas upstream tor-browser-build stores them in the configuration file in each project’s directory.  The intent on our end was to make it easier to enumerate all of the Git hashes, but again, experience showed that this causes problems when Git submodules are used to let tor-browser-build and ncdns-repro share configuration data.</p>
+<p>Full changelog of what’s new since v0.0.10.3:</p>
 
-<p>As of now, ncdns-repro uses the same project naming conventions as tor-browser-build, and no longer uses a <code class="highlighter-rouge">hashlist</code> file.  This should improve interoperability of ncdns-repro with tor-browser-build going forward.</p>
+<ul>
+  <li>TLS:
+    <ul>
+      <li>Negative overrides are now supported for CryptoAPI (patches by Jeremy Rand).</li>
+      <li>Remove negative override support for Chromium (patches by Jeremy Rand).</li>
+      <li>Switch from x509-signature-splice to splicesign (patches by Jeremy Rand, thanks to Filippo Valsorda for the suggestion).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Fix silent NSIS installation (patches by Jeremy Rand).</li>
+      <li>Support NSIS install.log (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand)</li>
+    </ul>
+  </li>
+</ul>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
-
-<p>[1] Insert snarky reference to Mark Karpeles here.</p>
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -847,14 +861,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-11-05-matching-tor-browser-build-conventions-in-ncdns-repro.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-14-ncdns-v0.1-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/11/05/matching-tor-browser-build-conventions-in-ncdns-repro.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2019/11/05/matching-tor-browser-build-conventions-in-ncdns-repro.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/01/14/ncdns-v0.1-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/01/14/ncdns-v0.1-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -863,19 +877,19 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>

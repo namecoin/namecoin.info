@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -304,6 +304,44 @@
     <p>Reserved or not, it definitely works, and it seems like a useful addition to a PKI toolbox.  NSS, GnuTLS, and p11-kit do support external name constraints as well, but NSS requires a recompile if you want to change them, and the support in GnuTLS and p11-kit only works on a few distros (and no mainstream browsers).  By supporting external name constraints that are actually enforced in arbitrary applications (including mainstream browsers) and can be edited by the user, Windows is leading the way on an excellent feature (Windows support for this long predates GnuTLS and p11-kit support) – it’s too bad that Microsoft didn’t bother to advertise this as a selling point.</p>
 
     <p>More details on how we’re going to use this functionality in Namecoin will be in a future post.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/01/14/ncdns-v0.1-released.html">ncdns v0.1 Released</a></h1>
+    <p class="post-meta">Jan 14, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
+
+    <p>Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
+
+    <p>Full changelog of what’s new since v0.0.10.3:</p>
+
+    <ul>
+  <li>TLS:
+    <ul>
+      <li>Negative overrides are now supported for CryptoAPI (patches by Jeremy Rand).</li>
+      <li>Remove negative override support for Chromium (patches by Jeremy Rand).</li>
+      <li>Switch from x509-signature-splice to splicesign (patches by Jeremy Rand, thanks to Filippo Valsorda for the suggestion).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Fix silent NSIS installation (patches by Jeremy Rand).</li>
+      <li>Support NSIS install.log (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand)</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
   </article>
 
@@ -6283,19 +6321,19 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
