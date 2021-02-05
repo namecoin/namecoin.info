@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//2017/10/29/firefox-tls-moving-cache-cpp.html">
+    <link rel="canonical" href="https://www.namecoin.org/2017/10/29/firefox-tls-moving-cache-cpp.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Against<br />censorship.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -117,6 +117,10 @@
     <div id="content">
       <div class="container-fluid">
         
+
+
+
+
 
 
 
@@ -634,9 +638,9 @@
 
 <p>Since I wrote up some really nice scripts for measuring latency for Phase 4, I reused them for Phase 5 to see how things have improved.</p>
 
-<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_e7e6307c38d1bb1a.png" /></p>
+<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_e7e6307c38d1bb1a.png" alt="Latency graph (uncached)" /></p>
 
-<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_4abcef16d0d9da8.png" /></p>
+<p><img src="/data/webextensions-latency/2017-10-19/raw-data_html_4abcef16d0d9da8.png" alt="Latency graph (cached)" /></p>
 
 <p>This is a quite drastic speedup.  The gradual speedup over time has vanished, which suggests that I was right about it being attributable to the JavaScript JIT warming up.  (However, it should be noted that this time I did a single batch of 45 certificate verifications, so this may be an artifact of that change too.)  More importantly, based on the fact that uncached and cached overrides are indistinguishable in the vast majority of cases, it can be inferred that the Experiment’s decision usually enters the C++ code’s decision cache before Firefox’s built-in certificate verification even finishes.  (The occasional spikes in uncached latency seem to correspond to cases where that’s false.)</p>
 
@@ -895,19 +899,19 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>

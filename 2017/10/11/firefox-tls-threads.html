@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org//2017/10/11/firefox-tls-threads.html">
+    <link rel="canonical" href="https://www.namecoin.org/2017/10/11/firefox-tls-threads.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+<strong>Supporting<br />free speech.</strong>
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -600,6 +600,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -628,9 +632,9 @@
 
 <p>After doing all of the above, I decided to check performance.  On both my Qubes installation and my bare-metal Fedora live system, the latency from positive overrides is now greatly reduced.  Below are graphs of the latency added by positive overrides on my bare-metal Fedora live system:</p>
 
-<p><img src="/data/webextensions-latency/2017-10-07/graph-uncached.png" /></p>
+<p><img src="/data/webextensions-latency/2017-10-07/graph-uncached.png" alt="Latency graph (uncached)" /></p>
 
-<p><img src="/data/webextensions-latency/2017-10-07/graph-cached.png" /></p>
+<p><img src="/data/webextensions-latency/2017-10-07/graph-cached.png" alt="Latency graph (cached)" /></p>
 
 <p>The graphs appear to show a noticeable speedup over time.  Part of this is likely to be attributable to the JavaScript JIT warming up.  Another part of it may be an artifact of the script I used to make Firefox verify the certificates: I first did 3 batches of 5 certs, then a batch of 10 certs, then a batch of 20 certs, for a total of 45 certificate verifications.  The graphs also show that certificates that were previously cached tended to verify faster; this is because the cache is located in the Experiment rather than the WebExtension, which eliminates a cross-thread call.</p>
 
@@ -894,13 +898,13 @@
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>

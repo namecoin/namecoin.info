@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 02 Feb 2021 10:25:07 +0000</pubDate>
-    <lastBuildDate>Tue, 02 Feb 2021 10:25:07 +0000</lastBuildDate>
+    <pubDate>Fri, 05 Feb 2021 11:17:56 +0000</pubDate>
+    <lastBuildDate>Fri, 05 Feb 2021 11:17:56 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,46 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>ncdns v0.1 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.&lt;/p&gt;
+
+&lt;p&gt;Binaries for non-Windows platforms are not yet available; we expect to release those soon.&lt;/p&gt;
+
+&lt;p&gt;Full changelog of what’s new since v0.0.10.3:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;TLS:
+    &lt;ul&gt;
+      &lt;li&gt;Negative overrides are now supported for CryptoAPI (patches by Jeremy Rand).&lt;/li&gt;
+      &lt;li&gt;Remove negative override support for Chromium (patches by Jeremy Rand).&lt;/li&gt;
+      &lt;li&gt;Switch from x509-signature-splice to splicesign (patches by Jeremy Rand, thanks to Filippo Valsorda for the suggestion).&lt;/li&gt;
+      &lt;li&gt;Code quality improvements (patches by Jeremy Rand).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Build system:
+    &lt;ul&gt;
+      &lt;li&gt;Fix silent NSIS installation (patches by Jeremy Rand).&lt;/li&gt;
+      &lt;li&gt;Support NSIS install.log (patches by Jeremy Rand).&lt;/li&gt;
+      &lt;li&gt;Code quality improvements (patches by Jeremy Rand)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>CTLPop: Populating the Windows AuthRoot Certificate Store</title>
@@ -419,29 +459,6 @@ before proceeding with the new attach request.&lt;/p&gt;
         <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core name_list GUI</title>
-        <description>&lt;p&gt;Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.&lt;/p&gt;
-
-&lt;p&gt;Brandon accurately observed that a way to mitigate this issue is to expose all of the functionality that the GUI needs as RPC methods, and then simply make the GUI call RPC functions.  (Bitcoin Core includes a built-in API for internally calling RPC functions.)  This minimizes the amount of logic that the GUI needs to carry, which both enables integration testing and eliminates private API usage in the GUI code.  This was partially done in Brandon’s branch that was used for the name tab binaries that we released, but unfortunately, there was still some logic that needed internal API’s.&lt;/p&gt;
-
-&lt;p&gt;So, I’m picking up where Brandon left off.  For one thing, I’m splitting the code into multiple PR’s, which can be merged independently: the GUI equivalents of &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_autoregister&lt;/code&gt;.  The first of these, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt;, is used for displaying the current name inventory.  I’ve spent some time forward-porting the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI to current Namecoin Core, and here’s a preliminary result:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/manage-names-2020-08-19.png&quot; alt=&quot;A screenshot of the Manage Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There’s still some more code cleanup needed before it can be merged, but I’m optimistic that we can get a merge to happen soon.&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 23 Aug 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/08/23/namecoin-core-name-list-gui.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/08/23/namecoin-core-name-list-gui.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>

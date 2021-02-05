@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Website Now Available via Namecoin at Namecoin.bit</title>
+    <title>ncdns v0.1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2020/04/02/namecoin.bit.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -80,7 +80,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -124,95 +124,119 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Website Now Available via Namecoin at Namecoin.bit</h1>
-<p class="post-meta">Apr 2, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.1 Released</h1>
+<p class="post-meta">Feb 5, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>The Namecoin website is now available via Namecoin at <a href="https://namecoin.bit/">https://namecoin.bit/</a>.  The TLS certificate should work in most Namecoin-supported <a href="/docs/tls-client">TLS clients</a>, but unfortunately doesn’t yet work with Tor Browser.  This will be fixed in the future.</p>
+<p>We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
+
+<p>Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
+
+<p>Full changelog of what’s new since v0.0.10.3:</p>
+
+<ul>
+  <li>TLS:
+    <ul>
+      <li>Negative overrides are now supported for CryptoAPI (patches by Jeremy Rand).</li>
+      <li>Remove negative override support for Chromium (patches by Jeremy Rand).</li>
+      <li>Switch from x509-signature-splice to splicesign (patches by Jeremy Rand, thanks to Filippo Valsorda for the suggestion).</li>
+      <li>Code quality improvements (patches by Jeremy Rand).</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Fix silent NSIS installation (patches by Jeremy Rand).</li>
+      <li>Support NSIS install.log (patches by Jeremy Rand).</li>
+      <li>Code quality improvements (patches by Jeremy Rand)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -837,14 +861,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-02-namecoin.bit.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-02-05-ncdns-v0.1-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/04/02/namecoin.bit.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2020/04/02/namecoin.bit.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/02/05/ncdns-v0.1-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -853,19 +877,19 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
