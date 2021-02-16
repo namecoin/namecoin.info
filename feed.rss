@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 05 Feb 2021 11:17:56 +0000</pubDate>
-    <lastBuildDate>Fri, 05 Feb 2021 11:17:56 +0000</lastBuildDate>
+    <pubDate>Tue, 16 Feb 2021 20:27:41 +0000</pubDate>
+    <lastBuildDate>Tue, 16 Feb 2021 20:27:41 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,24 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Core Name Update GUI</title>
+        <description>&lt;p&gt;Now that Namecoin Core’s &lt;a href=&quot;/2020/12/05/namecoin-core-name-renew-gui.html&quot;&gt;Name Renewal GUI&lt;/a&gt; is complete (it’s been merged and will be in Namecoin Core v22.0), it’s time to move on to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; GUI.  This forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-update-2021-01-17.png&quot; alt=&quot;A screenshot of the Update Name dialog in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Code review will be needed before a merge can happen, but I expect the review process to be pretty uneventful as well.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.1 Released</title>
@@ -378,88 +396,6 @@ Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
         <link>https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</guid>
         <dc:creator>yanmaani</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Porting Namecoin in Tor Browser to Windows</title>
-        <description>&lt;p&gt;As you no doubt remember &lt;a href=&quot;/2020/01/11/36c3-summary.html&quot;&gt;from 36C3&lt;/a&gt;, the GNU/Linux version of Tor Browser Nightly comes with Namecoin support included.  While we’ve received significant test feedback (overwhelmingly positive), it’s been pointed out that supporting Windows would enable additional test feedback, since not everyone has a GNU/Linux machine to test things on.  So, I’ve been porting the Namecoin support in Tor Browser Nightly to Windows.&lt;/p&gt;
-
-&lt;h2 id=&quot;stemns-and-tor-bootstrap&quot;&gt;StemNS and Tor Bootstrap&lt;/h2&gt;
-
-&lt;p&gt;First off, since this endeavor was going to involve some changes to StemNS, I figured this was a good opportunity to investigate an odd bug that was happening in StemNS sometimes.  I had noticed last year that in a fresh Tor Browser install, if Namecoin was enabled on the first run, Tor Launcher would indicate that Tor bootstrap had stalled at the “loading authority certificates” stage.  I found that spamming the Tor Launcher buttons to cancel and retry connecting would usually make the connection succeed after 5-10 tries, which seemed to suggest a race condition.  After quite a lot of manual inspection of StemNS logs, I found something odd.&lt;/p&gt;
-
-&lt;p&gt;While the Tor control spec states that the &lt;code class=&quot;highlighter-rouge&quot;&gt;__LeaveStreamsUnattached&lt;/code&gt; config option will cause all streams to wait for the controller (StemNS in this case) to attach them, this was empirically not what was happening.  Rather, streams created as a result of user traffic (e.g. Firefox or Electrum-NMC) were waiting for StemNS to attach them, but streams created by Tor’s bootstrap were still automatically being attached.  The Tor control spec goes on to say the following:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Attempting to attach streams
-via TC when “__LeaveStreamsUnattached” is false may cause a race between
-Tor and the controller, as both attempt to attach streams to circuits.&lt;/p&gt;
-
-  &lt;p&gt;You can try to attachstream to a stream that
-has already sent a connect or resolve request but hasn’t succeeded
-yet, in which case Tor will detach the stream from its current circuit
-before proceeding with the new attach request.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This certainly explained what had been happening.  Tor was opening a stream to bootstrap (attaching the stream to a circuit in the process), and (depending on exact timing) StemNS was trying to attach it a 2nd time, which caused the stream to be detached, thus killing the bootstrap.&lt;/p&gt;
-
-&lt;p&gt;At this point, I decided to ask the Tor developers whether this was a bug in the spec or the C implementation.  Roger Dingledine pointed me to the exact C code that handled this, which indicated exactly how StemNS could detect this case and handle it properly.  Roger also indicated that the C code was correct, and that the spec was incorrect.  I concurred that this made sense.&lt;/p&gt;
-
-&lt;p&gt;I was then able to modify StemNS to handle this properly by detecting whether a new stream was created by user traffic or internal bootstrap, and only attaching streams from the former.  Testing confirmed that the bug was fixed.  Great, now let’s move on.&lt;/p&gt;
-
-&lt;h2 id=&quot;exiting-namecoin-when-tor-browser-exits&quot;&gt;Exiting Namecoin when Tor Browser Exits&lt;/h2&gt;
-
-&lt;p&gt;The existing Namecoin support in Tor Browser relies on a Bash script that signals Electrum-NMC and StemNS to exit after Firefox exits.  Alas, Bash is only used as a launcher in GNU/Linux, so I needed to port this to a more cross-platform approach.&lt;/p&gt;
-
-&lt;p&gt;Tor Browser already solves this problem for the Tor daemon: Tor needs to exit when Firefox has done so.  Tor Browser does this by having Firefox send the &lt;code class=&quot;highlighter-rouge&quot;&gt;TAKEOWNERSHIP&lt;/code&gt; command to Tor, which instructs Tor to exit when Firefox closes the control port connection.  This inspired me to do something similar in StemNS: I added an event listener to StemNS that triggers when Tor closes the control port connection to StemNS (which will happen when Tor exits).  I configured the event listener to send an RPC &lt;code class=&quot;highlighter-rouge&quot;&gt;stop&lt;/code&gt; command to Electrum-NMC (which will make Electrum-NMC exit), and then exit StemNS as well.  (The latter took some DuckDuckGo-fu, as it turns out that &lt;code class=&quot;highlighter-rouge&quot;&gt;sys.exit()&lt;/code&gt; can’t be called from a child thread in Python; the correct way to exit from a child thread is &lt;code class=&quot;highlighter-rouge&quot;&gt;os._exit()&lt;/code&gt;.)&lt;/p&gt;
-
-&lt;p&gt;Some testing revealed that this worked; I was able to remove the Bash code that terminated Electrum-NMC and StemNS, and they still exited properly.  Moving on…&lt;/p&gt;
-
-&lt;h2 id=&quot;launching-namecoin-when-tor-browser-starts&quot;&gt;Launching Namecoin when Tor Browser Starts&lt;/h2&gt;
-
-&lt;p&gt;Of course, the other part of the Bash launcher for Namecoin was the code that launches Electrum-NMC and StemNS.  For this, I ended up copying/pasting the code in Tor Launcher that launches the Tor daemon.  As XPCOM-based JavaScript code goes, Tor Launcher is pretty readable, so the copy/paste job wasn’t particularly eventful.  I &lt;em&gt;did&lt;/em&gt; notice that the documentation for debugging Tor Launcher was outdated, but the Tor developers on IRC were able to point me in the right direction there.&lt;/p&gt;
-
-&lt;p&gt;I won’t bore you with too many details on this part; it was mostly grunt work.  But I got it working.  Excellent, moving on….&lt;/p&gt;
-
-&lt;h2 id=&quot;windows-and-python&quot;&gt;Windows and Python&lt;/h2&gt;
-
-&lt;p&gt;By this point, all of the GNU/Linux-specific code had been replaced with cross-platform code.  So we were ready to move onto enabling Windows support.  Most of this was as simple as tweaking the rbm descriptors to enable Namecoin on Windows, and fixing a few bugs where the Go dependencies for certain rbm projects were wrong on Windows.  But, there was one issue that needed dealing with: Python.&lt;/p&gt;
-
-&lt;p&gt;Both Electrum-NMC and StemNS are written in Python.  GNU/Linux systems generally have Python available by default, but this is not the case for Windows.  In addition, on GNU/Linux, Python scripts are executable programs, but on Windows, they’re data files that need to be explicitly opened with the Python interpreter.  This means that some Windows-specific things need to be done.&lt;/p&gt;
-
-&lt;p&gt;For Python being available, I took the easy way out: I simply defined [1] it to be out of scope, i.e. the user is responsible for installing Python themselves before enabling Namecoin in Tor Browser.  I also rigged Tor Launcher to check every directory in the &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt; for a Python interpreter, and to use the discovered Python binary as the executable, passing the Electrum-NMC or StemNS path as a command-line argument instead.  Worked pretty well.&lt;/p&gt;
-
-&lt;p&gt;Finally, I re-implemented verbose logging for Namecoin (which was also part of the Bash code that I had removed).  This was done via a &lt;code class=&quot;highlighter-rouge&quot;&gt;TOR_VERBOSE_NAMECOIN&lt;/code&gt; environment variable.  It does two things when enabled:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Pass the &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt; argument to Electrum-NMC, which enables verbose output.&lt;/li&gt;
-  &lt;li&gt;On Windows, use &lt;code class=&quot;highlighter-rouge&quot;&gt;python.exe&lt;/code&gt; (which pops up a command prompt window with logs) instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;pythonw.exe&lt;/code&gt; (which doesn’t spawn a command window).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Oh, and I had to tweak the linker flags for &lt;code class=&quot;highlighter-rouge&quot;&gt;ncprop279&lt;/code&gt; to make it avoid launching a command prompt window on Windows as well.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/tor/tor-browser-windows-2020-08-20.png&quot; alt=&quot;A screenshot of Namecoin in Tor Browser on Windows.&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;epilogue&quot;&gt;Epilogue&lt;/h2&gt;
-
-&lt;p&gt;I sent in the code to the Tor Browser Team, and it’s now awaiting review.&lt;/p&gt;
-
-&lt;p&gt;In the meantime, I noticed that the &lt;code class=&quot;highlighter-rouge&quot;&gt;__LeaveStreamsUnattached&lt;/code&gt; issue has a more correct fix now.  The master branch of Tor and Stem recently added a new stream status, &lt;code class=&quot;highlighter-rouge&quot;&gt;CONTROLLER_WAIT&lt;/code&gt;, which indicates specifically that a stream is now waiting for the controller to attach it.  Thus, I’ve updated StemNS to only check for this status, rather than the mildly-convoluted previously-existing method of guessing whether a stream was waiting for this.  That means StemNS’s master branch is now incompatible with Tor 0.4.5.0, Stem 1.8.0, and earlier.  I’ve tagged a stable release that doesn’t include this refactor, and if any important bugfixes make their way into StemNS before the new Tor and Stem behavior gets into releases, I’ll probably backport them to a stable branch.&lt;/p&gt;
-
-&lt;p&gt;And now, we wait for code review from the Tor Browser Team.  Let the bikeshedding begin!&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs and Cyberia Computer Club.&lt;/p&gt;
-
-&lt;p&gt;[1] This is a totally legit usage of definitional discretion.  &lt;a href=&quot;https://old.reddit.com/r/Jokes/comments/77zo3h/an_engineer_a_physicist_and_a_mathematician_are/&quot;&gt;Really.&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
