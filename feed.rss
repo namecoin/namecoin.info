@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 04 Mar 2021 00:28:55 +0000</pubDate>
-    <lastBuildDate>Thu, 04 Mar 2021 00:28:55 +0000</lastBuildDate>
+    <pubDate>Thu, 04 Mar 2021 00:34:27 +0000</pubDate>
+    <lastBuildDate>Thu, 04 Mar 2021 00:34:27 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -22,9 +22,9 @@
         <title>Nightly Builds of ncdns and certinject</title>
         <description>&lt;p&gt;The &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/16/nightly-builds-ncdns-certinject.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/16/nightly-builds-ncdns-certinject.html</guid>
+        <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
