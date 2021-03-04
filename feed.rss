@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 16 Feb 2021 20:27:41 +0000</pubDate>
-    <lastBuildDate>Tue, 16 Feb 2021 20:27:41 +0000</lastBuildDate>
+    <pubDate>Thu, 04 Mar 2021 00:40:00 +0000</pubDate>
+    <lastBuildDate>Thu, 04 Mar 2021 00:40:00 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,20 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Nightly Builds of ncdns and certinject</title>
+        <description>&lt;p&gt;The &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core Name Update GUI</title>
@@ -344,57 +358,6 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
         <pubDate>Fri, 04 Dec 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html</guid>
-        <dc:creator>yanmaani</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Notes on building Python for Windows using RBM</title>
-        <description>&lt;p&gt;Namecoin would like for Tor Browser to support .bit domains.  The only mature, lightweight way to do this is to use the wallet qua name resolver Electrum-NMC.  It is written in Python.  To run Python software, you need an interpreter, like CPython.&lt;/p&gt;
-
-&lt;p&gt;Namecoin and Tor are both intended to be secure projects.  All their binaries have to build reproducibly.  The Tor Browser is also intended to be portable.  It’s not acceptable for users to have to install additional software on their computer to run Tor Browser.&lt;/p&gt;
-
-&lt;p&gt;This means a Python interpreter would have to be bundled in order for Electrum-NMC to be includible in Tor Browser.  And since Tor Browser is a secure project, said Python interpreter has to be built reproducibly.  For this reason, the &lt;code class=&quot;highlighter-rouge&quot;&gt;tor-browser-build&lt;/code&gt; repository has received some patches to reproducibly build such binaries.&lt;/p&gt;
-
-&lt;p&gt;This post details the problems encountered while making them.&lt;/p&gt;
-
-&lt;p&gt;Building CPython reproducibly for Linux is trivial.  Download the source code, patch it to disable build timestamps, and compile.  That’s it, you’re done.&lt;/p&gt;
-
-&lt;p&gt;The situation is markedly different on Windows.  The official Python documentation suggests &lt;a href=&quot;https://github.com/python/cpython/blob/master/PCbuild/readme.txt&quot;&gt;building with Microsoft Visual Studio 2017&lt;/a&gt;.  This is no good.  That compiler doesn’t support reproducible builds, it’s closed-source, and it would have to run in Wine.&lt;/p&gt;
-
-&lt;p&gt;There should be another way.  CPython is written in standard C.  GCC can cross-compile C software for Windows using MinGW - the compiler runs on Linux, but produces binaries for Windows.  That’s how the Tor Project build Tor Browser for Windows.  In theory, it should be possible to use GCC to cross-compile CPython for Windows, and a lot of Tor’s tooling should be possible to re-use.&lt;/p&gt;
-
-&lt;p&gt;In practice, Python’s ordinary build system doesn’t support this.  It isn’t made for cross-compilation.  Thankfully, one &lt;a href=&quot;https://github.com/erikjanss&quot;&gt;Erik Janssens&lt;/a&gt; had created an alternative &lt;a href=&quot;https://mesonbuild.com/&quot;&gt;Meson&lt;/a&gt;-based &lt;a href=&quot;https://github.com/v-finance/cross-python&quot;&gt;build script&lt;/a&gt; to compile Python for Windows with Linux using GCC and MinGW.  Many thanks!&lt;/p&gt;
-
-&lt;p&gt;This build script needed some minor adaptations to properly integrate it with the Tor Project’s RBM build system.  Meson and RBM both have built-in features for dependency handling, such as downloading files from URLs, verifying their hashes, and caching them.  Doing this requires Internet access.  When compiling, RBM disables Internet access.&lt;/p&gt;
-
-&lt;p&gt;The configuration script will thus have to download the binaries and move them into the cache directory used by Meson.  This change also makes the build faster - RBM uses a fresh VM for each build, so unless the cache is outside of the VM, it will be wiped on each new build.&lt;/p&gt;
-
-&lt;p&gt;After this was done, RBM was able to produce something resembling a Python 3.8 interpreter.  However, it wasn’t functional.  Owing to what presumably was an idiosyncracy of the MinGW system, a critical library named &lt;code class=&quot;highlighter-rouge&quot;&gt;libwinpthread-1.dll&lt;/code&gt; wasn’t included.&lt;/p&gt;
-
-&lt;p&gt;This problem turned out to be easy to fix.  Ruben Van Boxem, a contributor to the MinGW project, &lt;a href=&quot;https://stackoverflow.com/a/14033674&quot;&gt;suggested&lt;/a&gt; on StackOverflow that the compiler/linker simply be explicitly told to link this library statically.  This worked:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wine python.exe
-Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
-&amp;gt;&amp;gt;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The changes are now submitted and subject to review.&lt;/p&gt;
-
-&lt;p&gt;We think other projects that use Python might find these efforts useful.  In particular, upstream Electrum may benefit from using a reproducible build of Python.  We want to help others, so we try to submit patches and contribute where appropriate:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;The RBM build descriptor carries a custom patch to omit build timestamps in CPython.  With this merged upstream, reproducible builds of CPython would become easier, and the maintenance burden lower.&lt;/li&gt;
-  &lt;li&gt;I have submitted some &lt;a href=&quot;https://github.com/v-finance/cross-python/pull/1&quot;&gt;minor documentation changes&lt;/a&gt; for Mr. Janssens’s build script.&lt;/li&gt;
-  &lt;li&gt;The RBM build descriptor can be used to build Python, without necessarily building the Tor Browser.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html</guid>
         <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
