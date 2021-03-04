@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC v3.3.9.1 Released</title>
+    <title>Nightly Builds of ncdns and certinject</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/02/16/nightly-builds-ncdns-certinject.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -81,7 +81,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Supporting<br />free speech.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -125,130 +125,95 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC v3.3.9.1 Released</h1>
-<p class="post-meta">Apr 17, 2020 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Nightly Builds of ncdns and certinject</h1>
+<p class="post-meta">Feb 16, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
-
-<p>Here’s what’s new since v3.3.8:</p>
-
-<ul>
-  <li>From upstream Electrum:
-    <ul>
-      <li>Build script fixes backported from Electrum v4.0.0.</li>
-    </ul>
-  </li>
-  <li>Namecoin-specific:
-    <ul>
-      <li>Features:
-        <ul>
-          <li>Add DNS builder GUI based on Namecoin Core.  (Patch by Jeremy Rand; based on a Namecoin Core patch by Brandon Roberts.)</li>
-          <li>Add more servers.  (Patches by Jeremy Rand; thanks to deafboy, ccomp, and s7r for running the servers.)</li>
-          <li>Allow pausing network on startup; unpause via an RPC command (mostly relevant for Tor Browser integration).  (Patch by Jeremy Rand; thanks to Georg Koppen and mjgill89 for reporting Tor Browser issue; thanks to SomberNight for brainstorming solutions.)</li>
-          <li>Update checkpoint.  (Patch by Jeremy Rand.)</li>
-        </ul>
-      </li>
-      <li>Bug fixes:
-        <ul>
-          <li>Return correct error code when looking up nonexistent names.  Fixes issue where ncdns was recognizing this error as <code class="highlighter-rouge">SERVFAIL</code> instead of <code class="highlighter-rouge">NXDOMAIN</code>.  (Patch by Jeremy Rand; thanks to Georg Koppen for reporting Tor Browser issue.)</li>
-          <li>Fix connectivity issues that could cause slow syncup or syncup getting stuck completely (these bugs were related to the stream isolation and parallel chain download patches).  (Patches by Jeremy Rand; thanks to Georg Koppen, mjgill89, and s7r for reporting issues.)</li>
-          <li>Fix minor error handling bugs in name registration GUI and <code class="highlighter-rouge">name_show</code> RPC command.  (Patches by Jeremy Rand; thanks to s7r for reporting issues.)</li>
-          <li>Add some additional AuxPoW checks.  (Patches by Jeremy Rand.)</li>
-          <li>Disable stream-isolated server pool if in <code class="highlighter-rouge">oneserver</code> mode (fixes a privacy leak).  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
-          <li>Fix missing help text for <code class="highlighter-rouge">name_show</code> RPC command.  (Patch by Jeremy Rand.)</li>
-          <li>Fix missing locale data in Python binaries.  (Patch by Jeremy Rand.)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+<p>The <a href="/download/betas/">Beta Downloads page</a> now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -881,14 +846,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-17-electrum-nmc-v3.3.9.1-released.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-02-16-nightly-builds-ncdns-certinject.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/02/16/nightly-builds-ncdns-certinject.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/02/16/nightly-builds-ncdns-certinject.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -897,19 +862,19 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
