@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: Checkpoints</title>
+    <title>Namecoin Core 0.21.0.1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2018/11/28/electrum-nmc-checkpoints.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -81,7 +81,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -125,301 +125,301 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: Checkpoints</h1>
-<p class="post-meta">Nov 28, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin Core 0.21.0.1 Released</h1>
+<p class="post-meta">Mar 7, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>I decided to spend some time auditing Electrum-NMC’s bandwidth usage, to see if any optimizations were possible and/or needed.  Using the excellent <a href="https://github.com/raboof/nethogs">nethogs</a> tool by Arnout Engelen, I determined that Electrum-NMC’s initial syncup downloads 672 MB, which is quite a lot.  Clearly some optimizations would be highly welcome.</p>
+<p>Namecoin Core 0.21.0.1 has been released on the <a href="/download/#namecoin-core-client-stable-release">Downloads page</a>.</p>
 
-<p>Upstream Electrum avoids downloading most of the Bitcoin blockchain’s headers via checkpoints.  Basically, a checkpoint consists of a hardcoded block hash (and a difficulty target), specifically one for each difficulty retargeting period (2016 blocks).  Electrum doesn’t typically download any headers that are between two checkpoints; instead it only downloads such headers if it needs to verify a transaction from one of those blocks.  This reduces bandwidth usage considerably.  Electrum’s debug console can generate a checkpoint file (assuming that you’re connected to a trustworthy ElectrumX server; I’m using my own ElectrumX server connected to my own Namecoin Core node, so my server is indeed trustworthy to me).  Electrum-NMC hadn’t yet gotten around to setting any checkpoints, due to it being a lower priority than getting name transactions working.  But now that name transactions pretty much work, I was able to try out checkpoints.</p>
+<p>Here’s what’s new since 0.19.0.1:</p>
 
-<p>Interestingly, after I set checkpoints through about 38 kiloblocks ago (more on why I chose that below), Electrum-NMC started reporting blockchain validation errors, most of which seemed to be related to missing headers.  After quite a bit of debugging, I figured out why this was happening: in Bitcoin, calculating the new difficulty target requires some information from the first and last block header for a given retargeting period.  Electrum’s checkpoints supply this information.  However, this is actually not mathematically correct behavior, and exposes the blockchain to what’s called a <em>timewarp attack</em>.  A timewarp attack can only be successfully pulled off by an attacker who can already do a 51% attack, so the attack is difficult, but if it’s successfully done, the attacker can make the difficulty continually drop, thus allowing them to mint more coins than the expected subsidy per 2 weeks.  Because a timewarp attack is difficult to pull off, and because fixing it constitutes a hardfork, Bitcoin never actually fixed that vulnerability.  Namecoin, however, did fix it, at the same time that we hardforked to enable merged mining.  How does the timewarp fix work?  Well, it actually needs a block header from the <em>previous</em> retargeting period in order to calculate the new target.  Guess what, Electrum’s checkpoints do not supply such information (which would be useless in Bitcoin).  And thus, the target calculation code in Electrum-NMC was complaining that the header from the previous retargeting period wasn’t present.</p>
-
-<p>After quite a bit of trying to find a way to solve the issue without highly invasive changes, I eventually stumbled on an easy hack.  I did a one-line change of the code that reports the number of checkpoints available, so that if <em>n</em> checkpoints exist, Electrum-NMC calculates the block height to download under the impression that <em>n-1</em> checkpoints exist.  This means that Electrum-NMC will actually download the final checkpoint’s set of 2016 block headers before it moves on to the uncheckpointed headers.  As a result, it actually <em>will</em> have the previous retargeting period’s headers available when it tries to calculate the new difficulty target.  It’s a stupid hack, but it definitely seems to work.</p>
-
-<p>So, with checkpoints set through 38 kiloblocks ago, I measured Electrum-NMC’s bandwidth usage with nethogs again, and this time it had dropped to 66 MB of downloaded data.  Not bad!</p>
-
-<p>But why did I set the last checkpoint at 38 kiloblocks ago?  Well, if we’re doing name lookups, we always want to have block headers for the last 36 kiloblocks, since unexpired names could be anywhere within that range.  As an experiment, I tried setting a checkpoint at circa 3 kiloblocks ago, and found that Electrum-NMC’s bandwidth usage dropped to 4.9 MB of downloaded data during initial syncup.  However, trying to do a name lookup resulted in a “missing header” error.  Not much of a surprise there.  However, upstream Electrum handles this situation just fine when verifying currency transactions – if you try to verify a currency transaction that’s behind a checkpoint, Electrum just downloads the necessary headers before trying to verify it.  I quickly figured out where that code was, and adapted it to work with the <code class="highlighter-rouge">name_show</code> console command.  With this change, if a name is behind a checkpoint, the lookup succeeds – but if you haven’t already downloaded the relevant headers, Electrum-NMC downloads 2016 headers (about 3.2 MB according to nethogs) before verifying the name.</p>
-
-<p>For now, I don’t intend to put checkpoints beyond 38 kiloblocks ago into Electrum-NMC, because downloading 3.2 MB to do a lookup adds noticeable delay.  There are probably some ways this amount of data can be optimized significantly, but that’ll have to wait for another day.  That said, 66 MB instead of 672 MB is pretty nice savings.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<ul>
+  <li><code class="highlighter-rouge">name_show</code> for expired names will error by default.  (Reported by Jeremy Rand; Patch by Yanmaani; Reviewed by Daniel Kraft.)</li>
+  <li><code class="highlighter-rouge">name_show</code> can accept queries by SHA256d hash.  (Reported by Jeremy Rand; Patch by Daniel Kraft; Reviewed by Jeremy Rand.)</li>
+  <li><code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> now consider the value to be optional.  (Reported by Jeremy Rand; Patch by Yanmaani; Reviewed by Daniel Kraft.)</li>
+  <li>Added <code class="highlighter-rouge">namepsbt</code> RPC method.  (Reported by Jeremy Rand; Patch by Daniel Kraft.)</li>
+  <li>Added new DNS seed for testnet.  (Patch by Yanmaani; Reviewed by Daniel Kraft.)</li>
+  <li>Fix build for WSL.  (Patch by Chris Andrew; Reviewed by Daniel Kraft.)</li>
+  <li>Fix crash on macOS 10.13+.  (Reported by Jip; Analysis by Jip, Daniel Kraft, Andy Colosimo, and Cassini; Patch by DeckerSU; Reviewed by Daniel Kraft.)</li>
+  <li>Code quality improvements for regression tests.  (Patch by Daniel Kraft.)</li>
+  <li>Numerous improvements from upstream Bitcoin Core.</li>
+</ul>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -864,14 +864,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-11-28-electrum-nmc-checkpoints.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-03-07-namecoin-core-0.21.0.1-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/11/28/electrum-nmc-checkpoints.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2018/11/28/electrum-nmc-checkpoints.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/03/07/namecoin-core-0.21.0.1-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -882,17 +882,17 @@
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
