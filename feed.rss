@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 06 Mar 2021 02:09:38 +0000</pubDate>
-    <lastBuildDate>Sat, 06 Mar 2021 02:09:38 +0000</lastBuildDate>
+    <pubDate>Sun, 07 Mar 2021 11:56:15 +0000</pubDate>
+    <lastBuildDate>Sun, 07 Mar 2021 11:56:15 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,36 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Core 0.21.0.1 Released</title>
+        <description>&lt;p&gt;Namecoin Core 0.21.0.1 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here’s what’s new since 0.19.0.1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; for expired names will error by default.  (Reported by Jeremy Rand; Patch by Yanmaani; Reviewed by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; can accept queries by SHA256d hash.  (Reported by Jeremy Rand; Patch by Daniel Kraft; Reviewed by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; now consider the value to be optional.  (Reported by Jeremy Rand; Patch by Yanmaani; Reviewed by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Added &lt;code class=&quot;highlighter-rouge&quot;&gt;namepsbt&lt;/code&gt; RPC method.  (Reported by Jeremy Rand; Patch by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Added new DNS seed for testnet.  (Patch by Yanmaani; Reviewed by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Fix build for WSL.  (Patch by Chris Andrew; Reviewed by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Fix crash on macOS 10.13+.  (Reported by Jip; Analysis by Jip, Daniel Kraft, Andy Colosimo, and Cassini; Patch by DeckerSU; Reviewed by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Code quality improvements for regression tests.  (Patch by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Numerous improvements from upstream Bitcoin Core.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>Namecoin Core Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Nightly Builds of ncdns and certinject</title>
@@ -343,22 +373,6 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
         <link>https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core name_firstupdate, name_update default values</title>
-        <description>&lt;p&gt;Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;. This simplifies a common workflow.&lt;/p&gt;
-
-&lt;p&gt;This change is being made as part of the effort to simplify the RPC API for name management.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 04 Dec 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html</guid>
-        <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
         
