@@ -81,7 +81,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Against<br />censorship.</strong>
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -126,6 +126,55 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/03/11/ncdns-v0.1.2-released.html">ncdns v0.1.2 Released</a></h1>
+    <p class="post-meta">Mar 11, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.1.2 for Windows.  This release includes a fix for an upstream issue that impacted Windows service support.  Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
+
+    <p>Full changelog of what’s new since v0.1:</p>
+
+    <ul>
+  <li>DNS:
+    <ul>
+      <li>Fix caching bug that affected DS, SRV, MX, and non-dehydrated TLSA records.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>TLS:
+    <ul>
+      <li>Compressed ECDSA public keys are now supported in TLSA records, even for TLS implementations that do not support such keys.  This paves the way for decreased blockchain storage.   Namecoin patch by Jeremy Rand; thanks to Filippo Valsorda for implementing this in upstream Go.</li>
+      <li>Add <code class="highlighter-rouge">aia.x--nmc.bit</code> meta-domain.  This paves the way for layer-2 TLS; see my Grayhat 2020 presentation for details.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Windows:
+    <ul>
+      <li>Support logging to Windows Event Log.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+      <li>Switch to Windows Service library from upstream Go instead of abandoned Conformal fork.  This fixes a crash bug on Windows 10 when running as a Windows Service with ASLR/PIE enabled.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>Misc:
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Support Go modules.  Patch by Jeremy Rand; thanks to Hugo Landau for valuable input.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6382,19 +6431,19 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>NSS certutil Windows rbm Build Scripts Submitted Upstream to The Tor Project</title>
+    <title>ncdns v0.1.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2018/09/27/certutil-windows-rbm-submitted-tor-project.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -81,7 +81,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Freedom</strong><br>of information.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -125,349 +125,382 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">NSS certutil Windows rbm Build Scripts Submitted Upstream to The Tor Project</h1>
-<p class="post-meta">Sep 27, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.1.2 Released</h1>
+<p class="post-meta">Mar 11, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Previously, I covered <a href="/2018/05/17/reproducible-builds-certutil-cross-compiling-rbm.html">cross-compiling NSS certutil for Windows</a> via Tor’s rbm build scripts.  Since I like to be a good neighbor, I’ve since reached out to the very nice people at Tor, and have submitted a patch to get this merged upstream.  I’ve already received a Concept ACK, although they cautioned me that they’re quite busy with other Tor Browser things at the moment and it may take a while for them to review my patch.  The Tor people requested that I consider adding macOS support as well; I’ve done so and that patch is also submitted to Tor for review.</p>
+<p>We’ve released ncdns v0.1.2 for Windows.  This release includes a fix for an upstream issue that impacted Windows service support.  Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>Full changelog of what’s new since v0.1:</p>
+
+<ul>
+  <li>DNS:
+    <ul>
+      <li>Fix caching bug that affected DS, SRV, MX, and non-dehydrated TLSA records.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>TLS:
+    <ul>
+      <li>Compressed ECDSA public keys are now supported in TLSA records, even for TLS implementations that do not support such keys.  This paves the way for decreased blockchain storage.   Namecoin patch by Jeremy Rand; thanks to Filippo Valsorda for implementing this in upstream Go.</li>
+      <li>Add <code class="highlighter-rouge">aia.x--nmc.bit</code> meta-domain.  This paves the way for layer-2 TLS; see my Grayhat 2020 presentation for details.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Windows:
+    <ul>
+      <li>Support logging to Windows Event Log.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+      <li>Switch to Windows Service library from upstream Go instead of abandoned Conformal fork.  This fixes a crash bug on Windows 10 when running as a Windows Service with ASLR/PIE enabled.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>Misc:
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Support Go modules.  Patch by Jeremy Rand; thanks to Hugo Landau for valuable input.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -856,14 +889,14 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-09-27-certutil-windows-rbm-submitted-tor-project.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-03-11-ncdns-v0.1.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/09/27/certutil-windows-rbm-submitted-tor-project.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/2018/09/27/certutil-windows-rbm-submitted-tor-project.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/03/11/ncdns-v0.1.2-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -872,19 +905,19 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>

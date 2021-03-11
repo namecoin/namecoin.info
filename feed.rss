@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 07 Mar 2021 11:45:18 +0000</pubDate>
-    <lastBuildDate>Sun, 07 Mar 2021 11:45:18 +0000</lastBuildDate>
+    <pubDate>Thu, 11 Mar 2021 12:56:36 +0000</pubDate>
+    <lastBuildDate>Thu, 11 Mar 2021 12:56:36 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,57 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>ncdns v0.1.2 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.1.2 for Windows.  This release includes a fix for an upstream issue that impacted Windows service support.  Binaries for non-Windows platforms are not yet available; we expect to release those soon.&lt;/p&gt;
+
+&lt;p&gt;Full changelog of what’s new since v0.1:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;DNS:
+    &lt;ul&gt;
+      &lt;li&gt;Fix caching bug that affected DS, SRV, MX, and non-dehydrated TLSA records.  Patch by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TLS:
+    &lt;ul&gt;
+      &lt;li&gt;Compressed ECDSA public keys are now supported in TLSA records, even for TLS implementations that do not support such keys.  This paves the way for decreased blockchain storage.   Namecoin patch by Jeremy Rand; thanks to Filippo Valsorda for implementing this in upstream Go.&lt;/li&gt;
+      &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;aia.x--nmc.bit&lt;/code&gt; meta-domain.  This paves the way for layer-2 TLS; see my Grayhat 2020 presentation for details.  Patch by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Windows:
+    &lt;ul&gt;
+      &lt;li&gt;Support logging to Windows Event Log.  Patch by Jeremy Rand; merged by Hugo Landau.&lt;/li&gt;
+      &lt;li&gt;Switch to Windows Service library from upstream Go instead of abandoned Conformal fork.  This fixes a crash bug on Windows 10 when running as a Windows Service with ASLR/PIE enabled.  Patch by Jeremy Rand; merged by Hugo Landau.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Misc:
+    &lt;ul&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Build system:
+    &lt;ul&gt;
+      &lt;li&gt;Support Go modules.  Patch by Jeremy Rand; thanks to Hugo Landau for valuable input.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Core 0.21.0.1 Released</title>
@@ -342,36 +393,6 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
         <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core Name Renew GUI</title>
-        <description>&lt;p&gt;Now that Namecoin Core’s &lt;a href=&quot;/2020/08/23/namecoin-core-name-list-gui.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI&lt;/a&gt; is merged to &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; branch (it’ll be in the v22.0 release!), it’s time to move on to renewing names.  As with the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; GUI, I’m trying to follow the principles of (1) keeping PR’s small, and (2) keeping all the interesting logic in the RPC method rather than the GUI.&lt;/p&gt;
-
-&lt;p&gt;In service of principle 1, I’m not touching the “Configure Name” GUI, nor am I touching the “Renew Name” button; this only adds the right-click context menu for renewing names.  In service of principle 2, yanmaani has done the excellent work of &lt;a href=&quot;/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html&quot;&gt;adding a renew mode&lt;/a&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; RPC method, which simplifies the GUI logic considerably.&lt;/p&gt;
-
-&lt;p&gt;So, without further rambling, here are some screenshots:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-single-context-menu-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names context menu in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-single-confirmation-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names confirmation dialog in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-multiple-context-menu-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names context menu for multiple names in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-renew-multiple-confirmation-2020-12-04.png&quot; alt=&quot;A screenshot of the Renew Names confirmation dialog for multiple names in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Astute readers will have noticed that you can now renew multiple names at once, like in Electrum-NMC.  This was a minimal enough change from Brandon’s GUI that I figured I’d toss it in.&lt;/p&gt;
-
-&lt;p&gt;Some more code review will be needed, but I don’t expect any major obstacles getting this merged.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 05 Dec 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/12/05/namecoin-core-name-renew-gui.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
