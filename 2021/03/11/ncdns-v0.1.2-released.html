@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Resolution with Tor via ncprop279 and TorNS</title>
+    <title>ncdns v0.1.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/docs/tor-resolution/ncprop279/torns/">
+    <link rel="canonical" href="https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -81,7 +81,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <noscript>
 
-<strong>Freedom</strong><br>of information.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </noscript>
 
     <span class="candidate-tagline" hidden>
@@ -117,63 +117,762 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">Namecoin Resolution with Tor via ncprop279 and TorNS</h1>
-  </header>
-
-  <article class="post-content">
-    
-<p>Namecoin can be used for name resolution with Tor.  This guide covers how to set this up using ncprop279 and TorNS.</p>
-
-<p><strong>Warning: this is beta software, and is not suitable for production use.  It is being made available for testing purposes only.  It’s using experimental API’s that may be replaced or removed in the future, and it will make your Tor client stand out from everyone else.</strong></p>
-
-<h2 id="install-tor">Install Tor</h2>
-
-<p>Hopefully you’ve already done this.  Note that these instructions are not tested in any way with Whonix, Tails, or Subgraph OS; such systems use control port filters that may cause problems.</p>
-
-<h2 id="install-a-namecoin-name-lookup-client">Install a Namecoin name lookup client</h2>
-
-<p>This could be either Namecoin Core or ConsensusJ-Namecoin.  Note that if you’re using Namecoin Core, you may wish to make Namecoin Core route its traffic over Tor (this procedure should be identical as what you’d do for Bitcoin Core).  ConsensusJ-Namecoin doesn’t yet support routing its traffic over Tor.  If you’re using ConsensusJ-Namecoin, it is strongly recommended that you use <code class="highlighter-rouge">leveldbtxcache</code> mode (this is the default if you’re running the shortcut created by the ncdns for Windows installer; it is <strong>not</strong> the default if you’re running it from the command line); this is because the other modes will generate network traffic that isn’t subject to stream isolation.  Electrum-NMC is not recommended because it will generate network traffic that isn’t subject to stream isolation.</p>
-
-<h2 id="install-ncprop279">Install ncprop279</h2>
-
-<p>ncprop279 can be downloaded at the <a href="/download/betas/ncprop279">Beta Downloads</a> page.  The build is not yet reproducible.</p>
-
-<p>If you want to build from source:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go get github.com/namecoin/ncprop279
-</code></pre></div></div>
-
-<h2 id="install-torns">Install TorNS</h2>
-
-<p>TorNS  (by meejah)  is <a href="https://github.com/meejah/TorNS">available on GitHub.</a></p>
-
-<p>The <code class="highlighter-rouge">_service_to_command</code> configuration in <a href="https://github.com/meejah/TorNS/blob/5ed4abe5717a6fe713220dee853bb657b1064e8c/poc.py#L26">poc.py</a>  should look like this (fill in the path to where your ncprop279 binary is located accordingly):</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_service_to_command = {
-    "bit.onion": ['/path/to/ncprop279'],
-    "bit": ['/path/to/ncprop279'],
-}
-</code></pre></div></div>
-
-<p>If you’re using Tor Browser Bundle, or are otherwise using a non-default Tor control port, you’ll need to update the control port in  <code class="highlighter-rouge">poc.py</code>   as per the TorNS documentation.</p>
-
-<h2 id="running-it">Running it</h2>
-
-<p>Make sure that the name lookup client and Tor are running.  Then, run <code class="highlighter-rouge">python2 poc.py</code> in the TorNS directory.  It should automatically configure Tor to use Namecoin for any domain name lookups that end in <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code>.  Here’s a screenshot of <a href="http://federalistpapers.bit.onion/">the Tor example rendezvous points page</a>:</p>
-
-<p><img src="/images/screenshots/tor/tor-browser-onion-2018-08-01.png" alt="Screenshot." /></p>
-
-<p>Semantically, <code class="highlighter-rouge">.bit.onion</code> means that a domain name will always resolve to a <code class="highlighter-rouge">.onion</code> address (meaning that <code class="highlighter-rouge">.bit.onion</code> names are encrypted and authenticated regardless of whether TLS is used); <code class="highlighter-rouge">.bit</code> means that a domain name will resolve to any of <code class="highlighter-rouge">.onion</code>, IPv6, IPv4, or CNAME, meaning that <code class="highlighter-rouge">.bit</code> names are only encrypted and authenticated if TLS is used.  These semantics are open to revision later, as the Tor community evolves its canonical naming semantics.</p>
-
-<p>Namecoin name owners can specify a <code class="highlighter-rouge">.onion</code> domain via the <code class="highlighter-rouge">txt</code> field in the <code class="highlighter-rouge">_tor</code> subdomain of their name.  This specification is open to revision later, as the Tor community evolves its canonical naming specifications.  (In particular, it is possible that <code class="highlighter-rouge">TXT</code> records might be replaced with <code class="highlighter-rouge">SRV</code> records.)</p>
+        
 
 
-  </article>
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">ncdns v0.1.2 Released</h1>
+<p class="post-meta">Mar 11, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
+</header>
+
+<article class="post-content">
+<p>We’ve released ncdns v0.1.2 for Windows.  This release includes a fix for an upstream issue that impacted Windows service support.  Binaries for non-Windows platforms are not yet available; we expect to release those soon.</p>
+
+<p>Full changelog of what’s new since v0.1:</p>
+
+<ul>
+  <li>DNS:
+    <ul>
+      <li>Fix caching bug that affected DS, SRV, MX, and non-dehydrated TLSA records.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>TLS:
+    <ul>
+      <li>Compressed ECDSA public keys are now supported in TLSA records, even for TLS implementations that do not support such keys.  This paves the way for decreased blockchain storage.   Namecoin patch by Jeremy Rand; thanks to Filippo Valsorda for implementing this in upstream Go.</li>
+      <li>Add <code class="highlighter-rouge">aia.x--nmc.bit</code> meta-domain.  This paves the way for layer-2 TLS; see my Grayhat 2020 presentation for details.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Windows:
+    <ul>
+      <li>Support logging to Windows Event Log.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+      <li>Switch to Windows Service library from upstream Go instead of abandoned Conformal fork.  This fixes a crash bug on Windows 10 when running as a Windows Service with ASLR/PIE enabled.  Patch by Jeremy Rand; merged by Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>Misc:
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Support Go modules.  Patch by Jeremy Rand; thanks to Hugo Landau for valuable input.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -190,14 +889,14 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tor-resolution/ncprop279/torns/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-03-11-ncdns-v0.1.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/tor-resolution/ncprop279/torns/">DNS (namecoin.org)</a></li>
-                <li><a href="https://namecoin.bit/docs/tor-resolution/ncprop279/torns/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://namecoin.bit/2021/03/11/ncdns-v0.1.2-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -206,19 +905,19 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
