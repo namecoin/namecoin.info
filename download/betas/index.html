@@ -20,6 +20,10 @@
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
     <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
     <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/remove-nojs.js"></script>
 </head>
 
 
@@ -79,10 +83,10 @@
 </header>
 
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
-<noscript>
+<span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
-</noscript>
+<strong>Freedom</strong><br>of information.
+</span>
 
     <span class="candidate-tagline" hidden>
         <strong>In information</strong><br />we <strong>trust</strong>.
@@ -283,6 +287,35 @@
   <li>Build is not yet reproducible.</li>
 </ul>
 
+<h2 id="generate_nmc_cert">generate_nmc_cert</h2>
+
+<p>generate_nmc_cert is a tool for generating TLS server certificates of the form expected by Namecoin.  If you run a <code class="highlighter-rouge">.bit</code> website, you should use generate_nmc_cert to create a TLS certificate for your website.</p>
+
+<p>See the <a href="/docs/name-owners/tls/">documentation on setting up TLS for name owners</a>.</p>
+
+<ul>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_ppc64.tar.gz">generate_nmc_cert Nightly GNU/Linux (64-bit POWER BE) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_ppc64le.tar.gz">generate_nmc_cert Nightly GNU/Linux (64-bit POWER LE) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_arm64.tar.gz">generate_nmc_cert Nightly GNU/Linux (64-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_arm.tar.gz">generate_nmc_cert Nightly GNU/Linux (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_amd64.tar.gz">generate_nmc_cert Nightly GNU/Linux (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--linux_386.tar.gz">generate_nmc_cert Nightly GNU/Linux (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--dragonfly_amd64.tar.gz">generate_nmc_cert Nightly DragonFlyBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--freebsd_arm.tar.gz">generate_nmc_cert Nightly FreeBSD (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--freebsd_amd64.tar.gz">generate_nmc_cert Nightly FreeBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--freebsd_386.tar.gz">generate_nmc_cert Nightly FreeBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--netbsd_arm.tar.gz">generate_nmc_cert Nightly NetBSD (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--netbsd_amd64.tar.gz">generate_nmc_cert Nightly NetBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--netbsd_386.tar.gz">generate_nmc_cert Nightly NetBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--openbsd_amd64.tar.gz">generate_nmc_cert Nightly OpenBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--openbsd_386.tar.gz">generate_nmc_cert Nightly OpenBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--solaris_amd64.tar.gz">generate_nmc_cert Nightly Solaris (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--windows_amd64.tar.gz">generate_nmc_cert Nightly Windows (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--windows_386.tar.gz">generate_nmc_cert Nightly Windows (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/generate_nmc_cert/Cross-Compile%20Go%20latest/binaries/dist/generate_nmc_cert--darwin_amd64.tar.gz">generate_nmc_cert Nightly macOS (64-bit x86) plain binaries</a></li>
+  <li><a href="https://github.com/namecoin/generate_nmc_cert">generate_nmc_cert Source Code</a></li>
+</ul>
+
 <h2 id="certinject">certinject</h2>
 
 <p>certinject is a tool for adding and manipulating certificates in the Windows CryptoAPI certificate store.  Unlike the built-in Windows tool <code class="highlighter-rouge">certutil</code>, certinject can easily set the EKU (extended key usage, AKA enhanced key usage) and NC (name constraints) properties on certificates, and does not require Administrator privileges.</p>
@@ -310,9 +343,9 @@
   <li><a href="https://github.com/namecoin/certinject">certinject Source Code</a></li>
 </ul>
 
-<h2 id="certdehydrate-dane-rest-api">certdehydrate-dane-rest-api</h2>
+<h2 id="encaya">Encaya</h2>
 
-<p>certdehydrate-dane-rest-api is a dependency of ncp11 and the Chromium version of DNSSEC-HSTS.</p>
+<p>Encaya enables Namecoin TLS (positive overrides only) in applications that support AIA, such as Chromium.  Encaya is also a dependency of ncp11 and the Chromium version of DNSSEC-HSTS.</p>
 
 <ul>
   <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.10.3/certdehydrate-dane-rest-api-0.0.1-linux-x86_64.tar.gz">certdehydrate-dane-rest-api v0.0.1 for GNU/Linux (64-bit x86)</a></li>
@@ -321,8 +354,27 @@
   <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.10.3/certdehydrate-dane-rest-api-0.0.1-windows-i686.tar.gz">certdehydrate-dane-rest-api v0.0.1 for Windows (32-bit x86)</a></li>
   <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.10.3/certdehydrate-dane-rest-api-0.0.1-osx-x86_64.tar.gz">certdehydrate-dane-rest-api v0.0.1 for macOS (64-bit x86)</a></li>
   <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.0.10.3/ncdns-0.0.10.3.SHA256SUMS.asc">certdehydrate-dane-rest-api v0.0.1 Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_ppc64.tar.gz">Encaya Nightly GNU/Linux (64-bit POWER BE) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_ppc64le.tar.gz">Encaya Nightly GNU/Linux (64-bit POWER LE) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_arm64.tar.gz">Encaya Nightly GNU/Linux (64-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_arm.tar.gz">Encaya Nightly GNU/Linux (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_amd64.tar.gz">Encaya Nightly GNU/Linux (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--linux_386.tar.gz">Encaya Nightly GNU/Linux (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--dragonfly_amd64.tar.gz">Encaya Nightly DragonFlyBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--freebsd_arm.tar.gz">Encaya Nightly FreeBSD (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--freebsd_amd64.tar.gz">Encaya Nightly FreeBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--freebsd_386.tar.gz">Encaya Nightly FreeBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--netbsd_arm.tar.gz">Encaya Nightly NetBSD (32-bit ARM) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--netbsd_amd64.tar.gz">Encaya Nightly NetBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--netbsd_386.tar.gz">Encaya Nightly NetBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--openbsd_amd64.tar.gz">Encaya Nightly OpenBSD (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--openbsd_386.tar.gz">Encaya Nightly OpenBSD (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--solaris_amd64.tar.gz">Encaya Nightly Solaris (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--windows_amd64.tar.gz">Encaya Nightly Windows (64-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--windows_386.tar.gz">Encaya Nightly Windows (32-bit x86) plain binaries</a></li>
+  <li><a href="https://api.cirrus-ci.com/v1/artifact/github/namecoin/encaya/Cross-Compile%20Go%20latest/binaries/dist/encaya--darwin_amd64.tar.gz">Encaya Nightly macOS (64-bit x86) plain binaries</a></li>
   <li><a href="https://github.com/namecoin/ncdns-repro">certdehydrate-dane-rest-api rbm Build Harness Source Code</a></li>
-  <li><a href="https://github.com/namecoin/certdehydrate-dane-rest-api">certdehydrate-dane-rest-api Source Code</a></li>
+  <li><a href="https://github.com/namecoin/encaya">Encaya Source Code</a></li>
 </ul>
 
 <h3 id="known-issues-4">Known Issues</h3>
@@ -513,28 +565,22 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
             </ul>
         </div>
-
-        <script src="/js/jquery-2.2.4.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/script.js"></script>
-        <script src="/js/remove-nojs.js"></script>
-        
 </footer>
 
 
