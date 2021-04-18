@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 16 Mar 2021 12:37:58 +0000</pubDate>
-    <lastBuildDate>Tue, 16 Mar 2021 12:37:58 +0000</lastBuildDate>
+    <pubDate>Sun, 18 Apr 2021 02:06:07 +0000</pubDate>
+    <lastBuildDate>Sun, 18 Apr 2021 02:06:07 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,20 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Released 10 Years Ago Today</title>
+        <description>&lt;p&gt;Today, April 18, 2021, marks 10 years since Vincent Durham first released Namecoin.  We’d like to wish a very happy birthday to the Namecoin community, and we look forward to the next 10 years (and beyond) of hijacking-resistant, censorship-resistant naming and PKI.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.1.2 Released</title>
@@ -377,22 +391,6 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
         <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Will Present at Next Generation Internet Webinar on Naming Systems</title>
-        <description>&lt;p&gt;I will present at the webinar &lt;a href=&quot;https://www.ngi.eu/event/ngi-projects-contribution-to-technological-developments-of-dns-and-naming-systems/?instance_id=423&quot;&gt;“Next Generation Internet projects’ contribution to technological developments of DNS and naming systems”&lt;/a&gt; hosted by NLnet Foundation.&lt;/p&gt;
-
-&lt;p&gt;The presentation will cover work by Lola, yanmaani, and Ahmed.  It will be December 10, 2020, 2:00 pm – 4:00 pm CET, and should be open to the public &lt;a href=&quot;https://bbb.tbm.tudelft.nl/b/mic-hhp-gxg-uyc&quot;&gt;via NLnet Foundation&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2020/12/09/namecoin-will-present-at-ngi-webinar.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
