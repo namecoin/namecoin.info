@@ -4,16 +4,16 @@
     <title>Namecoin</title>
     <description><!--Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 --></description>
-    <link>https://www.namecoin.org/</link>
-    <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
+    <link>https://namecoin.bit/</link>
+    <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 18 Apr 2021 02:52:30 +0000</pubDate>
-    <lastBuildDate>Sun, 18 Apr 2021 02:52:30 +0000</lastBuildDate>
+    <pubDate>Tue, 20 Apr 2021 05:32:31 +0000</pubDate>
+    <lastBuildDate>Tue, 20 Apr 2021 05:32:31 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
-      <url>https://www.namecoin.org/images/logo.png</url>
+      <url>https://namecoin.bit/images/logo.png</url>
       <title>Namecoin</title>
-      <link>https://www.namecoin.org/</link>
+      <link>https://namecoin.bit/</link>
       <width>134</width>
       <height>25</height>
     </image>
@@ -23,8 +23,8 @@
         <description>&lt;p&gt;Today, April 18, 2021, marks 10 years since Vincent Durham first released Namecoin.  We’d like to wish a very happy birthday to the Namecoin community, and we look forward to the next 10 years (and beyond) of hijacking-resistant, censorship-resistant naming and PKI.&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</guid>
+        <link>https://namecoin.bit/2021/04/18/namecoin-released-10-years-ago-today.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/04/18/namecoin-released-10-years-ago-today.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -72,8 +72,8 @@
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</guid>
+        <link>https://namecoin.bit/2021/03/11/ncdns-v0.1.2-released.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/03/11/ncdns-v0.1.2-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -102,8 +102,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</guid>
+        <link>https://namecoin.bit/2021/03/07/namecoin-core-0.21.0.1-released.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/03/07/namecoin-core-0.21.0.1-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -118,8 +118,8 @@
         <description>&lt;p&gt;The &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
 </description>
         <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
+        <link>https://namecoin.bit/2021/03/04/nightly-builds-ncdns-certinject.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -136,8 +136,8 @@
 &lt;p&gt;Code review will be needed before a merge can happen, but I expect the review process to be pretty uneventful as well.&lt;/p&gt;
 </description>
         <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</guid>
+        <link>https://namecoin.bit/2021/02/16/namecoin-core-name-update-gui.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/02/16/namecoin-core-name-update-gui.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -174,8 +174,8 @@
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</guid>
+        <link>https://namecoin.bit/2021/02/05/ncdns-v0.1-released.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/02/05/ncdns-v0.1-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -244,8 +244,8 @@
 &lt;p&gt;[1] It’s not documented at &lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil&quot;&gt;the certutil manual&lt;/a&gt;, but is mentioned elsewhere on Microsoft’s website.&lt;/p&gt;
 </description>
         <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
+        <link>https://namecoin.bit/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -316,8 +316,8 @@
 &lt;p&gt;Stay tuned for a future post on how we’re going to integrate this new &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; functionality into Namecoin.&lt;/p&gt;
 </description>
         <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</guid>
+        <link>https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -359,8 +359,8 @@
 &lt;p&gt;More details on how we’re going to use this functionality in Namecoin will be in a future post.&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
+        <link>https://namecoin.bit/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -373,7 +373,7 @@
         <description>&lt;p&gt;I gave a talk on October 31, 2020, at the &lt;a href=&quot;https://grayhat.co/&quot;&gt;Grayhat 2020&lt;/a&gt; &lt;a href=&quot;https://monerovillage.org/&quot;&gt;Monero Village&lt;/a&gt;, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:&lt;/p&gt;
 
 &lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
+&lt;source src=&quot;https://namecoin.bit/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
 Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&quot; at Grayhat 2020.
 &lt;/video&gt;
 
@@ -389,8 +389,8 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
 &lt;p&gt;License information: Diego’s introduction in the video is under a CC-BY 4.0 license.&lt;/p&gt;
 </description>
         <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
+        <link>https://namecoin.bit/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
