@@ -23,7 +23,7 @@ h2 {
 }
 
 body > footer {
-    background: #292e3c url(/images/fancy.jpg) center bottom;
+    background: #292e3c url(/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/fancy.jpg) center bottom;
     /* This height makes the background fully cover the footer in Tor Browser
      * Desktop, even if zoomed in or out a few times
      */
@@ -70,7 +70,7 @@ nav ul li {
 
 #fancy-graphic {
     height: 350px;
-    background: #292e3c url(/images/fancy.jpg) center top fixed;
+    background: #292e3c url(/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/fancy.jpg) center top fixed;
     padding-top: 125px;
 }
 

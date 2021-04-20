@@ -4,16 +4,16 @@
     <title>Namecoin</title>
     <description><!--Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 --></description>
-    <link>https://www.namecoin.org/</link>
-    <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
+    <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
+    <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 20 Apr 2021 05:31:49 +0000</pubDate>
-    <lastBuildDate>Tue, 20 Apr 2021 05:31:49 +0000</lastBuildDate>
+    <pubDate>Tue, 20 Apr 2021 07:42:21 +0000</pubDate>
+    <lastBuildDate>Tue, 20 Apr 2021 07:42:21 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
-      <url>https://www.namecoin.org/images/logo.png</url>
+      <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
       <title>Namecoin</title>
-      <link>https://www.namecoin.org/</link>
+      <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
       <width>134</width>
       <height>25</height>
     </image>
@@ -23,8 +23,8 @@
         <description>&lt;p&gt;Today, April 18, 2021, marks 10 years since Vincent Durham first released Namecoin.  We’d like to wish a very happy birthday to the Namecoin community, and we look forward to the next 10 years (and beyond) of hijacking-resistant, censorship-resistant naming and PKI.&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 Apr 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/04/18/namecoin-released-10-years-ago-today.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/04/18/namecoin-released-10-years-ago-today.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/04/18/namecoin-released-10-years-ago-today.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -69,11 +69,11 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/11/ncdns-v0.1.2-released.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/11/ncdns-v0.1.2-released.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/11/ncdns-v0.1.2-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -85,7 +85,7 @@
     
       <item>
         <title>Namecoin Core 0.21.0.1 Released</title>
-        <description>&lt;p&gt;Namecoin Core 0.21.0.1 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;Namecoin Core 0.21.0.1 has been released on the &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Here’s what’s new since 0.19.0.1:&lt;/p&gt;
 
@@ -102,8 +102,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/07/namecoin-core-0.21.0.1-released.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/07/namecoin-core-0.21.0.1-released.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/07/namecoin-core-0.21.0.1-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -115,11 +115,11 @@
     
       <item>
         <title>Nightly Builds of ncdns and certinject</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
+        <description>&lt;p&gt;The &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
 </description>
         <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/04/nightly-builds-ncdns-certinject.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -129,15 +129,15 @@
     
       <item>
         <title>Namecoin Core Name Update GUI</title>
-        <description>&lt;p&gt;Now that Namecoin Core’s &lt;a href=&quot;/2020/12/05/namecoin-core-name-renew-gui.html&quot;&gt;Name Renewal GUI&lt;/a&gt; is complete (it’s been merged and will be in Namecoin Core v22.0), it’s time to move on to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; GUI.  This forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
+        <description>&lt;p&gt;Now that Namecoin Core’s &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/12/05/namecoin-core-name-renew-gui.html&quot;&gt;Name Renewal GUI&lt;/a&gt; is complete (it’s been merged and will be in Namecoin Core v22.0), it’s time to move on to the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; GUI.  This forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/name-update-2021-01-17.png&quot; alt=&quot;A screenshot of the Update Name dialog in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/namecoin-core/name-update-2021-01-17.png&quot; alt=&quot;A screenshot of the Update Name dialog in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Code review will be needed before a merge can happen, but I expect the review process to be pretty uneventful as well.&lt;/p&gt;
 </description>
         <pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/16/namecoin-core-name-update-gui.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/16/namecoin-core-name-update-gui.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/16/namecoin-core-name-update-gui.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -171,11 +171,11 @@
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Fri, 05 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/05/ncdns-v0.1-released.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/05/ncdns-v0.1-released.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/05/ncdns-v0.1-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
@@ -187,7 +187,7 @@
     
       <item>
         <title>CTLPop: Populating the Windows AuthRoot Certificate Store</title>
-        <description>&lt;p&gt;In my &lt;a href=&quot;/2021/01/15/external-name-constraints-in-certinject.html&quot;&gt;previous post&lt;/a&gt;, I introduced improvements to &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; as presented in that post.  The issue is that most of the built-in root CA’s in Windows &lt;em&gt;aren’t part of any cert store!&lt;/em&gt;&lt;/p&gt;
+        <description>&lt;p&gt;In my &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/15/external-name-constraints-in-certinject.html&quot;&gt;previous post&lt;/a&gt;, I introduced improvements to &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; as presented in that post.  The issue is that most of the built-in root CA’s in Windows &lt;em&gt;aren’t part of any cert store!&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;wait-what&quot;&gt;Wait, What?&lt;/h2&gt;
 
@@ -244,8 +244,8 @@
 &lt;p&gt;[1] It’s not documented at &lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil&quot;&gt;the certutil manual&lt;/a&gt;, but is mentioned elsewhere on Microsoft’s website.&lt;/p&gt;
 </description>
         <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -255,7 +255,7 @@
     
       <item>
         <title>External Name Constraints in certinject</title>
-        <description>&lt;p&gt;In my &lt;a href=&quot;/2021/01/14/undocumented-windows-feature-external-name-constraints.html&quot;&gt;previous post&lt;/a&gt;, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; can be tricked into setting this Property on a certificate using the &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.  Alas, abusing &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to do this comes with some problems:&lt;/p&gt;
+        <description>&lt;p&gt;In my &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/14/undocumented-windows-feature-external-name-constraints.html&quot;&gt;previous post&lt;/a&gt;, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; can be tricked into setting this Property on a certificate using the &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.  Alas, abusing &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to do this comes with some problems:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command looks suspiciously like it’s intended to be used for totally different purposes, and I simply do not trust it to only set a name constraint and nothing else.&lt;/li&gt;
@@ -316,8 +316,8 @@
 &lt;p&gt;Stay tuned for a future post on how we’re going to integrate this new &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; functionality into Namecoin.&lt;/p&gt;
 </description>
         <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/15/external-name-constraints-in-certinject.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/15/external-name-constraints-in-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -348,7 +348,7 @@
 
 &lt;p&gt;So, is there another approach we can use?  If you’re on Windows, then the answer is yes!&lt;/p&gt;
 
-&lt;p&gt;Windows CryptoAPI stores certificates &lt;a href=&quot;/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html&quot;&gt;in a kind of funky way&lt;/a&gt;: certificates are stored not just in DER-encoded form, but in a custom data structure called a “certificate blob” that allows “properties” to be attached to the certificates.  One example of such a property is a constraint on which extended key usages a CA can be used for.  For example, you might want to import a CA that’s allowed to issue TLS client certificates but not allowed to issue TLS server certificates or sign code.  When I was looking at the &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certgetcertificatecontextproperty#parameters&quot;&gt;list of properties&lt;/a&gt;, most looked pretty mundane, but one jumped out: what the heck is this &lt;code class=&quot;highlighter-rouge&quot;&gt;CERT_ROOT_PROGRAM_NAME_CONSTRAINTS_PROP_ID&lt;/code&gt; thing?  Curiously, the documentation doesn’t say what it does; it’s simply marked as “Reserved”.  However, looking at other properties’ documentation, it became clear that Microsoft has a habit of encoding extensions in ASN.1 format and stuffing the resulting binary data into a property.  I also noticed that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a way to edit arbitrary properties of certificates; it’s the (confusingly named) &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;Windows CryptoAPI stores certificates &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html&quot;&gt;in a kind of funky way&lt;/a&gt;: certificates are stored not just in DER-encoded form, but in a custom data structure called a “certificate blob” that allows “properties” to be attached to the certificates.  One example of such a property is a constraint on which extended key usages a CA can be used for.  For example, you might want to import a CA that’s allowed to issue TLS client certificates but not allowed to issue TLS server certificates or sign code.  When I was looking at the &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certgetcertificatecontextproperty#parameters&quot;&gt;list of properties&lt;/a&gt;, most looked pretty mundane, but one jumped out: what the heck is this &lt;code class=&quot;highlighter-rouge&quot;&gt;CERT_ROOT_PROGRAM_NAME_CONSTRAINTS_PROP_ID&lt;/code&gt; thing?  Curiously, the documentation doesn’t say what it does; it’s simply marked as “Reserved”.  However, looking at other properties’ documentation, it became clear that Microsoft has a habit of encoding extensions in ASN.1 format and stuffing the resulting binary data into a property.  I also noticed that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a way to edit arbitrary properties of certificates; it’s the (confusingly named) &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.&lt;/p&gt;
 
 &lt;p&gt;So, I cooked up a certificate that had a name constraint blacklisting &lt;code class=&quot;highlighter-rouge&quot;&gt;.github.io&lt;/code&gt;, extracted the ASN.1 binary data for the name constraint extension into a hex blob, and instructed &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to set it on the built-in root CA that GitHub Pages uses.  I then tried to visit GitHub Pages in Chromium, and &lt;strong&gt;boom&lt;/strong&gt;: a TLS error.  Inspecting the CryptoAPI logs confirmed that the failure was due to a name constraint.&lt;/p&gt;
 
@@ -359,8 +359,8 @@
 &lt;p&gt;More details on how we’re going to use this functionality in Namecoin will be in a future post.&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
@@ -380,8 +380,8 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
 &lt;p&gt;Slides are here:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_1_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 1)&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_2_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 2)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_1_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 1)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_2_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 2)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Huge thanks to Diego “rehrar” Salazar from Monero for inviting me!&lt;/p&gt;
@@ -389,8 +389,8 @@ Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authoritie
 &lt;p&gt;License information: Diego’s introduction in the video is under a CC-BY 4.0 license.&lt;/p&gt;
 </description>
         <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
