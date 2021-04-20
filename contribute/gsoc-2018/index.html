@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/contribute/gsoc-2018/">
+    <link rel="canonical" href="https://namecoin.bit/contribute/gsoc-2018/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -63,7 +63,7 @@
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
                         <ul class="dropdown-menu">
                             <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
-                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href="https://nf.bit">Forum&#10138;</a></li>
                             <li><a href='/resources/presentations/'>Presentations</a></li>
                             <li><a href='/explorers/'>Explorers</a></li>
                             <li><a href='/resources/whitepaper/'>Whitepaper</a></li>
@@ -131,7 +131,7 @@ A <strong>trust anchor</strong><br />for the Internet.
     
 <p><strong>Namecoin unfortunately was not accepted as a mentor organization for Google Summer of Code 2018.  However, we’re still happy to mentor projects (as long as you’re okay with not getting paid by Google).  Contact us if you’re still interested.  Original GSoC 2018 ideas page follows.</strong></p>
 
-<p>If you are interested in working on one of the following projects, get in touch with us! For low-latency discussion, many of our developers can be reached via <a href="/resources/chat/#namecoin-dev">#namecoin-dev</a> (we also are present in <a href="/resources/chat/#namecoin">#namecoin</a>). If you’re not able to get an answer on there (which is possible, since several of our developers won’t be able to respond during class or work), please post in the <a href="https://forum.namecoin.org/">forum</a>. If you have your own ideas for good Namecoin projects, we would love to hear them and support you with those, too!  All of the project ideas are fairly customizable based on your interests and skills (which is why the “Difficulty” fields aren’t completely precise.)  <strong>Please talk to us early in the formation of your proposal; this allows us to give you more useful feedback.</strong></p>
+<p>If you are interested in working on one of the following projects, get in touch with us! For low-latency discussion, many of our developers can be reached via <a href="/resources/chat/#namecoin-dev">#namecoin-dev</a> (we also are present in <a href="/resources/chat/#namecoin">#namecoin</a>). If you’re not able to get an answer on there (which is possible, since several of our developers won’t be able to respond during class or work), please post in the <a href="https://nf.bit/">forum</a>. If you have your own ideas for good Namecoin projects, we would love to hear them and support you with those, too!  All of the project ideas are fairly customizable based on your interests and skills (which is why the “Difficulty” fields aren’t completely precise.)  <strong>Please talk to us early in the formation of your proposal; this allows us to give you more useful feedback.</strong></p>
 
 <h2 id="lightweight-client">Lightweight Client</h2>
 
@@ -139,7 +139,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <ul>
   <li>Port an existing lightweight Bitcoin client to Namecoin.  We prefer projects that aim to support the naming features of Namecoin, not just the currency features.  You may find <a href="https://bitcoin.org/en/choose-your-wallet">this list of Bitcoin wallets</a> to be useful, but be aware that not all of the Bitcoin wallets listed there are suitable.  In particular, clients that are not fully open-source do not qualify; nor do clients that require a server component that is not fully open-source; nor do wallets that require a DRM-enforcing operating system such as Apple iOS; nor do wallets that require fully trusting a third party.  If you are porting a client that uses the BitcoinJ library, you may find <a href="https://github.com/dogecoin/libdohj">Ross Nicoll’s libdohj library</a> to be useful.</li>
-  <li>Name database commitment system (for example, a Merkle tree system).  This could make it much more expensive for lookup services to lie about the state of names, make such lies more easily detectable, and allow lightweight clients to only download a subset of the name database.  This has some similarities to the UTXO set commitments that have been proposed in Bitcoin (and used in Electrum’s protocol), but Namecoin’s needs don’t exactly match those of Bitcoin.  You may find <a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=2239">Daniel Kraft’s proposal</a> to be interesting.</li>
+  <li>Name database commitment system (for example, a Merkle tree system).  This could make it much more expensive for lookup services to lie about the state of names, make such lies more easily detectable, and allow lightweight clients to only download a subset of the name database.  This has some similarities to the UTXO set commitments that have been proposed in Bitcoin (and used in Electrum’s protocol), but Namecoin’s needs don’t exactly match those of Bitcoin.  You may find <a href="https://nf.bit/viewtopic.php?f=5&amp;t=2239">Daniel Kraft’s proposal</a> to be interesting.</li>
 </ul>
 
 <p>Adding P2P wire protocol commands may be fine if it helps you in accomplishing this, as long as doing so doesn’t cause our codebase to diverge too much from upstream Bitcoin.  Changing blockchain consensus rules is not off the table, but it would require convincing us that doing so has a clear benefit.  You are free to propose a codebase of your choice to work with as well as your own ideas for implementing a light client and discuss your choice with the community.  You may find the following writeups by Hugo Landau interesting, although take them with a grain of salt as they are somewhat outdated: <a href="https://github.com/hlandau/ncdocs/blob/master/nctypes-intro.md">Namecoin Deployment Types</a> and <a href="https://github.com/hlandau/ncdocs/blob/master/stateofnamecoin.md">State of Namecoin</a>.</p>
@@ -290,7 +290,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h2 id="scalability-segregated-name-values">Scalability: Segregated Name Values</h2>
 
-<p>The data attached to names in Namecoin is permanently part of the blockchain, which is bad for scalability.  Jeremy Rand wrote a rough proposal called <a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=2482">Segregated Name Values (SegVal)</a>, which would allow name data to be discarded from the network after it has expired, thereby significantly improving scalability.  You could implement SegVal and deploy it on a Namecoin testnet, for merging later to the production Namecoin mainnet.</p>
+<p>The data attached to names in Namecoin is permanently part of the blockchain, which is bad for scalability.  Jeremy Rand wrote a rough proposal called <a href="https://nf.bit/viewtopic.php?f=5&amp;t=2482">Segregated Name Values (SegVal)</a>, which would allow name data to be discarded from the network after it has expired, thereby significantly improving scalability.  You could implement SegVal and deploy it on a Namecoin testnet, for merging later to the production Namecoin mainnet.</p>
 
 <p><strong>Difficulty</strong>: Hard</p>
 
@@ -359,7 +359,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
                 <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
                 <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
-                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+                <li><a href="https://nf.bit/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
             </ul>
         </div>
 
@@ -380,19 +380,19 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
             </ul>
         </div>
