@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 20 Apr 2021 05:53:55 +0000</pubDate>
-    <lastBuildDate>Tue, 20 Apr 2021 05:53:55 +0000</lastBuildDate>
+    <pubDate>Tue, 20 Apr 2021 09:47:52 +0000</pubDate>
+    <lastBuildDate>Tue, 20 Apr 2021 09:47:52 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -373,7 +373,7 @@
         <description>&lt;p&gt;I gave a talk on October 31, 2020, at the &lt;a href=&quot;https://grayhat.co/&quot;&gt;Grayhat 2020&lt;/a&gt; &lt;a href=&quot;https://monerovillage.org/&quot;&gt;Monero Village&lt;/a&gt;, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:&lt;/p&gt;
 
 &lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
+&lt;source src=&quot;https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
 Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&quot; at Grayhat 2020.
 &lt;/video&gt;
 
