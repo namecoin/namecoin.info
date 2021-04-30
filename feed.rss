@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 20 Apr 2021 10:12:33 +0000</pubDate>
-    <lastBuildDate>Tue, 20 Apr 2021 10:12:33 +0000</lastBuildDate>
+    <pubDate>Fri, 30 Apr 2021 14:21:22 +0000</pubDate>
+    <lastBuildDate>Fri, 30 Apr 2021 14:21:22 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -17,6 +17,40 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Funding from NLnet</title>
+        <description>&lt;p&gt;We are happy to announce that we have been selected by NLnet Foundation to receive funding. A total of €50’000 (roughly US$60’645) has been pledged toward our development work.&lt;/p&gt;
+
+&lt;p&gt;NLnet is a Dutch charitable foundation. It helps fund open-source projects that aim to promote the exchange of electronic information. In the past, they, along with their partners, have helped fund projects such as &lt;a href=&quot;https://nlnet.nl/project/tor-hidden/&quot;&gt;Tor&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/qubes&quot;&gt;Qubes OS&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/wireguard&quot;&gt;WireGuard&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Freenet-Routing&quot;&gt;Freenet&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/PeerTube&quot;&gt;PeerTube&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/YacyGrid&quot;&gt;YaCy&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Libre-RISCV&quot;&gt;Libre-RISCV&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Briar&quot;&gt;Briar&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/GNUMes&quot;&gt;GNU Mes&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/GUIX&quot;&gt;GNU Guix&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/ReplicantUpdate&quot;&gt;Replicant&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Spectrum&quot;&gt;Spectrum&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/mobile-nixos&quot;&gt;NixOS&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/reproduciblebuilds&quot;&gt;Reproducible Builds&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Rico&quot;&gt;Ricochet Refresh&lt;/a&gt;, and &lt;a href=&quot;https://nlnet.nl/project/namecoin&quot;&gt;Namecoin&lt;/a&gt;. The full list of projects is available at &lt;a href=&quot;https://nlnet.nl/project/index.html&quot;&gt;https://nlnet.nl/project/index.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We will receive funding from NLnet’s NGI0 Discovery Fund. This fund is managed by NLnet and funded by the European Commission, the executive branch of the European Union, through their Next Generation Internet intitiative.&lt;/p&gt;
+
+&lt;p&gt;We are immensely grateful to NLnet for this decision, and to the European Commission for their generous financial support. A governmental institution that invests in decentralized Internet technologies has its eye toward the future.&lt;/p&gt;
+
+&lt;p&gt;We will use this funding to work on the following:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Making name registration easier with automatic registration and deterministic salts.&lt;/li&gt;
+  &lt;li&gt;Making it safer and easier to buy and sell names with atomic name trading.&lt;/li&gt;
+  &lt;li&gt;Making censoring light wallets harder by lightweight SPV proofs of name nonexistence.&lt;/li&gt;
+  &lt;li&gt;Various security and performance improvements to Electrum-NMC and upstream Electrum.&lt;/li&gt;
+  &lt;li&gt;Improving on-chain privacy with coin control.&lt;/li&gt;
+  &lt;li&gt;Better Tor integration in Electrum, Namecoin Core, and hopefully Bitcoin Core.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This work will principally be done by developers Ahmed Bodiwala and yanmaani, who is the author of this post.&lt;/p&gt;
+
+&lt;p&gt;We will post updates on a regular basis as development proceeds.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 30 Apr 2021 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/04/30/funding-from-nlnet.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/04/30/funding-from-nlnet.html</guid>
+        <dc:creator>yanmaani</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Released 10 Years Ago Today</title>
@@ -361,36 +395,6 @@
         <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
         <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Presentation at Grayhat 2020 Monero Village</title>
-        <description>&lt;p&gt;I gave a talk on October 31, 2020, at the &lt;a href=&quot;https://grayhat.co/&quot;&gt;Grayhat 2020&lt;/a&gt; &lt;a href=&quot;https://monerovillage.org/&quot;&gt;Monero Village&lt;/a&gt;, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:&lt;/p&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm&quot; type=&quot;video/webm&quot; /&gt;
-Video of &quot;Namecoin as a Decentralized Alternative to Certificate Authorities for TLS&quot; at Grayhat 2020.
-&lt;/video&gt;
-
-&lt;p&gt;Slides are here:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_1_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 1)&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_2_Grayhat_2020_Monero_Village.pdf&quot;&gt;Slides (Part 2)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Huge thanks to Diego “rehrar” Salazar from Monero for inviting me!&lt;/p&gt;
-
-&lt;p&gt;License information: Diego’s introduction in the video is under a CC-BY 4.0 license.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/01/01/namecoin-at-grayhat-2020-monero-village.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
