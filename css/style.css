@@ -151,10 +151,15 @@ td, th {
 
 /* Fix invisible occlusion caused by above deeplink fix */
 /* Only do headings, otherwise it breaks the top menu bar drop-downs */
+/* This seems to no longer be relevant, and it breaks hyperlinks inside
+ * headings (e.g. home page's News section).  Disabling it until further
+ * notice. */
+/*
 h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
     position: relative;
     z-index: -1;
 }
+*/
 
 /* Sponsored exchanges styling (only present on Exchanges page) */
 
