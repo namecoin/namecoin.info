@@ -27,7 +27,7 @@ body > footer {
     /* This height makes the background fully cover the footer in Tor Browser
      * Desktop, even if zoomed in or out a few times
      */
-    height: 14em;
+    height: 20em;
 }
 
 body > footer > .container, body > footer > .container-fluid {
