@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 30 Apr 2021 20:43:48 +0000</pubDate>
-    <lastBuildDate>Fri, 30 Apr 2021 20:43:48 +0000</lastBuildDate>
+    <pubDate>Wed, 19 May 2021 15:33:28 +0000</pubDate>
+    <lastBuildDate>Wed, 19 May 2021 15:33:28 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,20 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Freenode Undergoing Hostile Takeover -- Abandon Ship</title>
+        <description>&lt;p&gt;The Freenode IRC network is actively undergoing a &lt;a href=&quot;https://gist.github.com/joepie91/df80d8d36cd9d1bde46ba018af497409/&quot;&gt;hostile takeover&lt;/a&gt; by London Trust Media Holdings.  All Freenode staff have resigned in protest.  &lt;strong&gt;We strongly recommend that all Namecoin community members who are accessing our IRC channels via Freenode abandon ship immediately, and move to our channels on Hackint, OFTC, or Matrix.org.&lt;/strong&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/05/19/freenode-hostile-takeover.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/05/19/freenode-hostile-takeover.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Alerts</category>
+        
+        
+      </item>
     
       <item>
         <title>Funding from NLnet</title>
@@ -352,49 +366,6 @@
         <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2021/01/15/external-name-constraints-in-certinject.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Undocumented Windows Feature: External Name Constraints</title>
-        <description>&lt;p&gt;Name constraints are a little-known gem of a feature in X.509 certificates, which are used for TLS.  A name constraint is a certificate extension, applied to a CA’s certificate, that contains a whitelist and/or blacklist of names (e.g. domain names) that the CA can issue certs for.  There are 3 main reasons why a CA might want to have a name constraint:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;A commercial public CA might sell you a CA for your personal use, with a name constraint that whitelists only domains that you’ve demonstrated that you control.  This works similarly to selling you an end-entity certificate, except that now you can renew your end-entity cert (perhaps rotating keys) without needing to interact with the commercial CA, since you now have your own CA you can use.  This use case isn’t really used in practice, mostly because of regulatory capture (commercial CA’s have successfully made sure that the CA/Browser Forum regulations prohibit issuing name-constrained CA’s to members of the general public).&lt;/li&gt;
-  &lt;li&gt;A private CA, perhaps belonging to a corporate intranet or other internal network, wants to limit the damage it can do if it is later compromised, so it includes a name constraint that whitelists a TLD belonging to its intranet.  Thus, if the private CA is later compromised, it can’t be used to attack websites on the public Internet.  This is the stated motivation for Netflix’s BetterTLS test suite.&lt;/li&gt;
-  &lt;li&gt;A public CA wants to prevent itself from issuing certificates for specific TLD’s that have unique regulatory requirements that the CA isn’t able to comply with, so it includes a name constraint that blacklists those TLD’s.  Thus, users of those TLD’s don’t have to worry about the public CA affecting their environment.  The best-known example of this is that the Let’s Encrypt CA has sometimes used a name constraint that blacklisted &lt;code class=&quot;highlighter-rouge&quot;&gt;.mil&lt;/code&gt;, presumably because the U.S. military PKI has regulatory requirements that Let’s Encrypt didn’t want to mess with.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;All of these use cases are quite valid and legitimate, but they assume one thing: that the CA &lt;em&gt;wanted&lt;/em&gt; to be subjected to a name constraint.  What do you do if you’ve been given a CA certificate that &lt;em&gt;doesn’t&lt;/em&gt; have a name constraint, and you want to only trust it for a subset of names?&lt;/p&gt;
-
-&lt;p&gt;One approach is to cross-sign the CA – in other words, you create your own CA with the name constraint you want, and then produce a cert that’s identical to the CA you want to constrain, except with an issuer and signature from your constrained CA.  This is not too hard; I actually wrote a tool called &lt;code class=&quot;highlighter-rouge&quot;&gt;crosssignnameconstraint&lt;/code&gt; that does this for you.  It works pretty well, but it does produce two potentially unwanted side effects:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;It transforms a root CA into an intermediate CA.&lt;/li&gt;
-  &lt;li&gt;It changes the fingerprint of the CA.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Both of these can result in unintended behavior from poorly designed TLS implementations, e.g. certificate pinning and EV certificates may behave differently when you cross-sign a certificate.&lt;/p&gt;
-
-&lt;p&gt;So, is there another approach we can use?  If you’re on Windows, then the answer is yes!&lt;/p&gt;
-
-&lt;p&gt;Windows CryptoAPI stores certificates &lt;a href=&quot;/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html&quot;&gt;in a kind of funky way&lt;/a&gt;: certificates are stored not just in DER-encoded form, but in a custom data structure called a “certificate blob” that allows “properties” to be attached to the certificates.  One example of such a property is a constraint on which extended key usages a CA can be used for.  For example, you might want to import a CA that’s allowed to issue TLS client certificates but not allowed to issue TLS server certificates or sign code.  When I was looking at the &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certgetcertificatecontextproperty#parameters&quot;&gt;list of properties&lt;/a&gt;, most looked pretty mundane, but one jumped out: what the heck is this &lt;code class=&quot;highlighter-rouge&quot;&gt;CERT_ROOT_PROGRAM_NAME_CONSTRAINTS_PROP_ID&lt;/code&gt; thing?  Curiously, the documentation doesn’t say what it does; it’s simply marked as “Reserved”.  However, looking at other properties’ documentation, it became clear that Microsoft has a habit of encoding extensions in ASN.1 format and stuffing the resulting binary data into a property.  I also noticed that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a way to edit arbitrary properties of certificates; it’s the (confusingly named) &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.&lt;/p&gt;
-
-&lt;p&gt;So, I cooked up a certificate that had a name constraint blacklisting &lt;code class=&quot;highlighter-rouge&quot;&gt;.github.io&lt;/code&gt;, extracted the ASN.1 binary data for the name constraint extension into a hex blob, and instructed &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to set it on the built-in root CA that GitHub Pages uses.  I then tried to visit GitHub Pages in Chromium, and &lt;strong&gt;boom&lt;/strong&gt;: a TLS error.  Inspecting the CryptoAPI logs confirmed that the failure was due to a name constraint.&lt;/p&gt;
-
-&lt;p&gt;So, why is this feature there?  Is it being used anywhere?  As far as I can tell, it’s not used by anyone.  The name of the property suggests that Microsoft intended to ship name constraints with its 3rd-party root CA’s, but I briefly checked the entire list of 3rd-party root CA’s, and it appears that none of them have this property set.  The property was added to Windows over a decade ago (if Wine commit dates are to be believed), so perhaps Microsoft used it in the past and then decided to stop.  Or perhaps they planned to use it, abandoned the plan, and left the code in place.  Maybe it was intended for private PKI purposes, but later got shelved.  Microsoft doesn’t document what this property does anywhere, and in fact I was unable to find even a single &lt;em&gt;mention&lt;/em&gt; of this property on the public Internet besides the source code to Microsoft’s header files and the Microsoft documentation that marks it as “Reserved”.  Amusingly, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; knows exactly what this property is, and if you enable verbose output, it will even happily deserialize the name constraint ASN.1 data into a nice human-readable representation of the name constraint you’re applying.&lt;/p&gt;
-
-&lt;p&gt;Reserved or not, it definitely works, and it seems like a useful addition to a PKI toolbox.  NSS, GnuTLS, and p11-kit do support external name constraints as well, but NSS requires a recompile if you want to change them, and the support in GnuTLS and p11-kit only works on a few distros (and no mainstream browsers).  By supporting external name constraints that are actually enforced in arbitrary applications (including mainstream browsers) and can be edited by the user, Windows is leading the way on an excellent feature (Windows support for this long predates GnuTLS and p11-kit support) – it’s too bad that Microsoft didn’t bother to advertise this as a selling point.&lt;/p&gt;
-
-&lt;p&gt;More details on how we’re going to use this functionality in Namecoin will be in a future post.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
