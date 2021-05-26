@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,41 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">Deterministic salts in Namecoin Core</a></h1>
+    <p class="post-meta">May 26, 2021 • yanmaani </p>
+  </header>
+
+  <article class="post-content">
+    <p>Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
+
+    <p>To facilitate this, <code class="highlighter-rouge">name_new</code> has also been changed to use deterministically generated salts.</p>
+
+    <p>The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for <code class="highlighter-rouge">name_new</code> transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible <code class="highlighter-rouge">name_new</code> outputs should be spent.</p>
+
+    <p>There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:</p>
+
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>name_new "d/myname"
+(wait 12 blocks...)
+name_firstupdate "d/myname" [value]
+</code></pre>
+      </div>
+    </div>
+
+    <p>Note that <code class="highlighter-rouge">value</code> is optional; omitting the parameter will cause Namecoin to <a href="/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">use the empty string</a> by default.</p>
+
+    <p>This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.</p>
+
+    <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6500,25 +6535,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
             </ul>
         </div>
