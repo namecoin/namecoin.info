@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin TLS for Firefox: Phase 6 (Negative Override Cache in C++, WebExtension Aggregation, and Coordination with Mozilla)</title>
+    <title>Deterministic salts in Namecoin Core</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2018/02/13/firefox-tls-negative-cache.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/05/26/deterministic-salts-in-namecoin-core.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,499 +130,504 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin TLS for Firefox: Phase 6 (Negative Override Cache in C++, WebExtension Aggregation, and Coordination with Mozilla)</h1>
-<p class="post-meta">Feb 13, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Deterministic salts in Namecoin Core</h1>
+<p class="post-meta">May 26, 2021 • yanmaani <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>In <a href="/2017/10/29/firefox-tls-moving-cache-cpp.html">Phase 5</a> of Namecoin TLS for Firefox, I discussed the performance benefits of moving the positive override cache from JavaScript to C++.  I’ve now implemented preliminary work on doing the same for negative overrides.</p>
+<p>Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
 
-<p>The code changes for negative overrides’ C++ cache are analogous to those for positive overrides, so there’s not much to cover in this post about those changes.  However, I did take the chance to refactor the API between the C++ code and the JavaScript code a bit.  Previously, only 1 WebExtension was able to perform overrides; if multiple WebExtensions registered for the API, whichever replied first would be the only one that had any effect.  Now, each WebExtension replies separately to the Experiment, and the Experiment passes those replies on to the C++ code.  The Experiment also notifies the C++ code when all of the WebExtensions have replied.  Although this does add some extra API overhead, it has the benefit of allowing an override to take place immediately if a single WebExtension has determined that it should take place, even if the other (irrelevant) WebExtensions are still evaluating the certificate.</p>
+<p>To facilitate this, <code class="highlighter-rouge">name_new</code> has also been changed to use deterministically generated salts.</p>
 
-<p>Unfortunately, at this point I merged upstream changes from Mozilla into my Mercurial repository, only to find that there was now a compile error.  I’m still figuring out exactly why this compile error is happening.  It looks like it’s unrelated to any of the files that my patch touches; I suspect that it’s due to my general lack of competence with Mercurial (Mozilla’s codebase is the first time I’ve used Mercurial) or my similar general lack of competence with Mozilla’s build system.</p>
+<p>The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for <code class="highlighter-rouge">name_new</code> transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible <code class="highlighter-rouge">name_new</code> outputs should be spent.</p>
 
-<p>So, until I actually get the code to build, I won’t be able to do performance evaluations of these changes.  Hence why there are no pretty graphs in this post.</p>
+<p>There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:</p>
 
-<p>Meanwhile, I reached out to Mozilla to get some feedback on the general approach I was taking.  (I had previously discussed high-level details with Mozilla, but this time I provided a WIP code patch, so that it would be easier to evaluate whether I was doing anything with the code that would be problematic.)  This resulted in a discussion about what methods should be used to prevent malicious or buggy extensions from causing unexpected damage to user security.  This is definitely a legitimate concern: messing with certificate verification is dangerous when done improperly, and it’s important that users understand what they’re getting when they install a WebExtension that might put them at risk.  That discussion is still ongoing, and it’s not clear yet what the consensus will arrive at.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_new "d/myname"
+(wait 12 blocks...)
+name_firstupdate "d/myname" [value]
+</code></pre></div></div>
 
-<p>(It should be noted that there are some alternative approaches to Firefox support for Namecoin TLS underway as well, which will be covered in a future post.)</p>
+<p>Note that <code class="highlighter-rouge">value</code> is optional; omitting the parameter will cause Namecoin to <a href="/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">use the empty string</a> by default.</p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -887,16 +892,16 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-13-firefox-tls-negative-cache.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-05-26-deterministic-salts-in-namecoin-core.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/02/13/firefox-tls-negative-cache.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/02/13/firefox-tls-negative-cache.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/02/13/firefox-tls-negative-cache.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/02/13/firefox-tls-negative-cache.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/05/26/deterministic-salts-in-namecoin-core.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/05/26/deterministic-salts-in-namecoin-core.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/05/26/deterministic-salts-in-namecoin-core.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -907,23 +912,23 @@ Decentralized<br /><strong>secure</strong> names.
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
