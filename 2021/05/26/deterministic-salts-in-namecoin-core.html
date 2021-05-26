@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Exchanges</title>
+    <title>Deterministic salts in Namecoin Core</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/exchanges/">
+    <link rel="canonical" href="https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -122,47 +122,760 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Exchanges</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p><span class="exchanges-gold">⇄</span> You can buy and sell <strong>Namecoins</strong> here:</p>
 
-<p><span id="decentralized-exchanges" class="exchanges-gold">
-<strong>Decentralized exchanges</strong><br />
-<a href="https://blockdx.com/"><img class="exchange-logo" src="images/BLOCKDX.png" alt="Block DX" /></a> (uses atomic trades; memory-safe)<br /><a href="https://bisq.network/"><img class="exchange-logo" src="images/bisq_logo_green.png" alt="Bisq" /></a> (uses Tor by default; memory-safe)<br /><a href="https://atomicdex.io/"><img class="exchange-logo" src="images/AtomicDEX.svg" alt="AtomicDEX" /></a> (uses atomic trades)<br />
-</span></p>
 
-<p><span class="exchanges-gold">
-<strong>Gold level exchanges</strong><br />
-…<br />
-</span></p>
 
-<p><span class="exchanges-silver">
-<strong>Silver level exchanges</strong><br />
-…<br />
-</span></p>
 
-<p><span class="exchanges-bronze">
-<strong>Bronze level exchanges</strong><br />
-<a href="https://freebitcoins.com/xchange/market/Bitcoin-Namecoin"><img class="exchange-logo exchange-logo-freebitcoins" src="images/FreeBitcoins.com.png" alt="FreeBitcoins.com" /></a><br />
-</span></p>
 
-<p><span class="exchanges-basic">
-<strong>Basic level exchanges</strong><br />
-<a href="https://www.altcointrader.co.za/nmc">AltCoinTrader</a><br /><a href="https://coingi.com/trade/nmc-btc">Coingi</a><br /><a href="https://c-patex.com/markets/nmcbtc">C-PatEx</a><br /><a href="https://www.nlexch.com/markets/nmcbtc">NLexch</a><br /><a href="https://www.coinvex.org/market/BTC-NMC">Coinvex</a><br /><a href="https://www.altilly.com/asset/NMC">Altilly</a><br /><a href="https://www.hodlhodl.com/">Hodl Hodl</a><br /><a href="https://www.coinex.com/">CoinEx</a><br /><a href="https://www.qbtc.ink/">QBTC</a><br /><a href="https://www.southxchange.com/">SouthXchange</a><br />
-</span></p>
+<div class="post">
 
-<p>Gold, silver and bronze level exchanges donate to the Namecoin project. The higher the donation the higher the level. Note that the exchanges are not verified in any way.
-The current fees are 1000/300/100NMC per year. To get on the list contact exchanges a|t namecoin.org</p>
+<header class="post-header">
+<h1 class="post-title">Deterministic salts in Namecoin Core</h1>
+<p class="post-meta">May 26, 2021 • yanmaani <i class="fa fa-tag"></i></p>
+</header>
 
-  </article>
+<article class="post-content">
+<p>Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
+
+<p>To facilitate this, <code class="highlighter-rouge">name_new</code> has also been changed to use deterministically generated salts.</p>
+
+<p>The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for <code class="highlighter-rouge">name_new</code> transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible <code class="highlighter-rouge">name_new</code> outputs should be spent.</p>
+
+<p>There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_new "d/myname"
+(wait 12 blocks...)
+name_firstupdate "d/myname" [value]
+</code></pre></div></div>
+
+<p>Note that <code class="highlighter-rouge">value</code> is optional; omitting the parameter will cause Namecoin to <a href="/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">use the empty string</a> by default.</p>
+
+<p>This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -179,16 +892,16 @@ The current fees are 1000/300/100NMC per year. To get on the list contact exchan
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/exchanges/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-05-26-deterministic-salts-in-namecoin-core.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/exchanges/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/exchanges/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/exchanges/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/exchanges/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/05/26/deterministic-salts-in-namecoin-core.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/05/26/deterministic-salts-in-namecoin-core.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/05/26/deterministic-salts-in-namecoin-core.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -197,25 +910,25 @@ The current fees are 1000/300/100NMC per year. To get on the list contact exchan
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>

@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 19 May 2021 15:34:10 +0000</pubDate>
-    <lastBuildDate>Wed, 19 May 2021 15:34:10 +0000</lastBuildDate>
+    <pubDate>Wed, 26 May 2021 16:22:51 +0000</pubDate>
+    <lastBuildDate>Wed, 26 May 2021 16:22:51 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,37 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Deterministic salts in Namecoin Core</title>
+        <description>&lt;p&gt;Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already &lt;a href=&quot;/2020/05/10/deterministic-salts.html&quot;&gt;implemented in Electrum-NMC&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To facilitate this, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; has also been changed to use deterministically generated salts.&lt;/p&gt;
+
+&lt;p&gt;The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; outputs should be spent.&lt;/p&gt;
+
+&lt;p&gt;There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_new &quot;d/myname&quot;
+(wait 12 blocks...)
+name_firstupdate &quot;d/myname&quot; [value]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt; is optional; omitting the parameter will cause Namecoin to &lt;a href=&quot;/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html&quot;&gt;use the empty string&lt;/a&gt; by default.&lt;/p&gt;
+
+&lt;p&gt;This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html</guid>
+        <dc:creator>yanmaani</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Freenode Undergoing Hostile Takeover -- Abandon Ship</title>
@@ -294,78 +325,6 @@
         <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
         <link>https://namecoin.bit/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>External Name Constraints in certinject</title>
-        <description>&lt;p&gt;In my &lt;a href=&quot;/2021/01/14/undocumented-windows-feature-external-name-constraints.html&quot;&gt;previous post&lt;/a&gt;, I introduced the undocumented Windows feature for external name constraints, which allow us to apply a name constraint without the consent of a CA, and without needing to cross-sign the CA.  I mentioned that the Windows utility &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; can be tricked into setting this Property on a certificate using the &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command.  Alas, abusing &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to do this comes with some problems:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-repairstore&lt;/code&gt; command looks suspiciously like it’s intended to be used for totally different purposes, and I simply do not trust it to only set a name constraint and nothing else.&lt;/li&gt;
-  &lt;li&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to edit a public CA requires Administrator privileges, which is not great from a sandboxing perspective.&lt;/li&gt;
-  &lt;li&gt;We’d ideally like to apply the name constraint to &lt;em&gt;all&lt;/em&gt; of the root CA’s in the certificate store, not just a single one.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; API doesn’t exactly make this &lt;em&gt;impossible&lt;/em&gt;, but the UX is a lot worse than, say, the &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrictnss&lt;/code&gt; tool I wrote that does something comparable for the NSS TLS library.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Those of you who’ve looked at the ncdns source code will recall that ncdns includes a library called &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, which is designed to interact with Windows cert stores without needing Administrator privileges.  Since &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; isn’t free software, but &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; is, and &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; already solves the privilege issue for us, Aerth and I have been extending &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; to do what’s needed for external name constraints.&lt;/p&gt;
-
-&lt;h2 id=&quot;injecting-to-arbitrary-cert-stores&quot;&gt;Injecting to Arbitrary Cert Stores&lt;/h2&gt;
-
-&lt;p&gt;The original &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; code only could write to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; logical cert store in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Enterprise&lt;/code&gt; physical cert store.  This is where root CA’s added by the system administrator would, by convention, be stored.  This is fine for &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;’s original purpose of injecting self-signed certs for Namecoin websites, but all the CA’s we want to apply a name constraint to are elsewhere: generally in either the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical cert store in the &lt;code class=&quot;highlighter-rouge&quot;&gt;System&lt;/code&gt; physical cert store.  (&lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; is where the Microsoft root CA’s live; &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; is where the root CA’s run by non-Microsoft corporations live.)  &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; can now inject certs into arbitrary logical stores (including the &lt;code class=&quot;highlighter-rouge&quot;&gt;Disallowed&lt;/code&gt; logical store, which is used to mark a certificate as revoked), and now supports the &lt;code class=&quot;highlighter-rouge&quot;&gt;System&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Group-Policy&lt;/code&gt; physical stores in addition to the previously supported &lt;code class=&quot;highlighter-rouge&quot;&gt;Enterprise&lt;/code&gt; physical store.&lt;/p&gt;
-
-&lt;h2 id=&quot;serializing-properties&quot;&gt;Serializing Properties&lt;/h2&gt;
-
-&lt;p&gt;Originally, &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; only serialized Blobs that included the DER-encoded certificate, with no other Properties set.  This worked fine for its original purpose, but we needed to make it more flexible.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; can now serialize Blobs with arbitrary Properties set.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;’s list of Properties supported by Windows is generated (to Go source code) via a Bash script (lots of &lt;code class=&quot;highlighter-rouge&quot;&gt;grep&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;sed&lt;/code&gt;) using the &lt;code class=&quot;highlighter-rouge&quot;&gt;wincrypt.h&lt;/code&gt; file from ReactOS as input.  Curiously, &lt;code class=&quot;highlighter-rouge&quot;&gt;wincrypt.h&lt;/code&gt; only seems to contain the Properties supported by Windows XP.  A bunch of extra Properties were added in Windows Vista, but these are only listed in another header file, &lt;code class=&quot;highlighter-rouge&quot;&gt;certenroll.h&lt;/code&gt;, which does not appear to exist in the ReactOS source code yet.  At the moment, we don’t have any urgent need for the Vista Properties, so we’re sticking with the ReactOS header file for maximum free-software-ness.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; can also now generate the binary data for Properties involving either EKU (extended key usage) or name constraints.  The Golang standard library doesn’t exactly make this easy; we settled on the approach of setting the EKU or name constraint fields in an &lt;code class=&quot;highlighter-rouge&quot;&gt;x509.Certificate&lt;/code&gt; template, serializing the entire certificate, deserializing the result back to a template, and searching the template’s list of parsed &lt;code class=&quot;highlighter-rouge&quot;&gt;Extensions&lt;/code&gt; for something that matched the OID of either EKU or name constraints.  A tad inefficient, but this approach does seem to maximize the usage of stable, production-grade standard library API’s compared to custom parsing code on our end, so I think it’s safer than trying to roll our own super-efficient implementation.&lt;/p&gt;
-
-&lt;p&gt;While I was writing the EKU serialization code, I noticed that the Go standard library supports two EKU values that I had never heard of: &lt;code class=&quot;highlighter-rouge&quot;&gt;ExtKeyUsageMicrosoftServerGatedCrypto&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ExtKeyUsageNetscapeServerGatedCrypto&lt;/code&gt;.  Some DDG-ing revealed that these are a historical relic of 1990’s-era export-grade cryptography (also referred to as “International Step-Up”).  In particular, I found a Mozilla Bugzilla bug indicating that modern TLS implementations still support these 1990’s-era abominations because there exist public CA certs that rely on those particular EKU values, which didn’t expire until 2020.  I decided to explicitly not support these EKU values in &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;; users who desire to see some mildly more colorful language describing my opinion of this functionality can grep the &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; source code for “beehive”.&lt;/p&gt;
-
-&lt;p&gt;We intend to add support for more Properties later; there are several other Properties that have caught our eye, although they’re not a very high priority for us right now.&lt;/p&gt;
-
-&lt;p&gt;The only other notable issue we encountered in Blob serialization is that we found experimentally that the Property containing the DER-encoded certificate &lt;strong&gt;must&lt;/strong&gt; be the final Property in the serialized Blob.  Any Properties that come after the DER-encoded certificate will be silently ignored.  (This meant that our first try, which sorted Properties by ascending Property ID, didn’t work as intended, because the name constraint Property has a greater Property ID than the DER-encoded certificate.  Oops!)  Interestingly, Aerth was able to dig up a Microsoft documentation page indicating that listing any Properties after the certificate itself would yield undefined behavior.  I guess now we know what that undefined behavior is.&lt;/p&gt;
-
-&lt;h2 id=&quot;editing-existing-blobs&quot;&gt;Editing Existing Blobs&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; was always a one-way thing: you put in the cert you want, and it spits out a Blob.  However, this is not really desirable for the purpose of applying an external name constraint, because we don’t want to overwrite the Properties that already exist in the certificate store.  (Many of them, e.g. EKU, are probably security-critical.)  So we added functionality to read an existing Blob from the cert store and use that as the starting point, instead of creating an empty Blob with just the DER-encoded certificate.&lt;/p&gt;
-
-&lt;p&gt;This is not as complete as it could be.  In the future, we intend to support fine-grained editing within a Property, e.g. adding a domain name to the name constraints list without destroying the existing name constraints.&lt;/p&gt;
-
-&lt;h2 id=&quot;searching-for-certificates-by-hash&quot;&gt;Searching for Certificates by Hash&lt;/h2&gt;
-
-&lt;p&gt;Originally, &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; was designed to accept a certificate as input, and it would then calculate the SHA1 hash itself for use as a Windows registry key.  (Yes, Windows still uses SHA1 as a certificate identifier.  Yes, this is stupid.  No, it’s not our problem.)  This made sense when the intent was to inject a cert that previously didn’t exist in the cert store, but since we now want to use it to edit existing certs, there’s no reason to force the user to know the preimage.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; now allows the user to specify a SHA1 hash of a certificate, which will get passed through directly when constructing the registry key.  This makes things a lot easier, and also leads to the next item.&lt;/p&gt;
-
-&lt;h2 id=&quot;applying-operations-store-wide&quot;&gt;Applying Operations Store-Wide&lt;/h2&gt;
-
-&lt;p&gt;Our intent for external name constraints is to Constrain All The Things, i.e. we want &lt;strong&gt;all&lt;/strong&gt; built-in root CA’s to be prohibited from issuing certificates for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains.  Put another way, for those of you who’ve worked with our NSS cross-signing tools, we want the UX to be more like &lt;code class=&quot;highlighter-rouge&quot;&gt;tlsrestrictnss&lt;/code&gt; and not &lt;code class=&quot;highlighter-rouge&quot;&gt;crosssignnameconstraint&lt;/code&gt;.  &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; can now crawl the list of all certificates in a given certificate store, and apply the specified EKU or name constraint operations to all of them.  For practical purposes, this would usually entail applying the name constraint to all certs in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical stores of the &lt;code class=&quot;highlighter-rouge&quot;&gt;System&lt;/code&gt; physical store.  Optionally, users might also want to apply the name constraint to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; logical store of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Enterprise&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Group-Policy&lt;/code&gt; physical stores.&lt;/p&gt;
-
-&lt;p&gt;This is not quite as complete as it could be.  In the future, we intend to support tagging certificates with a “magic value”, which allows users to designate specific root CA’s that they want to exempt from the name constraint; &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; would then avoid applying the name constraint to those specific CA’s when doing a store-wide operation.  This could be used to allow users to deliberately run a MITM proxy on &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; traffic for diagnostic purposes, without losing protection from other root CA’s that the user doesn’t want to intercept &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; traffic.  (&lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; already has some skeleton support for magic values, which ncdns uses for cleaning up expired certificates for privacy purposes.  So this will not be hard to add.)&lt;/p&gt;
-
-&lt;h2 id=&quot;adding-a-command-line-utility&quot;&gt;Adding a Command-line Utility&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; now can be built as a command-line &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject.exe&lt;/code&gt; utility, which facilitates users who want to use it as an alternative to &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; from the command-line.  It also supports both DER and PEM certficates, for maximal ease of use.&lt;/p&gt;
-
-&lt;h2 id=&quot;adding-extensive-integration-tests&quot;&gt;Adding Extensive Integration Tests&lt;/h2&gt;
-
-&lt;p&gt;Cirrus CI now tests &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; daily for a variety of use cases against a real TLS client in a real Windows VM.  This has already surfaced a few bugs (which we fixed), and also ensures that if Microsoft ships an update that changes the behavior we’re relying on, we will automatically get notified.&lt;/p&gt;
-
-&lt;p&gt;An interesting issue that we encountered here was that Windows tends to cache TLS cert verification results, which caused integration tests to interfere with each other.  This caching is generally done on a per-process basis, so spawning a separate PowerShell process for each TLS handshake worked pretty well for avoiding this issue.  (An exception is that Windows has some kind of special caching mechanism for “revoked” status, which is not on a per-process basis.  This meant that our tests for the &lt;code class=&quot;highlighter-rouge&quot;&gt;Disallowed&lt;/code&gt; logical store needed to take extra precautions, specifically sleeping for 30 seconds between consecutive TLS handshakes, so that the cache would expire.  Yes, this is stupid.)&lt;/p&gt;
-
-&lt;p&gt;Another more boring (yet also more amusing) issue we found is that our initial on-a-whim choice of using &lt;code class=&quot;highlighter-rouge&quot;&gt;github.com&lt;/code&gt; as a test case of a TLS cert that was publicly trusted backfired, because &lt;code class=&quot;highlighter-rouge&quot;&gt;github.com&lt;/code&gt; promptly blacklisted our CI VM for rate-limit violations, causing our tests to start failing nondeterministically as soon as we had more than a few test cases.  Oops.  We switched these tests to use &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoin.org&lt;/code&gt;, which seems a tad more ethical, and all is okay now.&lt;/p&gt;
-
-&lt;p&gt;We also did a bunch of code cleanup, based on feedback from static analyzers.&lt;/p&gt;
-
-&lt;h2 id=&quot;so-whats-next&quot;&gt;So what’s next?&lt;/h2&gt;
-
-&lt;p&gt;Stay tuned for a future post on how we’re going to integrate this new &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; functionality into Namecoin.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2021/01/15/external-name-constraints-in-certinject.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
