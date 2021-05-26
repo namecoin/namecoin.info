@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: AuxPoW Verification</title>
+    <title>Deterministic salts in Namecoin Core</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2018/07/09/electrum-nmc-auxpow-verification.html">
+    <link rel="canonical" href="https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,433 +130,428 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: AuxPoW Verification</h1>
-<p class="post-meta">Jul 9, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Deterministic salts in Namecoin Core</h1>
+<p class="post-meta">May 26, 2021 • yanmaani <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Previously, I covered <a href="/2018/07/01/electrum-nmc-auxpow.html">AuxPoW deserialization in Electrum-NMC</a>.  The next steps are on-disk serialization/deserialization, and verifying the deserialized AuxPoW.  These are now implemented.</p>
+<p>Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
 
-<p>It turned out that on-disk serialization/deserialization was a lot easier than anticipated, because Electrum only writes headers to disk <em>after</em> they’ve been verified, and it never reverifies them.  So it was sufficient to simply strip the AuxPoW portion of the headers prior to writing them to disk, and to tweak the header deserialization code so that it won’t error when it encounters AuxPoW-enabled headers that don’t have AuxPoW data (this is secure since even if such headers are successfully deserialized, they would never pass verification if verification were attempted).</p>
+<p>To facilitate this, <code class="highlighter-rouge">name_new</code> has also been changed to use deterministically generated salts.</p>
 
-<p>Next up, AuxPoW verification!</p>
+<p>The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for <code class="highlighter-rouge">name_new</code> transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible <code class="highlighter-rouge">name_new</code> outputs should be spent.</p>
 
-<p>AuxPoW verification code was already present in Electrum-DOGE, and it was relatively straightforward to port over to the current Electrum codebase.  In the process, however, I noticed that Electrum-DOGE has a dependency <a href="https://pypi.org/project/btcutils/">on a library called <code class="highlighter-rouge">btcutils</code></a>.  I can’t find that library’s source code on GitHub, nor does the PyPI page indicate a Git repository, an issue tracker, or even a license.  At worst, this might indicate a GPL violation in Electrum-DOGE; at best, this indicates that the library has probably never been audited and is unwise to rely on.  As a result, I re-implemented from scratch the single function in that library that Electrum-DOGE was using.</p>
+<p>There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:</p>
 
-<p>After implementing AuxPoW verification in Electrum-NMC, I received a <code class="highlighter-rouge">bits</code> mismatch error during blockchain verification (some time after AuxPoW activated).  This was, of course, due to the “time warp” difficulty retargeting hardfork that Namecoin adopted long ago.  (Since I was the author of the time warp hardfork support in libdohj, fixing this in Electrum-NMC was quite straightforward.)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_new "d/myname"
+(wait 12 blocks...)
+name_firstupdate "d/myname" [value]
+</code></pre></div></div>
 
-<p>Next, I noticed that verification of AuxPoW headers was incredibly slow.  Some use of profiling tools revealed a number of bottlenecks (mostly relatively boring stuff like unneeded hex/binary conversions and unneeded copy operations), which I fixed.</p>
+<p>Note that <code class="highlighter-rouge">value</code> is optional; omitting the parameter will cause Namecoin to <a href="/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">use the empty string</a> by default.</p>
 
-<p>At this point, I decided to do a full sync from scratch to see if it verified the entire blockchain.  Unfortunately, it failed at chunk 77, due to an error from the ElectrumX server indicating that the response exceeded the server’s configured 5 MB limit.  I infer that there were a bunch of unusually large Bitcoin coinbase transactions around that point in Bitcoin’s history.  Luckily, the operator of the public Namecoin ElectrumX server quickly replied to my email and raised the limit.  At this point, Electrum-NMC was able to fully sync.</p>
+<p>This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.</p>
 
-<p>In terms of performance, Electrum-NMC on my <a href="https://www.raptorcs.com/">Talos II</a> is able to sync from scratch in about 6 minutes, without using any checkpoints (other than the genesis checkpoint).</p>
-
-<p>Since Namecoin is a good neighbor, I’m maintaining an <code class="highlighter-rouge">auxpow</code> branch in the Electrum-NMC Git repository, which is identical to upstream Electrum except that AuxPoW support is added.  This may be useful to other AuxPoW-based cryptocurrencies who want a starting point for porting Electrum to their cryptocurrency.  (Daniel already does something similar for Namecoin Core.)</p>
-
-<p>It should be noted that I haven’t carefully audited the components inherited from Electrum-DOGE, so the AuxPoW support in Electrum-NMC should not be relied on in critical applications – it would not be surprising if Electrum-DOGE’s AuxPoW code is slightly consensus-incompatible with Namecoin Core.  Verifying that is on my to-do list.</p>
-
-<p>The next step in Electrum-NMC is adding support for name scripts.  That will be covered in a future post.</p>
-
-<p>This work was funded by Cyphrs.</p>
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -897,16 +892,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-09-electrum-nmc-auxpow-verification.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-05-26-deterministic-salts-in-namecoin-core.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/07/09/electrum-nmc-auxpow-verification.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/07/09/electrum-nmc-auxpow-verification.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/07/09/electrum-nmc-auxpow-verification.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/07/09/electrum-nmc-auxpow-verification.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/05/26/deterministic-salts-in-namecoin-core.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/05/26/deterministic-salts-in-namecoin-core.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/05/26/deterministic-salts-in-namecoin-core.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -915,25 +910,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
