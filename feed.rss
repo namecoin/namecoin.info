@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 26 May 2021 15:51:46 +0000</pubDate>
-    <lastBuildDate>Wed, 26 May 2021 15:51:46 +0000</lastBuildDate>
+    <pubDate>Tue, 01 Jun 2021 19:42:10 +0000</pubDate>
+    <lastBuildDate>Tue, 01 Jun 2021 19:42:10 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,52 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Transaction queue for Namecoin Core</title>
+        <description>&lt;p&gt;Lately, work aiming to simplify the RPC API for name management has been proceeding. This is done both for the sake of improvement itself, and to make it easier to write GUIs for Namecoin.&lt;/p&gt;
+
+&lt;p&gt;One unique element in Namecoin is the extensive use of time-dependent transactions. This is comparatively rare in Bitcoin. Either you want to send money or you don’t want to send money, but the “when” is usually ASAP. However, in Namecoin, it’s pretty common to, for instance, want to renew a name &lt;em&gt;when&lt;/em&gt; it’s close to expiring, or register a name &lt;em&gt;when&lt;/em&gt; its &lt;code class=&quot;highlighter-rouge&quot;&gt;NAME_NEW&lt;/code&gt; input has matured.&lt;/p&gt;
+
+&lt;p&gt;Historically, this has been a bit of an annoyance. Transactions can only[1] be broadcast if they have a good chance of making it into the next block, and not all transactions are intended to be broadcast immediately. The way users had to deal with it, then, was to manually keep track of what transactions they wanted broadcast and when.&lt;/p&gt;
+
+&lt;p&gt;This isn’t suitable. It’s bad enough for direct users, but it also makes writing auxilliary software a pain, since the obligation will fall upon it to manage a lot of state. For example, the old name management GUI had to have a series of undocumented internal hooks into the wallet database.&lt;/p&gt;
+
+&lt;p&gt;For this reason, a transaction queue has now been added to Namecoin to explicitly manage all that state. It was written by Brandon Roberts, Jeremy Rand, and yanmaani, who is the author of this post.  The implementation is actually shockingly simple:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Keep a list of transactions we’d like to broadcast&lt;/li&gt;
+  &lt;li&gt;Each block, try to broadcast everything&lt;/li&gt;
+  &lt;li&gt;Remove everything that made it into the mempool&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The initial plan was to have a very baroque API, where users could enter transactions and have them broadcast either when a name reached a certain age or when a transaction had a certain height. The reason for this was was that the transaction queue API was &lt;a href=&quot;/2018/10/21/electrum-nmc-name-registration-gui.html&quot;&gt;first implemented in Electrum-NMC&lt;/a&gt;, which doesn’t allow you to check whether a transaction is valid without leaking it to the server. &lt;em&gt;Having already implemented all this&lt;/em&gt;, it was realized that Bitcoin’s existing locking facilities could already cover our needs for Namecoin Core, and so I took it out. Wasting the effort was a bummer, but you can’t be sentimental like that. In the end it made for a better API and cleaner code. Such is life.&lt;/p&gt;
+
+&lt;p&gt;The API for the transaction queue is thus very simple:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;queuerawtransaction &amp;lt;hex&amp;gt;&lt;/code&gt; queues a transaction to be broadcast as soon as it can, and returns the txid on success. There is a basic sanity check to try and ensure the transaction at least theoretically could be broadcast at some point in the future, but there’s no guarantee. Note that it’s on you to properly lock the transaction, or else it will be broadcast immediately. If you want to update a name when it’s 35000 blocks old, make sure to set nSequence on the name input to 35001.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dequeuerawtransaction &amp;lt;txid&amp;gt;&lt;/code&gt; removes a transaction from the queue.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;listqueuetransactions&lt;/code&gt; lists all the queued transactions. Note that this may also include transactions queued by RPC calls.&lt;/p&gt;
+
+&lt;p&gt;These changes will be available in Namecoin Core starting version 22.0.&lt;/p&gt;
+
+&lt;p&gt;This change was a prerequisite for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_autoregister&lt;/code&gt;, an RPC call to register a name in one step without having to manually call &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, regarding which we endeavor to have an update in the next few days. That RPC call is the final pre-requisite for completing the new name management GUI.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
+
+&lt;p&gt;[1] Actually, this is only true in Bitcoin. In Namecoin, presumably to take the edge off this wart, there’s a special (somewhat ungainly) exemption for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, which was the cause of very serious bugs in the past, such as the &lt;a href=&quot;/2018/07/08/brownout-june-17-20.html&quot;&gt;June 2018 incident&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/06/01/transaction-queue-for-namecoin-core.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/06/01/transaction-queue-for-namecoin-core.html</guid>
+        <dc:creator>yanmaani</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Deterministic salts in Namecoin Core</title>
@@ -260,74 +306,6 @@ name_firstupdate &quot;d/myname&quot; [value]
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>CTLPop: Populating the Windows AuthRoot Certificate Store</title>
-        <description>&lt;p&gt;In my &lt;a href=&quot;/2021/01/15/external-name-constraints-in-certinject.html&quot;&gt;previous post&lt;/a&gt;, I introduced improvements to &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; as presented in that post.  The issue is that most of the built-in root CA’s in Windows &lt;em&gt;aren’t part of any cert store!&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;wait-what&quot;&gt;Wait, What?&lt;/h2&gt;
-
-&lt;p&gt;Yep.  Allow me to explain.  The root CA list in Windows is pretty large (420 root CA’s at the moment, if my count is correct), and can also be updated on the fly via Windows Update.  However, due to what Microsoft claims are performance concerns, only 24 of those root CA’s are actually populated in the cert store on a fresh Windows installation.  The full list lives in a file called &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt;, which ships with Windows, and can also be updated via Windows Update.  This file is a &lt;em&gt;CTL&lt;/em&gt; (certificate trust list), meaning it only stores the hashes of the certificates (and a bit of other metadata), not the certificate preimages.  (Why does a “CTL” have the file extension &lt;code class=&quot;highlighter-rouge&quot;&gt;.stl&lt;/code&gt; rather than &lt;code class=&quot;highlighter-rouge&quot;&gt;.ctl&lt;/code&gt;?  Don’t ask.  Just accept that Microsoft hates you.  It’ll be easier that way.)  When Windows tries to verify a certificate that chains back to a certificate in &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; but isn’t in the Windows certificate store, it automatically fetches the certificate preimage from Windows Update, and inserts it into the certificate store (typically in the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store) prior to proceeding with the verification.  This is all transparent to the user under typical circumstances.&lt;/p&gt;
-
-&lt;p&gt;Personally I am highly dubious that this is a meaningful performance optimization, especially since this system was created (AFAICT) around 2 decades ago, so even if it helped performance when it was introduced, I doubt that this performance gain is applicable on modern hardware (especially since today, network latency is a much bigger contributor to perceived performance than any kind of local CPU or IO performance, and this system entails extra network latency when verifying certificates with a previously-unseen root CA).&lt;/p&gt;
-
-&lt;h2 id=&quot;so-whats-the-problem&quot;&gt;So What’s the Problem?&lt;/h2&gt;
-
-&lt;p&gt;Well, unfortunately, if a root CA is being downloaded on-the-fly during certificate verification, that prevents &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; from applying a name constraint to it before it gets used.  This is unfortunate, since it means that most of the root CA’s in Windows cannot be reliably constrained via &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-can-we-do&quot;&gt;What Can We Do?&lt;/h2&gt;
-
-&lt;p&gt;It’s entirely feasible to download the full list of certificate preimages that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; refers to.  There’s even a mostly-undocumented [1] &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; &lt;a href=&quot;https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn265983(v=ws.11)#new-certutil-options&quot;&gt;command&lt;/a&gt; for this.  But what do we want to do with it?  Two ideas occurred to me:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;We could download the full set of certs in SST (serialized store) format (which also includes all the metadata, i.e. Properties besides the cert preimage), and ask &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to import it to the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store.  Unfortunately, this means we’d need to run as Administrator, which is not really ideal.  Also, how do we know for sure that &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; is the right logical store to import them?  Seems suboptimal.&lt;/li&gt;
-  &lt;li&gt;We could download the full set of certs to individual files, and use &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; to individually inject them to the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; store, with Properties manually parsed from the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; file.  While this does avoid running with Administrator privileges by virtue of using &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, it means we’d have to carefully parse the Properties from &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt;, and make sure that &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; is applying them correctly.  Seems like a lot of attack surface.  Also, we still don’t know for sure that they all belong in the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store, and it still requires write privileges to the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; store’s registry key.  So this is still not great.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Since neither of these jumped out at me as “obviously this is the right way to do it”, I came up with another idea.&lt;/p&gt;
-
-&lt;h2 id=&quot;make-windows-do-our-job-for-us&quot;&gt;Make Windows Do Our Job For Us!&lt;/h2&gt;
-
-&lt;p&gt;If you were reading the first section of this post carefully, you might have noted that Windows itself will happily insert the certificates from &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; into the certificate store under certain circumstances, specifically when it’s necessary for certificate verification.  Hmm, this sounds like something we can abuse!  What happens if we download the full set of certificates to individual files from Windows Update, and then just politely ask &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to &lt;strong&gt;verify&lt;/strong&gt; all of them?  Intuitively, this seems like the kind of thing that will cause the following Series of &lt;del&gt;un&lt;/del&gt;Fortunate Events:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;CryptoAPI tries to verify the certificate by chaining it to a root CA in the certificate store.  This, naturally, fails.&lt;/li&gt;
-  &lt;li&gt;CryptoAPI checks whether the certificate chains to a root CA in &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt;.  Yes, the certificate does claim to be issued by a root CA in &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt;.  (In reality, that’s because the certificate is issued by &lt;strong&gt;itself&lt;/strong&gt;, but CryptoAPI can’t know this until it sees the issuing certificate.)&lt;/li&gt;
-  &lt;li&gt;CryptoAPI helpfully fetches the root CA referenced by &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; from Windows Update, and adds it to the certificate store.  &lt;strong&gt;Yay, we’ve achieved our goal!&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;CryptoAPI discovers that the certificate we’re trying to verify is now marked as trusted, and &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; tells us that verification succeeded.  That’s cool and such, but we don’t really care about this step.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;And the beauty of this trick is that we don’t need &lt;strong&gt;any&lt;/strong&gt; elevated permissions for the certificate store (all we did was ask Windows to verify some certificates, which is obviously an unprivileged operation; Windows messed with the certificate store for us), nor did we need to worry about the Property metadata (again, Windows does this for us; there’s nothing we can screw up there no matter how buggy our code is).&lt;/p&gt;
-
-&lt;p&gt;And indeed, based on testing, the above workflow works exactly as I was hoping it would!  Running &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to verify a certificate in &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; downloaded from Windows Update does indeed result in the certificate being immediately imported to the certificate store.  How cool is that?&lt;/p&gt;
-
-&lt;p&gt;(Side note: it turns out I was absolutely right to be wary of assuming that the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; logical store is the right place.  In fact, the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; CTL also covers a small number of Microsoft-operated root CA’s, which go in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; logical store – &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; is only for built-in root CA’s &lt;strong&gt;not&lt;/strong&gt; operated by Microsoft.)&lt;/p&gt;
-
-&lt;h2 id=&quot;ctlpop-the-authroot-certificate-trust-list-populator&quot;&gt;CTLPop: the AuthRoot Certificate Trust List Populator&lt;/h2&gt;
-
-&lt;p&gt;I’ve created a simple PowerShell script called CTLPop, which automates this procedure.  Just create a temporary directory (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;.\place-to-store-certs&lt;/code&gt;) to download certificates to, run &lt;code class=&quot;highlighter-rouge&quot;&gt;ctlpop.ps1 -sync_dir .\place-to-store-certs&lt;/code&gt;, wait a few minutes (Travis CI indicates that it takes 4 minutes and 26 seconds to run twice in a row on their VM), and voila: now all 420 of the built-in root CA’s are part of your certificate store, ready for you to apply name constraints via &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;!&lt;/p&gt;
-
-&lt;h2 id=&quot;so-whats-next&quot;&gt;So What’s Next?&lt;/h2&gt;
-
-&lt;p&gt;The easiest way to use CTLPop and &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; is to simply run CTLPop once as part of the ncdns NSIS installer, and then run &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; to apply the name constraint globally (again, as part of the NSIS installer).  This is probably what we’ll ship initially, since it’s very simple and mostly works fine.  However, it’s not great in terms of sandboxing (the NSIS installer runs as Administrator), and it’s also not as robust as I’d like (because if Microsoft updates the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; list later, the new root CA’s won’t get the name constraint unless ncdns is reinstalled).  The “right” way to do this is to have a daemon that continuously watches for &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt; updates,  and runs CTLPop and &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; whenever an update is observed.  We could even add a dead-man’s switch to make ncdns automatically stop resolving &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains if the &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot.stl&lt;/code&gt;-watching daemon encounters some kind of unexpected error.  We’ll probably migrate to this approach in the future, since it’s much more friendly to sandboxing (CTLPop, which involves network access and parsing untrusted data via &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;, can run completely unprivileged, and &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt;, which does not touch the network and doesn’t parse untrusted data, only needs read+write privileges to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Root&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;AuthRoot&lt;/code&gt; certificate stores), and also will handle new root CA’s gracefully.&lt;/p&gt;
-
-&lt;p&gt;Expect to see name constraints via CTLPop and &lt;code class=&quot;highlighter-rouge&quot;&gt;certinject&lt;/code&gt; coming soon to an ncdns for Windows installer near you!&lt;/p&gt;
-
-&lt;h2 id=&quot;epilogue&quot;&gt;Epilogue&lt;/h2&gt;
-
-&lt;p&gt;After this post was written, but before publication, I discovered that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; actually has a built-in command that will do exactly the same thing as CTLPop: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -v -f -verifyCTL AuthRootWU&lt;/code&gt;.  So, we can scrap the custom PowerShell implementation I wrote.  Everything else, e.g. integration with the ncdns NSIS installer, remains the same.  Why publish this post anyway?  Because research isn’t always as clean as people sometimes imagine it to be.  Researchers often pursue suboptimal leads; I think it’s useful to document the research process authentically rather than perpetuate the myth that scientists always know what they’re going to find in advance.&lt;/p&gt;
-
-&lt;p&gt;[1] It’s not documented at &lt;a href=&quot;https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil&quot;&gt;the certutil manual&lt;/a&gt;, but is mentioned elsewhere on Microsoft’s website.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
