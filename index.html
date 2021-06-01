@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -180,6 +180,12 @@
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<h3 id="transaction-queue-for-namecoin-core"><a href="/2021/06/01/transaction-queue-for-namecoin-core.html">Transaction queue for Namecoin Core</a></h3>
+
+<p><strong><a href="/2021/06/01/transaction-queue-for-namecoin-core.html">2021-06-01</a></strong> Lately, work aiming to simplify the RPC API for name management has been proceeding. This is done both for the sake of improvement itself, and to make it easier to write GUIs for Namecoin.</p>
+
+<p><a href="/2021/06/01/transaction-queue-for-namecoin-core.html">Read more…</a></p>
+
 <h3 id="deterministic-salts-in-namecoin-core"><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">Deterministic salts in Namecoin Core</a></h3>
 
 <p><strong><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">2021-05-26</a></strong> Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
@@ -227,12 +233,6 @@
 <p><strong><a href="/2021/02/05/ncdns-v0.1-released.html">2021-02-05</a></strong> We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
 
 <p><a href="/2021/02/05/ncdns-v0.1-released.html">Read more…</a></p>
-
-<h3 id="ctlpop-populating-the-windows-authroot-certificate-store"><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">CTLPop: Populating the Windows AuthRoot Certificate Store</a></h3>
-
-<p><strong><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">2021-02-02</a></strong> In my <a href="/2021/01/15/external-name-constraints-in-certinject.html">previous post</a>, I introduced improvements to <code class="highlighter-rouge">certinject</code>, which allow us to apply a name constraint to all certificates in a Windows certificate store, without needing Administrator privileges.  Alas, there is a major issue with using <code class="highlighter-rouge">certinject</code> as presented in that post.  The issue is that most of the built-in root CA’s in Windows <em>aren’t part of any cert store!</em></p>
-
-<p><a href="/2021/02/02/ctlpop-populating-windows-authroot-certificate-store.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -283,25 +283,25 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>
