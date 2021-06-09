@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>rbm on Cirrus CI</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="https://www.namecoin.org/2021/06/09/rbm-on-cirrus-ci.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/remove-nojs.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
+                            <li><a href='https://github.com/namecoin/metrics.namecoin.bit/tree/master/'>Metrics</a></li>
+                            <li><a href='/resources/whitepaper/'>Whitepaper</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/contribute/'>Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<span id="default-tagline">
+
+<strong>Freedom</strong><br>of information.
+</span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">rbm on Cirrus CI</h1>
+<p class="post-meta">Jun 9, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>rbm (Reproducible Build Manager) is a quite nice system for reproducible builds.  rbm was originally created by Nicolas Vigier from the Tor Browser Team as a replacement for Gitian (which was previously used by Tor Browser and is still used by Bitcoin Core).  rbm has since been adopted by other projects like Ricochet and Namecoin (in particular, we use rbm for building ncdns).  Recently, I’ve been doing some mad science experiments with running rbm on Cirrus CI infrastructure.</p>
+
+<h2 id="why-use-cirrus-ci-for-reproducible-builds">Why use Cirrus CI for reproducible builds?</h2>
+
+<p>Being able to run rbm as part of a CI workflow brings several benefits:</p>
+
+<ol>
+  <li>We can test PR’s to make sure they build properly, without needing a developer machine to do the build.</li>
+  <li>We can upload nightly build binaries, and binaries built from PR’s, again without needing a developer machine.</li>
+  <li>We can use the CI service as a co-signer for reproducible release builds.</li>
+</ol>
+
+<p>The third may merit some further explanation, since you may be wondering why anyone should trust Cirrus CI to sign our builds.  The underlying principle of reproducible builds is <strong>not</strong> that any particular co-signer is supposed to be trustworthy.  Rather, the co-signers should be <strong>diverse</strong>, such that an event that compromises a subset of the co-signers is not likely to compromise the remainder.  For example, it is desirable for different co-signers to run different OS distributions, not because any of those distributions are trustworthy, but simply because a compromise of Debian signing keys is unlikely to also result in a compromise of Fedora signing keys (or vice versa).  This explains why it’s desirable to use Cirrus CI as a co-signer: the circumstances that would cause Cirrus CI infrastructure to be compromised are quite different from the circumstances that would cause the Namecoin developers’ build machines to be compromised; thus using Cirrus CI as a co-signer improves diversity, which by extension improves security.</p>
+
+<p>Why did I pick Cirrus CI instead of other CI services like GitLab, GitHub Actions, or Microsoft Azure Pipelines?  Cirrus made sense because Bitcoin Core already uses it, meaning that Namecoin already uses it too.  However, it should be noted that there’s no good reason to stick to only one CI service here; more CI services means more diversity, and thus more security.  I intend to try porting this work to other CI service in the future.</p>
+
+<h2 id="running-rbm-at-all">Running rbm at all</h2>
+
+<p>Cirrus typically runs all GNU/Linux builds inside a Docker container.  Meanwhile, rbm uses <code class="highlighter-rouge">runc</code> to start containers of its own.  <a href="https://www.youtube.com/watch?v=PivpCKEiQOQ">As Hitler wants us to know</a>, running a container inside a container is an easy way to lose World War II.  However, Cirrus does have a minimally documented build mode called <code class="highlighter-rouge">docker_builder</code>.  This is described in the documentation as a mechanism to build custom Docker containers so that you can then use those containers to run your actual build in the normal way inside Docker.  However, the <code class="highlighter-rouge">docker_builder</code> mode is actually just a standard Ubuntu VM, and it works totally fine to run an rbm build in this environment without ever touching Docker [1].</p>
+
+<h2 id="time-limits-caching">Time limits: Caching</h2>
+
+<p>Cirrus has a default time limit per task of 1 hour.  This can be increased to a maximum of 2 hours via YML configuration, but 2 hours is still too short a duration to build Tor Browser (or ncdns).  However, there are some hacks we can use here.  First off, we can instruct Cirrus to cache the <code class="highlighter-rouge">out</code> directory that rbm creates during a build.  This means that once we build a specific project (e.g. GCC or the Go compiler), it won’t have to be rebuilt unless its version or dependencies are bumped.  We can also cache the <code class="highlighter-rouge">git_clones</code> directory, which means that only new Git commits must be downloaded, rather than cloning entire repositories on each build.</p>
+
+<h2 id="time-limits-splitting-by-project">Time limits: Splitting by Project</h2>
+
+<p>Once we’re caching the outputs of projects, we can instruct Cirrus to split the build into several tasks, each of which builds only a subset of projects.  For example, Namecoin currently builds GCC, the Go compiler, and a few Go libraries in one task, while we build ncdns in another task.  I wrote a Bash script that automates construction of a Cirrus YML config that contains many tasks that all run rbm and are executed sequentially.  (Maybe I could scrap the Bash script in favor of smarter YML usage?  Looking into that is for another day.)</p>
+
+<h2 id="time-limits-the-clang-problem">Time limits: The Clang Problem</h2>
+
+<p>A few of Tor Browser’s rbm projects take longer than 2 hours to build.  The good news is that none of them are necessary to build any Namecoin projects for GNU/Linux or Windows targets.  The bad news is that one of them (Clang) is needed to build Namecoin for macOS.  And of course, since Namecoin is a good neighbor, I want to get this upstreamed to Tor, so Tor’s problems are my problems.  I considered a few options here:</p>
+
+<ol>
+  <li>Try to refactor the affected projects so that they can be split into smaller projects that each take less build time.  I rejected this approach because (1) it would probably be fairly invasive to upstream, and (2) it would probably slow down builds that aren’t running on Cirrus (there is a nontrivial per-project overhead in rbm).</li>
+  <li>Checkpoint the build containers with <a href="https://www.criu.org/">CRIU</a> (“Checkpoint/Restore In Userspace”; basically the container equivalent of the “hibernate” feature that operating systems have on bare-metal), so we can split their execution into multiple Cirrus tasks.  This seemed like a good option since runc has built-in support for CRIU, until Nicolas from Tor gave me a heads up that rbm was soon going to replace runc with something built in-house, which does not support CRIU.</li>
+  <li>Send the SIGINT signal to a build container to interrupt its build script, then cache the container’s filesystem, and then run the build script again in a subsequent Cirrus task.  This is conceptually similar to CRIU, but it abuses the fact that most build systems (e.g. GNU Make) are smart enough to not repeat already-completed steps if you run them a 2nd time.  In contrast, CRIU is designed to handle the more general case where a program inside a container isn’t that smart – we do not need that level of robustness here, and sending SIGINT to everything inside a build container is a lot simpler than using CRIU with a container system that isn’t designed to support it.</li>
+</ol>
+
+<p>Option 3 is what I decided to go with.  I initially wasn’t sure how to send SIGINT to a container, but some brief experiments with <code class="highlighter-rouge">pgrep</code> on the host OS showed that all processes inside the rbm container were visible from the host OS, including their command-line metadata.  Since rbm always launches a build inside the container by running a script called <code class="highlighter-rouge">build</code>, that means we can identify the host-side process ID of the build script inside the container by running <code class="highlighter-rouge">pgrep -f '\./build'</code>.  Furthermore, I found <a href="https://unix.stackexchange.com/a/299198">a Stack Exchange answer by Russell Davis</a> on obtaining all of the descendent process ID’s (e.g. the <code class="highlighter-rouge">make</code> and <code class="highlighter-rouge">gcc</code> processes); this also works from the host OS.</p>
+
+<p>From this, I wrote a quick Bash script (which runs on the host OS) that first sets a flag (via <code class="highlighter-rouge">touch</code>ing a file) indicating that the build was interrupted, and proceeds to send SIGINT to the build script and all of its descendent processes inside the rbm container.  Next, I patched rbm so that when the build script exits, rbm checks if that flag is set.  If it was set, then rbm saves a copy of the container’s filesystem before deleting the container.  The next time rbm tries to build that particular project hash, it checks whether it had previously saved a filesystem for that project hash; if so, it restores the filesystem instead of creating a clean container image.</p>
+
+<p>Finally, I had to slightly patch the build script for the Clang toolchain projects.  This was necessary because although GNU Make is smart enough to not get confused by being run twice in a row, Tor’s Bash script for building Clang is not quite that smart.  I didn’t need to make the Bash build script tolerate being restarted at arbitrary points; the only place where it was going to restart from was the <code class="highlighter-rouge">make</code> command.  So, I simply made the build script set a flag (again, by <code class="highlighter-rouge">touch</code>ing a file) right before it ran the <code class="highlighter-rouge">make</code> command; this gets saved along with the rest of the container’s filesystem if the build gets interrupted with SIGINT.  If the build script finds that this flag is set at the beginning of the script, it skips ahead in the script straight to the <code class="highlighter-rouge">make</code> command.  Sure, it’s a little hacky, but it’s dead simple and generally noninvasive.</p>
+
+<h2 id="results">Results</h2>
+
+<p>Namecoin’s rbm build system now runs inside Cirrus CI, meaning that we can use Cirrus as a reproducible build co-signer.  In addition, I set up a Cirrus cron task that checks daily for dependencies whose versions we can bump, and automatically submits a GitHub PR when it finds some.  Since Cirrus builds our GitHub PR’s, this allows us to automatically test whether the bumped dependencies still build without errors, saving us even more time.</p>
+
+<p>I gave a presentation on this work at Tor Demo Day; the response from the Tor developers was enthusiastic.  (My understanding is that Tor intends to post a video of the presentation.)  I intend to send these patches upstream to Tor once Namecoin has battle-tested them for a few months.</p>
+
+<p>In the field of reproducible builds, security derives from diversity.  Adding the diversity of public CI infrastructure to the Namecoin and Tor reproducible build systems yields a major security bump.  I’m looking forward to getting this upstreamed, and maybe adding additional CI services like GitLab and GitHub Actions to the mix in the future.</p>
+
+<p>[1] Yes, I know that Hitler was referring to a container inside a VM, which means we’re still violating Hitler’s advice.  Quiet, you.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-06-09-rbm-on-cirrus-ci.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/2021/06/09/rbm-on-cirrus-ci.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/06/09/rbm-on-cirrus-ci.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/06/09/rbm-on-cirrus-ci.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/06/09/rbm-on-cirrus-ci.html">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+            </ul>
+        </div>
+</footer>
+
+
+  </body>
+
+</html>
