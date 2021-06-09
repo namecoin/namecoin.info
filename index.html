@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -186,6 +186,12 @@
 
 <p><a href="/2021/06/01/transaction-queue-for-namecoin-core.html">Read more…</a></p>
 
+<h3 id="rbm-on-cirrus-ci"><a href="/2021/05/31/rbm-on-cirrus-ci.html">rbm on Cirrus CI</a></h3>
+
+<p><strong><a href="/2021/05/31/rbm-on-cirrus-ci.html">2021-05-31</a></strong> rbm (Reproducible Build Manager) is a quite nice system for reproducible builds.  rbm was originally created by Nicolas Vigier from the Tor Browser Team as a replacement for Gitian (which was previously used by Tor Browser and is still used by Bitcoin Core).  rbm has since been adopted by other projects like Ricochet and Namecoin (in particular, we use rbm for building ncdns).  Recently, I’ve been doing some mad science experiments with running rbm on Cirrus CI infrastructure.</p>
+
+<p><a href="/2021/05/31/rbm-on-cirrus-ci.html">Read more…</a></p>
+
 <h3 id="deterministic-salts-in-namecoin-core"><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">Deterministic salts in Namecoin Core</a></h3>
 
 <p><strong><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">2021-05-26</a></strong> Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
@@ -227,12 +233,6 @@
 <p><strong><a href="/2021/02/16/namecoin-core-name-update-gui.html">2021-02-16</a></strong> Now that Namecoin Core’s <a href="/2020/12/05/namecoin-core-name-renew-gui.html">Name Renewal GUI</a> is complete (it’s been merged and will be in Namecoin Core v22.0), it’s time to move on to the <code class="highlighter-rouge">name_update</code> GUI.  This forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:</p>
 
 <p><a href="/2021/02/16/namecoin-core-name-update-gui.html">Read more…</a></p>
-
-<h3 id="ncdns-v01-released"><a href="/2021/02/05/ncdns-v0.1-released.html">ncdns v0.1 Released</a></h3>
-
-<p><strong><a href="/2021/02/05/ncdns-v0.1-released.html">2021-02-05</a></strong> We’ve released ncdns v0.1 for Windows.  The big new feature is system-wide TLS support on Windows.  Now any application that uses Windows for certificate verification (no longer just Chromium) will accept Namecoin TLS certificates, and will reject malicious certificates issued by public CA’s for Namecoin domains.  Note that some Windows software, such as Firefox, does not use the Windows certificate verifier, and is therefore not supported by this feature.</p>
-
-<p><a href="/2021/02/05/ncdns-v0.1-released.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -283,25 +283,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
             </ul>
         </div>
