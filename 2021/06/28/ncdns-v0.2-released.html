@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Decoupling ncdns Versions from Go Compiler Versions</title>
+    <title>ncdns v0.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2019/08/06/decoupling-ncdns-go-versions.html">
+    <link rel="canonical" href="https://namecoin.bit/2021/06/28/ncdns-v0.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,236 +130,297 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Decoupling ncdns Versions from Go Compiler Versions</h1>
-<p class="post-meta">Aug 6, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.2 Released</h1>
+<p class="post-meta">Jun 28, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>One of the many pieces of witchcraft that Namecoin’s TLS interoperability requires is the ability to splice a signature into an X.509 certificate without otherwise modifying the certificate.  Unfortunately, while the Go standard crypto library is generally quite pleasant to use (and is certainly better-designed than most other crypto libraries such as OpenSSL), the functions relevant to splicing a signature are not exported.  This is understandable, since it’s not functionality that most users have any need for.  However, since Namecoin <em>does</em> need that functionality, my only option back when this code was being written was to fork the <code class="highlighter-rouge">crypto/x509</code> package from Go’s standard library.</p>
+<p>We’ve released ncdns v0.2.  This release adds layer-2 TLS via Encaya, and overhauls the build system.</p>
 
-<p>I didn’t want to be responsible for maintaining or distributing a fork of Go’s library, though.  So, the best option I could come up with was to use <code class="highlighter-rouge">go generate</code>, which is a fun feature in Go’s build system.  In Namecoin’s case, the ncdns build process uses <code class="highlighter-rouge">go generate</code> to copy the source code from the official <code class="highlighter-rouge">crypto/x509</code> package into the <code class="highlighter-rouge">github.com/namecoin/ncdns/x509</code> package, which (when combined with the single existing source code file, <code class="highlighter-rouge">x509_splice.go</code>), produces a package that’s identical to upstream <code class="highlighter-rouge">crypto/x509</code> but with an extra exported function (<code class="highlighter-rouge">CreateCertificateWithSplicedSignature</code>) that calls out to the unexported upstream functions in order to do what we want.  The benefit here is that whenever those unexported upstream functions are updated in a new Go release, Namecoin’s forked package will automatically inherit those changes without the Namecoin developers needing to do anything.  In fact, in theory the same forked package will work unmodified with arbitrary versions of the Go standard library, without us needing to do anything special.</p>
+<p>Full changelog of what’s new since v0.1.2:</p>
 
-<p>Alas, theory does not always equal practice.  The most obvious scenario in which this theory will fall apart is if the unexported functions called by <code class="highlighter-rouge">CreateCertificateWithSplicedSignature</code> change their API.  Upstream is well within their rights to do this, of course: they’re not exported functions, so there’s no reason to expect a stable API.  However, in practice, this API changes quite rarely.  The more common issue I’ve been encountering, surprisingly, is that the <code class="highlighter-rouge">go generate</code> script has trouble <em>finding and copying</em> the upstream library, because upstream seems to keep changing the details of where this library and its dependencies (some of which are internal-only libraries) can be found.  The result is that I’ve had to rebase our fork against upstream every couple of major Go releases to keep things working well.</p>
+<ul>
+  <li>ncdns
+    <ul>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>generate_nmc_cert
+    <ul>
+      <li>Rebase against Go 1.14.</li>
+      <li>Set ExtKeyUsage on CA.</li>
+      <li>Use compressed ECDSA public keys.  Thanks to Filippo Valsorda.</li>
+      <li>Support AIA.</li>
+      <li>Add <code class="highlighter-rouge">chain.pem</code> and <code class="highlighter-rouge">caChain.pem</code> output files.</li>
+      <li>Support certs with multiple hostnames.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Enable TLS by default in silent installs.</li>
+      <li>Add Encaya (layer-2 positive TLS overrides for CryptoAPI).</li>
+      <li>Fix NSIS logging in silent mode.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>Linux
+    <ul>
+      <li><code class="highlighter-rouge">setuid</code>/<code class="highlighter-rouge">setgid</code> no longer require cgo.  Thanks to Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Windows installer is now built in RBM.</li>
+      <li>GNU/Linux and macOS binaries are built again.</li>
+      <li>RBM builds now run on Cirrus CI.</li>
+      <li>Add projects:
+        <ul>
+          <li>certinject.</li>
+          <li>encaya.</li>
+          <li>generate_nmc_cert.</li>
+          <li>qlib.</li>
+        </ul>
+      </li>
+      <li>Bump dependencies:
+        <ul>
+          <li>tor-browser-build.</li>
+          <li>BIND.</li>
+          <li>goansicolor.</li>
+          <li>gobtcd.</li>
+          <li>gobtcutil.</li>
+          <li>goconfigurable.</li>
+          <li>godexlogconfig.</li>
+          <li>godns.</li>
+          <li>gogroupcache.</li>
+          <li>goisatty.</li>
+          <li>gomadns.</li>
+          <li>gopflag.</li>
+          <li>gopretty.</li>
+          <li>goservice.</li>
+          <li>gosvcutils</li>
+          <li>gosystemd.</li>
+          <li>gotext.</li>
+          <li>gotlsrestrictnss.</li>
+          <li>gounits.</li>
+        </ul>
+      </li>
+      <li>Switch to <code class="highlighter-rouge">tar.xz</code> output to match upstream Tor.</li>
+      <li>Generate rbm.conf from upstream Tor at build time.</li>
+      <li>Auto-create GitHub PR for dependency bumps.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+</ul>
 
-<p>The problem here is that this has the effect of coupling a specific commit hash of the <code class="highlighter-rouge">ncdns</code> repository to a specific range of Go compiler versions.  If Namecoin rebases against a new Go standard library version, and then issues an ncdns bug fix that’s unrelated to our <code class="highlighter-rouge">x509</code> fork, everyone who’s downstream of us needs to update their Go compiler in order to get the bug fix.  This is generally problematic since lots of downstream distributors have other considerations for when they update their compiler.  It was specifically causing me problems for getting ncdns to build in Tor’s rbm-based build system, because Tor is not likely to update their Go compiler exactly when Namecoin does.</p>
-
-<p>So, what to do?  Well, note that there’s no fundamentally important reason for the <code class="highlighter-rouge">x509</code> package to be a subpackage of ncdns.  It ended up there by default because it was initially only used by ncdns and there wasn’t an obvious reason to create a new Git repo, but now we have a good reason to move it to its own repo: if the Git commit hash of ncdns and <code class="highlighter-rouge">x509</code> are independent, then downstream distributors can pick the version of ncdns with whatever bug fixes they want, and independently choose the version of <code class="highlighter-rouge">x509</code> that supports whatever Go compiler version they want.  I’ve now done this.  <code class="highlighter-rouge">x509</code> now lives at <a href="https://github.com/namecoin/x509-signature-splice/tree/master/x509">github.com/namecoin/x509-signature-splice/x509</a> , and branches are available for every version of the Go compiler that we’ve ever supported, ranging from Go 1.5.x all the way through Go 1.13.x.  (Note that the Go 1.12.x and Go 1.13.x support is new, as both of those Go releases required rebases in order for <code class="highlighter-rouge">go generate</code> to run without errors.  So if you use one of those Go versions, you’ll find this work especially useful.)</p>
-
-<p>The two final steps here are:</p>
-
-<ol>
-  <li>Removing <code class="highlighter-rouge">x509</code> from the ncdns repo and switching over to the new repo; this has now been merged.</li>
-  <li>Updating ncdns-repro to use the new ncdns version; this will happen soon.</li>
-</ol>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -904,16 +965,16 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-08-06-decoupling-ncdns-go-versions.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-06-28-ncdns-v0.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/08/06/decoupling-ncdns-go-versions.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/08/06/decoupling-ncdns-go-versions.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/06/decoupling-ncdns-go-versions.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/08/06/decoupling-ncdns-go-versions.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/06/28/ncdns-v0.2-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/06/28/ncdns-v0.2-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/06/28/ncdns-v0.2-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/06/28/ncdns-v0.2-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -922,25 +983,25 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
