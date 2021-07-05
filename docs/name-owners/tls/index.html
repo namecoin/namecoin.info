@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,102 +130,207 @@
 
   <article class="post-content">
     
-<p>ncdns includes the tool <code class="highlighter-rouge">generate_nmc_cert</code>.  <code class="highlighter-rouge">generate_nmc_cert</code> can be used to create a TLS certificate that will be recognized as valid by TLS implementations where Namecoin is installed.  (Standard certificate generation tools like <code class="highlighter-rouge">openssl</code> are not usable for this purpose.)</p>
+<h1 id="setting-up-tls-for-name-owners">Setting up TLS (for name owners)</h1>
 
-<p>There are currently 2 forms of Namecoin TLS certificates: Dehydrated and Constrained.  The Dehydrated form is older and is supported by more TLS implementations.  The Constrained form is more secure and uses less blockchain storage.  It is likely that the Dehydrated form will be phased out once the Constrained form has caught up in terms of compatibility.  By default, <code class="highlighter-rouge">generate_nmc_cert</code> will produce a Dehydrated certificate.</p>
+<p>TLS (<em>Transport Layer Security</em>) is the “S” in HTTPS.  All websites using Namecoin should use TLS.  This guide covers how to set up TLS with Namecoin.</p>
 
-<p>Example usage (Dehydrated form):</p>
+<h2 id="prerequisites">Prerequisites</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit
-2019/12/11 06:47:41 written cert.pem
-2019/12/11 06:47:41 written key.pem
-2019/12/11 06:47:41 Your Namecoin cert is: {"d8":[1,"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEOcD7/hnngrlW3XrTviUjXHgbvraj3mw7Wa872Iti6Dp0Jrb9P6ZsINAZSU4mucH37zX7/pscyb6UBO08SqDP+w==",5253561,5358681,10,"MEUCIQDQF/IAHUv1UqGTGrWMvu/Tfj6PiNRBb3eTerpyZmTJjAIgeEc3a8yyNY09PrDSGkEOh0T6ZmVqbesqnZVLYszEnWI="]}
-2019/12/11 06:47:41 SUCCESS: The cert rehydrated to an identical form.  Place the generated files in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
+<p>You should install the latest release of the <code class="highlighter-rouge">generate_nmc_cert</code> tool (it’s included with ncdns).  You may also want to install the latest release of the ncdns Windows installer, to test that your certificates work.</p>
+
+<h2 id="concepts">Concepts</h2>
+
+<p>In Namecoin, the blockchain stores the public key of a <em>CA certificate</em> (certificate authority certificate) that you’ve created.  You can use that CA certificate to <em>issue</em> TLS certificates, or issue additional CA certificates (referred to as <em>subordinate CA certificates</em>).  Issuing TLS certificates or subordinate CA certificates does not require a blockchain transaction.  The CA certificate referenced by the blockchain is valid for your Namecoin domain name and all subdomains, but you can add additional restrictions when issuing TLS certificates or subordinate CA certificates.  This allows you to limit the impact of key compromise.  For example:</p>
+
+<ul>
+  <li>You can issue TLS certificates (which will be deployed to a public-facing TLS server) with a short expiration time, while keeping the CA certificate and its private key (with a longer expiration time) on an offline machine.  You can then rotate keys by issuing a new TLS certificate periodically.  This means that if your TLS server is temporarily compromised and its private key is stolen, the situation will resolve itself the next time you rotate TLS certificates.</li>
+  <li>You can issue TLS certificates that are only valid for certain subdomains.  For example, if you have multiple physical servers that each handle a different subset of your subdomains, you can give each of them its own TLS certificate, and a compromised server won’t be able to impersonate the others.</li>
+  <li>You can issue subordinate CA certificates that are only valid for certain subdomains.  This allows you to give a third party the ability to create TLS certificates for a specific subdomain, without letting them impact the security of the rest of your Namecoin domain.</li>
+</ul>
+
+<h2 id="example-the-basics">Example: The Basics</h2>
+
+<p>To create a CA certificate for your Namecoin domain, run the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-ca
+pushd example.bit-ca
+generate_nmc_cert -use-ca -use-aia -host example.bit
+popd
 </code></pre></div></div>
 
-<p>To produce a Constrained certificate instead, use the <code class="highlighter-rouge">-use-ca</code> command-line flag, like this:</p>
+<p>(The directory names in these examples are arbitrary and are just intended to make the examples more clear; you can use whatever directory structure you like.)</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca
-2019/12/11 06:54:39 Your CA's "tls" record is: [2, 1, 0, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEm1nvuS+A5WFgafCeYmzVSZOsokU1Fmnh5ZiBC7h0pRkbkx7cCA/MYPPh6zDdMB75ELvXSt0eLaoQQYaz1QDijw=="]
-2019/12/11 06:54:39 written caKey.pem
-2019/12/11 06:54:39 written cert.pem
-2019/12/11 06:54:39 written key.pem
-2019/12/11 06:54:39 SUCCESS.  Place cert.pem and key.pem in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre></div></div>
+<p>The following files will be created in the <code class="highlighter-rouge">example.bit-ca</code> directory:</p>
 
-<p>If you’re using the Constrained form, you can produce multiple certificates for a single Namecoin record.  This allows you to, for example, rotate TLS keys periodically without needing to update your Namecoin record.  To create a new certificate using an existing Namecoin record, set the <code class="highlighter-rouge">-parent-key</code> command-line argument to the <code class="highlighter-rouge">caKey.pem</code> file that you created with the first certificate, like this:</p>
+<ul>
+  <li><code class="highlighter-rouge">caChain.pem</code>: Certificate chain for issuing TLS certificates or subordinate CA’s.</li>
+  <li><code class="highlighter-rouge">caKey.pem</code>: Private key for issuing TLS certificates or subordinate CA’s.</li>
+  <li><code class="highlighter-rouge">chain.pem</code>: TLS certificate chain.</li>
+  <li><code class="highlighter-rouge">key.pem</code>: TLS private key.</li>
+  <li><code class="highlighter-rouge">namecoin.json</code>: TLSA record to enter in your Namecoin wallet.</li>
+</ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert -host www.example.bit -use-ca -parent-key ./caKey-www.example.bit.pem
-2019/12/11 07:11:06 Using existing CA private key
-2019/12/11 07:11:06 Your CA's "tls" record is: [2, 1, 0, "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEm1nvuS+A5WFgafCeYmzVSZOsokU1Fmnh5ZiBC7h0pRkbkx7cCA/MYPPh6zDdMB75ELvXSt0eLaoQQYaz1QDijw=="]
-2019/12/11 07:11:06 written cert.pem
-2019/12/11 07:11:06 written key.pem
-2019/12/11 07:11:06 SUCCESS.  Place cert.pem and key.pem in your HTTPS server, and place the above JSON in the "tls" field for your Namecoin name.
-</code></pre></div></div>
+<p>(A few other files will be created too, but you don’t need to worry about them.)</p>
 
-<p>By default, certificates use the P256 curve and are valid from generation time for approximately 1 year.  Users who know what they are doing can choose different ECDSA curves or validity periods; use the <code class="highlighter-rouge">-help</code> command-line flag to see the list of available options.</p>
-
-<p>The JSON object displayed should be enclosed in an array, and placed in the <code class="highlighter-rouge">tls</code> field for the domain where you want the TLSA record to appear.  Usually, this will be the <code class="highlighter-rouge">_443._tcp</code> subdomain of the domain name that points to the website.  An example of a typical configuration (using the Dehydrated form) is:</p>
+<p>The JSON value contained in <code class="highlighter-rouge">namecoin.json</code> should be enclosed in an array, and placed in the <code class="highlighter-rouge">tls</code> field for the <code class="highlighter-rouge">*</code> subdomain of your eTLD+1 domain name.  For example:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-    "ip": "73.239.16.12", 
+    "ip": "73.239.16.12",
     "map": {
-        "_tcp": {
-            "map": {
-                "_443": {
-                    "tls": [
-                        {
-                            "d8": [
-                                1, 
-                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
-                                4944108, 
-                                5259468, 
-                                10, 
-                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
-                            ]
-                        }
-                    ]
-                }
-            }
+        "*": {
+            "tls": [
+                [
+                    2,
+                    1,
+                    0,
+                    "MDkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDIgADcO7sJ5kaRYGipnz5YMXwo6NDGLWV4qVoJIn+1by1oAo="
+                ]
+            ]
         }
     }
 }
 </code></pre></div></div>
 
-<p>Remember that if you have an <code class="highlighter-rouge">ns</code> record above the <code class="highlighter-rouge">tls</code> record, the <code class="highlighter-rouge">ns</code> record will suppress the <code class="highlighter-rouge">tls</code> record.  For example, the following configuration will <strong>not</strong> work:</p>
+<p>If your Namecoin domain has no subdomains, you can just load <code class="highlighter-rouge">chain.pem</code> and <code class="highlighter-rouge">key.pem</code> into your TLS server (e.g. Caddy, Nginx, or Apache), and you’re done.  That was easy.</p>
+
+<h2 id="example-renewing-a-tls-certificate">Example: Renewing a TLS Certificate</h2>
+
+<p>To issue a new TLS certificate (e.g. to rotate keys), use the <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">parent-key</code> flags like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-tls
+pushd example.bit-tls
+generate_nmc_cert -use-ca -host example.bit -parent-chain ../example.bit-ca/caChain.pem -parent-key ../example.bit-ca/caKey.pem 
+popd
+</code></pre></div></div>
+
+<p>Note that <code class="highlighter-rouge">-use-ca</code> is still present, but <code class="highlighter-rouge">-use-aia</code> is not.</p>
+
+<p>You’ll get a new <code class="highlighter-rouge">chain.pem</code> and <code class="highlighter-rouge">key.pem</code> in the <code class="highlighter-rouge">example.bit-tls</code> directory, which you can load into your TLS server.</p>
+
+<p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when renewing TLS certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="example-issuing-a-tls-certificate-for-a-subdomain">Example: Issuing a TLS Certificate for a Subdomain</h2>
+
+<p>When using <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">-parent-key</code>, you can enter a <code class="highlighter-rouge">-host</code> flag containing a subdomain, like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir www.example.bit-tls
+pushd www.example.bit-tls
+generate_nmc_cert -use-ca -host www.example.bit -parent-chain ../example.bit-ca/caChain.pem -parent-key ../example.bit-ca/caKey.pem 
+popd
+</code></pre></div></div>
+
+<p>This works as long as the <code class="highlighter-rouge">-host</code> flag is within the tree of the <code class="highlighter-rouge">-host</code> flag that the CA was created with.  For example, if the CA is for <code class="highlighter-rouge">example.bit</code>, the following TLS <code class="highlighter-rouge">-host</code> values will work fine:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">example.bit</code> (same domain)</li>
+  <li><code class="highlighter-rouge">www.example.bit</code> (subdomain)</li>
+  <li><code class="highlighter-rouge">sub.www.example.bit</code> (subdomain of a subdomain)</li>
+  <li><code class="highlighter-rouge">www.example.bit,forum.example.bit</code> (multiple subdomains)</li>
+  <li><code class="highlighter-rouge">*.example.bit</code> (wildcard subdomain)</li>
+  <li><code class="highlighter-rouge">*.example.bit,*.*.example.bit</code> (multi-level wildcard)</li>
+</ul>
+
+<p>But e.g. <code class="highlighter-rouge">example2.bit</code> or <code class="highlighter-rouge">example.com</code> will not work.</p>
+
+<p>Similarly, if the CA is a subordinate CA for <code class="highlighter-rouge">www.example.bit</code> (see next section), the following TLS <code class="highlighter-rouge">-host</code> values will work fine:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">www.example.bit</code></li>
+  <li><code class="highlighter-rouge">sub.www.example.bit</code></li>
+  <li><code class="highlighter-rouge">www.example.bit,sub.www.example.bit</code></li>
+  <li><code class="highlighter-rouge">*.www.example.bit</code></li>
+</ul>
+
+<p>But the following will not work:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">example.bit</code> (not within the tree of the CA)</li>
+  <li><code class="highlighter-rouge">www.example.bit,forum.example.bit</code> (all hosts must be within the tree of the CA)</li>
+  <li><code class="highlighter-rouge">*.example.bit</code></li>
+</ul>
+
+<p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when issuing TLS certificates for subdomains, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="example-issuing-a-subordinate-ca-certificate-for-a-subdomain">Example: Issuing a Subordinate CA Certificate for a Subdomain</h2>
+
+<p>Issuing a subordinate CA certificate works like above, except you use the <code class="highlighter-rouge">-grandparent-chain</code> and <code class="highlighter-rouge">-grandparent-key</code> flags instead of <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">-parent-key</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir www.example.bit-ca
+pushd www.example.bit-ca
+generate_nmc_cert -use-ca -host www.example.bit -grandparent-chain ../example.bit-ca/caChain.pem -grandparent-key ../example.bit-ca/caKey.pem 
+popd
+</code></pre></div></div>
+
+<p>You’ll get a new <code class="highlighter-rouge">caChain.pem</code> and <code class="highlighter-rouge">caKey.pem</code> in the <code class="highlighter-rouge">www.example.bit-ca</code> directory, which you can use for issuing new certificates.</p>
+
+<p>The <code class="highlighter-rouge">-host</code> flag follows similar rules as with issuing a TLS certificate.  For example, if the grandparent CA is for <code class="highlighter-rouge">example.bit</code>, the following subordinate CA <code class="highlighter-rouge">-host</code> values will work fine:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">example.bit</code> (same domain)</li>
+  <li><code class="highlighter-rouge">www.example.bit</code> (subdomain)</li>
+  <li><code class="highlighter-rouge">sub.www.example.bit</code> (subdomain of a subdomain)</li>
+  <li><code class="highlighter-rouge">www.example.bit,forum.example.bit</code> (multiple subdomains)</li>
+</ul>
+
+<p>Specifying wildcards for subordinate CA’s is not necessary.</p>
+
+<p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when issuing subordinate CA certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="testing-your-website">Testing Your Website</h2>
+
+<p>The best way to test your website is to try visiting it on a Windows 10 installation after running the ncdns for Windows installer.  It should load without errors.</p>
+
+<h2 id="selecting-the-elliptic-curve">Selecting the Elliptic Curve</h2>
+
+<p><code class="highlighter-rouge">generate_nmc_cert</code> defaults to the P256 curve, which balances security with compatibility.  If you really want a different curve, know what you’re doing, and are prepared for the consequences, you can do so by adding one of the following flags:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">-ecdsa-curve P224</code></li>
+  <li><code class="highlighter-rouge">-ecdsa-curve P384</code></li>
+  <li><code class="highlighter-rouge">-ecdsa-curve P521</code></li>
+  <li><code class="highlighter-rouge">-ed25519</code></li>
+</ul>
+
+<p>Note that Ed25519 is more secure than the default P256, but is not widely supported by TLS implementations yet.</p>
+
+<h2 id="selecting-the-validity-period">Selecting the Validity Period</h2>
+
+<p>When issuing certificates, you can change the expiration date via the <code class="highlighter-rouge">-duration</code> flag, which defaults to <code class="highlighter-rouge">8760h0m0s</code> (365 days).  You can also use the <code class="highlighter-rouge">-start-date</code> flag to set the start date to something other than the present time (format is <code class="highlighter-rouge">Jan 1 15:04:05 2011</code>).</p>
+
+<h2 id="revoking-certificates">Revoking Certificates</h2>
+
+<p>Ideally, you’ve picked validity periods that are short enough that you can just wait for certificates to expire when you rotate keys.  However, in the event of emergency (e.g. you have credible reason to believe that your keys have been compromised), you can revoke your keys by deleting the TLS record from the blockchain in your Namecoin wallet (which will incur a transaction fee).  You will need to start over and re-issue all TLS certificates and subordinate CA certificates.</p>
+
+<h2 id="tls-and-ns-records">TLS and NS Records</h2>
+
+<p>Remember that if you have an NS record at or above the TLS record in the blockchain, the TLS record will be suppressed.</p>
+
+<p>For example, the following configuration will <strong>not</strong> work:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
     "ns": "ns21.cloudns.net.",
     "map": {
-        "_tcp": {
-            "map": {
-                "_443": {
-                    "tls": [
-                        {
-                            "d8": [
-                                1, 
-                                "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQ+XwIFSYT8U24gBKFDgQ/iRuFcAQGNhJweooIRYw5G9TtAJJ2CyTHWNsfbq+5c6LZ7fErMOdIXHQhHbP68dnZA==", 
-                                4944108, 
-                                5259468, 
-                                10, 
-                                "MEQCICkDDuAmj7F9RvhUaSaOpIfW2HvSPP1YUqQMSBwycYZFAiB/u7K+F2xlfTBizkFLvFPiRfj2oFqttaXBZzO/UKewPw=="
-                            ]
-                        }
-                    ]
-                }
-            }
+        "*": {
+            "tls": [
+                [
+                    2,
+                    1,
+                    0,
+                    "MDkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDIgADcO7sJ5kaRYGipnz5YMXwo6NDGLWV4qVoJIn+1by1oAo="
+                ]
+            ]
         }
     }
 }
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> files can be used with HTTPS servers like Caddy, Nginx, or Apache, just like for any other certificate.</p>
+<h2 id="cipher-suites">Cipher suites</h2>
 
-<p>If you are using the Dehydrated form, or the default settings for the Constrained form, you will need to make sure that your HTTPS server supports either <code class="highlighter-rouge">ECDHE-ECDSA</code> or <code class="highlighter-rouge">DHE-ECDSA</code> ciphersuites.  If you require non-forward-secret ciphersuites or non-ECDSA keys, you will need to use the Constrained form to generate a CA, and then manually use that CA to sign an end-entity certificate (via whatever non-Namecoin tooling you like) that uses the desired <code class="highlighter-rouge">KeyUsage</code> value or key type.</p>
+<p>All TLS 1.3 cipher suites will work with Namecoin.  If you must use TLS 1.2 or lower, your TLS server will need to support an appropriate cipher suite such as one of the <code class="highlighter-rouge">ECDHE-ECDSA</code> cipher suites.  If possible, please avoid using TLS 1.2 or lower (with or without Namecoin), as they are outdated and insecure.</p>
 
-<p>Note that wildcard certificates are not currently supported; each domain name needs its own certificate.</p>
+<h2 id="using-your-own-tooling">Using Your Own Tooling</h2>
 
-<p>You can test your setup by visiting your <code class="highlighter-rouge">.bit</code> domain in a <a href="/docs/tls-client/">Namecoin-supported TLS client</a>.</p>
+<p>If you prefer, you can issue subordinate CA certificates and TLS certificates using your own CA tooling.  Just point your tooling to the CA certificate and CA private key.  You should make sure that any certificates that you issue with your own tooling contain the Subject Serial Number <code class="highlighter-rouge">Namecoin TLS Certificate</code>.</p>
 
   </article>
 
@@ -264,25 +369,25 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>
