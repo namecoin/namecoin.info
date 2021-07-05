@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 28 Jun 2021 00:45:08 +0000</pubDate>
-    <lastBuildDate>Mon, 28 Jun 2021 00:45:08 +0000</lastBuildDate>
+    <pubDate>Mon, 05 Jul 2021 20:34:43 +0000</pubDate>
+    <lastBuildDate>Mon, 05 Jul 2021 20:34:43 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,45 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>tstclnt: openssl s_client / gnutls-cli equivalent for NSS</title>
+        <description>&lt;p&gt;When debugging TLS handshakes, it’s incredibly helpful to have a CLI tool that acts as a simple TLS client.  For OpenSSL (the TLS library used by Python, &lt;code class=&quot;highlighter-rouge&quot;&gt;curl&lt;/code&gt;, and various other GNU/Linux things), the relevant tool is &lt;code class=&quot;highlighter-rouge&quot;&gt;openssl s_client&lt;/code&gt;.  For GnuTLS (the TLS library used by GNOME Web, &lt;code class=&quot;highlighter-rouge&quot;&gt;wget&lt;/code&gt;, and various other GNU/Linux things), it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;gnutls-cli&lt;/code&gt;.  But did you know that there’s an analogous tool for NSS (the TLS library used by Firefox and the GNU/Linux version of Chromium)?  If you didn’t know this, you can be easily forgiven – the Mozilla NSS documentation doesn’t mention that it exists, and there are almost no web search results for it!  Yet it’s there.&lt;/p&gt;
+
+&lt;p&gt;The tool is called &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; (“testclient” with the vowels removed).  On Debian Buster, you can find it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;libnss3-tools&lt;/code&gt; package.  On Fedora 34, it’s a tad more complicated: &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; is in the &lt;code class=&quot;highlighter-rouge&quot;&gt;nss-tools&lt;/code&gt; package, but it doesn’t install to a directory that’s on the default &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt;.  Fedora instead installs &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; to the &lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/lib64/nss/unsupported-tools/&lt;/code&gt;   directory (path is accurate for &lt;code class=&quot;highlighter-rouge&quot;&gt;ppc64le&lt;/code&gt;; other architectures may have slightly different paths).&lt;/p&gt;
+
+&lt;p&gt;Once you’ve installed &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt;, you can run it like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tstclnt -b -D -h www.namecoin.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;-h&lt;/code&gt; argument indicates which TLS server to connect to.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-b&lt;/code&gt; flag instructs &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; to use the default CKBI (built-in certificate database) PKCS#11 module.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; flag disables the Softoken (SQLite-based certificate database) PKCS#11 module.&lt;/p&gt;
+
+&lt;p&gt;If all goes well, &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; will do a successful TLS handshake with &lt;code class=&quot;highlighter-rouge&quot;&gt;www.namecoin.org&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For more fun, you may also wish to try the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Replace &lt;code class=&quot;highlighter-rouge&quot;&gt;-b&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;-R /usr/lib64/pkcs11/p11-kit-trust.so&lt;/code&gt; to use a non-default PKCS#11 module instead of CKBI.&lt;/li&gt;
+  &lt;li&gt;Replace &lt;code class=&quot;highlighter-rouge&quot;&gt;-D&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;-d sql:/etc/pki/nssdb&lt;/code&gt; to use a SQLite certificate database with Softoken.  (You can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;dbm:&lt;/code&gt; prefix instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;sql:&lt;/code&gt; if you want to use Softoken’s legacy BerkeleyDB database format instead of the modern SQLite.)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;-C&lt;/code&gt; to dump the certificate chain.  (You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;-C -C&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;-C -C -C&lt;/code&gt; for more verbosity.)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;-o&lt;/code&gt; to override certificate validation errors.&lt;/li&gt;
+  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;-p 443&lt;/code&gt; to connect to a non-default TLS port.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And of course you can access a full list of options via &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt --help&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; is an excellent tool for TLS hackers; it’s too bad Mozilla doesn’t document its existence.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 05 Jul 2021 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.2 Released</title>
@@ -394,20 +433,6 @@ name_firstupdate &quot;d/myname&quot; [value]
         <category>Releases</category>
         
         <category>Namecoin Core Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Nightly Builds of ncdns and certinject</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;/download/betas/&quot;&gt;Beta Downloads page&lt;/a&gt; now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 04 Mar 2021 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/03/04/nightly-builds-ncdns-certinject.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/03/04/nightly-builds-ncdns-certinject.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
