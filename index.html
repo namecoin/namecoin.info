@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -186,6 +186,12 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/28/ncdns-v0.2-released.html">Read more…</a></p>
 
+<h3 id="tstclnt-openssl-s_client--gnutls-cli-equivalent-for-nss"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/17/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">tstclnt: openssl s_client / gnutls-cli equivalent for NSS</a></h3>
+
+<p><strong><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/17/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">2021-06-17</a></strong> When debugging TLS handshakes, it’s incredibly helpful to have a CLI tool that acts as a simple TLS client.  For OpenSSL (the TLS library used by Python, <code class="highlighter-rouge">curl</code>, and various other GNU/Linux things), the relevant tool is <code class="highlighter-rouge">openssl s_client</code>.  For GnuTLS (the TLS library used by GNOME Web, <code class="highlighter-rouge">wget</code>, and various other GNU/Linux things), it’s <code class="highlighter-rouge">gnutls-cli</code>.  But did you know that there’s an analogous tool for NSS (the TLS library used by Firefox and the GNU/Linux version of Chromium)?  If you didn’t know this, you can be easily forgiven – the Mozilla NSS documentation doesn’t mention that it exists, and there are almost no web search results for it!  Yet it’s there.</p>
+
+<p><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/17/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">Read more…</a></p>
+
 <h3 id="rbm-on-cirrus-ci"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/09/rbm-on-cirrus-ci.html">rbm on Cirrus CI</a></h3>
 
 <p><strong><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/06/09/rbm-on-cirrus-ci.html">2021-06-09</a></strong> rbm (Reproducible Build Manager) is a quite nice system for reproducible builds.  rbm was originally created by Nicolas Vigier from the Tor Browser Team as a replacement for Gitian (which was previously used by Tor Browser and is still used by Bitcoin Core).  rbm has since been adopted by other projects like Ricochet and Namecoin (in particular, we use rbm for building ncdns).  Recently, I’ve been doing some mad science experiments with running rbm on Cirrus CI infrastructure.</p>
@@ -229,10 +235,6 @@ Decentralized<br /><strong>secure</strong> names.
 <p><strong><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/03/07/namecoin-core-0.21.0.1-released.html">2021-03-07</a></strong> Namecoin Core 0.21.0.1 has been released on the <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/#namecoin-core-client-stable-release">Downloads page</a>.</p>
 
 <p><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/03/07/namecoin-core-0.21.0.1-released.html">Read more…</a></p>
-
-<h3 id="nightly-builds-of-ncdns-and-certinject"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/03/04/nightly-builds-ncdns-certinject.html">Nightly Builds of ncdns and certinject</a></h3>
-
-<p><strong><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/03/04/nightly-builds-ncdns-certinject.html">2021-03-04</a></strong> The <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/betas/">Beta Downloads page</a> now includes Nightly builds of ncdns (both the plain binaries and the Windows installer) and certinject.  For the #reckless among you who want to help us test new features or identify bugs before a release, the Nightly builds are a great way to do so.</p>
 
 <p><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/news/">Earlier news</a></p>
 
@@ -283,25 +285,25 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
+                    <li class="funder">Handshake</li>
+                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
