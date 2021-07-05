@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,49 @@ Decentralized<br /><strong>secure</strong> names.
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">tstclnt: openssl s_client / gnutls-cli equivalent for NSS</a></h1>
+    <p class="post-meta">Jul 5, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>When debugging TLS handshakes, it’s incredibly helpful to have a CLI tool that acts as a simple TLS client.  For OpenSSL (the TLS library used by Python, <code class="highlighter-rouge">curl</code>, and various other GNU/Linux things), the relevant tool is <code class="highlighter-rouge">openssl s_client</code>.  For GnuTLS (the TLS library used by GNOME Web, <code class="highlighter-rouge">wget</code>, and various other GNU/Linux things), it’s <code class="highlighter-rouge">gnutls-cli</code>.  But did you know that there’s an analogous tool for NSS (the TLS library used by Firefox and the GNU/Linux version of Chromium)?  If you didn’t know this, you can be easily forgiven – the Mozilla NSS documentation doesn’t mention that it exists, and there are almost no web search results for it!  Yet it’s there.</p>
+
+    <p>The tool is called <code class="highlighter-rouge">tstclnt</code> (“testclient” with the vowels removed).  On Debian Buster, you can find it in the <code class="highlighter-rouge">libnss3-tools</code> package.  On Fedora 34, it’s a tad more complicated: <code class="highlighter-rouge">tstclnt</code> is in the <code class="highlighter-rouge">nss-tools</code> package, but it doesn’t install to a directory that’s on the default <code class="highlighter-rouge">PATH</code>.  Fedora instead installs <code class="highlighter-rouge">tstclnt</code> to the <code class="highlighter-rouge">/usr/lib64/nss/unsupported-tools/</code>   directory (path is accurate for <code class="highlighter-rouge">ppc64le</code>; other architectures may have slightly different paths).</p>
+
+    <p>Once you’ve installed <code class="highlighter-rouge">tstclnt</code>, you can run it like this:</p>
+
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>tstclnt -b -D -h www.namecoin.org
+</code></pre>
+      </div>
+    </div>
+
+    <p>The <code class="highlighter-rouge">-h</code> argument indicates which TLS server to connect to.  The <code class="highlighter-rouge">-b</code> flag instructs <code class="highlighter-rouge">tstclnt</code> to use the default CKBI (built-in certificate database) PKCS#11 module.  The <code class="highlighter-rouge">-D</code> flag disables the Softoken (SQLite-based certificate database) PKCS#11 module.</p>
+
+    <p>If all goes well, <code class="highlighter-rouge">tstclnt</code> will do a successful TLS handshake with <code class="highlighter-rouge">www.namecoin.org</code>.</p>
+
+    <p>For more fun, you may also wish to try the following:</p>
+
+    <ul>
+  <li>Replace <code class="highlighter-rouge">-b</code> with <code class="highlighter-rouge">-R /usr/lib64/pkcs11/p11-kit-trust.so</code> to use a non-default PKCS#11 module instead of CKBI.</li>
+  <li>Replace <code class="highlighter-rouge">-D</code> with <code class="highlighter-rouge">-d sql:/etc/pki/nssdb</code> to use a SQLite certificate database with Softoken.  (You can use the <code class="highlighter-rouge">dbm:</code> prefix instead of <code class="highlighter-rouge">sql:</code> if you want to use Softoken’s legacy BerkeleyDB database format instead of the modern SQLite.)</li>
+  <li>Add <code class="highlighter-rouge">-C</code> to dump the certificate chain.  (You can use <code class="highlighter-rouge">-C -C</code> or <code class="highlighter-rouge">-C -C -C</code> for more verbosity.)</li>
+  <li>Add <code class="highlighter-rouge">-o</code> to override certificate validation errors.</li>
+  <li>Add <code class="highlighter-rouge">-p 443</code> to connect to a non-default TLS port.</li>
+</ul>
+
+    <p>And of course you can access a full list of options via <code class="highlighter-rouge">tstclnt --help</code>.</p>
+
+    <p><code class="highlighter-rouge">tstclnt</code> is an excellent tool for TLS hackers; it’s too bad Mozilla doesn’t document its existence.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6745,25 +6788,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
