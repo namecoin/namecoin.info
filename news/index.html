@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,30 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/08/23/namecoin-qt-decoration-improvements.html">Namecoin-Qt Decoration Improvements</a></h1>
+    <p class="post-meta">Aug 23, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>I’ve been improving the UX of decorations applied to transactions in Namecoin-Qt.  For comparison, here’s what it looked like before the improvements:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/transactions-2021-08-02.png" alt="A screenshot of the Transactions tab in Namecoin-Qt." /></p>
+
+    <p>And after:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/transactions-2021-08-09.png" alt="Another screenshot of the Transactions tab in Namecoin-Qt." /></p>
+
+    <p>As you can see, jargon such as <code class="highlighter-rouge">NAME_FIRSTUPDATE</code> has been replaced with more user-friendly terminology such as <code class="highlighter-rouge">Name registration</code> and has been moved to the <code class="highlighter-rouge">Type</code> column (replacing the redundant <code class="highlighter-rouge">Name operation</code> text).  Name updates that do not change the value are now marked as <code class="highlighter-rouge">Name renewal</code>, which more precisely conveys the nature of such transactions (this required some plumbing, as previously the transaction decoration code did not have access to the previous value of a name transaction).</p>
+
+    <p>These improvements are expected to be included in Namecoin Core 23.0 (22.0 has already branched from master and should be released soon).</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6932,25 +6956,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
