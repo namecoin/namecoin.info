@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 23 Aug 2021 14:02:46 +0000</pubDate>
-    <lastBuildDate>Mon, 23 Aug 2021 14:02:46 +0000</lastBuildDate>
+    <pubDate>Mon, 23 Aug 2021 14:23:45 +0000</pubDate>
+    <lastBuildDate>Mon, 23 Aug 2021 14:23:45 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -28,7 +28,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/transactions-2021-08-09.png&quot; alt=&quot;Another screenshot of the Transactions tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;As you can see, jargon such as &lt;code class=&quot;highlighter-rouge&quot;&gt;NAME_FIRSTUPDATE&lt;/code&gt; has been replaced with more user-friendly terminology such as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name registration&lt;/code&gt; and has been moved to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Type&lt;/code&gt; column (replacing the redundant &lt;code class=&quot;highlighter-rouge&quot;&gt;Name operation&lt;/code&gt; text).  Name updates that do not change the value are now marked as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name renewal&lt;/code&gt;, which more precisely conveys the nature of such transactions (this required some plumbing, as previously the transaction decoration code did not have access to the previous value of a name transaction).&lt;/p&gt;
+&lt;p&gt;As you can see, jargon such as &lt;code class=&quot;highlighter-rouge&quot;&gt;NAME_FIRSTUPDATE&lt;/code&gt; has been replaced with more user-friendly terminology such as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name registration&lt;/code&gt; and has been moved to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Type&lt;/code&gt; column (replacing the redundant &lt;code class=&quot;highlighter-rouge&quot;&gt;Name operation&lt;/code&gt; text).  Name updates that do not change the value are now marked as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name renewal&lt;/code&gt;, which more precisely conveys the nature of such transactions (this required some plumbing, as previously the transaction decoration code did not have access to the previous value of a name transaction).  Additionally (not pictured above), name transfers are now decorated appropriately.&lt;/p&gt;
 
 &lt;p&gt;These improvements are expected to be included in Namecoin Core 23.0 (22.0 has already branched from master and should be released soon).&lt;/p&gt;
 </description>
