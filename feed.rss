@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 14 Sep 2021 06:57:35 +0000</pubDate>
-    <lastBuildDate>Tue, 14 Sep 2021 06:57:35 +0000</lastBuildDate>
+    <pubDate>Tue, 14 Sep 2021 07:06:05 +0000</pubDate>
+    <lastBuildDate>Tue, 14 Sep 2021 07:06:05 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -17,6 +17,28 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin-Qt Buy Names Tab</title>
+        <description>&lt;p&gt;Now that the Manage Names tab in Namecoin-Qt (which lets you update existing names in your wallet) is &lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/02/16/namecoin-core-name-update-gui.html&quot;&gt;implemented&lt;/a&gt;, it’s time to move onto the Buy Names tab.  Like the Name Update GUI, this forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/namecoin-core/buy-names-2021-08-22.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, I kept things minimalist to enable faster review.  For example, there is not yet any UI element to tell you if a name already is registered (you’ll find out in such cases after clicking the button).  In addition, this UI only triggers the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC method, not &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; (which you’ll need to do yourself via the console prior to using the Buy Names tab).  This is because Yanmaani is already working on RPC support for combining &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;; once his work on that is merged, this GUI should be convertible to use his work with a one-liner patch.&lt;/p&gt;
+
+&lt;p&gt;The Buy Names tab is expected to be included in Namecoin Core 23.0.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/09/14/namecoin-qt-buy-names-tab.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/09/14/namecoin-qt-buy-names-tab.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin-Qt Decoration Improvements</title>
@@ -35,28 +57,6 @@
         <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
         <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/08/23/namecoin-qt-decoration-improvements.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/08/23/namecoin-qt-decoration-improvements.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin-Qt Buy Names Tab</title>
-        <description>&lt;p&gt;Now that the Manage Names tab in Namecoin-Qt (which lets you update existing names in your wallet) is &lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/02/16/namecoin-core-name-update-gui.html&quot;&gt;implemented&lt;/a&gt;, it’s time to move onto the Buy Names tab.  Like the Name Update GUI, this forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/namecoin-core/buy-names-2021-08-22.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see, I kept things minimalist to enable faster review.  For example, there is not yet any UI element to tell you if a name already is registered (you’ll find out in such cases after clicking the button).  In addition, this UI only triggers the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC method, not &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; (which you’ll need to do yourself via the console prior to using the Buy Names tab).  This is because Yanmaani is already working on RPC support for combining &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;; once his work on that is merged, this GUI should be convertible to use his work with a one-liner patch.&lt;/p&gt;
-
-&lt;p&gt;The Buy Names tab is expected to be included in Namecoin Core 23.0.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/08/23/namecoin-qt-buy-names-tab.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/08/23/namecoin-qt-buy-names-tab.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
