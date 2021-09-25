@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 14 Sep 2021 09:19:01 +0000</pubDate>
-    <lastBuildDate>Tue, 14 Sep 2021 09:19:01 +0000</lastBuildDate>
+    <pubDate>Sat, 25 Sep 2021 08:43:36 +0000</pubDate>
+    <lastBuildDate>Sat, 25 Sep 2021 08:43:36 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,75 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>ncdns v0.2.2 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.2.2.  This release contains multiple bugfixes, in particular a patch to &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; that works around a CryptoAPI connectivity bug.  We strongly recommend that all users upgrade.  &lt;strong&gt;All domain owners who have TLS enabled will need to re-generate their TLS certificates and TLS records after upgrading.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Full changelog of what’s new since v0.2:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ncdns
+    &lt;ul&gt;
+      &lt;li&gt;Remove tlsrestrict_chromium_tool binary.  (certinject should be used instead now.)&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;generate_nmc_cert
+    &lt;ul&gt;
+      &lt;li&gt;Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.  Thanks to mjgill89.)&lt;/li&gt;
+      &lt;li&gt;Rebase against Go 1.17.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ncp11
+    &lt;ul&gt;
+      &lt;li&gt;Temporarily suspend providing macOS binaries of ncp11.  (macOS support for ncp11 will return after the ongoing p11mod refactor has completed.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Windows installer
+    &lt;ul&gt;
+      &lt;li&gt;Support chain-installing and configuring Electrum-NMC.&lt;/li&gt;
+      &lt;li&gt;Redesign Components dialogs.&lt;/li&gt;
+      &lt;li&gt;Fix installation error on certain non-English locales, e.g. Swedish.  (Thanks to Jonas Ostman.)&lt;/li&gt;
+      &lt;li&gt;Warn users of Windows 7 and earlier.  (ncdns hasn’t supported these EOL Windows versions for a while; users who are okay with security degradation will be able to bypass the warning and install anyway.)&lt;/li&gt;
+      &lt;li&gt;Relicense under GPLv3+.&lt;/li&gt;
+      &lt;li&gt;Remove non-freedom build dependency.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Build system:
+    &lt;ul&gt;
+      &lt;li&gt;Downgrade to BIND 9.16 branch for Windows.  (Upstream BIND has dropped Windows support in 9.17 branch.)&lt;/li&gt;
+      &lt;li&gt;Relicense ncdns-repro under tor-browser-build license.  (Thanks to Nicolas Vigier and Georg Koppen.)&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.&lt;/li&gt;
+      &lt;li&gt;Bump dependencies:
+        &lt;ul&gt;
+          &lt;li&gt;tor-browser-build&lt;/li&gt;
+          &lt;li&gt;gobtcd&lt;/li&gt;
+          &lt;li&gt;godns&lt;/li&gt;
+          &lt;li&gt;goisatty&lt;/li&gt;
+          &lt;li&gt;gopretty&lt;/li&gt;
+          &lt;li&gt;gotoml&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/25/ncdns-v0.2.2-released.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/25/ncdns-v0.2.2-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin-Qt Buy Names Tab</title>
@@ -478,40 +547,6 @@ name_firstupdate &quot;d/myname&quot; [value]
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Alerts</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Funding from NLnet</title>
-        <description>&lt;p&gt;We are happy to announce that we have been selected by NLnet Foundation to receive funding. A total of €50’000 (roughly US$60’645) has been pledged toward our development work.&lt;/p&gt;
-
-&lt;p&gt;NLnet is a Dutch charitable foundation. It helps fund open-source projects that aim to promote the exchange of electronic information. In the past, they, along with their partners, have helped fund projects such as &lt;a href=&quot;https://nlnet.nl/project/tor-hidden/&quot;&gt;Tor&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/qubes&quot;&gt;Qubes OS&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/wireguard&quot;&gt;WireGuard&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Freenet-Routing&quot;&gt;Freenet&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/PeerTube&quot;&gt;PeerTube&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/YacyGrid&quot;&gt;YaCy&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Libre-RISCV&quot;&gt;Libre-RISCV&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Briar&quot;&gt;Briar&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/GNUMes&quot;&gt;GNU Mes&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/GUIX&quot;&gt;GNU Guix&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/ReplicantUpdate&quot;&gt;Replicant&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Spectrum&quot;&gt;Spectrum&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/mobile-nixos&quot;&gt;NixOS&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/reproduciblebuilds&quot;&gt;Reproducible Builds&lt;/a&gt;, &lt;a href=&quot;https://nlnet.nl/project/Rico&quot;&gt;Ricochet Refresh&lt;/a&gt;, and &lt;a href=&quot;https://nlnet.nl/project/namecoin&quot;&gt;Namecoin&lt;/a&gt;. The full list of projects is available at &lt;a href=&quot;https://nlnet.nl/project/index.html&quot;&gt;https://nlnet.nl/project/index.html&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We will receive funding from NLnet’s NGI0 Discovery Fund. This fund is managed by NLnet and funded by the European Commission, the executive branch of the European Union, through their Next Generation Internet intitiative.&lt;/p&gt;
-
-&lt;p&gt;We are immensely grateful to NLnet for this decision, and to the European Commission for their generous financial support. A governmental institution that invests in decentralized Internet technologies has its eye toward the future.&lt;/p&gt;
-
-&lt;p&gt;We will use this funding to work on the following:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Making name registration easier with automatic registration and deterministic salts.&lt;/li&gt;
-  &lt;li&gt;Making it safer and easier to buy and sell names with atomic name trading.&lt;/li&gt;
-  &lt;li&gt;Making censoring light wallets harder by lightweight SPV proofs of name nonexistence.&lt;/li&gt;
-  &lt;li&gt;Various security and performance improvements to Electrum-NMC and upstream Electrum.&lt;/li&gt;
-  &lt;li&gt;Improving on-chain privacy with coin control.&lt;/li&gt;
-  &lt;li&gt;Better Tor integration in Electrum, Namecoin Core, and hopefully Bitcoin Core.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This work will principally be done by developers Ahmed Bodiwala and yanmaani, who is the author of this post.&lt;/p&gt;
-
-&lt;p&gt;We will post updates on a regular basis as development proceeds.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 30 Apr 2021 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/04/30/funding-from-nlnet.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/04/30/funding-from-nlnet.html</guid>
-        <dc:creator>yanmaani</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
