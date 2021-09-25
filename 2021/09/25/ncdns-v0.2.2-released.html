@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: Code Review and Rebase</title>
+    <title>ncdns v0.2.2 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2018/05/28/electrum-nmc-code-review-rebase.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/09/25/ncdns-v0.2.2-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss"/>
 
     <link rel="icon" href='/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,485 +130,512 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: Code Review and Rebase</h1>
-<p class="post-meta">May 28, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.2.2 Released</h1>
+<p class="post-meta">Sep 25, 2021 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Last year, Ahmed <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2017/06/17/progress-electrum-nmc.html">posted about his progress</a> porting Electrum to Namecoin.  Electrum-NMC has been on the back burner for me lately, due to the TLS and BitcoinJ efforts taking up most of my time.  However, today I found time to inspect Ahmed’s branch.</p>
+<p>We’ve released ncdns v0.2.2.  This release contains multiple bugfixes, in particular a patch to <code class="highlighter-rouge">generate_nmc_cert</code> that works around a CryptoAPI connectivity bug.  We strongly recommend that all users upgrade.  <strong>All domain owners who have TLS enabled will need to re-generate their TLS certificates and TLS records after upgrading.</strong></p>
 
-<p>Three main things were on my agenda:</p>
+<p>Full changelog of what’s new since v0.2:</p>
 
-<ol>
-  <li>Code review of the existing changes.  Generally I don’t like to move code to the GitHub Namecoin organization unless I’ve actually reviewed it for sanity.  I made a few tweaks and bugfixes to Ahmed’s code, but for the most part the code review went smoothly.</li>
-  <li>Rebase against current master branch of Electrum.  This actually went surprisingly well, given that Ahmed’s branch is about 11 months old.  The vast majority of the merge conflicts were due to the <code class="highlighter-rouge">electrum</code> package being renamed to <code class="highlighter-rouge">electrum-nmc</code>, which causes unfortunate merge conflicts every time upstream messes with the <code class="highlighter-rouge">import</code> statements at the top of a Python file.  Unfortunately I don’t know of any way around this, and a cursory check of altcoin Electrum ports shows that they do the same thing, so I guess we’re going to live with it.  The good news is that those types of merge conflicts are very easy to manually resolve.</li>
-  <li>Additional rebranding beyond what Ahmed’s branch does.  In particular, I swapped out the ElectrumX Bitcoin server addresses and replaced them with ElectrumX Namecoin server addresses.  (Right now there’s only 1 public ElectrumX Namecoin server.  We need more of them — if you’d like to help us, please consider starting up an ElectrumX Namecoin server and sending a PR to ElectrumX that adds your server to the public list.)  I also swapped out the Bitcoin block explorers and replaced them with Namecoin explorers.  (I also gave the Namecoin explorers names that include scary warnings for the subset of explorers that are wiretapped by CloudFlare, discriminate against Tor users, don’t support names, or are non-libre.)</li>
-</ol>
+<ul>
+  <li>ncdns
+    <ul>
+      <li>Remove tlsrestrict_chromium_tool binary.  (certinject should be used instead now.)</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>generate_nmc_cert
+    <ul>
+      <li>Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.  Thanks to mjgill89.)</li>
+      <li>Rebase against Go 1.17.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>ncp11
+    <ul>
+      <li>Temporarily suspend providing macOS binaries of ncp11.  (macOS support for ncp11 will return after the ongoing p11mod refactor has completed.)</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Support chain-installing and configuring Electrum-NMC.</li>
+      <li>Redesign Components dialogs.</li>
+      <li>Fix installation error on certain non-English locales, e.g. Swedish.  (Thanks to Jonas Ostman.)</li>
+      <li>Warn users of Windows 7 and earlier.  (ncdns hasn’t supported these EOL Windows versions for a while; users who are okay with security degradation will be able to bypass the warning and install anyway.)</li>
+      <li>Relicense under GPLv3+.</li>
+      <li>Remove non-freedom build dependency.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Downgrade to BIND 9.16 branch for Windows.  (Upstream BIND has dropped Windows support in 9.17 branch.)</li>
+      <li>Relicense ncdns-repro under tor-browser-build license.  (Thanks to Nicolas Vigier and Georg Koppen.)</li>
+      <li>Code quality improvements.</li>
+      <li>Bump dependencies:
+        <ul>
+          <li>tor-browser-build</li>
+          <li>gobtcd</li>
+          <li>godns</li>
+          <li>goisatty</li>
+          <li>gopretty</li>
+          <li>gotoml</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
-<p>The resulting code <a href="https://github.com/namecoin/electrum-nmc">is now on GitHub</a>.  I’ve successfully sent some coins from Namecoin Core to Electrum-NMC and back without any difficulty.</p>
-
-<p>Regarding next steps, I’ll defer to Ahmed’s post:</p>
-
-<blockquote>
-  <p>On the roadmap now are:</p>
-
-  <ul>
-    <li>Extend electrumX NMC Support to allow for full veritification of AuxPow</li>
-    <li>Modify new electrum client to verify the new AuxPow</li>
-    <li>Add Name handling support to electrum</li>
-  </ul>
-</blockquote>
-
-<p>Hopefully these won’t be incredibly difficult.  I might post binaries of the current codebase before I try to tackle these (but note that I’m not familiar with the Electrum packaging scripts yet, so there’s a good chance that I’ll break something and/or find something that I broke earlier).</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>As usual, you can download it at the <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/betas/#ncdns">Beta Downloads page</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -933,16 +960,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-05-28-electrum-nmc-code-review-rebase.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-09-25-ncdns-v0.2.2-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/05/28/electrum-nmc-code-review-rebase.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/05/28/electrum-nmc-code-review-rebase.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/05/28/electrum-nmc-code-review-rebase.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/05/28/electrum-nmc-code-review-rebase.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/09/25/ncdns-v0.2.2-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/25/ncdns-v0.2.2-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/09/25/ncdns-v0.2.2-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/09/25/ncdns-v0.2.2-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -955,21 +982,21 @@
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>

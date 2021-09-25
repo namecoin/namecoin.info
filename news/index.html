@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,73 @@
   <article class="post-content">
     
 <p>(<a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/09/25/ncdns-v0.2.2-released.html">ncdns v0.2.2 Released</a></h1>
+    <p class="post-meta">Sep 25, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.2.2.  This release contains multiple bugfixes, in particular a patch to <code class="highlighter-rouge">generate_nmc_cert</code> that works around a CryptoAPI connectivity bug.  We strongly recommend that all users upgrade.  <strong>All domain owners who have TLS enabled will need to re-generate their TLS certificates and TLS records after upgrading.</strong></p>
+
+    <p>Full changelog of what’s new since v0.2:</p>
+
+    <ul>
+  <li>ncdns
+    <ul>
+      <li>Remove tlsrestrict_chromium_tool binary.  (certinject should be used instead now.)</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>generate_nmc_cert
+    <ul>
+      <li>Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.  Thanks to mjgill89.)</li>
+      <li>Rebase against Go 1.17.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>ncp11
+    <ul>
+      <li>Temporarily suspend providing macOS binaries of ncp11.  (macOS support for ncp11 will return after the ongoing p11mod refactor has completed.)</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Support chain-installing and configuring Electrum-NMC.</li>
+      <li>Redesign Components dialogs.</li>
+      <li>Fix installation error on certain non-English locales, e.g. Swedish.  (Thanks to Jonas Ostman.)</li>
+      <li>Warn users of Windows 7 and earlier.  (ncdns hasn’t supported these EOL Windows versions for a while; users who are okay with security degradation will be able to bypass the warning and install anyway.)</li>
+      <li>Relicense under GPLv3+.</li>
+      <li>Remove non-freedom build dependency.</li>
+      <li>Code quality improvements.</li>
+    </ul>
+  </li>
+  <li>Build system:
+    <ul>
+      <li>Downgrade to BIND 9.16 branch for Windows.  (Upstream BIND has dropped Windows support in 9.17 branch.)</li>
+      <li>Relicense ncdns-repro under tor-browser-build license.  (Thanks to Nicolas Vigier and Georg Koppen.)</li>
+      <li>Code quality improvements.</li>
+      <li>Bump dependencies:
+        <ul>
+          <li>tor-browser-build</li>
+          <li>gobtcd</li>
+          <li>godns</li>
+          <li>goisatty</li>
+          <li>gopretty</li>
+          <li>gotoml</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/betas/#ncdns">Beta Downloads page</a>.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -6978,25 +7045,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>
