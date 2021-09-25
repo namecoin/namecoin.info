@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 25 Sep 2021 08:25:30 +0000</pubDate>
-    <lastBuildDate>Sat, 25 Sep 2021 08:25:30 +0000</lastBuildDate>
+    <pubDate>Sat, 25 Sep 2021 08:34:40 +0000</pubDate>
+    <lastBuildDate>Sat, 25 Sep 2021 08:34:40 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -33,7 +33,7 @@
   &lt;/li&gt;
   &lt;li&gt;generate_nmc_cert
     &lt;ul&gt;
-      &lt;li&gt;Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.)&lt;/li&gt;
+      &lt;li&gt;Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.  Thanks to mjgill89.)&lt;/li&gt;
       &lt;li&gt;Rebase against Go 1.17.&lt;/li&gt;
       &lt;li&gt;Code quality improvements.&lt;/li&gt;
     &lt;/ul&gt;
@@ -75,9 +75,9 @@
 
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/09/14/ncdns-v0.2.2-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/09/14/ncdns-v0.2.2-released.html</guid>
+        <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2021/09/25/ncdns-v0.2.2-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2021/09/25/ncdns-v0.2.2-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
