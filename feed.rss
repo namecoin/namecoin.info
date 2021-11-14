@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 14 Nov 2021 11:09:06 +0000</pubDate>
-    <lastBuildDate>Sun, 14 Nov 2021 11:09:06 +0000</lastBuildDate>
+    <pubDate>Sun, 14 Nov 2021 11:19:53 +0000</pubDate>
+    <lastBuildDate>Sun, 14 Nov 2021 11:19:53 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,22 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Upstream btcd Has Merged Last Outstanding Namecoin Patch</title>
+        <description>&lt;p&gt;Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to Torkel Rogstad, Anirudha Bose, and John Vernaleo from upstream btcd for code review.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 14 Nov 2021 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.2.2 Released</title>
@@ -83,22 +99,6 @@
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Upstream btcd Has Merged Last Outstanding Namecoin Patch</title>
-        <description>&lt;p&gt;Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to Torkel Rogstad, Anirudha Bose, and John Vernaleo from upstream btcd for code review.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/14/upstream-btcd-merges-last-namecoin-patch.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/14/upstream-btcd-merges-last-namecoin-patch.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
