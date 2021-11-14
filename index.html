@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -186,6 +186,12 @@
 
 <p><a href="/2021/09/25/ncdns-v0.2.2-released.html">Read more…</a></p>
 
+<h3 id="upstream-btcd-has-merged-last-outstanding-namecoin-patch"><a href="/2021/09/14/upstream-btcd-merges-last-namecoin-patch.html">Upstream btcd Has Merged Last Outstanding Namecoin Patch</a></h3>
+
+<p><strong><a href="/2021/09/14/upstream-btcd-merges-last-namecoin-patch.html">2021-09-14</a></strong> Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.</p>
+
+<p><a href="/2021/09/14/upstream-btcd-merges-last-namecoin-patch.html">Read more…</a></p>
+
 <h3 id="namecoin-qt-buy-names-tab"><a href="/2021/09/14/namecoin-qt-buy-names-tab.html">Namecoin-Qt Buy Names Tab</a></h3>
 
 <p><strong><a href="/2021/09/14/namecoin-qt-buy-names-tab.html">2021-09-14</a></strong> Now that the Manage Names tab in Namecoin-Qt (which lets you update existing names in your wallet) is <a href="/2021/02/16/namecoin-core-name-update-gui.html">implemented</a>, it’s time to move onto the Buy Names tab.  Like the Name Update GUI, this forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:</p>
@@ -233,10 +239,6 @@
 <p><strong><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">2021-05-26</a></strong> Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the <code class="highlighter-rouge">name_firstupdate</code> RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already <a href="/2020/05/10/deterministic-salts.html">implemented in Electrum-NMC</a>.</p>
 
 <p><a href="/2021/05/26/deterministic-salts-in-namecoin-core.html">Read more…</a></p>
-
-<h3 id="freenode-undergoing-hostile-takeover--abandon-ship"><a href="/2021/05/19/freenode-hostile-takeover.html">Freenode Undergoing Hostile Takeover – Abandon Ship</a></h3>
-
-<p><strong><a href="/2021/05/19/freenode-hostile-takeover.html">2021-05-19</a></strong> The Freenode IRC network is actively undergoing a <a href="https://gist.github.com/joepie91/df80d8d36cd9d1bde46ba018af497409/">hostile takeover</a> by London Trust Media Holdings.  All Freenode staff have resigned in protest.  <strong>We strongly recommend that all Namecoin community members who are accessing our IRC channels via Freenode abandon ship immediately, and move to our channels on Hackint, OFTC, or Matrix.org.</strong></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -287,11 +289,7 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
@@ -299,13 +297,17 @@
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
