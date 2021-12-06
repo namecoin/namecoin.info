@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,36 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/12/06/namecoin-qt-export-count-feedback.html">Namecoin-Qt: Export, Name Count, and Buy Names Feedback</a></h1>
+    <p class="post-meta">Dec 6, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>I implemented a few more Namecoin-Qt features.  The Manage Names tab now includes both an Export button and a name counter:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/manage-names-2021-09-14.png" alt="A screenshot of the Manage Names tab in Namecoin-Qt." /></p>
+
+    <p>The Buy Names tab also now gives real-time feedback on which names are available:</p>
+
+    <p><img src="/images/screenshots/namecoin-core/buy-names-available-2021-09-14.png" alt="A screenshot of the Buy Names tab in Namecoin-Qt, when the name is available." /></p>
+
+    <p><img src="/images/screenshots/namecoin-core/buy-names-taken-2021-09-14.png" alt="A screenshot of the Buy Names tab in Namecoin-Qt, when the name is taken." /></p>
+
+    <p>This is a good example of a UX benefit that only full-node users get: because name lookups in Namecoin Core don’t generate network traffic, they are fast enough that they can be performed every time a character is typed in the name field, without making the user click anything.</p>
+
+    <p>I’m not leaving RPC users behind either: the <code class="highlighter-rouge">name_show</code> RPC method now yields more specific error messages when a name doesn’t exist, depending on whether it is expired or never existed.  This should make things more convenient for human RPC users.  The error codes haven’t changed, so this shouldn’t break any software.</p>
+
+    <p>These improvements are expected to be included in Namecoin Core 23.0.</p>
+
+    <p>This work was funded by Cyphrs.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -7061,23 +7091,23 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
