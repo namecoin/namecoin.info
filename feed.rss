@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 14 Nov 2021 11:18:30 +0000</pubDate>
-    <lastBuildDate>Sun, 14 Nov 2021 11:18:30 +0000</lastBuildDate>
+    <pubDate>Mon, 06 Dec 2021 08:48:43 +0000</pubDate>
+    <lastBuildDate>Mon, 06 Dec 2021 08:48:43 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,36 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin-Qt: Export, Name Count, and Buy Names Feedback</title>
+        <description>&lt;p&gt;I implemented a few more Namecoin-Qt features.  The Manage Names tab now includes both an Export button and a name counter:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/manage-names-2021-09-14.png&quot; alt=&quot;A screenshot of the Manage Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Buy Names tab also now gives real-time feedback on which names are available:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/buy-names-available-2021-09-14.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt, when the name is available.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/buy-names-taken-2021-09-14.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt, when the name is taken.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is a good example of a UX benefit that only full-node users get: because name lookups in Namecoin Core don’t generate network traffic, they are fast enough that they can be performed every time a character is typed in the name field, without making the user click anything.&lt;/p&gt;
+
+&lt;p&gt;I’m not leaving RPC users behind either: the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC method now yields more specific error messages when a name doesn’t exist, depending on whether it is expired or never existed.  This should make things more convenient for human RPC users.  The error codes haven’t changed, so this shouldn’t break any software.&lt;/p&gt;
+
+&lt;p&gt;These improvements are expected to be included in Namecoin Core 23.0.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2021/12/06/namecoin-qt-export-count-feedback.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/12/06/namecoin-qt-export-count-feedback.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Upstream btcd Has Merged Last Outstanding Namecoin Patch</title>
@@ -515,37 +545,6 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
         <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
         <link>https://namecoin.bit/2021/06/01/transaction-queue-for-namecoin-core.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2021/06/01/transaction-queue-for-namecoin-core.html</guid>
-        <dc:creator>yanmaani</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Deterministic salts in Namecoin Core</title>
-        <description>&lt;p&gt;Namecoin Core will, starting version 22.0, no longer require that a salt or TXID be provided in the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC call. If no transaction ID is provided, the wallet will perform a linear scan over its unspent outputs to attempt to find a matching transaction. If no salt is provided, it will assume that it can be deterministically generated from the private key using the same scheme already &lt;a href=&quot;/2020/05/10/deterministic-salts.html&quot;&gt;implemented in Electrum-NMC&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;To facilitate this, &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; has also been changed to use deterministically generated salts.&lt;/p&gt;
-
-&lt;p&gt;The old API is still supported; users are free to manually enter a salt, TXID, both, or neither. In fact, for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; transactions created by versions of Namecoin Core prior to this change, the salt is still required. However, the transaction ID can always be determined automatically. In principle, it should only be necessary to provide the transaction ID to select which of several possible &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; outputs should be spent.&lt;/p&gt;
-
-&lt;p&gt;There is therefore no longer any need to write down the salt and transaction ID going forward. With the new API, registering a name from the RPC console works like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;name_new &quot;d/myname&quot;
-(wait 12 blocks...)
-name_firstupdate &quot;d/myname&quot; [value]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt; is optional; omitting the parameter will cause Namecoin to &lt;a href=&quot;/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html&quot;&gt;use the empty string&lt;/a&gt; by default.&lt;/p&gt;
-
-&lt;p&gt;This change is being made as part of the effort to simplify the RPC API for name management. It was also one of the prerequisites for a new name registration GUI, work on which is intended to proceed shortly.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2021/05/26/deterministic-salts-in-namecoin-core.html</guid>
         <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
