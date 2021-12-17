@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 06 Dec 2021 09:38:23 +0000</pubDate>
-    <lastBuildDate>Mon, 06 Dec 2021 09:38:23 +0000</lastBuildDate>
+    <pubDate>Fri, 17 Dec 2021 04:41:39 +0000</pubDate>
+    <lastBuildDate>Fri, 17 Dec 2021 04:41:39 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,33 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Electrum-NMC v4.0.0b0 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v4.0.0b0.  This release includes numerous bugfixes and improvements, both Namecoin-related and from upstream Electrum.&lt;/p&gt;
+
+&lt;p&gt;The following Namecoin developers contributed to this release:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Jeremy Rand&lt;/li&gt;
+  &lt;li&gt;Daniel Kraft&lt;/li&gt;
+  &lt;li&gt;Yanmaani&lt;/li&gt;
+  &lt;li&gt;Somewhat&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2021/12/17/electrum-nmc-v4.0.0b0-released.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2021/12/17/electrum-nmc-v4.0.0b0-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin-Qt: Export, Name Count, and Buy Names Feedback</title>
@@ -500,52 +527,6 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
         <link>https://namecoin.bit/2021/06/09/rbm-on-cirrus-ci.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2021/06/09/rbm-on-cirrus-ci.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Transaction queue for Namecoin Core</title>
-        <description>&lt;p&gt;Lately, work aiming to simplify the RPC API for name management has been proceeding. This is done both for the sake of improvement itself, and to make it easier to write GUIs for Namecoin.&lt;/p&gt;
-
-&lt;p&gt;One unique element in Namecoin is the extensive use of time-dependent transactions. This is comparatively rare in Bitcoin. Either you want to send money or you don’t want to send money, but the “when” is usually ASAP. However, in Namecoin, it’s pretty common to, for instance, want to renew a name &lt;em&gt;when&lt;/em&gt; it’s close to expiring, or register a name &lt;em&gt;when&lt;/em&gt; its &lt;code class=&quot;highlighter-rouge&quot;&gt;NAME_NEW&lt;/code&gt; input has matured.&lt;/p&gt;
-
-&lt;p&gt;Historically, this has been a bit of an annoyance. Transactions can only[1] be broadcast if they have a good chance of making it into the next block, and not all transactions are intended to be broadcast immediately. The way users had to deal with it, then, was to manually keep track of what transactions they wanted broadcast and when.&lt;/p&gt;
-
-&lt;p&gt;This isn’t suitable. It’s bad enough for direct users, but it also makes writing auxilliary software a pain, since the obligation will fall upon it to manage a lot of state. For example, the old name management GUI had to have a series of undocumented internal hooks into the wallet database.&lt;/p&gt;
-
-&lt;p&gt;For this reason, a transaction queue has now been added to Namecoin to explicitly manage all that state. It was written by Brandon Roberts, Jeremy Rand, and yanmaani, who is the author of this post.  The implementation is actually shockingly simple:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Keep a list of transactions we’d like to broadcast&lt;/li&gt;
-  &lt;li&gt;Each block, try to broadcast everything&lt;/li&gt;
-  &lt;li&gt;Remove everything that made it into the mempool&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The initial plan was to have a very baroque API, where users could enter transactions and have them broadcast either when a name reached a certain age or when a transaction had a certain height. The reason for this was was that the transaction queue API was &lt;a href=&quot;/2018/10/21/electrum-nmc-name-registration-gui.html&quot;&gt;first implemented in Electrum-NMC&lt;/a&gt;, which doesn’t allow you to check whether a transaction is valid without leaking it to the server. &lt;em&gt;Having already implemented all this&lt;/em&gt;, it was realized that Bitcoin’s existing locking facilities could already cover our needs for Namecoin Core, and so I took it out. Wasting the effort was a bummer, but you can’t be sentimental like that. In the end it made for a better API and cleaner code. Such is life.&lt;/p&gt;
-
-&lt;p&gt;The API for the transaction queue is thus very simple:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;queuerawtransaction &amp;lt;hex&amp;gt;&lt;/code&gt; queues a transaction to be broadcast as soon as it can, and returns the txid on success. There is a basic sanity check to try and ensure the transaction at least theoretically could be broadcast at some point in the future, but there’s no guarantee. Note that it’s on you to properly lock the transaction, or else it will be broadcast immediately. If you want to update a name when it’s 35000 blocks old, make sure to set nSequence on the name input to 35001.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dequeuerawtransaction &amp;lt;txid&amp;gt;&lt;/code&gt; removes a transaction from the queue.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;listqueuetransactions&lt;/code&gt; lists all the queued transactions. Note that this may also include transactions queued by RPC calls.&lt;/p&gt;
-
-&lt;p&gt;These changes will be available in Namecoin Core starting version 22.0.&lt;/p&gt;
-
-&lt;p&gt;This change was a prerequisite for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_autoregister&lt;/code&gt;, an RPC call to register a name in one step without having to manually call &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, regarding which we endeavor to have an update in the next few days. That RPC call is the final pre-requisite for completing the new name management GUI.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
-
-&lt;p&gt;[1] Actually, this is only true in Bitcoin. In Namecoin, presumably to take the edge off this wart, there’s a special (somewhat ungainly) exemption for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, which was the cause of very serious bugs in the past, such as the &lt;a href=&quot;/2018/07/08/brownout-june-17-20.html&quot;&gt;June 2018 incident&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2021/06/01/transaction-queue-for-namecoin-core.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2021/06/01/transaction-queue-for-namecoin-core.html</guid>
-        <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
         
