@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncp11 Now Builds in rbm for GNU/Linux (64-bit and 32-bit)</title>
+    <title>Coordinated Vulnerability Disclosure</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">
+    <link rel="canonical" href="https://namecoin.bit/team/security/">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,789 +122,34 @@ A <strong>trust anchor</strong><br />for the Internet.
 
     <div id="content">
       <div class="container-fluid">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="post">
-
-<header class="post-header">
-<h1 class="post-title">ncp11 Now Builds in rbm for GNU/Linux (64-bit and 32-bit)</h1>
-<p class="post-meta">Jun 12, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
-</header>
-
-<article class="post-content">
-<p>ncp11 is the next-gen Namecoin TLS interoperability project that Aerth and I have been cooking up in the Namecoin R&amp;D lab for a while.  (See my <a href="/2019/05/08/35c3-summary.html">35C3 slides and workshop notes</a> for more info on it if you haven’t heard about it yet.)  Last month, I <a href="/2019/05/16/ncdns-rbm-linux32-win64-win32.html">mentioned</a> that I intended to get ncp11 building in rbm.  I now have ncp11 building in rbm for GNU/Linux 64-bit and 32-bit x86 targets.  32-bit support involved fixing a bug in ncdns’s usage of PKCS#11 (specifically, ncp11 was making type assumptions that are only valid on 64-bit targets, which produced a build error on 32-bit targets).  I’ve tested the resulting 64-bit binary in a Debian Buster VM, and it works fine when used as a drop-in replacement for NSS’s CKBI library.  (It looks like there are issues when loaded alongside CKBI, which I’ll need to debug when I have some free time, but this isn’t a release blocker, and the same issues are reproducible with the non-rbm binary I used at 35C3.)</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
-
-</article>
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Coordinated Vulnerability Disclosure</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>To report possible security issues in Namecoin, please send your report to the relevant security contact:</p>
+
+<ul>
+  <li>For Namecoin Core: <a href="/team/#daniel-kraft-domob">Daniel Kraft</a>.  You may report to Jeremy Rand as a fallback.</li>
+  <li>For all other Namecoin components: <a href="/team/#jeremy-rand-biolizard89">Jeremy Rand</a>.  You may report to Daniel Kraft as a fallback.</li>
+</ul>
+
+<p>Guidelines for effectively reporting security issues:</p>
+
+<ul>
+  <li>Please encrypt your report if possible.</li>
+  <li>Please include all relevant information that may help us to assess severity and produce a fix.</li>
+  <li>Please specify whether you would like to be publicly credited for the disclosure, and if so, what name you would like to be credited as (pseudonyms are fine).</li>
+  <li>Please do not publicly discuss your report until we say it’s okay.</li>
+  <li>If you have found a vulnerability that also affects an upstream project (e.g. Bitcoin Core or Electrum), please report it to both us and the upstream project.  Your report to the upstream project should include the full details of the vulnerability; your report to Namecoin should only include the details that will help us effectively apply a fix from upstream.</li>
+</ul>
+
+  </article>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       </div>
     </div>
@@ -923,16 +168,16 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-06-12-ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/team/security/index.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/team/security/">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/team/security/">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/team/security/">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/team/security/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -941,25 +186,25 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
