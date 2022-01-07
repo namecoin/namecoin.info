@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,30 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2022/01/07/unix-domain-sockets-in-electrum.html">Unix domain sockets in Electrum</a></h1>
+    <p class="post-meta">Jan 7, 2022 • yanmaani </p>
+  </header>
+
+  <article class="post-content">
+    <p>I recently sent in a patch to Electrum which adds support for Unix domain sockets to the RPC interface. After review by ghost43 and Jeremy Rand, who is also a Namecoin developer, this patch has been merged. As a result, Electrum now has support for Unix domain sockets in the RPC daemon. (Unix domain sockets are not yet supported for other occasionally local network operations, such as for connecting to a SOCKS proxy.)</p>
+
+    <p>Unix domain sockets are a type of sockets that run entirely inside of the system (the “Unix domain”). Instead of binding to a network port, they bind to a file. The access to this file can then be controlled by the ordinary mechanisms, like file system permissions or ACLs. This makes them very well-suited to replace connections to the loopback interface, because unlike such connections, they are not visible to the entire system. Moreover, by completely disabling the ability of an application to make network requests and limiting its connections to a few select Unix domain sockets, a very high degree of control can be maintained.</p>
+
+    <p>It is envisioned that this will be useful for <code class="highlighter-rouge">ncdns</code>, our DNS resolver, because it will allow Electrum-NMC to provide an RPC interface to <code class="highlighter-rouge">ncdns</code> without having to bind to a network port. This reduces attack surface, making the application more secure. The functionality can also be used by other Electrum users for other use-cases, and some are even suggesting to make it the default on Unix platforms.</p>
+
+    <p>I would like to thank Jeremy Rand and ghost43 for reviewing this pull request, pointing out several important details I missed and giving me helpful feedback on future-proofing and codebase standards.</p>
+
+    <p>This change does not in any way impact how Electrum makes connections to other hosts over the network. This change is not expected to break any existing behaviors.</p>
+
+    <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -198,30 +222,6 @@
     <p>Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.</p>
 
     <p>Huge thanks to Torkel Rogstad, Anirudha Bose, and John Vernaleo from upstream btcd for code review.</p>
-
-  </article>
-
-</div>
-
-<div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title"><a href="/2021/11/04/unix-domain-sockets-in-electrum.html">Unix domain sockets in Electrum</a></h1>
-    <p class="post-meta">Nov 4, 2021 • yanmaani </p>
-  </header>
-
-  <article class="post-content">
-    <p>I recently sent in a patch to Electrum which adds support for Unix domain sockets to the RPC interface. After review by ghost43 and Jeremy Rand, who is also a Namecoin developer, this patch has been merged. As a result, Electrum now has support for Unix domain sockets in the RPC daemon. (Unix domain sockets are not yet supported for other occasionally local network operations, such as for connecting to a SOCKS proxy.)</p>
-
-    <p>Unix domain sockets are a type of sockets that run entirely inside of the system (the “Unix domain”). Instead of binding to a network port, they bind to a file. The access to this file can then be controlled by the ordinary mechanisms, like file system permissions or ACLs. This makes them very well-suited to replace connections to the loopback interface, because unlike such connections, they are not visible to the entire system. Moreover, by completely disabling the ability of an application to make network requests and limiting its connections to a few select Unix domain sockets, a very high degree of control can be maintained.</p>
-
-    <p>It is envisioned that this will be useful for <code class="highlighter-rouge">ncdns</code>, our DNS resolver, because it will allow Electrum-NMC to provide an RPC interface to <code class="highlighter-rouge">ncdns</code> without having to bind to a network port. This reduces attack surface, making the application more secure. The functionality can also be used by other Electrum users for other use-cases, and some are even suggesting to make it the default on Unix platforms.</p>
-
-    <p>I would like to thank Jeremy Rand and ghost43 for reviewing this pull request, pointing out several important details I missed and giving me helpful feedback on future-proofing and codebase standards.</p>
-
-    <p>This change does not in any way impact how Electrum makes connections to other hosts over the network. This change is not expected to break any existing behaviors.</p>
-
-    <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
   </article>
 
@@ -7142,25 +7142,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
