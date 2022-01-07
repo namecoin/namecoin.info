@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum: Merkle Checkpoints</title>
+    <title>Unix domain sockets in Electrum</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2019/04/08/electrum-merkle-checkpoints.html">
+    <link rel="canonical" href="https://www.namecoin.org/2021/11/04/unix-domain-sockets-in-electrum.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -142,319 +142,313 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum: Merkle Checkpoints</h1>
-<p class="post-meta">Apr 8, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Unix domain sockets in Electrum</h1>
+<p class="post-meta">Nov 4, 2021 • yanmaani <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p><em>This post is an explanation of work originally done by Neil Booth and Roger Taylor (for ElectrumX and Electron-Cash), which Namecoin is adapting for use in Electrum and Electrum-NMC.</em></p>
+<p>I recently sent in a patch to Electrum which adds support for Unix domain sockets to the RPC interface. After review by ghost43 and Jeremy Rand, who is also a Namecoin developer, this patch has been merged. As a result, Electrum now has support for Unix domain sockets in the RPC daemon. (Unix domain sockets are not yet supported for other occasionally local network operations, such as for connecting to a SOCKS proxy.)</p>
 
-<p>When I <a href="/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">last posted about auditing Electrum-NMC’s bandwidth usage</a>, I had managed to reduce the data transfer of the portion of the blockchain covered by a checkpoint from 3.2 MB per chunk down to 323 KB per chunk.  I hinted then that there was most likely some further optimization that could be done.  Today I’ll briefly describe one of them: Merkle checkpoints.</p>
+<p>Unix domain sockets are a type of sockets that run entirely inside of the system (the “Unix domain”). Instead of binding to a network port, they bind to a file. The access to this file can then be controlled by the ordinary mechanisms, like file system permissions or ACLs. This makes them very well-suited to replace connections to the loopback interface, because unlike such connections, they are not visible to the entire system. Moreover, by completely disabling the ability of an application to make network requests and limiting its connections to a few select Unix domain sockets, a very high degree of control can be maintained.</p>
 
-<p>A blockchain, by its nature, is a sequence of blocks where the block at height <em>N</em> commits to the block at height <em>N-1</em>.  From this fact, it follows that if you know the most recent block, you can verify the authenticity of any earlier block by recursively following those commitments until you arrive at the block you want to verify.  Cryptographically knowledgeable readers will recognize this as a particularly inefficient form of a Merkle tree.  For readers who aren’t familiar with Merkle trees, they’re a cryptographic construction by which a single hash can commit to a large number of hashes, via recursive commitments.  Merkle trees come in a wide variety of constructions, but the most common form of a Merkle tree is a balanced binary Merkle tree.  In such a tree, the proof size to connect a given hash to the root hash is logarithmic in terms of the total number of hashes committed to.  Balanced binary Merkle trees are used, for example, to allow a block header to commit to the transactions in a block.  A blockchain is an optimally unbalanced Merkle tree, in which the proof size is linear rather than logarithmic.</p>
+<p>It is envisioned that this will be useful for <code class="highlighter-rouge">ncdns</code>, our DNS resolver, because it will allow Electrum-NMC to provide an RPC interface to <code class="highlighter-rouge">ncdns</code> without having to bind to a network port. This reduces attack surface, making the application more secure. The functionality can also be used by other Electrum users for other use-cases, and some are even suggesting to make it the default on Unix platforms.</p>
 
-<p>Linear proof size means that, in Electrum today, if I want to prove that header 2016 is committed to by a checkpoint on header 4031, I need to download 2016 headers, which is an unpleasantly large download of <code class="highlighter-rouge">(4031 - 2016 + 1) * 80 = 161280</code> bytes [1].  Logarithmic proof sizes given by a balanced binary Merkle tree, by contrast, would mean downloading <code class="highlighter-rouge">ceil(log2(4031)) * 32 + 80 = 464</code> bytes.  What if the checkpoint is for height 1,000,000?  In that case, it ends up as <code class="highlighter-rouge">ceil(log2(1000000)) * 32 + 80 = 720</code> bytes.  Naturally, we’d like logarithmic proof sizes rather than linear proof sizes.  Using block headers themselves as Merkle roots can’t achieve this, but there’s nothing whatsoever that prevents us from taking all the historical block headers, and arranging them into a balanced binary Merkle tree.  We could then use the Merkle root as a checkpoint, and thereby gain extremely small proofs that a given header is committed to by a checkpoint.</p>
+<p>I would like to thank Jeremy Rand and ghost43 for reviewing this pull request, pointing out several important details I missed and giving me helpful feedback on future-proofing and codebase standards.</p>
 
-<p>This is exactly what Neil Booth implemented in ElectrumX, as the <code class="highlighter-rouge">cp_height</code> checkpoint system, and which Roger Taylor subsequently implemented in Electron-Cash.  Since Electrum-NMC’s upstream implementation is Electrum, I’ve been working on porting Roger’s Electron-Cash support for Merkle checkpoints to Electrum.  At the moment, I have a pull request undergoing review for upstream Electrum.  I’m hopeful that it will pass peer review soon, at which point I’ll work on merging it to Electrum-NMC.</p>
+<p>This change does not in any way impact how Electrum makes connections to other hosts over the network. This change is not expected to break any existing behaviors.</p>
 
-<p>Once Merkle checkpoints are merged to Electrum-NMC, we’ll be able to set a checkpoint on a recent height (rather than the 36-kiloblock-ago height that we currently set), without causing a severe delay on name lookups.  This will be a substantial improvement to Electrum-NMC’s performance.</p>
-
-<p>(However, there are additional optimizations that can be made.  More on those in a future post.)</p>
-
-<p>This work was funded by Cyphrs.</p>
-
-<p>[1] These figures assume binary encoding, but Electrum’s protocol uses hex encoding, which effectively doubles the byte count of all of these figures.</p>
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -941,16 +935,16 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-04-08-electrum-merkle-checkpoints.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-11-04-unix-domain-sockets-in-electrum.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/04/08/electrum-merkle-checkpoints.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/04/08/electrum-merkle-checkpoints.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/04/08/electrum-merkle-checkpoints.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/04/08/electrum-merkle-checkpoints.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/11/04/unix-domain-sockets-in-electrum.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/11/04/unix-domain-sockets-in-electrum.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/11/04/unix-domain-sockets-in-electrum.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/11/04/unix-domain-sockets-in-electrum.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -961,23 +955,23 @@ Decentralized<br /><strong>secure</strong> names.
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
