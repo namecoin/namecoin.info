@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: AuxPoW Deserialization</title>
+    <title>p11mod Now Supports Signatures</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/07/01/electrum-nmc-auxpow.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/p11mod-signatures.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -138,477 +138,476 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: AuxPoW Deserialization</h1>
-<p class="post-meta">Jul 1, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">p11mod Now Supports Signatures</h1>
+<p class="post-meta">Dec 6, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin’s merged mining, which allows miners to simultaneously mine a parent chain (usually Bitcoin) and any number of child chains (e.g. Namecoin and Huntercoin), is made possible by AuxPoW (auxilliary proof of work).  AuxPoW is a clever trick (first proposed by Bitcoin founder Satoshi Nakamoto, and first implemented by Namecoin founder Vincent Durham) that allows a block in the parent chain to commit to a block in any number of child chains, such that the child block can reference the parent block’s PoW and thereby prove that the PoW committed to both the parent and child block.  AuxPoW doesn’t impose any changes for the parent chain’s consensus rules, but it does constitute a hardfork for the child chain (even for lightweight SPV clients of the child chain).  As a result, making Electrum-NMC validate PoW properly requires patching Electrum to support AuxPoW.</p>
+<p>In a previous post, I covered <a href="/2021/07/10/lab-leak-p11mod.html">p11mod</a> and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers, by adding the following:</p>
 
-<p>Recently I started hacking on Electrum-NMC to support AuxPoW.  This is not an entirely new problem; a previous Electrum fork (<a href="https://github.com/electrumalt/electrum-doge">Electrum-DOGE</a>) already tried to implement AuxPoW.  Unfortunately, Electrum-DOGE’s code quality is not exactly up to my standards, and besides that, it’s a fork of a 3.5-year-old version of Electrum.  Electrum has evolved substantially since then, to the point that a straightforward merge isn’t possible.  Additionally, it’s not clear how many people have actually audited Electrum-DOGE for correctness.  That said, Electrum-DOGE’s implementation is definitely a useful reference for determining how to do AuxPoW in Electrum.</p>
+<ul>
+  <li>Import certificates, public keys, and private keys.</li>
+  <li>Delete certificates, public keys, and private keys.</li>
+  <li>Sign messages with private keys.</li>
+  <li>Verify signatures with public keys.</li>
+</ul>
 
-<p>Upon adding some debug output to Electrum-NMC, I observed that the first error that showed up was in deserializing block headers.  This makes sense, since in Bitcoin, all block headers are exactly 80 bytes, whereas in Namecoin, the 80 bytes are optionally followed by a variable-length AuxPoW header, which includes things such as the parent block’s header, the parent block’s coinbase transaction (variable length), and two Merkle branches (also variable length).  Electrum-DOGE’s code for deserializing block headers wasn’t directly mergeable, but it definitely was sufficient reference material to implement AuxPoW header deserialization in Electrum-NMC.</p>
+<p>None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!</p>
 
-<p>The next error that showed up was related to deserializing <strong>chunks</strong> of block headers.  Electrum groups block headers into chunks, where each chunk corresponds to a difficulty period (2016 block headers).  Electrum was, of course, assuming in the chunking code that a chunk was exactly <code class="highlighter-rouge">2016 * 80</code> bytes, which wasn’t going to work with AuxPoW.  Fixing this was straightforward enough that I did so without using Electrum-DOGE as a reference (the chunking code has evolved enough in the last 3.5 years that using Electrum-DOGE as a reference would probably have taken more time than reimplementing from scratch).</p>
+<p>I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!</p>
 
-<p>The next step is dealing with serialization/deserialization of block headers to/from disk.  Naturally, Electrum’s block header storage format assumes 80-byte headers, so fixing that will take some work.</p>
-
-<p>There’s also a licensing side effect of using Electrum-DOGE as a reference.  Electrum’s license used to be GPLv3+, but since then they’ve relicensed to MIT.  Electrum-DOGE was forked from Electrum before the license change, and Electrum-DOGE’s authors never relicensed.  As a result, the code I wrote that’s based on Electrum-DOGE’s codebase is a derivative work of GPLv3+-licensed code.  All of the code from upstream Electrum, as well as all of Namecoin’s changes to Electrum and Electrum-DOGE, are still MIT-licensed, but the full combined work that constitutes Electrum-NMC is GPLv3-licensed.  This isn’t really a huge problem (GPLv3+ is a perfectly fine free software license, and I wasn’t intending to submit any of the AuxPoW code upstream anyway), but it’s definitely noteworthy.</p>
-
-<p>More Electrum AuxPoW work will be covered in future posts.</p>
-
-<p>This work was funded by Cyphrs.</p>
+<p>All of these improvements are now tested daily on Cirrus via p11proxy.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -943,16 +942,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-01-electrum-nmc-auxpow.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-12-06-p11mod-signatures.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/07/01/electrum-nmc-auxpow.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/07/01/electrum-nmc-auxpow.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/07/01/electrum-nmc-auxpow.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/07/01/electrum-nmc-auxpow.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/12/06/p11mod-signatures.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/p11mod-signatures.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/12/06/p11mod-signatures.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/12/06/p11mod-signatures.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -963,23 +962,23 @@
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
