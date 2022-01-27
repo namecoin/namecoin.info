@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Delegated Alteration (for name owners)</title>
+    <title>p11mod Now Supports Signatures</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/docs/name-owners/delegated-alteration/">
+    <link rel="canonical" href="https://namecoin.bit/2021/12/06/p11mod-signatures.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,31 +122,808 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Delegated Alteration (for name owners)</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p><strong>Delegated alteration</strong> is an anti-theft mechanism supported by Namecoin.  It allows a key to be authorized to alter the value of a name, but not transfer the name to a new owner.  Example use cases:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">p11mod Now Supports Signatures</h1>
+<p class="post-meta">Dec 6, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In a previous post, I covered <a href="/2021/07/10/lab-leak-p11mod.html">p11mod</a> and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers, by adding the following:</p>
 
 <ul>
-  <li>You want to require authorization from multiple persons (e.g. via multisig) in order to transfer a name, but you want a single person to be able to alter the name’s value.</li>
-  <li>You want to require a hardware wallet (e.g. Trezor) in order to transfer a name, but you want to alter the name’s value on your regular computer.</li>
-  <li>You want to require your regular computer in order to transfer a name, but you want to allow a publicly facing server to alter the name’s value automatically (e.g. for dynamic DNS functionality such as provided by DyName).</li>
+  <li>Import certificates, public keys, and private keys.</li>
+  <li>Delete certificates, public keys, and private keys.</li>
+  <li>Sign messages with private keys.</li>
+  <li>Verify signatures with public keys.</li>
 </ul>
 
-<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="highlighter-rouge">dd/</code> namespace (<code class="highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="highlighter-rouge">d/valuablename</code> and <code class="highlighter-rouge">dd/useless</code>.  You then set the value of <code class="highlighter-rouge">d/valuablename</code> to <code class="highlighter-rouge">{"import":"dd/useless"}</code>.  You can then set the value of <code class="highlighter-rouge">dd/useless</code> to <code class="highlighter-rouge">{"ip":"123.45.67.89"}</code>.  The result is that the domain name <code class="highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="highlighter-rouge">123.45.67.89</code>.  The owner of <code class="highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="highlighter-rouge">valuablename.bit</code>.  If <code class="highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="highlighter-rouge">d/valuablename</code> can register a new <code class="highlighter-rouge">dd/</code> name, change the value of <code class="highlighter-rouge">d/valuablename</code> to point to the new <code class="highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="highlighter-rouge">d/</code> name and the <code class="highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
+<p>None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!</p>
 
-<p>You can also use <strong>delegated partial alteration</strong>.  This prevents the <code class="highlighter-rouge">dd/</code> name from setting certain JSON fields.  For example, you can set a <code class="highlighter-rouge">tls</code> field in the <code class="highlighter-rouge">d/</code> name (alongside the <code class="highlighter-rouge">import</code> field), which will prevent the <code class="highlighter-rouge">dd/</code> name from setting a <code class="highlighter-rouge">tls</code> field for that domain name.  In this example, if the <code class="highlighter-rouge">dd/</code> name is stolen, the thief could change the IP address but not the TLS fingerprint, which would prevent the thief from performing MITM attacks (even before you switch to a new <code class="highlighter-rouge">dd/</code> name).  If the thief does change the IP address to a server she controls, then visitors to the website will get a TLS error, which converts a MITM attack (very bad) to a DoS attack (much less bad).</p>
+<p>I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!</p>
 
-<p>You can also combine delegated alteration with delegated partial alteration by using recursive <code class="highlighter-rouge">import</code> fields.  For example, you could register a <code class="highlighter-rouge">d/</code> name that imports a <code class="highlighter-rouge">dd/</code> name, which specifies both a TLS fingerprint and another <code class="highlighter-rouge">dd/</code> name to import.  The latter <code class="highlighter-rouge">dd/</code> name would be prevented from specifying a TLS fingerprint, and any thief who steals either <code class="highlighter-rouge">dd/</code> name would be prevented from transferring the domain name.</p>
+<p>All of these improvements are now tested daily on Cirrus via p11proxy.</p>
 
-  </article>
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -165,16 +942,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/delegated-alteration/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-12-06-p11mod-signatures.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/name-owners/delegated-alteration/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/delegated-alteration/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/delegated-alteration/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/name-owners/delegated-alteration/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/12/06/p11mod-signatures.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/p11mod-signatures.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/12/06/p11mod-signatures.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/12/06/p11mod-signatures.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -183,25 +960,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
