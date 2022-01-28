@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 27 Jan 2022 23:46:14 +0000</pubDate>
-    <lastBuildDate>Thu, 27 Jan 2022 23:46:14 +0000</lastBuildDate>
+    <pubDate>Fri, 28 Jan 2022 00:06:55 +0000</pubDate>
+    <lastBuildDate>Fri, 28 Jan 2022 00:06:55 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,33 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>p11mod Now Supports Signatures</title>
+        <description>&lt;p&gt;In a &lt;a href=&quot;/2021/07/10/lab-leak-p11mod.html&quot;&gt;previous post&lt;/a&gt;, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Import certificates, public keys, and private keys.&lt;/li&gt;
+  &lt;li&gt;Delete certificates, public keys, and private keys.&lt;/li&gt;
+  &lt;li&gt;Sign messages with private keys.&lt;/li&gt;
+  &lt;li&gt;Verify signatures with public keys.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!&lt;/p&gt;
+
+&lt;p&gt;I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!&lt;/p&gt;
+
+&lt;p&gt;All of these improvements are now tested daily on Cirrus via p11proxy.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2022/01/27/p11mod-signatures.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2022/01/27/p11mod-signatures.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Unix domain sockets in Electrum</title>
@@ -65,33 +92,6 @@
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>p11mod Now Supports Signatures</title>
-        <description>&lt;p&gt;In a previous post, I covered &lt;a href=&quot;/2021/07/10/lab-leak-p11mod.html&quot;&gt;p11mod&lt;/a&gt; and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers, by adding the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Import certificates, public keys, and private keys.&lt;/li&gt;
-  &lt;li&gt;Delete certificates, public keys, and private keys.&lt;/li&gt;
-  &lt;li&gt;Sign messages with private keys.&lt;/li&gt;
-  &lt;li&gt;Verify signatures with public keys.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!&lt;/p&gt;
-
-&lt;p&gt;I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!&lt;/p&gt;
-
-&lt;p&gt;All of these improvements are now tested daily on Cirrus via p11proxy.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/12/06/p11mod-signatures.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/12/06/p11mod-signatures.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
