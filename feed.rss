@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 07 Jan 2022 11:56:42 +0000</pubDate>
-    <lastBuildDate>Fri, 07 Jan 2022 11:56:42 +0000</lastBuildDate>
+    <pubDate>Fri, 28 Jan 2022 01:08:11 +0000</pubDate>
+    <lastBuildDate>Fri, 28 Jan 2022 01:08:11 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,33 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>p11mod Now Supports Signatures</title>
+        <description>&lt;p&gt;In a &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/07/10/lab-leak-p11mod.html&quot;&gt;previous post&lt;/a&gt;, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Import certificates, public keys, and private keys.&lt;/li&gt;
+  &lt;li&gt;Delete certificates, public keys, and private keys.&lt;/li&gt;
+  &lt;li&gt;Sign messages with private keys.&lt;/li&gt;
+  &lt;li&gt;Verify signatures with public keys.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!&lt;/p&gt;
+
+&lt;p&gt;I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!&lt;/p&gt;
+
+&lt;p&gt;All of these improvements are now tested daily on Cirrus via p11proxy.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/01/27/p11mod-signatures.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/01/27/p11mod-signatures.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Unix domain sockets in Electrum</title>
@@ -393,100 +420,6 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.2 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.2.  This release adds layer-2 TLS via Encaya, and overhauls the build system.&lt;/p&gt;
-
-&lt;p&gt;Full changelog of what’s new since v0.1.2:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ncdns
-    &lt;ul&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;generate_nmc_cert
-    &lt;ul&gt;
-      &lt;li&gt;Rebase against Go 1.14.&lt;/li&gt;
-      &lt;li&gt;Set ExtKeyUsage on CA.&lt;/li&gt;
-      &lt;li&gt;Use compressed ECDSA public keys.  Thanks to Filippo Valsorda.&lt;/li&gt;
-      &lt;li&gt;Support AIA.&lt;/li&gt;
-      &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;chain.pem&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;caChain.pem&lt;/code&gt; output files.&lt;/li&gt;
-      &lt;li&gt;Support certs with multiple hostnames.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Windows installer
-    &lt;ul&gt;
-      &lt;li&gt;Enable TLS by default in silent installs.&lt;/li&gt;
-      &lt;li&gt;Add Encaya (layer-2 positive TLS overrides for CryptoAPI).&lt;/li&gt;
-      &lt;li&gt;Fix NSIS logging in silent mode.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Linux
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setuid&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;setgid&lt;/code&gt; no longer require cgo.  Thanks to Hugo Landau.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Build system:
-    &lt;ul&gt;
-      &lt;li&gt;Windows installer is now built in RBM.&lt;/li&gt;
-      &lt;li&gt;GNU/Linux and macOS binaries are built again.&lt;/li&gt;
-      &lt;li&gt;RBM builds now run on Cirrus CI.&lt;/li&gt;
-      &lt;li&gt;Add projects:
-        &lt;ul&gt;
-          &lt;li&gt;certinject.&lt;/li&gt;
-          &lt;li&gt;encaya.&lt;/li&gt;
-          &lt;li&gt;generate_nmc_cert.&lt;/li&gt;
-          &lt;li&gt;qlib.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Bump dependencies:
-        &lt;ul&gt;
-          &lt;li&gt;tor-browser-build.&lt;/li&gt;
-          &lt;li&gt;BIND.&lt;/li&gt;
-          &lt;li&gt;goansicolor.&lt;/li&gt;
-          &lt;li&gt;gobtcd.&lt;/li&gt;
-          &lt;li&gt;gobtcutil.&lt;/li&gt;
-          &lt;li&gt;goconfigurable.&lt;/li&gt;
-          &lt;li&gt;godexlogconfig.&lt;/li&gt;
-          &lt;li&gt;godns.&lt;/li&gt;
-          &lt;li&gt;gogroupcache.&lt;/li&gt;
-          &lt;li&gt;goisatty.&lt;/li&gt;
-          &lt;li&gt;gomadns.&lt;/li&gt;
-          &lt;li&gt;gopflag.&lt;/li&gt;
-          &lt;li&gt;gopretty.&lt;/li&gt;
-          &lt;li&gt;goservice.&lt;/li&gt;
-          &lt;li&gt;gosvcutils&lt;/li&gt;
-          &lt;li&gt;gosystemd.&lt;/li&gt;
-          &lt;li&gt;gotext.&lt;/li&gt;
-          &lt;li&gt;gotlsrestrictnss.&lt;/li&gt;
-          &lt;li&gt;gounits.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Switch to &lt;code class=&quot;highlighter-rouge&quot;&gt;tar.xz&lt;/code&gt; output to match upstream Tor.&lt;/li&gt;
-      &lt;li&gt;Generate rbm.conf from upstream Tor at build time.&lt;/li&gt;
-      &lt;li&gt;Auto-create GitHub PR for dependency bumps.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/06/28/ncdns-v0.2-released.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/06/28/ncdns-v0.2-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
