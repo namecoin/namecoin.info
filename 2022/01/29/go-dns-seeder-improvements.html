@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncdns v0.0.9.2 Released</title>
+    <title>Go DNS Seeder Improvements</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/08/15/ncdns-v0.0.9.2-released.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,285 +130,285 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">ncdns v0.0.9.2 Released</h1>
-<p class="post-meta">Aug 15, 2019 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Go DNS Seeder Improvements</h1>
+<p class="post-meta">Jan 29, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released ncdns v0.0.9.2.  List of changes in v0.0.9.2:</p>
+<p>Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
 
 <ul>
-  <li>All platforms:
+  <li>Run without root privileges via <code class="highlighter-rouge">setcap</code>.
     <ul>
-      <li>New build system based on The Tor Project’s rbm.  This paves the way for reproducible builds.</li>
-      <li>Add an optional mode to <code class="highlighter-rouge">generate_nmc_cert</code> that creates a name-constrained CA cert instead of an end-entity cert.  This mode is required for Tor Browser TLS support.</li>
-      <li>Add “URL list” output format to <code class="highlighter-rouge">ncdumpzone</code>.  This paves the way for a decentralized search engine for Namecoin websites.</li>
-      <li>Make Namecoin RPC timeout configurable.  This improves compatibility with Tor Browser.</li>
-      <li>Move <code class="highlighter-rouge">x509</code> to its own repo.  This improves compatibility with Tor Browser.</li>
+      <li>This is a good alternative to <code class="highlighter-rouge">iptables</code>, which was already supported.</li>
     </ul>
   </li>
-  <li>Windows:
+  <li>Use multiple initial IP’s.
     <ul>
-      <li>Automatically re-run <code class="highlighter-rouge">tlsrestrictnss</code> when NSS is updated; this improves TLS support for Firefox.</li>
-      <li>Upgrade dnssec-keygen to v9.13.3.</li>
+      <li>Helpful if there are no operational DNS seeds when you start a crawl.</li>
     </ul>
   </li>
-  <li>New projects:
+  <li>Receive multiple peers per crawl.
     <ul>
-      <li>DNSSEC-HSTS v0.0.1: A WebExtension that prevents sslstrip attacks for Namecoin websites that support TLS.  See my 35C3 slides for more details.</li>
-      <li>ncp11 v0.0.1: Enables Namecoin TLS in browsers that support PKCS#11, such as Tor Browser.  See my 35C3 slides for more details.</li>
-      <li>ncprop279 v0.0.1: Enables Namecoin resolution in Tor; somewhat smaller and more efficient than dns-prop279.</li>
+      <li>Fixes a Bitcoin protocol implementation bug that caused crawls to stall.</li>
     </ul>
   </li>
-  <li>Code quality improvements.</li>
+  <li>Support Bitcoin Core’s <code class="highlighter-rouge">seeds.txt</code> API.
+    <ul>
+      <li>Allows us to export the seed list into Namecoin Core, so that even if the DNS seed is offline, Namecoin Core can still find peers.</li>
+    </ul>
+  </li>
+  <li>Route TCP traffic over SOCKS5 proxy.
+    <ul>
+      <li>Prerequisite for crawling onion-service peers.</li>
+    </ul>
+  </li>
 </ul>
 
-<p>As usual, you can download it at the <a href="/download/betas/#ncdns">Beta Downloads page</a>.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+<p>Lyndsay has merged all of these except for the SOCKS5 patch, which is waiting on some review from the Tor developers.  Huge thanks to Lyndsay for reviewing and merging the patches – I’m hoping that these patches will result in much better peer discovery for Namecoin Core (which has always been a pain point for us).</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -963,16 +963,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-08-15-ncdns-v0.0.9.2-released.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-01-29-go-dns-seeder-improvements.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/08/15/ncdns-v0.0.9.2-released.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/08/15/ncdns-v0.0.9.2-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/15/ncdns-v0.0.9.2-released.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/08/15/ncdns-v0.0.9.2-released.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/01/29/go-dns-seeder-improvements.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/01/29/go-dns-seeder-improvements.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/01/29/go-dns-seeder-improvements.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -981,25 +981,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
