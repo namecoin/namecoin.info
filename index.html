@@ -204,6 +204,12 @@
 
 <p><a href="/2021/12/06/namecoin-qt-export-count-feedback.html">Read more…</a></p>
 
+<h3 id="go-dns-seeder-improvements"><a href="/2021/12/06/go-dns-seeder-improvements.html">Go DNS Seeder Improvements</a></h3>
+
+<p><strong><a href="/2021/12/06/go-dns-seeder-improvements.html">2021-12-06</a></strong> Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
+
+<p><a href="/2021/12/06/go-dns-seeder-improvements.html">Read more…</a></p>
+
 <h3 id="upstream-btcd-has-merged-last-outstanding-namecoin-patch"><a href="/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">Upstream btcd Has Merged Last Outstanding Namecoin Patch</a></h3>
 
 <p><strong><a href="/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">2021-11-14</a></strong> Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.</p>
@@ -233,12 +239,6 @@
 <p><strong><a href="/2021/07/10/lab-leak-p11mod.html">2021-07-10</a></strong> Every now and then, some mad scientists will get foreign government funding, routed through an intermediary NGO, to create something in their lab, with the expectation that their creation will stay in the lab – and then it escapes, potentially wreaking havoc.  Oops.  This is what happened to Namecoin in the months surrounding 35C3.</p>
 
 <p><a href="/2021/07/10/lab-leak-p11mod.html">Read more…</a></p>
-
-<h3 id="tstclnt-openssl-s_client--gnutls-cli-equivalent-for-nss"><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">tstclnt: openssl s_client / gnutls-cli equivalent for NSS</a></h3>
-
-<p><strong><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">2021-07-05</a></strong> When debugging TLS handshakes, it’s incredibly helpful to have a CLI tool that acts as a simple TLS client.  For OpenSSL (the TLS library used by Python, <code class="highlighter-rouge">curl</code>, and various other GNU/Linux things), the relevant tool is <code class="highlighter-rouge">openssl s_client</code>.  For GnuTLS (the TLS library used by GNOME Web, <code class="highlighter-rouge">wget</code>, and various other GNU/Linux things), it’s <code class="highlighter-rouge">gnutls-cli</code>.  But did you know that there’s an analogous tool for NSS (the TLS library used by Firefox and the GNU/Linux version of Chromium)?  If you didn’t know this, you can be easily forgiven – the Mozilla NSS documentation doesn’t mention that it exists, and there are almost no web search results for it!  Yet it’s there.</p>
-
-<p><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -291,25 +291,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
