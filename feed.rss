@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 29 Jan 2022 11:18:27 +0000</pubDate>
-    <lastBuildDate>Sat, 29 Jan 2022 11:18:27 +0000</lastBuildDate>
+    <pubDate>Sat, 29 Jan 2022 11:31:24 +0000</pubDate>
+    <lastBuildDate>Sat, 29 Jan 2022 11:31:24 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,50 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Go DNS Seeder Improvements</title>
+        <description>&lt;p&gt;Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via &lt;em&gt;DNS seeds&lt;/em&gt;: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Run without root privileges via &lt;code class=&quot;highlighter-rouge&quot;&gt;setcap&lt;/code&gt;.
+    &lt;ul&gt;
+      &lt;li&gt;This is a good alternative to &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables&lt;/code&gt;, which was already supported.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Use multiple initial IP’s.
+    &lt;ul&gt;
+      &lt;li&gt;Helpful if there are no operational DNS seeds when you start a crawl.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Receive multiple peers per crawl.
+    &lt;ul&gt;
+      &lt;li&gt;Fixes a Bitcoin protocol implementation bug that caused crawls to stall.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Support Bitcoin Core’s &lt;code class=&quot;highlighter-rouge&quot;&gt;seeds.txt&lt;/code&gt; API.
+    &lt;ul&gt;
+      &lt;li&gt;Allows us to export the seed list into Namecoin Core, so that even if the DNS seed is offline, Namecoin Core can still find peers.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Route TCP traffic over SOCKS5 proxy.
+    &lt;ul&gt;
+      &lt;li&gt;Prerequisite for crawling onion-service peers.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lyndsay has merged all of these except for the SOCKS5 patch, which is waiting on some review from the Tor developers.  Huge thanks to Lyndsay for reviewing and merging the patches – I’m hoping that these patches will result in much better peer discovery for Namecoin Core (which has always been a pain point for us).&lt;/p&gt;
+</description>
+        <pubDate>Sat, 29 Jan 2022 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>p11mod Now Supports Signatures</title>
@@ -119,50 +163,6 @@
         <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
         <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/namecoin-qt-export-count-feedback.html</link>
         <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/namecoin-qt-export-count-feedback.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Go DNS Seeder Improvements</title>
-        <description>&lt;p&gt;Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via &lt;em&gt;DNS seeds&lt;/em&gt;: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Run without root privileges via &lt;code class=&quot;highlighter-rouge&quot;&gt;setcap&lt;/code&gt;.
-    &lt;ul&gt;
-      &lt;li&gt;This is a good alternative to &lt;code class=&quot;highlighter-rouge&quot;&gt;iptables&lt;/code&gt;, which was already supported.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Use multiple initial IP’s.
-    &lt;ul&gt;
-      &lt;li&gt;Helpful if there are no operational DNS seeds when you start a crawl.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Receive multiple peers per crawl.
-    &lt;ul&gt;
-      &lt;li&gt;Fixes a Bitcoin protocol implementation bug that caused crawls to stall.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Support Bitcoin Core’s &lt;code class=&quot;highlighter-rouge&quot;&gt;seeds.txt&lt;/code&gt; API.
-    &lt;ul&gt;
-      &lt;li&gt;Allows us to export the seed list into Namecoin Core, so that even if the DNS seed is offline, Namecoin Core can still find peers.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Route TCP traffic over SOCKS5 proxy.
-    &lt;ul&gt;
-      &lt;li&gt;Prerequisite for crawling onion-service peers.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Lyndsay has merged all of these except for the SOCKS5 patch, which is waiting on some review from the Tor developers.  Huge thanks to Lyndsay for reviewing and merging the patches – I’m hoping that these patches will result in much better peer discovery for Namecoin Core (which has always been a pain point for us).&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/go-dns-seeder-improvements.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/go-dns-seeder-improvements.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
