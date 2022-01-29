@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Matrix / IRC Chat</title>
+    <title>Go DNS Seeder Improvements</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/resources/chat/">
+    <link rel="canonical" href="https://www.namecoin.org/2021/12/06/go-dns-seeder-improvements.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,71 +122,829 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Matrix / IRC Chat</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>Two chat channels exist for Namecoin.  If you’re not sure which access method to use, we suggest accessing via Hackint, due to Hackint’s superior privacy.</p>
 
-<h2 id="namecoin">#namecoin</h2>
 
-<p>#namecoin is suitable for any discussion that isn’t development-related or trading-related.  For example, all of the following are appropriate for #namecoin:</p>
 
-<ul>
-  <li>Tech support requests about Namecoin software.</li>
-  <li>Discussion about software that is relevant to Namecoin.</li>
-  <li>Discussion about events in the news that are relevant to Namecoin.</li>
-</ul>
 
-<p>#namecoin is accessible via the following methods:</p>
 
-<ul>
-  <li><a href="ircs://dtlbunzs5b7s5sl775quwezleyeplxzicdoh3cnhm7feolxmkfd42nqd.onion:6697/#namecoin">Hackint IRC</a> (Tor onion, SASL required, <a href="https://hashcash.hackint.org/">register here via Hashcash</a>)</li>
-  <li><a href="ircs://ncwkrwxpq2ikcngxq3dy2xctuheniggtqeibvgofixpzvrwpa77tozqd.onion:6697/#namecoin">Hackint IRC</a> (Tor onion, anonymous)</li>
-  <li><a href="ircs://irc.hackint.org:6697/#namecoin">Hackint IRC</a> (clearnet, Tor prohibited)</li>
-  <li><a href="ircs://irc.hackint.dn42:6697/#namecoin">Hackint IRC</a> (via <a href="https://dn42.eu/">DN42</a>)</li>
-  <li>Hackint XMPP: #namecoin@irc.hackint.org</li>
-  <li><a href="https://webirc.hackint.org/#ircs://irc.hackint.org/#namecoin">Hackint web chat</a> (clearnet, Tor prohibited)</li>
-  <li><a href="ircs://irc.oftc.net:6697/#namecoin">OFTC IRC</a> (clearnet, Tor-friendly)</li>
-  <li><a href="https://webchat.oftc.net/?channels=%23namecoin">OFTC web chat</a> (clearnet, Tor prohibited)</li>
-  <li>Matrix (Tor-friendly): #namecoin:matrix.org</li>
-  <li><a href="https://app.element.io/#/room/#namecoin:matrix.org">Matrix Element web chat</a> (clearnet, Tor-friendly)</li>
-</ul>
 
-<h2 id="namecoin-dev">#namecoin-dev</h2>
 
-<p>#namecoin-dev is suitable for discussion of Namecoin-related development.</p>
 
-<p>#namecoin-dev is accessible via the following methods:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Go DNS Seeder Improvements</h1>
+<p class="post-meta">Dec 6, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
 
 <ul>
-  <li><a href="ircs://dtlbunzs5b7s5sl775quwezleyeplxzicdoh3cnhm7feolxmkfd42nqd.onion:6697/#namecoin-dev">Hackint IRC</a> (Tor onion, SASL required, <a href="https://hashcash.hackint.org/">register here via Hashcash</a>)</li>
-  <li><a href="ircs://ncwkrwxpq2ikcngxq3dy2xctuheniggtqeibvgofixpzvrwpa77tozqd.onion:6697/#namecoin-dev">Hackint IRC</a> (Tor onion, anonymous)</li>
-  <li><a href="ircs://irc.hackint.org:6697/#namecoin-dev">Hackint IRC</a> (clearnet, Tor prohibited)</li>
-  <li><a href="ircs://irc.hackint.dn42:6697/#namecoin-dev">Hackint IRC</a> (via <a href="https://dn42.eu/">DN42</a>)</li>
-  <li>Hackint XMPP: #namecoin-dev@irc.hackint.org</li>
-  <li><a href="https://webirc.hackint.org/#ircs://irc.hackint.org/#namecoin-dev">Hackint web chat</a> (clearnet, Tor prohibited)</li>
-  <li><a href="ircs://irc.oftc.net:6697/#namecoin-dev">OFTC IRC</a> (clearnet, Tor-friendly)</li>
-  <li><a href="https://webchat.oftc.net/?channels=%23namecoin-dev">OFTC web chat</a> (clearnet, Tor prohibited)</li>
-  <li>Matrix (Tor-friendly): #namecoin-dev:matrix.org</li>
-  <li><a href="https://app.element.io/#/room/#namecoin-dev:matrix.org">Matrix Element web chat</a> (clearnet, Tor-friendly)</li>
+  <li>Run without root privileges via <code class="highlighter-rouge">setcap</code>.
+    <ul>
+      <li>This is a good alternative to <code class="highlighter-rouge">iptables</code>, which was already supported.</li>
+    </ul>
+  </li>
+  <li>Use multiple initial IP’s.
+    <ul>
+      <li>Helpful if there are no operational DNS seeds when you start a crawl.</li>
+    </ul>
+  </li>
+  <li>Receive multiple peers per crawl.
+    <ul>
+      <li>Fixes a Bitcoin protocol implementation bug that caused crawls to stall.</li>
+    </ul>
+  </li>
+  <li>Support Bitcoin Core’s <code class="highlighter-rouge">seeds.txt</code> API.
+    <ul>
+      <li>Allows us to export the seed list into Namecoin Core, so that even if the DNS seed is offline, Namecoin Core can still find peers.</li>
+    </ul>
+  </li>
+  <li>Route TCP traffic over SOCKS5 proxy.
+    <ul>
+      <li>Prerequisite for crawling onion-service peers.</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="developer-meetings">Developer Meetings</h2>
+<p>Lyndsay has merged all of these except for the SOCKS5 patch, which is waiting on some review from the Tor developers.  Huge thanks to Lyndsay for reviewing and merging the patches – I’m hoping that these patches will result in much better peer discovery for Namecoin Core (which has always been a pain point for us).</p>
 
-<p>The Namecoin developers hold regular public meetings twice per month on #namecoin-dev.  If you’re interested in getting involved with Namecoin development, or if you’re just curious about what’s happening, we highly recommend attending the meetings.</p>
-
-<p>Developer meetings occur on the 1st and 3rd Sunday of each month at 7 PM UTC.  <a href="Namecoin-Development-Meetings.ics">An ICS calendar suitable for import into a calendar application (e.g. Thunderbird) is here.</a></p>
-
-<p><a href="https://github.com/midnightmagic/namecoin-meeting">Minutes and logs of past developer meetings are available on GitHub.</a></p>
-
-  </article>
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -205,16 +963,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/chat/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-12-06-go-dns-seeder-improvements.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/resources/chat/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/resources/chat/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/chat/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/resources/chat/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2021/12/06/go-dns-seeder-improvements.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/12/06/go-dns-seeder-improvements.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/12/06/go-dns-seeder-improvements.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2021/12/06/go-dns-seeder-improvements.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -223,25 +981,25 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
