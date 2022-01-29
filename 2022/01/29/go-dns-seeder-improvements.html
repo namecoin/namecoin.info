@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Video Recordings of ICANN60 Joint Meeting of ICANN Board and Technical Experts Group</title>
+    <title>Go DNS Seeder Improvements</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html">
+    <link rel="canonical" href="https://www.namecoin.org/2022/01/29/go-dns-seeder-improvements.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,194 +130,197 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Video Recordings of ICANN60 Joint Meeting of ICANN Board and Technical Experts Group</h1>
-<p class="post-meta">Apr 30, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Go DNS Seeder Improvements</h1>
+<p class="post-meta">Jan 29, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>At Namecoin, we generally try to be good citizens in the broader community.  This means that we regularly engage in analysis, peer review, and patch writing for projects that aren’t strictly part of Namecoin.  In that spirit, today we are posting free-software-friendly video recordings of the Joint Meeting of the ICANN Board and the ICANN Technical Experts Group at ICANN60 in Abu Dhabi on November 1, 2017.  We hope that making this session more accessible to free software users will facilitate increased peer review, analysis, and research.</p>
-
-<p>This session included the following presentations:</p>
+<p>Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
 
 <ul>
-  <li>Alain Durand and Fernando Lopez: <em>DOA-like Persistent Identifiers over DNS: a Prototype</em></li>
-  <li>Leonard Tan: <em>Ethereum Name Service</em></li>
-  <li>Michael Palage and Pindar Wong: <em>Distributed Ledger Technology (aka Blockchain): Evolution or Revolution</em></li>
-  <li>Steve Crocker: <em>Tamperproof Root Zone Management System</em></li>
+  <li>Run without root privileges via <code class="highlighter-rouge">setcap</code>.
+    <ul>
+      <li>This is a good alternative to <code class="highlighter-rouge">iptables</code>, which was already supported.</li>
+    </ul>
+  </li>
+  <li>Use multiple initial IP’s.
+    <ul>
+      <li>Helpful if there are no operational DNS seeds when you start a crawl.</li>
+    </ul>
+  </li>
+  <li>Receive multiple peers per crawl.
+    <ul>
+      <li>Fixes a Bitcoin protocol implementation bug that caused crawls to stall.</li>
+    </ul>
+  </li>
+  <li>Support Bitcoin Core’s <code class="highlighter-rouge">seeds.txt</code> API.
+    <ul>
+      <li>Allows us to export the seed list into Namecoin Core, so that even if the DNS seed is offline, Namecoin Core can still find peers.</li>
+    </ul>
+  </li>
+  <li>Route TCP traffic over SOCKS5 proxy.
+    <ul>
+      <li>Prerequisite for crawling onion-service peers.</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="low-quality-free-software-friendly-video-recording-with-slides">Low-Quality Free-Software-Friendly Video Recording (With Slides)</h2>
-
-<video controls="">
-<source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-LQ-Video-with-Slides.webm#t=62" type="video/webm" />
-Video with slides.
-</video>
-
-<h2 id="high-quality-free-software-friendly-video-recording-without-slides">High-Quality Free-Software-Friendly Video Recording (Without Slides)</h2>
-
-<video controls="">
-<source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-HQ-Video-Only.webm#t=624" type="video/webm" />
-Video without slides.
-</video>
-
-<h2 id="credits">Credits</h2>
-
-<p>The above free-software-friendly recordings are converted from <a href="https://icann60abudhabi2017.sched.com/event/CbHh/joint-meeting-icann-board-technical-experts-group-teg">ICANN’s official recordings</a>.  Copyright ICANN; used with permission.  Additional material, e.g. audio-only recordings, slides, and transcripts, can be found on ICANN’s website.</p>
+<p>Lyndsay has merged all of these except for the SOCKS5 patch, which is waiting on some review from the Tor developers.  Huge thanks to Lyndsay for reviewing and merging the patches – I’m hoping that these patches will result in much better peer discovery for Namecoin Core (which has always been a pain point for us).</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -960,16 +963,16 @@ Video without slides.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-30-icann-60-teg-recordings.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-01-29-go-dns-seeder-improvements.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/04/30/icann-60-teg-recordings.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/04/30/icann-60-teg-recordings.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/30/icann-60-teg-recordings.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/04/30/icann-60-teg-recordings.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/01/29/go-dns-seeder-improvements.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/01/29/go-dns-seeder-improvements.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/01/29/go-dns-seeder-improvements.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -978,25 +981,25 @@ Video without slides.
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
