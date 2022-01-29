@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -180,6 +180,12 @@
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<h3 id="go-dns-seeder-improvements"><a href="/2022/01/29/go-dns-seeder-improvements.html">Go DNS Seeder Improvements</a></h3>
+
+<p><strong><a href="/2022/01/29/go-dns-seeder-improvements.html">2022-01-29</a></strong> Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
+
+<p><a href="/2022/01/29/go-dns-seeder-improvements.html">Read more…</a></p>
+
 <h3 id="p11mod-now-supports-signatures"><a href="/2022/01/27/p11mod-signatures.html">p11mod Now Supports Signatures</a></h3>
 
 <p><strong><a href="/2022/01/27/p11mod-signatures.html">2022-01-27</a></strong> In a <a href="/2021/07/10/lab-leak-p11mod.html">previous post</a>, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:</p>
@@ -203,12 +209,6 @@
 <p><strong><a href="/2021/12/06/namecoin-qt-export-count-feedback.html">2021-12-06</a></strong> I implemented a few more Namecoin-Qt features.  The Manage Names tab now includes both an Export button and a name counter:</p>
 
 <p><a href="/2021/12/06/namecoin-qt-export-count-feedback.html">Read more…</a></p>
-
-<h3 id="go-dns-seeder-improvements"><a href="/2021/12/06/go-dns-seeder-improvements.html">Go DNS Seeder Improvements</a></h3>
-
-<p><strong><a href="/2021/12/06/go-dns-seeder-improvements.html">2021-12-06</a></strong> Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
-
-<p><a href="/2021/12/06/go-dns-seeder-improvements.html">Read more…</a></p>
 
 <h3 id="upstream-btcd-has-merged-last-outstanding-namecoin-patch"><a href="/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">Upstream btcd Has Merged Last Outstanding Namecoin Patch</a></h3>
 
@@ -291,25 +291,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
