@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -180,6 +180,12 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<h3 id="go-dns-seeder-improvements"><a href="/2022/01/29/go-dns-seeder-improvements.html">Go DNS Seeder Improvements</a></h3>
+
+<p><strong><a href="/2022/01/29/go-dns-seeder-improvements.html">2022-01-29</a></strong> Any P2P network has to deal with initial peer discovery.  Bitcoin and Namecoin mostly solve this via <em>DNS seeds</em>: special domain names that return a large number of IP addresses corresponding to Bitcoin/Namecoin nodes.  If you’ve used Namecoin Core, you’ve probably encountered the dreaded “no peers” symptom.  This is because, unfortunately, the primary DNS seeder implementation used by Bitcoin (by Pieter Wuille) is neither Freedom Software (it’s under an All Rights Reserved license, so Namecoin cannot legally use it) nor memory-safe (it’s in C++).  To help improve Namecoin peer discovery (and maybe Bitcoin too), I’ve submitted the following improvements to Lyndsay Roger’s Go-based DNS seeder (which is both Freedom Software and memory-safe):</p>
+
+<p><a href="/2022/01/29/go-dns-seeder-improvements.html">Read more…</a></p>
+
 <h3 id="p11mod-now-supports-signatures"><a href="/2022/01/27/p11mod-signatures.html">p11mod Now Supports Signatures</a></h3>
 
 <p><strong><a href="/2022/01/27/p11mod-signatures.html">2022-01-27</a></strong> In a <a href="/2021/07/10/lab-leak-p11mod.html">previous post</a>, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:</p>
@@ -234,12 +240,6 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p><a href="/2021/07/10/lab-leak-p11mod.html">Read more…</a></p>
 
-<h3 id="tstclnt-openssl-s_client--gnutls-cli-equivalent-for-nss"><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">tstclnt: openssl s_client / gnutls-cli equivalent for NSS</a></h3>
-
-<p><strong><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">2021-07-05</a></strong> When debugging TLS handshakes, it’s incredibly helpful to have a CLI tool that acts as a simple TLS client.  For OpenSSL (the TLS library used by Python, <code class="highlighter-rouge">curl</code>, and various other GNU/Linux things), the relevant tool is <code class="highlighter-rouge">openssl s_client</code>.  For GnuTLS (the TLS library used by GNOME Web, <code class="highlighter-rouge">wget</code>, and various other GNU/Linux things), it’s <code class="highlighter-rouge">gnutls-cli</code>.  But did you know that there’s an analogous tool for NSS (the TLS library used by Firefox and the GNU/Linux version of Chromium)?  If you didn’t know this, you can be easily forgiven – the Mozilla NSS documentation doesn’t mention that it exists, and there are almost no web search results for it!  Yet it’s there.</p>
-
-<p><a href="/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html">Read more…</a></p>
-
 <p><a href="/news/">Earlier news</a></p>
 
 <p>For the latest news go to the <a href="https://nf.bit/">Namecoin forum</a> or check out <a href="https://www.reddit.com/r/namecoin">r/namecoin</a>.</p>
@@ -291,25 +291,25 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
