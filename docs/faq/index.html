@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -145,6 +145,7 @@ Decentralized<br /><strong>secure</strong> names.
       <li><a href="#what-applications-is-namecoin-well-suited-to" id="markdown-toc-what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</a></li>
       <li><a href="#do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin" id="markdown-toc-do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin">Do I need to download the entire Namecoin blockchain to use Namecoin?</a></li>
       <li><a href="#what-is-the-smallest-currency-unit-of-namecoin-called" id="markdown-toc-what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</a></li>
+      <li><a href="#what-do-namecoin-addresses-look-like" id="markdown-toc-what-do-namecoin-addresses-look-like">What do Namecoin addresses look like?</a></li>
     </ul>
   </li>
   <li><a href="#design" id="markdown-toc-design">Design</a>    <ul>
@@ -157,6 +158,8 @@ Decentralized<br /><strong>secure</strong> names.
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
       <li><a href="#why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss" id="markdown-toc-why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss">Why focus on getting existing browsers and OS’s to support Namecoin instead of forking those browsers and OS’s?</a></li>
       <li><a href="#is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters" id="markdown-toc-is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</a></li>
+      <li><a href="#does-namecoin-have-any-browser-add-ons" id="markdown-toc-does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</a></li>
+      <li><a href="#why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses" id="markdown-toc-why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</a></li>
     </ul>
   </li>
   <li><a href="#comparison-of-namecoin-to-other-projects" id="markdown-toc-comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</a>    <ul>
@@ -243,6 +246,16 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>The smallest currency unit of Namecoin is called the <em>swartz</em> (similar to the <em>satoshi</em> in Bitcoin).  It is named after Aaron Swartz, the activist who was murdered by the U.S. government, and who <a href="https://web.archive.org/web/20170424134548/http://www.aaronsw.com/weblog/squarezooko">proposed Nakanames</a> (which, along with BitDNS, described the concept that was later implemented as Namecoin).</p>
 
+<h3 id="what-do-namecoin-addresses-look-like">What do Namecoin addresses look like?</h3>
+
+<p>Namecoin addresses follow the same format as Bitcoin addreses, but with different prefixes (to avoid ambiguity about whether an address is for Bitcoin or Namecoin):</p>
+
+<ul>
+  <li>New-style Bech32 addresses begin with <code class="highlighter-rouge">nc1</code>.</li>
+  <li>Old-style P2SH addresses begin with <code class="highlighter-rouge">6</code>.</li>
+  <li>Even-older-style P2PKH addresses begin with <code class="highlighter-rouge">N</code> or <code class="highlighter-rouge">M</code>.</li>
+</ul>
+
 <h2 id="design">Design</h2>
 
 <h3 id="what-is-a-namespace">What is a namespace?</h3>
@@ -326,6 +339,14 @@ Decentralized<br /><strong>secure</strong> names.
 <p>Longer answer from a low-level point of view:</p>
 
 <p>Namecoin is a fork of Bitcoin, and therefore Namecoin (like Bitcoin) supports a wide variety of smart contract schemes, including the ability for a transaction to have an arbitrary number of outputs (thereby making multiple payments atomically).  Because Namecoin represents names as transaction outputs, it is naturally possible to atomically transfer a name in combination with a currency payment.  This isn’t a feature that Namecoin was specifically designed to support, it’s simply a feature that naturally exists, which would have required extra effort to not support.  Technically, it would be possible to softfork Namecoin to ban name outputs from coexisting in a transaction with currency outputs, but in practice this would have detrimental effects unrelated to atomic name trades, because it would also ban change outputs from single-party name transactions.  There <em>is</em> a restriction in Namecoin’s consensus rules that prevents two name outputs from being created atomically.  As far as we’re aware, there is no documented reason for this rule (none of us were around to ask when the rule was first created, and Vince isn’t around for us to ask anymore), and this rule also has harmful side effects that are unrelated to atomic name trades, e.g. it prevents CoinJoin-style constructions for name transactions.  Because CoinJoin is useful for both scalability and privacy, we would prefer that this rule be removed, and it is possible that a future consensus fork will do so.</p>
+
+<h3 id="does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</h3>
+
+<p>Yes; we have a PKCS#11 module (ncp11) for TLS certificate validation, and we have a WebExtension (DNSSEC-HSTS) for protecting against SSLStrip attacks.  However, there is no browser add-on for resolving <code class="highlighter-rouge">.bit</code> domains to IP addresses.</p>
+
+<h3 id="why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</h3>
+
+<p>There is no WebExtensions API for intercepting DNS lookups; thus such a WebExtension is not possible.  It <em>is</em> possible to abuse the HTTP proxy API to simulate DNS interception (and there are various 3rd-party WebExtensions that purport to do this for Namecoin).  Unfortunately, this form of API abuse is fundamentally incompatible with HTTPS.  Since such WebExtensions cannot work with HTTPS and are therefore inherently insecure, we recommend avoiding such WebExtensions.  It also is possible to use the WebRequest API to redirect <code class="highlighter-rouge">.bit</code> URL’s to the associated IP address.  Unfortunately, this will not work with properly configured servers, because both the HTTP <code class="highlighter-rouge">Host</code> header and the TLS SNI header won’t match; thus we recommend against this as well.</p>
 
 <h2 id="comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</h2>
 
@@ -800,25 +821,25 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>
