@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -145,6 +145,7 @@
       <li><a href="#what-applications-is-namecoin-well-suited-to" id="markdown-toc-what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</a></li>
       <li><a href="#do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin" id="markdown-toc-do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin">Do I need to download the entire Namecoin blockchain to use Namecoin?</a></li>
       <li><a href="#what-is-the-smallest-currency-unit-of-namecoin-called" id="markdown-toc-what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</a></li>
+      <li><a href="#what-do-namecoin-addresses-look-like" id="markdown-toc-what-do-namecoin-addresses-look-like">What do Namecoin addresses look like?</a></li>
     </ul>
   </li>
   <li><a href="#design" id="markdown-toc-design">Design</a>    <ul>
@@ -242,6 +243,16 @@
 <h3 id="what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</h3>
 
 <p>The smallest currency unit of Namecoin is called the <em>swartz</em> (similar to the <em>satoshi</em> in Bitcoin).  It is named after Aaron Swartz, the activist who was murdered by the U.S. government, and who <a href="https://web.archive.org/web/20170424134548/http://www.aaronsw.com/weblog/squarezooko">proposed Nakanames</a> (which, along with BitDNS, described the concept that was later implemented as Namecoin).</p>
+
+<h3 id="what-do-namecoin-addresses-look-like">What do Namecoin addresses look like?</h3>
+
+<p>Namecoin addresses follow the same format as Bitcoin addreses, but with different prefixes (to avoid ambiguity about whether an address is for Bitcoin or Namecoin):</p>
+
+<ul>
+  <li>New-style Bech32 addresses begin with <code class="highlighter-rouge">nc1</code>.</li>
+  <li>Old-style P2SH addresses begin with <code class="highlighter-rouge">6</code>.</li>
+  <li>Even-older-style P2PKH addresses begin with <code class="highlighter-rouge">N</code> or <code class="highlighter-rouge">M</code>.</li>
+</ul>
 
 <h2 id="design">Design</h2>
 
@@ -802,23 +813,23 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>
