@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Preventing Expiration Mishaps with Semi-Expiration</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="https://www.namecoin.org/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/remove-nojs.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
+                            <li><a href='https://github.com/namecoin/metrics.namecoin.bit/tree/master/'>Metrics</a></li>
+                            <li><a href='/resources/whitepaper/'>Whitepaper</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/contribute/'>Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<span id="default-tagline">
+
+<strong>Decentralize</strong><br>all the things!
+</span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Preventing Expiration Mishaps with Semi-Expiration</h1>
+<p class="post-meta">Feb 18, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?</p>
+
+<p>Let’s start by observing two fundamental properties of expired names:</p>
+
+<ol>
+  <li>Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li>Expired names can be registered by anyone.</li>
+</ol>
+
+<p>Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?</p>
+
+<ol>
+  <li><strong>Policy layer</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Consensus layer</strong>: Expired names can be registered by anyone.</li>
+</ol>
+
+<p>And what are their respective impacts?</p>
+
+<ol>
+  <li><strong>Temporary DoS</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Permanent hijacking</strong>: Expired names can be registered by anyone.</li>
+</ol>
+
+<p>So what happens if we make the following change?  We introduce a new state for names: <em>Semi-Expired</em>.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?</p>
+
+<p>Let’s imagine that Alice forgets to renew her name before it semi-expires.  As a result, her name becomes unresolvable.  This causes her website to go down.  Some of Alice’s users notice this, and complain to her via email, social media, or some other out-of-band medium.  Alice then renews her name, which reverts the semi-expired state.  And this out-of-band process gives Alice 4 weeks to fix things before she is at risk of having her name stolen.  That certainly seems like an improvement.  And this is solely a policy change, not a consensus change, making it cheap to implement and deploy.</p>
+
+<p>I’ve now implemented this in Electrum-NMC.  The RPC interface adds fields for the “semi-expired” state, and the Manage Names GUI counts down to semi-expiration rather than expiration.</p>
+
+<p>Some additional observations:</p>
+
+<ul>
+  <li>Semi-expiration will only help you as a name owner if you actually actively use your name.  It won’t help you if you hold an unused name for squatting purposes.  While I don’t think any of the Namecoin developers are opposed to additional anti-expiry mechanisms that work for squatters, I think it’s arguably a good thing that semi-expiration incentivizes active use of names.</li>
+  <li>Because semi-expiration decreases the effective duration of resolvability for names (this is a necessary consequence of implementing semi-expiration on the policy layer), it means that name owners will renew somewhat more often with respect to time.  Theoretically, this means that name owners will pay higher fees with respect to time, and that the blockchain will grow faster with respect to time.  In practice, the difference is likely to be negligible, and if it is detectable at all, it will be in the form of increased block reward (which indirectly improves blockchain hashrate) and decreased incentive to squat on names (which indirectly improves usefulness of the system).</li>
+</ul>
+
+<p>Semi-expiration should be released in Electrum-NMC v4.0.0b1.  Namecoin Core will hopefully follow soon after.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+                <li><a href="/license.html"><i class="fa fa-2x" title="Copyright">Copyright</i></a></li>
+                <li><a href="/team/security/"><i class="fa fa-2x" title="Vulnerability Disclosure">Security</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-02-18-preventing-expiration-mishaps-with-semi-expiration.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+            </ul>
+        </div>
+</footer>
+
+
+  </body>
+
+</html>

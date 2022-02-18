@@ -135,6 +135,56 @@
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">Preventing Expiration Mishaps with Semi-Expiration</a></h1>
+    <p class="post-meta">Feb 18, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?</p>
+
+    <p>Let’s start by observing two fundamental properties of expired names:</p>
+
+    <ol>
+  <li>Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li>Expired names can be registered by anyone.</li>
+</ol>
+
+    <p>Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?</p>
+
+    <ol>
+  <li><strong>Policy layer</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Consensus layer</strong>: Expired names can be registered by anyone.</li>
+</ol>
+
+    <p>And what are their respective impacts?</p>
+
+    <ol>
+  <li><strong>Temporary DoS</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Permanent hijacking</strong>: Expired names can be registered by anyone.</li>
+</ol>
+
+    <p>So what happens if we make the following change?  We introduce a new state for names: <em>Semi-Expired</em>.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?</p>
+
+    <p>Let’s imagine that Alice forgets to renew her name before it semi-expires.  As a result, her name becomes unresolvable.  This causes her website to go down.  Some of Alice’s users notice this, and complain to her via email, social media, or some other out-of-band medium.  Alice then renews her name, which reverts the semi-expired state.  And this out-of-band process gives Alice 4 weeks to fix things before she is at risk of having her name stolen.  That certainly seems like an improvement.  And this is solely a policy change, not a consensus change, making it cheap to implement and deploy.</p>
+
+    <p>I’ve now implemented this in Electrum-NMC.  The RPC interface adds fields for the “semi-expired” state, and the Manage Names GUI counts down to semi-expiration rather than expiration.</p>
+
+    <p>Some additional observations:</p>
+
+    <ul>
+  <li>Semi-expiration will only help you as a name owner if you actually actively use your name.  It won’t help you if you hold an unused name for squatting purposes.  While I don’t think any of the Namecoin developers are opposed to additional anti-expiry mechanisms that work for squatters, I think it’s arguably a good thing that semi-expiration incentivizes active use of names.</li>
+  <li>Because semi-expiration decreases the effective duration of resolvability for names (this is a necessary consequence of implementing semi-expiration on the policy layer), it means that name owners will renew somewhat more often with respect to time.  Theoretically, this means that name owners will pay higher fees with respect to time, and that the blockchain will grow faster with respect to time.  In practice, the difference is likely to be negligible, and if it is detectable at all, it will be in the form of increased block reward (which indirectly improves blockchain hashrate) and decreased incentive to squat on names (which indirectly improves usefulness of the system).</li>
+</ul>
+
+    <p>Semi-expiration should be released in Electrum-NMC v4.0.0b1.  Namecoin Core will hopefully follow soon after.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/2022/01/29/go-dns-seeder-improvements.html">Go DNS Seeder Improvements</a></h1>
     <p class="post-meta">Jan 29, 2022 • Jeremy Rand </p>
   </header>
@@ -1855,7 +1905,7 @@ Video without slides.
   <article class="post-content">
     <p>Recently, I was put in contact (via a mutual friend) with a new Namecoin user, Forest Johnson, who was having some trouble registering a name with Electrum-NMC.  Unlike typical software users, who tend to give up when encountering issues, Forest was kind enough to provide <a href="https://www.sequentialread.com/how-to-register-a-namecoin-bit-domain-with-electrum-nmc/">some excellent UX review</a> of Electrum-NMC.  One piece of that UX review was that it’s not obvious to a user that registering a name is a two-step process, and that the latter step can’t proceed until the former step has 12 confirmations.  So, I’ve added an ETA indicator for name registrations to the Manage Names tab.  Check it out:</p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2020-02-20-Registration-ETA.png" alt="A screenshot of the Manage Names tab in Electrum-NMC showing &quot;ETA 130min&quot;." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Registration-ETA-2020-02-20.png" alt="A screenshot of the Manage Names tab in Electrum-NMC showing &quot;ETA 130min&quot;." /></p>
 
     <p>Forest provided quite a bit of additional UX review; I intend to address those points in the future.  Thanks Forest for making Namecoin better!</p>
 
@@ -2108,7 +2158,7 @@ Video without slides.
 
     <p>Things are still a bit rough around the edges, but it’s beginning to take shape.  Check out the below screenshot:</p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2019-12-02-DNS-Builder.png" alt="A screenshot of the DNS builder for Electrum-NMC." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/DNS-Builder-2019-12-02.png" alt="A screenshot of the DNS builder for Electrum-NMC." /></p>
 
     <p>So far, the following features work:</p>
 
@@ -2580,11 +2630,11 @@ Video without slides.
   </header>
 
   <article class="post-content">
-    <p>In September 2018, I published <a href="/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">a case study</a> about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, <a href="https://prism-break.org/">PRISM Break</a> maintainer Yegor Timoshenko (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.</p>
+    <p>In September 2018, I published <a href="/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">a case study</a> about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, <a href="https://prism-break.org/">PRISM Break</a> maintainer Yana Timoshenko (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.</p>
 
-    <p>Guess what?  OpenNIC listened to the concerns of Yegor and myself, and has decided to shut down their centralized Namecoin inproxy.  This was probably not an easy decision, as OpenNIC’s Namecoin inproxy had been a significant usage draw for OpenNIC, and it is likely that a significant portion of OpenNIC users (who were using OpenNIC solely for its Namecoin inproxy) will move to decentralized methods and leave OpenNIC’s other TLD’s behind.  Most corporate actors probably wouldn’t have done this.  But it was the right decision.</p>
+    <p>Guess what?  OpenNIC listened to the concerns of Yana and myself, and has decided to shut down their centralized Namecoin inproxy.  This was probably not an easy decision, as OpenNIC’s Namecoin inproxy had been a significant usage draw for OpenNIC, and it is likely that a significant portion of OpenNIC users (who were using OpenNIC solely for its Namecoin inproxy) will move to decentralized methods and leave OpenNIC’s other TLD’s behind.  Most corporate actors probably wouldn’t have done this.  But it was the right decision.</p>
 
-    <p>I’d like to thank OpenNIC for taking Yegor’s and my concerns seriously.  I regularly recommend OpenNIC (the non-<code class="highlighter-rouge">.bit</code> TLD’s) to users who don’t need Namecoin’s security model but who want a regulatory environment that isn’t subject to ICANN policies; I will continue to do so.  If you happen to hang around the OpenNIC community, I encourage you to thank OpenNIC for this decision as well.</p>
+    <p>I’d like to thank OpenNIC for taking Yana’s and my concerns seriously.  I regularly recommend OpenNIC (the non-<code class="highlighter-rouge">.bit</code> TLD’s) to users who don’t need Namecoin’s security model but who want a regulatory environment that isn’t subject to ICANN policies; I will continue to do so.  If you happen to hang around the OpenNIC community, I encourage you to thank OpenNIC for this decision as well.</p>
 
     <p><em>This news post was intended to be posted near the beginning of July 2019, but was delayed because I was busy attending the Tor developer meeting in Stockholm.  I apologize for the delay.</em></p>
 
@@ -3595,11 +3645,11 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
 
     <p>And now, here’s your regular fix of screenshots:</p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Entry.png" alt="A screenshot of entering a name on the Electrum-NMC Buy Names tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Buy-Name-Entry-2018-10-17.png" alt="A screenshot of entering a name on the Electrum-NMC Buy Names tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Available.png" alt="A screenshot of a name available for registration on the Electrum-NMC Buy Names tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Buy-Name-Available-2018-10-17.png" alt="A screenshot of a name available for registration on the Electrum-NMC Buy Names tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-17-Buy-Name-Taken.png" alt="A screenshot of a name already taken on the Electrum-NMC Buy Names tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Buy-Name-Taken-2018-10-17.png" alt="A screenshot of a name already taken on the Electrum-NMC Buy Names tab." /></p>
 
     <p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -3651,9 +3701,9 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
 
     <p>And now, screenshots!</p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-06-Manage-Names-Tab.png" alt="A screenshot of the &quot;Renew Name&quot; and &quot;Configure Name...&quot; buttons visible in the Electrum-NMC Manage Names tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Manage-Names-Tab-2018-10-06.png" alt="A screenshot of the &quot;Renew Name&quot; and &quot;Configure Name...&quot; buttons visible in the Electrum-NMC Manage Names tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-06-Configure-Name-Dialog.png" alt="A screenshot of the &quot;Configure Name&quot; dialog in Electrum-NMC." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Configure-Name-Dialog-2018-10-06.png" alt="A screenshot of the &quot;Configure Name&quot; dialog in Electrum-NMC." /></p>
 
     <p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -3742,13 +3792,13 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
 
     <p>So, with that explanation out of the way, here’s what you really came here for: <em>screenshots!</em></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-09-29-Names-in-History-Tab.png" alt="A screenshot of name transactions visible in the Electrum-NMC History tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Names-in-History-Tab-2018-09-29.png" alt="A screenshot of name transactions visible in the Electrum-NMC History tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-09-29-Name-in-Transaction-Details.png" alt="A screenshot of name data visible in the Electrum-NMC Transaction Details tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Name-in-Transaction-Details-2018-09-29.png" alt="A screenshot of name data visible in the Electrum-NMC Transaction Details tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-09-29-Name-Show-in-Console-Tab.png" alt="A screenshot of a name_show command's output in the Electrum-NMC Console tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Name-Show-in-Console-Tab-2018-09-29.png" alt="A screenshot of a name_show command's output in the Electrum-NMC Console tab." /></p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-10-01-Manage-Names-Tab.png" alt="A screenshot of the Electrum-NMC Manage Names tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Manage-Names-Tab-2018-10-01.png" alt="A screenshot of the Electrum-NMC Manage Names tab." /></p>
 
     <p>This work was funded by Cyphrs and NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -4026,7 +4076,7 @@ integration of ncdns with Tor Browser in a reproducible manner.</p>
 
     <p>Most of the details of this work are fairly mundane implementation details that probably won’t interest most readers.  So, instead, how about a screenshot?</p>
 
-    <p><img src="/images/screenshots/electrum-nmc/2018-07-17-Names-in-History-Tab.png" alt="A screenshot of name transactions visible in the Electrum-NMC History tab." /></p>
+    <p><img src="/images/screenshots/electrum-nmc/Names-in-History-Tab-2018-07-17.png" alt="A screenshot of name transactions visible in the Electrum-NMC History tab." /></p>
 
     <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
@@ -7213,21 +7263,21 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
