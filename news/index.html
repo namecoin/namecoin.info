@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -222,6 +222,56 @@ Decentralized<br /><strong>secure</strong> names.
     <p>This change does not in any way impact how Electrum makes connections to other hosts over the network. This change is not expected to break any existing behaviors.</p>
 
     <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2021/12/18/preventing-expiration-mishaps-with-semi-expiration.html">Preventing Expiration Mishaps with Semi-Expiration</a></h1>
+    <p class="post-meta">Dec 18, 2021 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?</p>
+
+    <p>Let’s start by observing two fundamental properties of expired names:</p>
+
+    <ol>
+  <li>Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li>Expired domains can be registered by anyone.</li>
+</ol>
+
+    <p>Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?</p>
+
+    <ol>
+  <li><strong>Policy layer</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Consensus layer</strong>: Expired domains can be registered by anyone.</li>
+</ol>
+
+    <p>And what are their respective impacts?</p>
+
+    <ol>
+  <li><strong>Temporary DoS</strong>: Expired names resolve as <code class="highlighter-rouge">NXDOMAIN</code>.</li>
+  <li><strong>Permanent hijacking</strong>: Expired domains can be registered by anyone.</li>
+</ol>
+
+    <p>So what happens if we make the following change?  We introduce a new state for names: <em>Semi-Expired</em>.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?</p>
+
+    <p>Let’s imagine that Alice forgets to renew her name before it semi-expires.  As a result, her name becomes unresolvable.  This causes her website to go down.  Some of Alice’s users notice this, and complain to her via email, social media, or some other out-of-band medium.  Alice then renews her name, which reverts the semi-expired state.  And this out-of-band process gives Alice 4 weeks to fix things before she is at risk of having her name stolen.  That certainly seems like an improvement.  And this is solely a policy change, not a consensus change, making it cheap to implement and deploy.</p>
+
+    <p>I’ve now implemented this in Electrum-NMC.  The RPC interface adds fields for the “semi-expired” state, and the Manage Names GUI counts down to semi-expiration rather than expiration.</p>
+
+    <p>Some additional observations:</p>
+
+    <ul>
+  <li>Semi-expiration will only help you as a name owner if you actually actively use your name.  It won’t help you if you hold an unused name for squatting purposes.  While I don’t think any of the Namecoin developers are opposed to additional anti-expiry mechanisms that work for squatters, I think it’s arguably a good thing that semi-expiration incentivizes active use of names.</li>
+  <li>Because semi-expiration decreases the effective duration of resolvability for names (this is a necessary consequence of implementing semi-expiration on the policy layer), they mean that name owners will renew somewhat more often with respect to time.  Theoretically, this means that name owners will pay higher fees with respect to time, and that the blockchain will grow faster with respect to time.  In practice, the difference is likely to be negligible, and if it is detectable at all, it will be in the form of increased block reward (which indirectly improves blockchain hashrate) and decreased incentive to squat on names (which indirectly improves usefulness of the system).</li>
+</ul>
+
+    <p>Semi-expiration should be released in Electrum-NMC v4.0.0b1.  Namecoin Core will hopefully follow soon after.</p>
 
   </article>
 
@@ -7213,25 +7263,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>
