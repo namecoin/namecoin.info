@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 18 Feb 2022 07:47:57 +0000</pubDate>
-    <lastBuildDate>Fri, 18 Feb 2022 07:47:57 +0000</lastBuildDate>
+    <pubDate>Fri, 18 Feb 2022 08:26:04 +0000</pubDate>
+    <lastBuildDate>Fri, 18 Feb 2022 08:26:04 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,56 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Preventing Expiration Mishaps with Semi-Expiration</title>
+        <description>&lt;p&gt;Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?&lt;/p&gt;
+
+&lt;p&gt;Let’s start by observing two fundamental properties of expired names:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Expired domains can be registered by anyone.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Policy layer&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Consensus layer&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;And what are their respective impacts?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Temporary DoS&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Permanent hijacking&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So what happens if we make the following change?  We introduce a new state for names: &lt;em&gt;Semi-Expired&lt;/em&gt;.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?&lt;/p&gt;
+
+&lt;p&gt;Let’s imagine that Alice forgets to renew her name before it semi-expires.  As a result, her name becomes unresolvable.  This causes her website to go down.  Some of Alice’s users notice this, and complain to her via email, social media, or some other out-of-band medium.  Alice then renews her name, which reverts the semi-expired state.  And this out-of-band process gives Alice 4 weeks to fix things before she is at risk of having her name stolen.  That certainly seems like an improvement.  And this is solely a policy change, not a consensus change, making it cheap to implement and deploy.&lt;/p&gt;
+
+&lt;p&gt;I’ve now implemented this in Electrum-NMC.  The RPC interface adds fields for the “semi-expired” state, and the Manage Names GUI counts down to semi-expiration rather than expiration.&lt;/p&gt;
+
+&lt;p&gt;Some additional observations:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Semi-expiration will only help you as a name owner if you actually actively use your name.  It won’t help you if you hold an unused name for squatting purposes.  While I don’t think any of the Namecoin developers are opposed to additional anti-expiry mechanisms that work for squatters, I think it’s arguably a good thing that semi-expiration incentivizes active use of names.&lt;/li&gt;
+  &lt;li&gt;Because semi-expiration decreases the effective duration of resolvability for names (this is a necessary consequence of implementing semi-expiration on the policy layer), they mean that name owners will renew somewhat more often with respect to time.  Theoretically, this means that name owners will pay higher fees with respect to time, and that the blockchain will grow faster with respect to time.  In practice, the difference is likely to be negligible, and if it is detectable at all, it will be in the form of increased block reward (which indirectly improves blockchain hashrate) and decreased incentive to squat on names (which indirectly improves usefulness of the system).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Semi-expiration should be released in Electrum-NMC v4.0.0b1.  Namecoin Core will hopefully follow soon after.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Go DNS Seeder Improvements</title>
@@ -107,56 +157,6 @@
         <link>https://namecoin.bit/2022/01/07/unix-domain-sockets-in-electrum.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2022/01/07/unix-domain-sockets-in-electrum.html</guid>
         <dc:creator>yanmaani</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Preventing Expiration Mishaps with Semi-Expiration</title>
-        <description>&lt;p&gt;Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?&lt;/p&gt;
-
-&lt;p&gt;Let’s start by observing two fundamental properties of expired names:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Expired domains can be registered by anyone.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Policy layer&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Consensus layer&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;And what are their respective impacts?&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Temporary DoS&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Permanent hijacking&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So what happens if we make the following change?  We introduce a new state for names: &lt;em&gt;Semi-Expired&lt;/em&gt;.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?&lt;/p&gt;
-
-&lt;p&gt;Let’s imagine that Alice forgets to renew her name before it semi-expires.  As a result, her name becomes unresolvable.  This causes her website to go down.  Some of Alice’s users notice this, and complain to her via email, social media, or some other out-of-band medium.  Alice then renews her name, which reverts the semi-expired state.  And this out-of-band process gives Alice 4 weeks to fix things before she is at risk of having her name stolen.  That certainly seems like an improvement.  And this is solely a policy change, not a consensus change, making it cheap to implement and deploy.&lt;/p&gt;
-
-&lt;p&gt;I’ve now implemented this in Electrum-NMC.  The RPC interface adds fields for the “semi-expired” state, and the Manage Names GUI counts down to semi-expiration rather than expiration.&lt;/p&gt;
-
-&lt;p&gt;Some additional observations:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Semi-expiration will only help you as a name owner if you actually actively use your name.  It won’t help you if you hold an unused name for squatting purposes.  While I don’t think any of the Namecoin developers are opposed to additional anti-expiry mechanisms that work for squatters, I think it’s arguably a good thing that semi-expiration incentivizes active use of names.&lt;/li&gt;
-  &lt;li&gt;Because semi-expiration decreases the effective duration of resolvability for names (this is a necessary consequence of implementing semi-expiration on the policy layer), they mean that name owners will renew somewhat more often with respect to time.  Theoretically, this means that name owners will pay higher fees with respect to time, and that the blockchain will grow faster with respect to time.  In practice, the difference is likely to be negligible, and if it is detectable at all, it will be in the form of increased block reward (which indirectly improves blockchain hashrate) and decreased incentive to squat on names (which indirectly improves usefulness of the system).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Semi-expiration should be released in Electrum-NMC v4.0.0b1.  Namecoin Core will hopefully follow soon after.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 18 Dec 2021 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2021/12/18/preventing-expiration-mishaps-with-semi-expiration.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2021/12/18/preventing-expiration-mishaps-with-semi-expiration.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
