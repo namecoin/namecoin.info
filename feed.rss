@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 18 Feb 2022 08:28:32 +0000</pubDate>
-    <lastBuildDate>Fri, 18 Feb 2022 08:28:32 +0000</lastBuildDate>
+    <pubDate>Fri, 18 Feb 2022 08:55:25 +0000</pubDate>
+    <lastBuildDate>Fri, 18 Feb 2022 08:55:25 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -26,21 +26,21 @@
 
 &lt;ol&gt;
   &lt;li&gt;Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Expired domains can be registered by anyone.&lt;/li&gt;
+  &lt;li&gt;Expired names can be registered by anyone.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Astute readers will have noticed that these are, in principle, distinct properties.  Where are they enforced?&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;Policy layer&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Consensus layer&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Consensus layer&lt;/strong&gt;: Expired names can be registered by anyone.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;And what are their respective impacts?&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;Temporary DoS&lt;/strong&gt;: Expired names resolve as &lt;code class=&quot;highlighter-rouge&quot;&gt;NXDOMAIN&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Permanent hijacking&lt;/strong&gt;: Expired domains can be registered by anyone.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Permanent hijacking&lt;/strong&gt;: Expired names can be registered by anyone.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;So what happens if we make the following change?  We introduce a new state for names: &lt;em&gt;Semi-Expired&lt;/em&gt;.  Semi-expired names obey Property 1 but not Property 2.  Names semi-expire when they come within 4032 blocks (4 weeks) of expiration.  Does the situation improve?&lt;/p&gt;
