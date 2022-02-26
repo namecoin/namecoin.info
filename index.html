@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -180,6 +180,12 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<h3 id="the-namecoin-lab-leak-part-2-how-p11trustmod-vaccinates-against-the-unmaintainable-code-omicron-variant"><a href="/2022/02/22/lab-leak-part-2-p11trustmod.html">The Namecoin Lab Leak (Part 2): How p11trustmod Vaccinates Against the Unmaintainable Code Omicron Variant</a></h3>
+
+<p><strong><a href="/2022/02/22/lab-leak-part-2-p11trustmod.html">2022-02-22</a></strong> In a <a href="/2021/07/10/lab-leak-p11mod.html">previous post</a>, I covered how splitting off p11mod from ncp11 improved code readability and auditability by using a higher-level API.  Jacob Hoffman-Andrews’s p11 API is certainly more high-level than Miek Gieben’s pkcs11 API, but I wasn’t satisfied.  Consider that most PKCS#11 usage in the wild involves encryption or signature algorithms that operate on public or private keys.  In contrast, PKCS#11 modules like Mozilla CKBI or Namecoin ncp11 are strictly using the PKCS#11 API as a read-only database API, and only for X.509 certificates [1] – public and private keys are nowhere to be found.  Given these limits on what usage Namecoin will need, we can construct a much higher-level (and much simpler) API than even the p11 API.</p>
+
+<p><a href="/2022/02/22/lab-leak-part-2-p11trustmod.html">Read more…</a></p>
+
 <h3 id="preventing-expiration-mishaps-with-semi-expiration"><a href="/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">Preventing Expiration Mishaps with Semi-Expiration</a></h3>
 
 <p><strong><a href="/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">2022-02-18</a></strong> Forgetting to renew a Namecoin name on time is rather catastrophic: it means that anyone else can re-register it and then hold the name hostage.  In practice today, it is likely that such re-registrations will be done by Good Samaritan volunteers who are happy to donate the name back to you.  However, as per the cypherpunk philosophy of “don’t trust, verify”, it’s not desirable to rely on those Good Samaritans, since they constitute a trusted third party.  How can we improve this situation?</p>
@@ -234,12 +240,6 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p><a href="/2021/09/14/namecoin-qt-buy-names-tab.html">Read more…</a></p>
 
-<h3 id="namecoin-qt-decoration-improvements"><a href="/2021/08/23/namecoin-qt-decoration-improvements.html">Namecoin-Qt Decoration Improvements</a></h3>
-
-<p><strong><a href="/2021/08/23/namecoin-qt-decoration-improvements.html">2021-08-23</a></strong> I’ve been improving the UX of decorations applied to transactions in Namecoin-Qt.  For comparison, here’s what it looked like before the improvements:</p>
-
-<p><a href="/2021/08/23/namecoin-qt-decoration-improvements.html">Read more…</a></p>
-
 <p><a href="/news/">Earlier news</a></p>
 
 <p>For the latest news go to the <a href="https://forum.namecoin.org/">Namecoin forum</a> or check out <a href="https://www.reddit.com/r/namecoin">r/namecoin</a>.</p>
@@ -291,25 +291,25 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
                 
             </ul>
         </div>
