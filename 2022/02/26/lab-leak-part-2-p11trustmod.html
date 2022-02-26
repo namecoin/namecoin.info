@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>The Namecoin Lab Leak (Part 2): How p11trustmod Vaccinates Against the Unmaintainable Code Omicron Variant</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
+
+    <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/js/jquery-2.2.4.min.js"></script>
+    <script src="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/js/bootstrap.min.js"></script>
+    <script src="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/js/remove-nojs.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/'><img src='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png' alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/'>Download</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/'>Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/dot-bit/'>Home</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/dot-bit/security-model/'>Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/faq/'>FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/chat/'>Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/explorers/'>Explorers</a></li>
+                            <li><a href='https://github.com/namecoin/metrics.namecoin.bit/tree/master/'>Metrics</a></li>
+                            <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/whitepaper/'>Whitepaper</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/team/'>Team</a></li>
+                    <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/news/'>News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/contribute/'>Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<span id="default-tagline">
+
+<strong>Against<br />censorship.</strong>
+</span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">The Namecoin Lab Leak (Part 2): How p11trustmod Vaccinates Against the Unmaintainable Code Omicron Variant</h1>
+<p class="post-meta">Feb 26, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>In a <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/07/10/lab-leak-p11mod.html">previous post</a>, I covered how splitting off p11mod from ncp11 improved code readability and auditability by using a higher-level API.  Jacob Hoffman-Andrews’s p11 API is certainly more high-level than Miek Gieben’s pkcs11 API, but I wasn’t satisfied.  Consider that most PKCS#11 usage in the wild involves encryption or signature algorithms that operate on public or private keys.  In contrast, PKCS#11 modules like Mozilla CKBI or Namecoin ncp11 are strictly using the PKCS#11 API as a read-only database API, and only for X.509 certificates [1] – public and private keys are nowhere to be found.  Given these limits on what usage Namecoin will need, we can construct a much higher-level (and much simpler) API than even the p11 API.</p>
+
+<p>For reference, here are the function prototypes of p11:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjects finds any objects in the token matching the template.
+func (s Session) FindObjects(template []*pkcs11.Attribute) ([]Object, error)
+
+Attribute gets exactly one attribute from a PKCS#11 object, returning an error if the attribute is not found, or if multiple attributes are returned. On success, it will return the value of that attribute as a slice of bytes. For attributes not present (i.e. CKR_ATTRIBUTE_TYPE_INVALID), Attribute returns a nil slice and nil error.
+func (o Object) Attribute(attributeType uint) ([]byte, error)
+</code></pre></div></div>
+
+<p>Note that the p11 API is intentionally very generic; every object is an arbitrary mapping of attribute types (generic integers) to attribute values (generic binary data), and searching for objects requires constructing a template that looks about as generic as the object itself.  This necessarily involves a lot of boilerplate.  Here’s the higher-level API, which I call p11trustmod:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type CertificateData struct {
+	Label string
+	Certificate *x509.Certificate
+	BuiltinPolicy bool
+	TrustServerAuth uint
+	TrustClientAuth uint
+	TrustCodeSigning uint
+	TrustEmailProtection uint
+}
+
+func (b Backend) QueryCertificate(cert *x509.Certificate) ([]*CertificateData, error)
+func (b Backend) QuerySubject(subject *pkix.Name) ([]*CertificateData, error)
+func (b Backend) QueryIssuerSerial(issuer *pkix.Name, serial *big.Int) ([]*CertificateData, error)
+func (b Backend) QueryAll() ([]*CertificateData, error)
+</code></pre></div></div>
+
+<p>As you can see, this API matches the behavior of libraries like NSS, which query for certificates by only a few search keys: the certificate itself, the subject, the issuer and serial, and asking for all the certificates at once.  In ncp11, we extract the <code class="highlighter-rouge">.bit</code> domain from the subject or the issuer.  (If the entire certificate is searched for, the subject and issuer are both within the <code class="highlighter-rouge">x509.Certificate</code> struct.  The <code class="highlighter-rouge">QueryAll</code> search method can’t be used to look up <code class="highlighter-rouge">.bit</code> certificates, but it <em>can</em> be used to find the Namecoin root CA, which is sufficient.)  Here’s some of what p11trustmod is doing behind the scenes:</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">FindObjects</code> function checks which attributes are in the search template, and calls <code class="highlighter-rouge">QueryCertificate</code>, <code class="highlighter-rouge">QuerySubject</code>, or <code class="highlighter-rouge">QueryIssuerSerial</code> as appropriate.  Thus, ncp11 won’t need to deal with processing attributes from the search template.</li>
+  <li>The <code class="highlighter-rouge">FindObjects</code> function always calls <code class="highlighter-rouge">QueryAll</code> and appends those results.  This allows ncp11 to return certain objects such as the Namecoin root CA even if those objects aren’t being referenced by name [2].</li>
+  <li>The <code class="highlighter-rouge">FindObjects</code> function filters all the query results to make sure it actually matches the search template.  This allows ncp11 to simply return whatever Namecoin says matches the <code class="highlighter-rouge">.bit</code> domain, without worrying about the search template.</li>
+  <li>The <code class="highlighter-rouge">Attribute</code> function automatically fills in sane values for boilerplate attributes such as <code class="highlighter-rouge">CKA_TOKEN</code> (always true), <code class="highlighter-rouge">CKA_PRIVATE</code> (always false), <code class="highlighter-rouge">CKA_MODIFIABLE</code> (always false), and <code class="highlighter-rouge">CKA_CERTIFICATE_TYPE</code> (always <code class="highlighter-rouge">CKC_X_509</code>).</li>
+  <li>The <code class="highlighter-rouge">Attribute</code> function automatically extracts the subject, issuer, serial number, and hash from the certificate, so ncp11 can just return the certificate.</li>
+  <li>The backend (e.g. ncp11) can choose whether to supply trust bits, and if so, p11trustmod synthesizes trust bits objects for the Namecoin root CA from the <code class="highlighter-rouge">BuiltinPolicy</code>, <code class="highlighter-rouge">TrustServerAuth</code>, <code class="highlighter-rouge">TrustClientAuth</code>, <code class="highlighter-rouge">TrustCodeSigning</code>, and <code class="highlighter-rouge">TrustEmailProtection</code> fields.  There are some tradeoffs here:
+    <ul>
+      <li>The <code class="highlighter-rouge">BuiltinPolicy</code> trust bit causes Certificate Transparency errors in Chromium, but enforces better security (e.g. blacklisting obsolete crypto and enforcing key rotations) in Firefox.</li>
+      <li>Omitting all trust bits from ncp11 and putting the Namecoin root CA in the standard trust store instead allows ncp11 to run with improved sandboxing.  However, depending on which trust store implementation is used, this might preclude the security benefits of the <code class="highlighter-rouge">BuiltinPolicy</code> trust bit.  p11-kit, which is used in Fedora and Arch, supports the <code class="highlighter-rouge">BuiltinPolicy</code> trust bit.  Softoken, which is used in Debian, Windows, and macOS, does not.  Since Tor Browser does not have a mutable trust store (for fingerprinting reasons), this sandboxing is probably not possible in Tor Browser.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>So, all things considered, p11trustmod eliminates quite a lot of boilerplate code that ncp11 would have otherwise needed to mix in with the Namecoin-specific ncp11 code.  By proactively implementing this additional layer of abstraction between p11mod and ncp11, we reduce the risk of a second “Omicron lab leak” of insufficiently auditable code.  p11trustmod is nearly finished with implementation but still needs testing; once testing is complete, we can move on to the Namecoin-specific code in ncp11, which I expect to be quite simple since the complex things have been split out into p11mod/p11trustmod.</p>
+
+<p>In other p11mod news, p11mod now supports generating key pairs.  Thanks to OpenDNSSEC for facilitating this.</p>
+
+<p>[1] Technically this isn’t quite true.  In addition to X.509 certificates, there are a couple of other object classes that are used for setting the trust policy bits on the Namecoin root CA.  Those classes are only used by optional features, though.</p>
+
+<p>[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.</p>
+
+</article>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+                <li><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/license.html"><i class="fa fa-2x" title="Copyright">Copyright</i></a></li>
+                <li><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/team/security/"><i class="fa fa-2x" title="Vulnerability Disclosure">Security</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-02-26-lab-leak-part-2-p11trustmod.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/2022/02/26/lab-leak-part-2-p11trustmod.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/02/26/lab-leak-part-2-p11trustmod.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/02/26/lab-leak-part-2-p11trustmod.html">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+            </ul>
+        </div>
+</footer>
+
+
+  </body>
+
+</html>

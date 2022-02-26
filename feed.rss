@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 18 Feb 2022 10:35:02 +0000</pubDate>
-    <lastBuildDate>Fri, 18 Feb 2022 10:35:02 +0000</lastBuildDate>
+    <pubDate>Sat, 26 Feb 2022 12:10:35 +0000</pubDate>
+    <lastBuildDate>Sat, 26 Feb 2022 12:10:35 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,71 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>The Namecoin Lab Leak (Part 2): How p11trustmod Vaccinates Against the Unmaintainable Code Omicron Variant</title>
+        <description>&lt;p&gt;In a &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/07/10/lab-leak-p11mod.html&quot;&gt;previous post&lt;/a&gt;, I covered how splitting off p11mod from ncp11 improved code readability and auditability by using a higher-level API.  Jacob Hoffman-Andrews’s p11 API is certainly more high-level than Miek Gieben’s pkcs11 API, but I wasn’t satisfied.  Consider that most PKCS#11 usage in the wild involves encryption or signature algorithms that operate on public or private keys.  In contrast, PKCS#11 modules like Mozilla CKBI or Namecoin ncp11 are strictly using the PKCS#11 API as a read-only database API, and only for X.509 certificates [1] – public and private keys are nowhere to be found.  Given these limits on what usage Namecoin will need, we can construct a much higher-level (and much simpler) API than even the p11 API.&lt;/p&gt;
+
+&lt;p&gt;For reference, here are the function prototypes of p11:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FindObjects finds any objects in the token matching the template.
+func (s Session) FindObjects(template []*pkcs11.Attribute) ([]Object, error)
+
+Attribute gets exactly one attribute from a PKCS#11 object, returning an error if the attribute is not found, or if multiple attributes are returned. On success, it will return the value of that attribute as a slice of bytes. For attributes not present (i.e. CKR_ATTRIBUTE_TYPE_INVALID), Attribute returns a nil slice and nil error.
+func (o Object) Attribute(attributeType uint) ([]byte, error)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that the p11 API is intentionally very generic; every object is an arbitrary mapping of attribute types (generic integers) to attribute values (generic binary data), and searching for objects requires constructing a template that looks about as generic as the object itself.  This necessarily involves a lot of boilerplate.  Here’s the higher-level API, which I call p11trustmod:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;type CertificateData struct {
+	Label string
+	Certificate *x509.Certificate
+	BuiltinPolicy bool
+	TrustServerAuth uint
+	TrustClientAuth uint
+	TrustCodeSigning uint
+	TrustEmailProtection uint
+}
+
+func (b Backend) QueryCertificate(cert *x509.Certificate) ([]*CertificateData, error)
+func (b Backend) QuerySubject(subject *pkix.Name) ([]*CertificateData, error)
+func (b Backend) QueryIssuerSerial(issuer *pkix.Name, serial *big.Int) ([]*CertificateData, error)
+func (b Backend) QueryAll() ([]*CertificateData, error)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As you can see, this API matches the behavior of libraries like NSS, which query for certificates by only a few search keys: the certificate itself, the subject, the issuer and serial, and asking for all the certificates at once.  In ncp11, we extract the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain from the subject or the issuer.  (If the entire certificate is searched for, the subject and issuer are both within the &lt;code class=&quot;highlighter-rouge&quot;&gt;x509.Certificate&lt;/code&gt; struct.  The &lt;code class=&quot;highlighter-rouge&quot;&gt;QueryAll&lt;/code&gt; search method can’t be used to look up &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certificates, but it &lt;em&gt;can&lt;/em&gt; be used to find the Namecoin root CA, which is sufficient.)  Here’s some of what p11trustmod is doing behind the scenes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;FindObjects&lt;/code&gt; function checks which attributes are in the search template, and calls &lt;code class=&quot;highlighter-rouge&quot;&gt;QueryCertificate&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;QuerySubject&lt;/code&gt;, or &lt;code class=&quot;highlighter-rouge&quot;&gt;QueryIssuerSerial&lt;/code&gt; as appropriate.  Thus, ncp11 won’t need to deal with processing attributes from the search template.&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;FindObjects&lt;/code&gt; function always calls &lt;code class=&quot;highlighter-rouge&quot;&gt;QueryAll&lt;/code&gt; and appends those results.  This allows ncp11 to return certain objects such as the Namecoin root CA even if those objects aren’t being referenced by name [2].&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;FindObjects&lt;/code&gt; function filters all the query results to make sure it actually matches the search template.  This allows ncp11 to simply return whatever Namecoin says matches the &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain, without worrying about the search template.&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Attribute&lt;/code&gt; function automatically fills in sane values for boilerplate attributes such as &lt;code class=&quot;highlighter-rouge&quot;&gt;CKA_TOKEN&lt;/code&gt; (always true), &lt;code class=&quot;highlighter-rouge&quot;&gt;CKA_PRIVATE&lt;/code&gt; (always false), &lt;code class=&quot;highlighter-rouge&quot;&gt;CKA_MODIFIABLE&lt;/code&gt; (always false), and &lt;code class=&quot;highlighter-rouge&quot;&gt;CKA_CERTIFICATE_TYPE&lt;/code&gt; (always &lt;code class=&quot;highlighter-rouge&quot;&gt;CKC_X_509&lt;/code&gt;).&lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Attribute&lt;/code&gt; function automatically extracts the subject, issuer, serial number, and hash from the certificate, so ncp11 can just return the certificate.&lt;/li&gt;
+  &lt;li&gt;The backend (e.g. ncp11) can choose whether to supply trust bits, and if so, p11trustmod synthesizes trust bits objects for the Namecoin root CA from the &lt;code class=&quot;highlighter-rouge&quot;&gt;BuiltinPolicy&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;TrustServerAuth&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;TrustClientAuth&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;TrustCodeSigning&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;TrustEmailProtection&lt;/code&gt; fields.  There are some tradeoffs here:
+    &lt;ul&gt;
+      &lt;li&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;BuiltinPolicy&lt;/code&gt; trust bit causes Certificate Transparency errors in Chromium, but enforces better security (e.g. blacklisting obsolete crypto and enforcing key rotations) in Firefox.&lt;/li&gt;
+      &lt;li&gt;Omitting all trust bits from ncp11 and putting the Namecoin root CA in the standard trust store instead allows ncp11 to run with improved sandboxing.  However, depending on which trust store implementation is used, this might preclude the security benefits of the &lt;code class=&quot;highlighter-rouge&quot;&gt;BuiltinPolicy&lt;/code&gt; trust bit.  p11-kit, which is used in Fedora and Arch, supports the &lt;code class=&quot;highlighter-rouge&quot;&gt;BuiltinPolicy&lt;/code&gt; trust bit.  Softoken, which is used in Debian, Windows, and macOS, does not.  Since Tor Browser does not have a mutable trust store (for fingerprinting reasons), this sandboxing is probably not possible in Tor Browser.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, all things considered, p11trustmod eliminates quite a lot of boilerplate code that ncp11 would have otherwise needed to mix in with the Namecoin-specific ncp11 code.  By proactively implementing this additional layer of abstraction between p11mod and ncp11, we reduce the risk of a second “Omicron lab leak” of insufficiently auditable code.  p11trustmod is nearly finished with implementation but still needs testing; once testing is complete, we can move on to the Namecoin-specific code in ncp11, which I expect to be quite simple since the complex things have been split out into p11mod/p11trustmod.&lt;/p&gt;
+
+&lt;p&gt;In other p11mod news, p11mod now supports generating key pairs.  Thanks to OpenDNSSEC for facilitating this.&lt;/p&gt;
+
+&lt;p&gt;[1] Technically this isn’t quite true.  In addition to X.509 certificates, there are a couple of other object classes that are used for setting the trust policy bits on the Namecoin root CA.  Those classes are only used by optional features, though.&lt;/p&gt;
+
+&lt;p&gt;[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 26 Feb 2022 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Preventing Expiration Mishaps with Semi-Expiration</title>
@@ -320,30 +385,6 @@
         <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
         <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/09/14/namecoin-qt-buy-names-tab.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/09/14/namecoin-qt-buy-names-tab.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin-Qt Decoration Improvements</title>
-        <description>&lt;p&gt;I’ve been improving the UX of decorations applied to transactions in Namecoin-Qt.  For comparison, here’s what it looked like before the improvements:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/namecoin-core/transactions-2021-08-02.png&quot; alt=&quot;A screenshot of the Transactions tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And after:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/namecoin-core/transactions-2021-08-09.png&quot; alt=&quot;Another screenshot of the Transactions tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see, jargon such as &lt;code class=&quot;highlighter-rouge&quot;&gt;NAME_FIRSTUPDATE&lt;/code&gt; has been replaced with more user-friendly terminology such as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name registration&lt;/code&gt; and has been moved to the &lt;code class=&quot;highlighter-rouge&quot;&gt;Type&lt;/code&gt; column (replacing the redundant &lt;code class=&quot;highlighter-rouge&quot;&gt;Name operation&lt;/code&gt; text).  Name updates that do not change the value are now marked as &lt;code class=&quot;highlighter-rouge&quot;&gt;Name renewal&lt;/code&gt;, which more precisely conveys the nature of such transactions (this required some plumbing, as previously the transaction decoration code did not have access to the previous value of a name transaction).  Additionally (not pictured above), name transfers are now decorated appropriately.&lt;/p&gt;
-
-&lt;p&gt;These improvements are expected to be included in Namecoin Core 23.0 (22.0 has already branched from master and should be released soon).&lt;/p&gt;
-</description>
-        <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/08/23/namecoin-qt-decoration-improvements.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/08/23/namecoin-qt-decoration-improvements.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
