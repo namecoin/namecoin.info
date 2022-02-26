@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 26 Feb 2022 07:56:48 +0000</pubDate>
-    <lastBuildDate>Sat, 26 Feb 2022 07:56:48 +0000</lastBuildDate>
+    <pubDate>Sat, 26 Feb 2022 12:02:07 +0000</pubDate>
+    <lastBuildDate>Sat, 26 Feb 2022 12:02:07 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -73,9 +73,9 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 
 &lt;p&gt;[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/02/22/lab-leak-part-2-p11trustmod.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/02/22/lab-leak-part-2-p11trustmod.html</guid>
+        <pubDate>Sat, 26 Feb 2022 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/02/26/lab-leak-part-2-p11trustmod.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/02/26/lab-leak-part-2-p11trustmod.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
