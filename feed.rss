@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 26 Feb 2022 11:59:51 +0000</pubDate>
-    <lastBuildDate>Sat, 26 Feb 2022 11:59:51 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Mar 2022 10:31:26 +0000</pubDate>
+    <lastBuildDate>Mon, 07 Mar 2022 10:31:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,37 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Receives 30k EUR in Additional Funding from NLnet Foundation’s Internet Hardening Fund and Netherlands Ministry of Economic Affairs and Climate Policy</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving 30,000 EUR (roughly 33,306 USD) in additional funding from &lt;a href=&quot;https://nlnet.nl/&quot;&gt;NLnet Foundation&lt;/a&gt;’s Internet Hardening Fund.  If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).  The &lt;a href=&quot;https://nlnet.nl/internethardening/&quot;&gt;Internet Hardening Fund&lt;/a&gt; is managed by NLnet and funded by the &lt;a href=&quot;https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat&quot;&gt;Netherlands Ministry of Economic Affairs and Climate Policy&lt;/a&gt;.  Unlike our &lt;a href=&quot;/2021/04/30/funding-from-nlnet.html&quot;&gt;already-active funding&lt;/a&gt; from NLnet’s NGI0 Discovery Fund, which is focused on Namecoin Core and Electrum-NMC, this new funding is focused on TLS use cases.&lt;/p&gt;
+
+&lt;p&gt;We will use this funding to work on the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Namecoin interoperability with TLS implementations that use AIA.  In addition to reducing attack surface of Namecoin TLS on Windows, this lays the groundwork for Namecoin TLS support on Android/Linux, macOS, and iOS.&lt;/li&gt;
+  &lt;li&gt;Refactoring Namecoin TLS PKCS#11 interoperability to use higher-level API’s that are more straightforward to audit.  In addition to improving security and reliability of Namecoin TLS on Firefox (all OS’s) and GNU/Linux (most browsers), this lays the groundwork for things like decentralized TLS with &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; domains (in collaboration with the Tor developers), and is likely to benefit 3rd-party developers who wish to create PKCS#11 modules in Go (e.g. for HSM or smart card use cases).&lt;/li&gt;
+  &lt;li&gt;Adding imposed name constraint support to NSS’s TLS trust store (used by Firefox), similar to the existing functionality that exists in CryptoAPI (used by Windows) and GnuTLS (used by GNOME Web).  In addition to allowing us to simplify Namecoin’s TLS interoperability code considerably, this is likely to benefit system-wide trust policy projects such as sponsored by Red Hat.&lt;/li&gt;
+  &lt;li&gt;Auditing TLS clients for name constraint bugs, using Netflix’s BetterTLS test suite.  This helps ensure that Namecoin’s security guarantees cannot be bypassed by exploiting bugs in 3rd-party applications.&lt;/li&gt;
+  &lt;li&gt;Improved integration testing for Namecoin TLS PKCS#11 interoperability.  In addition to helping us review PR’s faster, this helps ensure that future changes in third-party applications/libraries don’t cause problems for Namecoin.&lt;/li&gt;
+  &lt;li&gt;Windows installer for Namecoin TLS in Firefox and/or Tor Browser.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This work will principally be done by developers Aerth and Jeremy Rand (who is the author of this post).&lt;/p&gt;
+
+&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the Netherlands government for recognizing that the economy and the climate require a hardened Internet.&lt;/p&gt;
+
+&lt;p&gt;We’ll be posting updates regularly as development proceeds.  Due to delays in paperwork processing, some work covered by this funding has already taken place; for transparency, we have amended the relevant past news posts to clarify that they were funded by Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 07 Mar 2022 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2022/03/07/namecoin-additional-funding-from-nlnet-internet-hardening-fund.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2022/03/07/namecoin-additional-funding-from-nlnet-internet-hardening-fund.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>The Namecoin Lab Leak (Part 2): How p11trustmod Vaccinates Against the Unmaintainable Code Omicron Variant</title>
@@ -72,6 +103,8 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 &lt;p&gt;[1] Technically this isn’t quite true.  In addition to X.509 certificates, there are a couple of other object classes that are used for setting the trust policy bits on the Namecoin root CA.  Those classes are only used by optional features, though.&lt;/p&gt;
 
 &lt;p&gt;[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Feb 2022 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2022/02/26/lab-leak-part-2-p11trustmod.html</link>
@@ -193,6 +226,8 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 &lt;p&gt;I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!&lt;/p&gt;
 
 &lt;p&gt;All of these improvements are now tested daily on Cirrus via p11proxy.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2022/01/27/p11mod-signatures.html</link>
@@ -357,6 +392,8 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 &lt;/ul&gt;
 
 &lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2021/09/25/ncdns-v0.2.2-released.html</link>
@@ -366,28 +403,6 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin-Qt Buy Names Tab</title>
-        <description>&lt;p&gt;Now that the Manage Names tab in Namecoin-Qt (which lets you update existing names in your wallet) is &lt;a href=&quot;/2021/02/16/namecoin-core-name-update-gui.html&quot;&gt;implemented&lt;/a&gt;, it’s time to move onto the Buy Names tab.  Like the Name Update GUI, this forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/buy-names-2021-08-22.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see, I kept things minimalist to enable faster review.  For example, there is not yet any UI element to tell you if a name already is registered (you’ll find out in such cases after clicking the button).  In addition, this UI only triggers the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; RPC method, not &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; (which you’ll need to do yourself via the console prior to using the Buy Names tab).  This is because Yanmaani is already working on RPC support for combining &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;; once his work on that is merged, this GUI should be convertible to use his work with a one-liner patch.&lt;/p&gt;
-
-&lt;p&gt;The Buy Names tab is expected to be included in Namecoin Core 23.0.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/09/14/namecoin-qt-buy-names-tab.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/09/14/namecoin-qt-buy-names-tab.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
