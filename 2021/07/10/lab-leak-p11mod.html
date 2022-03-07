@@ -174,6 +174,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -297,6 +301,8 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
 <p>In addition, I’ve improved testability of pkcs11mod/p11mod.  The repo now includes two example modules, pkcs11proxy and p11proxy.  These simply act as a passthrough shim between pkcs11mod and Miek’s pkcs11 package, and p11mod and Jacob’s p11 package, respectively.  Thus, you can load Mozilla’s CKBI (built-in certificates) module into NSS via the pkcs11proxy and p11proxy shims, and confirm that the resulting behavior matches loading CKBI into NSS without the shims (e.g. you can do a TLS handshake and make sure that certificate acceptance behavior matches).  So, there are now nightly builds of both pkcs11proxy and p11proxy courtesy of Cirrus, as well as nightly integration tests that make sure both pkcs11proxy and p11proxy work as expected in Firefox, Chromium, GNU Wget, tstclnt, and gnutls-client, among other applications.  This is a major improvement over the previous situation, where testing pkcs11mod required Namecoin-specific tests with ncp11.</p>
 
 <p>Coming soon: refactoring the Namecoin-specific parts of ncp11.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
@@ -1073,25 +1079,25 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Netherlands Ministry of Economic Affairs (via Internet Hardening Fund)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
