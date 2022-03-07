@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -191,11 +191,11 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 
 <p>In other p11mod news, p11mod now supports generating key pairs.  Thanks to OpenDNSSEC for facilitating this.</p>
 
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
 <p>[1] Technically this isn’t quite true.  In addition to X.509 certificates, there are a couple of other object classes that are used for setting the trust policy bits on the Namecoin root CA.  Those classes are only used by optional features, though.</p>
 
 <p>[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
@@ -1016,25 +1016,25 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
