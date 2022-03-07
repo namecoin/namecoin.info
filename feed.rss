@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 07 Mar 2022 10:31:26 +0000</pubDate>
-    <lastBuildDate>Mon, 07 Mar 2022 10:31:26 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Mar 2022 10:51:37 +0000</pubDate>
+    <lastBuildDate>Mon, 07 Mar 2022 10:51:37 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -100,11 +100,11 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
 
 &lt;p&gt;In other p11mod news, p11mod now supports generating key pairs.  Thanks to OpenDNSSEC for facilitating this.&lt;/p&gt;
 
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
 &lt;p&gt;[1] Technically this isn’t quite true.  In addition to X.509 certificates, there are a couple of other object classes that are used for setting the trust policy bits on the Namecoin root CA.  Those classes are only used by optional features, though.&lt;/p&gt;
 
 &lt;p&gt;[2] There are a few ways this might happen.  NSS sometimes retrieves a list of all known CA’s, e.g. to display in the certificate GUI.  NSS also retrieves trust bits objects by searching for an object class or a certificate hash instead of a PKIX name or full certificate.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
 </description>
         <pubDate>Sat, 26 Feb 2022 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2022/02/26/lab-leak-part-2-p11trustmod.html</link>
