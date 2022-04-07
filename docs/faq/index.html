@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -150,9 +150,12 @@
   </li>
   <li><a href="#design" id="markdown-toc-design">Design</a>    <ul>
       <li><a href="#what-is-a-namespace" id="markdown-toc-what-is-a-namespace">What is a namespace?</a></li>
-      <li><a href="#why-is-there-a-separate-name_new-step" id="markdown-toc-why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</a></li>
+      <li><a href="#why-is-there-a-separate-pre-registration-step" id="markdown-toc-why-is-there-a-separate-pre-registration-step">Why is there a separate pre-registration step?</a></li>
       <li><a href="#how-are-names-represented" id="markdown-toc-how-are-names-represented">How are names represented?</a></li>
       <li><a href="#what-if-i-spend-that-special-coin-by-mistake" id="markdown-toc-what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</a></li>
+      <li><a href="#why-does-registering-a-name-incur-a-fee" id="markdown-toc-why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</a></li>
+      <li><a href="#why-dont-name-registration-fees-go-to-miners" id="markdown-toc-why-dont-name-registration-fees-go-to-miners">Why don’t name registration fees go to miners?</a></li>
+      <li><a href="#why-do-names-have-to-be-renewed-regularly" id="markdown-toc-why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</a></li>
       <li><a href="#does-namecoin-support-layer-2-technologies" id="markdown-toc-does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</a></li>
       <li><a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so" id="markdown-toc-why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</a></li>
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
@@ -262,9 +265,9 @@
 
 <p>Namespaces are name prefixes used by applications to distinguish between different type of names in Namecoin.  For example, <code class="highlighter-rouge">d/example</code> is the domain name <code class="highlighter-rouge">example.bit</code>, and <code class="highlighter-rouge">id/example</code> is an identity.  Namespaces help prevent multiple applications from accidentally conflicting.  Namecoin itself isn’t aware of namespaces, and namespaces don’t have any effect on validation rules; they are only used by higher-level applications that use Namecoin.</p>
 
-<h3 id="why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</h3>
+<h3 id="why-is-there-a-separate-pre-registration-step">Why is there a separate pre-registration step?</h3>
 
-<p>This is to prevent others from stealing your new name by registering it quickly themselves when they see your transaction. The name is not broadcasted during the <code class="highlighter-rouge">name_new</code> step, only a salted hash of it. There is a mandatory minimum delay of 12 blocks before you can broadcast your name with <code class="highlighter-rouge">name_firstupdate</code>; this means that by the time other people know what name you’re registering, they would have to reverse at least 12 blocks in order to steal the name.</p>
+<p>This is to prevent others from stealing your new name by registering it quickly themselves when they see your transaction. The name is not broadcasted during the pre-registration step, only a salted hash of it. There is a mandatory minimum delay of 12 blocks before you can broadcast your name with the registration step; this means that by the time other people know what name you’re registering, they would have to reverse at least 12 blocks in order to steal the name.</p>
 
 <h3 id="how-are-names-represented">How are names represented?</h3>
 
@@ -273,6 +276,23 @@
 <h3 id="what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</h3>
 
 <p>The code prevents those coins from being used for normal payments.</p>
+
+<h3 id="why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</h3>
+
+<p>Fees on name operations are a rate-limiting mechanism to disincentivize squatting.</p>
+
+<h3 id="why-dont-name-registration-fees-go-to-miners">Why don’t name registration fees go to miners?</h3>
+
+<p>If name registration fees went to miners, it would enable an attack in which miners could register names at a discount compared to typical users.  This would incentivize miners to sell discounted name registration services, which would enable miners to frontrun registrations that passed through such services, bypassing the frontrunning protections enabled by the <a href="#why-is-there-a-separate-pre-registration-step">separate pre-registration step</a>.</p>
+
+<h3 id="why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</h3>
+
+<p>Two reasons:</p>
+
+<ol>
+  <li>It incentivizes owners of names who no longer intend to use them to either let them expire or sell them, thereby decreasing squatting.</li>
+  <li>It ensures that if a name owner loses their private keys, the name will eventually be returned to the pool of available names instead of permanently being stuck in limbo.  Names being stuck in limbo would both pollute the namespace and be a security risk (since it would not be possible to revoke TLS keys for such names).</li>
+</ol>
 
 <h3 id="does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</h3>
 
@@ -823,23 +843,23 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
