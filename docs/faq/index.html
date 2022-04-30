@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -163,6 +163,7 @@ A <strong>trust anchor</strong><br />for the Internet.
       <li><a href="#is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters" id="markdown-toc-is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</a></li>
       <li><a href="#does-namecoin-have-any-browser-add-ons" id="markdown-toc-does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</a></li>
       <li><a href="#why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses" id="markdown-toc-why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</a></li>
+      <li><a href="#why-doesnt-namecoin-use-proof-of-stake" id="markdown-toc-why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</a></li>
     </ul>
   </li>
   <li><a href="#comparison-of-namecoin-to-other-projects" id="markdown-toc-comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</a>    <ul>
@@ -368,6 +369,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>There is no WebExtensions API for intercepting DNS lookups; thus such a WebExtension is not possible.  It <em>is</em> possible to abuse the HTTP proxy API to simulate DNS interception (and there are various 3rd-party WebExtensions that purport to do this for Namecoin).  Unfortunately, this form of API abuse is fundamentally incompatible with HTTPS.  Since such WebExtensions cannot work with HTTPS and are therefore inherently insecure, we recommend avoiding such WebExtensions.  It also is possible to use the WebRequest API to redirect <code class="highlighter-rouge">.bit</code> URL’s to the associated IP address.  Unfortunately, this will not work with properly configured servers, because both the HTTP <code class="highlighter-rouge">Host</code> header and the TLS SNI header won’t match; thus we recommend against this as well.</p>
 
+<h3 id="why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</h3>
+
+<p>We defer to the analysis of Bitcoin developer Andrew Poelstra about the <a href="https://download.wpsoftware.net/bitcoin/pos.pdf">security problems with PoS</a>.  For a more accessible summary, Namecoin developer <a href="https://yanmaani.github.io/proof-of-stake-is-a-scam-and-the-people-promoting-it-are-scammers/">Yanmaani’s article on PoS</a> may be of interest.</p>
+
 <h2 id="comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</h2>
 
 <h3 id="what-is-the-relationship-of-namecoin-to-bitcoin">What is the relationship of Namecoin to Bitcoin?</h3>
@@ -412,7 +417,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h3 id="does-namecoin-influence-bitcoins-hashrate">Does Namecoin influence Bitcoin’s hashrate?</h3>
 
-<p>The existence of Namecoin as a merge-mined sidechain acts as a de facto increase of the Bitcoin block reward.  This incentivizes mining Bitcoin at a higher difficulty than would otherwise be profitable.  As a result, Namecoin indirectly increases Bitcoin’s hashrate.  Namecoin and Bitcoin hashrate are thus in a <a href="https://en.wikipedia.org/wiki/Mutualism_(biology)">mutualist</a> relationship.  That said, since the real-world value of Namecoin’s block reward is much less than that of Bitcoin’s, the extent to which Namecoin increases Bitcoin’s hashrate is relatively small.  Namecoin’s contribution might increase in the future as a result of increased adoption causing the exchange rate or transaction fees to increase.</p>
+<p>The existence of Namecoin as a merge-mined sidechain acts as a de facto increase of the Bitcoin block reward.  This incentivizes mining Bitcoin at a higher difficulty than would otherwise be profitable.  As a result, Namecoin indirectly increases Bitcoin’s hashrate.  Namecoin and Bitcoin hashrate are thus in a <a href="https://en.wikipedia.org/wiki/Mutualism_(biology)">mutualist</a> relationship.  That said, since the real-world value of Namecoin’s block reward is much less than that of Bitcoin’s, the extent to which Namecoin increases Bitcoin’s hashrate is relatively small.  Specifically, as of 2022<!-- per BitInfoCharts -->, Bitcoin’s block reward was $47,299,467.42 USD/day, while Namecoin’s block reward was $1,429.55 USD/day.  Thus, Namecoin is responsible for a ~0.003% increase in Bitcoin hashrate.  Namecoin’s contribution might increase in the future as a result of increased adoption causing the exchange rate or transaction fees to increase.  For example, in a hypothetical distant future in which all 368 million DNS second-level domains<!-- https://siteefy.com/how-many-domains-are-there/ --> moved to Namecoin and paid $10 USD/year in renewal fees, Namecoin’s block reward would be $10,075,291 USD/day, which would result in Namecoin contributing a 21.3% boost to Bitcoin hashrate.</p>
 
 <h3 id="how-does-namecoin-compare-to-tor-onion-services">How does Namecoin compare to Tor Onion Services?</h3>
 
@@ -785,7 +790,7 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <h3 id="how-does-namecoin-affect-global-heating">How does Namecoin affect global heating?</h3>
 
-<p>Namecoin does mildly <a href="#does-namecoin-influence-bitcoins-hashrate">increase Bitcoin’s hashrate</a>, which incentivizes greater electricity consumption by Bitcoin mining.  However, this increase in electricity consumption is quite small compared to what Bitcoin would consume without Namecoin, because Namecoin’s block reward is of much lower real-world value than Bitcoin’s.  Thus, Namecoin is not a major contributor to Bitcoin’s electricity usage.  In addition, most Bitcoin mining is powered by renewable electricity sources, so Namecoin and Bitcoin are not a major cause of global heating.  For information about Bitcoin mining’s electricity usage, these articles may be informative:</p>
+<p>Namecoin does mildly <a href="#does-namecoin-influence-bitcoins-hashrate">increase Bitcoin’s hashrate</a>, which incentivizes greater electricity consumption by Bitcoin mining.  However, this increase in electricity consumption is quite small compared to what Bitcoin would consume without Namecoin, because Namecoin’s block reward is of much lower real-world value than Bitcoin’s.  Thus, Namecoin is not a major contributor to Bitcoin’s electricity usage.  Specifically, of the 39 Mt CO2e net emissions produced by Bitcoin+Namecoin mining in 2021, Namecoin was responsible for ~1.2 kt (0.003%).  Of the <a href="https://en.wikipedia.org/wiki/Carbon_footprint_of_S%26P_500_companies">S&amp;P 500 companies</a>, only 4 have a lower greenhouse footprint (each) than Namecoin mining.  In addition, most Bitcoin mining is powered by renewable electricity sources, so Namecoin and Bitcoin are not a major cause of global heating.  For information about Bitcoin mining’s electricity usage, these articles may be informative:</p>
 
 <ul>
   <li><a href="https://medium.com/crescofin/the-reports-of-bitcoin-environmental-damage-are-garbage-5a93d32c2d7">The reports of bitcoin environmental damage are garbage (Robert Sharratt, Jan. 2019)</a></li>
@@ -843,25 +848,25 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
