@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 30 Apr 2022 09:48:58 +0000</pubDate>
-    <lastBuildDate>Sat, 30 Apr 2022 09:48:58 +0000</lastBuildDate>
+    <pubDate>Sun, 22 May 2022 19:16:44 +0000</pubDate>
+    <lastBuildDate>Sun, 22 May 2022 19:16:44 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,24 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Go DNS Seeder TCP Support</title>
+        <description>&lt;p&gt;In a previous post, I covered some Go DNS seeder improvements I made.  Now here’s another one: DNS over TCP support.&lt;/p&gt;
+
+&lt;p&gt;DNS is an application-layer protocol, and can thus be used with multiple transport protocols.  The most common is UDP, but various others such as TCP, TLS, DTLS, QUIC, HTTP, HTTPS, and Unix sockets are a thing.  TCP is particularly relevant from a privacy standpoint because TCP works with Tor, while UDP does not.  Due to a bug, Lyndsay Roger’s DNS seeder didn’t support TCP, which made it unpleasant to access over Tor.  I’ve now fixed that; master branch now supports DNS over TCP, which both improves the experience for Tor users and brings the DNS seeder into compliance with RFC 7766 (which says TCP support is mandatory).&lt;/p&gt;
+
+&lt;p&gt;Thanks to Lyndsay for merging the fix!  The fix will hopefully be deployed onto Namecoin’s DNS seeds over the next days.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/05/22/go-dns-seeder-tcp.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/05/22/go-dns-seeder-tcp.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin Receives 30k EUR in Additional Funding from NLnet Foundation’s Internet Hardening Fund and Netherlands Ministry of Economic Affairs and Climate Policy</title>
@@ -332,77 +350,6 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.2.2 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.2.2.  This release contains multiple bugfixes, in particular a patch to &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; that works around a CryptoAPI connectivity bug.  We strongly recommend that all users upgrade.  &lt;strong&gt;All domain owners who have TLS enabled will need to re-generate their TLS certificates and TLS records after upgrading.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Full changelog of what’s new since v0.2:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ncdns
-    &lt;ul&gt;
-      &lt;li&gt;Remove tlsrestrict_chromium_tool binary.  (certinject should be used instead now.)&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;generate_nmc_cert
-    &lt;ul&gt;
-      &lt;li&gt;Disable AIA over HTTPS.  (No major TLS clients support it, and it was tickling a CryptoAPI connectivity bug.  Thanks to mjgill89.)&lt;/li&gt;
-      &lt;li&gt;Rebase against Go 1.17.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncp11
-    &lt;ul&gt;
-      &lt;li&gt;Temporarily suspend providing macOS binaries of ncp11.  (macOS support for ncp11 will return after the ongoing p11mod refactor has completed.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Windows installer
-    &lt;ul&gt;
-      &lt;li&gt;Support chain-installing and configuring Electrum-NMC.&lt;/li&gt;
-      &lt;li&gt;Redesign Components dialogs.&lt;/li&gt;
-      &lt;li&gt;Fix installation error on certain non-English locales, e.g. Swedish.  (Thanks to Jonas Ostman.)&lt;/li&gt;
-      &lt;li&gt;Warn users of Windows 7 and earlier.  (ncdns hasn’t supported these EOL Windows versions for a while; users who are okay with security degradation will be able to bypass the warning and install anyway.)&lt;/li&gt;
-      &lt;li&gt;Relicense under GPLv3+.&lt;/li&gt;
-      &lt;li&gt;Remove non-freedom build dependency.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Build system:
-    &lt;ul&gt;
-      &lt;li&gt;Downgrade to BIND 9.16 branch for Windows.  (Upstream BIND has dropped Windows support in 9.17 branch.)&lt;/li&gt;
-      &lt;li&gt;Relicense ncdns-repro under tor-browser-build license.  (Thanks to Nicolas Vigier and Georg Koppen.)&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.&lt;/li&gt;
-      &lt;li&gt;Bump dependencies:
-        &lt;ul&gt;
-          &lt;li&gt;tor-browser-build&lt;/li&gt;
-          &lt;li&gt;gobtcd&lt;/li&gt;
-          &lt;li&gt;godns&lt;/li&gt;
-          &lt;li&gt;goisatty&lt;/li&gt;
-          &lt;li&gt;gopretty&lt;/li&gt;
-          &lt;li&gt;gotoml&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#ncdns&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 25 Sep 2021 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/25/ncdns-v0.2.2-released.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/25/ncdns-v0.2.2-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>

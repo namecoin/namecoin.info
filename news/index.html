@@ -135,6 +135,24 @@ A <strong>trust anchor</strong><br />for the Internet.
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/2022/05/22/go-dns-seeder-tcp.html">Go DNS Seeder TCP Support</a></h1>
+    <p class="post-meta">May 22, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>In a previous post, I covered some Go DNS seeder improvements I made.  Now here’s another one: DNS over TCP support.</p>
+
+    <p>DNS is an application-layer protocol, and can thus be used with multiple transport protocols.  The most common is UDP, but various others such as TCP, TLS, DTLS, QUIC, HTTP, HTTPS, and Unix sockets are a thing.  TCP is particularly relevant from a privacy standpoint because TCP works with Tor, while UDP does not.  Due to a bug, Lyndsay Roger’s DNS seeder didn’t support TCP, which made it unpleasant to access over Tor.  I’ve now fixed that; master branch now supports DNS over TCP, which both improves the experience for Tor users and brings the DNS seeder into compliance with RFC 7766 (which says TCP support is mandatory).</p>
+
+    <p>Thanks to Lyndsay for merging the fix!  The fix will hopefully be deployed onto Namecoin’s DNS seeds over the next days.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/2022/03/07/namecoin-additional-funding-from-nlnet-internet-hardening-fund.html">Namecoin Receives 30k EUR in Additional Funding from NLnet Foundation’s Internet Hardening Fund and Netherlands Ministry of Economic Affairs and Climate Policy</a></h1>
     <p class="post-meta">Mar 7, 2022 • Jeremy Rand </p>
   </header>
@@ -7381,23 +7399,23 @@ of the ncdns-nsis installer.</p>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
