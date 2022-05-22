@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -150,9 +150,12 @@
   </li>
   <li><a href="#design" id="markdown-toc-design">Design</a>    <ul>
       <li><a href="#what-is-a-namespace" id="markdown-toc-what-is-a-namespace">What is a namespace?</a></li>
-      <li><a href="#why-is-there-a-separate-name_new-step" id="markdown-toc-why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</a></li>
+      <li><a href="#why-is-there-a-separate-pre-registration-step" id="markdown-toc-why-is-there-a-separate-pre-registration-step">Why is there a separate pre-registration step?</a></li>
       <li><a href="#how-are-names-represented" id="markdown-toc-how-are-names-represented">How are names represented?</a></li>
       <li><a href="#what-if-i-spend-that-special-coin-by-mistake" id="markdown-toc-what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</a></li>
+      <li><a href="#why-does-registering-a-name-incur-a-fee" id="markdown-toc-why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</a></li>
+      <li><a href="#why-dont-name-registration-fees-go-to-miners" id="markdown-toc-why-dont-name-registration-fees-go-to-miners">Why don’t name registration fees go to miners?</a></li>
+      <li><a href="#why-do-names-have-to-be-renewed-regularly" id="markdown-toc-why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</a></li>
       <li><a href="#does-namecoin-support-layer-2-technologies" id="markdown-toc-does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</a></li>
       <li><a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so" id="markdown-toc-why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</a></li>
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
@@ -160,6 +163,7 @@
       <li><a href="#is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters" id="markdown-toc-is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</a></li>
       <li><a href="#does-namecoin-have-any-browser-add-ons" id="markdown-toc-does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</a></li>
       <li><a href="#why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses" id="markdown-toc-why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</a></li>
+      <li><a href="#why-doesnt-namecoin-use-proof-of-stake" id="markdown-toc-why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</a></li>
     </ul>
   </li>
   <li><a href="#comparison-of-namecoin-to-other-projects" id="markdown-toc-comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</a>    <ul>
@@ -262,9 +266,9 @@
 
 <p>Namespaces are name prefixes used by applications to distinguish between different type of names in Namecoin.  For example, <code class="highlighter-rouge">d/example</code> is the domain name <code class="highlighter-rouge">example.bit</code>, and <code class="highlighter-rouge">id/example</code> is an identity.  Namespaces help prevent multiple applications from accidentally conflicting.  Namecoin itself isn’t aware of namespaces, and namespaces don’t have any effect on validation rules; they are only used by higher-level applications that use Namecoin.</p>
 
-<h3 id="why-is-there-a-separate-name_new-step">Why is there a separate <code class="highlighter-rouge">name_new</code> step?</h3>
+<h3 id="why-is-there-a-separate-pre-registration-step">Why is there a separate pre-registration step?</h3>
 
-<p>This is to prevent others from stealing your new name by registering it quickly themselves when they see your transaction. The name is not broadcasted during the <code class="highlighter-rouge">name_new</code> step, only a salted hash of it. There is a mandatory minimum delay of 12 blocks before you can broadcast your name with <code class="highlighter-rouge">name_firstupdate</code>; this means that by the time other people know what name you’re registering, they would have to reverse at least 12 blocks in order to steal the name.</p>
+<p>This is to prevent others from stealing your new name by registering it quickly themselves when they see your transaction. The name is not broadcasted during the pre-registration step, only a salted hash of it. There is a mandatory minimum delay of 12 blocks before you can broadcast your name with the registration step; this means that by the time other people know what name you’re registering, they would have to reverse at least 12 blocks in order to steal the name.</p>
 
 <h3 id="how-are-names-represented">How are names represented?</h3>
 
@@ -273,6 +277,23 @@
 <h3 id="what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</h3>
 
 <p>The code prevents those coins from being used for normal payments.</p>
+
+<h3 id="why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</h3>
+
+<p>Fees on name operations are a rate-limiting mechanism to disincentivize squatting.</p>
+
+<h3 id="why-dont-name-registration-fees-go-to-miners">Why don’t name registration fees go to miners?</h3>
+
+<p>If name registration fees went to miners, it would enable an attack in which miners could register names at a discount compared to typical users.  This would incentivize miners to sell discounted name registration services, which would enable miners to frontrun registrations that passed through such services, bypassing the frontrunning protections enabled by the <a href="#why-is-there-a-separate-pre-registration-step">separate pre-registration step</a>.</p>
+
+<h3 id="why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</h3>
+
+<p>Two reasons:</p>
+
+<ol>
+  <li>It incentivizes owners of names who no longer intend to use them to either let them expire or sell them, thereby decreasing squatting.</li>
+  <li>It ensures that if a name owner loses their private keys, the name will eventually be returned to the pool of available names instead of permanently being stuck in limbo.  Names being stuck in limbo would both pollute the namespace and be a security risk (since it would not be possible to revoke TLS keys for such names).</li>
+</ol>
 
 <h3 id="does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</h3>
 
@@ -348,6 +369,10 @@
 
 <p>There is no WebExtensions API for intercepting DNS lookups; thus such a WebExtension is not possible.  It <em>is</em> possible to abuse the HTTP proxy API to simulate DNS interception (and there are various 3rd-party WebExtensions that purport to do this for Namecoin).  Unfortunately, this form of API abuse is fundamentally incompatible with HTTPS.  Since such WebExtensions cannot work with HTTPS and are therefore inherently insecure, we recommend avoiding such WebExtensions.  It also is possible to use the WebRequest API to redirect <code class="highlighter-rouge">.bit</code> URL’s to the associated IP address.  Unfortunately, this will not work with properly configured servers, because both the HTTP <code class="highlighter-rouge">Host</code> header and the TLS SNI header won’t match; thus we recommend against this as well.</p>
 
+<h3 id="why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</h3>
+
+<p>We defer to the analysis of Bitcoin developer Andrew Poelstra about the <a href="https://download.wpsoftware.net/bitcoin/pos.pdf">security problems with PoS</a>.  For a more accessible summary, Namecoin developer <a href="https://yanmaani.github.io/proof-of-stake-is-a-scam-and-the-people-promoting-it-are-scammers/">Yanmaani’s article on PoS</a> may be of interest.</p>
+
 <h2 id="comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</h2>
 
 <h3 id="what-is-the-relationship-of-namecoin-to-bitcoin">What is the relationship of Namecoin to Bitcoin?</h3>
@@ -392,7 +417,7 @@
 
 <h3 id="does-namecoin-influence-bitcoins-hashrate">Does Namecoin influence Bitcoin’s hashrate?</h3>
 
-<p>The existence of Namecoin as a merge-mined sidechain acts as a de facto increase of the Bitcoin block reward.  This incentivizes mining Bitcoin at a higher difficulty than would otherwise be profitable.  As a result, Namecoin indirectly increases Bitcoin’s hashrate.  Namecoin and Bitcoin hashrate are thus in a <a href="https://en.wikipedia.org/wiki/Mutualism_(biology)">mutualist</a> relationship.  That said, since the real-world value of Namecoin’s block reward is much less than that of Bitcoin’s, the extent to which Namecoin increases Bitcoin’s hashrate is relatively small.  Namecoin’s contribution might increase in the future as a result of increased adoption causing the exchange rate or transaction fees to increase.</p>
+<p>The existence of Namecoin as a merge-mined sidechain acts as a de facto increase of the Bitcoin block reward.  This incentivizes mining Bitcoin at a higher difficulty than would otherwise be profitable.  As a result, Namecoin indirectly increases Bitcoin’s hashrate.  Namecoin and Bitcoin hashrate are thus in a <a href="https://en.wikipedia.org/wiki/Mutualism_(biology)">mutualist</a> relationship.  That said, since the real-world value of Namecoin’s block reward is much less than that of Bitcoin’s, the extent to which Namecoin increases Bitcoin’s hashrate is relatively small.  Specifically, as of 2022<!-- per BitInfoCharts -->, Bitcoin’s block reward was $47,299,467.42 USD/day, while Namecoin’s block reward was $1,429.55 USD/day.  Thus, Namecoin is responsible for a ~0.003% increase in Bitcoin hashrate.  Namecoin’s contribution might increase in the future as a result of increased adoption causing the exchange rate or transaction fees to increase.  For example, in a hypothetical distant future in which all 368 million DNS second-level domains<!-- https://siteefy.com/how-many-domains-are-there/ --> moved to Namecoin and paid $10 USD/year in renewal fees, Namecoin’s block reward would be $10,075,291 USD/day, which would result in Namecoin contributing a 21.3% boost to Bitcoin hashrate.</p>
 
 <h3 id="how-does-namecoin-compare-to-tor-onion-services">How does Namecoin compare to Tor Onion Services?</h3>
 
@@ -765,7 +790,7 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <h3 id="how-does-namecoin-affect-global-heating">How does Namecoin affect global heating?</h3>
 
-<p>Namecoin does mildly <a href="#does-namecoin-influence-bitcoins-hashrate">increase Bitcoin’s hashrate</a>, which incentivizes greater electricity consumption by Bitcoin mining.  However, this increase in electricity consumption is quite small compared to what Bitcoin would consume without Namecoin, because Namecoin’s block reward is of much lower real-world value than Bitcoin’s.  Thus, Namecoin is not a major contributor to Bitcoin’s electricity usage.  In addition, most Bitcoin mining is powered by renewable electricity sources, so Namecoin and Bitcoin are not a major cause of global heating.  For information about Bitcoin mining’s electricity usage, these articles may be informative:</p>
+<p>Namecoin does mildly <a href="#does-namecoin-influence-bitcoins-hashrate">increase Bitcoin’s hashrate</a>, which incentivizes greater electricity consumption by Bitcoin mining.  However, this increase in electricity consumption is quite small compared to what Bitcoin would consume without Namecoin, because Namecoin’s block reward is of much lower real-world value than Bitcoin’s.  Thus, Namecoin is not a major contributor to Bitcoin’s electricity usage.  Specifically, of the 39 Mt CO2e net emissions produced by Bitcoin+Namecoin mining in 2021, Namecoin was responsible for ~1.2 kt (0.003%).  Of the <a href="https://en.wikipedia.org/wiki/Carbon_footprint_of_S%26P_500_companies">S&amp;P 500 companies</a>, only 4 have a lower greenhouse footprint (each) than Namecoin mining.  In addition, most Bitcoin mining is powered by renewable electricity sources, so Namecoin and Bitcoin are not a major cause of global heating.  For information about Bitcoin mining’s electricity usage, these articles may be informative:</p>
 
 <ul>
   <li><a href="https://medium.com/crescofin/the-reports-of-bitcoin-environmental-damage-are-garbage-5a93d32c2d7">The reports of bitcoin environmental damage are garbage (Robert Sharratt, Jan. 2019)</a></li>
@@ -774,10 +799,12 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
   <li><a href="https://medium.com/coinshares/beware-of-lazy-research-c828c900b7d5">Beware of Lazy Research: Let’s Talk Electricity Waste &amp; How Bitcoin Mining Can Power A Renewable Energy Renaissance (Christopher Bendiksen, Dec. 2018)</a></li>
   <li><a href="https://medium.com/coinshares/surprise-majority-of-btc-energy-sourced-from-hydro-wind-solar-49f73839aec6">Surprise: Majority of BTC Energy Sourced from Hydro / Wind / Solar (Christopher Bendiksen, Jun. 2019)</a></li>
   <li><a href="https://medium.com/coinshares/bitcoins-hash-rate-grew-more-than-80-since-june-mostly-within-china-7444b20b2c89">Bitcoin’s Hash Rate Grew More Than 80% Since June — Mostly Within China (Christopher Bendiksen, Dec. 2019)</a></li>
+  <li><a href="https://blog.coinshares.com/everything-youve-heard-about-bitcoin-mining-and-the-environment-is-wrong-585931a486e5">Everything You’ve Heard About Bitcoin Mining and the Environment is Wrong (Christopher Bendiksen, Feb. 2022)</a></li>
   <li><a href="https://coinshares.com/assets/resources/Research/bitcoin-mining-network-may-2018.pdf">The Bitcoin Mining Network: Trends, Marginal Creation Costs, Electricity Consumption &amp; Sources (May 2018 Update) (CoinShares Research)</a></li>
   <li><a href="https://coinshares.com/assets/resources/Research/bitcoin-mining-network-november-2018.pdf">The Bitcoin Mining Network: Trends, Marginal Creation Costs, Electricity Consumption &amp; Sources (Nov. 2018 Update) (CoinShares Research)</a></li>
   <li><a href="https://coinshares.com/assets/resources/Research/bitcoin-mining-network-june-2019-fidelity-foreword.pdf">The Bitcoin Mining Network: Trends, Average Creation Costs, Electricity Consumption &amp; Sources (Jun. 2019 Update) (CoinShares Research)</a></li>
   <li><a href="https://coinshares.com/assets/resources/Research/bitcoin-mining-network-december-2019.pdf">The Bitcoin Mining Network: Trends, Average Creation Costs, Electricity Consumption &amp; Sources (Dec. 2019 Update) (CoinShares Research)</a></li>
+  <li><a href="https://pd.coinshares.com/l/882933/2022-01-25/52bz1/882933/1643724699zWkQqOwT/COINSHARES_BITCOIN_MINING_JAN22.pdf">The Bitcoin Mining Network: Energy and Carbon Impact (Jan. 2022) (CoinShares Research)</a></li>
 </ul>
 
 <p>Both Bitcoin and Namecoin also have second-order effects that oppose global heating.  For example, Bitcoin decreases the influence of the <a href="https://bitcoinmagazine.com/culture/the-hidden-costs-of-the-petrodollar">Petrodollar</a> (the Petrodollar is a major reason why the U.S. establishment opposes renewable energy sources), and Namecoin helps fight surveillance (climate activists are heavily targeted by government surveillance).</p>
@@ -821,25 +848,25 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
