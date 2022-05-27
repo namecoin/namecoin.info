@@ -135,6 +135,139 @@
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/05/27/ncdns-v0.3-released.html">ncdns v0.3 Released</a></h1>
+    <p class="post-meta">May 27, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.3.  This release adds Tor Browser configuration support to the Windows installer.  If you have Tor Browser installed already, the Windows installer will offer to configure Tor Browser to use Namecoin.  This Tor Browser support is aimed at a different audience than the support currently shipped with Tor Browser Nightly; the major features that the ncdns installer brings to the table compared to Tor Browser Nightly are:</p>
+
+    <ol>
+  <li>Windows support (Tor Browser Nightly only supports Namecoin on GNU/Linux).</li>
+  <li>Choice of Tor Browser Stable, Alpha, or Nightly (Stable and Alpha do not have Namecoin built-in).</li>
+  <li>Choice of Electrum-NMC or Namecoin Core (Tor Browser Nightly only supports Electrum-NMC).</li>
+  <li><code class="highlighter-rouge">.bit</code> domains fall back to IP address resolution if no onion service exists (Tor Browser Nightly only supports onion services).</li>
+</ol>
+
+    <p>Additional features we intend to add to the ncdns installer in the future include:</p>
+
+    <ol>
+  <li>TLS support (important for Tor since exit relays are in an excellent position to do MITM attacks, and also important given the censorship attacks we’ve observed from public CA’s such as Comodo and ISRG in the past few years).</li>
+  <li>Recursive DNS support (will allow more complex setups such as <code class="highlighter-rouge">NS</code>/<code class="highlighter-rouge">DS</code> records to be used with Namecoin over Tor).</li>
+</ol>
+
+    <p>While we are looking forward to all of the above features making their way into Tor Browser, we want to give power users the option to experiment with these features now.  We expect the feedback from that experimentation to make it easier and faster to migrate these features into Tor Browser.</p>
+
+    <p>Meanwhile, here are some important caveats you should be aware of in this integration:</p>
+
+    <ol>
+  <li>Download size is much larger than Tor Browser Nightly’s Namecoin integration.  If you are on a heavily metered data plan, you may be better off with Tor Browser Nightly.</li>
+  <li>The build system is less strict on reproducibility than Tor Browser Nightly.  In particular, Electrum-NMC is built with the upstream Electrum reproducible build system, and BIND and DNSSEC-Trigger use official upstream binaries.  If you are concerned about these components, you may be better off with Tor Browser Nightly.</li>
+  <li>You must launch Electrum-NMC or Namecoin Core yourself and keep it running while Tor Browser is running; otherwise <code class="highlighter-rouge">.bit</code> resolution will fail.  If you want Electrum-NMC to automatically start when Tor Browser does, you may be better off with Tor Browser Nightly.</li>
+  <li>Some timing metadata (in particular, the date and time at which you exit Tor Browser) will be written to the Windows event log, which could be a privacy leak.  Timing metadata about Tor Browser usage has been used against alleged whistleblowers (e.g. alleged Vault 7 source Joshua Schulte) in the past, so if you have a strong requirement for disk nonpersistence, you may be better off with Tor Browser Nightly.</li>
+  <li>The TorButton patch for showing the underlying onion service in the circuit display is not included.  If you care about being able to easily view which onion service a <code class="highlighter-rouge">.bit</code> domain is pointing to, you may be better off with Tor Browser Nightly.</li>
+  <li>The Firefox patch for adding <code class="highlighter-rouge">bit.onion</code> to the eTLD list is not included.  This means that the address bar will default to search mode if you type a <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code> domain without a URL scheme (leading <code class="highlighter-rouge">https://</code>).  More importantly, it means that FPI (first-party isolation) will treat <code class="highlighter-rouge">bit.onion</code> as an eTLD+1; as a result, all <code class="highlighter-rouge">.bit.onion</code> websites that you visit will be trivially linkable to each other.  To work around this privacy leak, you can use <code class="highlighter-rouge">.bit</code> instead of <code class="highlighter-rouge">.bit.onion</code> (but see the conflicting advice below), or you can limit yourself to one <code class="highlighter-rouge">.bit.onion</code> first-party domain at a time (use the New Identity button when you want to switch to another <code class="highlighter-rouge">.bit.onion</code> domain).  If you’re worried that you may not remember to do this, you may be better off with Tor Browser Nightly.</li>
+  <li>TLS is not mandated for <code class="highlighter-rouge">.bit</code> domains that point to an IP address.  This means that you cannot be confident that <code class="highlighter-rouge">.bit</code> domains are secure origins.  Tor Browser will correctly tell you that these origins are not secure; you should heed that warning.  To work around this, you can use <code class="highlighter-rouge">.bit.onion</code> instead of <code class="highlighter-rouge">.bit</code> (but see the conflicting advice above), or you can use the <code class="highlighter-rouge">https://</code> URL scheme; either of these will guarantee a secure origin.  If you use HTTPS, you will need to verify the certificate chain yourself.  If you’re worried that you may accidentally use the <code class="highlighter-rouge">http://</code> URL scheme with <code class="highlighter-rouge">.bit</code> domains, or if you’re worried that you may accidentally click through a TLS certificate dialog without checking the chain, you may be better off with Tor Browser Nightly.</li>
+  <li>Our QA team has reported occasional timeout errors when accessing <code class="highlighter-rouge">.bit</code> domains in Tor Browser.  We are investigating the cause.  If you require solidly reliable connectivity without timeouts, you may be better off with Tor Browser Nightly.</li>
+  <li>Our QA team has reported various breakage on Windows 7.  We are working on fixes, but this is not a high priority since Windows 7 is EOL.  If you require Windows 7 support, you may be better off waiting for us to fix that.</li>
+</ol>
+
+    <p>Some of the above caveats are easier to fix than others.  We expect some of these to be fixed very soon; others are longer-term efforts.  We reiterate that this is intended for power users who want to experiment with Namecoin in Tor Browser, so that their feedback can facilitate future efforts to get these features added to Tor Browser.  As such, we very much appreciate feedback so we can improve this functionality.</p>
+
+    <p>Full changelog of what’s new since v0.2.2:</p>
+
+    <ul>
+  <li>certinject
+    <ul>
+      <li>Add dexlogconfig support.  Patch by Jeremy Rand.</li>
+      <li>Add –capi.watch flag (paves the way for better sandboxing).  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>dexlogconfig
+    <ul>
+      <li>Support custom Windows event log source name.  Patch by Jeremy Rand; code review by Hugo Landau.</li>
+      <li>Clarify help text.  Reported by Jeremy Rand; patch by Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>easyconfig
+    <ul>
+      <li>Support durations.  Reported by Jeremy Rand; patch by Hugo Landau.</li>
+    </ul>
+  </li>
+  <li>Encaya
+    <ul>
+      <li>Add README.  Patch by Jeremy Rand.</li>
+      <li>Clarify license as GPLv3+.  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncdns
+    <ul>
+      <li>Use new certinject package.  Patch by Jeremy Rand.</li>
+      <li>Remove Layer-1 TLS support (100% of Namecoin domain owners moved to Layer-2 by now).  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncprop279
+    <ul>
+      <li>Documentation: add sample config file.  Patch by redfish; code review by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>StemNS
+    <ul>
+      <li>Use <code class="highlighter-rouge">StreamStatus.CONTROLLER_WAIT</code> when available.  Patches by Jeremy Rand and Lola Dam.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand</li>
+    </ul>
+  </li>
+  <li>tlsrestrictnss
+    <ul>
+      <li>Fix compatibility with ncprop279.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>x509-compressed
+    <ul>
+      <li>Fix GOROOT paths containing a space.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Configure Tor Browser.  Patch by Jeremy Rand.</li>
+      <li>Remove Layer-1 TLS support (100% of Namecoin domain owners moved to Layer-2 by now).  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patch by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system
+    <ul>
+      <li>Add coredns-utils project, by Miek Gieben, Steve Winslow, and Andrew Heberle.</li>
+      <li>Add python-windows project.  Patches by Yanmaani and Jeremy Rand; code review by Nicolas Vigier.</li>
+      <li>Add winsvcwrap project, by Hugo Landau.</li>
+      <li>Bump BIND to v9.16.28.</li>
+      <li>Bump Electrum-NMC to v4.0.0b0.</li>
+      <li>Bump godns to v1.1.48.</li>
+      <li>Bump gointernal to v1.8.1.</li>
+      <li>Bump gopkcs11 to v1.1.1.</li>
+      <li>Bump gotoml to v1.1.0.</li>
+      <li>Bump gounits.</li>
+      <li>Bump tor-browser-build to v11.5a11.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+      <li>Improve Cirrus CI integration, as we continue to incubate RBM Cirrus support in preparation to send upstream to Tor.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>You can download it at the <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/#ncdns">Downloads page</a>.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/05/22/go-dns-seeder-tcp.html">Go DNS Seeder TCP Support</a></h1>
     <p class="post-meta">May 22, 2022 • Jeremy Rand </p>
   </header>
@@ -7397,25 +7530,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
