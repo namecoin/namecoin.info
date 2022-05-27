@@ -137,6 +137,14 @@ td, th {
     visibility: hidden;
 }
 
+/* Fix invisible hyperlink occlusion (e.g. on Downloads page) caused by above
+ * deeplink workaround.  Does not break hyperlinks inside headings (e.g. home
+ * page's News section) or top menu bar drop-downs. */
+p {
+    position: relative;
+    z-index: 1;
+}
+
 /* TODO: refactor this */
 @media (max-width: 1003px) and (min-width: 768px) {
     /* Fix deeplinks to elements (double-height menu bar) ("a" exception is for FAQ ToC) */
@@ -148,18 +156,6 @@ td, th {
         visibility: hidden;
     }
 }
-
-/* Fix invisible occlusion caused by above deeplink fix */
-/* Only do headings, otherwise it breaks the top menu bar drop-downs */
-/* This seems to no longer be relevant, and it breaks hyperlinks inside
- * headings (e.g. home page's News section).  Disabling it until further
- * notice. */
-/*
-h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
-    position: relative;
-    z-index: -1;
-}
-*/
 
 /* Sponsored exchanges styling (only present on Exchanges page) */
 
