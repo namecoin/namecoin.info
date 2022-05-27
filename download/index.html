@@ -130,6 +130,85 @@ Decentralized<br /><strong>secure</strong> names.
 
   <article class="post-content">
     
+<h2 id="ncdns">ncdns</h2>
+
+<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is most likely what you want to install.</p>
+
+<p>See the <a href="/docs/ncdns">ncdns documentation</a>.</p>
+
+<p>Current release: 0.3.</p>
+
+<div class="row">
+
+  <div class="col-sm-4">
+
+    <h3 id="windows">Windows</h3>
+
+    <p>The installer also automatically installs and configures a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code class="highlighter-rouge">.bit</code> domain names.</p>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-x86_64-install-a1e8b8.exe">64-bit x86 installer</a></li>
+    </ul>
+
+    <p><strong>Before running the installer, you will need to install the following:</strong></p>
+
+    <ul>
+      <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=53587">Visual C++ Redistributable for Visual Studio 2015</a></li>
+    </ul>
+
+    <p>Plain binaries are useful for advanced users only.  They require setting up a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and a recursive DNS resolver (e.g. Unbound) separately; additional setup is required for TLS certificate validation.</p>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-windows-x86_64-ac643c.tar.xz">64-bit x86 plain binaries</a></li>
+      <li>
+        <p><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-windows-i686-e076b4.tar.xz">32-bit x86 plain binaries</a></p>
+      </li>
+      <li><a href="https://github.com/namecoin/ncdns-nsis">Installer Source Code</a></li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm-4">
+
+    <h3 id="gnulinux">GNU/Linux</h3>
+
+    <p>Requires setting up a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and a recursive DNS resolver (e.g. Unbound) separately; additional setup is required for TLS certificate validation.</p>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-linux-x86_64-e41ca2.tar.xz">64-bit x86 plain binaries</a></li>
+      <li>
+        <p><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-linux-i686-990513.tar.xz">32-bit x86 plain binaries</a></p>
+      </li>
+      <li><a href="https://repology.org/project/ncdns/versions">Distro packages</a></li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm-4">
+
+    <h3 id="macos">macOS</h3>
+
+    <p>Requires setting up a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and a recursive DNS resolver (e.g. Unbound) separately; additional setup is required for TLS certificate validation.</p>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/ncdns-0.3-osx-x86_64-b17766.tar.xz">64-bit x86 plain binaries</a></li>
+    </ul>
+
+  </div>
+
+</div>
+
+<ul>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/sha256sums-unsigned-build.txt">Hashes</a></li>
+  <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3/sha256sums-unsigned-build.txt.asc">Signature (Release signed by Jeremy Rand)</a></li>
+  <li><a href="https://github.com/namecoin/ncdns">Source Code</a></li>
+  <li><a href="https://github.com/namecoin/ncdns-repro">rbm Build Harness Source Code</a></li>
+</ul>
+
+<h2 id="tor-browser">Tor Browser</h2>
+
+<p><a href="https://nightlies.tbb.torproject.org/nightly-builds/tor-browser-builds/">Tor Browser Nightly</a> for GNU/Linux has experimental Namecoin resolution built-in.  Set the environment variable <code class="highlighter-rouge">TOR_ENABLE_NAMECOIN=1</code> to use it.</p>
+
 <h2 id="namecoin-core-client-stable-release">Namecoin Core Client (Stable Release)</h2>
 
 <ul>
@@ -144,18 +223,59 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>Current release: 0.21.0.1.</p>
 
+<div class="row">
+
+  <div class="col-sm-4">
+
+    <h3 id="windows-1">Windows</h3>
+
+    <p><strong>Most users should install ncdns (see above) instead; it includes Namecoin Core.</strong></p>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-win64-setup-unsigned.exe">64-bit installer</a></li>
+      <li>
+        <p><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-win64.zip">64-bit zip</a></p>
+      </li>
+      <li><a href="https://github.com/namecoin/gitian.sigs/tree/master/0.21.0.1-win-unsigned">Gitian signatures</a></li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm-4">
+
+    <h3 id="gnulinux-1">GNU/Linux</h3>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-riscv64-linux-gnu.tar.gz">RISC-V 64-bit</a></li>
+      <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-aarch64-linux-gnu.tar.gz">ARM 64-bit</a></li>
+      <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-arm-linux-gnueabihf.tar.gz">ARM 32-bit</a></li>
+      <li>
+        <p><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-x86_64-linux-gnu.tar.gz">x86 64-bit</a></p>
+      </li>
+      <li><a href="https://github.com/namecoin/gitian.sigs/tree/master/0.21.0.1-linux">Gitian signatures</a></li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm-4">
+
+    <h3 id="macos-1">macOS</h3>
+
+    <ul>
+      <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-osx-unsigned.dmg">dmg</a></li>
+      <li>
+        <p><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-osx64.tar.gz">tar.gz</a></p>
+      </li>
+      <li><a href="https://github.com/namecoin/gitian.sigs/tree/master/0.21.0.1-osx-unsigned">Gitian signatures</a></li>
+    </ul>
+
+  </div>
+
+</div>
+
 <ul>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-riscv64-linux-gnu.tar.gz">Namecoin Core 0.21.0.1 (GNU/Linux RISC-V 64-bit)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-aarch64-linux-gnu.tar.gz">Namecoin Core 0.21.0.1 (GNU/Linux ARM 64-bit)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-arm-linux-gnueabihf.tar.gz">Namecoin Core 0.21.0.1 (GNU/Linux ARM 32-bit)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-x86_64-linux-gnu.tar.gz">Namecoin Core 0.21.0.1 (GNU/Linux x86 64-bit)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-win64-setup-unsigned.exe">Namecoin Core 0.21.0.1 (Windows 64-bit installer)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-win64.zip">Namecoin Core 0.21.0.1 (Windows 64-bit zip)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-osx-unsigned.dmg">Namecoin Core 0.21.0.1 (macOS dmg)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1-osx64.tar.gz">Namecoin Core 0.21.0.1 (macOS tar.gz)</a></li>
-  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1.tar.gz">Namecoin Core 0.21.0.1 (Source code tarball)</a></li>
-  <li><a href="https://github.com/namecoin/gitian.sigs/">Namecoin Core Gitian signatures</a></li>
-  <li><a href="https://github.com/namecoin/namecoin-core/">Namecoin Core source code</a></li>
+  <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.21.0.1/namecoin-nc0.21.0.1.tar.gz">Source code tarball</a></li>
+  <li><a href="https://github.com/namecoin/namecoin-core/">Source code</a></li>
 </ul>
 
 <h2 id="namecoin-core-client-with-qt-name-tab">Namecoin Core Client (with Qt Name Tab)</h2>
@@ -175,7 +295,7 @@ Decentralized<br /><strong>secure</strong> names.
 
   <div class="col-sm-4">
 
-    <h3 id="windows">Windows</h3>
+    <h3 id="windows-2">Windows</h3>
 
     <ul>
       <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.13.99-name-tab-beta1-notreproduced/namecoin-0.13.99-win64-setup-unsigned.exe">64-bit Installer</a></li>
@@ -190,7 +310,7 @@ Decentralized<br /><strong>secure</strong> names.
 
   <div class="col-sm-4">
 
-    <h3 id="gnulinux">GNU/Linux</h3>
+    <h3 id="gnulinux-2">GNU/Linux</h3>
 
     <ul>
       <li><a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.13.99-name-tab-beta1-notreproduced/namecoin-0.13.99-x86_64-linux-gnu.tar.gz">x86 64-bit tgz</a></li>
@@ -205,7 +325,7 @@ Decentralized<br /><strong>secure</strong> names.
 
   <div class="col-sm-4">
 
-    <h3 id="macos">macOS</h3>
+    <h3 id="macos-2">macOS</h3>
 
     <p><strong>macOS binaries of Namecoin Core Name Tab Beta are not yet available.  For now, macOS users should use the Stable Release (see above), build Namecoin Core from source, or use Namecoin Legacy (see below).</strong></p>
 
@@ -228,7 +348,7 @@ Decentralized<br /><strong>secure</strong> names.
 
   <div class="col-sm-4">
 
-    <h3 id="windows-1">Windows</h3>
+    <h3 id="windows-3">Windows</h3>
 
     <p>Download <a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.3.80/Namecoin_v0.3.80_setup.exe">v0.3.80 installer</a><br />
 <a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2123">Release information and signatures</a>.</p>
@@ -247,7 +367,7 @@ Decentralized<br /><strong>secure</strong> names.
 
   <div class="col-sm-4">
 
-    <h3 id="macos-1">macOS</h3>
+    <h3 id="macos-3">macOS</h3>
 
     <p>Download <a href="https://www.namecoin.org/files/namecoin-core/namecoin-core-0.3.80/Namecoin-Qt.app-0.3.80-a00c33d.zip">v0.3.80 Namecoin-Qt</a>.<br />
 <a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2235">Release information</a>.</p>
@@ -260,11 +380,19 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>NMControl connects your browser/application to the client. It allows you, for example, to browse .bit domains. <a href="https://github.com/namecoin/nmcontrol">Source and installation instructions on Github</a>.</p>
 
+<p><strong>Generally, we recommend ncdns instead of NMControl.</strong>  Usage of NMControl may be warranted in the following circumstances:</p>
+
+<ul>
+  <li>You rely on reproducible builds of the non-installer binaries.  (Python source code is inherently reproducible; ncdns is not yet reproducible.)</li>
+  <li>You rely on the non-default Private Mode of NMControl.  (Private Mode prevents external DNS traffic from <code class="highlighter-rouge">.bit</code> lookups; ncdns can trigger such lookups from Unbound.)</li>
+  <li>You rely on encrypted DNS (e.g. DoH) for non-<code class="highlighter-rouge">.bit</code> lookups, <strong>and</strong> you rely on the Windows installer (NMControl’s installer won’t affect non-<code class="highlighter-rouge">.bit</code> DNS lookups, while ncdns installs DNSSEC-Trigger, which will interfere with DoH.)</li>
+</ul>
+
 <div class="row">
 
   <div class="col-sm-4">
 
-    <h3 id="windows-2">Windows</h3>
+    <h3 id="windows-4">Windows</h3>
 
     <p>Download <a href="https://www.namecoin.org/files/nmcontrol/nmcontrol-0.8.1/NMControl_v0.8.1_setup.exe">v0.8.1 installer</a>.<br />
 <a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2402">Release information and signatures (read this first)</a>.</p>
@@ -324,25 +452,25 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
