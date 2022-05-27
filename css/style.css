@@ -139,7 +139,7 @@ td, th {
 
 /* Fix invisible hyperlink occlusion (e.g. on Downloads page) caused by above
  * deeplink workaround.  Does not break hyperlinks inside headings (e.g. home
- * page's News section). */
+ * page's News section) or top menu bar drop-downs. */
 p {
     position: relative;
     z-index: 1;
