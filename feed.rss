@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 27 May 2022 02:42:40 +0000</pubDate>
-    <lastBuildDate>Fri, 27 May 2022 02:42:40 +0000</lastBuildDate>
+    <pubDate>Fri, 27 May 2022 02:50:44 +0000</pubDate>
+    <lastBuildDate>Fri, 27 May 2022 02:50:44 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,24 +17,6 @@
       <width>134</width>
       <height>25</height>
     </image>
-    
-      <item>
-        <title>Go DNS Seeder TCP Support</title>
-        <description>&lt;p&gt;In a previous post, I covered some Go DNS seeder improvements I made.  Now here’s another one: DNS over TCP support.&lt;/p&gt;
-
-&lt;p&gt;DNS is an application-layer protocol, and can thus be used with multiple transport protocols.  The most common is UDP, but various others such as TCP, TLS, DTLS, QUIC, HTTP, HTTPS, and Unix sockets are a thing.  TCP is particularly relevant from a privacy standpoint because TCP works with Tor, while UDP does not.  Due to a bug, Lyndsay Roger’s DNS seeder didn’t support TCP, which made it unpleasant to access over Tor.  I’ve now fixed that; master branch now supports DNS over TCP, which both improves the experience for Tor users and brings the DNS seeder into compliance with RFC 7766 (which says TCP support is mandatory).&lt;/p&gt;
-
-&lt;p&gt;Thanks to Lyndsay for merging the fix!  The fix will hopefully be deployed onto Namecoin’s DNS seeds over the next days.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
     
       <item>
         <title>ncdns v0.3 Released</title>
@@ -159,14 +141,32 @@
 
 &lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 20 May 2022 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2022/05/20/ncdns-v0.3-released.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2022/05/20/ncdns-v0.3-released.html</guid>
+        <pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2022/05/27/ncdns-v0.3-released.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2022/05/27/ncdns-v0.3-released.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>Releases</category>
         
         <category>ncdns Releases</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Go DNS Seeder TCP Support</title>
+        <description>&lt;p&gt;In a previous post, I covered some Go DNS seeder improvements I made.  Now here’s another one: DNS over TCP support.&lt;/p&gt;
+
+&lt;p&gt;DNS is an application-layer protocol, and can thus be used with multiple transport protocols.  The most common is UDP, but various others such as TCP, TLS, DTLS, QUIC, HTTP, HTTPS, and Unix sockets are a thing.  TCP is particularly relevant from a privacy standpoint because TCP works with Tor, while UDP does not.  Due to a bug, Lyndsay Roger’s DNS seeder didn’t support TCP, which made it unpleasant to access over Tor.  I’ve now fixed that; master branch now supports DNS over TCP, which both improves the experience for Tor users and brings the DNS seeder into compliance with RFC 7766 (which says TCP support is mandatory).&lt;/p&gt;
+
+&lt;p&gt;Thanks to Lyndsay for merging the fix!  The fix will hopefully be deployed onto Namecoin’s DNS seeds over the next days.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
         
         
       </item>
