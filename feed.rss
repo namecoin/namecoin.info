@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 27 May 2022 04:52:30 +0000</pubDate>
-    <lastBuildDate>Fri, 27 May 2022 04:52:30 +0000</lastBuildDate>
+    <pubDate>Thu, 02 Jun 2022 18:28:41 +0000</pubDate>
+    <lastBuildDate>Thu, 02 Jun 2022 18:28:41 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,43 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Electrum-NMC v4.0.0b1 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v4.0.0b1.  This release includes important UX improvements to reduce the risk of accidentally letting names expire, both on the wallet side and a resolution mechanism called &lt;a href=&quot;/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html&quot;&gt;semi-expiration&lt;/a&gt; that stops resolving names before they are permanently lost.  Since semi-expiration affects resolution results, we therefore recommend that all users upgrade, even if you do not own any names yourself, so that you see the same resolution results as everyone else.  Here’s what’s new since v4.0.0b0:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Simplify GUI for editing TLS records.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Add documentation links to DNS Builder GUI.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Add server from deafboy.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Improve UNOList datetime formatting consistency.  (Patch by Jeremy Rand, review by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;expires_time&lt;/code&gt; field to &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;.  (Patch by Jeremy Rand, review by Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Implement semi-expiration.  (Reported by Cypherpunks, patch by Jeremy Rand, review by Arthur Edelstein, Cyberia Computer Club, Cypherpunks, Cyphrs, Daniel Kraft, Diego Salazar, Forest Johnson, s7r, Somewhat, and Yanmaani.)&lt;/li&gt;
+  &lt;li&gt;Allow passing raw commitment to &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Show exact expiration timestamps for expired names.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Warn user in UNOList when names are expiring soon.  (Reported by Diego Salazar, patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Fix some i18n bugs.  (Patch by Jeremy Rand, review by Somewhat, Yanmaani, and Daniel Kraft.)&lt;/li&gt;
+  &lt;li&gt;Add Namebrow.se explorer.  (Patch by Jeremy Rand.)&lt;/li&gt;
+  &lt;li&gt;Produce packager-friendly tarballs.  (Reported by Jeremy Rand, patches by Yanmaani and Jeremy Rand, review by Jeremy Rand and SomberNight.)&lt;/li&gt;
+  &lt;li&gt;Switch to detached OpenPGP signatures (to follow upstream).&lt;/li&gt;
+  &lt;li&gt;Various improvements from upstream Electrum.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 02 Jun 2022 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2022/06/02/electrum-nmc-v4.0.0b1-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2022/06/02/electrum-nmc-v4.0.0b1-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>ncdns v0.3 Released</title>
@@ -439,36 +476,6 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin-Qt: Export, Name Count, and Buy Names Feedback</title>
-        <description>&lt;p&gt;I implemented a few more Namecoin-Qt features.  The Manage Names tab now includes both an Export button and a name counter:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/manage-names-2021-09-14.png&quot; alt=&quot;A screenshot of the Manage Names tab in Namecoin-Qt.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The Buy Names tab also now gives real-time feedback on which names are available:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/buy-names-available-2021-09-14.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt, when the name is available.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/namecoin-core/buy-names-taken-2021-09-14.png&quot; alt=&quot;A screenshot of the Buy Names tab in Namecoin-Qt, when the name is taken.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This is a good example of a UX benefit that only full-node users get: because name lookups in Namecoin Core don’t generate network traffic, they are fast enough that they can be performed every time a character is typed in the name field, without making the user click anything.&lt;/p&gt;
-
-&lt;p&gt;I’m not leaving RPC users behind either: the &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; RPC method now yields more specific error messages when a name doesn’t exist, depending on whether it is expired or never existed.  This should make things more convenient for human RPC users.  The error codes haven’t changed, so this shouldn’t break any software.&lt;/p&gt;
-
-&lt;p&gt;These improvements are expected to be included in Namecoin Core 23.0.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2021/12/06/namecoin-qt-export-count-feedback.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2021/12/06/namecoin-qt-export-count-feedback.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
