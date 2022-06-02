@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Layer 2</title>
+    <title>Electrum-NMC v4.0.0b1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/layer-2/">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/02/electrum-nmc-v4.0.0b1-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,26 +122,844 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Layer 2</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>Namecoin supports a number of so-called “layer 2” (off-chain) technologies:</p>
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Electrum-NMC v4.0.0b1 Released</h1>
+<p class="post-meta">Jun 2, 2022 • Jeremy Rand <i class="fa fa-tags"></i></p>
+</header>
+
+<article class="post-content">
+<p>We’ve released Electrum-NMC v4.0.0b1.  This release includes important UX improvements to reduce the risk of accidentally letting names expire, both on the wallet side and a resolution mechanism called <a href="/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html">semi-expiration</a> that stops resolving names before they are permanently lost.  Since semi-expiration affects resolution results, we therefore recommend that all users upgrade, even if you do not own any names yourself, so that you see the same resolution results as everyone else.  Here’s what’s new since v4.0.0b0:</p>
 
 <ul>
-  <li><a href="/docs/name-owners/dnssec/">DNSSEC Delegation</a></li>
-  <li><a href="/docs/name-owners/tls/">Name-constrained <code class="highlighter-rouge">TLSA</code> records</a></li>
+  <li>Simplify GUI for editing TLS records.  (Patch by Jeremy Rand.)</li>
+  <li>Add documentation links to DNS Builder GUI.  (Patch by Jeremy Rand.)</li>
+  <li>Add server from deafboy.  (Patch by Jeremy Rand.)</li>
+  <li>Improve UNOList datetime formatting consistency.  (Patch by Jeremy Rand, review by Daniel Kraft.)</li>
+  <li>Add <code class="highlighter-rouge">expires_time</code> field to <code class="highlighter-rouge">name_show</code>.  (Patch by Jeremy Rand, review by Daniel Kraft.)</li>
+  <li>Implement semi-expiration.  (Reported by Cypherpunks, patch by Jeremy Rand, review by Arthur Edelstein, Cyberia Computer Club, Cypherpunks, Cyphrs, Daniel Kraft, Diego Salazar, Forest Johnson, s7r, Somewhat, and Yanmaani.)</li>
+  <li>Allow passing raw commitment to <code class="highlighter-rouge">name_new</code>.  (Patch by Jeremy Rand.)</li>
+  <li>Show exact expiration timestamps for expired names.  (Patch by Jeremy Rand.)</li>
+  <li>Warn user in UNOList when names are expiring soon.  (Reported by Diego Salazar, patch by Jeremy Rand.)</li>
+  <li>Fix some i18n bugs.  (Patch by Jeremy Rand, review by Somewhat, Yanmaani, and Daniel Kraft.)</li>
+  <li>Add Namebrow.se explorer.  (Patch by Jeremy Rand.)</li>
+  <li>Produce packager-friendly tarballs.  (Reported by Jeremy Rand, patches by Yanmaani and Jeremy Rand, review by Jeremy Rand and SomberNight.)</li>
+  <li>Switch to detached OpenPGP signatures (to follow upstream).</li>
+  <li>Various improvements from upstream Electrum.</li>
 </ul>
 
-<p>We continue to work on additional layer 2 technologies, such as SegVal.  In addition, as a sidechain, Namecoin itself is a layer 2 technology.</p>
+<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
 
-  </article>
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and NLnet Foundation’s NGI0 Discovery Fund.</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -160,16 +978,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/layer-2/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-06-02-electrum-nmc-v4.0.0b1-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/layer-2/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/layer-2/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/layer-2/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/layer-2/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/06/02/electrum-nmc-v4.0.0b1-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/02/electrum-nmc-v4.0.0b1-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/06/02/electrum-nmc-v4.0.0b1-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/06/02/electrum-nmc-v4.0.0b1-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -178,25 +996,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
