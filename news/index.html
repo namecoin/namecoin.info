@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,75 @@ Decentralized<br /><strong>secure</strong> names.
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2022/06/04/ncdns-v0.3.1-released.html">ncdns v0.3.1 Released</a></h1>
+    <p class="post-meta">Jun 4, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>We’ve released ncdns v0.3.1.  This Windows-only release includes important improvements to memory safety and UX; we recommend that all Windows users upgrade.</p>
+
+    <p>Full changelog of what’s new since v0.3:</p>
+
+    <ul>
+  <li>certinject
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncdns
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncprop279
+    <ul>
+      <li>Fix stderr privacy leak when tlshook is enabled at compile-time.  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>StemNS
+    <ul>
+      <li>Log errors to stderr. Patch by Jeremy Rand.</li>
+      <li>Redact target address from stderr logs.  Patch by Jeremy Rand.</li>
+      <li>Load configuration from <code class="highlighter-rouge">config</code> folder.  Reported by Patrick Schleizer; patch by Yanmaani.</li>
+      <li>Support <code class="highlighter-rouge">ControlPort auto</code>.  Reported by Adolf-Putin-2022; patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>x509-compressed
+    <ul>
+      <li>Fix Go 1.18.x compatibility.</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Timoshenko and Aminda Suomalainen; patch by Jeremy Rand.</li>
+      <li>Fix compatibility with StemNS’s conf.d feature.  Patch by Jeremy Rand.</li>
+      <li>Log StemNS stderr to event log.  Makes it easier to diagnose Tor Browser configuration bugs.  Patch by Jeremy Rand.</li>
+      <li>Work around PowerShell v2 bug.  Partially fixes Windows 7 compatibility.  Reported by Cyphrs; patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system
+    <ul>
+      <li>Bump Electrum-NMC to v4.0.0b1.</li>
+      <li>Bump godns to v1.1.49.</li>
+      <li>Bump tor-browser-build to v11.5a12.</li>
+    </ul>
+  </li>
+</ul>
+
+    <p>As usual, you can download it at the <a href="/download/#ncdns">Downloads page</a>.</p>
+
+    <p>This work was funded by Cyphrs.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -7565,25 +7634,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
