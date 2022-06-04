@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Upstream btcd Has Merged Last Outstanding Namecoin Patch</title>
+    <title>ncdns v0.3.1 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/04/ncdns-v0.3.1-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -130,69 +130,122 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Upstream btcd Has Merged Last Outstanding Namecoin Patch</h1>
-<p class="post-meta">Nov 14, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">ncdns v0.3.1 Released</h1>
+<p class="post-meta">Jun 4, 2022 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Good news: upstream btcd has merged the last outstanding patch that Namecoin was applying for our usage of btcd’s JSON-RPC client in ncdns.  This means that Namecoin’s fork of btcd will be discontinued, and as of the next btcd release (v0.22.1), ncdns will switch to using an unpatched upstream btcd.  Using unpatched upstream btcd will decrease our maintenance effort and improve code quality.</p>
+<p>We’ve released ncdns v0.3.1.  This Windows-only release includes important improvements to memory safety and UX; we recommend that all Windows users upgrade.</p>
 
-<p>Huge thanks to Torkel Rogstad, Anirudha Bose, and John Vernaleo from upstream btcd for code review.</p>
+<p>Full changelog of what’s new since v0.3:</p>
+
+<ul>
+  <li>certinject
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncdns
+    <ul>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>ncprop279
+    <ul>
+      <li>Fix stderr privacy leak when tlshook is enabled at compile-time.  Patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>StemNS
+    <ul>
+      <li>Log errors to stderr. Patch by Jeremy Rand.</li>
+      <li>Redact target address from stderr logs.  Patch by Jeremy Rand.</li>
+      <li>Load configuration from <code class="highlighter-rouge">config</code> folder.  Reported by Patrick Schleizer; patch by Yanmaani.</li>
+      <li>Support <code class="highlighter-rouge">ControlPort auto</code>.  Reported by Adolf-Putin-2022; patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>x509-compressed
+    <ul>
+      <li>Fix Go 1.18.x compatibility.</li>
+    </ul>
+  </li>
+  <li>Windows installer
+    <ul>
+      <li>Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Timoshenko and Aminda Suomalainen; patch by Jeremy Rand.</li>
+      <li>Fix compatibility with StemNS’s conf.d feature.  Patch by Jeremy Rand.</li>
+      <li>Log StemNS stderr to event log.  Makes it easier to diagnose Tor Browser configuration bugs.  Patch by Jeremy Rand.</li>
+      <li>Work around PowerShell v2 bug.  Partially fixes Windows 7 compatibility.  Reported by Cyphrs; patch by Jeremy Rand.</li>
+      <li>Code quality improvements.  Patches by Jeremy Rand.</li>
+    </ul>
+  </li>
+  <li>Build system
+    <ul>
+      <li>Bump Electrum-NMC to v4.0.0b1.</li>
+      <li>Bump godns to v1.1.49.</li>
+      <li>Bump tor-browser-build to v11.5a12.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As usual, you can download it at the <a href="/download/#ncdns">Downloads page</a>.</p>
+
+<p>This work was funded by Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -963,16 +1016,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-11-14-upstream-btcd-merges-last-namecoin-patch.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-06-04-ncdns-v0.3.1-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2021/11/14/upstream-btcd-merges-last-namecoin-patch.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/06/04/ncdns-v0.3.1-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/04/ncdns-v0.3.1-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/06/04/ncdns-v0.3.1-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/06/04/ncdns-v0.3.1-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -981,23 +1034,23 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
