@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 02 Jun 2022 18:45:18 +0000</pubDate>
-    <lastBuildDate>Thu, 02 Jun 2022 18:45:18 +0000</lastBuildDate>
+    <pubDate>Sat, 04 Jun 2022 07:22:43 +0000</pubDate>
+    <lastBuildDate>Sat, 04 Jun 2022 07:22:43 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -17,6 +17,77 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>ncdns v0.3.1 Released</title>
+        <description>&lt;p&gt;We’ve released ncdns v0.3.1.  This Windows-only release includes important improvements to memory safety and UX; we recommend that all Windows users upgrade.&lt;/p&gt;
+
+&lt;p&gt;Full changelog of what’s new since v0.3:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;certinject
+    &lt;ul&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ncdns
+    &lt;ul&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ncprop279
+    &lt;ul&gt;
+      &lt;li&gt;Fix stderr privacy leak when tlshook is enabled at compile-time.  Patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;StemNS
+    &lt;ul&gt;
+      &lt;li&gt;Log errors to stderr. Patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Redact target address from stderr logs.  Patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Load configuration from &lt;code class=&quot;highlighter-rouge&quot;&gt;config&lt;/code&gt; folder.  Reported by Patrick Schleizer; patch by Yanmaani.&lt;/li&gt;
+      &lt;li&gt;Support &lt;code class=&quot;highlighter-rouge&quot;&gt;ControlPort auto&lt;/code&gt;.  Reported by Adolf-Putin-2022; patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;x509-compressed
+    &lt;ul&gt;
+      &lt;li&gt;Fix Go 1.18.x compatibility.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Windows installer
+    &lt;ul&gt;
+      &lt;li&gt;Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Timoshenko and Aminda Suomalainen; patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Fix compatibility with StemNS’s conf.d feature.  Patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Log StemNS stderr to event log.  Makes it easier to diagnose Tor Browser configuration bugs.  Patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Work around PowerShell v2 bug.  Partially fixes Windows 7 compatibility.  Reported by Cyphrs; patch by Jeremy Rand.&lt;/li&gt;
+      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Build system
+    &lt;ul&gt;
+      &lt;li&gt;Bump Electrum-NMC to v4.0.0b1.&lt;/li&gt;
+      &lt;li&gt;Bump godns to v1.1.49.&lt;/li&gt;
+      &lt;li&gt;Bump tor-browser-build to v11.5a12.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/#ncdns&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/06/04/ncdns-v0.3.1-released.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/06/04/ncdns-v0.3.1-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>ncdns Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v4.0.0b1 Released</title>
@@ -449,33 +520,6 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
         <dc:creator>yanmaani</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v4.0.0b0 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v4.0.0b0.  This release includes numerous bugfixes and improvements, both Namecoin-related and from upstream Electrum.&lt;/p&gt;
-
-&lt;p&gt;The following Namecoin developers contributed to this release:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Jeremy Rand&lt;/li&gt;
-  &lt;li&gt;Daniel Kraft&lt;/li&gt;
-  &lt;li&gt;Yanmaani&lt;/li&gt;
-  &lt;li&gt;Somewhat&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 17 Dec 2021 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/12/17/electrum-nmc-v4.0.0b0-released.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/12/17/electrum-nmc-v4.0.0b0-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>
