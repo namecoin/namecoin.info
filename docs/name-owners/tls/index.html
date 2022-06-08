@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -134,7 +134,7 @@
 
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>You should install the latest release of the <code class="highlighter-rouge">generate_nmc_cert</code> tool (it’s included with ncdns).  You may also want to install the latest release of the ncdns Windows installer, to test that your certificates work.</p>
+<p>You should install the latest release of <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/#generate_nmc_cert">the <code class="highlighter-rouge">generate_nmc_cert</code> tool</a>.  You may also want to install the latest release of the <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/ncdns/">ncdns</a> Windows installer, to test that your certificates work.</p>
 
 <h2 id="concepts">Concepts</h2>
 
@@ -193,7 +193,7 @@ popd
 
 <h2 id="example-renewing-a-tls-certificate">Example: Renewing a TLS Certificate</h2>
 
-<p>To issue a new TLS certificate (e.g. to rotate keys), use the <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">parent-key</code> flags like this:</p>
+<p>To issue a new TLS certificate (e.g. to rotate keys), use the <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">parent-key</code> flags, like this:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-tls
 pushd example.bit-tls
@@ -251,7 +251,7 @@ popd
 
 <h2 id="example-issuing-a-subordinate-ca-certificate-for-a-subdomain">Example: Issuing a Subordinate CA Certificate for a Subdomain</h2>
 
-<p>Issuing a subordinate CA certificate works like above, except you use the <code class="highlighter-rouge">-grandparent-chain</code> and <code class="highlighter-rouge">-grandparent-key</code> flags instead of <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">-parent-key</code></p>
+<p>Issuing a subordinate CA certificate works like above, except you use the <code class="highlighter-rouge">-grandparent-chain</code> and <code class="highlighter-rouge">-grandparent-key</code> flags instead of <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">-parent-key</code>, like this:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir www.example.bit-ca
 pushd www.example.bit-ca
@@ -324,7 +324,7 @@ popd
 
 <h2 id="cipher-suites">Cipher Suites</h2>
 
-<p>All TLS 1.3 cipher suites will work with Namecoin.  If you must use TLS 1.2 or lower, your TLS server will need to support an appropriate cipher suite such as one of the <code class="highlighter-rouge">ECDHE-ECDSA</code> cipher suites.  If possible, please avoid using TLS 1.2 or lower (with or without Namecoin), as they are outdated and insecure.</p>
+<p>All TLS 1.3 cipher suites will work with Namecoin.  If you must use TLS 1.2 or lower, your TLS server will need to support an appropriate cipher suite, such as one of the <code class="highlighter-rouge">ECDHE-ECDSA</code> cipher suites.  If possible, please avoid using TLS 1.2 or lower (with or without Namecoin), as they are outdated and insecure.</p>
 
 <h2 id="using-your-own-tooling">Using Your Own Tooling</h2>
 
@@ -369,25 +369,25 @@ popd
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
