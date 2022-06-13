@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 08 Jun 2022 22:05:11 +0000</pubDate>
-    <lastBuildDate>Wed, 08 Jun 2022 22:05:11 +0000</lastBuildDate>
+    <pubDate>Mon, 13 Jun 2022 16:22:27 +0000</pubDate>
+    <lastBuildDate>Mon, 13 Jun 2022 16:22:27 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,68 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>pkcs11mod progress: Windows, macOS, certutil support, and more!</title>
+        <description>&lt;p&gt;Lots of things have been done with pkcs11mod since my &lt;a href=&quot;/2022/02/26/lab-leak-part-2-p11trustmod.html&quot;&gt;last post&lt;/a&gt; on the subject.  This is going to be a bit of a “grab bag” post without much structure (because that’s what reality looks like here, and this post is intended to reflect reality).&lt;/p&gt;
+
+&lt;p&gt;I noticed that the Chromium tests were hanging.  After a bit of investigation, I found that the flags I was passing to Chromium to make it run in Docker weren’t quite sufficient.  The &lt;a href=&quot;https://github.com/Zenika/alpine-chrome&quot;&gt;alpine-chrome&lt;/a&gt; project has a more thorough set of flags, and applying these to pkcs11mod’s test scripts got the tests passing again.&lt;/p&gt;
+
+&lt;p&gt;I implemented the &lt;code class=&quot;highlighter-rouge&quot;&gt;GenerateKeyPair&lt;/code&gt; function in p11mod, which got the &lt;code class=&quot;highlighter-rouge&quot;&gt;test-rsapub&lt;/code&gt; OpenDNSSEC test passing.  Thanks again to OpenDNSSEC for the test!&lt;/p&gt;
+
+&lt;p&gt;I noticed that trying to use either of the proxy modules with a nonexistent target module path resulted in a Go panic.  This is not good, since a panic will crash the host application.  Now this is mitigated by both pkcs11mod and p11mod checking for initialization errors, and returning &lt;code class=&quot;highlighter-rouge&quot;&gt;CKR_GENERAL_ERROR&lt;/code&gt;, which is used by the PKCS#11 specification to indicate an error that is probably not recoverable.  The application can handle this however it likes, but whatever it does will probably be better than crashing.&lt;/p&gt;
+
+&lt;p&gt;When trying to test pkcs11mod on Windows, I noticed that it failed very early.  So early that the Go runtime never even tried to initialize.  By comparing &lt;code class=&quot;highlighter-rouge&quot;&gt;pkcs11proxy.dll&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;nssckbi.dll&lt;/code&gt; in &lt;a href=&quot;https://lucasg.github.io/Dependencies/&quot;&gt;Dependencies&lt;/a&gt;, I found that pkcs11mod was failing to export the &lt;code class=&quot;highlighter-rouge&quot;&gt;C_GetFunctionList&lt;/code&gt; function, which caused applications to conclude that pkcs11proxy wasn’t a PKCS#11 module.  That explained the symptoms.  But wait, didn’t ncp11 work on Windows back when it was first released?  Yes.  Some digging found that this regression was caused by the fix for &lt;a href=&quot;https://github.com/golang/go/issues/30674&quot;&gt;Go issue 30674&lt;/a&gt;.  (Apparently, Go used to export all functions, and Windows has a tendency to crash if you export too many functions, so Go now requires developers to explicitly designate which functions will be exported.)  I fixed this via the &lt;code class=&quot;highlighter-rouge&quot;&gt;__declspec(dllexport)&lt;/code&gt; attribute.  And now, pkcs11proxy is detected as a PKCS#11 module on Windows.&lt;/p&gt;
+
+&lt;p&gt;I fixed the documentation (and Cirrus scripts) to generate libraries with the idiomatic &lt;code class=&quot;highlighter-rouge&quot;&gt;pkcs11proxy.dll&lt;/code&gt; filename on Windows targets, instead of the &lt;code class=&quot;highlighter-rouge&quot;&gt;libpkcs11proxy.so&lt;/code&gt; filename that’s supposed to be only a Linux thing.  Not a big deal, but correct documentation is important.&lt;/p&gt;
+
+&lt;p&gt;I added a trace mode (hidden behind an environment variable) to both pkcs11mod and p11mod, which makes it easier to follow what PKCS#11 calls are being issued.  Be warned, even running a proxy module for a minute or so can produce a trace log of over a megabyte, so this should not be done routinely.  Not all functions are traced yet; I’d happily accept PR’s to add more detailed tracing.&lt;/p&gt;
+
+&lt;p&gt;I added a test for &lt;a href=&quot;/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt;&lt;/a&gt; on Debian, and noticed that it was failing.  Further investigation showed that &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; was failing to read the trust bits from the CKBI module when &lt;code class=&quot;highlighter-rouge&quot;&gt;pkcs11proxy&lt;/code&gt; was in the middle.  This was odd, because I was already testing &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; on Fedora, and it worked fine there.  The obvious difference was that Fedora uses Red Hat’s p11-kit CKBI module, while Debian uses Mozilla’s CKBI module.  Fedora’s replacement is &lt;em&gt;supposed&lt;/em&gt; to be compatible with Mozilla’s version, but clearly the Red Hat CKBI module was doing something different from Mozilla’s, and my code was expecting the behavior of Red Hat’s module.  Using the trace mode (see above paragraph), I figured out what was going on.  NSS queries for 4 different EKU trust attributes: TLS server authentication, TLS client authentication, email, and code signing.  (Clearly NSS could get away with only querying for TLS server authentication in this case, since &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; isn’t doing anything with the other three, but they don’t do that optimization here.  Which is probably okay, since most of the time, the extra queries won’t harm performace.)  Red Hat’s CKBI module contains trust bits for all 4 of those EKU attributes.  Mozilla’s CKBI module, however, omits the TLS client authentication attribute.  This makes sense, I guess, since the Mozila root CA program is not intended to be used for TLS client authentication, while Red Hat’s CKBI module incorporates certificates added by the user, which might be used for that EKU.  Here’s where the problem happens: NSS queries for all 4 trust attributes in a single &lt;code class=&quot;highlighter-rouge&quot;&gt;GetAttributeValue&lt;/code&gt; function call.  Per the PKCS#11 specification, if any of the attributes in a oneshot query are missing, some extra error bits are returned, so that the caller knows which attributes existed and which didn’t.  However, Miek’s pkcs11 library doesn’t handle this case; it instead just returns an error, causing pkcs11mod to lose the trust bits attributes that did exist.  Patching Miek’s library seemed like an overkill approach, so I instead rigged pkcs11mod to detect the &lt;code class=&quot;highlighter-rouge&quot;&gt;CKR_ATTRIBUTE_SENSITIVE&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;CKR_ATTRIBUTE_TYPE_INVALID&lt;/code&gt; error codes, and retry the attributes one at a time to figure out which ones we can return to the application.  This isn’t ideal performance-wise, since we end up retrieving the attributes twice, but the difference should be negligible in the real world.  And with that, &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; on Debian passed the tests.&lt;/p&gt;
+
+&lt;p&gt;Upstream p11 v1.1.0 added some named errors, which allowed me to avoid recognizing those errors via a brittle string comparison.  That makes my code cleaner, which is good.&lt;/p&gt;
+
+&lt;p&gt;I added tests for Firefox and Chromium on Debian, which passed immediately (presumably because of the above &lt;code class=&quot;highlighter-rouge&quot;&gt;tstclnt&lt;/code&gt; fixes).&lt;/p&gt;
+
+&lt;p&gt;I added tests for Firefox (both ESR and Nightly) on Windows.  These mostly passed, but I did need to fix the logfile output paths, since &lt;code class=&quot;highlighter-rouge&quot;&gt;$HOME&lt;/code&gt; is not a thing on Windows.  The logfile is now saved to &lt;code class=&quot;highlighter-rouge&quot;&gt;os.UserConfigDir()&lt;/code&gt;, which behaves sanely on all major OS’s.  It falls back to the current working directory if the user config directory isn’t accessible for some reason (e.g. sandboxing).&lt;/p&gt;
+
+&lt;p&gt;I then added some more Firefox variants on Windows: Firefox Rapid Release, Firefox Beta, Firefox Developer Edition, &lt;a href=&quot;https://librewolf.net/&quot;&gt;LibreWolf&lt;/a&gt;, and &lt;a href=&quot;https://www.gnu.org/software/gnuzilla/&quot;&gt;GNU IceCat&lt;/a&gt;.  They all passed.  I also tried to add &lt;a href=&quot;https://www.waterfox.net/&quot;&gt;Waterfox&lt;/a&gt; and &lt;a href=&quot;https://www.palemoon.org/&quot;&gt;Pale Moon&lt;/a&gt;, but Waterfox hung on the install step in my Cirrus VM, and Pale Moon doesn’t support the headless screenshot feature, which my tests rely on.  My guess is that both of them would work fine outside of my test environment.&lt;/p&gt;
+
+&lt;p&gt;Next, I added tests for &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; (the NSS tool, not the CryptoAPI tool of the same name).  Specifically, I dumped the CKBI certificate list, with trust bits, via pkcs11proxy and p11proxy, and compared the output to what I got without the proxy.  Surprisingly, this turned out to be a giant gopherhole [1].  Dumping the certificate list caused &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; to segfault halfway through dumping when proxied – but only on Windows, and only via p11proxy (pkcs11proxy didn’t segfault).  Inspecting logs revealed that &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; was calling the &lt;code class=&quot;highlighter-rouge&quot;&gt;CloseAllSessions&lt;/code&gt; function, which &lt;code class=&quot;highlighter-rouge&quot;&gt;p11mod&lt;/code&gt; didn’t implement.  I implemented that function (it was pretty simple), but this didn’t fix the segfault.  I enabled the trace mode that I had previously added, and found that it was segfaulting after the &lt;code class=&quot;highlighter-rouge&quot;&gt;Finalize&lt;/code&gt; function had returned, which seemed odd, since that meant my code had already finished running by the point of the segfault.  After some confusion, I found &lt;a href=&quot;https://github.com/golang/go/issues/11100&quot;&gt;Go issue 11100&lt;/a&gt;, which described my problem: &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; had tried to unload &lt;code class=&quot;highlighter-rouge&quot;&gt;p11proxy.dll&lt;/code&gt;, which yanked some data structures out from under the Go runtime, causing a segfault.  There is a way to instruct Windows (via the &lt;code class=&quot;highlighter-rouge&quot;&gt;GET_MODULE_HANDLE_EX_FLAG_PIN&lt;/code&gt; argument to the &lt;code class=&quot;highlighter-rouge&quot;&gt;GetModuleHandleEx&lt;/code&gt; Windows API function) not to ever unload a DLL file until the application exits.  Conveniently, the &lt;code class=&quot;highlighter-rouge&quot;&gt;golang.org/x/sys/windows&lt;/code&gt; package (nicknamed &lt;code class=&quot;highlighter-rouge&quot;&gt;goxsys/windows&lt;/code&gt; by the Tor folks [2]) has support for this.  I tried it out, and sure enough, that fixed the segfault.&lt;/p&gt;
+
+&lt;p&gt;However, this introduced a new issue.  Now, &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; wouldn’t segfault, but it would hang after outputting the entire certificate list, until I hit Ctrl-C in the command prompt.  Go issue 11100 had some mention of this occurring in Unity: apparently some applications wait for all background threads to exit before closing the program, and the Go runtime (which never terminates) is being recognized as such a background thread.  In theory, this is an application bug, but pkcs11proxy is supposed to leave the behavior of buggy software unchanged, so this was something I couldn’t just ignore.  Alas, I didn’t find a clean way to solve this.  So I did the dumb approach: when the &lt;code class=&quot;highlighter-rouge&quot;&gt;Finalize&lt;/code&gt; function is called, pkcs11mod starts a 5-second timer in a goroutine, which then calls &lt;code class=&quot;highlighter-rouge&quot;&gt;os.Exit(0)&lt;/code&gt;.  Sometimes the dumb approach is the best option that presents itself.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, this meant that now, if an application tries to unload pkcs11mod, the application will be forcibly closed 5 seconds later.  This works fine for applications like &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; which will exit right after that point anyway.  But in Firefox, you probably don’t want your browser to kill itself 5 seconds after you click the Unload button in the Security Devices dialog.  So, what to do…?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/memes/one-does-not-simply-avoid-user-agent-sniffing.jpg&quot; alt=&quot;One does not simply avoid user-agent sniffing.  Even in PKCS#11 modules.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Yep, once again, sometimes the dumb approach is the best option that presents itself.  We simply check the process name that pkcs11mod is loaded into.  If it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil.exe&lt;/code&gt;, we start the 5-second exit timer; otherwise, we don’t.  The number of applications that exhibit this bug is, I’m guessing, small enough that we can simply enumerate them.&lt;/p&gt;
+
+&lt;p&gt;This got the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; tests passing.  However, now the Firefox tests on Windows were failing.  Inspection of Firefox stderr indicated some error messages about a tab subprocess failing to start.  A DuckDuckGo search for these errors indicated a Bugzilla thread where the reporter said that disabling the Electrolysis sandbox fixed a crash.  I added some Cirrus tasks that ran my usual Firefox tests but with Electrolysis disabled.  Sure enough, those tests passed.  I initially figured that my usage of &lt;code class=&quot;highlighter-rouge&quot;&gt;GetModuleHandleEx&lt;/code&gt;, or perhaps my attempt to read the process name, had violated some kind of sandbox policy, but after bisecting my recent changes, I came to a surprising conclusion: the thing that crashes Electrolysis is simply the act of &lt;em&gt;importing&lt;/em&gt; the &lt;code class=&quot;highlighter-rouge&quot;&gt;goxsys/windows&lt;/code&gt; package.  I’m guessing there’s some kind of &lt;code class=&quot;highlighter-rouge&quot;&gt;init()&lt;/code&gt; function inside that package that tries to do something that the sandbox doesn’t like, and panics when it gets a permission failure [3].  After grepping GitHub hoping someone had already found a solution to this, I discovered that the &lt;a href=&quot;https://github.com/pipelined/vst2&quot;&gt;vst2&lt;/a&gt; project had already implemented a similar solution to mine, but using the lower-level &lt;code class=&quot;highlighter-rouge&quot;&gt;syscall&lt;/code&gt; package instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;goxsys/windows&lt;/code&gt;.  I copied their code nearly verbatim, and it worked out of the box: the DLL was pinned properly in &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt;, and Electrolysis worked fine.  Thus bringing me out of the &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil&lt;/code&gt; gopherhole.&lt;/p&gt;
+
+&lt;p&gt;I then relaxed a bit by adding macOS builds to Cirrus, and confirmed that pkcs11mod builds without errors on macOS.  (I don’t know if the binaries actually work, but they’re on Cirrus now, you can try them yourself and let me know.)&lt;/p&gt;
+
+&lt;p&gt;Finally, after discussion with the other pkcs11mod devs (Aerth and Bernard), we unanimously agreed to relicense pkcs11mod and ncp11 from LGPLv3+ to LGPLv2.1+.  This makes it unambiguously legal to use pkcs11mod with GPLv2-licensed applications.  The failure to do this initially was an oversight on our end; it was kind of ridiculous that we permitted pkcs11mod to be used with non-freedom software but not GPLv2 software.&lt;/p&gt;
+
+&lt;p&gt;We’re not yet at the point where I’d consider pkcs11mod to be well-tested enough to be used in production by people other than its 3 authors, but we are getting a lot closer to that point.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+
+&lt;p&gt;[1] &lt;a href=&quot;https://go.dev/blog/gopher&quot;&gt;Rabbitholes are a thing in Plan 9, not Go.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[2] Insert Andrew “rasengan” Lee joke here.&lt;/p&gt;
+
+&lt;p&gt;[3] The “goxfail” jokes write themselves.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 13 Jun 2022 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/13/pkcs11mod-windows-macos-certutil.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/13/pkcs11mod-windows-macos-certutil.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v4.0.0b1 fixes CVE-2022-31246</title>
@@ -482,35 +544,6 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
         <pubDate>Sat, 29 Jan 2022 00:00:00 +0000</pubDate>
         <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html</link>
         <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/29/go-dns-seeder-improvements.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>p11mod Now Supports Signatures</title>
-        <description>&lt;p&gt;In a &lt;a href=&quot;/2021/07/10/lab-leak-p11mod.html&quot;&gt;previous post&lt;/a&gt;, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Import certificates, public keys, and private keys.&lt;/li&gt;
-  &lt;li&gt;Delete certificates, public keys, and private keys.&lt;/li&gt;
-  &lt;li&gt;Sign messages with private keys.&lt;/li&gt;
-  &lt;li&gt;Verify signatures with public keys.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!&lt;/p&gt;
-
-&lt;p&gt;I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!&lt;/p&gt;
-
-&lt;p&gt;All of these improvements are now tested daily on Cirrus via p11proxy.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 27 Jan 2022 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/27/p11mod-signatures.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/27/p11mod-signatures.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
