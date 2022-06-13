@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,68 @@
   <article class="post-content">
     
 <p>(<a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/06/13/pkcs11mod-windows-macos-certutil.html">pkcs11mod progress: Windows, macOS, certutil support, and more!</a></h1>
+    <p class="post-meta">Jun 13, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Lots of things have been done with pkcs11mod since my <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/02/26/lab-leak-part-2-p11trustmod.html">last post</a> on the subject.  This is going to be a bit of a “grab bag” post without much structure (because that’s what reality looks like here, and this post is intended to reflect reality).</p>
+
+    <p>I noticed that the Chromium tests were hanging.  After a bit of investigation, I found that the flags I was passing to Chromium to make it run in Docker weren’t quite sufficient.  The <a href="https://github.com/Zenika/alpine-chrome">alpine-chrome</a> project has a more thorough set of flags, and applying these to pkcs11mod’s test scripts got the tests passing again.</p>
+
+    <p>I implemented the <code class="highlighter-rouge">GenerateKeyPair</code> function in p11mod, which got the <code class="highlighter-rouge">test-rsapub</code> OpenDNSSEC test passing.  Thanks again to OpenDNSSEC for the test!</p>
+
+    <p>I noticed that trying to use either of the proxy modules with a nonexistent target module path resulted in a Go panic.  This is not good, since a panic will crash the host application.  Now this is mitigated by both pkcs11mod and p11mod checking for initialization errors, and returning <code class="highlighter-rouge">CKR_GENERAL_ERROR</code>, which is used by the PKCS#11 specification to indicate an error that is probably not recoverable.  The application can handle this however it likes, but whatever it does will probably be better than crashing.</p>
+
+    <p>When trying to test pkcs11mod on Windows, I noticed that it failed very early.  So early that the Go runtime never even tried to initialize.  By comparing <code class="highlighter-rouge">pkcs11proxy.dll</code> to <code class="highlighter-rouge">nssckbi.dll</code> in <a href="https://lucasg.github.io/Dependencies/">Dependencies</a>, I found that pkcs11mod was failing to export the <code class="highlighter-rouge">C_GetFunctionList</code> function, which caused applications to conclude that pkcs11proxy wasn’t a PKCS#11 module.  That explained the symptoms.  But wait, didn’t ncp11 work on Windows back when it was first released?  Yes.  Some digging found that this regression was caused by the fix for <a href="https://github.com/golang/go/issues/30674">Go issue 30674</a>.  (Apparently, Go used to export all functions, and Windows has a tendency to crash if you export too many functions, so Go now requires developers to explicitly designate which functions will be exported.)  I fixed this via the <code class="highlighter-rouge">__declspec(dllexport)</code> attribute.  And now, pkcs11proxy is detected as a PKCS#11 module on Windows.</p>
+
+    <p>I fixed the documentation (and Cirrus scripts) to generate libraries with the idiomatic <code class="highlighter-rouge">pkcs11proxy.dll</code> filename on Windows targets, instead of the <code class="highlighter-rouge">libpkcs11proxy.so</code> filename that’s supposed to be only a Linux thing.  Not a big deal, but correct documentation is important.</p>
+
+    <p>I added a trace mode (hidden behind an environment variable) to both pkcs11mod and p11mod, which makes it easier to follow what PKCS#11 calls are being issued.  Be warned, even running a proxy module for a minute or so can produce a trace log of over a megabyte, so this should not be done routinely.  Not all functions are traced yet; I’d happily accept PR’s to add more detailed tracing.</p>
+
+    <p>I added a test for <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/07/05/tstclnt-openssl-s_client-gnutls-cli-equivalent-for-nss.html"><code class="highlighter-rouge">tstclnt</code></a> on Debian, and noticed that it was failing.  Further investigation showed that <code class="highlighter-rouge">tstclnt</code> was failing to read the trust bits from the CKBI module when <code class="highlighter-rouge">pkcs11proxy</code> was in the middle.  This was odd, because I was already testing <code class="highlighter-rouge">tstclnt</code> on Fedora, and it worked fine there.  The obvious difference was that Fedora uses Red Hat’s p11-kit CKBI module, while Debian uses Mozilla’s CKBI module.  Fedora’s replacement is <em>supposed</em> to be compatible with Mozilla’s version, but clearly the Red Hat CKBI module was doing something different from Mozilla’s, and my code was expecting the behavior of Red Hat’s module.  Using the trace mode (see above paragraph), I figured out what was going on.  NSS queries for 4 different EKU trust attributes: TLS server authentication, TLS client authentication, email, and code signing.  (Clearly NSS could get away with only querying for TLS server authentication in this case, since <code class="highlighter-rouge">tstclnt</code> isn’t doing anything with the other three, but they don’t do that optimization here.  Which is probably okay, since most of the time, the extra queries won’t harm performace.)  Red Hat’s CKBI module contains trust bits for all 4 of those EKU attributes.  Mozilla’s CKBI module, however, omits the TLS client authentication attribute.  This makes sense, I guess, since the Mozila root CA program is not intended to be used for TLS client authentication, while Red Hat’s CKBI module incorporates certificates added by the user, which might be used for that EKU.  Here’s where the problem happens: NSS queries for all 4 trust attributes in a single <code class="highlighter-rouge">GetAttributeValue</code> function call.  Per the PKCS#11 specification, if any of the attributes in a oneshot query are missing, some extra error bits are returned, so that the caller knows which attributes existed and which didn’t.  However, Miek’s pkcs11 library doesn’t handle this case; it instead just returns an error, causing pkcs11mod to lose the trust bits attributes that did exist.  Patching Miek’s library seemed like an overkill approach, so I instead rigged pkcs11mod to detect the <code class="highlighter-rouge">CKR_ATTRIBUTE_SENSITIVE</code> and <code class="highlighter-rouge">CKR_ATTRIBUTE_TYPE_INVALID</code> error codes, and retry the attributes one at a time to figure out which ones we can return to the application.  This isn’t ideal performance-wise, since we end up retrieving the attributes twice, but the difference should be negligible in the real world.  And with that, <code class="highlighter-rouge">tstclnt</code> on Debian passed the tests.</p>
+
+    <p>Upstream p11 v1.1.0 added some named errors, which allowed me to avoid recognizing those errors via a brittle string comparison.  That makes my code cleaner, which is good.</p>
+
+    <p>I added tests for Firefox and Chromium on Debian, which passed immediately (presumably because of the above <code class="highlighter-rouge">tstclnt</code> fixes).</p>
+
+    <p>I added tests for Firefox (both ESR and Nightly) on Windows.  These mostly passed, but I did need to fix the logfile output paths, since <code class="highlighter-rouge">$HOME</code> is not a thing on Windows.  The logfile is now saved to <code class="highlighter-rouge">os.UserConfigDir()</code>, which behaves sanely on all major OS’s.  It falls back to the current working directory if the user config directory isn’t accessible for some reason (e.g. sandboxing).</p>
+
+    <p>I then added some more Firefox variants on Windows: Firefox Rapid Release, Firefox Beta, Firefox Developer Edition, <a href="https://librewolf.net/">LibreWolf</a>, and <a href="https://www.gnu.org/software/gnuzilla/">GNU IceCat</a>.  They all passed.  I also tried to add <a href="https://www.waterfox.net/">Waterfox</a> and <a href="https://www.palemoon.org/">Pale Moon</a>, but Waterfox hung on the install step in my Cirrus VM, and Pale Moon doesn’t support the headless screenshot feature, which my tests rely on.  My guess is that both of them would work fine outside of my test environment.</p>
+
+    <p>Next, I added tests for <code class="highlighter-rouge">certutil</code> (the NSS tool, not the CryptoAPI tool of the same name).  Specifically, I dumped the CKBI certificate list, with trust bits, via pkcs11proxy and p11proxy, and compared the output to what I got without the proxy.  Surprisingly, this turned out to be a giant gopherhole [1].  Dumping the certificate list caused <code class="highlighter-rouge">certutil</code> to segfault halfway through dumping when proxied – but only on Windows, and only via p11proxy (pkcs11proxy didn’t segfault).  Inspecting logs revealed that <code class="highlighter-rouge">certutil</code> was calling the <code class="highlighter-rouge">CloseAllSessions</code> function, which <code class="highlighter-rouge">p11mod</code> didn’t implement.  I implemented that function (it was pretty simple), but this didn’t fix the segfault.  I enabled the trace mode that I had previously added, and found that it was segfaulting after the <code class="highlighter-rouge">Finalize</code> function had returned, which seemed odd, since that meant my code had already finished running by the point of the segfault.  After some confusion, I found <a href="https://github.com/golang/go/issues/11100">Go issue 11100</a>, which described my problem: <code class="highlighter-rouge">certutil</code> had tried to unload <code class="highlighter-rouge">p11proxy.dll</code>, which yanked some data structures out from under the Go runtime, causing a segfault.  There is a way to instruct Windows (via the <code class="highlighter-rouge">GET_MODULE_HANDLE_EX_FLAG_PIN</code> argument to the <code class="highlighter-rouge">GetModuleHandleEx</code> Windows API function) not to ever unload a DLL file until the application exits.  Conveniently, the <code class="highlighter-rouge">golang.org/x/sys/windows</code> package (nicknamed <code class="highlighter-rouge">goxsys/windows</code> by the Tor folks [2]) has support for this.  I tried it out, and sure enough, that fixed the segfault.</p>
+
+    <p>However, this introduced a new issue.  Now, <code class="highlighter-rouge">certutil</code> wouldn’t segfault, but it would hang after outputting the entire certificate list, until I hit Ctrl-C in the command prompt.  Go issue 11100 had some mention of this occurring in Unity: apparently some applications wait for all background threads to exit before closing the program, and the Go runtime (which never terminates) is being recognized as such a background thread.  In theory, this is an application bug, but pkcs11proxy is supposed to leave the behavior of buggy software unchanged, so this was something I couldn’t just ignore.  Alas, I didn’t find a clean way to solve this.  So I did the dumb approach: when the <code class="highlighter-rouge">Finalize</code> function is called, pkcs11mod starts a 5-second timer in a goroutine, which then calls <code class="highlighter-rouge">os.Exit(0)</code>.  Sometimes the dumb approach is the best option that presents itself.</p>
+
+    <p>Unfortunately, this meant that now, if an application tries to unload pkcs11mod, the application will be forcibly closed 5 seconds later.  This works fine for applications like <code class="highlighter-rouge">certutil</code> which will exit right after that point anyway.  But in Firefox, you probably don’t want your browser to kill itself 5 seconds after you click the Unload button in the Security Devices dialog.  So, what to do…?</p>
+
+    <p><img src="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/memes/one-does-not-simply-avoid-user-agent-sniffing.jpg" alt="One does not simply avoid user-agent sniffing.  Even in PKCS#11 modules." /></p>
+
+    <p>Yep, once again, sometimes the dumb approach is the best option that presents itself.  We simply check the process name that pkcs11mod is loaded into.  If it’s <code class="highlighter-rouge">certutil.exe</code>, we start the 5-second exit timer; otherwise, we don’t.  The number of applications that exhibit this bug is, I’m guessing, small enough that we can simply enumerate them.</p>
+
+    <p>This got the <code class="highlighter-rouge">certutil</code> tests passing.  However, now the Firefox tests on Windows were failing.  Inspection of Firefox stderr indicated some error messages about a tab subprocess failing to start.  A DuckDuckGo search for these errors indicated a Bugzilla thread where the reporter said that disabling the Electrolysis sandbox fixed a crash.  I added some Cirrus tasks that ran my usual Firefox tests but with Electrolysis disabled.  Sure enough, those tests passed.  I initially figured that my usage of <code class="highlighter-rouge">GetModuleHandleEx</code>, or perhaps my attempt to read the process name, had violated some kind of sandbox policy, but after bisecting my recent changes, I came to a surprising conclusion: the thing that crashes Electrolysis is simply the act of <em>importing</em> the <code class="highlighter-rouge">goxsys/windows</code> package.  I’m guessing there’s some kind of <code class="highlighter-rouge">init()</code> function inside that package that tries to do something that the sandbox doesn’t like, and panics when it gets a permission failure [3].  After grepping GitHub hoping someone had already found a solution to this, I discovered that the <a href="https://github.com/pipelined/vst2">vst2</a> project had already implemented a similar solution to mine, but using the lower-level <code class="highlighter-rouge">syscall</code> package instead of <code class="highlighter-rouge">goxsys/windows</code>.  I copied their code nearly verbatim, and it worked out of the box: the DLL was pinned properly in <code class="highlighter-rouge">certutil</code>, and Electrolysis worked fine.  Thus bringing me out of the <code class="highlighter-rouge">certutil</code> gopherhole.</p>
+
+    <p>I then relaxed a bit by adding macOS builds to Cirrus, and confirmed that pkcs11mod builds without errors on macOS.  (I don’t know if the binaries actually work, but they’re on Cirrus now, you can try them yourself and let me know.)</p>
+
+    <p>Finally, after discussion with the other pkcs11mod devs (Aerth and Bernard), we unanimously agreed to relicense pkcs11mod and ncp11 from LGPLv3+ to LGPLv2.1+.  This makes it unambiguously legal to use pkcs11mod with GPLv2-licensed applications.  The failure to do this initially was an oversight on our end; it was kind of ridiculous that we permitted pkcs11mod to be used with non-freedom software but not GPLv2 software.</p>
+
+    <p>We’re not yet at the point where I’d consider pkcs11mod to be well-tested enough to be used in production by people other than its 3 authors, but we are getting a lot closer to that point.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+    <p>[1] <a href="https://go.dev/blog/gopher">Rabbitholes are a thing in Plan 9, not Go.</a></p>
+
+    <p>[2] Insert Andrew “rasengan” Lee joke here.</p>
+
+    <p>[3] The “goxfail” jokes write themselves.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -7648,25 +7710,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
