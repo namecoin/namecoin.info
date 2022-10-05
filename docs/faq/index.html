@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -226,7 +226,7 @@
 
 <p>See <a href="/dot-bit/browsing-instructions/">Browsing .bit Websites</a>.</p>
 
-<p>You can also use <a href="/docs/ncdns">ncdns</a> (experimental).  If you have the <a href="https://zeronet.io/">ZeroNet</a> software installed, you can visit ZeroNet-enabled .bit domains.</p>
+<p>If you have the <a href="https://zeronet.io/">ZeroNet</a> software installed, you can visit ZeroNet-enabled .bit domains.</p>
 
 <h3 id="how-do-i-register-and-host-a-bit-domain">How do I register and host a .bit domain?</h3>
 
@@ -238,7 +238,7 @@
 
 <h3 id="what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</h3>
 
-<p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 35,999 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  See our <a href="/docs/layer-2/">Layer 2</a> documentation for examples of such usage.</p>
+<p>Consider that Namecoin values are limited to 520 bytes, and that the block size limit is somewhere between 500 kB and 1 MB.  (It’s lower than Bitcoin’s.)  Given that blocks occur every 10 minutes on average (usually fluctuating between 1 and 60 minutes), and that names have to be updated or renewed at least every 31,967 blocks, try to figure out whether your application would comfortably fit into blocks if your application became widespread.  Domain names and identities are applications that are near the upper limit of the scale that Namecoin can handle.  For example, misusing the Namecoin blockchain as a decentralized file storage is not feasible.  There are several other decentralized systems that serve this purpose way more efficiently.  In many cases, if you want to store data that is larger than 520 bytes, or that is updated very often, you may prefer to only store a content hash or a public key in the blockchain, along with information on where to get the full data.  The full data can then be authenticated using Namecoin as a trust anchor without storing the entire data in Namecoin.  See our <a href="/docs/layer-2/">Layer 2</a> documentation for examples of such usage.</p>
 
 <p>If you’re developing an application, consider doing your development on the Namecoin Testnet.  This prevents your testing from bloating the production blockchain, and also allows you to test without spending real money on names.  If more than one implementation might have the same use case, consider writing a spec so that incompatible implementations of similar ideas don’t become a problem.</p>
 
@@ -395,17 +395,17 @@
   <li>There are additional commands for special transactions containing <em>names</em> and <em>data</em> (key/value pairs).</li>
   <li>The most important commands are: <code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code>, and <code class="highlighter-rouge">name_update</code>.</li>
   <li>The coins used to pay for a <code class="highlighter-rouge">name_firstupdate</code> operation are destroyed, i.e. every new name reduces the finally usable maximum of 21 million NMC by 0.01 NMC.</li>
-  <li><code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> contain a pair of name/value which expires after 36,000 blocks (between 200 and 250 days).</li>
-  <li>The <code class="highlighter-rouge">d/</code> prefix is used to register a domain name, without the .bit TLD: <code class="highlighter-rouge">{     "name" : "d/opennic",     "value" : "what you want",     "expires_in" : 10227 }</code></li>
+  <li><code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> contain a pair of name/value, which <a href="#how-long-are-names-good-for">require periodic renewal</a>.</li>
+  <li>The <code class="highlighter-rouge">d/</code> prefix is used to register a domain name, without the .bit TLD: <code class="highlighter-rouge">{     "name" : "d/namecoin",     "value" : "what you want",     "expires_in" : 10227 }</code></li>
   <li>The <code class="highlighter-rouge">id/</code> prefix is used to register an identity, see <a href="https://nameid.org/">NameID</a>.</li>
-  <li>Energy-efficient: if you are already mining bitcoins you can merge-mine namecoins at no extra cost for hardware and electricity.  For a list of current Namecoin mining pools, see <a href="https://metrics.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/namecoin/period-timestamps-14-days/pool/charts/latest.txt">our Metrics data</a>.</li>
+  <li>Energy-efficient: if you are already mining bitcoins, you can merge-mine namecoins at no extra cost for hardware and electricity.  For a list of current Namecoin mining pools, see <a href="https://metrics.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/namecoin/period-timestamps-14-days/pool/charts/latest.txt">our Metrics data</a>.</li>
 </ul>
 
 <h3 id="what-are-the-similarities-between-namecoin-and-bitcoin">What are the similarities between Namecoin and Bitcoin?</h3>
 
 <ul>
   <li>21 million coins total, minus the lost coins.</li>
-  <li>50 coins are generated each block at the beginning; the reward halves each 210000 blocks (around 4 years).</li>
+  <li>50 coins are generated each block at the beginning; the reward halves each 210,000 blocks (around 4 years).</li>
   <li>Security: a large fraction of Bitcoin miners also mine Namecoin, giving it a staggering difficulty.</li>
   <li>Pseudonymous founder: Vince, like Satoshi, never revealed his real-world identity and disappeared around the same time, leaving Namecoin project wild in the open, to flourish only thanks to the help of enthusiasts in the FLOSS community.</li>
   <li>Free / libre / open-source platform: Anyone can improve the code and report issues on <a href="https://github.com/namecoin/">GitHub</a> and even use it on other projects.</li>
@@ -746,7 +746,7 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <p>Information about what a 51% attacker can do in Bitcoin is <a href="https://bitcoin.stackexchange.com/a/662">described on the Bitcoin StackExchange</a>.  Namecoin is quite similar.  The primary things that adversely affect Namecoin are reversing transactions sent by the attacker and preventing transactions from gaining confirmations.</p>
 
-<p>Reversing transactions sent by the attacker would allow name registrations to be stolen if the reversed transaction is a <code class="highlighter-rouge">name_firstupdate</code>.  This is because prior to being registered, names are considered to be “anyone can spend”, meaning that prior to the registration, any arbitrary attacker is equally in ownership of a name as the user who actually registers it.  Preventing transactions from gaining any confirmations would allow names to be stolen if all transactions for a name are prevented from confirming until the name expires after 36000 blocks, at which point the attacker can register it (but it should be noted that this would require a prolonged 51% attack lasting until the 36000-block expiry period elapses, which would be highly expensive).</p>
+<p>Reversing transactions sent by the attacker would allow name registrations to be stolen if the reversed transaction is a <code class="highlighter-rouge">name_firstupdate</code>.  This is because prior to being registered, names are considered to be “anyone can spend”, meaning that prior to the registration, any arbitrary attacker is equally in ownership of a name as the user who actually registers it.  Preventing transactions from gaining any confirmations would allow names to be stolen if all transactions for a name are prevented from confirming until the name expires after 36,000 blocks, at which point the attacker can register it (but it should be noted that this would require a prolonged 51% attack lasting until the 36,000-block expiry period elapses, which would be highly expensive).</p>
 
 <p>Both of these attacks are detectable.  In the case of reversing transactions, the evidence would be an extremely long fork in the blockchain, possibly thousands of blocks long or longer.  In the case of preventing transactions from confirming, the evidence would be that the blockchain indicates that a name expired and was re-registered.  In both cases, it is detectable which names were attacked.  In the case of preventing transactions from confirming, it is also possible for the legitimate owner of the stolen name to register a new name after the attack is over, and sign it with the owner key of the original name, thus proving common ownership and allowing secure resurrection of the name.  The only way to prevent this resurrection is for the attacker to continue to expend mining resources on the attack for as long as they with to prevent the name from being resurrected.  In the case of reversing transactions, it is not possible to prove ownership of the original name and resurrect it.  Luckily, reversing old transactions is considerably more expensive than preventing new transactions from confirming.</p>
 
@@ -848,25 +848,25 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
