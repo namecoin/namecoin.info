@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Undocumented Windows Feature: External Name Constraints</title>
+    <title>winsvcwrap: Open source replacement for SRVANY in Golang</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2021/01/14/undocumented-windows-feature-external-name-constraints.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss"/>
 
     <link rel="icon" href='/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,196 +130,188 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Undocumented Windows Feature: External Name Constraints</h1>
-<p class="post-meta">Jan 14, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">winsvcwrap: Open source replacement for SRVANY in Golang</h1>
+<p class="post-meta">Oct 6, 2022 • Hugo Landau <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Name constraints are a little-known gem of a feature in X.509 certificates, which are used for TLS.  A name constraint is a certificate extension, applied to a CA’s certificate, that contains a whitelist and/or blacklist of names (e.g. domain names) that the CA can issue certs for.  There are 3 main reasons why a CA might want to have a name constraint:</p>
+<p>Unlike *nix platforms, system services on Windows must be specifically designed
+to run as services, and written against the Win32 Service APIs. This creates a
+problem when it is desired to run a program as a Windows system service which
+was not designed to function in this role.</p>
 
-<ol>
-  <li>A commercial public CA might sell you a CA for your personal use, with a name constraint that whitelists only domains that you’ve demonstrated that you control.  This works similarly to selling you an end-entity certificate, except that now you can renew your end-entity cert (perhaps rotating keys) without needing to interact with the commercial CA, since you now have your own CA you can use.  This use case isn’t really used in practice, mostly because of regulatory capture (commercial CA’s have successfully made sure that the CA/Browser Forum regulations prohibit issuing name-constrained CA’s to members of the general public).</li>
-  <li>A private CA, perhaps belonging to a corporate intranet or other internal network, wants to limit the damage it can do if it is later compromised, so it includes a name constraint that whitelists a TLD belonging to its intranet.  Thus, if the private CA is later compromised, it can’t be used to attack websites on the public Internet.  This is the stated motivation for Netflix’s BetterTLS test suite.</li>
-  <li>A public CA wants to prevent itself from issuing certificates for specific TLD’s that have unique regulatory requirements that the CA isn’t able to comply with, so it includes a name constraint that blacklists those TLD’s.  Thus, users of those TLD’s don’t have to worry about the public CA affecting their environment.  The best-known example of this is that the Let’s Encrypt CA has sometimes used a name constraint that blacklisted <code class="highlighter-rouge">.mil</code>, presumably because the U.S. military PKI has regulatory requirements that Let’s Encrypt didn’t want to mess with.</li>
-</ol>
+<p><code class="highlighter-rouge">SRVANY.EXE</code> is an executable distributed by Microsoft in the Windows NT 4.0
+Resource Kit, which can be used to adapt any program into a system service.
+<code class="highlighter-rouge">SRVANY.EXE</code> is configured as the system service, and it spawns and supervises
+the target process in turn. Thus, it forms an adapter between the Windows
+service manager and arbitrary programs. However, <code class="highlighter-rouge">SRVANY</code> is a proprietary
+binary for which source code is not available, and is no longer even
+distributed by Microsoft.</p>
 
-<p>All of these use cases are quite valid and legitimate, but they assume one thing: that the CA <em>wanted</em> to be subjected to a name constraint.  What do you do if you’ve been given a CA certificate that <em>doesn’t</em> have a name constraint, and you want to only trust it for a subset of names?</p>
+<p><a href="https://github.com/hlandau/winsvcwrap">winsvcwrap</a> is a simple open source Go
+program to replace <code class="highlighter-rouge">SRVANY</code> and provide equivalent functionality, and is now
+used by the Namecoin project to power its Windows installer bundle. This
+enables the Namecoin project to avoid depending on an unmaintained proprietary
+component. It can be used by anyone seeking to run arbitrary Windows programs
+as Windows system services. Since it is written in Go, it is memory-safe
+(unlike C/C++) and bootstrappable (unlike Rust).</p>
 
-<p>One approach is to cross-sign the CA – in other words, you create your own CA with the name constraint you want, and then produce a cert that’s identical to the CA you want to constrain, except with an issuer and signature from your constrained CA.  This is not too hard; I actually wrote a tool called <code class="highlighter-rouge">crosssignnameconstraint</code> that does this for you.  It works pretty well, but it does produce two potentially unwanted side effects:</p>
-
-<ol>
-  <li>It transforms a root CA into an intermediate CA.</li>
-  <li>It changes the fingerprint of the CA.</li>
-</ol>
-
-<p>Both of these can result in unintended behavior from poorly designed TLS implementations, e.g. certificate pinning and EV certificates may behave differently when you cross-sign a certificate.</p>
-
-<p>So, is there another approach we can use?  If you’re on Windows, then the answer is yes!</p>
-
-<p>Windows CryptoAPI stores certificates <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2017/05/27/reverse-engineering-cryptoapi-cert-blobs.html">in a kind of funky way</a>: certificates are stored not just in DER-encoded form, but in a custom data structure called a “certificate blob” that allows “properties” to be attached to the certificates.  One example of such a property is a constraint on which extended key usages a CA can be used for.  For example, you might want to import a CA that’s allowed to issue TLS client certificates but not allowed to issue TLS server certificates or sign code.  When I was looking at the <a href="https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certgetcertificatecontextproperty#parameters">list of properties</a>, most looked pretty mundane, but one jumped out: what the heck is this <code class="highlighter-rouge">CERT_ROOT_PROGRAM_NAME_CONSTRAINTS_PROP_ID</code> thing?  Curiously, the documentation doesn’t say what it does; it’s simply marked as “Reserved”.  However, looking at other properties’ documentation, it became clear that Microsoft has a habit of encoding extensions in ASN.1 format and stuffing the resulting binary data into a property.  I also noticed that the Windows utility <code class="highlighter-rouge">certutil</code> actually has a way to edit arbitrary properties of certificates; it’s the (confusingly named) <code class="highlighter-rouge">-repairstore</code> command.</p>
-
-<p>So, I cooked up a certificate that had a name constraint blacklisting <code class="highlighter-rouge">.github.io</code>, extracted the ASN.1 binary data for the name constraint extension into a hex blob, and instructed <code class="highlighter-rouge">certutil</code> to set it on the built-in root CA that GitHub Pages uses.  I then tried to visit GitHub Pages in Chromium, and <strong>boom</strong>: a TLS error.  Inspecting the CryptoAPI logs confirmed that the failure was due to a name constraint.</p>
-
-<p>So, why is this feature there?  Is it being used anywhere?  As far as I can tell, it’s not used by anyone.  The name of the property suggests that Microsoft intended to ship name constraints with its 3rd-party root CA’s, but I briefly checked the entire list of 3rd-party root CA’s, and it appears that none of them have this property set.  The property was added to Windows over a decade ago (if Wine commit dates are to be believed), so perhaps Microsoft used it in the past and then decided to stop.  Or perhaps they planned to use it, abandoned the plan, and left the code in place.  Maybe it was intended for private PKI purposes, but later got shelved.  Microsoft doesn’t document what this property does anywhere, and in fact I was unable to find even a single <em>mention</em> of this property on the public Internet besides the source code to Microsoft’s header files and the Microsoft documentation that marks it as “Reserved”.  Amusingly, <code class="highlighter-rouge">certutil</code> knows exactly what this property is, and if you enable verbose output, it will even happily deserialize the name constraint ASN.1 data into a nice human-readable representation of the name constraint you’re applying.</p>
-
-<p>Reserved or not, it definitely works, and it seems like a useful addition to a PKI toolbox.  NSS, GnuTLS, and p11-kit do support external name constraints as well, but NSS requires a recompile if you want to change them, and the support in GnuTLS and p11-kit only works on a few distros (and no mainstream browsers).  By supporting external name constraints that are actually enforced in arbitrary applications (including mainstream browsers) and can be edited by the user, Windows is leading the way on an excellent feature (Windows support for this long predates GnuTLS and p11-kit support) – it’s too bad that Microsoft didn’t bother to advertise this as a selling point.</p>
-
-<p>More details on how we’re going to use this functionality in Namecoin will be in a future post.</p>
+<p>This work was funded by Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1010,16 +1002,16 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-14-undocumented-windows-feature-external-name-constraints.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-10-06-winsvcwrap-open-source-replacement-for-srvany.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/01/14/undocumented-windows-feature-external-name-constraints.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/01/14/undocumented-windows-feature-external-name-constraints.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/14/undocumented-windows-feature-external-name-constraints.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2021/01/14/undocumented-windows-feature-external-name-constraints.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1030,19 +1022,19 @@ A <strong>trust anchor</strong><br />for the Internet.
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
                     <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
