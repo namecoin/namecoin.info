@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 06 Oct 2022 20:42:17 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Oct 2022 20:42:17 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Oct 2022 20:52:20 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Oct 2022 20:52:20 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,41 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>winsvcwrap: Open source replacement for SRVANY in Golang</title>
+        <description>&lt;p&gt;Unlike *nix platforms, system services on Windows must be specifically designed
+to run as services, and written against the Win32 Service APIs. This creates a
+problem when it is desired to run a program as a Windows system service which
+was not designed to function in this role.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY.EXE&lt;/code&gt; is an executable distributed by Microsoft in the Windows NT 4.0
+Resource Kit, which can be used to adapt any program into a system service.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY.EXE&lt;/code&gt; is configured as the system service, and it spawns and supervises
+the target process in turn. Thus, it forms an adapter between the Windows
+service manager and arbitrary programs. However, &lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY&lt;/code&gt; is a proprietary
+binary for which source code is not available, and is no longer even
+distributed by Microsoft.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/hlandau/winsvcwrap&quot;&gt;winsvcwrap&lt;/a&gt; is a simple open source Go
+program to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY&lt;/code&gt; and provide equivalent functionality, and is now
+used by the Namecoin project to power its Windows installer bundle. This
+enables the Namecoin project to avoid depending on an unmaintained proprietary
+component. It can be used by anyone seeking to run arbitrary Windows programs
+as Windows system services. Since it is written in Go, it is memory-safe
+(unlike C/C++) and bootstrappable (unlike Rust).&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 06 Oct 2022 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html</guid>
+        <dc:creator>Hugo Landau</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Hacktoberfest 2022</title>
@@ -140,41 +175,6 @@
         <link>https://www.namecoin.org/2022/06/13/pkcs11mod-windows-macos-certutil.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2022/06/13/pkcs11mod-windows-macos-certutil.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>winsvcwrap: Open source replacement for SRVANY in Golang</title>
-        <description>&lt;p&gt;Unlike *nix platforms, system services on Windows must be specifically designed
-to run as services, and written against the Win32 Service APIs. This creates a
-problem when it is desired to run a program as a Windows system service which
-was not designed to function in this role.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY.EXE&lt;/code&gt; is an executable distributed by Microsoft in the Windows NT 4.0
-Resource Kit, which can be used to adapt any program into a system service.
-&lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY.EXE&lt;/code&gt; is configured as the system service, and it spawns and supervises
-the target process in turn. Thus, it forms an adapter between the Windows
-service manager and arbitrary programs. However, &lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY&lt;/code&gt; is a proprietary
-binary for which source code is not available, and is no longer even
-distributed by Microsoft.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/hlandau/winsvcwrap&quot;&gt;winsvcwrap&lt;/a&gt; is a simple open source Go
-program to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;SRVANY&lt;/code&gt; and provide equivalent functionality, and is now
-used by the Namecoin project to power its Windows installer bundle. This
-enables the Namecoin project to avoid depending on an unmaintained proprietary
-component. It can be used by anyone seeking to run arbitrary Windows programs
-as Windows system services. Since it is written in Go, it is memory-safe
-(unlike C/C++) and bootstrappable (unlike Rust).&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 09 Jun 2022 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2022/06/09/winsvcwrap-open-source-replacement-for-srvany.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2022/06/09/winsvcwrap-open-source-replacement-for-srvany.html</guid>
-        <dc:creator>Hugo Landau</dc:creator>
         
         <category>News</category>
         
