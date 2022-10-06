@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,41 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">winsvcwrap: Open source replacement for SRVANY in Golang</a></h1>
+    <p class="post-meta">Oct 6, 2022 • Hugo Landau </p>
+  </header>
+
+  <article class="post-content">
+    <p>Unlike *nix platforms, system services on Windows must be specifically designed
+to run as services, and written against the Win32 Service APIs. This creates a
+problem when it is desired to run a program as a Windows system service which
+was not designed to function in this role.</p>
+
+    <p><code class="highlighter-rouge">SRVANY.EXE</code> is an executable distributed by Microsoft in the Windows NT 4.0
+Resource Kit, which can be used to adapt any program into a system service.
+<code class="highlighter-rouge">SRVANY.EXE</code> is configured as the system service, and it spawns and supervises
+the target process in turn. Thus, it forms an adapter between the Windows
+service manager and arbitrary programs. However, <code class="highlighter-rouge">SRVANY</code> is a proprietary
+binary for which source code is not available, and is no longer even
+distributed by Microsoft.</p>
+
+    <p><a href="https://github.com/hlandau/winsvcwrap">winsvcwrap</a> is a simple open source Go
+program to replace <code class="highlighter-rouge">SRVANY</code> and provide equivalent functionality, and is now
+used by the Namecoin project to power its Windows installer bundle. This
+enables the Namecoin project to avoid depending on an unmaintained proprietary
+component. It can be used by anyone seeking to run arbitrary Windows programs
+as Windows system services. Since it is written in Go, it is memory-safe
+(unlike C/C++) and bootstrappable (unlike Rust).</p>
+
+    <p>This work was funded by Cyphrs.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -7774,25 +7809,25 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
