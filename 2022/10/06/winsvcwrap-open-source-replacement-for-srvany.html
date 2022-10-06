@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fork Wishlist</title>
+    <title>winsvcwrap: Open source replacement for SRVANY in Golang</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/dev/fork-wishlist/">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,49 +122,868 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Fork Wishlist</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>This is a list of proposed consensus forks for Namecoin.  Inclusion on this list does not indicate widespread support of the Namecoin community.  This page only covers blockchain consensus rules; changes to namespace specs are not covered here.</p>
 
-<h2 id="hardforks">Hardforks</h2>
 
-<ul>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75">Require AuxPoW to be always active</a>.  This is a proposed solution to an incompatibility between BIP 9 (VersionBits) and AuxPoW.</li>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75#issuecomment-228597157">AuxPoW: use BIP 122 chain ID</a>.</li>
-  <li>AuxPoW: Use SegWit commitments.</li>
-  <li>AuxPoW: “correct the merged-mining chain_id awkwardness” (<a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=1824">as midnightmagic put it</a>)</li>
-  <li>AuxPoW: Use protocol from P2Pool.  Would decrease size of AuxPoW headers.  Implementation is in use already by P2Pool; spec incomplete.</li>
-  <li>AuxPoW: Use protocol from Luke-Jr.  Would probably fix GBT, decrease size of AuxPoW headers more than P2Pool, requires a Bitcoin hardfork as well, implementation and spec not public yet.</li>
-  <li>Disable BDB lock limit.</li>
-  <li>Remove requirement that name operations appear in a transaction with the Namecoin tx nVersion.</li>
-  <li>Increase limit on name value size.</li>
-  <li>Change name fee structure (only a hardfork if it allows name outputs to hold less than 0.01 NMC).</li>
-  <li>Multiple names per transaction.</li>
-  <li>Extend name expiration period to circa 1 year.</li>
-  <li>Make name expiration period use BIP 113 timestamps instead of block height.</li>
-  <li>Store names as (Hash(name), Enc(name, value)) rather than (name, value).</li>
-</ul>
 
-<h2 id="softforks">Softforks</h2>
 
-<ul>
-  <li><a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2455&amp;hilit=softfork&amp;sid=e59d68ac212f89a82ed1ccefc7da4996">AuxPoW: restrict timestamp difference to parent block</a>.</li>
-  <li>Coinbase commitment for UNO set.</li>
-  <li>Make dust spam outputs from the attack between blocks 39k and 41k unspendable.</li>
-  <li>Segregated Name Values.</li>
-  <li>Change name fee structure (only a softfork if it doesn’t allow name outputs to hold less than 0.01 NMC).</li>
-  <li>Delegated renewal.</li>
-</ul>
 
-  </article>
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">winsvcwrap: Open source replacement for SRVANY in Golang</h1>
+<p class="post-meta">Oct 6, 2022 • Hugo Landau <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Unlike *nix platforms, system services on Windows must be specifically designed
+to run as services, and written against the Win32 Service APIs. This creates a
+problem when it is desired to run a program as a Windows system service which
+was not designed to function in this role.</p>
+
+<p><code class="highlighter-rouge">SRVANY.EXE</code> is an executable distributed by Microsoft in the Windows NT 4.0
+Resource Kit, which can be used to adapt any program into a system service.
+<code class="highlighter-rouge">SRVANY.EXE</code> is configured as the system service, and it spawns and supervises
+the target process in turn. Thus, it forms an adapter between the Windows
+service manager and arbitrary programs. However, <code class="highlighter-rouge">SRVANY</code> is a proprietary
+binary for which source code is not available, and is no longer even
+distributed by Microsoft.</p>
+
+<p><a href="https://github.com/hlandau/winsvcwrap">winsvcwrap</a> is a simple open source Go
+program to replace <code class="highlighter-rouge">SRVANY</code> and provide equivalent functionality, and is now
+used by the Namecoin project to power its Windows installer bundle. This
+enables the Namecoin project to avoid depending on an unmaintained proprietary
+component. It can be used by anyone seeking to run arbitrary Windows programs
+as Windows system services. Since it is written in Go, it is memory-safe
+(unlike C/C++) and bootstrappable (unlike Rust).</p>
+
+<p>This work was funded by Cyphrs.</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -183,16 +1002,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/dev/fork-wishlist/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-10-06-winsvcwrap-open-source-replacement-for-srvany.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/dev/fork-wishlist/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/dev/fork-wishlist/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/dev/fork-wishlist/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/dev/fork-wishlist/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -201,25 +1020,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
