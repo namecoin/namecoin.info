@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Core 0.19.0.1 Released</title>
+    <title>Anonymity Improvents in Electrum-NMC v4.0.6</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/01/09/namecoin-core-0.19.0.1-released.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,270 +130,281 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Core 0.19.0.1 Released</h1>
-<p class="post-meta">Jan 9, 2020 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Anonymity Improvents in Electrum-NMC v4.0.6</h1>
+<p class="post-meta">Oct 28, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin Core 0.19.0.1 has been released on the <a href="/download/#namecoin-core-client-stable-release">Downloads page</a>.</p>
+<p>Electrum-NMC v4.0.6 (soon to be released) brings some long-awaited anonymity improvements.</p>
 
-<p>Here’s what’s new since 0.18.0:</p>
+<h2 id="automatic-coin-control-for-names">Automatic Coin Control for Names</h2>
 
-<ul>
-  <li>The mempool now allows multiple updates of a single name (in a chain of transactions). This is something that is allowed in blocks already, i.e. it is just a policy change. The <code class="highlighter-rouge">name_update</code> RPC command still prevents such transactions from being created for now, until miners and relaying nodes have updated sufficiently. More details can be found in <a href="https://github.com/namecoin/namecoin-core/pull/322">#322</a>.</li>
-  <li>Numerous improvements from upstream Bitcoin Core.</li>
-</ul>
+<p>I first described this feature in <a href="/2018/03/09/34c3-slides-videos.html"><code class="highlighter-rouge">my 34C3 presentation on anonymity</code></a>.  There’s not much else to say here; my presentation covers how the feature works and why that design was chosen.  The delay between 34C3 and implementation is due to the preferences expressed by the Tor developers, hopefully it was worth the wait.</p>
+
+<h2 id="whonixtails-support">Whonix/Tails Support</h2>
+
+<p>Various anonymous OS’s such as <a href="https://www.whonix.org/">Whonix</a> and <a href="https://tails.boum.org/">Tails</a> come with Tor preconfigured.  A major component of how these OS’s handle preconfiguration is via environment variables that tell Tor-friendly applications such as Tor Browser and OnionShare where Tor’s SOCKS port is.  Electrum-NMC now supports these environment variables, so it will automatically use the correct SOCKS port (with stream isolation) on Whonix and Tails instead of relying on transproxying.</p>
+
+<p>As part of this work, I engaged with the Tor Applications Team on improving the specifications for Tor-friendly applications.  This work has been slower than hoped, but some major improvements have already worked their way through the review process, and I expect to deliver more improvements to these specifications in the coming months.</p>
+
+<h2 id="apparmor-sandboxing-support">AppArmor Sandboxing Support</h2>
+
+<p>Besides environment variables, another trick that Whonix uses to Torify applications is usage of AppArmor to blacklist traffic that doesn’t go through Tor’s SOCKS port.  This works by having Tor listen on a Unix domain socket, and then blacklisting IP sockets via AppArmor; standard filesystem ACL’s take care of the rest.  Electrum-NMC now supports connecting to a SOCKS proxy via a Unix domain socket, so it should now be possible to enforce Torification via AppArmor.</p>
+
+<p>So far, no one has written such an AppArmor policy for Electrum-NMC; this will be the subject of future work.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -996,16 +1007,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-01-09-namecoin-core-0.19.0.1-released.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-10-28-anonymity-improvements-in-electrum-nmc-v4.0.6.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/01/09/namecoin-core-0.19.0.1-released.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/01/09/namecoin-core-0.19.0.1-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/01/09/namecoin-core-0.19.0.1-released.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/01/09/namecoin-core-0.19.0.1-released.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1014,25 +1025,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
