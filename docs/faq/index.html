@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -160,6 +160,8 @@
       <li><a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so" id="markdown-toc-why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</a></li>
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
       <li><a href="#why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss" id="markdown-toc-why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss">Why focus on getting existing browsers and OS’s to support Namecoin instead of forking those browsers and OS’s?</a></li>
+      <li><a href="#why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin" id="markdown-toc-why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin">Why does Namecoin use atomic name trades for NMC rather than BTC or some other coin?</a></li>
+      <li><a href="#is-it-possible-to-hide-the-usage-of-atomic-name-trades--is-that-desirable" id="markdown-toc-is-it-possible-to-hide-the-usage-of-atomic-name-trades--is-that-desirable">Is it possible to hide the usage of atomic name trades?  Is that desirable?</a></li>
       <li><a href="#is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters" id="markdown-toc-is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</a></li>
       <li><a href="#does-namecoin-have-any-browser-add-ons" id="markdown-toc-does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</a></li>
       <li><a href="#why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses" id="markdown-toc-why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</a></li>
@@ -348,6 +350,24 @@
 </ol>
 
 <p>These advantages do not obviously apply to us, so Tor Browser’s relative success would not obviously apply to us either.</p>
+
+<h3 id="why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin">Why does Namecoin use atomic name trades for NMC rather than BTC or some other coin?</h3>
+
+<ul>
+  <li>Namecoin atomic name trades are non-interactive, which improves UX; cross-chain trades require interactivity.</li>
+  <li>Namecoin atomic name trades are as fast as any other transaction; cross-chain trades require substantial latency while the multiple steps of the trade smart contract confirm.</li>
+  <li>Namecoin atomic name trades are Layer 2 except for the final step that finalizes the trade, which reduces fees and blockchain bloat; cross-chain trades are on-chain.</li>
+  <li>Namecoin atomic name trades are <em>cryptographically</em> atomic; a succesful double-spend attack cannot break the atomic property.  Cross-chain trades are only <em>economically</em> atomic; an attacker who can successfully double-spend can break the atomic property.</li>
+  <li>Namecoin atomic name trades have built-in support for auctions (non-interactively, on Layer 2); cross-chain trades do not have any mechanism for this.</li>
+</ul>
+
+<h3 id="is-it-possible-to-hide-the-usage-of-atomic-name-trades--is-that-desirable">Is it possible to hide the usage of atomic name trades?  Is that desirable?</h3>
+
+<p>From a fundamentalist privacy perspective, making all transactions look alike is desirable, which would seem to imply that atomic name trades should look like any other name update.  However, this is not really an accurate view of how Namecoin is used.  Namecoin names are typically used to establish a trust relationship, and in a trust relationship, the trusting party typically wants to know about events happening to the trusted party that may impact that trust relationship.  For example, if <code class="highlighter-rouge">wikileaks.bit</code> belongs to WikiLeaks, but that domain then gets put up for auction, whistleblowers may consider this information important when deciding whether to leak documents to the submission system hosted at that domain.  Thus, users who resolve a name probably do not want trades to look the same as other updates.</p>
+
+<p>Furthermore, there are two distinct classes of name owners involved: name owners who are doing a trade, and name owners who are doing a non-trade update.  Atomic name trades use a <code class="highlighter-rouge">SIGHASH</code> smart contract, and removing that smart contract component from a trade transaction doesn’t conceal it, it just makes the transaction invalid.  So name owners who are doing a trade cannot make their transactions look like non-trade updates.  It <em>is</em> possible for a name owner doing a non-trade update to make a <code class="highlighter-rouge">SIGHASH</code> smart contract with themself, thus making their non-trade update look like a trade.  However, this will typically incur higher fees, and will also incur suspicion among their users (see above paragraph), so there is no incentive for them to do this.</p>
+
+<p>Theoretically, Namecoin could softfork in order to force name owners to make their non-trade updates look like trades, but this would sacrifice the integrity of Namecoin’s trust relationship use case in favor of the dubious privacy needs of name owners who are covertly selling the trust relationships they’ve accumulated.  We do not think this would be a consensus change that would be in the public interest; thus, we have no intent to pursue such a softfork.</p>
 
 <h3 id="is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</h3>
 
@@ -774,13 +794,19 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <h3 id="is-namecoin-anonymous">Is Namecoin anonymous?</h3>
 
-<p>Like Bitcoin, Namecoin is not anonymous.  A thorough description of Bitcoin’s poor anonymity properties is outside the scope of this FAQ.</p>
+<p>Like Bitcoin, Namecoin is not automatically anonymous.  A thorough description of Bitcoin’s poor anonymity properties is outside the scope of this FAQ.</p>
 
-<p>When used properly in conjunction with Tor, Namecoin <em>may</em> offer sufficient pseudonymity or location-anonymity for many use cases.  Users who need these properties are advised to carefully evaluate their specific situation.  Using Namecoin over Tor does <em>not</em> by itself magically make you anonymous.</p>
+<p>Electrum-NMC v4.0.6+ has experimental support for anonymity.  To get high-quality anonymity, you need to hide information from several attackers:</p>
 
-<p>We recognize that better anonymity is an important use case.  We occasionally receive questions from users about whether Namecoin can be used anonymously.  While we don’t know much about these users (for obvious reasons), some of them appear to be in circumstances where failure of anonymity could lead to significant negative consequences.  We aim to support these use cases in the future, but right now it would be irresponsible and reckless to do so.</p>
+<ul>
+  <li>Blockchain graph analysis.  You should enable the anonymity mode in Electrum-NMC’s settings, which will attempt to protect you from graph analysis that links your names together.</li>
+  <li>ElectrumX server operators.  You should run your own ElectrumX server, and only allow it (and its Namecoin Core node) to connect via Tor.</li>
+  <li>Exchanges.  You should only purchase NMC from exchanges that allow access over Tor, do not collect personally identifiable information, and allow trading an anonymous cryptocurrency (e.g. Monero or Zcash) for NMC.</li>
+</ul>
 
-<p>We are currently engaging with projects that provide blockchain anonymity (e.g. Monero and Zcash), with the goal of achieving similar anonymity for Namecoin.  Both Monero and Zcash have mathematical security proofs of their anonymity, subject to given assumptions and a given anonymity set.  Blockchain anonymity is also an active research area, so further innovations may very well occur in the future.</p>
+<p>Namecoin Core does not yet support anonymity; nor do Electrum-NMC versions prior to v4.0.6.</p>
+
+<p>Namecoin anonymity is experimental and unaudited.  Don’t rely on it more than is warranted for your safety.</p>
 
 <h3 id="i-heard-that-an-academic-study-found-that-namecoin-is-only-used-by-28-websites-is-that-really-true">I heard that an academic study found that Namecoin is only used by 28 websites; is that really true?</h3>
 
@@ -848,25 +874,25 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
