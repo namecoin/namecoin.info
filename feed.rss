@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 25 Oct 2022 06:38:01 +0000</pubDate>
-    <lastBuildDate>Tue, 25 Oct 2022 06:38:01 +0000</lastBuildDate>
+    <pubDate>Fri, 28 Oct 2022 16:43:19 +0000</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2022 16:43:19 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,66 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Changes to name_show in Electrum-NMC Protocol v1.4.3</title>
+        <description>&lt;p&gt;In my 36C3 presentation (seems so long ago…), I mentioned some future changes I wanted to make to the Electrum-NMC protocol.  Some of these changes have recently been implemented:&lt;/p&gt;
+
+&lt;h2 id=&quot;verifying-unconfirmed-transactions&quot;&gt;Verifying Unconfirmed Transactions&lt;/h2&gt;
+
+&lt;p&gt;For security reasons, Electrum-NMC has historically required 12 confirmations before it accepts a name transaction.  Unfortunately, waiting 2 hours (on average) for a name update to take effect is not great UX, and also introduces its own security issues (e.g. it means that TLS revocations are unnecessarily delayed).  When evaluating security of name transactions, there are two different attacks that we need to consider:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Hijacking attacks&lt;/li&gt;
+  &lt;li&gt;Double-spend attacks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Hijacking attacks occur when a malicious miner mines a Namecoin block with an invalid scriptSig, which (if accepted) would allow them to hijack an arbitrary name without any participation from the name owner.  In contrast, double-spend attacks occur when a malicious name owner signs two different name updates with the same input, which (if accepted) would allow one of those name updates to be accepted even though only the other update is part of the longest blockchain.&lt;/p&gt;
+
+&lt;p&gt;In practice, while any name could be targeted by a hijacking attack, only names that have recently been transferred to a new owner can be targeted by a double-spend attack.  (Double-spending a name that you still own doesn’t really confer any benefit.)  Since the vast majority of names have not been transferred in the last 12 blocks, if we can prevent hijacking attacks, we can accept the risk of double-spend attacks, since the latter can easily be mitigated by waiting 12 blocks from receiving a name transfer before using that name for critical purposes.&lt;/p&gt;
+
+&lt;p&gt;Can we do this?  Ryan Castellucci proposed many years ago that we could verify the scriptSigs of recent name updates, chaining them back to a previous name update that has sufficient DMMS confirmation (i.e. 12 blocks).  I have now implemented this in Electrum-NMC Protocol v1.4.3; Electrum-NMC will retrieve recent updates to a name (from 1 to 11 confirmations) and verify scriptSigs to chain them back to the most recent update with at least 12 confirmations.  The result is that name updates now take effect in 1 block (~10 minutes) instead of 12 blocks (~2 hours).&lt;/p&gt;
+
+&lt;h2 id=&quot;checkpoint-verification&quot;&gt;Checkpoint Verification&lt;/h2&gt;
+
+&lt;p&gt;One of the inherent problems with the SPV threat model is that it only verifies DMMS signatures (attached to blocks), not scriptSigs (attached to transactions).  This means that an attacker with a majority of hashrate can mine invalid blocks (e.g. that hijack names) that will appear valid to SPV clients.  Full nodes are, of course, immune to this, since they check scriptSigs on all transactions.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, full nodes have a much longer IBD duration, and also are much more resource-intensive.  Can an SPV client verify scriptSigs on the transactions it cares about?  In Bitcoinland, this is not really feasible, because the fungible nature of bitcoins means that you’d have to verify every transitive input to every transaction you care about, which would probably be exponential with respect to the verification depth.  However, in Namecoinland, we don’t have this problem.  The nonfungible nature of Namecoin names means that the number of transitive inputs grows linearly, not exponentially.&lt;/p&gt;
+
+&lt;p&gt;Thus, we can reuse the scriptSig chaining trick to chain the latest confirmed name update back to a previous update that was committed to in the checkpoint (if such an update exists).  This means that in order to hijack a name that existed at the checkpoint height, an attacker would need to compromise both a majority of hashrate &lt;strong&gt;and&lt;/strong&gt; the full node used to generate the checkpoint.  I’ve implemented this in Electrum-NMC Protocol v1.4.3 as well; Electrum-NMC will retrieve all updates for a name going back to just before the checkpoint height, and verify the chain of scriptSigs.&lt;/p&gt;
+
+&lt;h2 id=&quot;one-round-trip&quot;&gt;One Round Trip&lt;/h2&gt;
+
+&lt;p&gt;Electrum-NMC’s protocol has always been inefficient for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;, because it needed to issue 4 commands to the ElectrumX server per name:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Get the latest name update txid.&lt;/li&gt;
+  &lt;li&gt;Get the transaction preimage.&lt;/li&gt;
+  &lt;li&gt;Get the Merkle proof tying the txid to the block header.&lt;/li&gt;
+  &lt;li&gt;Get the Merkle proof tying the block header to the checkpoint.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The latter 3 of those could be issued in parallel, but that still means a best case of 2 round trips per lookup (and the best case was not always achieved in practice).  Especially over Tor, this extra latency is a major UX problem.  This inefficiency was a result of the upstream Electrum protocol for Bitcoin not being designed for Namecoin’s use cases.  As of Electrum-NMC Protocol v1.4.3, there is a dedicated command for &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;, which combines the above 4 commands into 1, thus cutting down the lookup time to a single round trip.  The above scriptSig-related features are also integrated into the dedicated command, so retrieving the extra transactions does not incur any extra round trips.&lt;/p&gt;
+
+&lt;h2 id=&quot;future-optimizations&quot;&gt;Future Optimizations&lt;/h2&gt;
+
+&lt;p&gt;Electrum-NMC Protocol v1.4.3 also allows the ElectrumX server to send hint data for names other than the requested one.  For example, if &lt;code class=&quot;highlighter-rouge&quot;&gt;d/wikileaks&lt;/code&gt; imports from &lt;code class=&quot;highlighter-rouge&quot;&gt;dd/wikileaks&lt;/code&gt;, the server might return data for both &lt;code class=&quot;highlighter-rouge&quot;&gt;d/wikileaks&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;dd/wikileaks&lt;/code&gt; when the client requests the former, thus saving a round trip if the client would have asked for the latter name next.  At the moment, the hint data is left unpopulated, but we should be able to start populating it in the future without needing another protocol change.&lt;/p&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;p&gt;Electrum-NMC and upstream ElectrumX have both merged Protocol v1.4.3, so we’re now waiting for server operators to update.  Once we’ve determined that enough server operators have updated, we expect to flip a switch in the Electrum-NMC source code that enables the new protocol features.  This functionality should also work out of the box in other ElectrumX-supported coins that use a name index, which in practice means Xaya.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 28 Oct 2022 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2022/10/28/name-show-in-electrum-nmc-protocol-v1.4.3.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2022/10/28/name-show-in-electrum-nmc-protocol-v1.4.3.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>winsvcwrap: Open source replacement for SRVANY in Golang</title>
@@ -453,37 +513,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
         <link>https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2022/05/22/go-dns-seeder-tcp.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Receives 30k EUR in Additional Funding from NLnet Foundation’s Internet Hardening Fund and Netherlands Ministry of Economic Affairs and Climate Policy</title>
-        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving 30,000 EUR (roughly 33,306 USD) in additional funding from &lt;a href=&quot;https://nlnet.nl/&quot;&gt;NLnet Foundation&lt;/a&gt;’s Internet Hardening Fund.  If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).  The &lt;a href=&quot;https://nlnet.nl/internethardening/&quot;&gt;Internet Hardening Fund&lt;/a&gt; is managed by NLnet and funded by the &lt;a href=&quot;https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat&quot;&gt;Netherlands Ministry of Economic Affairs and Climate Policy&lt;/a&gt;.  Unlike our &lt;a href=&quot;/2021/04/30/funding-from-nlnet.html&quot;&gt;already-active funding&lt;/a&gt; from NLnet’s NGI0 Discovery Fund, which is focused on Namecoin Core and Electrum-NMC, this new funding is focused on TLS use cases.&lt;/p&gt;
-
-&lt;p&gt;We will use this funding to work on the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Namecoin interoperability with TLS implementations that use AIA.  In addition to reducing attack surface of Namecoin TLS on Windows, this lays the groundwork for Namecoin TLS support on Android/Linux, macOS, and iOS.&lt;/li&gt;
-  &lt;li&gt;Refactoring Namecoin TLS PKCS#11 interoperability to use higher-level API’s that are more straightforward to audit.  In addition to improving security and reliability of Namecoin TLS on Firefox (all OS’s) and GNU/Linux (most browsers), this lays the groundwork for things like decentralized TLS with &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; domains (in collaboration with the Tor developers), and is likely to benefit 3rd-party developers who wish to create PKCS#11 modules in Go (e.g. for HSM or smart card use cases).&lt;/li&gt;
-  &lt;li&gt;Adding imposed name constraint support to NSS’s TLS trust store (used by Firefox), similar to the existing functionality that exists in CryptoAPI (used by Windows) and GnuTLS (used by GNOME Web).  In addition to allowing us to simplify Namecoin’s TLS interoperability code considerably, this is likely to benefit system-wide trust policy projects such as sponsored by Red Hat.&lt;/li&gt;
-  &lt;li&gt;Auditing TLS clients for name constraint bugs, using Netflix’s BetterTLS test suite.  This helps ensure that Namecoin’s security guarantees cannot be bypassed by exploiting bugs in 3rd-party applications.&lt;/li&gt;
-  &lt;li&gt;Improved integration testing for Namecoin TLS PKCS#11 interoperability.  In addition to helping us review PR’s faster, this helps ensure that future changes in third-party applications/libraries don’t cause problems for Namecoin.&lt;/li&gt;
-  &lt;li&gt;Windows installer for Namecoin TLS in Firefox and/or Tor Browser.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This work will principally be done by developers Aerth and Jeremy Rand (who is the author of this post).&lt;/p&gt;
-
-&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the Netherlands government for recognizing that the economy and the climate require a hardened Internet.&lt;/p&gt;
-
-&lt;p&gt;We’ll be posting updates regularly as development proceeds.  Due to delays in paperwork processing, some work covered by this funding has already taken place; for transparency, we have amended the relevant past news posts to clarify that they were funded by Internet Hardening Fund.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 07 Mar 2022 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2022/03/07/namecoin-additional-funding-from-nlnet-internet-hardening-fund.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2022/03/07/namecoin-additional-funding-from-nlnet-internet-hardening-fund.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
