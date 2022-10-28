@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 28 Oct 2022 18:17:36 +0000</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2022 18:17:36 +0000</lastBuildDate>
+    <pubDate>Fri, 28 Oct 2022 20:27:26 +0000</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2022 20:27:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -19,7 +19,7 @@
     </image>
     
       <item>
-        <title>Anonymity Improvents in Electrum-NMC v4.0.6</title>
+        <title>Anonymity Improvements in Electrum-NMC v4.0.6</title>
         <description>&lt;p&gt;Electrum-NMC v4.0.6 (soon to be released) brings some long-awaited anonymity improvements.&lt;/p&gt;
 
 &lt;h2 id=&quot;automatic-coin-control-for-names&quot;&gt;Automatic Coin Control for Names&lt;/h2&gt;
