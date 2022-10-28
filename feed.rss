@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 28 Oct 2022 17:40:06 +0000</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2022 17:40:06 +0000</lastBuildDate>
+    <pubDate>Fri, 28 Oct 2022 18:00:26 +0000</pubDate>
+    <lastBuildDate>Fri, 28 Oct 2022 18:00:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -24,7 +24,7 @@
 
 &lt;h2 id=&quot;automatic-coin-control-for-names&quot;&gt;Automatic Coin Control for Names&lt;/h2&gt;
 
-&lt;p&gt;I first described this feature in &lt;a href=&quot;/2018/03/09/34c3-slides-videos.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;my 34C3 presentation on anonymity&lt;/code&gt;&lt;/a&gt;.  There’s not much else to say here; my presentation covers how the feature works and why that design was chosen.  The delay between 34C3 and implementation is due to the preferences expressed by the Tor developers, hopefully it was worth the wait.&lt;/p&gt;
+&lt;p&gt;I first described this feature in &lt;a href=&quot;/2018/03/19/34c3-slides-videos.html&quot;&gt;my 34C3 presentation on anonymity&lt;/a&gt;.  There’s not much else to say here; my presentation covers how the feature works and why that design was chosen.  The delay between 34C3 and implementation is due to the preferences expressed by the Tor developers, hopefully it was worth the wait.&lt;/p&gt;
 
 &lt;h2 id=&quot;whonixtails-support&quot;&gt;Whonix/Tails Support&lt;/h2&gt;
 
