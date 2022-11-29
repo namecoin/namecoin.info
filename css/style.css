@@ -25,9 +25,13 @@ h2 {
 body > footer {
     background: #292e3c url(/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/fancy.jpg) center bottom;
     /* This height makes the background fully cover the footer in Tor Browser
-     * Desktop, even if zoomed in or out a few times
+     * Desktop, even if zoomed in or out a few times, and doesn't tile the background.
      */
-    height: 20em;
+    height: 24em;
+
+    /* Cover up the tagline from the top of the page. */
+    position: relative;
+    z-index: 0;
 }
 
 body > footer > .container, body > footer > .container-fluid {
@@ -40,7 +44,7 @@ body > footer a, body > footer a:hover {
     color: #FFF;
 }
 
-footer #social, footer #page-alternate, footer #funders {
+footer #social, footer #page-alternate, footer #funders, footer #disclaimer {
     float: left;
 }
 
@@ -53,7 +57,7 @@ footer #page-alternate {
     width: 100%;
 }
 
-footer #page-alternate, footer #funders {
+footer #page-alternate, footer #funders, footer #disclaimer {
     text-align: center;
     padding-top: 0px;
     color: #FFF;

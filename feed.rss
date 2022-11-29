@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 28 Oct 2022 20:27:26 +0000</pubDate>
-    <lastBuildDate>Fri, 28 Oct 2022 20:27:26 +0000</lastBuildDate>
+    <pubDate>Tue, 29 Nov 2022 11:38:09 +0000</pubDate>
+    <lastBuildDate>Tue, 29 Nov 2022 11:38:09 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,28 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Introducing Namecoin's New Intern, Robert Nganga</title>
+        <description>&lt;p&gt;&lt;em&gt;Hey everyone, Jeremy here.  We’re happy to announce that Namecoin has accepted an intern via &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; (we are participating under the Tor Project umbrella).  Robert Nganga will be funded to work on a new project that I think both the Namecoin and Tor communities will find exciting.  Huge thanks are due to Tor Project for taking us under their wing for this internship.  I don’t want to steal his thunder any more than I already have, so I’m going to turn over the remainder of this post to Robert to tell you about his project – please join us in welcoming him to the Namecoin community!&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Greetings, I am pleased to join the Namecoin team as a &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; Intern after two months of contributing to Namecoin. I’ll be working on developing a tool that can identify and prevent proxy leaks. I’ll be using ptrace to intercept network socket system calls in a Tor-using application and block them if they constitute a proxy leak. Given the substantial threats posed by proxy leaks, the technology will improve security and privacy while resolving current problems with the technologies already in use. For instance, torsocks, an LD_PRELOAD-based program that intercepts calls to the network functions of the standard C library, is incompatible with statically linked software, such as the majority of Golang-written applications (Given that Golang is frequently used for security-conscious applications, this is particularly problematic) Transparent proxy tools like Whonix can result in usage of multiple applications being traceable to the same user, since you can’t easily enforce stream isolation (degrading anonymity into much weaker pseudonymity)&lt;/p&gt;
+
+&lt;p&gt;Furthermore, prior Namecoin development such as the Namecoin support in Tor Browser, was for a period slowed down by manual audits for proxy leaks. In the future, the tool will prevent such bottlenecks. This ptrace approach has a &lt;a href=&quot;https://github.com/JeremyRand/heteronculous&quot;&gt;crude proof-of-concept&lt;/a&gt; in Bash, which was developed by the Namecoin team.&lt;/p&gt;
+
+&lt;p&gt;The project will be mentored by Jeremy Rand, who will also provide any support required.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/11/29/introducing-intern-robert-nganga.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/11/29/introducing-intern-robert-nganga.html</guid>
+        <dc:creator>Jeremy Rand and Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Anonymity Improvements in Electrum-NMC v4.0.6</title>
@@ -395,141 +417,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.3 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.3.  This release adds Tor Browser configuration support to the Windows installer.  If you have Tor Browser installed already, the Windows installer will offer to configure Tor Browser to use Namecoin.  This Tor Browser support is aimed at a different audience than the support currently shipped with Tor Browser Nightly; the major features that the ncdns installer brings to the table compared to Tor Browser Nightly are:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Windows support (Tor Browser Nightly only supports Namecoin on GNU/Linux).&lt;/li&gt;
-  &lt;li&gt;Choice of Tor Browser Stable, Alpha, or Nightly (Stable and Alpha do not have Namecoin built-in).&lt;/li&gt;
-  &lt;li&gt;Choice of Electrum-NMC or Namecoin Core (Tor Browser Nightly only supports Electrum-NMC).&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains fall back to IP address resolution if no onion service exists (Tor Browser Nightly only supports onion services).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Additional features we intend to add to the ncdns installer in the future include:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;TLS support (important for Tor since exit relays are in an excellent position to do MITM attacks, and also important given the censorship attacks we’ve observed from public CA’s such as Comodo and ISRG in the past few years).&lt;/li&gt;
-  &lt;li&gt;Recursive DNS support (will allow more complex setups such as &lt;code class=&quot;highlighter-rouge&quot;&gt;NS&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;DS&lt;/code&gt; records to be used with Namecoin over Tor).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;While we are looking forward to all of the above features making their way into Tor Browser, we want to give power users the option to experiment with these features now.  We expect the feedback from that experimentation to make it easier and faster to migrate these features into Tor Browser.&lt;/p&gt;
-
-&lt;p&gt;Meanwhile, here are some important caveats you should be aware of in this integration:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Download size is much larger than Tor Browser Nightly’s Namecoin integration.  If you are on a heavily metered data plan, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;The build system is less strict on reproducibility than Tor Browser Nightly.  In particular, Electrum-NMC is built with the upstream Electrum reproducible build system, and BIND and DNSSEC-Trigger use official upstream binaries.  If you are concerned about these components, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;You must launch Electrum-NMC or Namecoin Core yourself and keep it running while Tor Browser is running; otherwise &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; resolution will fail.  If you want Electrum-NMC to automatically start when Tor Browser does, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;Some timing metadata (in particular, the date and time at which you exit Tor Browser) will be written to the Windows event log, which could be a privacy leak.  Timing metadata about Tor Browser usage has been used against alleged whistleblowers (e.g. alleged Vault 7 source Joshua Schulte) in the past, so if you have a strong requirement for disk nonpersistence, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;The TorButton patch for showing the underlying onion service in the circuit display is not included.  If you care about being able to easily view which onion service a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain is pointing to, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;The Firefox patch for adding &lt;code class=&quot;highlighter-rouge&quot;&gt;bit.onion&lt;/code&gt; to the eTLD list is not included.  This means that the address bar will default to search mode if you type a &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; domain without a URL scheme (leading &lt;code class=&quot;highlighter-rouge&quot;&gt;https://&lt;/code&gt;).  More importantly, it means that FPI (first-party isolation) will treat &lt;code class=&quot;highlighter-rouge&quot;&gt;bit.onion&lt;/code&gt; as an eTLD+1; as a result, all &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; websites that you visit will be trivially linkable to each other.  To work around this privacy leak, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; (but see the conflicting advice below), or you can limit yourself to one &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; first-party domain at a time (use the New Identity button when you want to switch to another &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; domain).  If you’re worried that you may not remember to do this, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;TLS is not mandated for &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains that point to an IP address.  This means that you cannot be confident that &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains are secure origins.  Tor Browser will correctly tell you that these origins are not secure; you should heed that warning.  To work around this, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit.onion&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; (but see the conflicting advice above), or you can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;https://&lt;/code&gt; URL scheme; either of these will guarantee a secure origin.  If you use HTTPS, you will need to verify the certificate chain yourself.  If you’re worried that you may accidentally use the &lt;code class=&quot;highlighter-rouge&quot;&gt;http://&lt;/code&gt; URL scheme with &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains, or if you’re worried that you may accidentally click through a TLS certificate dialog without checking the chain, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;Our QA team has reported occasional timeout errors when accessing &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains in Tor Browser.  We are investigating the cause.  If you require solidly reliable connectivity without timeouts, you may be better off with Tor Browser Nightly.&lt;/li&gt;
-  &lt;li&gt;Our QA team has reported various breakage on Windows 7.  We are working on fixes, but this is not a high priority since Windows 7 is EOL.  If you require Windows 7 support, you may be better off waiting for us to fix that.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Some of the above caveats are easier to fix than others.  We expect some of these to be fixed very soon; others are longer-term efforts.  We reiterate that this is intended for power users who want to experiment with Namecoin in Tor Browser, so that their feedback can facilitate future efforts to get these features added to Tor Browser.  As such, we very much appreciate feedback so we can improve this functionality.&lt;/p&gt;
-
-&lt;p&gt;Full changelog of what’s new since v0.2.2:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;certinject
-    &lt;ul&gt;
-      &lt;li&gt;Add dexlogconfig support.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Add –capi.watch flag (paves the way for better sandboxing).  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;dexlogconfig
-    &lt;ul&gt;
-      &lt;li&gt;Support custom Windows event log source name.  Patch by Jeremy Rand; code review by Hugo Landau.&lt;/li&gt;
-      &lt;li&gt;Clarify help text.  Reported by Jeremy Rand; patch by Hugo Landau.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;easyconfig
-    &lt;ul&gt;
-      &lt;li&gt;Support durations.  Reported by Jeremy Rand; patch by Hugo Landau.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Encaya
-    &lt;ul&gt;
-      &lt;li&gt;Add README.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Clarify license as GPLv3+.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncdns
-    &lt;ul&gt;
-      &lt;li&gt;Use new certinject package.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Remove Layer-1 TLS support (100% of Namecoin domain owners moved to Layer-2 by now).  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncprop279
-    &lt;ul&gt;
-      &lt;li&gt;Documentation: add sample config file.  Patch by redfish; code review by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;StemNS
-    &lt;ul&gt;
-      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;StreamStatus.CONTROLLER_WAIT&lt;/code&gt; when available.  Patches by Jeremy Rand and Lola Dam.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;tlsrestrictnss
-    &lt;ul&gt;
-      &lt;li&gt;Fix compatibility with ncprop279.  Patch by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;x509-compressed
-    &lt;ul&gt;
-      &lt;li&gt;Fix GOROOT paths containing a space.  Patch by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Windows installer
-    &lt;ul&gt;
-      &lt;li&gt;Configure Tor Browser.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Remove Layer-1 TLS support (100% of Namecoin domain owners moved to Layer-2 by now).  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patch by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Build system
-    &lt;ul&gt;
-      &lt;li&gt;Add coredns-utils project, by Miek Gieben, Steve Winslow, and Andrew Heberle.&lt;/li&gt;
-      &lt;li&gt;Add python-windows project.  Patches by Yanmaani and Jeremy Rand; code review by Nicolas Vigier.&lt;/li&gt;
-      &lt;li&gt;Add winsvcwrap project, by Hugo Landau.&lt;/li&gt;
-      &lt;li&gt;Bump BIND to v9.16.28.&lt;/li&gt;
-      &lt;li&gt;Bump Electrum-NMC to v4.0.0b0.&lt;/li&gt;
-      &lt;li&gt;Bump godns to v1.1.48.&lt;/li&gt;
-      &lt;li&gt;Bump gointernal to v1.8.1.&lt;/li&gt;
-      &lt;li&gt;Bump gopkcs11 to v1.1.1.&lt;/li&gt;
-      &lt;li&gt;Bump gotoml to v1.1.0.&lt;/li&gt;
-      &lt;li&gt;Bump gounits.&lt;/li&gt;
-      &lt;li&gt;Bump tor-browser-build to v11.5a11.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Improve Cirrus CI integration, as we continue to incubate RBM Cirrus support in preparation to send upstream to Tor.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You can download it at the &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/#ncdns&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 27 May 2022 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/05/27/ncdns-v0.3-released.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/05/27/ncdns-v0.3-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
