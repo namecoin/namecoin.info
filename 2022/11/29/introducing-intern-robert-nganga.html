@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: Checkpoints</title>
+    <title>Introducing Namecoin's New Intern, Robert Nganga</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/11/28/electrum-nmc-checkpoints.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/29/introducing-intern-robert-nganga.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,437 +130,431 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: Checkpoints</h1>
-<p class="post-meta">Nov 28, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Introducing Namecoin's New Intern, Robert Nganga</h1>
+<p class="post-meta">Nov 29, 2022 • Jeremy Rand and Robert Nganga <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>I decided to spend some time auditing Electrum-NMC’s bandwidth usage, to see if any optimizations were possible and/or needed.  Using the excellent <a href="https://github.com/raboof/nethogs">nethogs</a> tool by Arnout Engelen, I determined that Electrum-NMC’s initial syncup downloads 672 MB, which is quite a lot.  Clearly some optimizations would be highly welcome.</p>
+<p><em>Hey everyone, Jeremy here.  We’re happy to announce that Namecoin has accepted an intern via <a href="https://www.outreachy.org/">Outreachy</a> (we are participating under the Tor Project umbrella).  Robert Nganga will be funded to work on a new project that I think both the Namecoin and Tor communities will find exciting.  Huge thanks are due to Tor Project for taking us under their wing for this internship.  I don’t want to steal his thunder any more than I already have, so I’m going to turn over the remainder of this post to Robert to tell you about his project – please join us in welcoming him to the Namecoin community!</em></p>
 
-<p>Upstream Electrum avoids downloading most of the Bitcoin blockchain’s headers via checkpoints.  Basically, a checkpoint consists of a hardcoded block hash (and a difficulty target), specifically one for each difficulty retargeting period (2016 blocks).  Electrum doesn’t typically download any headers that are between two checkpoints; instead it only downloads such headers if it needs to verify a transaction from one of those blocks.  This reduces bandwidth usage considerably.  Electrum’s debug console can generate a checkpoint file (assuming that you’re connected to a trustworthy ElectrumX server; I’m using my own ElectrumX server connected to my own Namecoin Core node, so my server is indeed trustworthy to me).  Electrum-NMC hadn’t yet gotten around to setting any checkpoints, due to it being a lower priority than getting name transactions working.  But now that name transactions pretty much work, I was able to try out checkpoints.</p>
+<p>Greetings, I am pleased to join the Namecoin team as a <a href="https://www.outreachy.org/">Outreachy</a> Intern after two months of contributing to Namecoin. I’ll be working on developing a tool that can identify and prevent proxy leaks. I’ll be using ptrace to intercept network socket system calls in a Tor-using application and block them if they constitute a proxy leak. Given the substantial threats posed by proxy leaks, the technology will improve security and privacy while resolving current problems with the technologies already in use. For instance, torsocks, an LD_PRELOAD-based program that intercepts calls to the network functions of the standard C library, is incompatible with statically linked software, such as the majority of Golang-written applications (Given that Golang is frequently used for security-conscious applications, this is particularly problematic) Transparent proxy tools like Whonix can result in usage of multiple applications being traceable to the same user, since you can’t easily enforce stream isolation (degrading anonymity into much weaker pseudonymity)</p>
 
-<p>Interestingly, after I set checkpoints through about 38 kiloblocks ago (more on why I chose that below), Electrum-NMC started reporting blockchain validation errors, most of which seemed to be related to missing headers.  After quite a bit of debugging, I figured out why this was happening: in Bitcoin, calculating the new difficulty target requires some information from the first and last block header for a given retargeting period.  Electrum’s checkpoints supply this information.  However, this is actually not mathematically correct behavior, and exposes the blockchain to what’s called a <em>timewarp attack</em>.  A timewarp attack can only be successfully pulled off by an attacker who can already do a 51% attack, so the attack is difficult, but if it’s successfully done, the attacker can make the difficulty continually drop, thus allowing them to mint more coins than the expected subsidy per 2 weeks.  Because a timewarp attack is difficult to pull off, and because fixing it constitutes a hardfork, Bitcoin never actually fixed that vulnerability.  Namecoin, however, did fix it, at the same time that we hardforked to enable merged mining.  How does the timewarp fix work?  Well, it actually needs a block header from the <em>previous</em> retargeting period in order to calculate the new target.  Guess what, Electrum’s checkpoints do not supply such information (which would be useless in Bitcoin).  And thus, the target calculation code in Electrum-NMC was complaining that the header from the previous retargeting period wasn’t present.</p>
+<p>Furthermore, prior Namecoin development such as the Namecoin support in Tor Browser, was for a period slowed down by manual audits for proxy leaks. In the future, the tool will prevent such bottlenecks. This ptrace approach has a <a href="https://github.com/JeremyRand/heteronculous">crude proof-of-concept</a> in Bash, which was developed by the Namecoin team.</p>
 
-<p>After quite a bit of trying to find a way to solve the issue without highly invasive changes, I eventually stumbled on an easy hack.  I did a one-line change of the code that reports the number of checkpoints available, so that if <em>n</em> checkpoints exist, Electrum-NMC calculates the block height to download under the impression that <em>n-1</em> checkpoints exist.  This means that Electrum-NMC will actually download the final checkpoint’s set of 2016 block headers before it moves on to the uncheckpointed headers.  As a result, it actually <em>will</em> have the previous retargeting period’s headers available when it tries to calculate the new difficulty target.  It’s a stupid hack, but it definitely seems to work.</p>
+<p>The project will be mentored by Jeremy Rand, who will also provide any support required.</p>
 
-<p>So, with checkpoints set through 38 kiloblocks ago, I measured Electrum-NMC’s bandwidth usage with nethogs again, and this time it had dropped to 66 MB of downloaded data.  Not bad!</p>
-
-<p>But why did I set the last checkpoint at 38 kiloblocks ago?  Well, if we’re doing name lookups, we always want to have block headers for the last 36 kiloblocks, since unexpired names could be anywhere within that range.  As an experiment, I tried setting a checkpoint at circa 3 kiloblocks ago, and found that Electrum-NMC’s bandwidth usage dropped to 4.9 MB of downloaded data during initial syncup.  However, trying to do a name lookup resulted in a “missing header” error.  Not much of a surprise there.  However, upstream Electrum handles this situation just fine when verifying currency transactions – if you try to verify a currency transaction that’s behind a checkpoint, Electrum just downloads the necessary headers before trying to verify it.  I quickly figured out where that code was, and adapted it to work with the <code class="highlighter-rouge">name_show</code> console command.  With this change, if a name is behind a checkpoint, the lookup succeeds – but if you haven’t already downloaded the relevant headers, Electrum-NMC downloads 2016 headers (about 3.2 MB according to nethogs) before verifying the name.</p>
-
-<p>For now, I don’t intend to put checkpoints beyond 38 kiloblocks ago into Electrum-NMC, because downloading 3.2 MB to do a lookup adds noticeable delay.  There are probably some ways this amount of data can be optimized significantly, but that’ll have to wait for another day.  That said, 66 MB instead of 672 MB is pretty nice savings.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>This work was funded by Outreachy under the Tor Project umbrella.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1007,16 +1001,16 @@ Decentralized<br /><strong>secure</strong> names.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-11-28-electrum-nmc-checkpoints.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-11-29-introducing-intern-robert-nganga.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/11/28/electrum-nmc-checkpoints.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/11/28/electrum-nmc-checkpoints.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/11/28/electrum-nmc-checkpoints.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/11/28/electrum-nmc-checkpoints.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/11/29/introducing-intern-robert-nganga.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/29/introducing-intern-robert-nganga.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/11/29/introducing-intern-robert-nganga.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/11/29/introducing-intern-robert-nganga.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1025,29 +1019,29 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
