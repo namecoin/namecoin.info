@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -153,6 +153,8 @@
       <li><a href="#why-is-there-a-separate-pre-registration-step" id="markdown-toc-why-is-there-a-separate-pre-registration-step">Why is there a separate pre-registration step?</a></li>
       <li><a href="#how-are-names-represented" id="markdown-toc-how-are-names-represented">How are names represented?</a></li>
       <li><a href="#what-if-i-spend-that-special-coin-by-mistake" id="markdown-toc-what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</a></li>
+      <li><a href="#what-is-a-sidechain" id="markdown-toc-what-is-a-sidechain">What is a sidechain?</a></li>
+      <li><a href="#what-is-a-merge-mined-sidechain" id="markdown-toc-what-is-a-merge-mined-sidechain">What is a merge-mined sidechain?</a></li>
       <li><a href="#why-does-registering-a-name-incur-a-fee" id="markdown-toc-why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</a></li>
       <li><a href="#why-dont-name-registration-fees-go-to-miners" id="markdown-toc-why-dont-name-registration-fees-go-to-miners">Why don’t name registration fees go to miners?</a></li>
       <li><a href="#why-do-names-have-to-be-renewed-regularly" id="markdown-toc-why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</a></li>
@@ -279,6 +281,14 @@
 <h3 id="what-if-i-spend-that-special-coin-by-mistake">What if I spend that special coin by mistake?</h3>
 
 <p>The code prevents those coins from being used for normal payments.</p>
+
+<h3 id="what-is-a-sidechain">What is a sidechain?</h3>
+
+<p>A <em>sidechain</em> is a blockchain whose consensus rules necesarily involve validating data from another blockchain (referred to as the <em>parent chain</em>).  The concept of sidechains was first proposed by Satoshi Nakamoto in 2010, and was first deployed in production by Namecoin in October 2011.  Subsequent examples of sidechains deployed in production include P2Pool (December 2011) and Liquid (October 2018).  Note that the existence of Turing-complete scripts (e.g. on Ethereum) that can validate blockchain data does <strong>not</strong> make Turing-complete blockchains sidechains, because the validation logic in such cases is part of the transction rather than the consensus rules.</p>
+
+<h3 id="what-is-a-merge-mined-sidechain">What is a merge-mined sidechain?</h3>
+
+<p>A <em>merge-mined sidechain</em> is a sidechain in which the data being validated from the parent chain is the parent chain’s proof of work.  Merge-mined sidechains (including Namecoin and P2Pool) were the first type of sidechain, and should not be confused with other types of sidechains such as <em>pegged sidechains</em> (including Liquid).</p>
 
 <h3 id="why-does-registering-a-name-incur-a-fee">Why does registering a name incur a fee?</h3>
 
@@ -874,27 +884,35 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
             </ul>
+        </div>
+
+        <div class="container-fluid" id="disclaimer">
+            <p>Namecoin is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.</p>
         </div>
 </footer>
 

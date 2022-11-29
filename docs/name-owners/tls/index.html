@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -193,7 +193,7 @@ popd
 
 <h2 id="example-renewing-a-tls-certificate">Example: Renewing a TLS Certificate</h2>
 
-<p>To issue a new TLS certificate (e.g. to rotate keys), use the <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">parent-key</code> flags, like this:</p>
+<p>To issue a new TLS certificate (e.g. to rotate keys, or because it’s nearing expiration), use the <code class="highlighter-rouge">-parent-chain</code> and <code class="highlighter-rouge">parent-key</code> flags, like this:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-tls
 pushd example.bit-tls
@@ -273,6 +273,38 @@ popd
 <p>Specifying wildcards for subordinate CA’s is not necessary.</p>
 
 <p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when issuing subordinate CA certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="example-renewing-a-subordinate-ca-certificate-without-rotating-keys">Example: Renewing a Subordinate CA Certificate without Rotating Keys</h2>
+
+<p>To reuse your keys from an existing subordinate CA certificate when renewing it (e.g. because it’s nearing expiration), use the <code class="highlighter-rouge">-parent-key</code> flag, like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir www.example.bit-renew-ca
+pushd www.example.bit-renew-ca
+generate_nmc_cert -use-ca -host www.example.bit -grandparent-chain ../example.bit-ca/caChain.pem -grandparent-key ../example.bit-ca/caKey.pem -parent-key ../www.example.bit-ca/caKey.pem
+popd
+</code></pre></div></div>
+
+<p>You’ll get a new <code class="highlighter-rouge">caChain.pem</code> in the <code class="highlighter-rouge">www.example.bit-renew-ca</code> directory.  You’ll then need to add the new <code class="highlighter-rouge">caChain.pem</code>’s contents to the <code class="highlighter-rouge">chain.pem</code> and/or <code class="highlighter-rouge">caChain.pem</code> of any TLS certificates or subordinate CA certificates that you previously issued with this CA, and update the <code class="highlighter-rouge">chain.pem</code> files on your TLS server accordingly.</p>
+
+<p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when renewing subordinate CA certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="example-renewing-a-non-subordinate-ca-certificate-without-rotating-keys">Example: Renewing a Non-Subordinate CA Certificate without Rotating Keys</h2>
+
+<p>To reuse your keys from your existing non-subordinate CA certificate (the one whose public key is in the blockchain) when renewing it (e.g. because it’s nearing expiration), use the <code class="highlighter-rouge">-parent-key</code> and <code class="highlighter-rouge">-grandparent-key</code> flags, like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-renew-ca
+pushd example.bit-renew-ca
+generate_nmc_cert -use-ca -use-aia -host example.bit -grandparent-key ../example.bit-ca/caAIAKey.pem -parent-key ../example.bit-ca/caKey.pem
+popd
+</code></pre></div></div>
+
+<p>You’ll get a new <code class="highlighter-rouge">caChain.pem</code> in the <code class="highlighter-rouge">example.bit-renew-ca</code> directory.  You’ll then need to add the new <code class="highlighter-rouge">caChain.pem</code>’s contents to the <code class="highlighter-rouge">chain.pem</code> and/or <code class="highlighter-rouge">caChain.pem</code> of any TLS certificates or subordinate CA certificates that you previously issued with this CA, and update the <code class="highlighter-rouge">chain.pem</code> files on your TLS server accordingly.</p>
+
+<p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when renewing non-subordinate CA certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="can-i-renew-a-tls-certificate-without-rotating-keys">Can I Renew a TLS Certificate without Rotating Keys?</h2>
+
+<p>No; TLS server keys (in contrast to CA keys) should always be rotated after expiration for security reasons.</p>
 
 <h2 id="testing-your-website">Testing Your Website</h2>
 
@@ -369,27 +401,35 @@ popd
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
             </ul>
+        </div>
+
+        <div class="container-fluid" id="disclaimer">
+            <p>Namecoin is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.</p>
         </div>
 </footer>
 
