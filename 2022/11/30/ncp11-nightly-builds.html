@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Whitepaper</title>
+    <title>ncp11 Nightly Builds Now Available</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/whitepaper/">
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/11/30/ncp11-nightly-builds.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
 
     <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,30 +122,873 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Whitepaper</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>Bitcoin was fully implemented by the same person (Satoshi Nakamoto) who in large part designed it (based on pre-genesis research by Adam Back, Wei Dai, David Chaum, and Nick Szabo, among others).  For this reason, a single “Bitcoin Whitepaper” exists.  In contrast, Namecoin was implemented by a developer (Vincent Durham) who had no prior involvement in the design (he just did a code-drop).  As such, there is no single “Namecoin whitepaper”, as Namecoin’s design is not attributable to a single person.  There do, however, exist several whitepaper-ish documents by pre-genesis researchers.  These are the closest things to a “Namecoin whitepaper” that exist.</p>
 
-<ul>
-  <li><a href="https://web.archive.org/web/20011020191610/http://zooko.com/distnames.html">Names: Distributed, Secure, Human-Readable: Choose Two</a> (Zooko Wilcox)</li>
-  <li><a href="https://nakamotoinstitute.org/secure-property-titles/">Secure Property Titles with Owner Authority</a> (Nick Szabo)</li>
-  <li><a href="https://web.archive.org/web/20101118020511/http://veritas.maximilianeum.ch/bitcoin/irc/logs/2010/11/14#l1150">I had an idea for a bitcoin-like DNS system</a> (Appamatto et al)</li>
-  <li><a href="https://web.archive.org/web/20101118033208/http://veritas.maximilianeum.ch/bitcoin/irc/logs/2010/11/15">Why not just generate “domain credits”?</a> (Theymos, Appamatto, et al)</li>
-  <li><a href="https://bitcointalk.org/?topic=1790.0">BitDNS and Generalizing Bitcoin</a> (Appamatto, Satoshi Nakamoto, et al)</li>
-  <li><a href="https://web.archive.org/web/20170424134548/http://www.aaronsw.com/weblog/squarezooko">Squaring the Triangle: Secure, Decentralized, Human-Readable Names</a> (Aaron Swartz)</li>
-  <li><a href="https://dankaminsky.com/2011/01/13/spelunk-tri/">Spelunking the Triangle: Exploring Aaron Swartz’s Take On Zooko’s Triangle</a> (Dan Kaminsky)</li>
-  <li><a href="https://bitcointalk.org/index.php?topic=6017">Namecoin - a distributed naming system based on Bitcoin</a> (Vincent Durham)</li>
-</ul>
 
-  </article>
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">ncp11 Nightly Builds Now Available</h1>
+<p class="post-meta">Nov 30, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>More work has been done with pkcs11mod and ncp11.</p>
+
+<p>First off, a bunch of additional missing functions have beeen added to p11mod.  A lot of these functions came from Oureachy applicants, since I used pkcs11mod as a contribution task repo for Outreachy.  Some of these previously-missing functions may be useful to smartcard use cases, so if you’ve been holding off on touching p11mod for a smartcard project, it may be time to look again.</p>
+
+<p>Next, I discussed the p11 API with Miek, specifically some shortcomings that make it hard for Namecoin to emulate the p11 API.  We’ve agreed that Namecoin will maintain a fork with API changes for about 6 months, and then I’ll submit the changes upstream once I’m satisfied that it works in production.  The changes have a Concept ACK.  p11mod has beeen updated to use the fork.</p>
+
+<p>The p11trustmod library is fully working now, although there are no integration tests for it yet.  But how did I test it, then?  The ncp11 codebase has also now been rewritten to use p11trustmod!  Currently it only does positive overrides, and I’ve only tested it with Firefox on GNU/Linux, but it works.  For reference, the old ncp11 was 1351 lines of code; the rewrite is only 228.  Not a bad result; seems the abstraction work done on p11mod and p11trustmod was well-worth it.  There is currently a quirk where ncp11 has to mark intermediate CA’s as trusted; only marking the Namecoin root CA as trusted does not make the certs pass validation.  I intend to debug this later, but trusting intermediate CA’s is harmless here.</p>
+
+<p>For anyone who wants to play around with this, ncp11 Nightly builds are now available on the Beta Downloads page.  You’ll also need a Nightly version of Encaya, as a bunch of bugfixes were needed on the Encaya side.  Installation instructions don’t exist yet, but if you know how to install Encaya, and you know how to install PKCS#11 modules into Firefox (e.g. for smartcards), you should be able to figure it out.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -164,16 +1007,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/whitepaper/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-11-30-ncp11-nightly-builds.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/resources/whitepaper/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/resources/whitepaper/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/whitepaper/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/resources/whitepaper/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/11/30/ncp11-nightly-builds.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/30/ncp11-nightly-builds.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/11/30/ncp11-nightly-builds.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/11/30/ncp11-nightly-builds.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -182,29 +1025,29 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
