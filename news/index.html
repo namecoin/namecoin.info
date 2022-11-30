@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,30 @@ A <strong>trust anchor</strong><br />for the Internet.
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2022/11/30/ncp11-nightly-builds.html">ncp11 Nightly Builds Now Available</a></h1>
+    <p class="post-meta">Nov 30, 2022 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>More work has been done with pkcs11mod and ncp11.</p>
+
+    <p>First off, a bunch of additional missing functions have beeen added to p11mod.  A lot of these functions came from Oureachy applicants, since I used pkcs11mod as a contribution task repo for Outreachy.  Some of these previously-missing functions may be useful to smartcard use cases, so if you’ve been holding off on touching p11mod for a smartcard project, it may be time to look again.</p>
+
+    <p>Next, I discussed the p11 API with Miek, specifically some shortcomings that make it hard for Namecoin to emulate the p11 API.  We’ve agreed that Namecoin will maintain a fork with API changes for about 6 months, and then I’ll submit the changes upstream once I’m satisfied that it works in production.  The changes have a Concept ACK.  p11mod has beeen updated to use the fork.</p>
+
+    <p>The p11trustmod library is fully working now, although there are no integration tests for it yet.  But how did I test it, then?  The ncp11 codebase has also now been rewritten to use p11trustmod!  Currently it only does positive overrides, and I’ve only tested it with Firefox on GNU/Linux, but it works.  For reference, the old ncp11 was 1351 lines of code; the rewrite is only 228.  Not a bad result; seems the abstraction work done on p11mod and p11trustmod was well-worth it.  There is currently a quirk where ncp11 has to mark intermediate CA’s as trusted; only marking the Namecoin root CA as trusted does not make the certs pass validation.  I intend to debug this later, but trusting intermediate CA’s is harmless here.</p>
+
+    <p>For anyone who wants to play around with this, ncp11 Nightly builds are now available on the Beta Downloads page.  You’ll also need a Nightly version of Encaya, as a bunch of bugfixes were needed on the Encaya side.  Installation instructions don’t exist yet, but if you know how to install Encaya, and you know how to install PKCS#11 modules into Firefox (e.g. for smartcards), you should be able to figure it out.</p>
+
+    <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -7923,29 +7947,29 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">Cyphrs</li>
                 
             </ul>
         </div>
