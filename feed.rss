@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 29 Nov 2022 11:48:20 +0000</pubDate>
-    <lastBuildDate>Tue, 29 Nov 2022 11:48:20 +0000</lastBuildDate>
+    <pubDate>Wed, 30 Nov 2022 15:08:14 +0000</pubDate>
+    <lastBuildDate>Wed, 30 Nov 2022 15:08:14 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,30 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>ncp11 Nightly Builds Now Available</title>
+        <description>&lt;p&gt;More work has been done with pkcs11mod and ncp11.&lt;/p&gt;
+
+&lt;p&gt;First off, a bunch of additional missing functions have beeen added to p11mod.  A lot of these functions came from Oureachy applicants, since I used pkcs11mod as a contribution task repo for Outreachy.  Some of these previously-missing functions may be useful to smartcard use cases, so if you’ve been holding off on touching p11mod for a smartcard project, it may be time to look again.&lt;/p&gt;
+
+&lt;p&gt;Next, I discussed the p11 API with Miek, specifically some shortcomings that make it hard for Namecoin to emulate the p11 API.  We’ve agreed that Namecoin will maintain a fork with API changes for about 6 months, and then I’ll submit the changes upstream once I’m satisfied that it works in production.  The changes have a Concept ACK.  p11mod has beeen updated to use the fork.&lt;/p&gt;
+
+&lt;p&gt;The p11trustmod library is fully working now, although there are no integration tests for it yet.  But how did I test it, then?  The ncp11 codebase has also now been rewritten to use p11trustmod!  Currently it only does positive overrides, and I’ve only tested it with Firefox on GNU/Linux, but it works.  For reference, the old ncp11 was 1351 lines of code; the rewrite is only 228.  Not a bad result; seems the abstraction work done on p11mod and p11trustmod was well-worth it.  There is currently a quirk where ncp11 has to mark intermediate CA’s as trusted; only marking the Namecoin root CA as trusted does not make the certs pass validation.  I intend to debug this later, but trusting intermediate CA’s is harmless here.&lt;/p&gt;
+
+&lt;p&gt;For anyone who wants to play around with this, ncp11 Nightly builds are now available on the Beta Downloads page.  You’ll also need a Nightly version of Encaya, as a bunch of bugfixes were needed on the Encaya side.  Installation instructions don’t exist yet, but if you know how to install Encaya, and you know how to install PKCS#11 modules into Firefox (e.g. for smartcards), you should be able to figure it out.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 30 Nov 2022 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/30/ncp11-nightly-builds.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/30/ncp11-nightly-builds.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Introducing Namecoin's New Intern, Robert Nganga</title>
@@ -380,43 +404,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <category>Releases</category>
         
         <category>ncdns Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC v4.0.0b1 Released</title>
-        <description>&lt;p&gt;We’ve released Electrum-NMC v4.0.0b1.  This release includes important UX improvements to reduce the risk of accidentally letting names expire, both on the wallet side and a resolution mechanism called &lt;a href=&quot;/2022/02/18/preventing-expiration-mishaps-with-semi-expiration.html&quot;&gt;semi-expiration&lt;/a&gt; that stops resolving names before they are permanently lost.  Since semi-expiration affects resolution results, we therefore recommend that all users upgrade, even if you do not own any names yourself, so that you see the same resolution results as everyone else.  Here’s what’s new since v4.0.0b0:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Simplify GUI for editing TLS records.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Add documentation links to DNS Builder GUI.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Add server from deafboy.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Improve UNOList datetime formatting consistency.  (Patch by Jeremy Rand, review by Daniel Kraft.)&lt;/li&gt;
-  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;expires_time&lt;/code&gt; field to &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt;.  (Patch by Jeremy Rand, review by Daniel Kraft.)&lt;/li&gt;
-  &lt;li&gt;Implement semi-expiration.  (Reported by Cypherpunks, patch by Jeremy Rand, review by Arthur Edelstein, Cyberia Computer Club, Cypherpunks, Cyphrs, Daniel Kraft, Diego Salazar, Forest Johnson, s7r, Somewhat, and Yanmaani.)&lt;/li&gt;
-  &lt;li&gt;Allow passing raw commitment to &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Show exact expiration timestamps for expired names.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Warn user in UNOList when names are expiring soon.  (Reported by Diego Salazar, patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Fix some i18n bugs.  (Patch by Jeremy Rand, review by Somewhat, Yanmaani, and Daniel Kraft.)&lt;/li&gt;
-  &lt;li&gt;Add Namebrow.se explorer.  (Patch by Jeremy Rand.)&lt;/li&gt;
-  &lt;li&gt;Produce packager-friendly tarballs.  (Reported by Jeremy Rand, patches by Yanmaani and Jeremy Rand, review by Jeremy Rand and SomberNight.)&lt;/li&gt;
-  &lt;li&gt;Switch to detached OpenPGP signatures (to follow upstream).&lt;/li&gt;
-  &lt;li&gt;Various improvements from upstream Electrum.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 02 Jun 2022 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/02/electrum-nmc-v4.0.0b1-released.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/02/electrum-nmc-v4.0.0b1-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>Electrum Releases</category>
         
         
       </item>
