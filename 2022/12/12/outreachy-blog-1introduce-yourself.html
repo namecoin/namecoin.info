@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Delegated Alteration (for name owners)</title>
+    <title>Outreachy Blog #1: Introduce Yourself</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/docs/name-owners/delegated-alteration/">
+    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2022/12/12/outreachy-blog-1introduce-yourself.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss"/>
 
     <link rel="icon" href='/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,31 +122,887 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Delegated Alteration (for name owners)</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p><strong>Delegated alteration</strong> is an anti-theft mechanism supported by Namecoin.  It allows a key to be authorized to alter the value of a name, but not transfer the name to a new owner.  Example use cases:</p>
 
-<ul>
-  <li>You want to require authorization from multiple persons (e.g. via multisig) in order to transfer a name, but you want a single person to be able to alter the name’s value.</li>
-  <li>You want to require a hardware wallet (e.g. Trezor) in order to transfer a name, but you want to alter the name’s value on your regular computer.</li>
-  <li>You want to require your regular computer in order to transfer a name, but you want to allow a publicly facing server to alter the name’s value automatically (e.g. for dynamic DNS functionality such as provided by DyName).</li>
-</ul>
 
-<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="highlighter-rouge">dd/</code> namespace (<code class="highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="highlighter-rouge">d/valuablename</code> and <code class="highlighter-rouge">dd/useless</code>.  You then set the value of <code class="highlighter-rouge">d/valuablename</code> to <code class="highlighter-rouge">{"import":"dd/useless"}</code>.  You can then set the value of <code class="highlighter-rouge">dd/useless</code> to <code class="highlighter-rouge">{"ip":"123.45.67.89"}</code>.  The result is that the domain name <code class="highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="highlighter-rouge">123.45.67.89</code>.  The owner of <code class="highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="highlighter-rouge">valuablename.bit</code>.  If <code class="highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="highlighter-rouge">d/valuablename</code> can register a new <code class="highlighter-rouge">dd/</code> name, change the value of <code class="highlighter-rouge">d/valuablename</code> to point to the new <code class="highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="highlighter-rouge">d/</code> name and the <code class="highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
 
-<p>You can also use <strong>delegated partial alteration</strong>.  This prevents the <code class="highlighter-rouge">dd/</code> name from setting certain JSON fields.  For example, you can set a <code class="highlighter-rouge">tls</code> field in the <code class="highlighter-rouge">d/</code> name (alongside the <code class="highlighter-rouge">import</code> field), which will prevent the <code class="highlighter-rouge">dd/</code> name from setting a <code class="highlighter-rouge">tls</code> field for that domain name.  In this example, if the <code class="highlighter-rouge">dd/</code> name is stolen, the thief could change the IP address but not the TLS fingerprint, which would prevent the thief from performing MITM attacks (even before you switch to a new <code class="highlighter-rouge">dd/</code> name).  If the thief does change the IP address to a server she controls, then visitors to the website will get a TLS error, which converts a MITM attack (very bad) to a DoS attack (much less bad).</p>
 
-<p>You can also combine delegated alteration with delegated partial alteration by using recursive <code class="highlighter-rouge">import</code> fields.  For example, you could register a <code class="highlighter-rouge">d/</code> name that imports a <code class="highlighter-rouge">dd/</code> name, which specifies both a TLS fingerprint and another <code class="highlighter-rouge">dd/</code> name to import.  The latter <code class="highlighter-rouge">dd/</code> name would be prevented from specifying a TLS fingerprint, and any thief who steals either <code class="highlighter-rouge">dd/</code> name would be prevented from transferring the domain name.</p>
 
-  </article>
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Outreachy Blog #1: Introduce Yourself</h1>
+<p class="post-meta">Dec 12, 2022 • Robert Nganga <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Hello! My name is Robert, an Outreachy Intern. I spend most of my days gaming, coding and learning. I’ve been very interested in open-source projects, and two months after contributing to Namecoin, I started my internship. For the two months, the experience has been very enjoyable and interesting.</p>
+
+<h2 id="my-core-values">My Core Values</h2>
+
+<ol>
+  <li>Integrity: I believe in being honest and transparent in all my actions and decisions.</li>
+  <li>Innovation: I value creativity and constantly strive to find new and better ways of doing things.</li>
+  <li>Collaboration: I believe in working together with others to achieve common goals and create successful outcomes.</li>
+</ol>
+
+<h2 id="what-motivated-me-to-apply-to-outreachy">What motivated me to apply to Outreachy</h2>
+
+<p>Several factors influenced my decision to apply to Outreachy. To begin, I am really interested in open source and want to obtain practical experience in this subject. Outreachy is a fantastic chance for people like me to contribute to open source projects while learning from experienced mentors.</p>
+
+<p>Second, I am enthusiastic in learning new things and honing my talents. Outreachy provides a structured internship program in which I may work on difficult projects while developing my technical and professional abilities.</p>
+
+<p>Finally, I feel Outreachy will give me with beneficial networking chances. I am looking forward to meeting other Outreachy participants and mentors and developing contacts that will benefit my career.</p>
+
+<p>This work was funded by Outreachy under the Tor Project umbrella.</p>
+
+<p><em><a href="https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227">Cross-posted from Medium.</a></em></p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -165,16 +1021,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/name-owners/delegated-alteration/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-12-12-outreachy-blog-1introduce-yourself.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/name-owners/delegated-alteration/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/delegated-alteration/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/delegated-alteration/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/name-owners/delegated-alteration/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/12/12/outreachy-blog-1introduce-yourself.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/12/outreachy-blog-1introduce-yourself.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/12/12/outreachy-blog-1introduce-yourself.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/12/12/outreachy-blog-1introduce-yourself.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -183,25 +1039,25 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
