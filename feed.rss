@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 10 Jan 2023 00:52:31 +0000</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2023 00:52:31 +0000</lastBuildDate>
+    <pubDate>Tue, 10 Jan 2023 01:00:13 +0000</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2023 01:00:13 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -40,11 +40,11 @@
 
 &lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227&quot;&gt;Cross-posted from Medium.&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227&quot;&gt;Cross-posted from Medium.&lt;/a&gt;  The cross-posting was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.&lt;/em&gt;&lt;/p&gt;
 </description>
-        <pubDate>Mon, 12 Dec 2022 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2022/12/12/outreachy-blog-1introduce-yourself.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2022/12/12/outreachy-blog-1introduce-yourself.html</guid>
+        <pubDate>Mon, 09 Jan 2023 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2023/01/09/outreachy-blog-1-introduce-yourself.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2023/01/09/outreachy-blog-1-introduce-yourself.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
