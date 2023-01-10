@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>TLS for Tor Browser on GNU/Linux</title>
+    <title>Internship Progress</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/docs/tls-client/tor-browser/gnu-linux/">
+    <link rel="canonical" href="https://namecoin.bit/2023/01/10/week-one-of-internship-robert-nganga.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,71 +122,879 @@ Decentralized<br /><strong>secure</strong> names.
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">TLS for Tor Browser on GNU/Linux</h1>
-  </header>
-
-  <article class="post-content">
-    
-<h2 id="tls-positive-and-negative-overrides">TLS Positive and Negative Overrides</h2>
-
-<p>Tor Browser for GNU/Linux can be used with Namecoin for TLS positive and negative overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors, and prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
-
-<ol>
-  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
-  <li>Download and extract certdehydrate-dane-rest-api and ncp11 from the <a href="/download/betas/">Beta Downloads</a> page.</li>
-  <li>
-    <p>Create a text file called <code class="highlighter-rouge">certdehydrate_dane_rest_api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
-nameserver="127.0.0.1"
-port="5391"
-</code></pre></div>    </div>
-  </li>
-  <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
-  <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
-  <li>Make sure Tor Browser is installed.</li>
-  <li>Make sure Tor Browser is already <a href="/docs/tor-resolution/">configured to use Namecoin for Tor name resolution</a>.</li>
-  <li>Make sure Tor Browser is shut down.</li>
-  <li>In Tor Browser’s <code class="highlighter-rouge">Browser</code> folder, rename <code class="highlighter-rouge">libnssckbi.so</code> to <code class="highlighter-rouge">libnssckbi-namecoin-target.so</code>.</li>
-  <li>Copy <code class="highlighter-rouge">libncp11.so</code> to Tor Browser’s <code class="highlighter-rouge">Browser</code> folder.</li>
-  <li>In Tor Browser’s <code class="highlighter-rouge">Browser</code> folder, rename <code class="highlighter-rouge">libncp11.so</code> to <code class="highlighter-rouge">libnssckbi.so</code>.</li>
-</ol>
-
-<p>You can now visit in Tor Browser a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://ca-test.bit/">the ncp11 test page</a>.  The website should load in Tor Browser without errors.  Note that only CA trust anchors are accepted; end-entity trust anchors are not accepted.  This means that some older <code class="highlighter-rouge">.bit</code> domains will have their certificates rejected in Tor Browser.  We are working on contacting the affected <code class="highlighter-rouge">.bit</code> domain owners to ask them to upgrade their setup.</p>
-
-<h2 id="strict-transport-security">Strict Transport Security</h2>
-
-<p>Tor Browser for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
-
-<ol>
-  <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
-  <li>Download and extract the DNSSEC-HSTS Native Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
-  <li>
-    <p>Install the DNSSEC-HSTS Native Component like this (substitute your Tor Browser directory):</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir -p tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
-sudo cp ./org.namecoin.dnssec_hsts.json tor-browser_en-US/Browser/TorBrowser/Data/Browser/.mozilla/native-messaging-hosts/
-sudo cp ./dnssec_hsts /usr/bin/
-</code></pre></div>    </div>
-  </li>
-  <li>Go to <code class="highlighter-rouge">about:config</code> in Tor Browser.</li>
-  <li>Search for <code class="highlighter-rouge">xpinstall.signatures.required</code>.</li>
-  <li>If the <code class="highlighter-rouge">Value</code> column says <code class="highlighter-rouge">true</code>, double-click it to turn it to <code class="highlighter-rouge">false</code>.</li>
-  <li>Close the <code class="highlighter-rouge">about:config</code> tab in Tor Browser.</li>
-  <li>Restart Tor Browser.</li>
-  <li>Download the DNSSEC-HSTS WebExtensions Component from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
-  <li>Open the DNSSEC-HSTS <code class="highlighter-rouge">.xpi</code> file in Tor Browser, and accept the extension installation dialog.</li>
-</ol>
-
-<p><code class="highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Tor Browser.</p>
+        
 
 
-  </article>
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Internship Progress</h1>
+<p class="post-meta">Jan 10, 2023 • Robert Nganga <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Greetings! I completed the initial tasks for the internship during the first week, where I utilized and experimented with the <a href="https://pkg.go.dev/github.com/u-root/u-root/pkg/strace">u-root strace package.</a> The first tasks were to launch a program using ptrace and detect socket system calls. The first task was straightforward, requiring only the usage of the <a href="https://github.com/u-root/u-root/blob/v0.10.0/pkg/strace/tracer.go#L156">Trace Function.</a> For the latter, it included utilizing a map to determine if the system call is a socket syscall and then informing the user if it is.</p>
+
+<p>Later, I worked on the main tasks, which included determining the IP address and port on which socket system calls send data. I did this by first filtering out syscalls that initiate a socket connection, then sending the syscall through the <a href="https://pkg.go.dev/github.com/u-root/u-root/pkg/strace#SysCallEnter">SysCallEnter function.</a> This returns a string containing the Address and Port, which we then extract using string slicing. Better methods will be developed to replace string slicing.</p>
+
+<p>While resolving some of the <a href="https://github.com/namecoin/heteronculous-horklump/issues">issues</a>, I am now working on blocking system calls that transfer data to an IP address+port that is not the targeted proxy.</p>
+
+<p>This work was funded by Outreachy under the Tor Project umbrella.</p>
+
+<p><em>Publishing of this post was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.</em></p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -205,16 +1013,16 @@ sudo cp ./dnssec_hsts /usr/bin/
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/tls-client/tor-browser/gnu-linux/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-01-10-week-one-of-internship-robert-nganga.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/tls-client/tor-browser/gnu-linux/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/tls-client/tor-browser/gnu-linux/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/tls-client/tor-browser/gnu-linux/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/tls-client/tor-browser/gnu-linux/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2023/01/10/week-one-of-internship-robert-nganga.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/10/week-one-of-internship-robert-nganga.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/01/10/week-one-of-internship-robert-nganga.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2023/01/10/week-one-of-internship-robert-nganga.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -223,29 +1031,29 @@ sudo cp ./dnssec_hsts /usr/bin/
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
