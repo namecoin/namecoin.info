@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>ncdns</title>
+    <title>Outreachy Blog #1: Introduce Yourself</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/docs/ncdns/">
+    <link rel="canonical" href="https://namecoin.bit/2022/12/12/outreachy-blog-1introduce-yourself.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -122,72 +122,887 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">ncdns</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is what you want to install.  ncdns works with most Internet applications (not just web browsers), and uses caching for extra speed (particularly helpful when used with Electrum-NMC).  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
 
-<h2 id="installation">Installation</h2>
 
-<p>You can download ncdns at the <a href="/download/#ncdns">Downloads</a> page.</p>
 
-<h3 id="windows">Windows</h3>
 
-<p>An installer wizard is available.  The ncdns Windows installer will offer to automatically install a Namecoin name lookup client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and <a href="https://www.nlnetlabs.nl/projects/dnssec-trigger/">Dnssec-Trigger</a>:</p>
 
-<p><img src="/images/screenshots/ncdns-nsis/select-spv-dnssec-trigger-2018-07-31.png" alt="Screenshot." /></p>
+<div class="post">
 
-<p>If you’re missing a dependency for ConsensusJ-Namecoin, you’ll see a notice like this:</p>
+<header class="post-header">
+<h1 class="post-title">Outreachy Blog #1: Introduce Yourself</h1>
+<p class="post-meta">Dec 12, 2022 • Robert Nganga <i class="fa fa-tag"></i></p>
+</header>
 
-<p><img src="/images/screenshots/ncdns-nsis/spv-missing-java-2018-08-10.png" alt="&quot;Cannot use BitcoinJ SPV client (Java must be installed)&quot;" /></p>
+<article class="post-content">
+<p>Hello! My name is Robert, an Outreachy Intern. I spend most of my days gaming, coding and learning. I’ve been very interested in open-source projects, and two months after contributing to Namecoin, I started my internship. For the two months, the experience has been very enjoyable and interesting.</p>
 
-<p>Or like this:</p>
-
-<p><img src="/images/screenshots/ncdns-nsis/spv-missing-vc2010-2018-08-10.png" alt="&quot;Cannot use BitcoinJ SPV client (Microsoft Visual C++ Redistributable Package must be installed)&quot;" /></p>
-
-<p>To enable installing ConsensusJ-Namecoin, exit the installer wizard, install the relevant dependency, and re-run the installer wizard.</p>
-
-<p>The ncdns installer wizard also sets up TLS certificate validation for <code class="highlighter-rouge">.bit</code> domain names.  This will work for any application that uses the Windows certificate verifier.  As examples, Chromium and Edge use the Windows certificate verifier, and will therefore work fine for Namecoin TLS out of the box.</p>
-
-<p>The ncdns installer wizard also configures Namecoin resolution in Tor Browser, if Tor Browser is installed.</p>
-
-<h3 id="other-oss">Other OS’s</h3>
-
-<p>ncdns plain binaries (without install scripts) are available for most major operating systems.  These require installing a <a href="/get-started/name-lookup-clients/">Namecoin name lookup client</a> and a DNS resolver (e.g. Dnssec-Trigger) separately, and manually configuring ncdns to integrate with them (see instructions below).  ncdns plain binaries are only recommended for advanced users at this time.</p>
-
-<p>TLS instructions for ncdns on GNU/Linux are at the <a href="/docs/tls-client/">TLS Client Compatibility</a> page.</p>
-
-<h2 id="supplying-your-own-namecoin-node">Supplying your own Namecoin node</h2>
-
-<p>The ncdns Windows installer will offer to install Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC, and configure ncdns to use it.  However, there are several reasons why you might want to supply your own Namecoin node:</p>
-
-<ul>
-  <li>You’re not using Windows.</li>
-  <li>You want to use a custom Namecoin node implementation.</li>
-  <li>You want to run a Namecoin node on a different machine than ncdns.</li>
-  <li>You want to handle updating your Namecoin node separately from updating ncdns.</li>
-</ul>
-
-<p>If you want to supply your own Namecoin node, you can follow these steps:</p>
+<h2 id="my-core-values">My Core Values</h2>
 
 <ol>
-  <li>Make sure that your Namecoin node has the RPC server enabled.</li>
-  <li>Open <code class="highlighter-rouge">ncdns.conf</code>.  On Windows, it’s in the <code class="highlighter-rouge">etc/</code> subdirectory of where you installed ncdns.</li>
-  <li>Look for the <code class="highlighter-rouge">namecoind access</code> section.</li>
-  <li>If your Namecoin node isn’t listening on <code class="highlighter-rouge">127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code class="highlighter-rouge">namecoinrpcaddress</code> line and fill in the IP and port.</li>
-  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code class="highlighter-rouge">namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
-  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code class="highlighter-rouge">namecoinrpccookiepath</code> line, uncomment the <code class="highlighter-rouge">namecoinrpcusername</code> and <code class="highlighter-rouge">namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
-  <li>Restart ncdns.  On Windows, you can do this by going to <code class="highlighter-rouge">Control Panel</code> -&gt; <code class="highlighter-rouge">Administrative Tools</code> -&gt; <code class="highlighter-rouge">Services</code>, right-click <code class="highlighter-rouge">ncdns</code>, and click <code class="highlighter-rouge">Restart</code>.</li>
+  <li>Integrity: I believe in being honest and transparent in all my actions and decisions.</li>
+  <li>Innovation: I value creativity and constantly strive to find new and better ways of doing things.</li>
+  <li>Collaboration: I believe in working together with others to achieve common goals and create successful outcomes.</li>
 </ol>
 
-  </article>
+<h2 id="what-motivated-me-to-apply-to-outreachy">What motivated me to apply to Outreachy</h2>
+
+<p>Several factors influenced my decision to apply to Outreachy. To begin, I am really interested in open source and want to obtain practical experience in this subject. Outreachy is a fantastic chance for people like me to contribute to open source projects while learning from experienced mentors.</p>
+
+<p>Second, I am enthusiastic in learning new things and honing my talents. Outreachy provides a structured internship program in which I may work on difficult projects while developing my technical and professional abilities.</p>
+
+<p>Finally, I feel Outreachy will give me with beneficial networking chances. I am looking forward to meeting other Outreachy participants and mentors and developing contacts that will benefit my career.</p>
+
+<p>This work was funded by Outreachy under the Tor Project umbrella.</p>
+
+<p><em><a href="https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227">Cross-posted from Medium.</a></em></p>
+
+</article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -206,16 +1021,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/ncdns/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-12-12-outreachy-blog-1introduce-yourself.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/ncdns/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/ncdns/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/ncdns/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/ncdns/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2022/12/12/outreachy-blog-1introduce-yourself.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/12/outreachy-blog-1introduce-yourself.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/12/12/outreachy-blog-1introduce-yourself.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2022/12/12/outreachy-blog-1introduce-yourself.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -224,29 +1039,29 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
