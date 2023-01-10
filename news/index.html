@@ -135,6 +135,28 @@
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/01/10/week-one-of-internship-robert-nganga.html">Internship Progress</a></h1>
+    <p class="post-meta">Jan 10, 2023 • Robert Nganga </p>
+  </header>
+
+  <article class="post-content">
+    <p>Greetings! I completed the initial tasks for the internship during the first week, where I utilized and experimented with the <a href="https://pkg.go.dev/github.com/u-root/u-root/pkg/strace">u-root strace package.</a> The first tasks were to launch a program using ptrace and detect socket system calls. The first task was straightforward, requiring only the usage of the <a href="https://github.com/u-root/u-root/blob/v0.10.0/pkg/strace/tracer.go#L156">Trace Function.</a> For the latter, it included utilizing a map to determine if the system call is a socket syscall and then informing the user if it is.</p>
+
+    <p>Later, I worked on the main tasks, which included determining the IP address and port on which socket system calls send data. I did this by first filtering out syscalls that initiate a socket connection, then sending the syscall through the <a href="https://pkg.go.dev/github.com/u-root/u-root/pkg/strace#SysCallEnter">SysCallEnter function.</a> This returns a string containing the Address and Port, which we then extract using string slicing. Better methods will be developed to replace string slicing.</p>
+
+    <p>While resolving some of the <a href="https://github.com/namecoin/heteronculous-horklump/issues">issues</a>, I am now working on blocking system calls that transfer data to an IP address+port that is not the targeted proxy.</p>
+
+    <p>This work was funded by Outreachy under the Tor Project umbrella.</p>
+
+    <p><em>Publishing of this post was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.</em></p>
+
+  </article>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/01/09/outreachy-blog-1-introduce-yourself.html">Outreachy Blog #1: Introduce Yourself</a></h1>
     <p class="post-meta">Jan 9, 2023 • Robert Nganga </p>
   </header>
@@ -7981,29 +8003,29 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>
