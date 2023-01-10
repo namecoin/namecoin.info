@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 05 Dec 2022 23:24:22 +0000</pubDate>
-    <lastBuildDate>Mon, 05 Dec 2022 23:24:22 +0000</lastBuildDate>
+    <pubDate>Tue, 10 Jan 2023 00:53:07 +0000</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2023 00:53:07 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,40 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Outreachy Blog #1: Introduce Yourself</title>
+        <description>&lt;p&gt;Hello! My name is Robert, an Outreachy Intern. I spend most of my days gaming, coding and learning. I’ve been very interested in open-source projects, and two months after contributing to Namecoin, I started my internship. For the two months, the experience has been very enjoyable and interesting.&lt;/p&gt;
+
+&lt;h2 id=&quot;my-core-values&quot;&gt;My Core Values&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Integrity: I believe in being honest and transparent in all my actions and decisions.&lt;/li&gt;
+  &lt;li&gt;Innovation: I value creativity and constantly strive to find new and better ways of doing things.&lt;/li&gt;
+  &lt;li&gt;Collaboration: I believe in working together with others to achieve common goals and create successful outcomes.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;what-motivated-me-to-apply-to-outreachy&quot;&gt;What motivated me to apply to Outreachy&lt;/h2&gt;
+
+&lt;p&gt;Several factors influenced my decision to apply to Outreachy. To begin, I am really interested in open source and want to obtain practical experience in this subject. Outreachy is a fantastic chance for people like me to contribute to open source projects while learning from experienced mentors.&lt;/p&gt;
+
+&lt;p&gt;Second, I am enthusiastic in learning new things and honing my talents. Outreachy provides a structured internship program in which I may work on difficult projects while developing my technical and professional abilities.&lt;/p&gt;
+
+&lt;p&gt;Finally, I feel Outreachy will give me with beneficial networking chances. I am looking forward to meeting other Outreachy participants and mentors and developing contacts that will benefit my career.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227&quot;&gt;Cross-posted from Medium.&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 12 Dec 2022 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/12/outreachy-blog-1introduce-yourself.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/12/outreachy-blog-1introduce-yourself.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>ncp11 Nightly Builds Now Available</title>
@@ -333,77 +367,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <category>Electrum-NMC Alerts</category>
         
         <category>ncdns Alerts</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ncdns v0.3.1 Released</title>
-        <description>&lt;p&gt;We’ve released ncdns v0.3.1.  This Windows-only release includes important improvements to memory safety and UX; we recommend that all Windows users upgrade.&lt;/p&gt;
-
-&lt;p&gt;Full changelog of what’s new since v0.3:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;certinject
-    &lt;ul&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncdns
-    &lt;ul&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ncprop279
-    &lt;ul&gt;
-      &lt;li&gt;Fix stderr privacy leak when tlshook is enabled at compile-time.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;StemNS
-    &lt;ul&gt;
-      &lt;li&gt;Log errors to stderr. Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Redact target address from stderr logs.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Load configuration from &lt;code class=&quot;highlighter-rouge&quot;&gt;config&lt;/code&gt; folder.  Reported by Patrick Schleizer; patch by Yanmaani.&lt;/li&gt;
-      &lt;li&gt;Support &lt;code class=&quot;highlighter-rouge&quot;&gt;ControlPort auto&lt;/code&gt;.  Reported by Adolf-Putin-2022; patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;x509-compressed
-    &lt;ul&gt;
-      &lt;li&gt;Fix Go 1.18.x compatibility.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Windows installer
-    &lt;ul&gt;
-      &lt;li&gt;Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Timoshenko and Aminda Suomalainen; patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Fix compatibility with StemNS’s conf.d feature.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Log StemNS stderr to event log.  Makes it easier to diagnose Tor Browser configuration bugs.  Patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Work around PowerShell v2 bug.  Partially fixes Windows 7 compatibility.  Reported by Cyphrs; patch by Jeremy Rand.&lt;/li&gt;
-      &lt;li&gt;Code quality improvements.  Patches by Jeremy Rand.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Build system
-    &lt;ul&gt;
-      &lt;li&gt;Bump Electrum-NMC to v4.0.0b1.&lt;/li&gt;
-      &lt;li&gt;Bump godns to v1.1.49.&lt;/li&gt;
-      &lt;li&gt;Bump tor-browser-build to v11.5a12.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/#ncdns&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/04/ncdns-v0.3.1-released.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/06/04/ncdns-v0.3.1-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>ncdns Releases</category>
         
         
       </item>
