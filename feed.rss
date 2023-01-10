@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 10 Jan 2023 03:33:37 +0000</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2023 03:33:37 +0000</lastBuildDate>
+    <pubDate>Tue, 10 Jan 2023 03:40:56 +0000</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2023 03:40:56 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,28 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Internship Progress</title>
+        <description>&lt;p&gt;Greetings! I completed the initial tasks for the internship during the first week, where I utilized and experimented with the &lt;a href=&quot;https://pkg.go.dev/github.com/u-root/u-root/pkg/strace&quot;&gt;u-root strace package.&lt;/a&gt; The first tasks were to launch a program using ptrace and detect socket system calls. The first task was straightforward, requiring only the usage of the &lt;a href=&quot;https://github.com/u-root/u-root/blob/v0.10.0/pkg/strace/tracer.go#L156&quot;&gt;Trace Function.&lt;/a&gt; For the latter, it included utilizing a map to determine if the system call is a socket syscall and then informing the user if it is.&lt;/p&gt;
+
+&lt;p&gt;Later, I worked on the main tasks, which included determining the IP address and port on which socket system calls send data. I did this by first filtering out syscalls that initiate a socket connection, then sending the syscall through the &lt;a href=&quot;https://pkg.go.dev/github.com/u-root/u-root/pkg/strace#SysCallEnter&quot;&gt;SysCallEnter function.&lt;/a&gt; This returns a string containing the Address and Port, which we then extract using string slicing. Better methods will be developed to replace string slicing.&lt;/p&gt;
+
+&lt;p&gt;While resolving some of the &lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump/issues&quot;&gt;issues&lt;/a&gt;, I am now working on blocking system calls that transfer data to an IP address+port that is not the targeted proxy.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Publishing of this post was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/10/week-one-of-internship-robert-nganga.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/10/week-one-of-internship-robert-nganga.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Outreachy Blog #1: Introduce Yourself</title>
@@ -45,26 +67,6 @@
         <pubDate>Mon, 09 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/09/outreachy-blog-1-introduce-yourself.html</link>
         <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/09/outreachy-blog-1-introduce-yourself.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Internship Progress</title>
-        <description>&lt;p&gt;Greetings! I completed the initial tasks for the internship during the first week, where I utilized and experimented with the &lt;a href=&quot;https://pkg.go.dev/github.com/u-root/u-root/pkg/strace&quot;&gt;u-root strace package.&lt;/a&gt; The first tasks were to launch a program using ptrace and detect socket system calls. The first task was straightforward, requiring only the usage of the &lt;a href=&quot;https://github.com/u-root/u-root/blob/v0.10.0/pkg/strace/tracer.go#L156&quot;&gt;Trace Function.&lt;/a&gt; For the latter, it included utilizing a map to determine if the system call is a socket syscall and then informing the user if it is.&lt;/p&gt;
-
-&lt;p&gt;Later, I worked on the main tasks, which included determining the IP address and port on which socket system calls send data. I did this by first filtering out syscalls that initiate a socket connection, then sending the syscall through the &lt;a href=&quot;https://pkg.go.dev/github.com/u-root/u-root/pkg/strace#SysCallEnter&quot;&gt;SysCallEnter function.&lt;/a&gt; This returns a string containing the Address and Port, which we then extract using string slicing. Better methods will be developed to replace string slicing.&lt;/p&gt;
-
-&lt;p&gt;While resolving some of the &lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump/issues&quot;&gt;issues&lt;/a&gt;, I am now working on blocking system calls that transfer data to an IP address+port that is not the targeted proxy.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 11 Dec 2022 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/11/week-one-of-internship-robert-nganga.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/12/11/week-one-of-internship-robert-nganga.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
