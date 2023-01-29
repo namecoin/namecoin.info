@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 29 Jan 2023 19:49:51 +0000</pubDate>
-    <lastBuildDate>Sun, 29 Jan 2023 19:49:51 +0000</lastBuildDate>
+    <pubDate>Sun, 29 Jan 2023 19:57:42 +0000</pubDate>
+    <lastBuildDate>Sun, 29 Jan 2023 19:57:42 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -26,7 +26,7 @@
 
 &lt;p&gt;The program instructions are manipulated using flags through &lt;a href=&quot;https://github.com/hlandau/easyconfig/tree/v1.0.18&quot;&gt;easyconfig&lt;/a&gt; which enables easy manipulation of arguments. Logging is done using &lt;a href=&quot;https://github.com/hlandau/xlog&quot;&gt;xlog&lt;/a&gt; which provides different options for logging. &lt;a href=&quot;https://github.com/u-root/u-root/tree/v0.10.0/pkg/strace&quot;&gt;U-root&lt;/a&gt; was preferred for tracing since it is easier to use.&lt;/p&gt;
 
-&lt;p&gt;Suggestions are much welcomed! &lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump&quot;&gt;Project Repository&lt;/a&gt; &amp;amp; &lt;a href=&quot;https://www.namecoin.org/2022/11/29/introducing-intern-robert-nganga.html&quot;&gt;Project Summary&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Suggestions are much welcomed! &lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump&quot;&gt;Project Repository&lt;/a&gt; &amp;amp; &lt;a href=&quot;/2022/11/29/introducing-intern-robert-nganga.html&quot;&gt;Project Summary&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;This work was funded by &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; under the Tor Project umbrella.&lt;/p&gt;
 </description>
