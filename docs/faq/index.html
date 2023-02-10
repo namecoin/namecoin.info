@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -190,6 +190,7 @@ Decentralized<br /><strong>secure</strong> names.
       <li><a href="#is-namecoin-anonymous" id="markdown-toc-is-namecoin-anonymous">Is Namecoin anonymous?</a></li>
       <li><a href="#i-heard-that-an-academic-study-found-that-namecoin-is-only-used-by-28-websites-is-that-really-true" id="markdown-toc-i-heard-that-an-academic-study-found-that-namecoin-is-only-used-by-28-websites-is-that-really-true">I heard that an academic study found that Namecoin is only used by 28 websites; is that really true?</a></li>
       <li><a href="#how-does-namecoin-affect-global-heating" id="markdown-toc-how-does-namecoin-affect-global-heating">How does Namecoin affect global heating?</a></li>
+      <li><a href="#will-namecoin-protect-me-from-us-intelligence-agencies-like-the-nsa-and-cia" id="markdown-toc-will-namecoin-protect-me-from-us-intelligence-agencies-like-the-nsa-and-cia">Will Namecoin protect me from U.S. intelligence agencies like the NSA and CIA?</a></li>
     </ul>
   </li>
 </ul>
@@ -845,6 +846,18 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <p>Both Bitcoin and Namecoin also have second-order effects that oppose global heating.  For example, Bitcoin decreases the influence of the <a href="https://bitcoinmagazine.com/culture/the-hidden-costs-of-the-petrodollar">Petrodollar</a> (the Petrodollar is a major reason why the U.S. establishment opposes renewable energy sources), and Namecoin helps fight surveillance (climate activists are heavily targeted by government surveillance).</p>
 
+<h3 id="will-namecoin-protect-me-from-us-intelligence-agencies-like-the-nsa-and-cia">Will Namecoin protect me from U.S. intelligence agencies like the NSA and CIA?</h3>
+
+<p>Short answer: It’s hard to be sure, but probably not.</p>
+
+<p>Long answer: There are two main privacy use cases for Namecoin: MITM-resistant TLS, and human-meaningful Tor onion services.  Namecoin TLS protects against attacks involving malicious or compromised public CA’s.  Based on publicly available documents (the <a href="https://github.com/iamcryptoki/snowden-archive">2013 Snowden archive</a> and the <a href="https://wikileaks.org/ciav7p1/">2016 Vault 7 archive</a>), neither the NSA nor the CIA have done this class of attack; they appear to prefer to compromise the endpoints (i.e. the web browser or the HTTPS server).  This is probably because compromising the endpoints is less likely to draw attention; MITM attacks will be eventually noticed via <a href="https://www.rfc-editor.org/rfc/rfc7469.html">certificate pinning</a>, <a href="https://certificate.transparency.dev/">certificate transparency</a>, <a href="https://www.eff.org/observatory">the SSL Observatory</a>, and other methods, because the TLS certificate fingerprint is wrong.  It is theoretically possible that the NSA or the CIA has started doing attacks on public CA’s since those archives were released, or that they were already doing such attacks but did not mention them in the documents that Snowden and WikiLeaks obtained, or that some of the other 14 U.S. intelligence agencies (which would not be covered as well by the Snowden and Vault 7 archives) are doing or have done such attacks, but we are not aware of any evidence to support these conjectures.  Namecoin onion services protect against some classes of phishing attacks (e.g. prefix grinding), but we are not aware of any evidence that U.S. intelligence agencies have done any of these attacks.  In fact, given that the FBI <a href="https://web.archive.org/web/20141215052738/https://www.nikcub.com/posts/onymous-part1/">seized many phishing sites</a> in 2014 while apparently under the impression that they were the real sites, it is doubtful that the FBI even understood how these attacks work.</p>
+
+<p>It is substantially more likely that Namecoin will protect you from other countries’ intelligence agencies such as Iran and Saudi Arabia, as there is credible evidence that they have <a href="https://web.archive.org/web/20140202161322/http://www.computerworld.com/s/article/9219731/Hackers_spied_on_300_000_Iranians_using_fake_Google_certificate">compromised public CA’s</a> or <a href="https://moxie.org/2013/05/13/saudi-surveillance.html">intended to</a>.</p>
+
+<p>We are aware of third-party projects (who use Namecoin as a dependency but are not affiliated with us) who claim that their software uses Namecoin to “protect against NSA spying”; these projects are scams trying to part you from your money.</p>
+
+<p>An argument could plausibly be made that Namecoin enhances the UX of Tor onion services, and since <a href="https://raw.githubusercontent.com/iamcryptoki/snowden-archive/master/documents/2013/20131004-theguardian__tor_stinks.pdf">Tor does protect from the NSA</a>, Namecoin thereby protects from the NSA by decreasing the barrier to entry of using Tor.  This is not necessarily wrong, but it is a very narrow claim and should not be given more weight than due.</p>
+
   </article>
 
 </div>
@@ -884,29 +897,29 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
