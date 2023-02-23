@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Presentation at Grayhat 2020 Monero Village</title>
+    <title>Outreachy Internship Progress</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">
+    <link rel="canonical" href="https://namecoin.bit/2023/02/19/SOCKSification-Outreachy-Internship.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,219 +130,229 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Presentation at Grayhat 2020 Monero Village</h1>
-<p class="post-meta">Jan 1, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Outreachy Internship Progress</h1>
+<p class="post-meta">Feb 19, 2023 • Robert Nganga <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>I gave a talk on October 31, 2020, at the <a href="https://grayhat.co/">Grayhat 2020</a> <a href="https://monerovillage.org/">Monero Village</a>, entitled “Namecoin as a Decentralized Alternative to Certificate Authorities for TLS”.  A video recording is below:</p>
+<p>SOCKSification refers to the process of rerouting network traffic from an application via a SOCKS proxy server. This method is frequently used for security, anonymity, and circumventing network constraints. There are numerous techniques for SOCKSification, but in this article, we will focus on two main approaches that were considered.</p>
 
-<video controls="">
-<source src="https://namecoin.bit/files/videos/grayhat-2020/Grayhat-2020-Namecoin.webm" type="video/webm" />
-Video of "Namecoin as a Decentralized Alternative to Certificate Authorities for TLS" at Grayhat 2020.
-</video>
+<p>The first method includes intercepting the application’s connect and send system calls. When an application wants to connect to a remote server, it performs a connect system call with the target IP address and port specified. Following that, the send system call is used to transfer data through the established connection.</p>
 
-<p>Slides are here:</p>
+<p>With this method, we intercept the connect syscall and change the target IP address and port to those of the SOCKS proxy server. Then we intercept the send syscall which will contain a pointer (in tracee memory space) to the buffer that the application wants to send. We can prepend a SOCKS handshake to that buffer.  While this method can accomplish SOCKSification, it necessitates changing the tracee’s memory, which is not memory safe and might cause security problems.</p>
 
-<ul>
-  <li><a href="/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_1_Grayhat_2020_Monero_Village.pdf">Slides (Part 1)</a></li>
-  <li><a href="/resources/presentations/Grayhat_2020/Namecoin_TLS_Part_2_Grayhat_2020_Monero_Village.pdf">Slides (Part 2)</a></li>
-</ul>
+<p>The second method, which is safer, includes utilizing the pidfd getfd capability, which was added to Linux v5.6, to duplicate the file descriptor of the established connection. When an application connects, the connect syscall returns a file descriptor, which may be used to transmit and receive data through the connection. We can replicate the file descriptor from the tracee to the tracer using the pidfd getfd functionality without having to touch the tracee’s memory.</p>
 
-<p>Huge thanks to Diego “rehrar” Salazar from Monero for inviting me!</p>
+<p>To SOCKSify the program, we intercept the connect syscall and change the target IP address and port to those of the SOCKS proxy server. The exit of the connect syscall, which returns the file descriptor of the established socket, is then intercepted. Using pidfd getfd, we copy this file descriptor to the tracer and execute a SOCKS5 handshake with the tracer’s socket. After the handshake, we resume the tracee, and all future network traffic gets SOCKSified.</p>
 
-<p>License information: Diego’s introduction in the video is under a CC-BY 4.0 license.</p>
+<p>SOCKSification occurs in the function <a href="https://github.com/robertmin1/heteronculous-horklump/blob/test-3/main.go#L412">Socksify.</a> This function allows an application running on a Linux system to use the SOCKS5 protocol to route network traffic through a proxy server.</p>
+
+<p>The function begins by checking whether the “one circuit” configuration option is set. If not, it initializes a set of authentication data consisting of 10 SOCKS user+pass pairs. Each connection is then assigned to a randomly selected slot from those 10. This is important in order to prevent vulnerability to a Sybil attack. Applications that connect to a P2P network (such as the Bitcoin network) may need to avoid using the same Tor circuit for all connections. Otherwise, a malicious Tor exit relay can block the application’s view of the network. Furthermore, using a different Tor circuit for each connection can also be helpful for things like download managers, as it avoids slowdowns caused by an unlucky slow Tor circuit.</p>
+
+<p>The function then reads the IP address and port number of the address we’re diverting from exit_addr, a thread-safe map. The address for each process that requires the SOCKS5 proxy is saved in the map.</p>
+
+<p>The function then opens the file descriptor associated with the program’s network connection. With the os.NewFile function, the file descriptor is utilized to construct a new file object. The net.FileConn function is then called on the file object to generate a net.Conn object. This enables the application to communicate with its network connection using the standard net package rather than the lower-level system calls that were used to establish the connection.</p>
+
+<p>The NewClient function is called, as well as the client’s Dial method. This creates a new client containing details such as authentication credentials and timeout values. The Dial method is then called, which carries out the redirecting. To listen to an existing net.Conn , we are currently utilizing a customized version of SOCKS5.</p>
+
+<h3 id="relevant-links">Relevant Links</h3>
+
+<p><a href="https://github.com/txthinking/socks5">SOCKS5 Repository</a> We are planning to contribute the changes to the main SOCKS5 repository (Allowing the Dial Function to listen to an existing net.Conn file)</p>
+
+<p><a href="https://github.com/namecoin/heteronculous-horklump">Heteronculous-horklump Repository</a>: The main codebase.</p>
+
+<p><a href="https://github.com/robertmin1/heteronculous-horklump">Temporary Heteronculous-horklump Repository</a>: Contains the SOCKSification work in progress, which will be soon be merged upstream.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1029,16 +1039,16 @@ Video of "Namecoin as a Decentralized Alternative to Certificate Authorities for
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-01-01-namecoin-at-grayhat-2020-monero-village.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-02-19-SOCKSification-Outreachy-Internship.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2021/01/01/namecoin-at-grayhat-2020-monero-village.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2023/02/19/SOCKSification-Outreachy-Internship.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/02/19/SOCKSification-Outreachy-Internship.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/02/19/SOCKSification-Outreachy-Internship.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2023/02/19/SOCKSification-Outreachy-Internship.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1047,29 +1057,29 @@ Video of "Namecoin as a Decentralized Alternative to Certificate Authorities for
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
         </div>
