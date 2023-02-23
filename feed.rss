@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 29 Jan 2023 20:00:06 +0000</pubDate>
-    <lastBuildDate>Sun, 29 Jan 2023 20:00:06 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Feb 2023 06:29:16 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Feb 2023 06:29:16 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,48 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>SOCKSification: Outreachy Internship Progress</title>
+        <description>&lt;p&gt;SOCKSification refers to the process of rerouting network traffic from an application via a SOCKS proxy server. This method is frequently used for security, anonymity, and circumventing network constraints. There are numerous techniques for SOCKSification, but in this article, we will focus on two main approaches that were considered.&lt;/p&gt;
+
+&lt;p&gt;The first method includes intercepting the application’s connect and send system calls. When an application wants to connect to a remote server, it performs a connect system call with the target IP address and port specified. Following that, the send system call is used to transfer data through the established connection.&lt;/p&gt;
+
+&lt;p&gt;With this method, we intercept the connect syscall and change the target IP address and port to those of the SOCKS proxy server. Then we intercept the send syscall which will contain a pointer (in tracee memory space) to the buffer that the application wants to send. We can prepend a SOCKS handshake to that buffer.  While this method can accomplish SOCKSification, it necessitates changing the tracee’s memory, which is not memory safe and might cause security problems.&lt;/p&gt;
+
+&lt;p&gt;The second method, which is safer, includes utilizing the pidfd getfd capability, which was added to Linux v5.6, to duplicate the file descriptor of the established connection. When an application connects, the connect syscall returns a file descriptor, which may be used to transmit and receive data through the connection. We can replicate the file descriptor from the tracee to the tracer using the pidfd getfd functionality without having to touch the tracee’s memory.&lt;/p&gt;
+
+&lt;p&gt;To SOCKSify the program, we intercept the connect syscall and change the target IP address and port to those of the SOCKS proxy server. The exit of the connect syscall, which returns the file descriptor of the established socket, is then intercepted. Using pidfd getfd, we copy this file descriptor to the tracer and execute a SOCKS5 handshake with the tracer’s socket. After the handshake, we resume the tracee, and all future network traffic gets SOCKSified.&lt;/p&gt;
+
+&lt;p&gt;SOCKSification occurs in the function &lt;a href=&quot;https://github.com/robertmin1/heteronculous-horklump/blob/test-3/main.go#L412&quot;&gt;Socksify.&lt;/a&gt; This function allows an application running on a Linux system to use the SOCKS5 protocol to route network traffic through a proxy server.&lt;/p&gt;
+
+&lt;p&gt;The function begins by checking whether the “one circuit” configuration option is set. If not, it initializes a set of authentication data consisting of 10 SOCKS user+pass pairs. Each connection is then assigned to a randomly selected slot from those 10. This is important in order to prevent vulnerability to a Sybil attack. Applications that connect to a P2P network (such as the Bitcoin network) may need to avoid using the same Tor circuit for all connections. Otherwise, a malicious Tor exit relay can block the application’s view of the network. Furthermore, using a different Tor circuit for each connection can also be helpful for things like download managers, as it avoids slowdowns caused by an unlucky slow Tor circuit.&lt;/p&gt;
+
+&lt;p&gt;The function then reads the IP address and port number of the address we’re diverting from exit_addr, a thread-safe map. The address for each process that requires the SOCKS5 proxy is saved in the map.&lt;/p&gt;
+
+&lt;p&gt;The function then opens the file descriptor associated with the program’s network connection. With the os.NewFile function, the file descriptor is utilized to construct a new file object. The net.FileConn function is then called on the file object to generate a net.Conn object. This enables the application to communicate with its network connection using the standard net package rather than the lower-level system calls that were used to establish the connection.&lt;/p&gt;
+
+&lt;p&gt;The NewClient function is called, as well as the client’s Dial method. This creates a new client containing details such as authentication credentials and timeout values. The Dial method is then called, which carries out the redirecting. To listen to an existing net.Conn , we are currently utilizing a customized version of SOCKS5.&lt;/p&gt;
+
+&lt;h3 id=&quot;relevant-links&quot;&gt;Relevant Links&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/txthinking/socks5&quot;&gt;SOCKS5 Repository&lt;/a&gt; We are planning to contribute the changes to the main SOCKS5 repository (Allowing the Dial Function to listen to an existing net.Conn file)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump&quot;&gt;Heteronculous-horklump Repository&lt;/a&gt;: The main codebase.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/robertmin1/heteronculous-horklump&quot;&gt;Temporary Heteronculous-horklump Repository&lt;/a&gt;: Contains the SOCKSification work in progress, which will be soon be merged upstream.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; under the Tor Project umbrella.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2023/02/23/socksification-outreachy-internship.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2023/02/23/socksification-outreachy-internship.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Outreachy Internship Progress</title>
@@ -281,56 +323,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core 22.0 Released</title>
-        <description>&lt;p&gt;Namecoin Core 22.0 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Here’s what’s new since 0.21.0.1:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;RPC
-    &lt;ul&gt;
-      &lt;li&gt;Deterministic salts.  (Reported by s7r; Design by Ryan Castellucci and Jeremy Rand; Patch by Yanmaani; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Transaction queue.  (Patch by Yanmaani; Review by Jeremy Rand and Daniel Kraft.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;GUI
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_list&lt;/code&gt; Qt GUI.  (Patch by Jeremy Rand; Review by Brandon Roberts, Randy Waterhouse, and Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_pending&lt;/code&gt; Qt GUI.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Edit contents of model instead of resetting.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_update&lt;/code&gt; Qt GUI.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Name renew Qt GUI.  (Patch by Jeremy Rand; Review by Daniel Kraft and Randy Waterhouse.)&lt;/li&gt;
-      &lt;li&gt;Add Renew Names button.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Fix double lock when creating a new wallet.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Name decoration in Qt GUI.  (Patch by Jeremy Rand; Review by Daniel Kraft and Brandon Roberts.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Misc
-    &lt;ul&gt;
-      &lt;li&gt;Fix name operations in descriptor wallets.  (Reported by Jeremy Rand; Patch by Daniel Kraft; Review by Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Rebrand Cirrus build directory.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Rebrand Guix.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Add mainnet DNS seed from Jonas Ostman.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Update hardcoded seeds.  (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Fix some AuxPoW CI errors.  (Reported by Jeremy Rand; Patch by Daniel Kraft.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Numerous improvements from upstream Bitcoin Core.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 02 Aug 2022 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2022/08/02/namecoin-core-22.0-released.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2022/08/02/namecoin-core-22.0-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>Namecoin Core Releases</category>
         
         
       </item>
