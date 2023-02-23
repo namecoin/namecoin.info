@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 23 Feb 2023 05:57:09 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Feb 2023 05:57:09 +0000</lastBuildDate>
+    <pubDate>Thu, 23 Feb 2023 06:05:48 +0000</pubDate>
+    <lastBuildDate>Thu, 23 Feb 2023 06:05:48 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -19,7 +19,7 @@
     </image>
     
       <item>
-        <title>Outreachy Internship Progress</title>
+        <title>SOCKSification: Outreachy Internship Progress</title>
         <description>&lt;p&gt;SOCKSification refers to the process of rerouting network traffic from an application via a SOCKS proxy server. This method is frequently used for security, anonymity, and circumventing network constraints. There are numerous techniques for SOCKSification, but in this article, we will focus on two main approaches that were considered.&lt;/p&gt;
 
 &lt;p&gt;The first method includes intercepting the application’s connect and send system calls. When an application wants to connect to a remote server, it performs a connect system call with the target IP address and port specified. Following that, the send system call is used to transfer data through the established connection.&lt;/p&gt;
@@ -47,10 +47,12 @@
 &lt;p&gt;&lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump&quot;&gt;Heteronculous-horklump Repository&lt;/a&gt;: The main codebase.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/robertmin1/heteronculous-horklump&quot;&gt;Temporary Heteronculous-horklump Repository&lt;/a&gt;: Contains the SOCKSification work in progress, which will be soon be merged upstream.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; under the Tor Project umbrella.&lt;/p&gt;
 </description>
-        <pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2023/02/19/SOCKSification-Outreachy-Internship.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2023/02/19/SOCKSification-Outreachy-Internship.html</guid>
+        <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2023/02/23/socksification-outreachy-internship.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2023/02/23/socksification-outreachy-internship.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
