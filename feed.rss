@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 23 Feb 2023 06:28:47 +0000</pubDate>
-    <lastBuildDate>Thu, 23 Feb 2023 06:28:47 +0000</lastBuildDate>
+    <pubDate>Mon, 04 Dec 2023 22:40:01 +0000</pubDate>
+    <lastBuildDate>Mon, 04 Dec 2023 22:40:01 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,37 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Binary Encoding Support and Testing Enhancements</title>
+        <description>&lt;p&gt;Electrum-NMC has recently undergone significant improvements aimed at refining the user experience and expanding functionality. The most prominent changes involve the introduction of three distinct tabs within the graphical user interface (GUI): Hex, Domain, and ASCII. The Hex tab now serves as a dedicated space for users to interact with the hexadecimal representations of names, providing a standardized and transparent view of binary data. The Domain tab focuses on simplifying interactions by allowing users to employ a simpler format like “name.bit” instead of the original “d/name” format. Meanwhile, the ASCII tab preserves the original format of registration, ensuring compatibility for users who prefer the original format.&lt;/p&gt;
+
+&lt;h2 id=&quot;graceful-handling-of-invalid-ascii&quot;&gt;Graceful Handling of Invalid ASCII&lt;/h2&gt;
+
+&lt;p&gt;In the event of invalid ASCII input, the system gracefully handles the situation. This allows valid hexadecimal data that is not a valid ASCII representation to be managed without disrupting the user experience.&lt;/p&gt;
+
+&lt;h2 id=&quot;appimage-binaries-testing&quot;&gt;AppImage Binaries Testing&lt;/h2&gt;
+
+&lt;p&gt;A dedicated testing pipeline has been introduced for AppImage binaries. The regression tests run on these binaries to verify their functionality and identify any potential issues. This meticulous approach ensures that users working with AppImage binaries can trust in the stability and performance of Electrum-NMC.&lt;/p&gt;
+
+&lt;h2 id=&quot;macos-tarball-binaries-testing&quot;&gt;MacOS Tarball Binaries Testing&lt;/h2&gt;
+
+&lt;p&gt;For MacOS, a specific testing environment has been created to run regression tests on the tarball binaries. This testing setup not only verifies the integrity of the binaries but also ensures that Electrum-NMC performs seamlessly in a MacOS environment.&lt;/p&gt;
+
+&lt;p&gt;These testing procedures cover a range of scenarios and use cases, providing a robust framework to identify and address any potential issues before they impact end-users. The commitment to thorough testing underscores the project’s dedication to delivering a reliable and high-performance cryptocurrency wallet.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 04 Dec 2023 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2023/12/04/binary-encoding.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2023/12/04/binary-encoding.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>SOCKSification: Outreachy Internship Progress</title>
@@ -305,22 +336,6 @@ as Windows system services. Since it is written in Go, it is memory-safe
         <link>https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2022/10/06/winsvcwrap-open-source-replacement-for-srvany.html</guid>
         <dc:creator>Hugo Landau</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Hacktoberfest 2022</title>
-        <description>&lt;p&gt;Namecoin is participating in &lt;a href=&quot;https://hacktoberfest.com/&quot;&gt;Hacktoberfest 2022&lt;/a&gt;.  If you’re interested in contributing to Namecoin, Hacktoberfest is a great chance to start (and maybe win a t-shirt).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/search?q=org%3Anamecoin+label%3Ahacktoberfest&amp;amp;state=open&amp;amp;type=Issues&quot;&gt;The list of Hacktoberfest issues for Namecoin is here.&lt;/a&gt;  Of course, we welcome other PR’s as well.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2022/10/05/hacktoberfest-2022.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2022/10/05/hacktoberfest-2022.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
