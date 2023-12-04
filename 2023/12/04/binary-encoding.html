@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Positive TLS Certificate Overrides for NSS</title>
+    <title>Binary Encoding Support and Testing Enhancements</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2018/02/18/positive-tls-overrides-for-nss.html">
+    <link rel="canonical" href="https://namecoin.bit/2023/12/04/binary-encoding.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,667 +130,640 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Positive TLS Certificate Overrides for NSS</h1>
-<p class="post-meta">Feb 18, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Binary Encoding Support and Testing Enhancements</h1>
+<p class="post-meta">Dec 4, 2023 • Robert Nganga <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>NSS is the TLS implementation used by various applications, including Chromium on GNU/Linux and Firefox on all platforms.  I’ve finished initial support for positive cert overrides in NSS, and have submitted a PR that is now awaiting review.</p>
+<p>Electrum-NMC has recently undergone significant improvements aimed at refining the user experience and expanding functionality. The most prominent changes involve the introduction of three distinct tabs within the graphical user interface (GUI): Hex, Domain, and ASCII. The Hex tab now serves as a dedicated space for users to interact with the hexadecimal representations of names, providing a standardized and transparent view of binary data. The Domain tab focuses on simplifying interactions by allowing users to employ a simpler format like “name.bit” instead of the original “d/name” format. Meanwhile, the ASCII tab preserves the original format of registration, ensuring compatibility for users who prefer the original format.</p>
 
-<p>I had previously written a WIP PR that implemented positive overrides for NSS, but it worked by using an NSS database directory that was auto-detected based on the active user’s home directory.  This seemed like a clever usability trick, but it had 2 severe disadvantages:</p>
+<h2 id="graceful-handling-of-invalid-ascii">Graceful Handling of Invalid ASCII</h2>
 
-<ol>
-  <li>Some applications don’t use the shared NSS database, but instead use their own.  Firefox is one of these applications.</li>
-  <li>For security reasons, we want ncdns to run as its own user with restricted permissions.  This would break the database directory auto-detection.</li>
-</ol>
+<p>In the event of invalid ASCII input, the system gracefully handles the situation. This allows valid hexadecimal data that is not a valid ASCII representation to be managed without disrupting the user experience.</p>
 
-<p>The new PR has explicit configuration options for which NSS database directory is used.  For example, the following command line config:</p>
+<h2 id="appimage-binaries-testing">AppImage Binaries Testing</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./ncdns -ncdns.namecoinrpcusername=user -ncdns.namecoinrpcpassword=pass -certstore.nss -certstore.nsscertdir="$(pwd)"/certs -certstore.nssdbdir=/home/user/.pki/nssdb -xlog.severity=DEBUG
-</code></pre></div></div>
+<p>A dedicated testing pipeline has been introduced for AppImage binaries. The regression tests run on these binaries to verify their functionality and identify any potential issues. This meticulous approach ensures that users working with AppImage binaries can trust in the stability and performance of Electrum-NMC.</p>
 
-<p>Allowed <a href="https://nf.bit/">the Namecoin Forum’s <code class="highlighter-rouge">.bit</code> domain</a> to load in Chromium in my Fedora VM without any TLS errors.  Obviously, this would need to be combined with the negative override functionality provided by the <code class="highlighter-rouge">tlsrestrict_chromium_tool</code> program (included with ncdns) in order to actually have reasonable security (otherwise, public TLS CA’s could issue <code class="highlighter-rouge">.bit</code> certs that would still be accepted by Chromium).</p>
+<h2 id="macos-tarball-binaries-testing">MacOS Tarball Binaries Testing</h2>
 
-<p>Some remaining challenges:</p>
+<p>For MacOS, a specific testing environment has been created to run regression tests on the tarball binaries. This testing setup not only verifies the integrity of the binaries but also ensures that Electrum-NMC performs seamlessly in a MacOS environment.</p>
 
-<ul>
-  <li>NSS’s <code class="highlighter-rouge">certutil</code> is extremely slow, due to failure to properly batch operations into sqlite transactions.  I’ve filed a bug about this with Mozilla.  Until this is fixed, expect an extra ~800ms of latency when accessing Namecoin HTTPS websites.  Possible future workarounds:
-    <ul>
-      <li>Run <code class="highlighter-rouge">certutil</code> sometime before the DNS hook, so that 800ms of latency isn’t actually noticeable for the user.  (More on this in a future post.)</li>
-      <li>Do some highly horrifying <code class="highlighter-rouge">LD_PRELOAD</code> witchcraft in order to fix the crappy sqlite usage.</li>
-      <li>Use a different pkcs11 backend instead of NSS’s sqlite3 backend.  (Yes, NSS uses pkcs11 behind the scenes.  More on this in a future post.)</li>
-    </ul>
-  </li>
-  <li>Firefox doesn’t actually respect NSS’s trust anchors when the trust anchor is an end-entity certificate.  Possible future workarounds:
-    <ul>
-      <li>Use a Firefox-specific positive override mechanism.  (More on this in a future post; also see the WebExtensions posts.)</li>
-      <li>Inject CA certs rather than end-entity certs.  (More on this in a future post.)</li>
-    </ul>
-  </li>
-  <li>Some NSS applications don’t use the sqlite backend, but instead use BerkeleyDB as a backend.  BerkeleyDB can’t be opened concurrently by multiple applications, so ncdns can’t inject certs while another application is open.  Possible future workarounds:
-    <ul>
-      <li>Use an environment variable to force sqlite usage.</li>
-      <li>Run <code class="highlighter-rouge">certutil</code> while the database isn’t open.</li>
-      <li>Use a different pkcs11 backend.</li>
-      <li>Wait for those applications to switch to sqlite.  (Firefox switched in Firefox 58, and it appears more applications may follow suit.)</li>
-    </ul>
-  </li>
-</ul>
+<p>These testing procedures cover a range of scenarios and use cases, providing a robust framework to identify and address any potential issues before they impact end-users. The commitment to thorough testing underscores the project’s dedication to delivering a reliable and high-performance cryptocurrency wallet.</p>
 
-<p>That said, despite the need for future work, this PR makes Namecoin TLS fully functional in Chromium on GNU/Linux.  (Until negative overrides stop working due to HPKP being removed… more on potential fixes in a future post.)</p>
+<p>This work was funded by NLnet Foundation’s NGI Assure Fund.</p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1061,16 +1034,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-18-positive-tls-overrides-for-nss.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-12-04-binary-encoding.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/02/18/positive-tls-overrides-for-nss.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/02/18/positive-tls-overrides-for-nss.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/02/18/positive-tls-overrides-for-nss.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/02/18/positive-tls-overrides-for-nss.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2023/12/04/binary-encoding.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/12/04/binary-encoding.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/04/binary-encoding.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2023/12/04/binary-encoding.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1079,29 +1052,29 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
