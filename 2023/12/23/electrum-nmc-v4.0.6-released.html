@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Core name_firstupdate, name_update default values</title>
+    <title>Electrum-NMC v4.0.6 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/23/electrum-nmc-v4.0.6-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
 
     <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,233 +130,235 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Core name_firstupdate, name_update default values</h1>
-<p class="post-meta">Dec 4, 2020 • yanmaani <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC v4.0.6 Released</h1>
+<p class="post-meta">Dec 23, 2023 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the <code class="highlighter-rouge">name_update</code> and <code class="highlighter-rouge">name_firstupdate</code> RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with <code class="highlighter-rouge">name_show</code>. This simplifies a common workflow.</p>
+<p>We’ve released Electrum-NMC v4.0.6. The changelog will probably be posted after 37C3.</p>
 
-<p>This change is being made as part of the effort to simplify the RPC API for name management.</p>
+<p>As usual, you can download it at the <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1031,16 +1033,16 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-12-04-namecoin-core-name-firstupdate-name-update-default-values.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-12-23-electrum-nmc-v4.0.6-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2023/12/23/electrum-nmc-v4.0.6-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/12/23/electrum-nmc-v4.0.6-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/23/electrum-nmc-v4.0.6-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2023/12/23/electrum-nmc-v4.0.6-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1049,33 +1051,33 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
