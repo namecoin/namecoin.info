@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Transaction queue for Namecoin Core</title>
+    <title>Electrum-NMC v4.0.6 Released</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2021/06/01/transaction-queue-for-namecoin-core.html">
+    <link rel="canonical" href="https://www.namecoin.org/2023/12/23/electrum-nmc-v4.0.6-released.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,199 +130,171 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Transaction queue for Namecoin Core</h1>
-<p class="post-meta">Jun 1, 2021 • yanmaani <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC v4.0.6 Released</h1>
+<p class="post-meta">Dec 23, 2023 • Jeremy Rand <i class="fa fa-tags"></i></p>
 </header>
 
 <article class="post-content">
-<p>Lately, work aiming to simplify the RPC API for name management has been proceeding. This is done both for the sake of improvement itself, and to make it easier to write GUIs for Namecoin.</p>
+<p>We’ve released Electrum-NMC v4.0.6. The changelog will probably be posted after 37C3.</p>
 
-<p>One unique element in Namecoin is the extensive use of time-dependent transactions. This is comparatively rare in Bitcoin. Either you want to send money or you don’t want to send money, but the “when” is usually ASAP. However, in Namecoin, it’s pretty common to, for instance, want to renew a name <em>when</em> it’s close to expiring, or register a name <em>when</em> its <code class="highlighter-rouge">NAME_NEW</code> input has matured.</p>
-
-<p>Historically, this has been a bit of an annoyance. Transactions can only[1] be broadcast if they have a good chance of making it into the next block, and not all transactions are intended to be broadcast immediately. The way users had to deal with it, then, was to manually keep track of what transactions they wanted broadcast and when.</p>
-
-<p>This isn’t suitable. It’s bad enough for direct users, but it also makes writing auxilliary software a pain, since the obligation will fall upon it to manage a lot of state. For example, the old name management GUI had to have a series of undocumented internal hooks into the wallet database.</p>
-
-<p>For this reason, a transaction queue has now been added to Namecoin to explicitly manage all that state. It was written by Brandon Roberts, Jeremy Rand, and yanmaani, who is the author of this post.  The implementation is actually shockingly simple:</p>
-
-<ol>
-  <li>Keep a list of transactions we’d like to broadcast</li>
-  <li>Each block, try to broadcast everything</li>
-  <li>Remove everything that made it into the mempool</li>
-</ol>
-
-<p>The initial plan was to have a very baroque API, where users could enter transactions and have them broadcast either when a name reached a certain age or when a transaction had a certain height. The reason for this was was that the transaction queue API was <a href="/2018/10/21/electrum-nmc-name-registration-gui.html">first implemented in Electrum-NMC</a>, which doesn’t allow you to check whether a transaction is valid without leaking it to the server. <em>Having already implemented all this</em>, it was realized that Bitcoin’s existing locking facilities could already cover our needs for Namecoin Core, and so I took it out. Wasting the effort was a bummer, but you can’t be sentimental like that. In the end it made for a better API and cleaner code. Such is life.</p>
-
-<p>The API for the transaction queue is thus very simple:</p>
-
-<p><code class="highlighter-rouge">queuerawtransaction &lt;hex&gt;</code> queues a transaction to be broadcast as soon as it can, and returns the txid on success. There is a basic sanity check to try and ensure the transaction at least theoretically could be broadcast at some point in the future, but there’s no guarantee. Note that it’s on you to properly lock the transaction, or else it will be broadcast immediately. If you want to update a name when it’s 35000 blocks old, make sure to set nSequence on the name input to 35001.</p>
-
-<p><code class="highlighter-rouge">dequeuerawtransaction &lt;txid&gt;</code> removes a transaction from the queue.</p>
-
-<p><code class="highlighter-rouge">listqueuetransactions</code> lists all the queued transactions. Note that this may also include transactions queued by RPC calls.</p>
-
-<p>These changes will be available in Namecoin Core starting version 22.0.</p>
-
-<p>This change was a prerequisite for <code class="highlighter-rouge">name_autoregister</code>, an RPC call to register a name in one step without having to manually call <code class="highlighter-rouge">name_firstupdate</code>, regarding which we endeavor to have an update in the next few days. That RPC call is the final pre-requisite for completing the new name management GUI.</p>
+<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
 
 <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
-
-<p>[1] Actually, this is only true in Bitcoin. In Namecoin, presumably to take the edge off this wart, there’s a special (somewhat ungainly) exemption for <code class="highlighter-rouge">name_firstupdate</code>, which was the cause of very serious bugs in the past, such as the <a href="/2018/07/08/brownout-june-17-20.html">June 2018 incident</a>.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1061,16 +1033,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-06-01-transaction-queue-for-namecoin-core.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-12-23-electrum-nmc-v4.0.6-released.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/06/01/transaction-queue-for-namecoin-core.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/06/01/transaction-queue-for-namecoin-core.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/06/01/transaction-queue-for-namecoin-core.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2021/06/01/transaction-queue-for-namecoin-core.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2023/12/23/electrum-nmc-v4.0.6-released.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/12/23/electrum-nmc-v4.0.6-released.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/23/electrum-nmc-v4.0.6-released.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2023/12/23/electrum-nmc-v4.0.6-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1079,33 +1051,33 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>

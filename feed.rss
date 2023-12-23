@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 22 Dec 2023 01:15:00 +0000</pubDate>
-    <lastBuildDate>Fri, 22 Dec 2023 01:15:00 +0000</lastBuildDate>
+    <pubDate>Sat, 23 Dec 2023 19:18:03 +0000</pubDate>
+    <lastBuildDate>Sat, 23 Dec 2023 19:18:03 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,26 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Electrum-NMC v4.0.6 Released</title>
+        <description>&lt;p&gt;We’ve released Electrum-NMC v4.0.6. The changelog will probably be posted after 37C3.&lt;/p&gt;
+
+&lt;p&gt;As usual, you can download it at the &lt;a href=&quot;/download/betas/#electrum-nmc&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 23 Dec 2023 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2023/12/23/electrum-nmc-v4.0.6-released.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2023/12/23/electrum-nmc-v4.0.6-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>Electrum Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at 37C3</title>
@@ -259,38 +279,6 @@
         <link>https://www.namecoin.org/2022/11/29/introducing-intern-robert-nganga.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2022/11/29/introducing-intern-robert-nganga.html</guid>
         <dc:creator>Jeremy Rand and Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Anonymity Improvements in Electrum-NMC v4.0.6</title>
-        <description>&lt;p&gt;Electrum-NMC v4.0.6 (soon to be released) brings some long-awaited anonymity improvements.&lt;/p&gt;
-
-&lt;h2 id=&quot;automatic-coin-control-for-names&quot;&gt;Automatic Coin Control for Names&lt;/h2&gt;
-
-&lt;p&gt;I first described this feature in &lt;a href=&quot;/2018/03/19/34c3-slides-videos.html&quot;&gt;my 34C3 presentation on anonymity&lt;/a&gt;.  There’s not much else to say here; my presentation covers how the feature works and why that design was chosen.  The delay between 34C3 and implementation is due to the preferences expressed by the Tor developers, hopefully it was worth the wait.&lt;/p&gt;
-
-&lt;h2 id=&quot;whonixtails-support&quot;&gt;Whonix/Tails Support&lt;/h2&gt;
-
-&lt;p&gt;Various anonymous OS’s such as &lt;a href=&quot;https://www.whonix.org/&quot;&gt;Whonix&lt;/a&gt; and &lt;a href=&quot;https://tails.boum.org/&quot;&gt;Tails&lt;/a&gt; come with Tor preconfigured.  A major component of how these OS’s handle preconfiguration is via environment variables that tell Tor-friendly applications such as Tor Browser and OnionShare where Tor’s SOCKS port is.  Electrum-NMC now supports these environment variables, so it will automatically use the correct SOCKS port (with stream isolation) on Whonix and Tails instead of relying on transproxying.&lt;/p&gt;
-
-&lt;p&gt;As part of this work, I engaged with the Tor Applications Team on improving the specifications for Tor-friendly applications.  This work has been slower than hoped, but some major improvements have already worked their way through the review process, and I expect to deliver more improvements to these specifications in the coming months.&lt;/p&gt;
-
-&lt;h2 id=&quot;apparmor-sandboxing-support&quot;&gt;AppArmor Sandboxing Support&lt;/h2&gt;
-
-&lt;p&gt;Besides environment variables, another trick that Whonix uses to Torify applications is usage of AppArmor to blacklist traffic that doesn’t go through Tor’s SOCKS port.  This works by having Tor listen on a Unix domain socket, and then blacklisting IP sockets via AppArmor; standard filesystem ACL’s take care of the rest.  Electrum-NMC now supports connecting to a SOCKS proxy via a Unix domain socket, so it should now be possible to enforce Torification via AppArmor.&lt;/p&gt;
-
-&lt;p&gt;So far, no one has written such an AppArmor policy for Electrum-NMC; this will be the subject of future work.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Discovery Fund.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 28 Oct 2022 02:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2022/10/28/anonymity-improvements-in-electrum-nmc-v4.0.6.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
