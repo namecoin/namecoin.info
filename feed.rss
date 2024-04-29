@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 29 Apr 2024 08:21:52 +0000</pubDate>
-    <lastBuildDate>Mon, 29 Apr 2024 08:21:52 +0000</lastBuildDate>
+    <pubDate>Mon, 29 Apr 2024 08:29:49 +0000</pubDate>
+    <lastBuildDate>Mon, 29 Apr 2024 08:29:49 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -26,6 +26,11 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/IPFS-GUI-Introduction.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
 
+&lt;video controls=&quot;&quot;&gt;
+&lt;source src=&quot;https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/files/videos/docs/ipfs/brave-ipfs.webm&quot; type=&quot;video/webm&quot; /&gt;
+Demo video of Namecoin + IPFS in Brave.
+&lt;/video&gt;
+
 &lt;h2 id=&quot;added-option-for-value-encoding&quot;&gt;Added Option for Value Encoding&lt;/h2&gt;
 
 &lt;p&gt;When registering names, there is now an option to pass values as binary, encoded in hexadecimal format. This enhancement provides greater flexibility and control for developers and power users, allowing them to represent domain name values in a more efficient and versatile manner.&lt;/p&gt;
@@ -42,9 +47,9 @@
 
 &lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 22 Apr 2024 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/04/22/IPFS-Value-Binary-Encoding.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/04/22/IPFS-Value-Binary-Encoding.html</guid>
+        <pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/04/29/ipfs-value-binary-encoding.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/04/29/ipfs-value-binary-encoding.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
