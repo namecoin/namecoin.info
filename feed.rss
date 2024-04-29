@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 29 Apr 2024 08:29:49 +0000</pubDate>
-    <lastBuildDate>Mon, 29 Apr 2024 08:29:49 +0000</lastBuildDate>
+    <pubDate>Mon, 29 Apr 2024 08:43:04 +0000</pubDate>
+    <lastBuildDate>Mon, 29 Apr 2024 08:43:04 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -20,7 +20,9 @@
     
       <item>
         <title>Enhancements to IPFS &amp; IPNS: A Closer Look at the Latest Updates</title>
-        <description>&lt;h2 id=&quot;the-dedicated-gui-for-ipfs--ipns&quot;&gt;The Dedicated GUI for IPFS &amp;amp; IPNS&lt;/h2&gt;
+        <description>&lt;p&gt;Several new Electrum-NMC enhancements have been added.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-dedicated-gui-for-ipfs--ipns&quot;&gt;The Dedicated GUI for IPFS &amp;amp; IPNS&lt;/h2&gt;
 
 &lt;p&gt;Previously, interacting with IPFS required the creation of TXT records and knowledge of IPFS DNSLink. However, with the introduction of a dedicated GUI, users now have a more user-friendly option, available in the address tab. To learn more about DNSLink and its use of DNS TXT records to map names to IPFS addresses or IPNS names, refer to the &lt;a href=&quot;https://docs.ipfs.tech/concepts/dnslink/&quot;&gt;IPFS DNS documentation.&lt;/a&gt;&lt;/p&gt;
 
