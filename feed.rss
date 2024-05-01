@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 29 Apr 2024 08:43:41 +0000</pubDate>
-    <lastBuildDate>Mon, 29 Apr 2024 08:43:41 +0000</lastBuildDate>
+    <pubDate>Wed, 01 May 2024 05:30:42 +0000</pubDate>
+    <lastBuildDate>Wed, 01 May 2024 05:30:42 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -26,7 +26,7 @@
 
 &lt;p&gt;Previously, interacting with IPFS required the creation of TXT records and knowledge of IPFS DNSLink. However, with the introduction of a dedicated GUI, users now have a more user-friendly option, available in the address tab. To learn more about DNSLink and its use of DNS TXT records to map names to IPFS addresses or IPNS names, refer to the &lt;a href=&quot;https://docs.ipfs.tech/concepts/dnslink/&quot;&gt;IPFS DNS documentation.&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/electrum-nmc/IPFS-GUI-Introduction.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/electrum-nmc/DNS-Builder-IPFS-2024-05-01.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
 
 &lt;video controls=&quot;&quot;&gt;
 &lt;source src=&quot;http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/files/videos/docs/ipfs/brave-ipfs.webm&quot; type=&quot;video/webm&quot; /&gt;
@@ -37,7 +37,7 @@ Demo video of Namecoin + IPFS in Brave.
 
 &lt;p&gt;When registering names, there is now an option to pass values as binary, encoded in hexadecimal format. This enhancement provides greater flexibility and control for developers and power users, allowing them to represent domain name values in a more efficient and versatile manner.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/electrum-nmc/Binary-Encoding-Values-GUI.png&quot; alt=&quot;Binary Encoding (value)&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/screenshots/electrum-nmc/Configure-Name-Dialog-Hex-2024-05-01.png&quot; alt=&quot;Binary Encoding (value)&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;gui-testing&quot;&gt;GUI Testing&lt;/h2&gt;
 
@@ -49,9 +49,9 @@ Demo video of Namecoin + IPFS in Brave.
 
 &lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 29 Apr 2024 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2024/04/29/ipfs-value-binary-encoding.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2024/04/29/ipfs-value-binary-encoding.html</guid>
+        <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2024/05/01/ipfs-value-binary-encoding.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2024/05/01/ipfs-value-binary-encoding.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
