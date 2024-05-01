@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 22 Feb 2024 17:06:54 +0000</pubDate>
-    <lastBuildDate>Thu, 22 Feb 2024 17:06:54 +0000</lastBuildDate>
+    <pubDate>Wed, 01 May 2024 05:43:46 +0000</pubDate>
+    <lastBuildDate>Wed, 01 May 2024 05:43:46 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,47 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Enhancements to IPFS &amp; IPNS: A Closer Look at the Latest Updates</title>
+        <description>&lt;p&gt;Several new Electrum-NMC enhancements have been added.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-dedicated-gui-for-ipfs--ipns&quot;&gt;The Dedicated GUI for IPFS &amp;amp; IPNS&lt;/h2&gt;
+
+&lt;p&gt;Previously, interacting with IPFS required the creation of TXT records and knowledge of IPFS DNSLink. However, with the introduction of a dedicated GUI, users now have a more user-friendly option, available in the address tab. To learn more about DNSLink and its use of DNS TXT records to map names to IPFS addresses or IPNS names, refer to the &lt;a href=&quot;https://docs.ipfs.tech/concepts/dnslink/&quot;&gt;IPFS DNS documentation.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-IPFS-2024-05-01.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
+
+&lt;video controls=&quot;&quot;&gt;
+&lt;source src=&quot;https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/files/videos/docs/ipfs/brave-ipfs.webm&quot; type=&quot;video/webm&quot; /&gt;
+Demo video of Namecoin + IPFS in Brave.
+&lt;/video&gt;
+
+&lt;h2 id=&quot;added-option-for-value-encoding&quot;&gt;Added Option for Value Encoding&lt;/h2&gt;
+
+&lt;p&gt;When registering names, there is now an option to pass values as binary, encoded in hexadecimal format. This enhancement provides greater flexibility and control for developers and power users, allowing them to represent domain name values in a more efficient and versatile manner.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/Configure-Name-Dialog-Hex-2024-05-01.png&quot; alt=&quot;Binary Encoding (value)&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;gui-testing&quot;&gt;GUI Testing&lt;/h2&gt;
+
+&lt;p&gt;For GUI testing, we validate the GUI form’s build process and execute regression tests, which helps us identify any errors in the files.&lt;/p&gt;
+
+&lt;h2 id=&quot;windows-binaries-testing&quot;&gt;Windows Binaries Testing&lt;/h2&gt;
+
+&lt;p&gt;We validate the integrity of the build process and conduct regression tests on these binaries to ensure their functionality and detect any potential issues.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/01/ipfs-value-binary-encoding.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/01/ipfs-value-binary-encoding.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC v4.0.6 Released</title>
@@ -257,28 +298,6 @@
         <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/30/ncp11-nightly-builds.html</link>
         <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/30/ncp11-nightly-builds.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Introducing Namecoin's New Intern, Robert Nganga</title>
-        <description>&lt;p&gt;&lt;em&gt;Hey everyone, Jeremy here.  We’re happy to announce that Namecoin has accepted an intern via &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; (we are participating under the Tor Project umbrella).  Robert Nganga will be funded to work on a new project that I think both the Namecoin and Tor communities will find exciting.  Huge thanks are due to Tor Project for taking us under their wing for this internship.  I don’t want to steal his thunder any more than I already have, so I’m going to turn over the remainder of this post to Robert to tell you about his project – please join us in welcoming him to the Namecoin community!&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Greetings, I am pleased to join the Namecoin team as a &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; Intern after two months of contributing to Namecoin. I’ll be working on developing a tool that can identify and prevent proxy leaks. I’ll be using ptrace to intercept network socket system calls in a Tor-using application and block them if they constitute a proxy leak. Given the substantial threats posed by proxy leaks, the technology will improve security and privacy while resolving current problems with the technologies already in use. For instance, torsocks, an LD_PRELOAD-based program that intercepts calls to the network functions of the standard C library, is incompatible with statically linked software, such as the majority of Golang-written applications (Given that Golang is frequently used for security-conscious applications, this is particularly problematic) Transparent proxy tools like Whonix can result in usage of multiple applications being traceable to the same user, since you can’t easily enforce stream isolation (degrading anonymity into much weaker pseudonymity)&lt;/p&gt;
-
-&lt;p&gt;Furthermore, prior Namecoin development such as the Namecoin support in Tor Browser, was for a period slowed down by manual audits for proxy leaks. In the future, the tool will prevent such bottlenecks. This ptrace approach has a &lt;a href=&quot;https://github.com/JeremyRand/heteronculous&quot;&gt;crude proof-of-concept&lt;/a&gt; in Bash, which was developed by the Namecoin team.&lt;/p&gt;
-
-&lt;p&gt;The project will be mentored by Jeremy Rand, who will also provide any support required.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/29/introducing-intern-robert-nganga.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/11/29/introducing-intern-robert-nganga.html</guid>
-        <dc:creator>Jeremy Rand and Robert Nganga</dc:creator>
         
         <category>News</category>
         
