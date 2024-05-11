@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,51 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</a></h1>
+    <p class="post-meta">May 11, 2024 • Robert Nganga </p>
+  </header>
+
+  <article class="post-content">
+    <p>Several new Electrum-NMC &amp; ncdns enhancements have been added.</p>
+
+    <h2 id="apparmor-profiles-for-electrum-nmc">AppArmor Profiles for Electrum-NMC</h2>
+
+    <p>AppArmor is a Mandatory Access Control (MAC) system which confines programs to a limited set of resources. AppArmor confinement is provided via profiles loaded into the kernel.
+By using AppArmor profiles, we can ensure that Electrum-NMC operates within a predefined security policy, reducing the risk of unauthorized access or malicious actions.
+The profiles are provided in the contrib folder. For more information on AppArmor, <a href="https://ubuntu.com/tutorials/beginning-apparmor-profile-development#1-overview">visit their website.</a></p>
+
+    <h2 id="input-validation-in-electrum-nmcs-dns-builder-gui">Input Validation in Electrum-NMC’s DNS Builder GUI</h2>
+    <p>When passing data to the DNS Builder, certain validations are performed to offer hints and warnings about invalid data or outdated methods (such as algorithms).</p>
+
+    <p><img src="/images/screenshots/electrum-nmc/DNS-Builder-IP-Validation-2024.png" alt="IP Validation" /></p>
+
+    <p><img src="/images/screenshots/electrum-nmc/DNS-Builder-Algorithm-Validation-2024.png" alt="IPFS Images" /></p>
+
+    <h2 id="static-analysis-testing">Static Analysis Testing</h2>
+
+    <p>We run static analysis using tools such as Flake8, MyPy, and Pylint, comparing results with Electrum (Bitcoin version) to focus on Electrum-NMC-specific issues. This process, integrated into our CI, helps catch bugs early. Looking to contribute? Static analysis issues provide good first-time issues!</p>
+
+    <h2 id="enabling-ncdns-to-perform-rpc-requests-via-unix-domain-sockets">Enabling ncdns to Perform RPC Requests via Unix Domain Sockets</h2>
+
+    <p>Enabling ncdns to perform RPC requests via Unix domain sockets offers a more secure communication method than TCP/IP. To utilize a Unix domain socket, specify it in the <code class="highlighter-rouge">namecoinrpcaddress</code> field as <code class="highlighter-rouge">unix:// + "your unix socket path"</code> such as <code class="highlighter-rouge">unix:///tmp/test.XXXX</code></p>
+
+    <p>Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Namecoin Core. This can be achieved using a commnad such as socat command:</p>
+    <div class="highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>socat -d UNIX-LISTEN:"my-unix-socket-path",fork TCP:"host-address"
+socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
+</code></pre>
+      </div>
+    </div>
+    <p>This work was funded by NLnet Foundation’s NGI Assure Fund.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -8253,33 +8298,33 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
