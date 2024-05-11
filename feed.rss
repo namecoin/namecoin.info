@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 11 May 2024 03:43:56 +0000</pubDate>
-    <lastBuildDate>Sat, 11 May 2024 03:43:56 +0000</lastBuildDate>
+    <pubDate>Sat, 11 May 2024 03:55:08 +0000</pubDate>
+    <lastBuildDate>Sat, 11 May 2024 03:55:08 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,47 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</title>
+        <description>&lt;p&gt;Several new Electrum-NMC &amp;amp; ncdns enhancements have been added.&lt;/p&gt;
+
+&lt;h2 id=&quot;apparmor-profiles-for-electrum-nmc&quot;&gt;AppArmor Profiles for Electrum-NMC&lt;/h2&gt;
+
+&lt;p&gt;AppArmor is a Mandatory Access Control (MAC) system which confines programs to a limited set of resources. AppArmor confinement is provided via profiles loaded into the kernel.
+By using AppArmor profiles, we can ensure that Electrum-NMC operates within a predefined security policy, reducing the risk of unauthorized access or malicious actions.
+The profiles are provided in the contrib folder. For more information on AppArmor, &lt;a href=&quot;https://ubuntu.com/tutorials/beginning-apparmor-profile-development#1-overview&quot;&gt;visit their website.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;input-validation-in-electrum-nmcs-dns-builder-gui&quot;&gt;Input Validation in Electrum-NMC’s DNS Builder GUI&lt;/h2&gt;
+&lt;p&gt;When passing data to the DNS Builder, certain validations are performed to offer hints and warnings about invalid data or outdated methods (such as algorithms).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-IP-Validation-2024.png&quot; alt=&quot;IP Validation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-Algorithm-Validation-2024.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;static-analysis-testing&quot;&gt;Static Analysis Testing&lt;/h2&gt;
+
+&lt;p&gt;We run static analysis using tools such as Flake8, MyPy, and Pylint, comparing results with Electrum (Bitcoin version) to focus on Electrum-NMC-specific issues. This process, integrated into our CI, helps catch bugs early. Looking to contribute? Static analysis issues provide good first-time issues!&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-ncdns-to-perform-rpc-requests-via-unix-domain-sockets&quot;&gt;Enabling ncdns to Perform RPC Requests via Unix Domain Sockets&lt;/h2&gt;
+
+&lt;p&gt;Enabling ncdns to perform RPC requests via Unix domain sockets offers a more secure communication method than TCP/IP. To utilize a Unix domain socket, specify it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoinrpcaddress&lt;/code&gt; field as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:// + &quot;your unix socket path&quot;&lt;/code&gt; such as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:///tmp/test.XXXX&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Namecoin Core. This can be achieved using a commnad such as socat command:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat -d UNIX-LISTEN:&quot;my-unix-socket-path&quot;,fork TCP:&quot;host-address&quot;
+socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 11 May 2024 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>rust-electrum-client for Namecoin</title>
@@ -59,47 +100,6 @@ Video of Namecoin at GCER 2022.
         <link>https://www.namecoin.org/2024/05/09/gcer-2022-video.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2024/05/09/gcer-2022-video.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Enhancing Security and Efficiency</title>
-        <description>&lt;p&gt;Several new Electrum-NMC &amp;amp; Ncdns enhancements have been added.&lt;/p&gt;
-
-&lt;h2 id=&quot;apparmor-profiles-for-electrum-nmc&quot;&gt;AppArmor Profiles for Electrum-NMC&lt;/h2&gt;
-
-&lt;p&gt;AppArmor is a Mandatory Access Control (MAC) system which confines programs to a limited set of resources. AppArmor confinement is provided via profiles loaded into the kernel.
-By using AppArmor profiles, we can ensure that Electrum-NMC operates within a predefined security policy, reducing the risk of unauthorized access or malicious actions.
-The profiles are provided in the contrib folder. For more information on AppArmor, &lt;a href=&quot;https://ubuntu.com/tutorials/beginning-apparmor-profile-development#1-overview&quot;&gt;visit their website.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;input-validation-in-electrum-nmcs-dns-builder-gui&quot;&gt;Input Validation in Electrum-NMC’s DNS Builder GUI&lt;/h2&gt;
-&lt;p&gt;When passing data to the DNS Builder, certain validations are performed to offer hints and warnings about invalid data or outdated methods (such as algorithms).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-IP-Validation-2024.png&quot; alt=&quot;IP Validation&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-Algorithm-Validation-2024.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;static-analysis-testing&quot;&gt;Static Analysis Testing&lt;/h2&gt;
-
-&lt;p&gt;We run static analysis using tools such as Flake8, MyPy, and Pylint, comparing results with Electrum (Bitcoin version) to focus on Electrum-NMC-specific issues. This process, integrated into our CI, helps catch bugs early. Looking to contribute? Static analysis issues provide good first-time issues!&lt;/p&gt;
-
-&lt;h2 id=&quot;enabling-ncdns-perfrom-rpc-requests-via-unix-domain-sockets&quot;&gt;Enabling Ncdns Perfrom RPC Requests via Unix Domain Sockets&lt;/h2&gt;
-
-&lt;p&gt;Enabling ncdns to perform RPC requests via Unix domain sockets offers a more secure communication method than TCP/IP. To utilize a Unix domain socket, specify it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoinrpcaddress&lt;/code&gt; field as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:// + &quot;your unix socket path&quot;&lt;/code&gt; such as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:///tmp/test.XXXX&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Bitcoin Core. This can be achieved using a commnad such as socat command:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat -d UNIX-LISTEN:&quot;my-unix-socket-path&quot;,fork TCP:&quot;host-address&quot;
-socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 03 May 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
