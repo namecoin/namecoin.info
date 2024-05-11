@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 09 May 2024 13:46:59 +0000</pubDate>
-    <lastBuildDate>Thu, 09 May 2024 13:46:59 +0000</lastBuildDate>
+    <pubDate>Sat, 11 May 2024 03:47:12 +0000</pubDate>
+    <lastBuildDate>Sat, 11 May 2024 03:47:12 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,26 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>rust-electrum-client for Namecoin</title>
+        <description>&lt;p&gt;Recently, I needed to use &lt;a href=&quot;https://github.com/bitcoindevkit/rust-electrum-client&quot;&gt;rust-electrum-client&lt;/a&gt; with Namecoin. I was kind of worried that this would be nontrivial, but as it turned out, I was able to get it working in just a few days of hacking, despite this being my first foray into Rust.&lt;/p&gt;
+
+&lt;p&gt;The main incompatibility that came up was that Namecoin headers have an AuxPoW header after the 80-byte Bitcoin-style header, and the deserialization functions in rust-electrum-client really didn’t like that trailing data. There were two deserialization functions that I had to patch to truncate the headers at 80 bytes, which got header parsing to work properly. My current patches are very unclean, and are not really suitable for publication, but I’m planning to clean them up and publish patches over the next few weeks.&lt;/p&gt;
+
+&lt;p&gt;Once this was done, a few non-code workarounds were additionally needed (more on these later!), and I was then able to use a real-world rust-electrum-client application with Namecoin. I’ll talk more in a future post about what downstream code is using this.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2024/05/10/rust-electrum-client-for-namecoin.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2024/05/10/rust-electrum-client-for-namecoin.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Video, Slides, and Paper from Namecoin at GCER 2022</title>
@@ -266,40 +286,6 @@ Demo video of Namecoin + IPFS in Brave.
         <pubDate>Tue, 10 Jan 2023 00:00:00 +0000</pubDate>
         <link>https://namecoin.bit/2023/01/10/week-one-of-internship-robert-nganga.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2023/01/10/week-one-of-internship-robert-nganga.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Outreachy Blog #1: Introduce Yourself</title>
-        <description>&lt;p&gt;Hello! My name is Robert, an Outreachy Intern. I spend most of my days gaming, coding and learning. I’ve been very interested in open-source projects, and two months after contributing to Namecoin, I started my internship. For the two months, the experience has been very enjoyable and interesting.&lt;/p&gt;
-
-&lt;h2 id=&quot;my-core-values&quot;&gt;My Core Values&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Integrity: I believe in being honest and transparent in all my actions and decisions.&lt;/li&gt;
-  &lt;li&gt;Innovation: I value creativity and constantly strive to find new and better ways of doing things.&lt;/li&gt;
-  &lt;li&gt;Collaboration: I believe in working together with others to achieve common goals and create successful outcomes.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;what-motivated-me-to-apply-to-outreachy&quot;&gt;What motivated me to apply to Outreachy&lt;/h2&gt;
-
-&lt;p&gt;Several factors influenced my decision to apply to Outreachy. To begin, I am really interested in open source and want to obtain practical experience in this subject. Outreachy is a fantastic chance for people like me to contribute to open source projects while learning from experienced mentors.&lt;/p&gt;
-
-&lt;p&gt;Second, I am enthusiastic in learning new things and honing my talents. Outreachy provides a structured internship program in which I may work on difficult projects while developing my technical and professional abilities.&lt;/p&gt;
-
-&lt;p&gt;Finally, I feel Outreachy will give me with beneficial networking chances. I am looking forward to meeting other Outreachy participants and mentors and developing contacts that will benefit my career.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Outreachy under the Tor Project umbrella.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227&quot;&gt;Cross-posted from Medium.&lt;/a&gt;  The cross-posting was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 09 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2023/01/09/outreachy-blog-1-introduce-yourself.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2023/01/09/outreachy-blog-1-introduce-yourself.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
