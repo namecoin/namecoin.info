@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Enhancing Security and Efficiency</title>
+    <title>Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html">
+    <link rel="canonical" href="https://namecoin.bit/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,23 +130,15 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Enhancing Security and Efficiency</h1>
-<p class="post-meta">May 3, 2024 • Robert Nganga <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</h1>
+<p class="post-meta">May 11, 2024 • Robert Nganga <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Several new Electrum-NMC &amp; Ncdns enhancements have been added.</p>
+<p>Several new Electrum-NMC &amp; ncdns enhancements have been added.</p>
 
 <h2 id="apparmor-profiles-for-electrum-nmc">AppArmor Profiles for Electrum-NMC</h2>
 
@@ -165,11 +157,11 @@ The profiles are provided in the contrib folder. For more information on AppArmo
 
 <p>We run static analysis using tools such as Flake8, MyPy, and Pylint, comparing results with Electrum (Bitcoin version) to focus on Electrum-NMC-specific issues. This process, integrated into our CI, helps catch bugs early. Looking to contribute? Static analysis issues provide good first-time issues!</p>
 
-<h2 id="enabling-ncdns-perfrom-rpc-requests-via-unix-domain-sockets">Enabling Ncdns Perfrom RPC Requests via Unix Domain Sockets</h2>
+<h2 id="enabling-ncdns-to-perform-rpc-requests-via-unix-domain-sockets">Enabling ncdns to Perform RPC Requests via Unix Domain Sockets</h2>
 
 <p>Enabling ncdns to perform RPC requests via Unix domain sockets offers a more secure communication method than TCP/IP. To utilize a Unix domain socket, specify it in the <code class="highlighter-rouge">namecoinrpcaddress</code> field as <code class="highlighter-rouge">unix:// + "your unix socket path"</code> such as <code class="highlighter-rouge">unix:///tmp/test.XXXX</code></p>
 
-<p>Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Bitcoin Core. This can be achieved using a commnad such as socat command:</p>
+<p>Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Namecoin Core. This can be achieved using a commnad such as socat command:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>socat -d UNIX-LISTEN:"my-unix-socket-path",fork TCP:"host-address"
 socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
 </code></pre></div></div>
@@ -178,6 +170,14 @@ socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
 </article>
 
 </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1072,16 +1072,16 @@ socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2024-05-03-apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2024-05-11-apparmor-static-analysis-input-validation-ncdns-unix-sockets.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2024/05/03/apparmor-static-analysis-input-validation-&-ncdns-unix-sockets.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1090,33 +1090,33 @@ socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
             </ul>
         </div>
