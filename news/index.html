@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,26 @@
   <article class="post-content">
     
 <p>(<a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/10/rust-electrum-client-for-namecoin.html">rust-electrum-client for Namecoin</a></h1>
+    <p class="post-meta">May 10, 2024 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Recently, I needed to use <a href="https://github.com/bitcoindevkit/rust-electrum-client">rust-electrum-client</a> with Namecoin. I was kind of worried that this would be nontrivial, but as it turned out, I was able to get it working in just a few days of hacking, despite this being my first foray into Rust.</p>
+
+    <p>The main incompatibility that came up was that Namecoin headers have an AuxPoW header after the 80-byte Bitcoin-style header, and the deserialization functions in rust-electrum-client really didn’t like that trailing data. There were two deserialization functions that I had to patch to truncate the headers at 80 bytes, which got header parsing to work properly. My current patches are very unclean, and are not really suitable for publication, but I’m planning to clean them up and publish patches over the next few weeks.</p>
+
+    <p>Once this was done, a few non-code workarounds were additionally needed (more on these later!), and I was then able to use a real-world rust-electrum-client application with Namecoin. I’ll talk more in a future post about what downstream code is using this.</p>
+
+    <p>This work was funded by Cyphrs.</p>
+
+  </article>
+
+</div>
 
 <div class="post">
 
@@ -8233,33 +8253,33 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
             </ul>
         </div>
