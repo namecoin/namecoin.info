@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 11 May 2024 03:57:11 +0000</pubDate>
-    <lastBuildDate>Sat, 11 May 2024 03:57:11 +0000</lastBuildDate>
+    <pubDate>Wed, 15 May 2024 07:31:18 +0000</pubDate>
+    <lastBuildDate>Wed, 15 May 2024 07:31:18 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,30 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin will be at Tor Meeting 2024, GPN 22, and MoneroKon 4</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin developers will be at multiple conferences over the next month:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://eweiibe6tdjsdprb4px6rqrzzcsi22m4koia44kc5pcjr7nec2rlxyad.onion/tpo/team/-/wikis/Meetings/2024/Lisbon&quot;&gt;Tor Meeting 2024&lt;/a&gt; in Lisbon, Portugal (May 20-24): Jeremy Rand will represent Namecoin during the main event; Jeremy Rand, Rose Turing, and Yanmaani will represent Namecoin during Community Day.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://entropia.de/GPN22/en&quot;&gt;GPN 22&lt;/a&gt; in Karlsruhe, Germany (May 30 - June 2): Jeremy Rand and Rose Turing will represent Namecoin.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://monerokon.org/&quot;&gt;MoneroKon 4&lt;/a&gt; in Prague, Czechia (June 7-9): Jeremy Rand, Rose Turing, and Yanmaani will represent Namecoin.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As of this writing, schedules are not yet finalized, but details should be posted soon on the respective conferences’ websites. (We expect to host sessions at Tor, GPN, and MoneroKon). If you’re near any of these events and would like to meet up to discuss collaboration, please ping us on #namecoin-dev.&lt;/p&gt;
+
+&lt;p&gt;We’d like to thank Cyphrs, Replicant, and Cypherpunks for facilitating our participation at these conferences. See you there!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 15 May 2024 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/15/tor-2024-gpn-22-monerokon-4.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/05/15/tor-2024-gpn-22-monerokon-4.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</title>
@@ -283,28 +307,6 @@ Demo video of Namecoin + IPFS in Brave.
         <pubDate>Thu, 23 Feb 2023 00:00:00 +0000</pubDate>
         <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/02/23/socksification-outreachy-internship.html</link>
         <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/02/23/socksification-outreachy-internship.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Outreachy Internship Progress</title>
-        <description>&lt;p&gt;Greetings! I wanted to provide an overall update on the project’s progress. We have successfully implemented the ability to detect the IP address and port that socket system calls are sending data to, as well as the capability to block system calls that are sending data to an IP address and port that is not the desired proxy. Additionally, we have added an option to kill the application if a proxy leak occurs, which is useful for manual QA testing, and an option to allow proxy leaks but log any that occur, which is useful for automated testing of applications. Furthermore, we have included the capability to use the environment variables that Tor Browser uses, such as TOR_SOCKS_PORT, to determine the desired proxy.&lt;/p&gt;
-
-&lt;p&gt;Lastly, we are currently in the process of implementing SOCKSification, which involves intercepting the connect syscall’s entry point, modifying the destination IP/Port, and capturing the established socket’s file descriptor through the exit of the connect syscall. A SOCKS5 handshake is then performed on the file descriptor. Afterwards, socks authentication enforcement and support of UDP proxies will be implemented. Socks authentication enforcement will detect if the tracee is using SOCKS without an appropriate username/password (stream isolation leak)&lt;/p&gt;
-
-&lt;p&gt;The program instructions are manipulated using flags through &lt;a href=&quot;https://github.com/hlandau/easyconfig/tree/v1.0.18&quot;&gt;easyconfig&lt;/a&gt; which enables easy manipulation of arguments. Logging is done using &lt;a href=&quot;https://github.com/hlandau/xlog&quot;&gt;xlog&lt;/a&gt; which provides different options for logging. &lt;a href=&quot;https://github.com/u-root/u-root/tree/v0.10.0/pkg/strace&quot;&gt;U-root&lt;/a&gt; was preferred for tracing since it is easier to use.&lt;/p&gt;
-
-&lt;p&gt;Suggestions are much welcomed! &lt;a href=&quot;https://github.com/namecoin/heteronculous-horklump&quot;&gt;Project Repository&lt;/a&gt; &amp;amp; &lt;a href=&quot;/2022/11/29/introducing-intern-robert-nganga.html&quot;&gt;Project Summary&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This work was funded by &lt;a href=&quot;https://www.outreachy.org/&quot;&gt;Outreachy&lt;/a&gt; under the Tor Project umbrella.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 29 Jan 2023 00:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/29/outreachy-internship-update.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/29/outreachy-internship-update.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
