@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/</link>
     <atom:link href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Wed, 24 Jul 2024 09:11:28 +0000</pubDate>
-    <lastBuildDate>Wed, 24 Jul 2024 09:11:28 +0000</lastBuildDate>
+    <pubDate>Wed, 24 Jul 2024 09:18:42 +0000</pubDate>
+    <lastBuildDate>Wed, 24 Jul 2024 09:18:42 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/logo.png</url>
@@ -37,7 +37,7 @@
   &lt;li&gt;Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?&lt;/li&gt;
   &lt;li&gt;How can we authenticate a TLS certificate for a .onion domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)&lt;/li&gt;
   &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for .onion certificates?&lt;/li&gt;
-  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?*&lt;/li&gt;
+  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://media.ccc.de/v/gpn22-469-self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
