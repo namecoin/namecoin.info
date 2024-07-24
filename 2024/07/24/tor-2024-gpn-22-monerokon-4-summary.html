@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>More rbm Projects Added: DNSSEC-HSTS, certdehydrate-dane-rest-api, Dependencies, and macOS Support</title>
+    <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://namecoin.bit/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">
+    <link rel="canonical" href="https://namecoin.bit/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,426 +130,449 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">More rbm Projects Added: DNSSEC-HSTS, certdehydrate-dane-rest-api, Dependencies, and macOS Support</h1>
-<p class="post-meta">Jun 13, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</h1>
+<p class="post-meta">Jul 24, 2024 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>A few days ago I <a href="/2019/06/12/ncp11-now-builds-in-rbm-gnu-linux-64-bit-and-32-bit.html">mentioned </a> that ncp11 now builds in rbm.  As you may recall, rbm is the build system used by Tor Browser; it facilitates reproducible builds, which improves the security of the build process against supply-chain attacks.  I’ve now added several new projects/targets to Namecoin’s rbm descriptors:</p>
+<p>As was <a href="/2024/05/15/tor-2024-gpn-22-monerokon-4.html">previously announced</a>, Rose, yanmaani, Hugo, and I (Jeremy Rand) represented Namecoin at three conferences in Europe. This was an excellent series of events for a number of reasons, not least the fact that this is the first time we’ve ever had 4 Namecoin developers attending a single conference (our previous record was 3 developers, at 37C3). Expanding our team size has been a priority for a while, and it’s great to see that this is starting to pay off. Of course, there were major substantive benefits as well. As usual for conferences that Namecoiners attend, we engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.</p>
+
+<p>Sessions at the Tor meetings are not recorded. However, my presentations at GPN and MoneroKon were recorded, and are published below:</p>
+
+<h2 id="gpn-22-self-authenticating-tls-certificates-for-tor-onion-services">GPN 22: Self-Authenticating TLS Certificates for Tor Onion Services</h2>
+
+<p>Speaker: Jeremy Rand</p>
+
+<p>TLS (the security layer behind HTTPS) and Tor onion services (anonymously hosted TCP services) are both excellent protocols. Wouldn’t it be nice if we could use them together? In this talk, I’ll cover a working implementation of combining TLS with onion services, without compromising on the security properties that each provides.</p>
+
+<p>Topics to be covered include:</p>
 
 <ul>
-  <li>DNSSEC-HSTS now builds.  For those of you who aren’t familiar with DNSSEC-HSTS, see my <a href="/2019/05/08/35c3-summary.html">35C3 slides</a>.</li>
-  <li>certdehydrate-dane-rest-api now builds.  This is a backend tool that’s used by both ncp11 and DNSSEC-HSTS.</li>
-  <li>Dependencies of the above, including:
-    <ul>
-      <li>qlib (a library for flexible DNS queries, based on Miek Gieben’s excellent q CLI tool).</li>
-      <li>crosssign (a library for cross-signing X.509 certificates).</li>
-      <li>safetlsa (a library for converting DNS TLSA records into certificates that are safe to import into a TLS trust store, using dehydrated certificates and name constraints).</li>
-    </ul>
-  </li>
-  <li>ncdns can now be built as a library, not just as an executable.  This was needed in order to build certdehydrate-dane-rest-api.</li>
-  <li>ncdns now builds for macOS.</li>
-  <li>Several library dependencies were updated; this fixes a number of bugs that existed due to accidentally using outdated dependencies.  (Chief among them was a bug that broke ncdns’s ability to talk to ConsensusJ-Namecoin and Electrum-NMC.)  Thanks to grringo for catching this.</li>
+  <li>Why would you want to combine TLS with onion services? Why isn’t onion service encryption good enough?</li>
+  <li>Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?</li>
+  <li>How can we authenticate a TLS certificate for a .onion domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)</li>
+  <li>How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for .onion certificates?</li>
+  <li>How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?*</li>
 </ul>
 
-<p>I’ve also submitted a patch to upstream Tor that will hopefully allow us to make our rbm descriptors a lot cleaner.  Specifically, upstream Tor has a special template for building Go libraries, but it doesn’t work for Go executables, so Go executable projects need to have a bunch of boilerplate.  My patch allows the Go library template to work with executable projects as well.  That patch is currently awaiting review.</p>
+<p><a href="https://media.ccc.de/v/gpn22-469-self-authenticating-tls-certificates-for-tor-onion-services">Video is here.</a></p>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<h2 id="monerokon-4-human-meaningful-trustless-anonymous-monero-addresses-with-namecoin">MoneroKon 4: Human-Meaningful, Trustless, Anonymous Monero Addresses with Namecoin</h2>
+
+<p>Speaker: Jeremy Rand</p>
+
+<p>Monero addresses are already long and unwieldy, and they’re about to get longer with Jamtis. Namecoin is a DNS-like naming system implemented as the first project forked from Bitcoin, predating Monero by 3 years to the day. This talk will cover using Namecoin as a human-meaningful naming layer for Monero addresses, recent anonymity advances that make Namecoin’s privacy more suitable for this use case, how OpenAlias fits in, and how Namecoin compares to the MoneroDNS approach of creating a Monero sidechain for this purpose.</p>
+
+<p><a href="https://www.youtube.com/watch?v=qQ4ptuh_w84">Video is here.</a></p>
+
+<h2 id="thanks">Thanks</h2>
+
+<p>Huge thank you to the following groups who facilitated our participation:</p>
+
+<ul>
+  <li>Cyphrs</li>
+  <li><a href="https://replicant.us/">The Replicant Assembly</a></li>
+  <li>Cypherpunks</li>
+</ul>
+
+<p>We’re hoping to return to these events next year.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1076,16 +1099,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-06-13-more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2024-07-24-tor-2024-gpn-22-monerokon-4-summary.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/06/13/more-rbm-projects-dnssec-hsts-certdehydrate-dane-rest-api-macos.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1094,23 +1117,7 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
@@ -1118,9 +1125,25 @@
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
             </ul>
         </div>
