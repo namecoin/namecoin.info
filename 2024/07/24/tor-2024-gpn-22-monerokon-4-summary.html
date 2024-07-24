@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Outreachy Blog #1: Introduce Yourself</title>
+    <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/01/09/outreachy-blog-1-introduce-yourself.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
 
     <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,95 +130,117 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Outreachy Blog #1: Introduce Yourself</h1>
-<p class="post-meta">Jan 9, 2023 • Robert Nganga <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</h1>
+<p class="post-meta">Jul 24, 2024 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Hello! My name is Robert, an Outreachy Intern. I spend most of my days gaming, coding and learning. I’ve been very interested in open-source projects, and two months after contributing to Namecoin, I started my internship. For the two months, the experience has been very enjoyable and interesting.</p>
+<p>As was <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/15/tor-2024-gpn-22-monerokon-4.html">previously announced</a>, Rose, yanmaani, Hugo, and I (Jeremy Rand) represented Namecoin at three conferences in Europe. This was an excellent series of events for a number of reasons, not least the fact that this is the first time we’ve ever had 4 Namecoin developers attending a single conference (our previous record was 3 developers, at 37C3). Expanding our team size has been a priority for a while, and it’s great to see that this is starting to pay off. Of course, there were major substantive benefits as well. As usual for conferences that Namecoiners attend, we engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.</p>
 
-<h2 id="my-core-values">My Core Values</h2>
+<p>Sessions at the Tor meetings are not recorded. However, my presentations at GPN and MoneroKon were recorded, and are published below:</p>
 
-<ol>
-  <li>Integrity: I believe in being honest and transparent in all my actions and decisions.</li>
-  <li>Innovation: I value creativity and constantly strive to find new and better ways of doing things.</li>
-  <li>Collaboration: I believe in working together with others to achieve common goals and create successful outcomes.</li>
-</ol>
+<h2 id="gpn-22-self-authenticating-tls-certificates-for-tor-onion-services">GPN 22: Self-Authenticating TLS Certificates for Tor Onion Services</h2>
 
-<h2 id="what-motivated-me-to-apply-to-outreachy">What motivated me to apply to Outreachy</h2>
+<p>Speaker: Jeremy Rand</p>
 
-<p>Several factors influenced my decision to apply to Outreachy. To begin, I am really interested in open source and want to obtain practical experience in this subject. Outreachy is a fantastic chance for people like me to contribute to open source projects while learning from experienced mentors.</p>
+<p>TLS (the security layer behind HTTPS) and Tor onion services (anonymously hosted TCP services) are both excellent protocols. Wouldn’t it be nice if we could use them together? In this talk, I’ll cover a working implementation of combining TLS with onion services, without compromising on the security properties that each provides.</p>
 
-<p>Second, I am enthusiastic in learning new things and honing my talents. Outreachy provides a structured internship program in which I may work on difficult projects while developing my technical and professional abilities.</p>
+<p>Topics to be covered include:</p>
 
-<p>Finally, I feel Outreachy will give me with beneficial networking chances. I am looking forward to meeting other Outreachy participants and mentors and developing contacts that will benefit my career.</p>
+<ul>
+  <li>Why would you want to combine TLS with onion services? Why isn’t onion service encryption good enough?</li>
+  <li>Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?</li>
+  <li>How can we authenticate a TLS certificate for a .onion domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)</li>
+  <li>How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for .onion certificates?</li>
+  <li>How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?</li>
+</ul>
 
-<p>This work was funded by Outreachy under the Tor Project umbrella.</p>
+<p><a href="https://media.ccc.de/v/gpn22-469-self-authenticating-tls-certificates-for-tor-onion-services">Video is here.</a></p>
 
-<p><em><a href="https://medium.com/@mindo.robert1/outreachy-blog-1-introduce-yourself-ae45357227">Cross-posted from Medium.</a>  The cross-posting was delayed by infrastructure issues on Namecoin Project’s end; we apologize for the delay, which was not due to any fault of Robert.</em></p>
+<h2 id="monerokon-4-human-meaningful-trustless-anonymous-monero-addresses-with-namecoin">MoneroKon 4: Human-Meaningful, Trustless, Anonymous Monero Addresses with Namecoin</h2>
+
+<p>Speaker: Jeremy Rand</p>
+
+<p>Monero addresses are already long and unwieldy, and they’re about to get longer with Jamtis. Namecoin is a DNS-like naming system implemented as the first project forked from Bitcoin, predating Monero by 3 years to the day. This talk will cover using Namecoin as a human-meaningful naming layer for Monero addresses, recent anonymity advances that make Namecoin’s privacy more suitable for this use case, how OpenAlias fits in, and how Namecoin compares to the MoneroDNS approach of creating a Monero sidechain for this purpose.</p>
+
+<p><a href="https://www.youtube.com/watch?v=qQ4ptuh_w84">Video is here.</a></p>
+
+<h2 id="thanks">Thanks</h2>
+
+<p>Huge thank you to the following groups who facilitated our participation:</p>
+
+<ul>
+  <li>Cyphrs</li>
+  <li><a href="https://replicant.us/">The Replicant Assembly</a></li>
+  <li>Cypherpunks</li>
+</ul>
+
+<p>We’re hoping to return to these events next year.</p>
+
+<p>This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.</p>
 
 </article>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1077,16 +1099,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2023-01-09-outreachy-blog-1-introduce-yourself.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2024-07-24-tor-2024-gpn-22-monerokon-4-summary.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2023/01/09/outreachy-blog-1-introduce-yourself.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/01/09/outreachy-blog-1-introduce-yourself.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/01/09/outreachy-blog-1-introduce-yourself.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2023/01/09/outreachy-blog-1-introduce-yourself.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1095,33 +1117,33 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>

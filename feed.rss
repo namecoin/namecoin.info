@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 18 May 2024 01:54:35 +0000</pubDate>
-    <lastBuildDate>Sat, 18 May 2024 01:54:35 +0000</lastBuildDate>
+    <pubDate>Wed, 24 Jul 2024 09:20:50 +0000</pubDate>
+    <lastBuildDate>Wed, 24 Jul 2024 09:20:50 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,62 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/15/tor-2024-gpn-22-monerokon-4.html&quot;&gt;previously announced&lt;/a&gt;, Rose, yanmaani, Hugo, and I (Jeremy Rand) represented Namecoin at three conferences in Europe. This was an excellent series of events for a number of reasons, not least the fact that this is the first time we’ve ever had 4 Namecoin developers attending a single conference (our previous record was 3 developers, at 37C3). Expanding our team size has been a priority for a while, and it’s great to see that this is starting to pay off. Of course, there were major substantive benefits as well. As usual for conferences that Namecoiners attend, we engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
+
+&lt;p&gt;Sessions at the Tor meetings are not recorded. However, my presentations at GPN and MoneroKon were recorded, and are published below:&lt;/p&gt;
+
+&lt;h2 id=&quot;gpn-22-self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;GPN 22: Self-Authenticating TLS Certificates for Tor Onion Services&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;TLS (the security layer behind HTTPS) and Tor onion services (anonymously hosted TCP services) are both excellent protocols. Wouldn’t it be nice if we could use them together? In this talk, I’ll cover a working implementation of combining TLS with onion services, without compromising on the security properties that each provides.&lt;/p&gt;
+
+&lt;p&gt;Topics to be covered include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Why would you want to combine TLS with onion services? Why isn’t onion service encryption good enough?&lt;/li&gt;
+  &lt;li&gt;Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?&lt;/li&gt;
+  &lt;li&gt;How can we authenticate a TLS certificate for a .onion domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)&lt;/li&gt;
+  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for .onion certificates?&lt;/li&gt;
+  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://media.ccc.de/v/gpn22-469-self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;monerokon-4-human-meaningful-trustless-anonymous-monero-addresses-with-namecoin&quot;&gt;MoneroKon 4: Human-Meaningful, Trustless, Anonymous Monero Addresses with Namecoin&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;Monero addresses are already long and unwieldy, and they’re about to get longer with Jamtis. Namecoin is a DNS-like naming system implemented as the first project forked from Bitcoin, predating Monero by 3 years to the day. This talk will cover using Namecoin as a human-meaningful naming layer for Monero addresses, recent anonymity advances that make Namecoin’s privacy more suitable for this use case, how OpenAlias fits in, and how Namecoin compares to the MoneroDNS approach of creating a Monero sidechain for this purpose.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=qQ4ptuh_w84&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cyphrs&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://replicant.us/&quot;&gt;The Replicant Assembly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Cypherpunks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We’re hoping to return to these events next year.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Jul 2024 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Reducing Size With Concise Binary Object Representation (CBOR) and Name Gifting</title>
@@ -282,37 +338,6 @@ Demo video of Namecoin + IPFS in Brave.
         <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/21/namecoin-additional-funding-from-nlnet-ngi-assure.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/21/namecoin-additional-funding-from-nlnet-ngi-assure.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Binary Encoding Support and Testing Enhancements</title>
-        <description>&lt;p&gt;Electrum-NMC has recently undergone significant improvements aimed at refining the user experience and expanding functionality. The most prominent changes involve the introduction of three distinct tabs within the graphical user interface (GUI): Hex, Domain, and ASCII. The Hex tab now serves as a dedicated space for users to interact with the hexadecimal representations of names, providing a standardized and transparent view of binary data. The Domain tab focuses on simplifying interactions by allowing users to employ a simpler format like “name.bit” instead of the original “d/name” format. Meanwhile, the ASCII tab preserves the original format of registration, ensuring compatibility for users who prefer the original format.&lt;/p&gt;
-
-&lt;h2 id=&quot;graceful-handling-of-invalid-ascii&quot;&gt;Graceful Handling of Invalid ASCII&lt;/h2&gt;
-
-&lt;p&gt;In the event of invalid ASCII input, the system gracefully handles the situation. This allows valid hexadecimal data that is not a valid ASCII representation to be managed without disrupting the user experience.&lt;/p&gt;
-
-&lt;h2 id=&quot;appimage-binaries-testing&quot;&gt;AppImage Binaries Testing&lt;/h2&gt;
-
-&lt;p&gt;A dedicated testing pipeline has been introduced for AppImage binaries. The regression tests run on these binaries to verify their functionality and identify any potential issues. This meticulous approach ensures that users working with AppImage binaries can trust in the stability and performance of Electrum-NMC.&lt;/p&gt;
-
-&lt;h2 id=&quot;macos-tarball-binaries-testing&quot;&gt;MacOS Tarball Binaries Testing&lt;/h2&gt;
-
-&lt;p&gt;For MacOS, a specific testing environment has been created to run regression tests on the tarball binaries. This testing setup not only verifies the integrity of the binaries but also ensures that Electrum-NMC performs seamlessly in a MacOS environment.&lt;/p&gt;
-
-&lt;p&gt;These testing procedures cover a range of scenarios and use cases, providing a robust framework to identify and address any potential issues before they impact end-users. The commitment to thorough testing underscores the project’s dedication to delivering a reliable and high-performance cryptocurrency wallet.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 04 Dec 2023 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/04/binary-encoding.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2023/12/04/binary-encoding.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
