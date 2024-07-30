@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -509,7 +509,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <ul>
   <li>Mainstream browsers <a href="https://web.archive.org/web/20240414173057/https://blog.mozilla.org/security/2016/10/18/phasing-out-sha-1-on-the-public-web/">disabled SHA-1 certificate signatures</a> in 2017.  Go <code class="highlighter-rouge">crypto/x509</code> <a href="https://web.archive.org/web/20240122001422/https://tip.golang.org/doc/go1.18#sha1">did not do this until 2022</a>.  (Granted, SHA-1 is probably safe for self-signed certificates, so Let’s DANE may be unaffected by this until they implement DANE-TA.)</li>
-  <li>Mainstream browsers disabled TLS 1.0 and TLS 1.1 in 2020.  Go <code class="highlighter-rouge">crypto/tls</code> <a href="https://web.archive.org/web/20240122001422/https://tip.golang.org/doc/go1.18">did not do this until 2022</a>.  Go did allow applications to disable old TLS versions, but Let’s DANE <a href="https://github.com/buffrr/letsdane/commit/b6bcb8d1eee87343bca96acdca39ac1ac72220f7">did not do this</a> until 2021.</li>
+  <li>Mainstream browsers <a href="https://blog.mozilla.org/security/2018/10/15/removing-old-versions-of-tls/">disabled TLS 1.0 and TLS 1.1</a> in 2020.  Go <code class="highlighter-rouge">crypto/tls</code> <a href="https://web.archive.org/web/20240122001422/https://tip.golang.org/doc/go1.18#tls10">did not do this until 2022</a>.  Go did allow applications to disable old TLS versions, but Let’s DANE <a href="https://github.com/buffrr/letsdane/commit/b6bcb8d1eee87343bca96acdca39ac1ac72220f7">did not do this</a> until 2021.</li>
   <li>Mainstream browsers <a href="https://blog.mozilla.org/security/2021/10/05/securing-connections-disabling-3des-in-firefox-93/">disabled 3DES</a> in 2021.  Go <code class="highlighter-rouge">crypto/tls</code> <a href="https://github.com/golang/go/issues/66214">only plans to do this in 2024</a>. Go allows applications to disable 3DES, but Let’s DANE <a href="https://github.com/buffrr/letsdane/pull/21">did not do this until 2022</a>.</li>
   <li>Let’s DANE <a href="https://github.com/buffrr/letsdane/blob/43bcbd9b70e7ebf9cb78ff240b3baaa379aa0d20/tls.go#L33-L39">permits poor key hygiene</a> by not checking the <code class="highlighter-rouge">NotBefore</code> and <code class="highlighter-rouge">NotAfter</code> fields.  They are technically correct that RFC 7671 allows them to ignore poor key hygiene, but the RFC is wrong in terms of security (see <a href="https://media.ccc.de/v/camp2015-6779-bugged_files">this NCC Group</a> talk that advises secure application developers to be prepared to “light the RFC on fire”), and no mainstream browser will let you do this.</li>
 </ul>
@@ -1496,31 +1496,31 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
             
             <ul class="list-inline">
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
