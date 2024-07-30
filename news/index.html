@@ -968,7 +968,7 @@ as Windows system services. Since it is written in Go, it is memory-safe
   </li>
   <li>Windows installer
     <ul>
-      <li>Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Timoshenko and Aminda Suomalainen; patch by Jeremy Rand.</li>
+      <li>Switch from BIND’s dnssec-keygen to CoreDNS’s coredns-keygen.  Unlike BIND, CoreDNS is memory-safe and has no non-freedom build dependencies.  This also means the Visual C++ Runtime is no longer required.  Reported by Yana Teras and Aminda Suomalainen; patch by Jeremy Rand.</li>
       <li>Fix compatibility with StemNS’s conf.d feature.  Patch by Jeremy Rand.</li>
       <li>Log StemNS stderr to event log.  Makes it easier to diagnose Tor Browser configuration bugs.  Patch by Jeremy Rand.</li>
       <li>Work around PowerShell v2 bug.  Partially fixes Windows 7 compatibility.  Reported by Cyphrs; patch by Jeremy Rand.</li>
@@ -3792,7 +3792,7 @@ Video without slides.
   </header>
 
   <article class="post-content">
-    <p>In September 2018, I published <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">a case study</a> about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, <a href="https://prism-break.org/">PRISM Break</a> maintainer Yana Timoshenko (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.</p>
+    <p>In September 2018, I published <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">a case study</a> about centralized inproxies and how they can cause security dangers even to competent users who think they’re using a decentralized system.  Although my article wasn’t targeted at any particular entity (like all case studies, it uses a specific entity to make generalizations about a wider field), the case study used OpenNIC’s inproxy as an example.  (The fact that OpenNIC ended up as the example isn’t due to any fault of OpenNIC, it’s simply that the sysadmin mentioned in the case study happened to be an OpenNIC user.)  In December 2018, <a href="https://prism-break.org/">PRISM Break</a> maintainer Yana Teras (who is a friend of Namecoin) independently raised similar security concerns about OpenNIC’s Namecoin inproxy, commenting in PRISM Break’s Matrix channel “i’m not too happy we recommend dns servers that resolve .bit for users, it seems to be nearly as much helpful as resolving .onion” and subsequently proposing that PRISM Break avoid recommending DNS services that include that kind of functionality.</p>
 
     <p>Guess what?  OpenNIC listened to the concerns of Yana and myself, and has decided to shut down their centralized Namecoin inproxy.  This was probably not an easy decision, as OpenNIC’s Namecoin inproxy had been a significant usage draw for OpenNIC, and it is likely that a significant portion of OpenNIC users (who were using OpenNIC solely for its Namecoin inproxy) will move to decentralized methods and leave OpenNIC’s other TLD’s behind.  Most corporate actors probably wouldn’t have done this.  But it was the right decision.</p>
 
@@ -8425,33 +8425,33 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>

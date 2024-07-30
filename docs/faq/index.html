@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -141,6 +141,7 @@ A <strong>trust anchor</strong><br />for the Internet.
       <li><a href="#how-long-are-names-good-for" id="markdown-toc-how-long-are-names-good-for">How long are names good for?</a></li>
       <li><a href="#how-do-i-browse-a-bit-domain" id="markdown-toc-how-do-i-browse-a-bit-domain">How do I browse a .bit domain?</a></li>
       <li><a href="#how-do-i-register-and-host-a-bit-domain" id="markdown-toc-how-do-i-register-and-host-a-bit-domain">How do I register and host a .bit domain?</a></li>
+      <li><a href="#do-i-need-to-use-tls-with-a-bit-domain" id="markdown-toc-do-i-need-to-use-tls-with-a-bit-domain">Do I need to use TLS with a .bit domain?</a></li>
       <li><a href="#do-i-have-to-pay-renewal-fees" id="markdown-toc-do-i-have-to-pay-renewal-fees">Do I have to pay renewal fees?</a></li>
       <li><a href="#what-applications-is-namecoin-well-suited-to" id="markdown-toc-what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</a></li>
       <li><a href="#do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin" id="markdown-toc-do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin">Do I need to download the entire Namecoin blockchain to use Namecoin?</a></li>
@@ -165,9 +166,15 @@ A <strong>trust anchor</strong><br />for the Internet.
       <li><a href="#why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin" id="markdown-toc-why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin">Why does Namecoin use atomic name trades for NMC rather than BTC or some other coin?</a></li>
       <li><a href="#is-it-possible-to-hide-the-usage-of-atomic-name-trades--is-that-desirable" id="markdown-toc-is-it-possible-to-hide-the-usage-of-atomic-name-trades--is-that-desirable">Is it possible to hide the usage of atomic name trades?  Is that desirable?</a></li>
       <li><a href="#is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters" id="markdown-toc-is-namecoins-support-of-atomic-name-trades-a-feature-primarily-aimed-at-squatters">Is Namecoin’s support of atomic name trades a feature primarily aimed at squatters?</a></li>
+      <li><a href="#why-doesnt-namecoin-implement-a-backdoor" id="markdown-toc-why-doesnt-namecoin-implement-a-backdoor">Why doesn’t Namecoin implement a backdoor?</a></li>
       <li><a href="#does-namecoin-have-any-browser-add-ons" id="markdown-toc-does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</a></li>
       <li><a href="#why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses" id="markdown-toc-why-doesnt-namecoin-use-a-webextension-to-resolve-bit-domains-to-ip-addresses">Why doesn’t Namecoin use a WebExtension to resolve <code class="highlighter-rouge">.bit</code> domains to IP addresses?</a></li>
       <li><a href="#why-doesnt-namecoin-use-proof-of-stake" id="markdown-toc-why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</a></li>
+      <li><a href="#why-doesnt-namecoin-use-a-dht" id="markdown-toc-why-doesnt-namecoin-use-a-dht">Why doesn’t Namecoin use a DHT?</a></li>
+      <li><a href="#why-isnt-namecoin-implemented-as-an-ethereum-contract" id="markdown-toc-why-isnt-namecoin-implemented-as-an-ethereum-contract">Why isn’t Namecoin implemented as an Ethereum contract?</a></li>
+      <li><a href="#why-does-namecoin-use-the-bit-special-use-top-level-domain-sutld-instead-of-overlaying-the-root-zone" id="markdown-toc-why-does-namecoin-use-the-bit-special-use-top-level-domain-sutld-instead-of-overlaying-the-root-zone">Why does Namecoin use the <code class="highlighter-rouge">.bit</code> Special-Use Top-Level Domain (suTLD) instead of overlaying the root zone?</a></li>
+      <li><a href="#why-doesnt-namecoin-recommend-a-tls-intercepting-proxy" id="markdown-toc-why-doesnt-namecoin-recommend-a-tls-intercepting-proxy">Why doesn’t Namecoin recommend a TLS intercepting proxy?</a></li>
+      <li><a href="#why-isnt-ncdns-part-of-namecoin-core--what-is-the-distinction-between-the-two" id="markdown-toc-why-isnt-ncdns-part-of-namecoin-core--what-is-the-distinction-between-the-two">Why isn’t ncdns part of Namecoin Core?  What is the distinction between the two?</a></li>
     </ul>
   </li>
   <li><a href="#comparison-of-namecoin-to-other-projects" id="markdown-toc-comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</a>    <ul>
@@ -178,14 +185,21 @@ A <strong>trust anchor</strong><br />for the Internet.
       <li><a href="#does-namecoin-influence-bitcoins-hashrate" id="markdown-toc-does-namecoin-influence-bitcoins-hashrate">Does Namecoin influence Bitcoin’s hashrate?</a></li>
       <li><a href="#how-does-namecoin-compare-to-tor-onion-services" id="markdown-toc-how-does-namecoin-compare-to-tor-onion-services">How does Namecoin compare to Tor Onion Services?</a></li>
       <li><a href="#how-does-namecoin-compare-to-lets-encrypt" id="markdown-toc-how-does-namecoin-compare-to-lets-encrypt">How does Namecoin compare to Let’s Encrypt?</a></li>
+      <li><a href="#how-does-namecoins-encaya-tls-compare-to-lets-dane" id="markdown-toc-how-does-namecoins-encaya-tls-compare-to-lets-dane">How does Namecoin’s Encaya TLS compare to Let’s DANE?</a></li>
       <li><a href="#how-does-namecoin-compare-to-blockstack" id="markdown-toc-how-does-namecoin-compare-to-blockstack">How does Namecoin compare to Blockstack?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-ethereum-name-service-ens" id="markdown-toc-how-does-namecoin-compare-to-ethereum-name-service-ens">How does Namecoin compare to Ethereum Name Service (ENS)?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-handshake" id="markdown-toc-how-does-namecoin-compare-to-handshake">How does Namecoin compare to Handshake?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-unstoppable-domains" id="markdown-toc-how-does-namecoin-compare-to-unstoppable-domains">How does Namecoin compare to Unstoppable Domains?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-gnu-name-system" id="markdown-toc-how-does-namecoin-compare-to-gnu-name-system">How does Namecoin compare to GNU Name System?</a></li>
       <li><a href="#how-does-namecoin-compare-to-monero" id="markdown-toc-how-does-namecoin-compare-to-monero">How does Namecoin compare to Monero?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-opentimestamps" id="markdown-toc-how-does-namecoin-compare-to-opentimestamps">How does Namecoin compare to OpenTimestamps?</a></li>
       <li><a href="#what-is-namecoins-relationship-to-opennic" id="markdown-toc-what-is-namecoins-relationship-to-opennic">What is Namecoin’s relationship to OpenNIC?</a></li>
     </ul>
   </li>
   <li><a href="#weaknesses" id="markdown-toc-weaknesses">Weaknesses</a>    <ul>
       <li><a href="#how-easy-is-it-for-names-to-be-stolen--what-can-be-done-if-it-happens" id="markdown-toc-how-easy-is-it-for-names-to-be-stolen--what-can-be-done-if-it-happens">How easy is it for names to be stolen?  What can be done if it happens?</a></li>
       <li><a href="#what-is-the-threat-posed-by-51-attacks" id="markdown-toc-what-is-the-threat-posed-by-51-attacks">What is the threat posed by 51% attacks?</a></li>
+      <li><a href="#will-major-users-eg-large-corporations-refuse-to-use-namecoin-because-of-the-irreversible-catastrophic-consequences-of-losing-their-domain-name" id="markdown-toc-will-major-users-eg-large-corporations-refuse-to-use-namecoin-because-of-the-irreversible-catastrophic-consequences-of-losing-their-domain-name">Will major users (e.g. large corporations) refuse to use Namecoin because of the irreversible, catastrophic consequences of losing their domain name?</a></li>
       <li><a href="#is-squatting-a-problem--what-can-be-done-about-it" id="markdown-toc-is-squatting-a-problem--what-can-be-done-about-it">Is squatting a problem?  What can be done about it?</a></li>
       <li><a href="#is-namecoin-anonymous" id="markdown-toc-is-namecoin-anonymous">Is Namecoin anonymous?</a></li>
       <li><a href="#i-heard-that-an-academic-study-found-that-namecoin-is-only-used-by-28-websites-is-that-really-true" id="markdown-toc-i-heard-that-an-academic-study-found-that-namecoin-is-only-used-by-28-websites-is-that-really-true">I heard that an academic study found that Namecoin is only used by 28 websites; is that really true?</a></li>
@@ -236,6 +250,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 <h3 id="how-do-i-register-and-host-a-bit-domain">How do I register and host a .bit domain?</h3>
 
 <p>See <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/docs/name-owners/">Documentation for Name Owners</a>.</p>
+
+<h3 id="do-i-need-to-use-tls-with-a-bit-domain">Do I need to use TLS with a .bit domain?</h3>
+
+<p>Yes, you need TLS (or some other transport security layer, e.g. SSH) in order to avoid vulnerability to eavesdropping and man-in-the-middle (MITM) attacks; Namecoin doesn’t magically remove this requirement. The only protection that Namecoin grants you is that if you use TLS, and the certificate doesn’t match the blockchain, you will get a certificate warning (even if a public CA is participating in the attack). If you do not use TLS, or bypass a certificate warning, Namecoin cannot protect you.</p>
 
 <h3 id="do-i-have-to-pay-renewal-fees">Do I have to pay renewal fees?</h3>
 
@@ -392,6 +410,18 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>Namecoin is a fork of Bitcoin, and therefore Namecoin (like Bitcoin) supports a wide variety of smart contract schemes, including the ability for a transaction to have an arbitrary number of outputs (thereby making multiple payments atomically).  Because Namecoin represents names as transaction outputs, it is naturally possible to atomically transfer a name in combination with a currency payment.  This isn’t a feature that Namecoin was specifically designed to support, it’s simply a feature that naturally exists, which would have required extra effort to not support.  Technically, it would be possible to softfork Namecoin to ban name outputs from coexisting in a transaction with currency outputs, but in practice this would have detrimental effects unrelated to atomic name trades, because it would also ban change outputs from single-party name transactions.  There <em>is</em> a restriction in Namecoin’s consensus rules that prevents two name outputs from being created atomically.  As far as we’re aware, there is no documented reason for this rule (none of us were around to ask when the rule was first created, and Vince isn’t around for us to ask anymore), and this rule also has harmful side effects that are unrelated to atomic name trades, e.g. it prevents CoinJoin-style constructions for name transactions.  Because CoinJoin is useful for both scalability and privacy, we would prefer that this rule be removed, and it is possible that a future consensus fork will do so.</p>
 
+<h3 id="why-doesnt-namecoin-implement-a-backdoor">Why doesn’t Namecoin implement a backdoor?</h3>
+
+<p>A fundamental law of nature is that humans behave nondeterministically.  This nondeterministic behavior also applies to groups of humans, and to systems operated by humans or groups of humans.  The amount of nondeterminism also increases as the time scale for which predictions are being made increases.  For example, the U.S. Constitution, when read literally, states that mass surveillance and torture are off limits.  Unfortunately, the U.S. government is operated by humans, and as a result, these clauses of the U.S. Constitution are not executed deterministically.</p>
+
+<p>One of the major appeals of replacing humans with cryptography is that cryptography behaves much more deterministically than humans.  As a result, you can predict with much higher certainty how a cryptosystem will behave in the future than you can do for a human-operated system.  This is why the proof of freshness in the Bitcoin genesis block references bank bailouts: financial regulators are operated by humans, and therefore behave nondeterministically; a massive bank bailout due to short-sighted political pressures is an example of nondeterministic behavior that is against the public interest and which Bitcoin is designed to prevent via deterministic behavior.</p>
+
+<p>There are certainly short-term benefits to operating a backdoor for a naming system, e.g. prevention of phishing/malware sites or reversal of name thefts caused by private key compromise.  Such a backdoor might be controlled by a single key, a multisig contract, or some type of more complex “governance” smart contract.  However, any such scheme would inevitably harm the security and usefulness of Namecoin, because any such scheme would introduce nondeterministic behavior, thus returning us to the problem that cryptosystems are supposed to solve.</p>
+
+<p>Free speech and private communication are fundamental human rights that must not be subject to interference by any 3rd party, even if everyone else in the world wants those rights to be violated.  An ideal cryptosystem would enforce this deterministically.  Unfortunately, the laws of nature impose constraints on how close a real-world system can get to this ideal (in particular, blockchains’ reliance on economic incentives limits their ability to achieve this), but this is not an excuse to impose additional nondeterministic behavior that can violate those rights.  Any type of “governance” system that can execute name seizures, regardless of whether it’s a single party, a multisig contract, or some type of more complex smart contract, is therefore unacceptable.</p>
+
+<p>(This section was inspired by Greg Maxwell’s philosophical writings.)</p>
+
 <h3 id="does-namecoin-have-any-browser-add-ons">Does Namecoin have any browser add-ons?</h3>
 
 <p>Yes; we have a PKCS#11 module (ncp11) for TLS certificate validation, and we have a WebExtension (DNSSEC-HSTS) for protecting against SSLStrip attacks.  However, there is no browser add-on for resolving <code class="highlighter-rouge">.bit</code> domains to IP addresses.</p>
@@ -403,6 +433,105 @@ A <strong>trust anchor</strong><br />for the Internet.
 <h3 id="why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</h3>
 
 <p>We defer to the analysis of Bitcoin developer Andrew Poelstra about the <a href="https://download.wpsoftware.net/bitcoin/pos.pdf">security problems with PoS</a>.  For a more accessible summary, Namecoin developer <a href="https://yanmaani.github.io/proof-of-stake-is-a-scam-and-the-people-promoting-it-are-scammers/">Yanmaani’s article on PoS</a> may be of interest.</p>
+
+<h3 id="why-doesnt-namecoin-use-a-dht">Why doesn’t Namecoin use a DHT?</h3>
+
+<p>We defer to the analysis of Bitcoin developers <a href="https://web.archive.org/web/20170319062730/https://bitcointalk.org/index.php?topic=395761.msg5970778;topicseen#msg5970778">Peter Todd</a> and <a href="https://web.archive.org/web/20170319064612/https://bitcointalk.org/index.php?topic=662734.msg7521013;topicseen#msg7521013">Greg Maxwell</a> about the security problems with DHT’s.</p>
+
+<h3 id="why-isnt-namecoin-implemented-as-an-ethereum-contract">Why isn’t Namecoin implemented as an Ethereum contract?</h3>
+
+<ul>
+  <li>Ethereum did not exist when Vincent Durham founded Namecoin.</li>
+  <li>Ethereum routinely performs contentious hardforks in order to reverse transactions that factions of the community dislikes (particularly when the Ethereum developers have money at stake, e.g. the <a href="https://www.theregister.com/2016/06/17/digital_currency_ethereum/">bailout of TheDAO</a>).</li>
+  <li>Ethereum has <a href="https://ethereum.org/en/developers/docs/nodes-and-clients/light-clients/#current-state-of-development">no production-ready SPV client</a>.</li>
+  <li>Running an Ethereum full node has <a href="https://twitter.com/ercwl/status/1159940020331040770">extremely high requirements</a>.
+    <blockquote>
+      <p>syncing less than <em>two weeks of August 2019</em> in Ethereum takes longer than the entire 10 years of bitcoin (which took 15 hours)</p>
+    </blockquote>
+
+    <blockquote>
+      <p>doing a full Ethereum sync on a HDD is downright infeasible</p>
+    </blockquote>
+  </li>
+  <li>Ethereum <a href="https://petertodd.org/2016/multiple-implementations-consensus-systems">does not follow best practices for consensus safety</a>: they use multiple consensus implementations, which is known to be unsafe (the field of computer science does not know how to do this safely), and has already led to critical security vulnerabilities (consensus failures) in the wild.
+    <blockquote>
+      <p>I don’t believe a second, compatible implementation of Bitcoin will ever be a good idea. So much of the design depends on all nodes getting exactly identical results in lockstep that a second implementation would be a menace to the network.</p>
+
+      <p>~Satoshi Nakamoto</p>
+    </blockquote>
+  </li>
+  <li>Ethereum uses “proof of stake” as a substitute for a dynamic-membership multiparty signature scheme; see <a href="#why-doesnt-namecoin-use-proof-of-stake">Why doesn’t Namecoin use “proof of stake”?</a></li>
+</ul>
+
+<h3 id="why-does-namecoin-use-the-bit-special-use-top-level-domain-sutld-instead-of-overlaying-the-root-zone">Why does Namecoin use the <code class="highlighter-rouge">.bit</code> Special-Use Top-Level Domain (suTLD) instead of overlaying the root zone?</h3>
+
+<p>Overlaying the root zone would produce a collision risk between domains created in Namecoin and names created in the DNS, and this collision risk would be unfeasible to contain or manage.  For example, if Namecoin allowed registration of TLD’s, and a user registered the <code class="highlighter-rouge">.foo</code> TLD in Namecoin, ICANN would be unable to issue <code class="highlighter-rouge">.foo</code> as a gTLD without producing a collision in which different users see different valid data for <code class="highlighter-rouge">.foo</code> depending on whether they have Namecoin installed.  This collision risk would be viewed by IETF and ICANN as a threat to security and stability of the namespace (and we would agree with their assessment).  In contrast, containing Namecoin to the <code class="highlighter-rouge">.bit</code> suTLD makes it straightforward to easily determine whether a given domain name belongs to Namecoin or the DNS, and avoids the collision risk.  This improves security and stability of the namespace, and avoids unnecessary antagonization of IETF and ICANN.</p>
+
+<p>The above collision issue is <strong>not hypothetical</strong>; it has <a href="https://web.archive.org/web/20220112131103/https://github.com/handshake-org/hs-names/issues/6">already happened</a> to Handshake with the <code class="highlighter-rouge">.music</code> TLD.  The accepted solution, by Handshake developer Matthew Zipkin, was to <a href="https://web.archive.org/web/20220112131103/https://github.com/handshake-org/hs-names/issues/6#issuecomment-626226270">encourage</a> individual users to choose whether the ICANN-issued TLD or the Handshake-issued TLD should be accepted at the policy layer:</p>
+
+<blockquote>
+  <p>The easiest way to deal with this is to add rules in the HNS resolver, which lives in the application layer. Users can opt-in to ignore certain names from the blockchain and resolve them to the ICANN root zone instead, which is the same mechanism used when a name not found on the HNS chain.</p>
+
+  <p>This will not require a hard fork or a soft fork as far as the blockchain is concerned, it will only make the owner of the HNS name <code class="highlighter-rouge">music.</code> perhaps a little disappointed.</p>
+
+  <p>If the HNS <code class="highlighter-rouge">music</code> wins the race for better content than the ICANN <code class="highlighter-rouge">music</code>, Handshake users may decide individually to ignore the new ICANN TLD and proceed with the “vision” of Handshake.</p>
+</blockquote>
+
+<p>When used in this manner, Handshake <strong>ceases to be a global naming system</strong>, which is one of the core requirements of solving Zooko’s Triangle.  Another proposed solution, by Handshake co-founder Andrew “rasengan” Lee, was to <a href="https://web.archive.org/web/20220112131103/https://github.com/handshake-org/hs-names/issues/6#issuecomment-629676746">extort</a> ICANN into buying all new gTLD’s on Handshake, under threat of causing collisions:</p>
+
+<blockquote>
+  <p>I hope ICANN will consider its impacts on community consensus based systems like Handshake and /etc/hosts before launching any new gTLDs in the future. Ideally, if ICANN purchases the name on Handshake before announcing any name, they can avoid breaking community projects in the future.</p>
+</blockquote>
+
+<p>Andrew “rasengan” Lee also appears to have <a href="https://web.archive.org/web/20220112131103/https://github.com/handshake-org/hs-names/issues/6#issuecomment-632187910">libeled</a> the ICANN-issued .MUSIC registry, falsely claiming that .MUSIC’s “built-in HTTPS” has no advantages over Let’s Encrypt (as far as we can tell, that feature is clearly marketingspeak for <a href="https://hstspreload.org/#tld">TLD-level membership</a> in the HSTS Preload List, which Let’s Encrypt obviously doesn’t provide):</p>
+
+<blockquote>
+  <p>What does built in security mean? Aren’t you just going to charge to issue SSL certificates just like Let’s Encrypt does for free? Can you guarantee another SSL provider won’t issue another certificate for the same name?</p>
+</blockquote>
+
+<p>Additionally, we don’t see any substantive benefit to operating the root zone via a blockchain.  A major benefit of the suTLD approach is that many different naming systems can co-exist, each in their own suTLD.  These naming systems can have radically different security models, e.g. you can have public key naming systems like <code class="highlighter-rouge">.onion</code> and <code class="highlighter-rouge">.b32.i2p</code>, petname systems like <code class="highlighter-rouge">.i2p</code> and <code class="highlighter-rouge">.gnu</code>, and blockchain naming systems like <code class="highlighter-rouge">.bit</code> and <code class="highlighter-rouge">.eth</code>, all of which avoid interfering with each other (and with the DNS).  In contrast, trying to manage the root zone with a blockchain would have the effect that all other naming systems would have an implicit dependency on that root zone blockchain.  If the root zone blockchain gets compromised, every TLD under it also gets compromised.  History has shown that performing suTLD registration on an ad-hoc, informal, human-based basis works fine in practice; no one is disputing whether e.g. <code class="highlighter-rouge">.eth</code> belongs to Ethereum Name Service or some other special-use naming system.  Without the need for deterministic dispute resolution, there is not much for a blockchain to do here.</p>
+
+<p>If overlaying the root zone is done by using the root zone as a public suffix (i.e. users register arbitrary TLD’s instead of arbitrary 2LD’s), additional breakage is likely because many browsers (e.g. Tor Browser, Firefox, Brave, and Safari) isolate state by using the eTLD+1 as a key, and those browsers do not recognize the root zone as an eTLD.  For example, <code class="highlighter-rouge">https://www.wikileaks.bit/</code> and <code class="highlighter-rouge">https://donate.wikileaks.bit/</code> will share browser state as expected, whereas <code class="highlighter-rouge">https://www.wikileaks/</code> and <code class="highlighter-rouge">https://donate.wikileaks/</code> will be unexpectedly isolated from each other.  This behavior is counterintuitive, surprising, and likely to break a variety of software in ways that may or may not be subtle.</p>
+
+<p>Using the root zone as a public suffix also opens up social engineering attacks based on the fact that users are accustomed to registering 2LD’s, not TLD’s, i.e. scammers register a TLD and try to trick users into using that TLD as a public suffix.  This results in users thinking that they are using a trustless decentralized naming system, when in reality they are using the scammer as a trusted third party.  These kinds of social engineering attacks have been observed in the wild on Handshake; <a href="https://web.archive.org/web/20210310121355/https://www.coindesk.com/sci-hub-leaves-handshake-blockchain/">Sci-Hub was a notable victim</a>.  Handshake investor and developer Andrew “rasengan” Lee actively participated in this scam by <a href="https://web.archive.org/web/20210116001302/https://news.ycombinator.com/item?id=25747284">running public relations operations</a> for it.</p>
+
+<p>Finally, Namecoin is designed to work as a TLS PKI, and most TLS implementations support API’s (e.g. name constraints) that allow sandboxing the Namecoin root CA to only be able to issue certificates for Namecoin’s suTLD.  This is an extremely important tool for limiting the attack surface of Namecoin, since it means that an attack on Namecoin cannot easily escalate to an attack on non-Namecoin domains.  This is applicable regardless of whether Namecoin TLS is implemented via Encaya or an intercepting proxy.  In addition, these API’s allow sandboxing the public TLS root CA’s so that they cannot issue certificates for Namecoin’s suTLD; this makes it feasible to avoid relying on an intercepting proxy.  These API’s are designed to be applied to a specific TLD that is known at install-time; Namecoin meets this requirement by using a specific suTLD.  Overlaying the root zone would prevent these API’s from being used effectively.</p>
+
+<h3 id="why-doesnt-namecoin-recommend-a-tls-intercepting-proxy">Why doesn’t Namecoin recommend a TLS intercepting proxy?</h3>
+
+<p>Allow us to defer to <a href="https://blog.filippo.io/komodia-superfish-ssl-validation-is-broken/">Filippo Valsorda</a> (Cryptogopher who maintains the TLS standard library for Go):</p>
+
+<blockquote>
+  <p>don’t make intercepting proxies. They are impossible to write correctly, and by their very nature lower the security of the whole Internet.</p>
+</blockquote>
+
+<p>While Komodia/Superfish is probably the most well-known and egregious example of how intercepting proxies can damage security compared to using a standard web browser TLS client stack, here are some additional practical examples of decreased security in Let’s DANE specifically:</p>
+
+<ul>
+  <li>Mainstream browsers <a href="https://blog.mozilla.org/security/2016/10/18/phasing-out-sha-1-on-the-public-web/">disabled SHA-1 certificate signatures</a> in 2017.  Go <code class="highlighter-rouge">crypto/x509</code> <a href="https://web.archive.org/web/20240122001422/https://tip.golang.org/doc/go1.18">did not do this until 2022</a>.  (Granted, SHA-1 is probably safe for self-signed certificates, so Let’s DANE may be unaffected by this until they implement DANE-TA.)</li>
+  <li>Mainstream browsers disabled TLS 1.0 and TLS 1.1 in 2020.  Go <code class="highlighter-rouge">crypto/tls</code> <a href="https://web.archive.org/web/20240122001422/https://tip.golang.org/doc/go1.18">did not do this until 2022</a>.  Go did allow applications to disable old TLS versions, but Let’s DANE <a href="https://github.com/buffrr/letsdane/commit/b6bcb8d1eee87343bca96acdca39ac1ac72220f7">did not do this</a> until 2021.</li>
+  <li>Mainstream browsers <a href="https://blog.mozilla.org/security/2021/10/05/securing-connections-disabling-3des-in-firefox-93/">disabled 3DES</a> in 2021.  Go <code class="highlighter-rouge">crypto/tls</code> <a href="https://github.com/golang/go/issues/66214">only plans to do this in 2024</a>. Go allows applications to disable 3DES, but Let’s DANE <a href="https://github.com/buffrr/letsdane/pull/21">did not do this until 2022</a>.</li>
+  <li>Let’s DANE <a href="https://github.com/buffrr/letsdane/blob/43bcbd9b70e7ebf9cb78ff240b3baaa379aa0d20/tls.go#L33-L39">permits poor key hygiene</a> by not checking the <code class="highlighter-rouge">NotBefore</code> and <code class="highlighter-rouge">NotAfter</code> fields.  They are technically correct that RFC 7671 allows them to ignore poor key hygiene, but the RFC is wrong in terms of security (see <a href="https://media.ccc.de/v/camp2015-6779-bugged_files">this NCC Group</a> talk that advises secure application developers to be prepared to “light the RFC on fire”), and no mainstream browser will let you do this.</li>
+</ul>
+
+<p>The above list is not intended to be exhaustive; it is likely that there are others.  Writing TLS clients is hard, and in general only the major browser vendors do an acceptable job at it – hence Filippo’s advice.</p>
+
+<p>That said, nothing in Namecoin prevents you from using a TLS intercepting proxy such as Let’s DANE – we simply advise against it.</p>
+
+<h3 id="why-isnt-ncdns-part-of-namecoin-core--what-is-the-distinction-between-the-two">Why isn’t ncdns part of Namecoin Core?  What is the distinction between the two?</h3>
+
+<p>This is an example of <a href="https://en.wikipedia.org/wiki/Abstraction_layer">layered design</a>.  Namecoin Core is responsible for consensus-layer and wallet-layer functionality (i.e. the kinds of things that Bitcoin Core does), while application-layer functionality like interoperability with DNS is handled by ncdns.  There are a few reasons for this:</p>
+
+<ul>
+  <li>Namecoin Core is necessarily a fork of Bitcoin Core, so it must be written in non-memory-safe C++; layering allows ncdns to be written in memory-safe Go.</li>
+  <li>Layering allows either layer to be swapped out without affecting the other layer.  For example, Namecoin Core can be swapped out for Electrum-NMC without affecting ncdns.  In the past, ncdns was swapped in as a replacement for NMControl without affecting Namecoin Core.</li>
+  <li>Layering allows additional non-DNS-related applications (e.g. identities) to be added without affecting Namecoin Core or modifying ncdns.</li>
+  <li>Layering allows each layer to be sandboxed individually, e.g. ncdns can be prohibited from sending Internet traffic or touching the user’s wallet.</li>
+</ul>
+
+<p>Additional layers exist on top of ncdns for the same reasons, e.g. Encaya (for TLS AIA interoperability) and ncp11 (for TLS PKCS#11 interoperability).</p>
+
+<p>Layering is a common practice in computer science.  While layering does complicate the procedure of manually installing Namecoin (since more than one application must be installed), this complexity is typically hidden from the user via modern package management such as <code class="highlighter-rouge">apt</code> (on GNU/Linux) or NSIS (on Windows).</p>
 
 <h2 id="comparison-of-namecoin-to-other-projects">Comparison of Namecoin to other projects</h2>
 
@@ -473,6 +602,92 @@ A <strong>trust anchor</strong><br />for the Internet.
 <p>Let’s Encrypt’s services are entirely gratis.  For Namecoin, the pricing is more complicated.  In Namecoin, you create a private CA and place its public key into the blockchain; you can use that CA to issue as many certificates for your domain as you like without requiring additional blockchain transactions.  Issuing certificates from your private CA (e.g. to rotate your TLS server’s keys) is gratis.  However, changing the set of private CA’s (e.g. to immediately revoke old certificates before they expire) does require a blockchain transaction, which means you’ll have to pay a transaction fee.  The extra storage used by your private CA’s public key also implies that renewing your domain name will incur a higher transaction fee than if you weren’t using TLS.</p>
 
 <p>TLS certificates issued by Let’s Encrypt will work in most TLS clients (without security warnings) without any changes from defaults.  In contrast, Namecoin TLS certificates will only work (without security warnings) if Namecoin is installed.</p>
+
+<h3 id="how-does-namecoins-encaya-tls-compare-to-lets-dane">How does Namecoin’s Encaya TLS compare to Let’s DANE?</h3>
+
+<p>In short, Namecoin’s Encaya design optimizes for minimal attack surface and maximal scalability, while Let’s DANE optimizes for maximal compatibility.  For more details, see this comparison table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th><strong>Namecoin Encaya</strong></th>
+      <th><strong>Let’s DANE (Intercepting Proxy Used by Handshake)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TLS implementation</strong></td>
+      <td>Not replaced by Encaya; low attack surface.  Memory safety depends on application.</td>
+      <td>Replaced by Let’s DANE; high attack surface.  Memory-safe.</td>
+    </tr>
+    <tr>
+      <td><strong>Certificate validation implementation</strong></td>
+      <td>Not replaced by Encaya; low attack surface.  Memory safety depends on application.</td>
+      <td>Replaced by Let’s DANE; high attack surface.  Memory-safe.</td>
+    </tr>
+    <tr>
+      <td><strong>Certificate database implementation</strong></td>
+      <td>Not replaced by Encaya (low attack surface) except for NSS-based applications e.g. Firefox.  Namecoin developers are working on removing this requirement in order to further lower attack surface.  Memory safety depends on application.</td>
+      <td>Replaced by Let’s DANE; high attack surface.  Memory-safe.</td>
+    </tr>
+    <tr>
+      <td><strong>TLS code isolated from application process</strong></td>
+      <td>Isolated except for NSS-based applications e.g. Firefox, where a shim PKCS#11 module is linked into the application process; this shim module contains minimal logic, is written in memory-safe Go, and mostly just calls out to the isolated Encaya process.</td>
+      <td>Isolated regardless of application.</td>
+    </tr>
+    <tr>
+      <td><strong>TLS possible without installing any software on device</strong></td>
+      <td>Positive overrides only; works for most major applications except NSS-based applications e.g. Firefox.</td>
+      <td>Positive and negative overrides work for any application.</td>
+    </tr>
+    <tr>
+      <td><strong>Language</strong></td>
+      <td>Go (memory-safe and securely bootstrappable).</td>
+      <td>Go (memory-safe and securely bootstrappable).</td>
+    </tr>
+    <tr>
+      <td><strong>Layering</strong></td>
+      <td>Layer 2 (safe subset of DANE-TA); rotating certificates and keys does not require a blockchain transaction, paying a fee, or updating a nameserver configuration.  This improves scalability and encourages secure key hygiene practices.</td>
+      <td>Layer 1 (DANE-EE); rotating certificates and keys requires a blockchain transaction (with a fee) or updating a nameserver configuration (nontrivial; may cost money; less censorship-resistant). This can pose a scalability and key hygiene hazard.</td>
+    </tr>
+    <tr>
+      <td><strong>Works with applications that use a SOCKS proxy</strong></td>
+      <td>Yes, easy.</td>
+      <td>Yes, easy.</td>
+    </tr>
+    <tr>
+      <td><strong>Works with applications that don’t use a SOCKS proxy</strong></td>
+      <td>Yes, easy.</td>
+      <td>Nontrivial.</td>
+    </tr>
+    <tr>
+      <td><strong>Impact of proxy leak</strong></td>
+      <td>Only deanonymization/censorship.</td>
+      <td>Can escalate to Man-in-the-Middle Attack; also deanonymization/censorship.</td>
+    </tr>
+    <tr>
+      <td><strong>Works OS-wide</strong></td>
+      <td>Yes, usually easy.</td>
+      <td>Yes, if you can SOCKSify your whole OS.</td>
+    </tr>
+    <tr>
+      <td><strong>Works per-application</strong></td>
+      <td>Nontrivial.</td>
+      <td>Yes, easy.</td>
+    </tr>
+    <tr>
+      <td><strong>Supported TLS client implementations</strong></td>
+      <td>Most major applications work with positive overrides (preventing certificate warnings for valid Namecoin certificates).  Most major Windows and GNU/Linux applications work with negative overrides (preventing public CA’s from issuing invalid Namecoin certificates), but on macOS, only NSS-based applications e.g. Firefox support negative overrides.  Some more exotic applications are unsupported.</td>
+      <td>Any application is supported if you can SOCKSify it.</td>
+    </tr>
+    <tr>
+      <td><strong>Supports Ed25519 TLS keys</strong></td>
+      <td>Not supported (until applications support them).</td>
+      <td>Supported.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="how-does-namecoin-compare-to-blockstack">How does Namecoin compare to Blockstack?</h3>
 
@@ -727,9 +942,365 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <p>Blockstack’s security model obfuscation raises serious questions about whether any future security claims by the Blockstack developers can be taken at face value.</p>
 
+<h3 id="how-does-namecoin-compare-to-ethereum-name-service-ens">How does Namecoin compare to Ethereum Name Service (ENS)?</h3>
+
+<p>The ENS developers implemented a backdoor for government seizures of names into ENS.  On November 1, 2017, ENS developer Leonard Tan confirmed this at the ICANN60 joint session of the ICANN Board and the ICANN Technical Experts Group:</p>
+
+<blockquote>
+  <p>PAUL WOUTERS [IETF]:  Sure.    Paul  Wouters,  IETF.    So  I  have  a  question.    Let’s  say  IETF gets the domain IETF in this naming system and we pay our fees for a couple of years.  Everybody uses the site.  And then at some point,  we  forget  to  pay  and  the  domain  falls  back  into  the  pool  and  then  somebody  else  registers  it  and  we  don’t  know  where<br />
+they are or who they are.  Now I go to a court system.  I get some legal opinion saying I own this trademark and now I want to get this  domain  back.    Is  there  any  way  for  me  to  get  this  domain  back?</p>
+
+  <p>LEONARD TAN [ENS developer]:  So  right  now,  the  ENS  industry,  you  can  change  it  because  it  requires  four  out  of  seven  people.    Most  of  them  are  Ethereum  developers.    And  it  is  a  consensus  for  several  of  them  to  make  any changes.  So it is possible, but it is going to be a very difficult thing to do but it is possible.</p>
+</blockquote>
+
+<p>Low-quality video of this exchange:</p>
+
+<video controls="">
+<source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-LQ-Video-with-Slides.webm#t=42:42,43:38" type="video/webm" />
+</video>
+
+<p>High-quality video of this exchange:</p>
+
+<video controls="">
+<source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-HQ-Video-Only.webm#t=51:39,52:34" type="video/webm" />
+</video>
+
+<p>Namecoin does not implement such a backdoor, for the reasons explained in <a href="#why-doesnt-namecoin-implement-a-backdoor">Why doesn’t Namecoin implement a backdoor?</a>.</p>
+
+<p>The ENS developers appear to be trying to give the impression that they removed this backdoor, or that they intend to remove this backdoor in the future.  However, this is a false impression, for two reasons:</p>
+
+<ol>
+  <li>
+    <p>The <a href="https://docs.ens.domains/faq#who-owns-the-ens-rootnode-what-powers-does-it-grant-them">ENS FAQ claims</a> that:</p>
+
+    <blockquote>
+      <p>The ENS rootnode is currently owned by the ENS DAO. It used to be owned by the ENS Multi-sig, a group of keyholders from different parts of the ecosystem, however as of EP4.10 the ownership has been transferred to the ENS DAO.</p>
+    </blockquote>
+
+    <p>This still constitutes a backdoor, it just complicates the mechanism by which the backdoor can be used. The DAO can still seize domains should they choose to do so.</p>
+  </li>
+  <li>
+    <p>The <a href="https://web.archive.org/web/20220202200523/https://medium.com/the-ethereum-name-service/why-ens-doesnt-create-more-tlds-responsible-citizenship-in-the-global-namespace-7e66658fe2b1">ENS developers claimed</a> on October 15, 2019, that:</p>
+
+    <blockquote>
+      <p>The success of our experiment with .ETH has proven the value of the technology. Moving forward, we want to be as responsible as we can. This includes possibly seeking to register .ETH through the normal ICANN [gTLD] process if and when the opportunity presents itself in order to protect our users. We may also apply for other new TLDs through the ICANN process that we could make available on ENS.</p>
+    </blockquote>
+
+    <p>Registering <code class="highlighter-rouge">.ETH</code> as a gTLD with ICANN would require that ENS be capable of complying with ICANN’s trademark seizure policy, which would require the backdoor to remain in place.</p>
+
+    <p>This previously came up at the ICANN60 session:</p>
+
+    <blockquote>
+      <p>DAVID CONRAD [ICANN CTO]:  I’d  guess  one  question  I’d  have  myself  is  so,  obviously,  you  use  .ETH.    And  I’m  curious what your  plans  are  sort  of  moving  forward    with    regards    to    the    top-level    domain    or    the    identification that you’re using for that.</p>
+
+      <p>LEONARD TAN [ENS developer]:  Right.    So  we  understand  that  .ETH  is  a  three-letter  code  for Ethiopia  so  it’s  probably  out  of  the  question.    But  we  are  still  in  discussions.    Right  now  we  are  all  looking  towards  integration with   existing   systems   first   and   testing   out   whether   ENS   is   functional.  And then afterward, we’ll see how it goes.</p>
+
+      <p>DAVID CONRAD:  Yeah.      Just   to   clarify,   .ETH   – so   three-letter   codes   are   not   reserved.    So  the  fact  that  it’s  a  three-letter  code  for  Ethiopia,  it  doesn’t actually mean that it’s been reserved for Ethiopia.</p>
+
+      <p>LEONARD TAN:  That’s great.</p>
+
+      <p>DAVID CONRAD:  So   if   the   next   round   of   gTLDs   occurs,   that   might   could   be   something that you could look into, or not.</p>
+    </blockquote>
+
+    <p>Low-quality video of this exchange:</p>
+
+    <video controls="">
+ <source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-LQ-Video-with-Slides.webm#t=39:25,40:33" type="video/webm" />
+ </video>
+
+    <p>High-quality video of this exchange:</p>
+
+    <video controls="">
+ <source src="https://www.namecoin.org/files/videos/icann-60/ICANN-60-Joint-Meeting-ICANN-Board-and-Technical-Experts-Group-HQ-Video-Only.webm#t=48:21,49:29" type="video/webm" />
+ </video>
+
+    <p>The fact that ENS considered the primary obstacle to gTLD registration to be the reservedness of <code class="highlighter-rouge">.ETH</code> as a country code, rather than the trademark seizure policy, suggests that the ENS developers are not opposed to trademark seizures, which their backdoor enables.</p>
+  </li>
+</ol>
+
+<p>The ENS developers also do not clearly disclose to their users the existence of their backdoor.  While their FAQ does technically mention the backdoor, the FAQ entry is riddled with confusing jargon (e.g. “node”, “root node”, and “subnode”) that is not defined anywhere in the FAQ, and average users who read that FAQ entry are unlikely to understand that this actually means “It takes 4 out of 7 people to override the blockchain and steal your name to give to someone else.”  As one concrete data point, we have directly spoken to a highly competent cryptography developer who is familiar with blockchain systems and ENS, and they were completely unaware of the ENS backdoor until we mentioned it to them.  Non-developers without cryptography knowledge are likely to be even less aware.</p>
+
+<p>A secondary backdoor exists in the <code class="highlighter-rouge">.eth</code> registrar smart contract.  <a href="https://old.reddit.com/r/ethereum/comments/b9vd11/were_the_ethereum_name_service_ens_team_and_ens/ek7kwdb/">As ENS developer Nick Johnson said</a>:</p>
+
+<blockquote>
+  <p>Once we’re happy it’s working as functioned, we’d like to make changes that would make it impossible for even the ENS root keyholders to change the .eth registrar. This would mean that while they could still change the rules for registration and renewal of names, they couldn’t affect the ownership of any name in the .eth top-level domain - ownership would be iron-clad and completely free of control by a third-party.</p>
+</blockquote>
+
+<p>Of course, this completely glosses over the fact that “changing the rules for registration and renewal of names” still permits a massive amount of mischief by the backdoor holders.</p>
+
+<p>The ENS developers have also given dangerous security advice to Tor users, in an article entitled <a href="https://web.archive.org/web/20220528075149/https://medium.com/the-ethereum-name-service/how-secure-is-using-ens-for-tor-onion-addresses-85b22f44b6e0">“How Secure Is Using ENS for Tor .Onion Addresses?”</a>  For example, the ENS developers advertise in that article that:</p>
+
+<blockquote>
+  <p>Both the logic of the naming service and all records are stored on Ethereum. ENS has no servers.</p>
+</blockquote>
+
+<p>Except that later in that article, they advocate for resolving domains via… centralized servers:</p>
+
+<blockquote>
+  <p>MetaMask defaults to accessing the Ethereum blockchain via a service called Infura. Infura runs a number of Ethereum full nodes and allows people to interact with them via its API. This involves a certain level of trust. Infura is a well-known, trusted company in the space, so for most users leaving MetaMask on its default of using Infura should be good enough.</p>
+</blockquote>
+
+<p>Disturbingly, the article also advocates for immutable keys, and claims that this is a security <em>upgrade</em>:</p>
+
+<blockquote>
+  <p>It’s also possible to register a name, set its records, and then transfer control of the name to an Ethereum address no one controls (e.g. transfer both the Registrant and Controller of a name to “0x000000000000000000000000000000000000dEaD”; this can be done and verified with our Manager). That way, everyone can be certain the records as they currently exist cannot be changed by anyone and so will remain the same.</p>
+
+  <p>This is particularly helpful for achieving high security for Tor .onion users, because it can ensure the name won’t be used for phishing (e.g. someone sets a name to resolve to a legitimate .onion address, gains trust of users, then changes the name to resolve to a different .onion address of a phishing site that appears identical to the legitimate .onion website).</p>
+</blockquote>
+
+<p>In other words, if you need to rotate your onion service keys for any reason (perhaps due to Heartbleed), you would permanently lose your name if you had followed the ENS developers’ advice for “achieving high security”.  Not to mention that the <strong>entire set of ENS onion names</strong> would have been permanently destroyed by the v3 onion service upgrade.  The claim about this design somehow being useful for preventing phishing is unintentionally revealing.  Normally, this claim would be nonsense, since there are plenty of ways to prevent unauthorized names pointing to a server without resorting to absurdities like immutable keys.  But this design <strong>does</strong> make some sense if one recognizes that the ENS developers aren’t aiming at use cases where an onion service owner sets up a name for their own onion, but rather use cases where 3rd parties set up names for other people’s onions, and expect users to then utilize those names as though they’re official.  In contrast, the Namecoin developers explicitly warn against ever using a name set up by a 3rd party, because such usage is inherently dangerous.</p>
+
+<p>In addition, the ENS article recommends that Tor Browser users install the MetaMask browser extension.  A quick glance at the <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/">MetaMask page on AMO</a> indicates quite a lot of built-in functionality that raises concerns about attack surface, such as:</p>
+
+<blockquote>
+  <p>The extension injects the Ethereum web3 API into every website’s javascript context, so that dapps can read from the blockchain.</p>
+
+  <p>MetaMask also lets the user create and manage their own identities (via private keys, local client wallet and hardware wallets like Trezor™), so when a Dapp wants to perform a transaction and write to the blockchain, the user gets a secure interface to review the transaction, before approving or rejecting it.</p>
+
+  <p>Because it adds functionality to the normal browser context, MetaMask requires the permission to read and write to any webpage.</p>
+</blockquote>
+
+<p>MetaMask also is <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/license/">closed-source</a>, under a license that mandates tracking users.</p>
+
+<p>What do the ENS developers think about introducing this attack surface and closed-source code into Tor Browser?  Quoting their article:</p>
+
+<blockquote>
+  <p>We believe this setup is secure enough for most users of Tor .onion websites</p>
+</blockquote>
+
+<p>More generally, there is a disturbing attitude of hubris by the ENS developers, which is probably best exemplified by this quote from the ENS article:</p>
+
+<blockquote>
+  <p>there’s just about no way ENS can go wrong. It can’t be hacked</p>
+</blockquote>
+
+<p>Hmm, where have we heard this kind of marketing language before…?</p>
+
+<blockquote>
+  <p>my Bitfi wallet is truly the world’s first unhackable device</p>
+
+  <p>~ John McAfee, scammer</p>
+</blockquote>
+
+<p>This McAfee scam that used comparable marketing language to ENS was later the recipient of the <a href="https://pwnies.com/bitfi-2/">2018 Pwnie Award for Lamest Vendor Response</a>:</p>
+
+<blockquote>
+  <p>This response has everything. Bitcoin. The word Unhackable. John McAfee. A 250k Bounty that is so narrowly constrained it is ridiculous. Reverse engineers posting that the wallet has no hardware security mechanisms (not even anti-tamper). Multiple people breaking the device. A video of John McAfee being displayed onscreen on the device. A tweet from bitfi claiming that rooting the device doesn’t mean that it was hacked.</p>
+</blockquote>
+
+<p>(That Pwnie Award was collected by <a href="https://rya.nc/bitfi-wallet.html">a Namecoin developer</a>.)</p>
+
+<p>One of the ENS developers (Virgil Griffith) also is known for <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">running wiretap infrastructure</a> on behalf of the U.S. and Singaporean governments. A U.S. court document <a href="https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced Virgil’s wiretap infrastructure</a> when seeking an arrest warrant against a third party.</p>
+
+<p>In addition to the ENS-specific concerns, ENS also inherits <a href="#why-isnt-namecoin-implemented-as-an-ethereum-contract">the problems of Ethereum</a>, on which they are dependent.</p>
+
+<p><a href="">Source material for the ICANN60 session is here.</a></p>
+
+<h3 id="how-does-namecoin-compare-to-handshake">How does Namecoin compare to Handshake?</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th><strong>Namecoin</strong></th>
+      <th><strong>Handshake</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Global names</strong></td>
+      <td>Yes.</td>
+      <td>Yes.</td>
+    </tr>
+    <tr>
+      <td><strong>Decentralized</strong></td>
+      <td>Yes (blockchain).</td>
+      <td>Yes (blockchain).</td>
+    </tr>
+    <tr>
+      <td><strong>Human-meaningful names</strong></td>
+      <td>Yes.</td>
+      <td>Yes.</td>
+    </tr>
+    <tr>
+      <td><strong>Namespace</strong></td>
+      <td><code class="highlighter-rouge">.bit</code> Special-Use Top-Level Domain (suTLD) (<a href="#why-does-namecoin-use-the-bit-special-use-top-level-domain-sutld-instead-of-overlaying-the-root-zone">why?</a>).  A second-level domain such as <code class="highlighter-rouge">wikileaks.bit</code> is controlled solely by whoever holds its keys.</td>
+      <td>Overlays root zone.  To be decentralized, users must register top-level domains (not second-level domains), which pollutes the root namespace.</td>
+    </tr>
+    <tr>
+      <td><strong>SPV name inclusion proofs</strong></td>
+      <td>Supported.</td>
+      <td>Supported.</td>
+    </tr>
+    <tr>
+      <td><strong>SPV unspent name inclusion proofs</strong></td>
+      <td>Not supported yet; Namecoin intends to add support via a softfork.</td>
+      <td>Supported.</td>
+    </tr>
+    <tr>
+      <td><strong>SPV name nonexistence proofs</strong></td>
+      <td>Not supported yet; Namecoin intends to add support via a softfork.  Currently worked around by asking multiple P2P nodes for inclusion proofs.</td>
+      <td>Supported.</td>
+    </tr>
+    <tr>
+      <td><strong>Mining</strong></td>
+      <td>Merge-mined Bitcoin sidechain; very high hashrate (<a href="https://metrics.namecoin.org/namecoin/period-timestamps-14-days/pool/charts/latest.txt">see Metrics</a>.</td>
+      <td>Independent chain; relatively low hashrate.</td>
+    </tr>
+    <tr>
+      <td><strong>Hash function</strong></td>
+      <td>SHA-256d.  <a href="https://crypto.stackexchange.com/questions/7895/weaknesses-in-sha-256d">Known attacks</a> exist, but are not believed to affect Bitcoin or Namecoin.  More well-studied.</td>
+      <td>BLAKE2b and SHA-3 (<a href="https://web.archive.org/web/20210922221849/https://hsd-dev.org/protocol/summary.html">source</a>).  Less well-studied, but believed to be more secure.</td>
+    </tr>
+    <tr>
+      <td><strong>Expiration timestamp method</strong></td>
+      <td>Block height.  Expiration period varies based on hashrate.  Better security against reorganizations; worse UX security.</td>
+      <td>Block height.  Expiration period varies based on hashrate.  Better security against reorganizations; worse UX security.</td>
+    </tr>
+    <tr>
+      <td><strong>Difficulty retargeting interval</strong></td>
+      <td>2016 blocks (typically 2 weeks).  More secure against PoW attacks, but less secure against expiration period UX attacks.</td>
+      <td>1 block.  More secure against expiration period UX attacks, but less secure against <a href="https://web.archive.org/web/20220112235441/https://old.reddit.com/r/Bitcoin/comments/mtugta/mentor_monday_april_19_2021_ask_all_your_bitcoin/gv86j6b/">PoW attacks</a>.</td>
+    </tr>
+    <tr>
+      <td><strong>Nominal semi-expiration period (names stop resolving)</strong></td>
+      <td>222 days since last renewal/update.</td>
+      <td>No grace period.</td>
+    </tr>
+    <tr>
+      <td><strong>Nominal expiration period (names can be registered by anyone else)</strong></td>
+      <td>250 days since last renewal/update (28 days since semi-expiration with no renewal/update).</td>
+      <td>2 years since last renewal/update.</td>
+    </tr>
+    <tr>
+      <td><strong>Behavior of semi-expired/expired names</strong></td>
+      <td>Unresolvable.  More secure against stealth-hijacking.</td>
+      <td>Resolvable.  Less secure against stealth-hijacking.</td>
+    </tr>
+    <tr>
+      <td><strong>Secure genesis proof of freshness?</strong></td>
+      <td>Insecure (<cite>V for Vendetta</cite> quote).  Arguably forgivable since genesis proofs of freshness were not widely understood in 2011.  No known allegations of actual premining abuse.</td>
+      <td>Secure (Bitcoin block hash).</td>
+    </tr>
+    <tr>
+      <td><strong>Full node codebase</strong></td>
+      <td>Fork of Bitcoin Core (very well-audited, supports W^X hardening, but not memory-safe).</td>
+      <td>Fork of Bcoin (memory-safe, but not very well-audited and does not support W^X hardening).</td>
+    </tr>
+    <tr>
+      <td><strong>Default DNS recursive resolver</strong></td>
+      <td><a href="https://nlnetlabs.nl/projects/unbound/about/">Unbound</a> (very well-audited, but not memory-safe).</td>
+      <td><a href="https://github.com/chjj/bns">bns</a> (memory-safe, but not very well-audited).</td>
+    </tr>
+    <tr>
+      <td><strong>Supported Layer 1 DNS record types</strong></td>
+      <td>Most DNS record types (<a href="https://github.com/namecoin/proposals/blob/master/ifa-0001.md">source</a>).  Hosting your own nameserver, or using a nameserver operated by a third party, is <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/docs/name-owners/dnssec/">optional</a>.  Better UX, but worse scalability.</td>
+      <td>Only <code class="highlighter-rouge">NS</code>, <code class="highlighter-rouge">DS</code>, and <code class="highlighter-rouge">TXT</code> (<a href="https://web.archive.org/web/20210708233457/https://hsd-dev.org/guides/resource-records.html">source</a>).  Hosting your own nameserver, or using a nameserver operated by a third party, is required.  Better scalability, but worse UX.</td>
+    </tr>
+    <tr>
+      <td><strong>Layer 1 value size limit</strong></td>
+      <td>520 bytes.  Better flexibility, but worse scalability.</td>
+      <td>512 bytes (<a href="https://web.archive.org/web/20210708233457/https://hsd-dev.org/guides/resource-records.html">source</a>).  Better scalability, but worse flexibility.</td>
+    </tr>
+    <tr>
+      <td><strong>Layer 1 value format</strong></td>
+      <td>JSON.  Better debuggablity, but worse flexibility and scalability.</td>
+      <td>DNS wire format.  Better flexibility and scalability (approximately twice as efficient as Namecoin), but worse debuggability.</td>
+    </tr>
+    <tr>
+      <td><strong>Name update latency (for full nodes)</strong></td>
+      <td>1 block (~10 minutes).  More reliable for key revocations.</td>
+      <td>1 to 36 blocks (~10 minutes to ~6 hours) (<a href="https://web.archive.org/web/20210708233457/https://hsd-dev.org/guides/resource-records.html">source 1</a>) (<a href="https://web.archive.org/web/20211204054822/https://old.reddit.com/r/handshake/comments/j9g3y8/faq_what_is_the_coin_emission_schedule_for_hns/">source 2</a>).  Less reliable for key revocations.</td>
+    </tr>
+    <tr>
+      <td><strong>TLS installed by default</strong></td>
+      <td>Installed by default on Windows, not yet on other OS’s.</td>
+      <td>Not installed by default.</td>
+    </tr>
+    <tr>
+      <td><strong>TLS implementation method</strong></td>
+      <td>Encaya is recommended.  An intercepting proxy (e.g. Let’s DANE) will work (<a href="#how-does-namecoins-encaya-tls-compare-to-lets-dane">see comparison</a>); Namecoin developers strongly recommend avoiding intercepting proxies (<a href="#why-doesnt-namecoin-recommend-a-tls-intercepting-proxy">why?</a>).  A browser fork (e.g. Beacon) will work; Namecoin developers strongly recommend avoiding browser forks (<a href="#why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss">why?</a>).</td>
+      <td>Requires intercepting proxy (e.g. Let’s DANE) or a browser fork (e.g. Beacon).</td>
+    </tr>
+    <tr>
+      <td><strong>Names premined?</strong></td>
+      <td>Not premined.</td>
+      <td>Premined via airdrop to DNS name owners based on DNSSEC proofs and to trademark owners.</td>
+    </tr>
+    <tr>
+      <td><strong>Coins premined?</strong></td>
+      <td>Not premined.</td>
+      <td>Premined via genesis airdrop to investors, businesses, various charities and FLOSS projects (including Namecoin), and faucet users.</td>
+    </tr>
+    <tr>
+      <td><strong>Do the developers run and recommend centralized name resolution services?</strong></td>
+      <td>No, and the Namecoin developer team has a <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2019/07/30/opennic-does-right-thing-shuts-down-centralized-inproxy.html">solid track record</a> of persuading third-party services to shut down, as we consider such services to be harmful and a liability.</td>
+      <td>Yes.  <a href="https://easyhandshake.com/">Easyhandshake TRR</a> is operated by Handshake developer Matthew Zipkin.  Matthew Zipkin’s employer (<a href="https://impervious.com/">Impervious</a>) and Handshake developer Andrew “rasengan” Lee (doing business as “DNS Live”) <a href="https://archive.ph/AXQm4">also run such services</a>.  No one in the Handshake community reacted with criticism when these were <a href="https://archive.ph/NtMvo">advertised on r/Handshake</a>.</td>
+    </tr>
+    <tr>
+      <td><strong>Funding sources</strong></td>
+      <td>Crowdfunding, donations (including a no-strings-attached airdrop from Handshake), consulting/contracting (e.g. for F2Pool), and government grants (e.g. the Netherlands and the EU via NLnet).</td>
+      <td>Investor funding (investors received a pre-mined genesis airdrop).  Investors include Roger Ver (well-known for attempting a hostile takeover of Bitcoin) and Andrew “rasengan” Lee (well-known for performing a <a href="https://www.devever.net/~hl/freenode_abuse">hostile takeover of Freenode</a>).</td>
+    </tr>
+    <tr>
+      <td><strong>Support chat channels</strong></td>
+      <td>Hackint, OFTC, Libera, Matrix.</td>
+      <td>Freenode (<a href="https://www.devever.net/~hl/freenode_abuse">operators engage in routine abuses of power</a>), Slack (non-free protocol), Telegram (<a href="https://buttondown.email/cryptography-dispatches/archive/cryptography-dispatches-the-most-backdoor-looking/">about as safe as leaving exposed wires around your house because they are either not live or placed high enough that no one should touch them</a>).  (<a href="https://web.archive.org/web/20211012001546/https://old.reddit.com/r/handshake/">Source.</a>)</td>
+    </tr>
+    <tr>
+      <td><strong>Founder involvement</strong></td>
+      <td>Pseudonymous; retired; not active elsewhere.</td>
+      <td>Non-pseudonymous; mostly retired but still help out in emergencies and give advice; active elsewhere.</td>
+    </tr>
+    <tr>
+      <td><strong>Whitepaper launch</strong></td>
+      <td>2010 (as BitDNS); 2011 (as Nakanames).</td>
+      <td>2018.</td>
+    </tr>
+    <tr>
+      <td><strong>Mainnet launch</strong></td>
+      <td>2011.</td>
+      <td>2020.</td>
+    </tr>
+    <tr>
+      <td><strong>License</strong></td>
+      <td>Freedom Software (mostly MIT, GPLv3+, and LGPLv3+).</td>
+      <td>Freedom Software (mostly MIT and Apache).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="how-does-namecoin-compare-to-unstoppable-domains">How does Namecoin compare to Unstoppable Domains?</h3>
+
+<p>The Unstoppable Domains developers can censor or hijack names during the registration process, due to centralized registration with no frontrunning protections. In contrast, Namecoin utilizes cryptographic protections against frontrunning and has decentralized registration. <a href="https://docs.unstoppabledomains.com/smart-contracts/overview/uns-architecture-overview/#registry">Per the Unstoppable Domains docs</a>:</p>
+
+<blockquote>
+  <p>“Accounts that are allowed to mint second-level domains (e.g.: <code class="highlighter-rouge">alice.x</code>) are called whitelisted minters. Whitelisted minters are only permitted to mint new domains. They can’t control domain ownership (e.g. approve or transfer a domain to another owner) and they can’t change domain records. Whitelisted minters are operated by Unstoppable Domains.”</p>
+</blockquote>
+
+<p>Unstoppable Domains also inherits <a href="#why-isnt-namecoin-implemented-as-an-ethereum-contract">the problems of Ethereum</a>, on which <a href="https://docs.unstoppabledomains.com/smart-contracts/overview/uns-architecture-overview/#registry">they are dependent</a>.</p>
+
+<h3 id="how-does-namecoin-compare-to-gnu-name-system">How does Namecoin compare to GNU Name System?</h3>
+
+<ul>
+  <li>Both are decentralized.</li>
+  <li>GNS has two name types: zTLD names, which are globally unique but not human-meaningful, and petnames, which are human-meaningful but not globally unique. Namecoin names are simultaneously globally unique and human-meaningful.</li>
+  <li>GNS overlays the root zone; Namecoin uses a suTLD (<a href="#why-does-namecoin-use-the-bit-special-use-top-level-domain-sutld-instead-of-overlaying-the-root-zone">why?</a>).</li>
+</ul>
+
 <h3 id="how-does-namecoin-compare-to-monero">How does Namecoin compare to Monero?</h3>
 
 <p>Monero’s MoneroDNS project is similar in concept to Namecoin.  MoneroDNS’s technical differences to Namecoin are similar to Monero’s technical differences to Bitcoin.  Monero has had much less technical review than Bitcoin, and merge-mined chains based on Monero have significantly less hashrate security available to them than merge-mined chains based on Bitcoin.  On the other hand, Monero’s small size enables them to liberally experiment with more advanced features and cryptography, whereas Bitcoin-based systems like Namecoin are more conservative.  The Namecoin and Monero development teams are cooperating on areas of common interest, as both projects agree that Namecoin and Monero both have a future.</p>
+
+<p>On the other hand, Symas Corporation, which is <a href="https://www.getmonero.org/community/sponsorships/">a sponsor of Monero</a>, was <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1740070">caught distributing backdoored crypto code</a> in 2019, and subsequently <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1740070#c23">attempted to censor reporting of the backdoor</a>.  Monero developer Howard Chu, who is the CTO of Symas Corporation, <a href="https://bugzilla.redhat.com/show_bug.cgi?id=1740070#c26">was a participant</a> in this backdoor scheme, and <a href="https://web.archive.org/web/20200820225753/https://twitter.com/hyc_symas/status/1296582095545028619">claimed that victims of his backdoored code are to blame</a>. Namecoin developers would not have done this.</p>
+
+<h3 id="how-does-namecoin-compare-to-opentimestamps">How does Namecoin compare to OpenTimestamps?</h3>
+
+<p>For proof-of-existence timestamping purposes, OpenTimestamps and Namecoin offer roughly equivalent security once their proofs have been committed to in a Bitcoin transaction, and OpenTimestamps provides this security with much better scalability (in terms of transaction fees and blockchain storage used).  For such use cases, OpenTimestamps is preferable, as it conserves Namecoin blockchain storage for use cases (such as DNS) that require that storage.</p>
+
+<p>However, OpenTimestamps does not provide exclusivity proofs as Namecoin does.  For example, Alice can commit to both a “Heads” and “Tails” coin flip result in OpenTimestamps, and selectively reveal whichever commitment is to her benefit later, which might constitute fraud under some situations.  Alice would not be able to do this type of fraud in Namecoin, because Namecoin guarantees not just that the commitment <em>existed</em> (as OpenTimestamps does) but also that the commitment is <em>exclusive</em> (i.e. that no other commitments were covertly made).  For use cases that require exclusivity proofs, Namecoin may be preferable over OpenTimestamps, subject to other concerns such as scalability.</p>
+
+<p>OpenTimestamps also does not provide human-meaningful names for commitments.  While this is fine for many situations, users who require human-meaningful names may prefer Namecoin (again, subject to other concerns such as scalability).</p>
 
 <h3 id="what-is-namecoins-relationship-to-opennic">What is Namecoin’s relationship to OpenNIC?</h3>
 
@@ -737,7 +1308,7 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 
 <p>On December 4, 2018, a brief <a href="https://lists.opennicproject.org/sympa/arc/discuss/2018-12/msg00000.html">discussion</a> occurred within OpenNIC about whether Namecoin should be removed.  The cited reason for considering removing Namecoin was that some OpenNIC server operators had been harassed by blacklist providers and hosting providers due to some botnet activity that was accessing OpenNIC for C&amp;C infrastructure.  The alleged botnet C&amp;C domains included some Namecoin domains, but also included some centralized OpenNIC domains, such as domains on <code class="highlighter-rouge">.fur</code>.  OpenNIC criticized those blacklist providers for the harassment, saying “none of them have the courtesy to so much as send an email to abuse@domain to let you know that a problem was detected… they claim to be trying to protect the internet but don’t give victims a chance to fix the problems”.  The discussion “[produced] <a href="https://lists.opennicproject.org/sympa/arc/discuss/2019-06/msg00000.html">little in the way of support or dissent</a>” for whether to continue resolving Namecoin domains, and OpenNIC decided to continue resolving Namecoin.</p>
 
-<p>On December 19, 2018, <a href="https://prism-break.org/">PRISM Break</a> lead maintainer Yana Timoshenko floated the idea to Namecoin developer Jeremy Rand of de-listing OpenNIC due to security concerns about centralized Namecoin resolution.  Jeremy concurred that centralized Namecoin resolution was a security risk, pointed to a <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">case study</a> he had previously written on the subject, and recommended that PRISM Break not list centralized Namecoin resolvers; Yana removed OpenNIC from PRISM Break.</p>
+<p>On December 19, 2018, <a href="https://prism-break.org/">PRISM Break</a> lead maintainer Yana Teras floated the idea to Namecoin developer Jeremy Rand of de-listing OpenNIC due to security concerns about centralized Namecoin resolution.  Jeremy concurred that centralized Namecoin resolution was a security risk, pointed to a <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2018/09/24/how-centralized-inproxies-make-everyone-less-safe-case-study.html">case study</a> he had previously written on the subject, and recommended that PRISM Break not list centralized Namecoin resolvers; Yana removed OpenNIC from PRISM Break.</p>
 
 <p>On June 9, 2019, Katie Holly from OpenNIC <a href="https://gitlab.com/prism-break/prism-break/merge_requests/2073">contacted</a> Yana and Jeremy on the PRISM Break issue tracker, stated that she had recently discovered Yana’s and Jeremy’s concerns, and asked what OpenNIC would need to do to be re-listed on PRISM Break.  Katie also said that OpenNIC would shortly hold an election on whether to remove Namecoin support as Yana and Jeremy had recommended.</p>
 
@@ -788,6 +1359,34 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
 <p>A majority of Bitcoin’s hashpower is routed via the Bitcoin Relay Network, which has the ability to censor Bitcoin blocks that pass through it.  This produces incentives for Bitcoin miners to self-censor any blocks that might violate any policy introduced in the future by Bitcoin Relay Network, because routing blocks through Bitcoin Relay Network reduces orphan rates for miners.  Namecoin’s blocks are much smaller than Bitcoin’s, and therefore Namecoin does not have similar incentives for centralized block relay infrastructure.  While it is possible for Bitcoin Relay Network to attack Namecoin by censoring Bitcoin blocks that commit to merge-mined Namecoin blocks, it is not feasible for Bitcoin Relay Network to look inside the Namecoin blocks that are committed to, which means that Bitcoin Relay Network cannot censor Namecoin blocks by content as they can with Bitcoin blocks.  Bitcoin Relay Network is operated by Bitcoin Core developer Matt Corallo, who is unlikely to want to attack Bitcoin (just as F2Pool is unlikely to want to attack Namecoin).</p>
 
 <p>The takeaway here is that while F2Pool theoretically used to be capable of attacking Namecoin (but not Bitcoin), and Bitcoin Relay Network is theoretically capable of attacking Bitcoin (but not Namecoin), <em>in practice</em> the party with the most motivation to attack either chain (the Chinese government) has jurisdiction over a hashrate majority of both Bitcoin and Namecoin.  Mining decentralization is an active research area, and we hope that significant improvements in this area are made, as they would improve the security of both Bitcoin and Namecoin.</p>
+
+<h3 id="will-major-users-eg-large-corporations-refuse-to-use-namecoin-because-of-the-irreversible-catastrophic-consequences-of-losing-their-domain-name">Will major users (e.g. large corporations) refuse to use Namecoin because of the irreversible, catastrophic consequences of losing their domain name?</h3>
+
+<p>We don’t think this will be a problem.  Crypto of all kinds is inherently unforgiving.  For example:</p>
+
+<ul>
+  <li>Full-disk encryption (FDE) is inherently unforgiving if you forget your passphrase.</li>
+  <li>Automated software update signing is inherently unforgiving if you lose your private signing keys.</li>
+</ul>
+
+<p>Despite this, large corporations <strong>routinely</strong> use FDE and distribute software with automated update signing.  (In fact, large corporations who <em>don’t</em> do this are usually criticized as negligent.)  Why do they do this?</p>
+
+<ul>
+  <li>They have assessed that the consequences of <strong>not</strong> using these cryptosystems are <strong>also</strong> catastrophic.
+    <ul>
+      <li>They don’t want to lose their trade secrets to industrial espionage due to a laptop getting stolen.</li>
+      <li>They don’t want users of their software products to either ignore software updates or install malware that impersonates a software update.</li>
+    </ul>
+  </li>
+  <li>They have developed workflows that mitigate the risk of catastrophic outcomes.
+    <ul>
+      <li>They may backup their encrypted laptops’ contents to drives that use a different FDE passphrase, held by a different employee</li>
+      <li>They may store their software update private signing keys on HSM’s and use fallback signing keys held on a different HSM in a different location.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The consequences of having your DNS domain name hijacked or censored can be catastrophic, just like having an unencrypted laptop stolen.  And Namecoin is designed to support workflows that mitigate risk of key loss, like other well-designed crypto.  Since Namecoin is relatively new, these mitigation workflows are not as well-fleshed-out in Namecoin as in older crypto like FDE, but we expect this to improve over time.  Thus, while Namecoin is unforgiving just like other crypto, we don’t expect this to be a dealbreaker in terms of adoption, similar to other crypto such as FDE.</p>
 
 <h3 id="is-squatting-a-problem--what-can-be-done-about-it">Is squatting a problem?  What can be done about it?</h3>
 
@@ -897,25 +1496,21 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
@@ -923,7 +1518,11 @@ In comparison, Coinbase actually holds private keys. Exchanges can send bitcoin 
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
