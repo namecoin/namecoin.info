@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -147,6 +147,7 @@
       <li><a href="#do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin" id="markdown-toc-do-i-need-to-download-the-entire-namecoin-blockchain-to-use-namecoin">Do I need to download the entire Namecoin blockchain to use Namecoin?</a></li>
       <li><a href="#what-is-the-smallest-currency-unit-of-namecoin-called" id="markdown-toc-what-is-the-smallest-currency-unit-of-namecoin-called">What is the smallest currency unit of Namecoin called?</a></li>
       <li><a href="#what-do-namecoin-addresses-look-like" id="markdown-toc-what-do-namecoin-addresses-look-like">What do Namecoin addresses look like?</a></li>
+      <li><a href="#what-abbreviations-are-used-for-namecoin" id="markdown-toc-what-abbreviations-are-used-for-namecoin">What abbreviations are used for Namecoin?</a></li>
     </ul>
   </li>
   <li><a href="#design" id="markdown-toc-design">Design</a>    <ul>
@@ -185,6 +186,8 @@
       <li><a href="#does-namecoin-influence-bitcoins-hashrate" id="markdown-toc-does-namecoin-influence-bitcoins-hashrate">Does Namecoin influence Bitcoin’s hashrate?</a></li>
       <li><a href="#how-does-namecoin-compare-to-tor-onion-services" id="markdown-toc-how-does-namecoin-compare-to-tor-onion-services">How does Namecoin compare to Tor Onion Services?</a></li>
       <li><a href="#how-does-namecoin-compare-to-lets-encrypt" id="markdown-toc-how-does-namecoin-compare-to-lets-encrypt">How does Namecoin compare to Let’s Encrypt?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-dane" id="markdown-toc-how-does-namecoin-compare-to-dane">How does Namecoin compare to DANE?</a></li>
+      <li><a href="#how-does-namecoin-compare-to-certificate-transparency-ct" id="markdown-toc-how-does-namecoin-compare-to-certificate-transparency-ct">How does Namecoin compare to Certificate Transparency (CT)?</a></li>
       <li><a href="#how-does-namecoins-encaya-tls-compare-to-lets-dane" id="markdown-toc-how-does-namecoins-encaya-tls-compare-to-lets-dane">How does Namecoin’s Encaya TLS compare to Let’s DANE?</a></li>
       <li><a href="#how-does-namecoin-compare-to-blockstack" id="markdown-toc-how-does-namecoin-compare-to-blockstack">How does Namecoin compare to Blockstack?</a></li>
       <li><a href="#how-does-namecoin-compare-to-ethereum-name-service-ens" id="markdown-toc-how-does-namecoin-compare-to-ethereum-name-service-ens">How does Namecoin compare to Ethereum Name Service (ENS)?</a></li>
@@ -281,6 +284,14 @@
   <li>New-style Bech32 addresses begin with <code class="highlighter-rouge">nc1</code>.</li>
   <li>Old-style P2SH addresses begin with <code class="highlighter-rouge">6</code>.</li>
   <li>Even-older-style P2PKH addresses begin with <code class="highlighter-rouge">N</code> or <code class="highlighter-rouge">M</code>.</li>
+</ul>
+
+<h3 id="what-abbreviations-are-used-for-namecoin">What abbreviations are used for Namecoin?</h3>
+
+<ul>
+  <li>For application-agnostic software (e.g. wallets) that is forked from Bitcoin-specific software, <code class="highlighter-rouge">-NMC</code> is typically suffixed (e.g. Electrum-NMC).</li>
+  <li>For application-specific software (e.g. DNS or TLS tools), <code class="highlighter-rouge">nc</code> is typically prefixed (e.g. ncdns).</li>
+  <li>For the currency, either <code class="highlighter-rouge">NMC</code> or <code class="highlighter-rouge">ℕ</code> (Unicode “DOUBLE-STRUCK CAPITAL N” / <code class="highlighter-rouge">U+2115</code>) can be used as an abbreviation.</li>
 </ul>
 
 <h2 id="design">Design</h2>
@@ -602,6 +613,22 @@
 <p>Let’s Encrypt’s services are entirely gratis.  For Namecoin, the pricing is more complicated.  In Namecoin, you create a private CA and place its public key into the blockchain; you can use that CA to issue as many certificates for your domain as you like without requiring additional blockchain transactions.  Issuing certificates from your private CA (e.g. to rotate your TLS server’s keys) is gratis.  However, changing the set of private CA’s (e.g. to immediately revoke old certificates before they expire) does require a blockchain transaction, which means you’ll have to pay a transaction fee.  The extra storage used by your private CA’s public key also implies that renewing your domain name will incur a higher transaction fee than if you weren’t using TLS.</p>
 
 <p>TLS certificates issued by Let’s Encrypt will work in most TLS clients (without security warnings) without any changes from defaults.  In contrast, Namecoin TLS certificates will only work (without security warnings) if Namecoin is installed.</p>
+
+<h3 id="how-does-namecoin-compare-to-dane">How does Namecoin compare to DANE?</h3>
+
+<ul>
+  <li>Both Namecoin and DANE protect from MITM and censorship attacks by public certificate authorities.</li>
+  <li>Both Namecoin and DANE protect from MITM attacks by DNS resolvers.</li>
+  <li>Namecoin additionally protects from MITM and censorship attacks by DNS registrars, DNS registries, and the ICANN root.</li>
+  <li>In terms of compatibility with commonly-used TLS client software, Namecoin’s advantages over DANE are similar to Namecoin’s advantages over <a href="#how-does-namecoin-compare-to-handshake">Handshake</a>.</li>
+</ul>
+
+<h3 id="how-does-namecoin-compare-to-certificate-transparency-ct">How does Namecoin compare to Certificate Transparency (CT)?</h3>
+
+<ul>
+  <li>CT makes misissued certificates detectable after-the-fact, but does not prevent them from being accepted by TLS clients. In contrast, Namecoin prevents misissued certificates from being accepted by TLS clients in the first place.</li>
+  <li>CT does not protect against censorship attacks by public certificate authorities; Namecoin does.</li>
+</ul>
 
 <h3 id="how-does-namecoins-encaya-tls-compare-to-lets-dane">How does Namecoin’s Encaya TLS compare to Let’s DANE?</h3>
 
@@ -1028,6 +1055,20 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
 
 <p>Of course, this completely glosses over the fact that “changing the rules for registration and renewal of names” still permits a massive amount of mischief by the backdoor holders.</p>
 
+<p><a href="https://web.archive.org/web/20240520180852/https://easydns.com/blog/2017/09/19/dns-on-blockchain-ethereum-name-service-ens-vrm-and-governance-oh-my/">According to EasyDNS CEO Mark Jeftovic</a>, the consensus of the ENS developers in private conversations (which confirms why they created the backdoor) is:</p>
+
+<blockquote>
+  <p>there needs to be a mechanism for when a domain has to come down.</p>
+</blockquote>
+
+<blockquote>
+  <p>there was always the need for “the handbrake” – a big lever that “stops the train” when things go terribly wrong.</p>
+</blockquote>
+
+<blockquote>
+  <p>Hard forking the blockchain every time you needed to take down a domain was not practical.</p>
+</blockquote>
+
 <p>The ENS developers have also given dangerous security advice to Tor users, in an article entitled <a href="https://web.archive.org/web/20220528075149/https://medium.com/the-ethereum-name-service/how-secure-is-using-ens-for-tor-onion-addresses-85b22f44b6e0">“How Secure Is Using ENS for Tor .Onion Addresses?”</a>  For example, the ENS developers advertise in that article that:</p>
 
 <blockquote>
@@ -1296,7 +1337,7 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
 
 <h3 id="how-does-namecoin-compare-to-opentimestamps">How does Namecoin compare to OpenTimestamps?</h3>
 
-<p>For proof-of-existence timestamping purposes, OpenTimestamps and Namecoin offer roughly equivalent security once their proofs have been committed to in a Bitcoin transaction, and OpenTimestamps provides this security with much better scalability (in terms of transaction fees and blockchain storage used).  For such use cases, OpenTimestamps is preferable, as it conserves Namecoin blockchain storage for use cases (such as DNS) that require that storage.</p>
+<p>Namecoin writes the hash of the timestamped file directly to the blockchain, while OpenTimestamps uses Merkle trees to commit to a large number of timestamped files in a single transaction. For proof-of-existence timestamping purposes, OpenTimestamps and Namecoin offer roughly equivalent security once their proofs have been committed to in a Bitcoin transaction. However, OpenTimestamps’s usage of Merkle trees allows it to provide this security with much better scalability (in terms of transaction fees and blockchain storage used) – so much so that OpenTimestamps doesn’t need to charge fees to users, and is able to fully fund its Bitcoin transaction fees via donations. For such use cases, OpenTimestamps is preferable, as it conserves Namecoin blockchain storage for use cases (such as DNS) that require that storage, and avoids the UX and privacy issues of users having to pay fees to timestamp a file.</p>
 
 <p>However, OpenTimestamps does not provide exclusivity proofs as Namecoin does.  For example, Alice can commit to both a “Heads” and “Tails” coin flip result in OpenTimestamps, and selectively reveal whichever commitment is to her benefit later, which might constitute fraud under some situations.  Alice would not be able to do this type of fraud in Namecoin, because Namecoin guarantees not just that the commitment <em>existed</em> (as OpenTimestamps does) but also that the commitment is <em>exclusive</em> (i.e. that no other commitments were covertly made).  For use cases that require exclusivity proofs, Namecoin may be preferable over OpenTimestamps, subject to other concerns such as scalability.</p>
 
@@ -1496,9 +1537,13 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
@@ -1506,21 +1551,17 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
