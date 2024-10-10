@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</title>
+    <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary (UPDATED)</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -133,14 +133,38 @@
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary</h1>
+<h1 class="post-title">Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary (UPDATED)</h1>
 <p class="post-meta">Jul 24, 2024 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
 <p>As was <a href="/2024/05/15/tor-2024-gpn-22-monerokon-4.html">previously announced</a>, Rose, yanmaani, Hugo, and I (Jeremy Rand) represented Namecoin at three conferences in Europe. This was an excellent series of events for a number of reasons, not least the fact that this is the first time we’ve ever had 4 Namecoin developers attending a single conference (our previous record was 3 developers, at 37C3). Expanding our team size has been a priority for a while, and it’s great to see that this is starting to pay off. Of course, there were major substantive benefits as well. As usual for conferences that Namecoiners attend, we engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.</p>
 
-<p>Sessions at the Tor meetings are not recorded. However, my presentations at GPN and MoneroKon were recorded, and are published below:</p>
+<p>Notes/slides for Namecoin’s sessions at the Tor meeting, and recordings of Namecoin’s sessions at GPN and MoneroKon, are published below:</p>
+
+<h2 id="tor-lisbon-2024-self-authenticating-tls-certificates-for-onion-services-using-a-pkcs11-module">Tor Lisbon 2024: Self-authenticating TLS Certificates for Onion Services using a PKCS#11 module</h2>
+
+<p>Facilitator: Jeremy Rand</p>
+
+<p>Onion services are self-authenticating. It is highly unfortunate that this isn’t presently the case for their TLS certificates. ahf already made a proof of concept for using onion service Ed25519 keys as a TLS CA, but this requires substantial browser modifications, both to the trust logic (browsers don’t know they should trust these keys) and to the crypto support (browsers don’t support EdDSA). However, there is hope! Mainstream browsers (including Firefox and Chromium) actually do expose APIs that (with a little creativity) can enable validating TLS certificates based on onion service keys. You don’t even need to recompile the browser. Let’s discuss the implications of this, and maybe make some plans!</p>
+
+<p><a href="https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/self-auth-certs-for-onion-services">Notes and slides are here.</a></p>
+
+<h2 id="tor-lisbon-2024-pluggable-transport-executables-compression">Tor Lisbon 2024: Pluggable Transport Executables Compression</h2>
+
+<p>Facilitators: Jeremy Rand, Morgan Ava</p>
+
+<p>The download size of Tor Browser is somewhat larger than would be ideal (even causing rejection in the Android Play Store recently). The Go-based pluggable transports take up a nontrivial portion. A potential solution lies within the well-regarded u-root project (a spin-off of Coreboot that one of Tor’s interns worked with recently). u-root includes a subproject called Go-Busybox, which can merge multiple Go executables into one meta-executable, thus de-duplicating library code via the standard compiler optimization process. Our initial experiments have shown significant space savings, and the savings further compound if Namecoin naming (which also uses Go) is included in the Tor Browser binaries. Is this a fruitful line of inquiry? Are there security implications that we should consider? Are there other tricks we can use to decrease the size of the PT binaries? Let’s discuss!</p>
+
+<p><a href="https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/pluggable-transport-executables-compression">Notes and slides are here.</a></p>
+
+<h2 id="tor-lisbon-2024-refreshing-best-practices-guidelines-for-tor-friendly-applications">Tor Lisbon 2024: Refreshing Best Practices Guidelines for Tor-Friendly Applications</h2>
+
+<p>Facilitators: Jeremy Rand, Morgan Ava</p>
+
+<p>Many years ago, some community members wrote up a Tor-Friendly Applications Best Practices document. The document has proven to be valuable, but parts are underspecified, and other parts will need revamping for Arti. This session is to refresh the document. Bring your ideas for things that Tor-friendly applications should do, and your horror stories of things Tor-friendly applications shouldn’t do.</p>
+
+<p><a href="https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/refreshing-best-practices-guidelines-for-tor-friendly-applications">Notes are here.</a></p>
 
 <h2 id="gpn-22-self-authenticating-tls-certificates-for-tor-onion-services">GPN 22: Self-Authenticating TLS Certificates for Tor Onion Services</h2>
 
@@ -1122,33 +1146,33 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>
