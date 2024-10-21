@@ -183,26 +183,9 @@
 
 <p>All names and their values are unencrypted in the Namecoin blockchain, which could impact privacy of name owners. Don’t place data in the blockchain that you don’t want the world to see, and remember that once it’s in the blockchain, it can’t be removed. There are proposals to encrypt blockchain data and remove expired name data, but they are not implemented yet.</p>
 
-<h3 id="namecoin-is-not-anonymous">Namecoin Is Not Anonymous</h3>
+<h3 id="anonymity">Anonymity</h3>
 
-<p>Like Bitcoin, Namecoin’s blockchain provides easily linkable pseudonymity, NOT anonymity. This means that name owners are easily linkable to their other Namecoin transactions. If one of your transactions is with an exchange who knows your real name or IP address, you should assume that the exchange knows the real name or IP address associated with all of your names. There are proposals for improving this, e.g. CoinJoin and Zerocoin, but they are not implemented yet. If any of your transactions were not made via Tor, you can further assume that an attacker knows the IP address associated with all of your Namecoin transactions.</p>
-
-<p>While looking up data from the Namecoin blockchain is relatively private since you do not generate any network traffic indicating which names you are looking up, viewing Dot-Bit websites is not anonymous for the following reasons:</p>
-
-<ul>
-  <li>
-    <p>Dot-Bit websites are not compatible with TorBrowser. Browsers other than TorBrowser will leak a lot of fingerprintable data, which will probably identify you specifically, even if your IP is masked by Tor.</p>
-  </li>
-  <li>
-    <p>NMControl will generate traffic that isn’t routed through Tor. There is a configuration option for NMControl which will disable retrieving data which is external to the blockchain, but this will break a lot of Dot-Bit websites.</p>
-  </li>
-  <li>
-    <p>Even if TorBrowser support were added, it would be trivially easy for a website you visit to fingerprint you as one of the very few users capable of resolving Dot-Bit URL’s. The ONLY way that this could be resolved would be for The Tor Project to include Namecoin in the Tor Browser Bundle by default, which is almost certainly not going to happen in the foreseeable future.</p>
-  </li>
-</ul>
-
-<p>As a side note, be aware that downloading the Namecoin blockchain via Tor might put too much strain on the Tor network. SPV+UTXO will improve this situation when it is implemented.</p>
-
+<p>See <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/docs/faq/#is-namecoin-anonymous">the FAQ</a>.</p>
 
   </article>
 
@@ -243,33 +226,33 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Handshake</li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
                     <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>
