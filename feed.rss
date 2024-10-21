@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 10 Oct 2024 11:02:08 +0000</pubDate>
-    <lastBuildDate>Thu, 10 Oct 2024 11:02:08 +0000</lastBuildDate>
+    <pubDate>Mon, 21 Oct 2024 12:30:06 +0000</pubDate>
+    <lastBuildDate>Mon, 21 Oct 2024 12:30:06 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,41 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin's SocksTrace Receives Funding from NLnet Foundation’s NGI0 Core Fund</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin is &lt;a href=&quot;https://nlnet.nl/news/2024/20241003-announcing-Core-call.html&quot;&gt;receiving&lt;/a&gt; additional funding from NLnet Foundation’s NGI0 Core (Next Generation Internet: Zero Core) Fund. If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).&lt;/p&gt;
+
+&lt;p&gt;This new funding is focused on SocksTrace. You might know SocksTrace by its former (and truly magical) name, Heteronculous-Horklump. While the former name was hilarious for Harry Potter geeks, we got feedback at 37C3 that it was too… let’s say, “unmemorable” for the rest of the world (especially for non-native English speakers); thus, we’ve seized the chance to simplify things with a name that’s easier on the brain. Don’t worry, though—the new name is still meme-worthy!&lt;/p&gt;
+
+&lt;p&gt;SocksTrace is a proxy leak detection tool designed for both CI testing and manual QA testing. It leverages the Linux &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; feature to monitor socket syscalls that could potentially bypass a proxy.&lt;/p&gt;
+
+&lt;p&gt;Specifically, the following areas of development will be funded:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improved speed by whitelisting specific syscalls&lt;/li&gt;
+  &lt;li&gt;Handling incoming TCP (Transmission Control Protocol) connections&lt;/li&gt;
+  &lt;li&gt;Improved test coverage&lt;/li&gt;
+  &lt;li&gt;Enforce stream isolation&lt;/li&gt;
+  &lt;li&gt;Provide support for POWER systems&lt;/li&gt;
+  &lt;li&gt;SOCKSify DNS traffic&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This work will principally be done by developers Jeremy Rand and Robert Nganga (who is the author of this post).&lt;/p&gt;
+
+&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the European Commision for their support of the Next Generation Internet.&lt;/p&gt;
+
+&lt;p&gt;We’ll be posting updates regularly as development proceeds.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary (UPDATED)</title>
@@ -331,36 +366,6 @@ Demo video of Namecoin + IPFS in Brave.
         <pubDate>Thu, 21 Dec 2023 02:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2023/12/21/37c3.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2023/12/21/37c3.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Receives 40.1k EUR in Additional Funding from NLnet Foundation’s NGI Assure Fund and European Commission</title>
-        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving 40,100 EUR (roughly 44,134 USD) in additional funding from &lt;a href=&quot;https://nlnet.nl/&quot;&gt;NLnet Foundation&lt;/a&gt;’s NGI Assure Fund.  If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).  The &lt;a href=&quot;https://nlnet.nl/assure/&quot;&gt;NGI Assure Fund&lt;/a&gt; is managed by NLnet and funded by the European Commission, the executive branch of the European Union, through their Next Generation Internet intitiative.  This new funding is focused on Electrum-NMC.&lt;/p&gt;
-
-&lt;p&gt;We will use this funding to work on the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Improved sandboxing for better security.&lt;/li&gt;
-  &lt;li&gt;Improved test coverage.&lt;/li&gt;
-  &lt;li&gt;Improved domain management GUI for better UX.&lt;/li&gt;
-  &lt;li&gt;Compact on-chain storage for better scalability.&lt;/li&gt;
-  &lt;li&gt;Linux packaging.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This work will principally be done by developers Robert Nganga and Jeremy Rand (who is the author of this post).&lt;/p&gt;
-
-&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the European Commision for their support of a Next Generation Internet.&lt;/p&gt;
-
-&lt;p&gt;We’ll be posting updates regularly as development proceeds.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 21 Dec 2023 01:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2023/12/21/namecoin-additional-funding-from-nlnet-ngi-assure.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2023/12/21/namecoin-additional-funding-from-nlnet-ngi-assure.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
