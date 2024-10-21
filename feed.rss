@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 21 Oct 2024 12:03:36 +0000</pubDate>
-    <lastBuildDate>Mon, 21 Oct 2024 12:03:36 +0000</lastBuildDate>
+    <pubDate>Mon, 21 Oct 2024 12:11:12 +0000</pubDate>
+    <lastBuildDate>Mon, 21 Oct 2024 12:11:12 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -19,20 +19,21 @@
     </image>
     
       <item>
-        <title>Namecoin Receives Funding from NLnet Foundation’s NGI0 Core Fund</title>
+        <title>Namecoin's SocksTrace Receives Funding from NLnet Foundation’s NGI0 Core Fund</title>
         <description>&lt;p&gt;We’re happy to announce that Namecoin is &lt;a href=&quot;https://nlnet.nl/news/2024/20241003-announcing-Core-call.html&quot;&gt;receiving&lt;/a&gt; additional funding from NLnet Foundation’s NGI0 Core (Next Generation Internet: Zero Core) Fund. If you’re unfamiliar with NLnet, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).&lt;/p&gt;
 
 &lt;p&gt;This new funding is focused on SocksTrace. You might know SocksTrace by its former (and truly magical) name, Heteronculous-Horklump. While the former name was hilarious for Harry Potter geeks, we got feedback at 37C3 that it was too… let’s say, “unmemorable” for the rest of the world (especially for non-native English speakers); thus, we’ve seized the chance to simplify things with a name that’s easier on the brain. Don’t worry, though—the new name is still meme-worthy!&lt;/p&gt;
 
-&lt;p&gt;SocksTrace is a proxy leak detection tool designed for both CI testing and manual QA testing. It leverages the Linux &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; feature to monitor socket syscalls that could potentially bypass a proxy.
-Specifically, the following areas of development will be funded:&lt;/p&gt;
+&lt;p&gt;SocksTrace is a proxy leak detection tool designed for both CI testing and manual QA testing. It leverages the Linux &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; feature to monitor socket syscalls that could potentially bypass a proxy.&lt;/p&gt;
+
+&lt;p&gt;Specifically, the following areas of development will be funded:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Improved speed by whitelisting specific syscalls.&lt;/li&gt;
-  &lt;li&gt;Handling incoming TCP (Transmission Control Protocol) connections.&lt;/li&gt;
-  &lt;li&gt;Improved test coverage.&lt;/li&gt;
+  &lt;li&gt;Improved speed by whitelisting specific syscalls&lt;/li&gt;
+  &lt;li&gt;Handling incoming TCP (Transmission Control Protocol) connections&lt;/li&gt;
+  &lt;li&gt;Improved test coverage&lt;/li&gt;
   &lt;li&gt;Enforce stream isolation&lt;/li&gt;
-  &lt;li&gt;Provide support for POWER systems.&lt;/li&gt;
+  &lt;li&gt;Provide support for POWER systems&lt;/li&gt;
   &lt;li&gt;SOCKSify DNS traffic&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -42,9 +43,9 @@ Specifically, the following areas of development will be funded:&lt;/p&gt;
 
 &lt;p&gt;We’ll be posting updates regularly as development proceeds.&lt;/p&gt;
 </description>
-        <pubDate>Fri, 11 Oct 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html</guid>
+        <pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
