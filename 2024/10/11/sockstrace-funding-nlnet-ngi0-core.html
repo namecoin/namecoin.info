@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Fork Wishlist</title>
+    <title>Namecoin Receives Funding from NLnet Foundation’s NGI0 Core Fund</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/docs/dev/fork-wishlist/">
+    <link rel="canonical" href="https://www.namecoin.org/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,49 +122,952 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">Fork Wishlist</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>This is a list of proposed consensus forks for Namecoin.  Inclusion on this list does not indicate widespread support of the Namecoin community.  This page only covers blockchain consensus rules; changes to namespace specs are not covered here.</p>
 
-<h2 id="hardforks">Hardforks</h2>
 
-<ul>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75">Require AuxPoW to be always active</a>.  This is a proposed solution to an incompatibility between BIP 9 (VersionBits) and AuxPoW.</li>
-  <li><a href="https://github.com/namecoin/namecoin-core/pull/75#issuecomment-228597157">AuxPoW: use BIP 122 chain ID</a>.</li>
-  <li>AuxPoW: Use SegWit commitments.</li>
-  <li>AuxPoW: “correct the merged-mining chain_id awkwardness” (<a href="https://forum.namecoin.org/viewtopic.php?f=5&amp;t=1824">as midnightmagic put it</a>)</li>
-  <li>AuxPoW: Use protocol from P2Pool.  Would decrease size of AuxPoW headers.  Implementation is in use already by P2Pool; spec incomplete.</li>
-  <li>AuxPoW: Use protocol from Luke-Jr.  Would probably fix GBT, decrease size of AuxPoW headers more than P2Pool, requires a Bitcoin hardfork as well, implementation and spec not public yet.</li>
-  <li>Disable BDB lock limit.</li>
-  <li>Remove requirement that name operations appear in a transaction with the Namecoin tx nVersion.</li>
-  <li>Increase limit on name value size.</li>
-  <li>Change name fee structure (only a hardfork if it allows name outputs to hold less than 0.01 NMC).</li>
-  <li>Multiple names per transaction.</li>
-  <li>Extend name expiration period to circa 1 year.</li>
-  <li>Make name expiration period use BIP 113 timestamps instead of block height.</li>
-  <li>Store names as (Hash(name), Enc(name, value)) rather than (name, value).</li>
-</ul>
 
-<h2 id="softforks">Softforks</h2>
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Namecoin Receives Funding from NLnet Foundation’s NGI0 Core Fund</h1>
+<p class="post-meta">Oct 11, 2024 • Robert Nganga <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>We’re happy to announce that Namecoin is <a href="https://nlnet.nl/news/2024/20241003-announcing-Core-call.html">receiving</a> additional funding from NLnet Foundation’s NGI0 Core (Next Generation Internet: Zero Core) Fund. If you’re unfamiliar with NLnet, you might want to read <a href="https://nlnet.nl/foundation/">about NLnet Foundation</a>, or just take a look at <a href="https://nlnet.nl/thema/index.html">the projects they’ve funded over the years</a> (you might see some familiar names).</p>
+
+<p>This new funding is focused on SocksTrace. You might know SocksTrace by its former (and truly magical) name, Heteronculous-Horklump. While the former name was hilarious for Harry Potter geeks, we got feedback at 37C3 that it was too… let’s say, “unmemorable” for the rest of the world (especially for non-native English speakers); thus, we’ve seized the chance to simplify things with a name that’s easier on the brain. Don’t worry, though—the new name is still meme-worthy!</p>
+
+<p>SocksTrace is a proxy leak detection tool designed for both CI testing and manual QA testing. It leverages the Linux <code class="highlighter-rouge">ptrace</code> feature to monitor socket syscalls that could potentially bypass a proxy.
+Specifically, the following areas of development will be funded:</p>
 
 <ul>
-  <li><a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2455&amp;hilit=softfork&amp;sid=e59d68ac212f89a82ed1ccefc7da4996">AuxPoW: restrict timestamp difference to parent block</a>.</li>
-  <li>Coinbase commitment for UNO set.</li>
-  <li>Make dust spam outputs from the attack between blocks 39k and 41k unspendable.</li>
-  <li>Segregated Name Values.</li>
-  <li>Change name fee structure (only a softfork if it doesn’t allow name outputs to hold less than 0.01 NMC).</li>
-  <li>Delegated renewal.</li>
+  <li>Improved speed by whitelisting specific syscalls.</li>
+  <li>Handling incoming TCP (Transmission Control Protocol) connections.</li>
+  <li>Improved test coverage.</li>
+  <li>Enforce stream isolation</li>
+  <li>Provide support for POWER systems.</li>
+  <li>SOCKSify DNS traffic</li>
 </ul>
 
-  </article>
+<p>This work will principally be done by developers Jeremy Rand and Robert Nganga (who is the author of this post).</p>
+
+<p>We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the European Commision for their support of the Next Generation Internet.</p>
+
+<p>We’ll be posting updates regularly as development proceeds.</p>
+
+
+</article>
+
+<footer>
+<p><em>If you liked this article, maybe consider <a href='/donate/'>donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href='/contribute/'>contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+</footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -183,16 +1086,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/docs/dev/fork-wishlist/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2024-10-11-sockstrace-funding-nlnet-ngi0-core.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/docs/dev/fork-wishlist/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/dev/fork-wishlist/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/dev/fork-wishlist/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/docs/dev/fork-wishlist/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2024/10/11/sockstrace-funding-nlnet-ngi0-core.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -201,31 +1104,31 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
