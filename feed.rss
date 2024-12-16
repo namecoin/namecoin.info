@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 21 Oct 2024 12:28:51 +0000</pubDate>
-    <lastBuildDate>Mon, 21 Oct 2024 12:28:51 +0000</lastBuildDate>
+    <pubDate>Mon, 16 Dec 2024 00:27:53 +0000</pubDate>
+    <lastBuildDate>Mon, 16 Dec 2024 00:27:53 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -17,6 +17,80 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin Core 28.0 (Almost) Released</title>
+        <description>&lt;p&gt;Namecoin Core 28.0 has been released on the &lt;a href=&quot;/download/betas/#namecoin-core&quot;&gt;Beta Downloads page&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here’s what’s new since 22.0:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;RPC
+    &lt;ul&gt;
+      &lt;li&gt;Disambiguate “expired” from “never existed” in &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; error message. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GUI
+    &lt;ul&gt;
+      &lt;li&gt;Disable configuring/renewing names that are unspendable due to expiration or transfer. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Clarify passphrase dialog to make clear that names are protected by the passphrase. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Clarify Receive tab to make clear that it can be used for name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Fix suboptimal Unicode usage in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Add “Export” button to Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; Qt GUI. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Add decoration for incoming and outgoing name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Add decoration for name renewals. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Move name operation into Type column. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Add icon for Configure Name button. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Show name count in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Check availability in Buy Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Show &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; form for &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; names in &lt;code class=&quot;highlighter-rouge&quot;&gt;TransactionRecord&lt;/code&gt;. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Show namespace in Type column of Transactions tab. (Patch by Jeremy Rand; Review by Daniel Kraft and Yanmaani.)&lt;/li&gt;
+      &lt;li&gt;Prioritize Data over Transfer in tab order in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Avoid jargon in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Show value size in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Check for invalid JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)&lt;/li&gt;
+      &lt;li&gt;Check for non-minimal JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Misc
+    &lt;ul&gt;
+      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;fundrawtransaction&lt;/code&gt; more in the suggested atomic name trades workflow. (Patch by Daniel Kraft; Review by Yanmaani.)&lt;/li&gt;
+      &lt;li&gt;Add mainnet DNS seeds from s7r. (Patch by s7r; Review by Daniel Kraft and Jeremy Rand.)&lt;/li&gt;
+      &lt;li&gt;Fix missing &lt;code class=&quot;highlighter-rouge&quot;&gt;#include&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;buynamespage.h&lt;/code&gt;. (Patch by Zoltan Konder; Review by Daniel Kraft and Jeremy Rand.)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Numerous improvements from upstream Bitcoin Core.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Known potential issues (will hopefully be resolved soon):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Initial peer discovery may not work reliably over Tor.&lt;/li&gt;
+  &lt;li&gt;Setting &lt;code class=&quot;highlighter-rouge&quot;&gt;-fallbackfee&lt;/code&gt; may be needed if you don’t want to wait some blocks before you can issue transactions.&lt;/li&gt;
+  &lt;li&gt;The Buy Names tab only performs &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, not &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;; you’ll have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; from the console first.&lt;/li&gt;
+  &lt;li&gt;The Buy Names tab might require setting &lt;code class=&quot;highlighter-rouge&quot;&gt;-addresstype bech32 -changetype bech32&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Some GUI lag is present when switching to the Overview and Transactions tabs, and when scrolling in the Transactions tab.&lt;/li&gt;
+  &lt;li&gt;Old BDB-based wallets are no longer supported (per upstream policy). Migration of BDB wallets to the new Descriptor wallets is not thoroughly tested, so if you have high-value BDB wallets, you may want to back them up and keep an old version of Namecoin Core around until you are confident that your wallets migrated properly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Why is it on the Beta Downloads page, you ask? As of this writing, we only have 1 set of Guix signatures, and we require 2 sets to do a release. For logistical optimization reasons, we have decided to upload the binaries and publish the changelog now. However, do not consider the release to be official until a 2nd set of matching Guix signatures has had a PR submitted (which we expect to be in the next week). We fully expect these binaries to be bit-for-bit identical to the ones that we place on the main Downloads page in a little while. If you see another set of matching Guix signatures by the time you read this, then you can safely conclude that these binaries are of the quality you would normally expect on the main Downloads page.&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to Rose Turing for Guix-signing this release. Also huge pre-emptive thanks to Robert Nganga for Guix-signing this release in the next week or so.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
+        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/12/15/namecoin-core-28.0-released.html</link>
+        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2024/12/15/namecoin-core-28.0-released.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>Releases</category>
+        
+        <category>Namecoin Core Releases</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin's SocksTrace Receives Funding from NLnet Foundation’s NGI0 Core Fund</title>
@@ -349,26 +423,6 @@ Demo video of Namecoin + IPFS in Brave.
         <category>Releases</category>
         
         <category>Electrum Releases</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin will be at 37C3</title>
-        <description>&lt;p&gt;After a lengthy pandemic-induced hiatus, C3 is finally back this year, and we’re happy to announce that three Namecoin developers will be at &lt;a href=&quot;https://events.ccc.de/congress/2023/wiki/index.php/Main_Page&quot;&gt;37C3 (the 37th Chaos Communication Congress)&lt;/a&gt; in Hamburg, December 27-30.&lt;/p&gt;
-
-&lt;p&gt;Excitingly, one of our developers in attendance (Hugo Landau) will be giving a talk in the main track (not a Cluster track); &lt;a href=&quot;https://fahrplan.events.ccc.de/congress/2023/fahrplan/events/11781.html&quot;&gt;the details for that talk are here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We expect to give some additional talks and workshops at the &lt;a href=&quot;https://decentral.community/&quot;&gt;Critical Decentralization Cluster (CDC)&lt;/a&gt;, however, the details of those events are still in flux and will probably not be announced until shortly before the beginning of the Congress; keep an eye on &lt;a href=&quot;https://frab.riat.at/en/37c3/public/schedule&quot;&gt;the CDC schedule&lt;/a&gt;. Recordings and live-streams may happen as well.&lt;/p&gt;
-
-&lt;p&gt;In the past, Namecoin has participated in C3 as a Project of the Monero Assembly. We’re excited to announce that this year, Namecoin has been upgraded to a full Assembly of our own. Namecoin and Monero remain excellent friends, but everyone agreed that this year, the time was right for us to branch out as an independent Assembly. Also thanks go out to our friends at &lt;a href=&quot;https://replicant.us/&quot;&gt;The Replicant Assembly&lt;/a&gt;, who are once again facilitating Namecoin’s participation. We’re looking forward to the Congress!&lt;/p&gt;
-</description>
-        <pubDate>Thu, 21 Dec 2023 02:00:00 +0000</pubDate>
-        <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/12/21/37c3.html</link>
-        <guid isPermaLink="true">https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2023/12/21/37c3.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
         
         
       </item>
