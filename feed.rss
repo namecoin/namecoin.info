@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 16 Dec 2024 02:13:07 +0000</pubDate>
-    <lastBuildDate>Mon, 16 Dec 2024 02:13:07 +0000</lastBuildDate>
+    <pubDate>Mon, 16 Dec 2024 02:36:14 +0000</pubDate>
+    <lastBuildDate>Mon, 16 Dec 2024 02:36:14 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -20,7 +20,7 @@
     
       <item>
         <title>Namecoin will be at 38C3 and FOSDEM 2025</title>
-        <description>&lt;p&gt;We’re happy to announce that at least three Namecoin developers will be at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3 (the 38th Chaos Communication Congress)&lt;/a&gt; in Hamburg, December 27-30. Additionally, at least two Namecoin developers will be at &lt;a href=&quot;https://www.fosdem.org/2025/&quot;&gt;FOSDEM 2025&lt;/a&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;We’re happy to announce that at least three Namecoin developers will be at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3 (the 38th Chaos Communication Congress)&lt;/a&gt; in Hamburg, December 27-30. Additionally, at least two Namecoin developers will be at &lt;a href=&quot;https://www.fosdem.org/2025/&quot;&gt;FOSDEM 2025&lt;/a&gt; in Brussels, February 1-2.&lt;/p&gt;
 
 &lt;p&gt;We expect to give some talks, however, the details are still in flux and will probably not be announced until shortly before the beginning of the respective conferences; keep an eye on both the C3 and FOSDEM schedules to find us (or find our absence, if we are unlucky). Recordings and live-streams may happen as well.&lt;/p&gt;
 
