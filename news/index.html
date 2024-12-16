@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,82 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2024/12/15/namecoin-core-28.0-released.html">Namecoin Core 28.0 (Almost) Released</a></h1>
+    <p class="post-meta">Dec 15, 2024 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Namecoin Core 28.0 has been released on the <a href="/download/betas/#namecoin-core">Beta Downloads page</a>.</p>
+
+    <p>Here’s what’s new since 22.0:</p>
+
+    <ul>
+  <li>RPC
+    <ul>
+      <li>Disambiguate “expired” from “never existed” in <code class="highlighter-rouge">name_show</code> error message. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+    </ul>
+  </li>
+  <li>GUI
+    <ul>
+      <li>Disable configuring/renewing names that are unspendable due to expiration or transfer. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Clarify passphrase dialog to make clear that names are protected by the passphrase. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Clarify Receive tab to make clear that it can be used for name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Fix suboptimal Unicode usage in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Add “Export” button to Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li><code class="highlighter-rouge">name_firstupdate</code> Qt GUI. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Add decoration for incoming and outgoing name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Add decoration for name renewals. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Move name operation into Type column. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Add icon for Configure Name button. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Show name count in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Check availability in Buy Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Show <code class="highlighter-rouge">.bit</code> form for <code class="highlighter-rouge">d/</code> names in <code class="highlighter-rouge">TransactionRecord</code>. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Show namespace in Type column of Transactions tab. (Patch by Jeremy Rand; Review by Daniel Kraft and Yanmaani.)</li>
+      <li>Prioritize Data over Transfer in tab order in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Avoid jargon in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Show value size in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)</li>
+      <li>Check for invalid JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)</li>
+      <li>Check for non-minimal JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)</li>
+    </ul>
+  </li>
+  <li>Misc
+    <ul>
+      <li>Use <code class="highlighter-rouge">fundrawtransaction</code> more in the suggested atomic name trades workflow. (Patch by Daniel Kraft; Review by Yanmaani.)</li>
+      <li>Add mainnet DNS seeds from s7r. (Patch by s7r; Review by Daniel Kraft and Jeremy Rand.)</li>
+      <li>Fix missing <code class="highlighter-rouge">#include</code> in <code class="highlighter-rouge">buynamespage.h</code>. (Patch by Zoltan Konder; Review by Daniel Kraft and Jeremy Rand.)</li>
+    </ul>
+  </li>
+  <li>Numerous improvements from upstream Bitcoin Core.</li>
+</ul>
+
+    <p>Known potential issues (will hopefully be resolved soon):</p>
+
+    <ul>
+  <li>Initial peer discovery may not work reliably over Tor.</li>
+  <li>Setting <code class="highlighter-rouge">-fallbackfee</code> may be needed if you don’t want to wait some blocks before you can issue transactions.</li>
+  <li>The Buy Names tab only performs <code class="highlighter-rouge">name_firstupdate</code>, not <code class="highlighter-rouge">name_new</code>; you’ll have to do <code class="highlighter-rouge">name_new</code> from the console first.</li>
+  <li>The Buy Names tab might require setting <code class="highlighter-rouge">-addresstype bech32 -changetype bech32</code>.</li>
+  <li>Some GUI lag is present when switching to the Overview and Transactions tabs, and when scrolling in the Transactions tab.</li>
+  <li>Old BDB-based wallets are no longer supported (per upstream policy). Migration of BDB wallets to the new Descriptor wallets is not thoroughly tested, so if you have high-value BDB wallets, you may want to back them up and keep an old version of Namecoin Core around until you are confident that your wallets migrated properly.</li>
+</ul>
+
+    <p>Why is it on the Beta Downloads page, you ask? As of this writing, we only have 1 set of Guix signatures, and we require 2 sets to do a release. For logistical optimization reasons, we have decided to upload the binaries and publish the changelog now. However, do not consider the release to be official until a 2nd set of matching Guix signatures has had a PR submitted (which we expect to be in the next week). We fully expect these binaries to be bit-for-bit identical to the ones that we place on the main Downloads page in a little while. If you see another set of matching Guix signatures by the time you read this, then you can safely conclude that these binaries are of the quality you would normally expect on the main Downloads page.</p>
+
+    <p>Huge thanks to Rose Turing for Guix-signing this release. Also huge pre-emptive thanks to Robert Nganga for Guix-signing this release in the next week or so.</p>
+
+    <p>This work was funded by Cyphrs.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -9384,37 +9460,37 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
             </ul>
         </div>
