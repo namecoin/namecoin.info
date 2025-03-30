@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,72 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2025/03/30/sockstrace-seccomp-notify.html">Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</a></h1>
+    <p class="post-meta">Mar 30, 2025 • Robert Nganga </p>
+  </header>
+
+  <article class="post-content">
+    <p>Initially, SocksTrace relied on <code class="highlighter-rouge">ptrace</code> to trace connect syscalls. While <code class="highlighter-rouge">ptrace</code> works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.</p>
+
+    <h3 id="why-switch-to-seccomp-notify">Why switch to seccomp notify?</h3>
+    <ul>
+  <li>Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.</li>
+  <li>Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.</li>
+  <li>More precise control: seccomp notify allows SocksTrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.</li>
+</ul>
+
+    <h3 id="how-the-transition-works">How the transition works</h3>
+    <p>Instead of using <code class="highlighter-rouge">PTRACE_SYSCALL</code> to catch connect, SocksTrace now sets up a seccomp filter with <code class="highlighter-rouge">SECCOMP_RET_USER_NOTIF</code>. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, SocksTrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.</p>
+
+    <h2 id="whitelisting-syscalls">Whitelisting syscalls</h2>
+
+    <p>With <code class="highlighter-rouge">seccomp</code>, SocksTrace can define a strict policy that only allows necessary syscalls, blocking everything else.</p>
+
+    <h3 id="why-syscall-whitelisting-matters">Why syscall whitelisting matters</h3>
+    <ul>
+  <li>Reduces the attack surface by preventing unnecessary syscalls.</li>
+  <li>Ensures SocksTrace only intercepts network-related calls without interfering with other system behavior.</li>
+  <li>Can be extended for different security policies.</li>
+</ul>
+
+    <h3 id="implementation-details">Implementation details</h3>
+    <p>Using <code class="highlighter-rouge">go-seccomp-bpf</code>, SocksTrace creates a seccomp filter that:</p>
+    <ul>
+  <li>Blocks all syscalls by default (ActionErrno).</li>
+  <li>Explicitly allows safe syscalls like read, write and exit.</li>
+  <li>Uses <code class="highlighter-rouge">seccomp.ActionTrace</code> to intercept connect for analysis.
+This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.</li>
+</ul>
+
+    <h2 id="configuring-tcp-blocking">Configuring TCP blocking</h2>
+    <p>A new feature in SocksTrace allows users to decide whether to block incoming TCP connections.</p>
+
+    <h3 id="how-does-it-work">How does it work?</h3>
+    <p>By intercepting <code class="highlighter-rouge">bind</code>, <code class="highlighter-rouge">accept</code>, <code class="highlighter-rouge">accept4</code>, and <code class="highlighter-rouge">listen</code>, SocksTrace can monitor and control incoming TCP connections.</p>
+
+    <h3 id="configurable-blocking-options">Configurable blocking options</h3>
+    <p>Currently, SocksTrace offers two options for incoming TCP connections:</p>
+
+    <ul>
+  <li>Allow all incoming connections.</li>
+  <li>Block all incoming connections (to prevent accidental exposure).</li>
+</ul>
+
+    <p>We are also working on an option to allow only specific addresses, adding more fine-grained control.</p>
+
+    <p>This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -327,72 +393,6 @@
     <p>Huge thank you to <a href="https://decentral.community/">The Critical Decentralization Cluster</a> for facilitating our participation. We’re looking forward to 39C3 in December 2025!</p>
 
     <p>This work was funded by NLnet Foundation’s Internet Hardening Fund, NLnet Foundation’s Next Generation Internet Zero Core Fund, and Cyphrs.</p>
-
-  </article>
-
-  <footer>
-    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
-  </footer>
-
-</div>
-
-<div class="post">
-
-  <header class="post-header">
-    <h1 class="post-title"><a href="/2025/03/18/sockstrace-seccomp-notify.html">Enhancing Proxy Leak Detection with sockstrace: From ptrace to seccomp notify</a></h1>
-    <p class="post-meta">Mar 18, 2025 • Robert Nganga </p>
-  </header>
-
-  <article class="post-content">
-    <h2 id="switching-from-ptrace-to-seccomp-notify">Switching from ptrace to seccomp notify</h2>
-
-    <p>Initially, sockstrace relied on <code class="highlighter-rouge">ptrace</code> to trace connect syscalls. While <code class="highlighter-rouge">ptrace</code> works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.</p>
-
-    <h3 id="why-switch-to-seccomp-notify">Why switch to seccomp notify?</h3>
-    <ul>
-  <li>Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.</li>
-  <li>Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.</li>
-  <li>More precise control: seccomp notify allows sockstrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.</li>
-</ul>
-
-    <h3 id="how-the-transition-works">How the transition works</h3>
-    <p>Instead of using <code class="highlighter-rouge">PTRACE_SYSCALL</code> to catch connect, sockstrace now sets up a seccomp filter with <code class="highlighter-rouge">SECCOMP_RET_USER_NOTIF</code>. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, sockstrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.</p>
-
-    <h2 id="whitelisting-syscalls">Whitelisting syscalls</h2>
-
-    <p>With <code class="highlighter-rouge">seccomp</code>, sockstrace can define a strict policy that only allows necessary syscalls, blocking everything else.</p>
-
-    <h3 id="why-syscall-whitelisting-matters">Why syscall whitelisting matters</h3>
-    <ul>
-  <li>Reduces the attack surface by preventing unnecessary syscalls.</li>
-  <li>Ensures sockstrace only intercepts network-related calls without interfering with other system behavior.</li>
-  <li>Can be extended for different security policies.</li>
-</ul>
-
-    <h3 id="implementation-details">Implementation details</h3>
-    <p>Using <code class="highlighter-rouge">go-seccomp-bpf</code>, sockstrace creates a seccomp filter that:</p>
-    <ul>
-  <li>Blocks all syscalls by default (ActionErrno).</li>
-  <li>Explicitly allows safe syscalls like read, write and exit.</li>
-  <li>Uses <code class="highlighter-rouge">seccomp.ActionTrace</code> to intercept connect for analysis.
-This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.</li>
-</ul>
-
-    <h2 id="configuring-tcp-blocking">Configuring TCP blocking</h2>
-    <p>A new feature in sockstrace allows users to decide whether to block incoming TCP connections.</p>
-
-    <h3 id="how-does-it-work">How does it work?</h3>
-    <p>By intercepting <code class="highlighter-rouge">bind</code>, <code class="highlighter-rouge">accept</code>, <code class="highlighter-rouge">accept4</code>, and <code class="highlighter-rouge">listen</code>, sockstrace can monitor and control incoming TCP connections.</p>
-
-    <h3 id="configurable-blocking-options">Configurable blocking options</h3>
-    <p>Currently, sockstrace offers two options for incoming TCP connections:</p>
-
-    <ul>
-  <li>Allow all incoming connections.</li>
-  <li>Block all incoming connections (to prevent accidental exposure).</li>
-</ul>
-
-    <p>We are also working on an option to allow only specific addresses, adding more fine-grained control.</p>
 
   </article>
 
@@ -9754,39 +9754,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
