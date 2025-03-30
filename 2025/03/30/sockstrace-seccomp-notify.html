@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/03/30/sockstrace-seccomp-notify.html">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/remove-nojs.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
+                            <li><a href='https://metrics.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/'>Metrics</a></li>
+                            <li><a href='/resources/whitepaper/'>Whitepaper</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/contribute/'>Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<span id="default-tagline">
+
+<strong>Against<br />censorship.</strong>
+</span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        
+
+
+
+
+
+
+
+<div class="post">
+
+<header class="post-header">
+<h1 class="post-title">Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</h1>
+<p class="post-meta">Mar 30, 2025 • Robert Nganga <i class="fa fa-tag"></i></p>
+</header>
+
+<article class="post-content">
+<p>Initially, SocksTrace relied on <code class="highlighter-rouge">ptrace</code> to trace connect syscalls. While <code class="highlighter-rouge">ptrace</code> works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.</p>
+
+<h3 id="why-switch-to-seccomp-notify">Why switch to seccomp notify?</h3>
+<ul>
+  <li>Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.</li>
+  <li>Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.</li>
+  <li>More precise control: seccomp notify allows SocksTrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.</li>
+</ul>
+
+<h3 id="how-the-transition-works">How the transition works</h3>
+<p>Instead of using <code class="highlighter-rouge">PTRACE_SYSCALL</code> to catch connect, SocksTrace now sets up a seccomp filter with <code class="highlighter-rouge">SECCOMP_RET_USER_NOTIF</code>. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, SocksTrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.</p>
+
+<h2 id="whitelisting-syscalls">Whitelisting syscalls</h2>
+
+<p>With <code class="highlighter-rouge">seccomp</code>, SocksTrace can define a strict policy that only allows necessary syscalls, blocking everything else.</p>
+
+<h3 id="why-syscall-whitelisting-matters">Why syscall whitelisting matters</h3>
+<ul>
+  <li>Reduces the attack surface by preventing unnecessary syscalls.</li>
+  <li>Ensures SocksTrace only intercepts network-related calls without interfering with other system behavior.</li>
+  <li>Can be extended for different security policies.</li>
+</ul>
+
+<h3 id="implementation-details">Implementation details</h3>
+<p>Using <code class="highlighter-rouge">go-seccomp-bpf</code>, SocksTrace creates a seccomp filter that:</p>
+<ul>
+  <li>Blocks all syscalls by default (ActionErrno).</li>
+  <li>Explicitly allows safe syscalls like read, write and exit.</li>
+  <li>Uses <code class="highlighter-rouge">seccomp.ActionTrace</code> to intercept connect for analysis.
+This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.</li>
+</ul>
+
+<h2 id="configuring-tcp-blocking">Configuring TCP blocking</h2>
+<p>A new feature in SocksTrace allows users to decide whether to block incoming TCP connections.</p>
+
+<h3 id="how-does-it-work">How does it work?</h3>
+<p>By intercepting <code class="highlighter-rouge">bind</code>, <code class="highlighter-rouge">accept</code>, <code class="highlighter-rouge">accept4</code>, and <code class="highlighter-rouge">listen</code>, SocksTrace can monitor and control incoming TCP connections.</p>
+
+<h3 id="configurable-blocking-options">Configurable blocking options</h3>
+<p>Currently, SocksTrace offers two options for incoming TCP connections:</p>
+
+<ul>
+  <li>Allow all incoming connections.</li>
+  <li>Block all incoming connections (to prevent accidental exposure).</li>
+</ul>
+
+<p>We are also working on an option to allow only specific addresses, adding more fine-grained control.</p>
+
+<p>This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.</p>
+
+
+</article>
+
+<footer>
+<p><em>If you liked this article, maybe consider <a href='/donate/'>donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href='/contribute/'>contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+</footer>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+                <li><a href="/license.html"><i class="fa fa-2x" title="Copyright">Copyright</i></a></li>
+                <li><a href="/team/security/"><i class="fa fa-2x" title="Vulnerability Disclosure">Security</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-03-30-sockstrace-seccomp-notify.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/2025/03/30/sockstrace-seccomp-notify.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/03/30/sockstrace-seccomp-notify.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/03/30/sockstrace-seccomp-notify.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/03/30/sockstrace-seccomp-notify.html">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="disclaimer">
+            <p>Namecoin is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.</p>
+        </div>
+</footer>
+
+
+  </body>
+
+</html>
