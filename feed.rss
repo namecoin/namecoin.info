@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 30 Mar 2025 15:45:57 +0000</pubDate>
-    <lastBuildDate>Sun, 30 Mar 2025 15:45:57 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Mar 2025 15:54:09 +0000</pubDate>
+    <lastBuildDate>Sun, 30 Mar 2025 15:54:09 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -20,9 +20,7 @@
     
       <item>
         <title>Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</title>
-        <description>&lt;h2 id=&quot;switching-from-ptrace-to-seccomp-notify&quot;&gt;Switching from ptrace to seccomp notify&lt;/h2&gt;
-
-&lt;p&gt;Initially, SocksTrace relied on &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; to trace connect syscalls. While &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.&lt;/p&gt;
+        <description>&lt;p&gt;Initially, SocksTrace relied on &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; to trace connect syscalls. While &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.&lt;/p&gt;
 
 &lt;h3 id=&quot;why-switch-to-seccomp-notify&quot;&gt;Why switch to seccomp notify?&lt;/h3&gt;
 &lt;ul&gt;
