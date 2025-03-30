@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 16 Dec 2024 02:37:44 +0000</pubDate>
-    <lastBuildDate>Mon, 16 Dec 2024 02:37:44 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Mar 2025 15:55:00 +0000</pubDate>
+    <lastBuildDate>Sun, 30 Mar 2025 15:55:00 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,264 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</title>
+        <description>&lt;p&gt;Initially, SocksTrace relied on &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; to trace connect syscalls. While &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-switch-to-seccomp-notify&quot;&gt;Why switch to seccomp notify?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.&lt;/li&gt;
+  &lt;li&gt;Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.&lt;/li&gt;
+  &lt;li&gt;More precise control: seccomp notify allows SocksTrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-the-transition-works&quot;&gt;How the transition works&lt;/h3&gt;
+&lt;p&gt;Instead of using &lt;code class=&quot;highlighter-rouge&quot;&gt;PTRACE_SYSCALL&lt;/code&gt; to catch connect, SocksTrace now sets up a seccomp filter with &lt;code class=&quot;highlighter-rouge&quot;&gt;SECCOMP_RET_USER_NOTIF&lt;/code&gt;. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, SocksTrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.&lt;/p&gt;
+
+&lt;h2 id=&quot;whitelisting-syscalls&quot;&gt;Whitelisting syscalls&lt;/h2&gt;
+
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp&lt;/code&gt;, SocksTrace can define a strict policy that only allows necessary syscalls, blocking everything else.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-syscall-whitelisting-matters&quot;&gt;Why syscall whitelisting matters&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Reduces the attack surface by preventing unnecessary syscalls.&lt;/li&gt;
+  &lt;li&gt;Ensures SocksTrace only intercepts network-related calls without interfering with other system behavior.&lt;/li&gt;
+  &lt;li&gt;Can be extended for different security policies.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;implementation-details&quot;&gt;Implementation details&lt;/h3&gt;
+&lt;p&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;go-seccomp-bpf&lt;/code&gt;, SocksTrace creates a seccomp filter that:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Blocks all syscalls by default (ActionErrno).&lt;/li&gt;
+  &lt;li&gt;Explicitly allows safe syscalls like read, write and exit.&lt;/li&gt;
+  &lt;li&gt;Uses &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp.ActionTrace&lt;/code&gt; to intercept connect for analysis.
+This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;configuring-tcp-blocking&quot;&gt;Configuring TCP blocking&lt;/h2&gt;
+&lt;p&gt;A new feature in SocksTrace allows users to decide whether to block incoming TCP connections.&lt;/p&gt;
+
+&lt;h3 id=&quot;how-does-it-work&quot;&gt;How does it work?&lt;/h3&gt;
+&lt;p&gt;By intercepting &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept4&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;listen&lt;/code&gt;, SocksTrace can monitor and control incoming TCP connections.&lt;/p&gt;
+
+&lt;h3 id=&quot;configurable-blocking-options&quot;&gt;Configurable blocking options&lt;/h3&gt;
+&lt;p&gt;Currently, SocksTrace offers two options for incoming TCP connections:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Allow all incoming connections.&lt;/li&gt;
+  &lt;li&gt;Block all incoming connections (to prevent accidental exposure).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are also working on an option to allow only specific addresses, adding more fine-grained control.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 30 Mar 2025 04:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/03/30/sockstrace-seccomp-notify.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/sockstrace-seccomp-notify.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Namecoin Receives TLS and Anonymity Research Funding from Power Up Privacy and NLnet Foundation’s NGI0 Core Fund</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving three new grants:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$25,760 USD from Power Up Privacy for anonymity research and development.
+    &lt;ul&gt;
+      &lt;li&gt;Alice Margatroid is project lead.&lt;/li&gt;
+      &lt;li&gt;Jeremy Rand and Brandon Roberts will assist as needed.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;$24,480 USD from Power Up Privacy for TLS research and development.
+    &lt;ul&gt;
+      &lt;li&gt;Jeremy Rand is project lead.&lt;/li&gt;
+      &lt;li&gt;Robert Nganga will assist as needed.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;20,000 EUR from NLnet Foundation’s NGI0 Core (Next Generation Internet: Zero Core) Fund for TLS research and development.
+    &lt;ul&gt;
+      &lt;li&gt;Jeremy Rand is project lead.&lt;/li&gt;
+      &lt;li&gt;Robert Nganga will assist as needed.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;anonymity-rd-grant&quot;&gt;Anonymity R&amp;amp;D Grant&lt;/h2&gt;
+
+&lt;p&gt;Most anonymity-related tools focus on preventing metadata leaks, e.g. Tor (prevents leaking your IP address metadata) and Mullvad Browser (prevents leaking your browser fingerprint metadata). However, there is another class of deanonymization vectors: the content of the communication itself. For example, mentioning the weather is an easy way to severely narrow your anonymity set. Alice is developing an automated tool that warns users if they are at risk of deanonymizing themselves in this way.&lt;/p&gt;
+
+&lt;p&gt;Namecoin has a solid history of developing privacy/security tools that aren’t strictly tied to the Namecoin blockchain, including SocksTrace, certinject, and pkcs11mod. This isn’t unusual in this space; Tor Project also routinely publishes research that isn’t strictly related to the Tor network. We’re excited to continue this trend.&lt;/p&gt;
+
+&lt;h2 id=&quot;tls-rd-grants&quot;&gt;TLS R&amp;amp;D Grants&lt;/h2&gt;
+
+&lt;p&gt;Namecoin’s TLS support has a solid track record on scalability, including our innovations on layer-2 TLS. These grants will cover additional Namecoin scalability improvements, including fleshing out various functionality that Robert’s 38C3 talk covered. They will also cover collaboration with Tor Project on areas of TLS-related common interest, including fleshing out the onion service functionality that Jeremy’s 38C3 talk covered.&lt;/p&gt;
+
+&lt;p&gt;Our collaboration with Tor Project goes back many years, and we’re happy that this will be continuing.&lt;/p&gt;
+
+&lt;h2 id=&quot;funding-sources&quot;&gt;Funding Sources&lt;/h2&gt;
+
+&lt;p&gt;You’re probably familiar with NLnet Foundation by now, but if not, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://powerupprivacy.com/&quot;&gt;Power Up Privacy&lt;/a&gt; is a relatively new funder whom you may not have heard of, but they fund some familar names as well. Diversifying Namecoin’s funding has been a goal for a while now, and we’re pleased to add Power Up Privacy to our growing list of funders.&lt;/p&gt;
+
+&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the European Commision for their support of the Next Generation Internet. And a huge thank-you to Power Up Privacy for their new support!&lt;/p&gt;
+
+&lt;p&gt;Alice and Jeremy will be posting updates regularly as development proceeds.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 30 Mar 2025 02:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html</guid>
+        <dc:creator>Alice Margatroid and Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>38C3 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/12/16/38c3-fosdem-2025.html&quot;&gt;previously announced&lt;/a&gt;, several developers represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3&lt;/a&gt; in Leipzig, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.&lt;/p&gt;
+
+&lt;p&gt;There were multiple Namecoin-related talks at the Critical Decentralization Cluster (CDC). We’re still waiting for the official recordings to be published, but in the meantime, live-stream archives are provided below where available.&lt;/p&gt;
+
+&lt;h2 id=&quot;lightning-talk-intro-to-namecoin&quot;&gt;Lightning Talk: Intro to Namecoin&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Yanmaani&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/PQRLPH/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Was not live-streamed; recording coming soon.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;lightning-talk-intro-to-sibermerdeka&quot;&gt;Lightning Talk: Intro to Sibermerdeka&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Rose Turing&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/PQRLPH/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Was not live-streamed; recording coming soon.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;a-lost-art-forgotten-primitives-for-a-decentralized-web&quot;&gt;A lost art: forgotten primitives for a decentralized web&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Yanmaani&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;There were many projects around the new millennium seeking to create decentralized/anonymous networks. Most failed, but they had some good ideas that died along with them. This talk will cover some “lost gems” from that era.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Most development within anonymous overlay networks the past 20 years has centered around low-latency networks (like Tor or I2P); networks that allow you to use conventional web applications and protocols. (like IRC, or whatever web applications you want)&lt;/p&gt;
+
+&lt;p&gt;High-latency networks don’t allow you to do this. They require you to re-build everything from the ground up. That’s why they never took off, but it also required clever people to spend a lot of time building interesting things.&lt;/p&gt;
+
+&lt;p&gt;This short talk will cover the primitives that were used to build things like decentralized web sites, search engines, identity systems, and even bulletin boards. While of little practical use today, the techniques in some ways exceed our current technology and ought to be remembered.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/D8YKHW/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Was not live-streamed; recording coming soon.&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;not-your-keys-not-your-name&quot;&gt;Not Your Keys, Not Your Name&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Adam Joseph&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This talk will explain the benefits of decentralized protocols which use public keys &lt;em&gt;directly&lt;/em&gt; as identities, and encourage this approach for newly-designed protocols.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The example familiar to the most CCC attendees is Tor &lt;a href=&quot;http://2gzyxa5ihm7nsggfxnu52rck2vv4rvmdlkiu3zzui5du4xyclen53wid.onion/&quot;&gt;onion names&lt;/a&gt;. At least &lt;a href=&quot;https://codeberg.org/amjoseph/not-your-keys-not-your-name&quot;&gt;20 other protocols use this strategy&lt;/a&gt; as well. This talk will briefly survey those examples and explain the benefits of this approach for &lt;em&gt;autonomy&lt;/em&gt;, &lt;em&gt;decentralization&lt;/em&gt;, and &lt;em&gt;ability to resist surveillance&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;The main alternative to public keys is names controlled by some globally trusted party, such as US-ICANN, the DNSSEC root key, or the browser-vendors’ WebPKI appointees. This talk will explain the drawbacks of centralized alternatives.&lt;/p&gt;
+
+&lt;p&gt;If a protocol uses public keys as identities, it should allow users to keep their permanent private key offline. Private keys in &lt;em&gt;online&lt;/em&gt; “secure elements” are not offline. Because an online device requires a network connection its physical location cannot be hidden; this means it can be seized or stolen and the keys extracted using a vulnerability like &lt;a href=&quot;https://eprint.iacr.org/2024/1380&quot;&gt;the one recently discovered in all Yubikeys and Infineon TPMs&lt;/a&gt;. Only a small number of protocols support offline identity keys. This support cannot be added to a protocol “after the fact”; it must be included from the very beginning. This talk will encourage protocol designers to include this feature from the very beginning, and will give concrete advice (“copy SSH or Tor”) on how to do it.&lt;/p&gt;
+
+&lt;p&gt;More details can be found here: &lt;a href=&quot;https://codeberg.org/amjoseph/not-your-keys-not-your-name&quot;&gt;https://codeberg.org/amjoseph/not-your-keys-not-your-name&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/8FCVKL/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/live/JPK7J9FVdvo?feature=shared&amp;amp;t=1730&quot;&gt;Live-stream archive on YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;Self-Authenticating TLS Certificates for Tor Onion Services&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;TLS (the security layer behind HTTPS) and Tor onion services (anonymously hosted TCP services) are both excellent protocols. Wouldn’t it be nice if we could use them together? In this talk, I’ll cover a working implementation of combining TLS with onion services, without compromising on the security properties that each provides.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Topics to be covered include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Why would you want to combine TLS with onion services? Why isn’t onion service encryption good enough?&lt;/li&gt;
+  &lt;li&gt;Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?&lt;/li&gt;
+  &lt;li&gt;How can we authenticate a TLS certificate for a &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)&lt;/li&gt;
+  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; certificates?&lt;/li&gt;
+  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;How is teaching standard (unmodified) web browsers like Firefox to validate &lt;code class=&quot;highlighter-rouge&quot;&gt;.onion&lt;/code&gt; certificates similar to Namecoin &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; certificates? How is it different?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/QT333R/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/live/JPK7J9FVdvo?feature=shared&amp;amp;t=5378&quot;&gt;Live-stream archive on YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;scaling-namecoin&quot;&gt;Scaling Namecoin&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Robert Nganga&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The DNS has an inherent scalability advantage over Namecoin. But that doesn’t mean we’re not going to optimize Namecoin as best we can. In this talk, I’ll cover several tactics we’re using to reduce the on-chain data stored by Namecoin — while minimizing the UX impact.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Topics to be covered include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Why is the Namecoin value size only 520 bytes?&lt;/li&gt;
+  &lt;li&gt;How can security improvements like cold storage support allow storing more data?&lt;/li&gt;
+  &lt;li&gt;How did we avoid putting TLS public keys in the blockchain?&lt;/li&gt;
+  &lt;li&gt;How are we compressing the data that goes into the blockchain?&lt;/li&gt;
+  &lt;li&gt;How are we shrinking the on-chain overhead of registrations of new names?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There may be bit of bonus content covering other Namecoin development.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/8YWD9D/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/live/JPK7J9FVdvo?feature=shared&amp;amp;t=7088&quot;&gt;Live-stream archive on YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;protecting-namecoin-users-from-their-mistakes-namecoin-wallet-ux&quot;&gt;Protecting Namecoin Users from Their Mistakes: Namecoin Wallet UX&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Rose Turing&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;If user mistakes cause their website to go down, that’s already bad — but not nearly as bad as if user mistakes make them permanently lose control of their website or get doxed and arrested. This talk is about how we’re helping Namecoin wallet users avoid mistakes before they cause irreversible consequences.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;People are generally way more careless than we give them credit for, and all it takes for a full on security breach is one mistake, anywhere in the worst of cases. Our job in Namecoin is to prevent such incidents from occurring, and this means designing our UX in such a way that mistakes can be avoided by end-users. In this talk we discuss the consequences of mistakes on the user’s end as well as mitigations that have or will be implemented in Namecoin.&lt;/p&gt;
+
+&lt;p&gt;Topics to be covered include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Warning about likely-invalid domain configurations.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Preventing accidental expiration disasters.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pretalx.riat.at/38c3/talk/7TNDME/&quot;&gt;Pretalx page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/live/JPK7J9FVdvo?feature=shared&amp;amp;t=8129&quot;&gt;Live-stream archive on YouTube&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;Huge thank you to &lt;a href=&quot;https://decentral.community/&quot;&gt;The Critical Decentralization Cluster&lt;/a&gt; for facilitating our participation. We’re looking forward to 39C3 in December 2025!&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund, NLnet Foundation’s Next Generation Internet Zero Core Fund, and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 30 Mar 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/03/30/38c3-summary.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/38c3-summary.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at 38C3 and FOSDEM 2025</title>
@@ -332,94 +590,6 @@ socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
         <pubDate>Sat, 11 May 2024 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>rust-electrum-client for Namecoin</title>
-        <description>&lt;p&gt;Recently, I needed to use &lt;a href=&quot;https://github.com/bitcoindevkit/rust-electrum-client&quot;&gt;rust-electrum-client&lt;/a&gt; with Namecoin. I was kind of worried that this would be nontrivial, but as it turned out, I was able to get it working in just a few days of hacking, despite this being my first foray into Rust.&lt;/p&gt;
-
-&lt;p&gt;The main incompatibility that came up was that Namecoin headers have an AuxPoW header after the 80-byte Bitcoin-style header, and the deserialization functions in rust-electrum-client really didn’t like that trailing data. There were two deserialization functions that I had to patch to truncate the headers at 80 bytes, which got header parsing to work properly. My current patches are very unclean, and are not really suitable for publication, but I’m planning to clean them up and publish patches over the next few weeks.&lt;/p&gt;
-
-&lt;p&gt;Once this was done, a few non-code workarounds were additionally needed (more on these later!), and I was then able to use a real-world rust-electrum-client application with Namecoin. I’ll talk more in a future post about what downstream code is using this.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/05/10/rust-electrum-client-for-namecoin.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/05/10/rust-electrum-client-for-namecoin.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Video, Slides, and Paper from Namecoin at GCER 2022</title>
-        <description>&lt;p&gt;This post is a bit late, but I represented Namecoin at the 2022 Global Conference on Educational Robotics.  Although GCER doesn’t produce official recordings of their talks, I was able to obtain an amateur recording of my talk from an audience member.  I’ve also posted my slides, as well as my paper from the conference proceedings.&lt;/p&gt;
-
-&lt;p&gt;It should be noted that, as this is an amateur recording, the audio quality is not spectacular.  It should also be noted that the audience is rather different from the audiences for whom I usually give Namecoin talks; as a result, the focus of the content is also rather different from my usual Namecoin talks.&lt;/p&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/gcer-2022/Namecoin-GCER-2022-720p.webm&quot; type=&quot;video/webm&quot; /&gt;
-Video of Namecoin at GCER 2022.
-&lt;/video&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2022/Namecoin_GCER_2022_Slides.pdf&quot;&gt;My slides are available here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/resources/presentations/GCER_2022/Namecoin_GCER_2022_Paper.pdf&quot;&gt;My paper is available here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to the staff and volunteers from KISS Institute for Practical Robotics, who organized GCER.  Also huge thanks to Helene Myers for the recording.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 09 May 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/05/09/gcer-2022-video.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/05/09/gcer-2022-video.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Enhancements to IPFS &amp; IPNS: A Closer Look at the Latest Updates</title>
-        <description>&lt;p&gt;Several new Electrum-NMC enhancements have been added.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-dedicated-gui-for-ipfs--ipns&quot;&gt;The Dedicated GUI for IPFS &amp;amp; IPNS&lt;/h2&gt;
-
-&lt;p&gt;Previously, interacting with IPFS required the creation of TXT records and knowledge of IPFS DNSLink. However, with the introduction of a dedicated GUI, users now have a more user-friendly option, available in the address tab. To learn more about DNSLink and its use of DNS TXT records to map names to IPFS addresses or IPNS names, refer to the &lt;a href=&quot;https://docs.ipfs.tech/concepts/dnslink/&quot;&gt;IPFS DNS documentation.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-IPFS-2024-05-01.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;https://www.namecoin.org/files/videos/docs/ipfs/brave-ipfs.webm&quot; type=&quot;video/webm&quot; /&gt;
-Demo video of Namecoin + IPFS in Brave.
-&lt;/video&gt;
-
-&lt;h2 id=&quot;added-option-for-value-encoding&quot;&gt;Added Option for Value Encoding&lt;/h2&gt;
-
-&lt;p&gt;When registering names, there is now an option to pass values as binary, encoded in hexadecimal format. This enhancement provides greater flexibility and control for developers and power users, allowing them to represent domain name values in a more efficient and versatile manner.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/Configure-Name-Dialog-Hex-2024-05-01.png&quot; alt=&quot;Binary Encoding (value)&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;gui-testing&quot;&gt;GUI Testing&lt;/h2&gt;
-
-&lt;p&gt;For GUI testing, we validate the GUI form’s build process and execute regression tests, which helps us identify any errors in the files.&lt;/p&gt;
-
-&lt;h2 id=&quot;windows-binaries-testing&quot;&gt;Windows Binaries Testing&lt;/h2&gt;
-
-&lt;p&gt;We validate the integrity of the build process and conduct regression tests on these binaries to ensure their functionality and detect any potential issues.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/05/01/ipfs-value-binary-encoding.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/05/01/ipfs-value-binary-encoding.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
