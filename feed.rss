@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 30 Mar 2025 15:18:18 +0000</pubDate>
-    <lastBuildDate>Sun, 30 Mar 2025 15:18:18 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Mar 2025 15:37:45 +0000</pubDate>
+    <lastBuildDate>Sun, 30 Mar 2025 15:37:45 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -160,7 +160,7 @@
 
 &lt;p&gt;Speaker: Robert Nganga&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;The DNS has an inherent scalability advantage over Namecoin. But that doesn’t mean we’re not going to optimize Namecoin as best we can. In this talk, I’ll cover several tactics we’re using to reduce the on-chain data stored by Namecoin &amp;amp;emdash; while minimizing the UX impact.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The DNS has an inherent scalability advantage over Namecoin. But that doesn’t mean we’re not going to optimize Namecoin as best we can. In this talk, I’ll cover several tactics we’re using to reduce the on-chain data stored by Namecoin — while minimizing the UX impact.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Topics to be covered include:&lt;/p&gt;
 
@@ -183,7 +183,7 @@
 
 &lt;p&gt;Speaker: Rose Turing&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;If user mistakes cause their website to go down, that’s already bad &amp;amp;emdash; but not nearly as bad as if user mistakes make them permanently lose control of their website or get doxed and arrested. This talk is about how we’re helping Namecoin wallet users avoid mistakes before they cause irreversible consequences.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If user mistakes cause their website to go down, that’s already bad — but not nearly as bad as if user mistakes make them permanently lose control of their website or get doxed and arrested. This talk is about how we’re helping Namecoin wallet users avoid mistakes before they cause irreversible consequences.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;People are generally way more careless than we give them credit for, and all it takes for a full on security breach is one mistake, anywhere in the worst of cases. Our job in Namecoin is to prevent such incidents from occurring, and this means designing our UX in such a way that mistakes can be avoided by end-users. In this talk we discuss the consequences of mistakes on the user’s end as well as mitigations that have or will be implemented in Namecoin.&lt;/p&gt;
 
@@ -208,6 +208,68 @@
         <link>https://namecoin.bit/2025/03/30/38c3-summary.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2025/03/30/38c3-summary.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Enhancing Proxy Leak Detection with sockstrace: From ptrace to seccomp notify</title>
+        <description>&lt;h2 id=&quot;switching-from-ptrace-to-seccomp-notify&quot;&gt;Switching from ptrace to seccomp notify&lt;/h2&gt;
+
+&lt;p&gt;Initially, sockstrace relied on &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; to trace connect syscalls. While &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-switch-to-seccomp-notify&quot;&gt;Why switch to seccomp notify?&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.&lt;/li&gt;
+  &lt;li&gt;Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.&lt;/li&gt;
+  &lt;li&gt;More precise control: seccomp notify allows sockstrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-the-transition-works&quot;&gt;How the transition works&lt;/h3&gt;
+&lt;p&gt;Instead of using &lt;code class=&quot;highlighter-rouge&quot;&gt;PTRACE_SYSCALL&lt;/code&gt; to catch connect, sockstrace now sets up a seccomp filter with &lt;code class=&quot;highlighter-rouge&quot;&gt;SECCOMP_RET_USER_NOTIF&lt;/code&gt;. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, sockstrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.&lt;/p&gt;
+
+&lt;h2 id=&quot;whitelisting-syscalls&quot;&gt;Whitelisting syscalls&lt;/h2&gt;
+
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp&lt;/code&gt;, sockstrace can define a strict policy that only allows necessary syscalls, blocking everything else.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-syscall-whitelisting-matters&quot;&gt;Why syscall whitelisting matters&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Reduces the attack surface by preventing unnecessary syscalls.&lt;/li&gt;
+  &lt;li&gt;Ensures sockstrace only intercepts network-related calls without interfering with other system behavior.&lt;/li&gt;
+  &lt;li&gt;Can be extended for different security policies.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;implementation-details&quot;&gt;Implementation details&lt;/h3&gt;
+&lt;p&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;go-seccomp-bpf&lt;/code&gt;, sockstrace creates a seccomp filter that:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Blocks all syscalls by default (ActionErrno).&lt;/li&gt;
+  &lt;li&gt;Explicitly allows safe syscalls like read, write and exit.&lt;/li&gt;
+  &lt;li&gt;Uses &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp.ActionTrace&lt;/code&gt; to intercept connect for analysis.
+This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;configuring-tcp-blocking&quot;&gt;Configuring TCP blocking&lt;/h2&gt;
+&lt;p&gt;A new feature in sockstrace allows users to decide whether to block incoming TCP connections.&lt;/p&gt;
+
+&lt;h3 id=&quot;how-does-it-work&quot;&gt;How does it work?&lt;/h3&gt;
+&lt;p&gt;By intercepting &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept4&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;listen&lt;/code&gt;, sockstrace can monitor and control incoming TCP connections.&lt;/p&gt;
+
+&lt;h3 id=&quot;configurable-blocking-options&quot;&gt;Configurable blocking options&lt;/h3&gt;
+&lt;p&gt;Currently, sockstrace offers two options for incoming TCP connections:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Allow all incoming connections.&lt;/li&gt;
+  &lt;li&gt;Block all incoming connections (to prevent accidental exposure).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are also working on an option to allow only specific addresses, adding more fine-grained control.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2025/03/18/sockstrace-seccomp-notify.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2025/03/18/sockstrace-seccomp-notify.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
@@ -529,26 +591,6 @@ socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
         <link>https://namecoin.bit/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>rust-electrum-client for Namecoin</title>
-        <description>&lt;p&gt;Recently, I needed to use &lt;a href=&quot;https://github.com/bitcoindevkit/rust-electrum-client&quot;&gt;rust-electrum-client&lt;/a&gt; with Namecoin. I was kind of worried that this would be nontrivial, but as it turned out, I was able to get it working in just a few days of hacking, despite this being my first foray into Rust.&lt;/p&gt;
-
-&lt;p&gt;The main incompatibility that came up was that Namecoin headers have an AuxPoW header after the 80-byte Bitcoin-style header, and the deserialization functions in rust-electrum-client really didn’t like that trailing data. There were two deserialization functions that I had to patch to truncate the headers at 80 bytes, which got header parsing to work properly. My current patches are very unclean, and are not really suitable for publication, but I’m planning to clean them up and publish patches over the next few weeks.&lt;/p&gt;
-
-&lt;p&gt;Once this was done, a few non-code workarounds were additionally needed (more on these later!), and I was then able to use a real-world rust-electrum-client application with Namecoin. I’ll talk more in a future post about what downstream code is using this.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2024/05/10/rust-electrum-client-for-namecoin.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2024/05/10/rust-electrum-client-for-namecoin.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
