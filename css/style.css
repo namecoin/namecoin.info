@@ -24,10 +24,12 @@ h2 {
 
 body > footer {
     background: #292e3c url(/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/fancy.jpg) center bottom;
+    /* Avoid tiling the background if the footer is too tall. */
+    background-size: cover;
     /* This height makes the background fully cover the footer in Tor Browser
      * Desktop, even if zoomed in or out a few times, and doesn't tile the background.
      */
-    height: 24em;
+    height: 28em;
 
     /* Cover up the tagline from the top of the page. */
     position: relative;
@@ -181,8 +183,8 @@ p {
 }
 
 /* The provided FreeBitcoins logo needs to be cropped to display properly; this CSS trick does so. */
-.exchange-logo-freebitcoins {
-    width: 12em;
+.exchange-logo-altquick {
+    width: 27em;
     object-fit: cover;
 }
 
