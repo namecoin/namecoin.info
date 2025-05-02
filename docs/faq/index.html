@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -502,6 +502,8 @@
 
 <p>Additionally, we don’t see any substantive benefit to operating the root zone via a blockchain.  A major benefit of the suTLD approach is that many different naming systems can co-exist, each in their own suTLD.  These naming systems can have radically different security models, e.g. you can have public key naming systems like <code class="highlighter-rouge">.onion</code> and <code class="highlighter-rouge">.b32.i2p</code>, petname systems like <code class="highlighter-rouge">.i2p</code> and <code class="highlighter-rouge">.gnu</code>, and blockchain naming systems like <code class="highlighter-rouge">.bit</code> and <code class="highlighter-rouge">.eth</code>, all of which avoid interfering with each other (and with the DNS).  In contrast, trying to manage the root zone with a blockchain would have the effect that all other naming systems would have an implicit dependency on that root zone blockchain.  If the root zone blockchain gets compromised, every TLD under it also gets compromised.  History has shown that performing suTLD registration on an ad-hoc, informal, human-based basis works fine in practice; no one is disputing whether e.g. <code class="highlighter-rouge">.eth</code> belongs to Ethereum Name Service or some other special-use naming system.  Without the need for deterministic dispute resolution, there is not much for a blockchain to do here.</p>
 
+<p>Part of the apparent motivation to overlay the root zone seems to be that ICANN is viewed as a centralizing force and/or a trusted third party. However, in practice, the vast majority of abusive behavior in the DNS ecosystem is coming from registries and registrars, not from ICANN. Replacing DNS registries and registrars yields substantially more practical benefit than attempting to replace ICANN, and DNS registries and registrars can be replaced without touching the root namespace. suTLD’s like Namecoin’s <code class="highlighter-rouge">.bit</code> and Tor’s <code class="highlighter-rouge">.onion</code> are not subject to interference by the ICANN root key, so the suTLD approach does not involve ICANN acting as a centralizing force or trusted third party.</p>
+
 <p>If overlaying the root zone is done by using the root zone as a public suffix (i.e. users register arbitrary TLD’s instead of arbitrary 2LD’s), additional breakage is likely because many browsers (e.g. Tor Browser, Firefox, Brave, and Safari) isolate state by using the eTLD+1 as a key, and those browsers do not recognize the root zone as an eTLD.  For example, <code class="highlighter-rouge">https://www.wikileaks.bit/</code> and <code class="highlighter-rouge">https://donate.wikileaks.bit/</code> will share browser state as expected, whereas <code class="highlighter-rouge">https://www.wikileaks/</code> and <code class="highlighter-rouge">https://donate.wikileaks/</code> will be unexpectedly isolated from each other.  This behavior is counterintuitive, surprising, and likely to break a variety of software in ways that may or may not be subtle.</p>
 
 <p>Using the root zone as a public suffix also opens up social engineering attacks based on the fact that users are accustomed to registering 2LD’s, not TLD’s, i.e. scammers register a TLD and try to trick users into using that TLD as a public suffix.  This results in users thinking that they are using a trustless decentralized naming system, when in reality they are using the scammer as a trusted third party.  These kinds of social engineering attacks have been observed in the wild on Handshake; <a href="https://web.archive.org/web/20210310121355/https://www.coindesk.com/sci-hub-leaves-handshake-blockchain/">Sci-Hub was a notable victim</a>.  Handshake investor and developer Andrew “rasengan” Lee actively participated in this scam by <a href="https://web.archive.org/web/20210116001302/https://news.ycombinator.com/item?id=25747284">running public relations operations</a> for it.</p>
@@ -526,6 +528,8 @@
 </ul>
 
 <p>The above list is not intended to be exhaustive; it is likely that there are others.  Writing TLS clients is hard, and in general only the major browser vendors do an acceptable job at it – hence Filippo’s advice.</p>
+
+<p>Additionally, TLS intercepting proxies interfere with TLS CCA (client certificate authentication). Given that TLS CCA is substantially preferable to password authentication, we don’t want to harm that use case.</p>
 
 <p>That said, nothing in Namecoin prevents you from using a TLS intercepting proxy such as Let’s DANE – we simply advise against it.</p>
 
@@ -610,7 +614,20 @@
 
 <p>In contrast, Namecoin does not have any 3rd party who can censor your ability to receive TLS certificates.</p>
 
+<p>By default, Let’s Encrypt will publish all of your subdomains to Certificate Transparency logs. This has been used for deanonymization attacks in the wild. Let’s Encrypt does optionally support wildcard certificates, which mitigate this deanonymization vector. However, Let’s Encrypt’s wildcard certificates have the following drawbacks:</p>
+
+<ol>
+  <li>Wildcard certificates are not enabled by default; secure defaults are important.</li>
+  <li>Wildcard certificates cannot be easily auto-renewed, which eliminates a major UX benefit of Let’s Encrypt compared to Namecoin.</li>
+  <li>Wildcard certificates are only valid for one wildcarded label, e.g. <code class="highlighter-rouge">*.example.com</code> is valid but <code class="highlighter-rouge">*.*.example.com</code> is not valid.</li>
+  <li>Wildcard certificates must be installed onto a publicly facing TLS server. If that server gets compromised, the TLS private key can be used to impersonate all other subdomains, even ones that are not supposed to be served by the compromised TLS server.</li>
+</ol>
+
+<p>In contrast, Namecoin TLS certificates do not leak your subdomains.</p>
+
 <p>Let’s Encrypt’s services are entirely gratis.  For Namecoin, the pricing is more complicated.  In Namecoin, you create a private CA and place its public key into the blockchain; you can use that CA to issue as many certificates for your domain as you like without requiring additional blockchain transactions.  Issuing certificates from your private CA (e.g. to rotate your TLS server’s keys) is gratis.  However, changing the set of private CA’s (e.g. to immediately revoke old certificates before they expire) does require a blockchain transaction, which means you’ll have to pay a transaction fee.  The extra storage used by your private CA’s public key also implies that renewing your domain name will incur a higher transaction fee than if you weren’t using TLS.</p>
+
+<p>Let’s Encrypt typically renews your certificates automatically. Namecoin certificates must be renewed manually.</p>
 
 <p>TLS certificates issued by Let’s Encrypt will work in most TLS clients (without security warnings) without any changes from defaults.  In contrast, Namecoin TLS certificates will only work (without security warnings) if Namecoin is installed.</p>
 
@@ -1284,6 +1301,11 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
       <td>Investor funding (investors received a pre-mined genesis airdrop).  Investors include Roger Ver (well-known for attempting a hostile takeover of Bitcoin) and Andrew “rasengan” Lee (well-known for performing a <a href="https://www.devever.net/~hl/freenode_abuse">hostile takeover of Freenode</a>).</td>
     </tr>
     <tr>
+      <td><strong>Primary goal</strong></td>
+      <td>Alternative to DNS registries and registrars.</td>
+      <td>Alternative to ICANN. <a href="https://web.archive.org/web/20250126085335/https://handshake.org/faq/">“Handshake is meant to replace the root zone file, not DNS.”</a> <a href="https://web.archive.org/web/20210116001302/https://news.ycombinator.com/item?id=25747284#25752061">“The root becomes the blockchain instead of ICANN. This project simply finishes the beautiful DNS ecosystem, which was already decentralized, other than the root.”</a></td>
+    </tr>
+    <tr>
       <td><strong>Support chat channels</strong></td>
       <td>Hackint, OFTC, Libera, Matrix.</td>
       <td>Freenode (<a href="https://www.devever.net/~hl/freenode_abuse">operators engage in routine abuses of power</a>), Slack (non-free protocol), Telegram (<a href="https://buttondown.email/cryptography-dispatches/archive/cryptography-dispatches-the-most-backdoor-looking/">about as safe as leaving exposed wires around your house because they are either not live or placed high enough that no one should touch them</a>).  (<a href="https://web.archive.org/web/20211012001546/https://old.reddit.com/r/handshake/">Source.</a>)</td>
@@ -1531,39 +1553,39 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
