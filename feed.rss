@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 11 May 2025 02:46:16 +0000</pubDate>
-    <lastBuildDate>Sun, 11 May 2025 02:46:16 +0000</lastBuildDate>
+    <pubDate>Sun, 11 May 2025 02:59:07 +0000</pubDate>
+    <lastBuildDate>Sun, 11 May 2025 02:59:07 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -30,7 +30,7 @@
 
 &lt;p&gt;De-anonymization remains a pressing issue for privacy conscious users. To that end, there are many things a prospective anonymous person needs to keep track of to keep their identities hidden. Some of you may be familiar with stylometric analysis, where writing style preferences can be used to identify the writer of a text. Tools for obfuscating stylometry, such as &lt;a href=&quot;https://github.com/psal/anonymouth&quot;&gt;Anonymouth&lt;/a&gt;, have existed for a long time. However, stylometry is only one axis of de-anonymization. Even if your stylometry is perfectly obfuscated, the content of your text can give your identity away.&lt;/p&gt;
 
-&lt;p&gt;A lot of information, even piecemeal, can be used to identify you (See &lt;a href=&quot;/wiki/Tips_on_Remaining_Anonymous#Always_Withhold_your_Identifying_Data&quot;&gt;Always Withhold your Identifying Data&lt;/a&gt; on the Whonix wiki for a non-exhaustive list). Famously, Jeremy Hammond was linked to the &lt;a href=&quot;https://www.justice.gov/archive/usao/nys/pressreleases/March12/hackers/hammondjeremycomplaint.pdf&quot;&gt;2012 Stratfor email leak&lt;/a&gt; through various snippets of personal anecdotes posted in IRC. Keeping in mind human error, it becomes difficult to ensure that one follows all these rules. Occlumask aims to be an aide in this process, catching any lapses in judgment.&lt;/p&gt;
+&lt;p&gt;A lot of information, even piecemeal, can be used to identify you (See &lt;a href=&quot;https://www.whonix.org/wiki/Tips_on_Remaining_Anonymous#Always_Withhold_your_Identifying_Data&quot;&gt;Always Withhold your Identifying Data&lt;/a&gt; on the Whonix wiki for a non-exhaustive list). Famously, Jeremy Hammond was linked to the &lt;a href=&quot;https://www.justice.gov/archive/usao/nys/pressreleases/March12/hackers/hammondjeremycomplaint.pdf&quot;&gt;2012 Stratfor email leak&lt;/a&gt; through various snippets of personal anecdotes posted in IRC. Keeping in mind human error, it becomes difficult to ensure that one follows all these rules. Occlumask aims to be an aide in this process, catching any lapses in judgment.&lt;/p&gt;
 
 &lt;h2 id=&quot;llm-use-reasoning&quot;&gt;LLM Use Reasoning&lt;/h2&gt;
 
