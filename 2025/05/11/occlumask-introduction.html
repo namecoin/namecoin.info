@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin-Qt Buy Names Tab</title>
+    <title>Occlumask: A Content-based Anonymity Leak Detector</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/14/namecoin-qt-buy-names-tab.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/05/11/occlumask-introduction.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -130,203 +130,43 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin-Qt Buy Names Tab</h1>
-<p class="post-meta">Sep 14, 2021 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Occlumask: A Content-based Anonymity Leak Detector</h1>
+<p class="post-meta">May 11, 2025 • Alice Margatroid <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Now that the Manage Names tab in Namecoin-Qt (which lets you update existing names in your wallet) is <a href="/2021/02/16/namecoin-core-name-update-gui.html">implemented</a>, it’s time to move onto the Buy Names tab.  Like the Name Update GUI, this forward-port was pretty uneventful, so rather than boring you with details, here’s a screenshot:</p>
+<p>A few weeks ago, we <a href="/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html">announced funding</a> from Power Up Privacy for a number of different projects. One of those projects being “Occlumask”. We will be giving some details about Occlumask, the motivations behind it, its methods, challenges, as well as the current status on research.</p>
 
-<p><img src="/images/screenshots/namecoin-core/buy-names-2021-08-22.png" alt="A screenshot of the Buy Names tab in Namecoin-Qt." /></p>
+<h2 id="what-is-occlumask">What is Occlumask?</h2>
 
-<p>As you can see, I kept things minimalist to enable faster review.  For example, there is not yet any UI element to tell you if a name already is registered (you’ll find out in such cases after clicking the button).  In addition, this UI only triggers the <code class="highlighter-rouge">name_firstupdate</code> RPC method, not <code class="highlighter-rouge">name_new</code> (which you’ll need to do yourself via the console prior to using the Buy Names tab).  This is because Yanmaani is already working on RPC support for combining <code class="highlighter-rouge">name_new</code> and <code class="highlighter-rouge">name_firstupdate</code>; once his work on that is merged, this GUI should be convertible to use his work with a one-liner patch.</p>
+<p>Occlumask is an LLM-based tool for detecting content-based anonymity leaks. It is currently built off of the <code class="highlighter-rouge">llama.cpp</code> inference engine, running a local LLM instance. We are intending it to mainly be used in the context of chat messaging, forum posting or any other personal writing situation.</p>
 
-<p>The Buy Names tab is expected to be included in Namecoin Core 23.0.</p>
+<h2 id="occlumask-motivations">Occlumask Motivations</h2>
 
-<p>This work was funded by Cyphrs.</p>
+<p>De-anonymization remains a pressing issue for privacy conscious users. To that end, there are many things a prospective anonymous person needs to keep track of to keep their identities hidden. Some of you may be familiar with stylometric analysis, where writing style preferences can be used to identify the writer of a text. Tools for obfuscating stylometry, such as <a href="https://github.com/psal/anonymouth">Anonymouth</a>, have existed for a long time. However, stylometry is only one axis of de-anonymization. Even if your stylometry is perfectly obfuscated, the content of your text can give your identity away.</p>
+
+<p>A lot of information, even piecemeal, can be used to identify you (See <a href="/wiki/Tips_on_Remaining_Anonymous#Always_Withhold_your_Identifying_Data">Always Withhold your Identifying Data</a> on the Whonix wiki for a non-exhaustive list). Famously, Jeremy Hammond was linked to the <a href="https://www.justice.gov/archive/usao/nys/pressreleases/March12/hackers/hammondjeremycomplaint.pdf">2012 Stratfor email leak</a> through various snippets of personal anecdotes posted in IRC. Keeping in mind human error, it becomes difficult to ensure that one follows all these rules. Occlumask aims to be an aide in this process, catching any lapses in judgment.</p>
+
+<h2 id="llm-use-reasoning">LLM Use Reasoning</h2>
+
+<p>Classification has been a long-standing use case for machine learning, and so it would follow naturally to use machine learning models to “classify” if a text is de-anonymizing. Neural networks have already been used in stylometric obfuscation in <a href="https://github.com/EricX003/ALISON">ALISON</a>. LLMs present an interesting opportunity with their unique natural language comprehension capabilities. The increased ability for understanding context in particular allows for more accuracy, differentiating between significant and insignificant mentions of potential identifiers. For example, “[City] has terrible weather” vs. “[City] is well known for its cheeses”.</p>
+
+<h2 id="challenges-with-occlumask">Challenges With Occlumask</h2>
+
+<p>The difficulties involved with using are both in the overall accuracy of the program, as well as the performance. LLMs are, to oversimplify, effectively non-deterministic. There is no guarantee that it will be completely correct in determining the presence of an anonymity leak. A large part of this project will be reducing uncertainty. Keep in mind that Occlumask is an aide, not a replacement for proper privacy practices.</p>
+
+<p>Running an LLM locally is also computationally expensive. Occlumask is planned to allow for any <code class="highlighter-rouge">GGUF</code>-formatted model. This lets you run less demanding models (i.e. ones with fewer parameters or with more extreme quantization), in exchange for lower quality of output. We also want to minimize the amount of inference any given model does. As such, Occlumask won’t suggest any changes to your writing. <strong>It will only warn you that your text has an identity leak, how you handle it is up to you.</strong></p>
+
+<p>That being said, we still believe that Occlumask is a useful tool (otherwise we wouldn’t be making it!). It will still be reducing the amount of identity leaks that happen, and we will be working on reducing that amount as much as possible.</p>
+
+<h2 id="current-progress">Current Progress</h2>
+
+<p>We are currently in the prompt engineering phase, getting the LLM to produce the outputs that we want, with an acceptable level of consistency. To this end, we are also collecting example texts to test our program on. So far the results have been promising, with the LLM being able to correctly identify what and why a section of identifying text is as well as surprising us on one occasion, with a potential identifier that none of us could find before Occlumask flagged it for us.</p>
+
+<p>This work was funded by Power Up Privacy.</p>
 
 
 </article>
@@ -336,6 +176,186 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1098,16 +1118,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2021-09-14-namecoin-qt-buy-names-tab.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-05-11-occlumask-introduction.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2021/09/14/namecoin-qt-buy-names-tab.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/09/14/namecoin-qt-buy-names-tab.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/09/14/namecoin-qt-buy-names-tab.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2021/09/14/namecoin-qt-buy-names-tab.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/05/11/occlumask-introduction.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/05/11/occlumask-introduction.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/05/11/occlumask-introduction.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/05/11/occlumask-introduction.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1118,37 +1138,37 @@
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
             </ul>
         </div>
