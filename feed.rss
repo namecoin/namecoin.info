@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 09 May 2025 22:33:34 +0000</pubDate>
-    <lastBuildDate>Fri, 09 May 2025 22:33:34 +0000</lastBuildDate>
+    <pubDate>Sun, 11 May 2025 02:45:42 +0000</pubDate>
+    <lastBuildDate>Sun, 11 May 2025 02:45:42 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,48 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Occlumask: A Content-based Anonymity Leak Detector</title>
+        <description>&lt;p&gt;A few weeks ago, we &lt;a href=&quot;/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html&quot;&gt;announced funding&lt;/a&gt; from Power Up Privacy for a number of different projects. One of those projects being “Occlumask”. We will be giving some details about Occlumask, the motivations behind it, its methods, challenges, as well as the current status on research.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-occlumask&quot;&gt;What is Occlumask?&lt;/h2&gt;
+
+&lt;p&gt;Occlumask is an LLM-based tool for detecting content-based anonymity leaks. It is currently built off of the &lt;code class=&quot;highlighter-rouge&quot;&gt;llama.cpp&lt;/code&gt; inference engine, running a local LLM instance. We are intending it to mainly be used in the context of chat messaging, forum posting or any other personal writing situation.&lt;/p&gt;
+
+&lt;h2 id=&quot;occlumask-motivations&quot;&gt;Occlumask Motivations&lt;/h2&gt;
+
+&lt;p&gt;De-anonymization remains a pressing issue for privacy conscious users. To that end, there are many things a prospective anonymous person needs to keep track of to keep their identities hidden. Some of you may be familiar with stylometric analysis, where writing style preferences can be used to identify the writer of a text. Tools for obfuscating stylometry, such as &lt;a href=&quot;https://github.com/psal/anonymouth&quot;&gt;Anonymouth&lt;/a&gt;, have existed for a long time. However, stylometry is only one axis of de-anonymization. Even if your stylometry is perfectly obfuscated, the content of your text can give your identity away.&lt;/p&gt;
+
+&lt;p&gt;A lot of information, even piecemeal, can be used to identify you (See &lt;a href=&quot;/wiki/Tips_on_Remaining_Anonymous#Always_Withhold_your_Identifying_Data&quot;&gt;Always Withhold your Identifying Data&lt;/a&gt; on the Whonix wiki for a non-exhaustive list). Famously, Jeremy Hammond was linked to the &lt;a href=&quot;https://www.justice.gov/archive/usao/nys/pressreleases/March12/hackers/hammondjeremycomplaint.pdf&quot;&gt;2012 Stratfor email leak&lt;/a&gt; through various snippets of personal anecdotes posted in IRC. Keeping in mind human error, it becomes difficult to ensure that one follows all these rules. Occlumask aims to be an aide in this process, catching any lapses in judgment.&lt;/p&gt;
+
+&lt;h2 id=&quot;llm-use-reasoning&quot;&gt;LLM Use Reasoning&lt;/h2&gt;
+
+&lt;p&gt;Classification has been a long-standing use case for machine learning, and so it would follow naturally to use machine learning models to “classify” if a text is de-anonymizing. Neural networks have already been used in stylometric obfuscation in &lt;a href=&quot;https://github.com/EricX003/ALISON&quot;&gt;ALISON&lt;/a&gt;. LLMs present an interesting opportunity with their unique natural language comprehension capabilities. The increased ability for understanding context in particular allows for more accuracy, differentiating between significant and insignificant mentions of potential identifiers. For example, “[City] has terrible weather” vs. “[City] is well known for its cheeses”.&lt;/p&gt;
+
+&lt;h2 id=&quot;challenges-with-occlumask&quot;&gt;Challenges With Occlumask&lt;/h2&gt;
+
+&lt;p&gt;The difficulties involved with using are both in the overall accuracy of the program, as well as the performance. LLMs are, to oversimplify, effectively non-deterministic. There is no guarantee that it will be completely correct in determining the presence of an anonymity leak. A large part of this project will be reducing uncertainty. Keep in mind that Occlumask is an aide, not a replacement for proper privacy practices.&lt;/p&gt;
+
+&lt;p&gt;Running an LLM locally is also computationally expensive. Occlumask is planned to allow for any &lt;code class=&quot;highlighter-rouge&quot;&gt;GGUF&lt;/code&gt;-formatted model. This lets you run less demanding models (i.e. ones with fewer parameters or with more extreme quantization), in exchange for lower quality of output. We also want to minimize the amount of inference any given model does. As such, Occlumask won’t suggest any changes to your writing. &lt;strong&gt;It will only warn you that your text has an identity leak, how you handle it is up to you.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;That being said, we still believe that Occlumask is a useful tool (otherwise we wouldn’t be making it!). It will still be reducing the amount of identity leaks that happen, and we will be working on reducing that amount as much as possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;current-progress&quot;&gt;Current Progress&lt;/h2&gt;
+
+&lt;p&gt;We are currently in the prompt engineering phase, getting the LLM to produce the outputs that we want, with an acceptable level of consistency. To this end, we are also collecting example texts to test our program on. So far the results have been promising, with the LLM being able to correctly identify what and why a section of identifying text is as well as surprising us on one occasion, with a potential identifier that none of us could find before Occlumask flagged it for us.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/05/11/occlumask-introduction.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/05/11/occlumask-introduction.html</guid>
+        <dc:creator>Alice Margatroid</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</title>
@@ -550,47 +592,6 @@ Demo video of Gifting Names in Electrum-NMC.
         <link>https://www.namecoin.org/2024/05/15/tor-2024-gpn-22-monerokon-4.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2024/05/15/tor-2024-gpn-22-monerokon-4.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Electrum-NMC AppArmor, Static Analysis, and Input Validation + ncdns Unix Sockets</title>
-        <description>&lt;p&gt;Several new Electrum-NMC &amp;amp; ncdns enhancements have been added.&lt;/p&gt;
-
-&lt;h2 id=&quot;apparmor-profiles-for-electrum-nmc&quot;&gt;AppArmor Profiles for Electrum-NMC&lt;/h2&gt;
-
-&lt;p&gt;AppArmor is a Mandatory Access Control (MAC) system which confines programs to a limited set of resources. AppArmor confinement is provided via profiles loaded into the kernel.
-By using AppArmor profiles, we can ensure that Electrum-NMC operates within a predefined security policy, reducing the risk of unauthorized access or malicious actions.
-The profiles are provided in the contrib folder. For more information on AppArmor, &lt;a href=&quot;https://ubuntu.com/tutorials/beginning-apparmor-profile-development#1-overview&quot;&gt;visit their website.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;input-validation-in-electrum-nmcs-dns-builder-gui&quot;&gt;Input Validation in Electrum-NMC’s DNS Builder GUI&lt;/h2&gt;
-&lt;p&gt;When passing data to the DNS Builder, certain validations are performed to offer hints and warnings about invalid data or outdated methods (such as algorithms).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-IP-Validation-2024.png&quot; alt=&quot;IP Validation&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/screenshots/electrum-nmc/DNS-Builder-Algorithm-Validation-2024.png&quot; alt=&quot;IPFS Images&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;static-analysis-testing&quot;&gt;Static Analysis Testing&lt;/h2&gt;
-
-&lt;p&gt;We run static analysis using tools such as Flake8, MyPy, and Pylint, comparing results with Electrum (Bitcoin version) to focus on Electrum-NMC-specific issues. This process, integrated into our CI, helps catch bugs early. Looking to contribute? Static analysis issues provide good first-time issues!&lt;/p&gt;
-
-&lt;h2 id=&quot;enabling-ncdns-to-perform-rpc-requests-via-unix-domain-sockets&quot;&gt;Enabling ncdns to Perform RPC Requests via Unix Domain Sockets&lt;/h2&gt;
-
-&lt;p&gt;Enabling ncdns to perform RPC requests via Unix domain sockets offers a more secure communication method than TCP/IP. To utilize a Unix domain socket, specify it in the &lt;code class=&quot;highlighter-rouge&quot;&gt;namecoinrpcaddress&lt;/code&gt; field as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:// + &quot;your unix socket path&quot;&lt;/code&gt; such as &lt;code class=&quot;highlighter-rouge&quot;&gt;unix:///tmp/test.XXXX&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Since Namecoin Core supports only TCP/IP, we’ll redirect RPC requests from the Unix Socket to Namecoin Core. This can be achieved using a commnad such as socat command:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat -d UNIX-LISTEN:&quot;my-unix-socket-path&quot;,fork TCP:&quot;host-address&quot;
-socat -d UNIX-LISTEN:/tmp/test.XXXX,fork TCP:localhost:8332
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 11 May 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/05/11/apparmor-static-analysis-input-validation-ncdns-unix-sockets.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
