@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: AuxPoW Verification</title>
+    <title>Code Quality Improvements in ncp11</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2018/07/09/electrum-nmc-auxpow-verification.html">
+    <link rel="canonical" href="https://www.namecoin.org/2025/05/13/code-quality-improvements-in-ncp11.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,641 +130,70 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: AuxPoW Verification</h1>
-<p class="post-meta">Jul 9, 2018 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Code Quality Improvements in ncp11</h1>
+<p class="post-meta">May 13, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Previously, I covered <a href="/2018/07/01/electrum-nmc-auxpow.html">AuxPoW deserialization in Electrum-NMC</a>.  The next steps are on-disk serialization/deserialization, and verifying the deserialized AuxPoW.  These are now implemented.</p>
+<p>As you may recall, ncp11 is Namecoin’s PKCS#11 module that enables TLS to work for Namecoin domains with standard TLS clients that use NSS or GnuTLS. I’ve recently made several improvements to ncp11:</p>
 
-<p>It turned out that on-disk serialization/deserialization was a lot easier than anticipated, because Electrum only writes headers to disk <em>after</em> they’ve been verified, and it never reverifies them.  So it was sufficient to simply strip the AuxPoW portion of the headers prior to writing them to disk, and to tweak the header deserialization code so that it won’t error when it encounters AuxPoW-enabled headers that don’t have AuxPoW data (this is secure since even if such headers are successfully deserialized, they would never pass verification if verification were attempted).</p>
+<h2 id="add-additional-tracing">Add additional tracing</h2>
 
-<p>Next up, AuxPoW verification!</p>
+<p>Namecoin’s PKCS#11 modules can log traces of their internal state, which can be helpful for debugging. I’ve expanded ncp11’s tracing to cover some additional state.</p>
 
-<p>AuxPoW verification code was already present in Electrum-DOGE, and it was relatively straightforward to port over to the current Electrum codebase.  In the process, however, I noticed that Electrum-DOGE has a dependency <a href="https://pypi.org/project/btcutils/">on a library called <code class="highlighter-rouge">btcutils</code></a>.  I can’t find that library’s source code on GitHub, nor does the PyPI page indicate a Git repository, an issue tracker, or even a license.  At worst, this might indicate a GPL violation in Electrum-DOGE; at best, this indicates that the library has probably never been audited and is unwise to rely on.  As a result, I re-implemented from scratch the single function in that library that Electrum-DOGE was using.</p>
+<h2 id="disable-certificate-transparency">Disable Certificate Transparency</h2>
 
-<p>After implementing AuxPoW verification in Electrum-NMC, I received a <code class="highlighter-rouge">bits</code> mismatch error during blockchain verification (some time after AuxPoW activated).  This was, of course, due to the “time warp” difficulty retargeting hardfork that Namecoin adopted long ago.  (Since I was the author of the time warp hardfork support in libdohj, fixing this in Electrum-NMC was quite straightforward.)</p>
+<p>Modern versions of Firefox and Chromium mandate Certificate Transparency for all certificates by default. Namecoin, of course, cannot comply with this requirement, since the public CT logs don’t accept Namecoin certificates. (To some Namecoin users, this is a feature, not a bug.) This was causing CT errors to show up for Namecoin certificate chains.</p>
 
-<p>Next, I noticed that verification of AuxPoW headers was incredibly slow.  Some use of profiling tools revealed a number of bottlenecks (mostly relatively boring stuff like unneeded hex/binary conversions and unneeded copy operations), which I fixed.</p>
+<p>I’ve changed ncp11’s trust bits to opt out of the CT requirement for all Namecoin certificates. This gets ncp11 working again in modern browsers.</p>
 
-<p>At this point, I decided to do a full sync from scratch to see if it verified the entire blockchain.  Unfortunately, it failed at chunk 77, due to an error from the ElectrumX server indicating that the response exceeded the server’s configured 5 MB limit.  I infer that there were a bunch of unusually large Bitcoin coinbase transactions around that point in Bitcoin’s history.  Luckily, the operator of the public Namecoin ElectrumX server quickly replied to my email and raised the limit.  At this point, Electrum-NMC was able to fully sync.</p>
+<h2 id="work-around-nss-blacklisting-bug">Work around NSS blacklisting bug</h2>
 
-<p>In terms of performance, Electrum-NMC on my <a href="https://www.raptorcs.com/">Talos II</a> is able to sync from scratch in about 6 minutes, without using any checkpoints (other than the genesis checkpoint).</p>
+<p>NSS allows PKCS#11 modules to mark a CA as explicitly distrusted for root CA purposes, while still trusting them if they are issued by a trusted CA. ncp11 had been using this for all intermediate CA’s that it signed, but testing showed that NSS’s behavior doesn’t match the documentation, and this feature seems to be broken – marking a CA in this way will result in it being distrusted regardless of its issuer.</p>
 
-<p>Since Namecoin is a good neighbor, I’m maintaining an <code class="highlighter-rouge">auxpow</code> branch in the Electrum-NMC Git repository, which is identical to upstream Electrum except that AuxPoW support is added.  This may be useful to other AuxPoW-based cryptocurrencies who want a starting point for porting Electrum to their cryptocurrency.  (Daniel already does something similar for Namecoin Core.)</p>
+<p>I’ve worked around this by making trust objects optional in p11trustmod, and making ncp11 not return trust objects for intermediate CA’s. This makes ncp11’s generated certificate chains substantially more reliable.</p>
 
-<p>It should be noted that I haven’t carefully audited the components inherited from Electrum-DOGE, so the AuxPoW support in Electrum-NMC should not be relied on in critical applications – it would not be surprising if Electrum-DOGE’s AuxPoW code is slightly consensus-incompatible with Namecoin Core.  Verifying that is on my to-do list.</p>
+<h2 id="set-media-type-correctly-on-pem-responses">Set media type correctly on PEM responses</h2>
 
-<p>The next step in Electrum-NMC is adding support for name scripts.  That will be covered in a future post.</p>
+<p>Encaya’s API endpoint for ncp11’s usage was returning PEM certificate bundles with the default <code class="highlighter-rouge">text/plain</code> media type. This is not really spec-compliant. I’ve made it return a proper <code class="highlighter-rouge">application/x-pem-file</code> media type. ncp11 itself didn’t care, but this does mean that using the Encaya web interface to download the Encaya root CA certificate will now produce a download dialog as expected, instead of showing a bunch of text in the web browser.</p>
 
-<p>This work was funded by Cyphrs.</p>
+<h2 id="unify-aia-and-pkcs11-implementations">Unify AIA and PKCS#11 implementations</h2>
+
+<p>Encaya has two API endpoints: one for AIA usage, and one for PKCS#11 usage. There are a number of differences, mostly related to differences in how AIA clients and PKCS#11 clients query and cache things. These endpoints had substantial code duplication, which was not great for maintainability. I’ve factored out the common code into a <code class="highlighter-rouge">lookupCert</code> function. The result:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Lines of Code (Before)</th>
+      <th>Lines of Code (After)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AIA</td>
+      <td>157</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <td>PKCS#11</td>
+      <td>153</td>
+      <td>47</td>
+    </tr>
+    <tr>
+      <td>Server Total</td>
+      <td>902</td>
+      <td>802</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The refactored code is much cleaner, easier to follow, and will facilitate decreased effort for future improvements.</p>
+
+<p>This work was funded by Power Up Privacy.</p>
 
 
 </article>
@@ -774,6 +203,610 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1116,16 +1149,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-07-09-electrum-nmc-auxpow-verification.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-05-13-code-quality-improvements-in-ncp11.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2018/07/09/electrum-nmc-auxpow-verification.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/07/09/electrum-nmc-auxpow-verification.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/07/09/electrum-nmc-auxpow-verification.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2018/07/09/electrum-nmc-auxpow-verification.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/05/13/code-quality-improvements-in-ncp11.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/05/13/code-quality-improvements-in-ncp11.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/05/13/code-quality-improvements-in-ncp11.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/05/13/code-quality-improvements-in-ncp11.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1134,39 +1167,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
             </ul>
         </div>
