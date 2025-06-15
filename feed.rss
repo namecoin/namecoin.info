@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 13 May 2025 21:00:12 +0000</pubDate>
-    <lastBuildDate>Tue, 13 May 2025 21:00:12 +0000</lastBuildDate>
+    <pubDate>Sun, 15 Jun 2025 21:32:28 +0000</pubDate>
+    <lastBuildDate>Sun, 15 Jun 2025 21:32:28 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,24 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin will be at MoneroKon 5</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin will be giving a presentation at &lt;a href=&quot;https://monerokon.org/&quot;&gt;MoneroKon 5&lt;/a&gt; in Prague, Czechia (June 20-22). Live streams are expected.&lt;/p&gt;
+
+&lt;p&gt;If you’re also attending and would like to meet up to discuss collaboration, please ping us on #namecoin-dev.&lt;/p&gt;
+
+&lt;p&gt;We’d like to thank Cyphrs for facilitating our participation. See you there!&lt;/p&gt;
+</description>
+        <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/06/15/monerokon-5.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/06/15/monerokon-5.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Code Quality Improvements in ncp11</title>
@@ -590,53 +608,6 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
         <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Reducing Size With Concise Binary Object Representation (CBOR) and Name Gifting</title>
-        <description>&lt;p&gt;Several new Electrum-NMC enhancements have been added.&lt;/p&gt;
-
-&lt;h2 id=&quot;minimizing-size-with-concise-binary-object-representation-cbor&quot;&gt;Minimizing Size with Concise Binary Object Representation (CBOR)&lt;/h2&gt;
-
-&lt;p&gt;Incorporating Concise Binary Object Representation (CBOR) offers significant advantages, including reduced data size and improved efficiency. Currently, to use CBOR, you need to convert your JSON data into CBOR format and paste the hex equivalent into the hex tab.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/electrum-nmc/Configure-Name-Dialog-Hex-2024-05-01.png&quot; alt=&quot;Binary Encoding (value)&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;While this process can be a bit confusing, we are working to simplify it by providing an avenue to do the conversion directly within Electrum-NMC. Once you’ve pasted the CBOR hex data, you can confirm its validity by parsing it and displaying its contents in the DNS builder dialog, by clicking the DNS Editor button, you’ll see the different records contained in the CBOR data.  Unfortunately, if you parse your CBOR hex data, you’ll need to paste it again in the hex tab, but we’re actively working to streamline this process.&lt;/p&gt;
-
-&lt;p&gt;With the addition of CBOR support in ncdns, after registering a name with a CBOR encoded value, ncdns should be able to parse and provide the DNS records associated with that name.&lt;/p&gt;
-
-&lt;h2 id=&quot;gifting-names&quot;&gt;Gifting Names&lt;/h2&gt;
-
-&lt;p&gt;Similar to requesting a payment, you can now also request a name. When registering a name that is available, you’ll see an extra button and field to request someone to pay for it on your behalf. Additionally, there is an extra field where you can add an additional amount to your request.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/electrum-nmc/Buy-Name-Request-Name.png&quot; alt=&quot;Request Name (value)&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;After clicking the “Request Registration” button, a UI with your request will be displayed, similar to what is seen in the request tab. From there, you can send the request URL or QR code to the recipient &lt;code class=&quot;highlighter-rouge&quot;&gt;(gifter)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/electrum-nmc/Request-Name-UI-Tabs.png&quot; alt=&quot;Request Name Tabs (value)&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The gifter can now paste the payment URL in the receive tab or use the QR code. The details will be automatically populated, allowing the gifter to proceed with the payment.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/electrum-nmc/Send-UI-Request-Name.png&quot; alt=&quot;Send Tab (value)&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;After your invoice is settled, you simply need to proceed with the normal name registration process. You’ll only be required to pay minimal update fees, as the name has already been paid for.&lt;/p&gt;
-
-&lt;video controls=&quot;&quot;&gt;
-&lt;source src=&quot;http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/files/videos/docs/gifting/gifting.webm&quot; type=&quot;video/webm&quot; /&gt;
-Demo video of Gifting Names in Electrum-NMC.
-&lt;/video&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s NGI Assure Fund.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 17 May 2024 00:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/17/cbor-and-gifting-names.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2024/05/17/cbor-and-gifting-names.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         

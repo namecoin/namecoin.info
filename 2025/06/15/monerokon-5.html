@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC: Checkpointed AuxPoW Truncation</title>
+    <title>Namecoin will be at MoneroKon 5</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/06/15/monerokon-5.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
 
     <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,518 +130,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC: Checkpointed AuxPoW Truncation</h1>
-<p class="post-meta">Feb 2, 2019 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin will be at MoneroKon 5</h1>
+<p class="post-meta">Jun 15, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>I posted previously about <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/11/28/electrum-nmc-checkpoints.html">auditing Electrum-NMC’s bandwidth usage</a>.  In that post, I mentioned that there were probably optimizations that could be done to reduce the 3.2 MB per 2016 block headers that get downloaded when looking up a name that’s covered by a checkpoint.  I’ve now implemented one of them: AuxPoW truncation.</p>
+<p>We’re happy to announce that Namecoin will be giving a presentation at <a href="https://monerokon.org/">MoneroKon 5</a> in Prague, Czechia (June 20-22). Live streams are expected.</p>
 
-<p>Some background: AuxPoW (auxilliary proof of work) is the portion of Namecoin block headers that allows clients to verify that the PoW expended by miners on the parent chain (usually Bitcoin) applies to Namecoin as well.  As a result, SPV clients such as Electrum-NMC (which verify PoW) need to download the AuxPoW data.  However, the AuxPoW data in a Namecoin block header <em>does not contribute to the block hash</em>.  As a result, the commitment in a Namecoin block header to the previous block header can be verified without having access to any AuxPoW data.</p>
+<p>If you’re also attending and would like to meet up to discuss collaboration, please ping us on #namecoin-dev.</p>
 
-<p>Why does this matter?  AuxPoW is by far the largest part of a Namecoin block header, because it contains a coinbase transaction from the parent chain.  Coinbase transactions can frequently be quite large, especially if the parent block is mined by a mining pool that’s paying a large number of miners via the coinbase transaction.  If we can omit the AuxPoW data from Namecoin block headers, then that saves a lot of bytes.</p>
-
-<p>Obviously, we can’t get rid of the AuxPoW data completely, since SPV validation requires PoW verification.  But not all blocks are verified via SPV – blocks that are covered by a checkpoint don’t need to have their PoW checked, since the checkpoint implies validity.  So, we can simply not check the AuxPoW for any blocks that are committed to by a checkpoint.  And if we don’t need to check the AuxPoW for such blocks, we don’t need to download it either.</p>
-
-<p>Conveniently, the Electrum protocol includes a feature that allows the client to tell the server what height its checkpoint is set to.  This feature isn’t actually used yet in the Electrum client, but we can use that feature to have Electrum-NMC tell ElectrumX what height its checkpoint is set to, such that ElectrumX will then truncate AuxPoW data from the block headers it responds with.  I’ve submitted a PR for ElectrumX that does exactly that: with this PR, ElectrumX truncates AuxPoW data from block headers when the client supplies a checkpoint height that is higher than the height of the block header.  Neil from ElectrumX has already merged my PR; once it’s in a tagged release, I’ll push the relevant changes to Electrum-NMC as well.</p>
-
-<p>What does the data transfer look like now?</p>
-
-<ul>
-  <li>Before: 3.2 MB per 2016 headers</li>
-  <li>After: 323 KB per 2016 headers</li>
-</ul>
-
-<p>So that’s roughly a 90% reduction.  Not bad.  There are probably some additional optimizations that can still be done, but those will have to wait for another day.</p>
-
-<p>This work was funded by Cyphrs.</p>
+<p>We’d like to thank Cyphrs for facilitating our participation. See you there!</p>
 
 
 </article>
@@ -651,6 +152,490 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1117,16 +1102,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2019-02-02-electrum-nmc-checkpointed-auxpow-truncation.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-06-15-monerokon-5.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2019/02/02/electrum-nmc-checkpointed-auxpow-truncation.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/06/15/monerokon-5.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/06/15/monerokon-5.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/06/15/monerokon-5.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/06/15/monerokon-5.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1135,39 +1120,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
             </ul>
         </div>
