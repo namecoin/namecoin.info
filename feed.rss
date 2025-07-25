@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Fri, 25 Jul 2025 06:31:19 +0000</pubDate>
-    <lastBuildDate>Fri, 25 Jul 2025 06:31:19 +0000</lastBuildDate>
+    <pubDate>Fri, 25 Jul 2025 06:37:23 +0000</pubDate>
+    <lastBuildDate>Fri, 25 Jul 2025 06:37:23 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -61,10 +61,12 @@ sockstrace enforces the whitelist by intercepting the &lt;code class=&quot;highl
 &lt;p&gt;Regex-Based Rules: Users can define custom regex patterns for valid auth fields (e.g. session-*, profile-[0-9]+) to ensure proper identity separation.&lt;/p&gt;
 
 &lt;p&gt;This gives fine-grained control over SOCKS5 behavior and helps detect apps that bypass proxy isolation.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 21 Jul 2025 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2025/07/21/sockstrace-improvements.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2025/07/21/sockstrace-improvements.html</guid>
+        <pubDate>Fri, 25 Jul 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/07/25/sockstrace-improvements.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/07/25/sockstrace-improvements.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
@@ -322,7 +324,7 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
     
       <item>
         <title>38C3 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/12/16/38c3-fosdem-2025.html&quot;&gt;previously announced&lt;/a&gt;, several developers represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3&lt;/a&gt; in Leipzig, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.&lt;/p&gt;
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/12/16/38c3-fosdem-2025.html&quot;&gt;previously announced&lt;/a&gt;, several developers represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3&lt;/a&gt; in Hamburg, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.&lt;/p&gt;
 
 &lt;p&gt;There were multiple Namecoin-related talks at the Critical Decentralization Cluster (CDC). We’re still waiting for the official recordings to be published, but in the meantime, live-stream archives are provided below where available.&lt;/p&gt;
 
