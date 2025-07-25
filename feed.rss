@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 15 Jun 2025 21:31:25 +0000</pubDate>
-    <lastBuildDate>Sun, 15 Jun 2025 21:31:25 +0000</lastBuildDate>
+    <pubDate>Fri, 25 Jul 2025 07:48:58 +0000</pubDate>
+    <lastBuildDate>Fri, 25 Jul 2025 07:48:58 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,62 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Improving sockstrace: Debugging, Process Control, and Proxy Rules</title>
+        <description>&lt;p&gt;sockstrace just got a major update. Here’s a quick overview of the new features:&lt;/p&gt;
+
+&lt;h2 id=&quot;core-dump--stack-trace&quot;&gt;Core Dump &amp;amp; Stack Trace&lt;/h2&gt;
+&lt;p&gt;When a proxy leak is detected, sockstrace can:&lt;/p&gt;
+
+&lt;p&gt;Stack Trace: Extract a stack trace of the leaking process to show where in the code the leak occurred. This uses &lt;code class=&quot;highlighter-rouge&quot;&gt;gdb&lt;/code&gt; behind the scenes, so the trace includes detailed symbol infomation (if available).&lt;/p&gt;
+
+&lt;p&gt;Core Dump: Creates a full core dump of the leaking process by sending &lt;code class=&quot;highlighter-rouge&quot;&gt;SIGABRT.&lt;/code&gt; Before triggering it, sockstrace checks that &lt;code class=&quot;highlighter-rouge&quot;&gt;ulimit&lt;/code&gt; allows dumping. The resulting core can be loaded into GDB for full post-mortem analysis, including memory, registers, and detailed traces.&lt;/p&gt;
+
+&lt;h2 id=&quot;kill-all-tracees-including-children&quot;&gt;Kill All Tracees (Including Children)&lt;/h2&gt;
+&lt;p&gt;Previously, sockstrace only supported killing the specific PID that triggered the leak. In multi-process applications like browsers, this often left child processes alive, leading to inconsistent behavior or silent failures.&lt;/p&gt;
+
+&lt;p&gt;Now, it can recursively terminate the entire process tree rooted at that PID, ensuring:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A clearer signal to the user that something went wrong (Avoid silent failures)&lt;/li&gt;
+  &lt;li&gt;No zombie processes are left behind&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;whitelist-for-incoming-tcp-connections&quot;&gt;Whitelist for Incoming TCP Connections&lt;/h2&gt;
+&lt;p&gt;You can now define a whitelist of allowed source IPs or subnets for incoming TCP connections.
+sockstrace enforces the whitelist by intercepting the &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;listen&lt;/code&gt; syscalls: it parses the bind address from the syscall arguments, and on listen, it calls &lt;code class=&quot;highlighter-rouge&quot;&gt;syscall.Getsockname&lt;/code&gt; to retrieve the actual bound address. This address is then checked against a user-defined whitelist, and if it doesn’t match, the bind is flagged as a leak or blocked based on the configuration.&lt;/p&gt;
+
+&lt;p&gt;This is useful because:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;It blocks unexpected incoming connections.&lt;/li&gt;
+  &lt;li&gt;It ensures only known gateways (e.g. Tor) are allowed to connect, as in Whonix-like setups.&lt;/li&gt;
+  &lt;li&gt;It catches misconfigured or unsafe behavior in network-facing apps.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;socks5-handshake-enforcement&quot;&gt;SOCKS5 Handshake Enforcement&lt;/h2&gt;
+&lt;p&gt;sockstrace now enforces SOCKS5 rules by intercepting the &lt;code class=&quot;highlighter-rouge&quot;&gt;sendto&lt;/code&gt; syscall and parsing the actual handshake data.&lt;/p&gt;
+
+&lt;p&gt;Parse &amp;amp; Validate Structure: Verifies the SOCKS5 version, authentication methods, and field layout directly from the syscall. Rejects malformed or legacy handshakes.&lt;/p&gt;
+
+&lt;p&gt;Require Authentication: Flags connections that use no-auth &lt;code class=&quot;highlighter-rouge&quot;&gt;(0x00)&lt;/code&gt; as leaks. This helps catch unsafe fallback behavior.&lt;/p&gt;
+
+&lt;p&gt;Tor-Compatible Isolation: Supports enforcing Tor-style stream isolation using SOCKS5 username/password fields. While implementing this, we also fixed a few typos and ambiguities in the &lt;a href=&quot;https://spec.torproject.org/socks-extensions.html&quot;&gt;Tor spec&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Regex-Based Rules: Users can define custom regex patterns for valid auth fields (e.g. session-*, profile-[0-9]+) to ensure proper identity separation.&lt;/p&gt;
+
+&lt;p&gt;This gives fine-grained control over SOCKS5 behavior and helps detect apps that bypass proxy isolation.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 25 Jul 2025 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2025/07/25/sockstrace-improvements.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2025/07/25/sockstrace-improvements.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at MoneroKon 5</title>
@@ -268,7 +324,7 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
     
       <item>
         <title>38C3 Summary</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/12/16/38c3-fosdem-2025.html&quot;&gt;previously announced&lt;/a&gt;, several developers represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3&lt;/a&gt; in Leipzig, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.&lt;/p&gt;
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/12/16/38c3-fosdem-2025.html&quot;&gt;previously announced&lt;/a&gt;, several developers represented Namecoin at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3&lt;/a&gt; in Hamburg, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.&lt;/p&gt;
 
 &lt;p&gt;There were multiple Namecoin-related talks at the Critical Decentralization Cluster (CDC). We’re still waiting for the official recordings to be published, but in the meantime, live-stream archives are provided below where available.&lt;/p&gt;
 
@@ -528,86 +584,6 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
         <link>https://namecoin.bit/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2024/10/21/sockstrace-funding-nlnet-ngi0-core.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Tor Meeting 2024 / GPN 22 / MoneroKon 4 Summary (UPDATED)</title>
-        <description>&lt;p&gt;As was &lt;a href=&quot;/2024/05/15/tor-2024-gpn-22-monerokon-4.html&quot;&gt;previously announced&lt;/a&gt;, Rose, yanmaani, Hugo, and I (Jeremy Rand) represented Namecoin at three conferences in Europe. This was an excellent series of events for a number of reasons, not least the fact that this is the first time we’ve ever had 4 Namecoin developers attending a single conference (our previous record was 3 developers, at 37C3). Expanding our team size has been a priority for a while, and it’s great to see that this is starting to pay off. Of course, there were major substantive benefits as well. As usual for conferences that Namecoiners attend, we engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
-
-&lt;p&gt;Notes/slides for Namecoin’s sessions at the Tor meeting, and recordings of Namecoin’s sessions at GPN and MoneroKon, are published below:&lt;/p&gt;
-
-&lt;h2 id=&quot;tor-lisbon-2024-self-authenticating-tls-certificates-for-onion-services-using-a-pkcs11-module&quot;&gt;Tor Lisbon 2024: Self-authenticating TLS Certificates for Onion Services using a PKCS#11 module&lt;/h2&gt;
-
-&lt;p&gt;Facilitator: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;Onion services are self-authenticating. It is highly unfortunate that this isn’t presently the case for their TLS certificates. ahf already made a proof of concept for using onion service Ed25519 keys as a TLS CA, but this requires substantial browser modifications, both to the trust logic (browsers don’t know they should trust these keys) and to the crypto support (browsers don’t support EdDSA). However, there is hope! Mainstream browsers (including Firefox and Chromium) actually do expose APIs that (with a little creativity) can enable validating TLS certificates based on onion service keys. You don’t even need to recompile the browser. Let’s discuss the implications of this, and maybe make some plans!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/self-auth-certs-for-onion-services&quot;&gt;Notes and slides are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;tor-lisbon-2024-pluggable-transport-executables-compression&quot;&gt;Tor Lisbon 2024: Pluggable Transport Executables Compression&lt;/h2&gt;
-
-&lt;p&gt;Facilitators: Jeremy Rand, Morgan Ava&lt;/p&gt;
-
-&lt;p&gt;The download size of Tor Browser is somewhat larger than would be ideal (even causing rejection in the Android Play Store recently). The Go-based pluggable transports take up a nontrivial portion. A potential solution lies within the well-regarded u-root project (a spin-off of Coreboot that one of Tor’s interns worked with recently). u-root includes a subproject called Go-Busybox, which can merge multiple Go executables into one meta-executable, thus de-duplicating library code via the standard compiler optimization process. Our initial experiments have shown significant space savings, and the savings further compound if Namecoin naming (which also uses Go) is included in the Tor Browser binaries. Is this a fruitful line of inquiry? Are there security implications that we should consider? Are there other tricks we can use to decrease the size of the PT binaries? Let’s discuss!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/pluggable-transport-executables-compression&quot;&gt;Notes and slides are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;tor-lisbon-2024-refreshing-best-practices-guidelines-for-tor-friendly-applications&quot;&gt;Tor Lisbon 2024: Refreshing Best Practices Guidelines for Tor-Friendly Applications&lt;/h2&gt;
-
-&lt;p&gt;Facilitators: Jeremy Rand, Morgan Ava&lt;/p&gt;
-
-&lt;p&gt;Many years ago, some community members wrote up a Tor-Friendly Applications Best Practices document. The document has proven to be valuable, but parts are underspecified, and other parts will need revamping for Arti. This session is to refresh the document. Bring your ideas for things that Tor-friendly applications should do, and your horror stories of things Tor-friendly applications shouldn’t do.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://gitlab.torproject.org/tpo/team/-/wikis/Meetings/2024/Lisbon/refreshing-best-practices-guidelines-for-tor-friendly-applications&quot;&gt;Notes are here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;gpn-22-self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;GPN 22: Self-Authenticating TLS Certificates for Tor Onion Services&lt;/h2&gt;
-
-&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;TLS (the security layer behind HTTPS) and Tor onion services (anonymously hosted TCP services) are both excellent protocols. Wouldn’t it be nice if we could use them together? In this talk, I’ll cover a working implementation of combining TLS with onion services, without compromising on the security properties that each provides.&lt;/p&gt;
-
-&lt;p&gt;Topics to be covered include:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Why would you want to combine TLS with onion services? Why isn’t onion service encryption good enough?&lt;/li&gt;
-  &lt;li&gt;Why isn’t unauthenticated TLS (e.g. self-signed certificates) good enough for onion services?&lt;/li&gt;
-  &lt;li&gt;How can we authenticate a TLS certificate for a .onion domain without relying on public CA’s like Let’s Encrypt or any other trusted third parties? (No we’re not using a blockchain.)&lt;/li&gt;
-  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to apply different certificate validation logic for .onion certificates?&lt;/li&gt;
-  &lt;li&gt;How can we teach standard (unmodified) web browsers like Firefox to validate certificates using typically-unsupported elliptic curves like Ed25519 (which Tor uses)?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://media.ccc.de/v/gpn22-469-self-authenticating-tls-certificates-for-tor-onion-services&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;monerokon-4-human-meaningful-trustless-anonymous-monero-addresses-with-namecoin&quot;&gt;MoneroKon 4: Human-Meaningful, Trustless, Anonymous Monero Addresses with Namecoin&lt;/h2&gt;
-
-&lt;p&gt;Speaker: Jeremy Rand&lt;/p&gt;
-
-&lt;p&gt;Monero addresses are already long and unwieldy, and they’re about to get longer with Jamtis. Namecoin is a DNS-like naming system implemented as the first project forked from Bitcoin, predating Monero by 3 years to the day. This talk will cover using Namecoin as a human-meaningful naming layer for Monero addresses, recent anonymity advances that make Namecoin’s privacy more suitable for this use case, how OpenAlias fits in, and how Namecoin compares to the MoneroDNS approach of creating a Monero sidechain for this purpose.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=qQ4ptuh_w84&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
-
-&lt;p&gt;Huge thank you to the following groups who facilitated our participation:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cyphrs&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://replicant.us/&quot;&gt;The Replicant Assembly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Cypherpunks&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We’re hoping to return to these events next year.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Internet Hardening Fund and Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 24 Jul 2024 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2024/07/24/tor-2024-gpn-22-monerokon-4-summary.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
