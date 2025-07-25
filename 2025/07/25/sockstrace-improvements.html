@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Core name_firstupdate, name_update default values</title>
+    <title>Improving sockstrace: Debugging, Process Control, and Proxy Rules</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/07/25/sockstrace-improvements.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,297 +130,57 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Core name_firstupdate, name_update default values</h1>
-<p class="post-meta">Dec 4, 2020 • yanmaani <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Improving sockstrace: Debugging, Process Control, and Proxy Rules</h1>
+<p class="post-meta">Jul 25, 2025 • Robert Nganga <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin Core will, starting version 0.21, no longer require for a value to be provided in the <code class="highlighter-rouge">name_update</code> and <code class="highlighter-rouge">name_firstupdate</code> RPC calls. If no value is provided, Namecoin Core will use the last known such. If none exists, the empty string will be used. This change has no adverse impact on existing workflows, since it only makes previously required parameters optional. However, it does make it easier to update names. If no change in the value is desired, users will be able to directly issue an update for the name, without having to interrogate the present value with <code class="highlighter-rouge">name_show</code>. This simplifies a common workflow.</p>
+<p>sockstrace just got a major update. Here’s a quick overview of the new features:</p>
 
-<p>This change is being made as part of the effort to simplify the RPC API for name management.</p>
+<h2 id="core-dump--stack-trace">Core Dump &amp; Stack Trace</h2>
+<p>When a proxy leak is detected, sockstrace can:</p>
+
+<p>Stack Trace: Extract a stack trace of the leaking process to show where in the code the leak occurred. This uses <code class="highlighter-rouge">gdb</code> behind the scenes, so the trace includes detailed symbol infomation (if available).</p>
+
+<p>Core Dump: Creates a full core dump of the leaking process by sending <code class="highlighter-rouge">SIGABRT.</code> Before triggering it, sockstrace checks that <code class="highlighter-rouge">ulimit</code> allows dumping. The resulting core can be loaded into GDB for full post-mortem analysis, including memory, registers, and detailed traces.</p>
+
+<h2 id="kill-all-tracees-including-children">Kill All Tracees (Including Children)</h2>
+<p>Previously, sockstrace only supported killing the specific PID that triggered the leak. In multi-process applications like browsers, this often left child processes alive, leading to inconsistent behavior or silent failures.</p>
+
+<p>Now, it can recursively terminate the entire process tree rooted at that PID, ensuring:</p>
+<ul>
+  <li>A clearer signal to the user that something went wrong (Avoid silent failures)</li>
+  <li>No zombie processes are left behind</li>
+</ul>
+
+<h2 id="whitelist-for-incoming-tcp-connections">Whitelist for Incoming TCP Connections</h2>
+<p>You can now define a whitelist of allowed source IPs or subnets for incoming TCP connections.
+sockstrace enforces the whitelist by intercepting the <code class="highlighter-rouge">bind</code> and <code class="highlighter-rouge">listen</code> syscalls: it parses the bind address from the syscall arguments, and on listen, it calls <code class="highlighter-rouge">syscall.Getsockname</code> to retrieve the actual bound address. This address is then checked against a user-defined whitelist, and if it doesn’t match, the bind is flagged as a leak or blocked based on the configuration.</p>
+
+<p>This is useful because:</p>
+<ul>
+  <li>It blocks unexpected incoming connections.</li>
+  <li>It ensures only known gateways (e.g. Tor) are allowed to connect, as in Whonix-like setups.</li>
+  <li>It catches misconfigured or unsafe behavior in network-facing apps.</li>
+</ul>
+
+<h2 id="socks5-handshake-enforcement">SOCKS5 Handshake Enforcement</h2>
+<p>sockstrace now enforces SOCKS5 rules by intercepting the <code class="highlighter-rouge">sendto</code> syscall and parsing the actual handshake data.</p>
+
+<p>Parse &amp; Validate Structure: Verifies the SOCKS5 version, authentication methods, and field layout directly from the syscall. Rejects malformed or legacy handshakes.</p>
+
+<p>Require Authentication: Flags connections that use no-auth <code class="highlighter-rouge">(0x00)</code> as leaks. This helps catch unsafe fallback behavior.</p>
+
+<p>Tor-Compatible Isolation: Supports enforcing Tor-style stream isolation using SOCKS5 username/password fields. While implementing this, we also fixed a few typos and ambiguities in the <a href="https://spec.torproject.org/socks-extensions.html">Tor spec</a>.</p>
+
+<p>Regex-Based Rules: Users can define custom regex patterns for valid auth fields (e.g. session-*, profile-[0-9]+) to ensure proper identity separation.</p>
+
+<p>This gives fine-grained control over SOCKS5 behavior and helps detect apps that bypass proxy isolation.</p>
+
+<p>This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.</p>
 
 
 </article>
@@ -430,6 +190,286 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1104,16 +1144,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-12-04-namecoin-core-name-firstupdate-name-update-default-values.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-07-25-sockstrace-improvements.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/12/04/namecoin-core-name-firstupdate-name-update-default-values.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/07/25/sockstrace-improvements.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/07/25/sockstrace-improvements.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/07/25/sockstrace-improvements.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/07/25/sockstrace-improvements.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1122,39 +1162,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
             </ul>
         </div>
