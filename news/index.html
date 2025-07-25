@@ -135,6 +135,66 @@
 <div class="post">
 
   <header class="post-header">
+    <h1 class="post-title"><a href="/2025/07/25/sockstrace-improvements.html">Improving sockstrace: Debugging, Process Control, and Proxy Rules</a></h1>
+    <p class="post-meta">Jul 25, 2025 • Robert Nganga </p>
+  </header>
+
+  <article class="post-content">
+    <p>sockstrace just got a major update. Here’s a quick overview of the new features:</p>
+
+    <h2 id="core-dump--stack-trace">Core Dump &amp; Stack Trace</h2>
+    <p>When a proxy leak is detected, sockstrace can:</p>
+
+    <p>Stack Trace: Extract a stack trace of the leaking process to show where in the code the leak occurred. This uses <code class="highlighter-rouge">gdb</code> behind the scenes, so the trace includes detailed symbol infomation (if available).</p>
+
+    <p>Core Dump: Creates a full core dump of the leaking process by sending <code class="highlighter-rouge">SIGABRT.</code> Before triggering it, sockstrace checks that <code class="highlighter-rouge">ulimit</code> allows dumping. The resulting core can be loaded into GDB for full post-mortem analysis, including memory, registers, and detailed traces.</p>
+
+    <h2 id="kill-all-tracees-including-children">Kill All Tracees (Including Children)</h2>
+    <p>Previously, sockstrace only supported killing the specific PID that triggered the leak. In multi-process applications like browsers, this often left child processes alive, leading to inconsistent behavior or silent failures.</p>
+
+    <p>Now, it can recursively terminate the entire process tree rooted at that PID, ensuring:</p>
+    <ul>
+  <li>A clearer signal to the user that something went wrong (Avoid silent failures)</li>
+  <li>No zombie processes are left behind</li>
+</ul>
+
+    <h2 id="whitelist-for-incoming-tcp-connections">Whitelist for Incoming TCP Connections</h2>
+    <p>You can now define a whitelist of allowed source IPs or subnets for incoming TCP connections.
+sockstrace enforces the whitelist by intercepting the <code class="highlighter-rouge">bind</code> and <code class="highlighter-rouge">listen</code> syscalls: it parses the bind address from the syscall arguments, and on listen, it calls <code class="highlighter-rouge">syscall.Getsockname</code> to retrieve the actual bound address. This address is then checked against a user-defined whitelist, and if it doesn’t match, the bind is flagged as a leak or blocked based on the configuration.</p>
+
+    <p>This is useful because:</p>
+    <ul>
+  <li>It blocks unexpected incoming connections.</li>
+  <li>It ensures only known gateways (e.g. Tor) are allowed to connect, as in Whonix-like setups.</li>
+  <li>It catches misconfigured or unsafe behavior in network-facing apps.</li>
+</ul>
+
+    <h2 id="socks5-handshake-enforcement">SOCKS5 Handshake Enforcement</h2>
+    <p>sockstrace now enforces SOCKS5 rules by intercepting the <code class="highlighter-rouge">sendto</code> syscall and parsing the actual handshake data.</p>
+
+    <p>Parse &amp; Validate Structure: Verifies the SOCKS5 version, authentication methods, and field layout directly from the syscall. Rejects malformed or legacy handshakes.</p>
+
+    <p>Require Authentication: Flags connections that use no-auth <code class="highlighter-rouge">(0x00)</code> as leaks. This helps catch unsafe fallback behavior.</p>
+
+    <p>Tor-Compatible Isolation: Supports enforcing Tor-style stream isolation using SOCKS5 username/password fields. While implementing this, we also fixed a few typos and ambiguities in the <a href="https://spec.torproject.org/socks-extensions.html">Tor spec</a>.</p>
+
+    <p>Regex-Based Rules: Users can define custom regex patterns for valid auth fields (e.g. session-*, profile-[0-9]+) to ensure proper identity separation.</p>
+
+    <p>This gives fine-grained control over SOCKS5 behavior and helps detect apps that bypass proxy isolation.</p>
+
+    <p>This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
+
+<div class="post">
+
+  <header class="post-header">
     <h1 class="post-title"><a href="/2025/06/15/monerokon-5.html">Namecoin will be at MoneroKon 5</a></h1>
     <p class="post-meta">Jun 15, 2025 • Jeremy Rand </p>
   </header>
@@ -408,7 +468,7 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
   </header>
 
   <article class="post-content">
-    <p>As was <a href="/2024/12/16/38c3-fosdem-2025.html">previously announced</a>, several developers represented Namecoin at <a href="https://events.ccc.de/congress/2024/wiki/index.php/Main_Page">38C3</a> in Leipzig, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.</p>
+    <p>As was <a href="/2024/12/16/38c3-fosdem-2025.html">previously announced</a>, several developers represented Namecoin at <a href="https://events.ccc.de/congress/2024/wiki/index.php/Main_Page">38C3</a> in Hamburg, Germany. You know the drill by now: we had a lot of conversations with other attendees, and we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public. That said, a practical result of one of those conversations should be getting its own announcement in the next day or two.</p>
 
     <p>There were multiple Namecoin-related talks at the Critical Decentralization Cluster (CDC). We’re still waiting for the official recordings to be published, but in the meantime, live-stream archives are provided below where available.</p>
 
@@ -9897,37 +9957,37 @@ of the ncdns-nsis installer.</p>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
             </ul>
         </div>
