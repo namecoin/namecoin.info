@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,49 @@ A <strong>trust anchor</strong><br />for the Internet.
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html">What’s the maximum length of an AIA Issuer URL in Windows 11 CryptoAPI?</a></h1>
+    <p class="post-meta">Sep 7, 2025 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>For those of you who haven’t seen my various conference talks about Namecoin TLS, AIA (<em>Authority Information Access</em>) is a mechanism for a TLS certificate to provide a URL where you can find the certificate of its issuer. Namecoin does some, uh, <em>creative</em> things with AIA. For reasons that will be elaborated on in a future post (don’t worry, all will be explained there), I wanted to know the maximum length of the URL that AIA can link to.</p>
+
+    <p>I had no luck finding any such limit in any relevant RFC, nor could I find anyone on the Internet who had documented any such limit, so I had to fall back to experimentation. I ended up writing a patched certificate generator and AIA HTTP server that could test whether arbitrary AIA URL lengths were usable to build a certificate chain. I then wrote a PowerShell script that tried various AIA URL lengths with Windows 11’s <code class="highlighter-rouge">certutil -verify</code>, to see what CryptoAPI’s limits were.</p>
+
+    <p>After running some tests, I have some answers:</p>
+
+    <ul>
+  <li>AIA URL lengths up to <code class="highlighter-rouge">65534</code> bytes work fine.</li>
+  <li>AIA URL lengths <code class="highlighter-rouge">65535</code> bytes and higher do not work.</li>
+</ul>
+
+    <p>I am not certain why the upper bound is <em>2</em> less than a power of 2. If it were <em>1</em> less than a power of 2, that would be sensible since that would indicate a length field that’s an unsigned 16-bit integer. My best guess is that Windows is using a strange data structure that uses both a 16-bit length field <em>and</em> a NULL terminator.</p>
+
+    <p>Checking CryptoAPI’s logs in Event Viewer indicates that none of the AIA-related code paths are running when the limit is exceeded.</p>
+
+    <p>Scope caveats:</p>
+
+    <ul>
+  <li>I only ran this test in Windows 11 24H2. I suspect that sufficiently old Windows releases are less tolerant.</li>
+  <li>I don’t know what happens if you try to put Unicode in the URL.</li>
+  <li>I would not expect to see the same limit in other TLS clients that implement AIA, e.g. macOS.</li>
+</ul>
+
+    <p>Should you wish to reproduce these results yourself (<em>Science Rules!</em>), the code should be included in the next release of Encaya.</p>
+
+    <p>This work was funded by Power Up Privacy.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -9955,39 +9998,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder">Handshake</li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
