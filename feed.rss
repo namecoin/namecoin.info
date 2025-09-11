@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sun, 07 Sep 2025 10:33:40 +0000</pubDate>
-    <lastBuildDate>Sun, 07 Sep 2025 10:33:40 +0000</lastBuildDate>
+    <pubDate>Thu, 11 Sep 2025 11:16:54 +0000</pubDate>
+    <lastBuildDate>Thu, 11 Sep 2025 11:16:54 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,75 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Hashed TLSA Records in Encaya</title>
+        <description>&lt;p&gt;As long-time readers will be aware, probably the biggest innovation of Namecoin’s TLS functionality is that it uses a special form of TLS certificates that happens to work well in mainstream web browsers, via the interoperability magic of AIA and PKCS#11. This avoids having to patch web browsers or intercept TLS connections (either of which would introduce nontrivial security liabilities).&lt;/p&gt;
+
+&lt;p&gt;One of the consequences of this benefit has been that Namecoin domains must embed an ECDSA public key on-chain. ECDSA public keys, alas, are somewhat big. We worked around this, sort of, by using compressed public keys on-chain, and decompressing them on-the-fly before passing them to web browsers via AIA. This was still suboptimal for a few reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Compressed ECDSA public keys are still kind of big. Much bigger than a SHA-256 hash.&lt;/li&gt;
+  &lt;li&gt;Compressed ECDSA public keys aren’t supported by the Go standard library, so we had to maintain a fork of the standard library.&lt;/li&gt;
+  &lt;li&gt;Whatever escape hatch we get from using compressed ECDSA public keys won’t help us when TLS eventually moves to PQ signatures. (More on this in a future post.)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So, why did we need full public keys in the blockchain (as opposed to a public key hash) anyway? The constraints are as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Encaya needs to synthesize a CA certificate when the browser asks for it.&lt;/li&gt;
+  &lt;li&gt;This synthesized CA certificate needs to contain the public key that the domain owner picked.&lt;/li&gt;
+  &lt;li&gt;The browser will &lt;em&gt;not&lt;/em&gt; provide any public keys that the TLS server presented in the certificate chain.&lt;/li&gt;
+  &lt;li&gt;THEREFORE, Encaya needs to get the public key from the blockchain, since there’s no other way to get it given the API constraints. QED. Right…?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Um, about that last assumption. Is there really no other way to get the public key given the API constraints?&lt;/p&gt;
+
+&lt;p&gt;Moreover, how does Encaya even know what domain name to look up in the blockchain? Could we get the public key that way?&lt;/p&gt;
+
+&lt;p&gt;Hmm…&lt;/p&gt;
+
+&lt;p&gt;Encaya gets the domain name from an AIA request (for Chromium-like browsers) or from a PKCS#11 request (for Firefox-like browsers). Why do these requests contain the domain name? Uh. Because we put the domain name there?&lt;/p&gt;
+
+&lt;p&gt;The AIA request contains whatever data is in the AIA Issuer URL field of a certificate sent by the TLS server. The PKCS#11 request contains whatever data is in the Issuer Distinguished Name (DN) field of that certificate. There’s no requirement that either of those fields contain the domain name. The DN does &lt;em&gt;sometimes&lt;/em&gt; contain a domain name in the Common Name field, but that’s normally only a thing for end-entity certificates, not CA certificates. The AIA Issuer URL field definitely doesn’t normally have anything like that under any circumstances. In both fields, we &lt;em&gt;deliberately&lt;/em&gt; put the domain name there so that Encaya would see it.&lt;/p&gt;
+
+&lt;p&gt;You probably see where this is going. Could we stuff a public key into the AIA Issuer URL and the Subject DN? It’d look pretty weird, but if you’re averse to looking weird, you’re probably not a hacker.&lt;/p&gt;
+
+&lt;p&gt;So here’s the new workflow:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The AIA Issuer URL field of the CA certificate sent by the TLS server adds a new GET query parameter, containing a base64-encoded public key.&lt;/li&gt;
+  &lt;li&gt;The Subject DN field of that CA certificate’s parent CA adds a base64-encoded public key in the Subject Serial Number subfield.&lt;/li&gt;
+  &lt;li&gt;The Issuer DN field of the CA certificate matches the Subject DN of its parent, thus also including an Issuer Serial Number with a base64-encoded public  key in it.&lt;/li&gt;
+  &lt;li&gt;When Chromium sees this certificate chain, it sends an AIA request to Encaya that includes the public key as part of the AIA Issuer URL.&lt;/li&gt;
+  &lt;li&gt;When Firefox sees this certificate chain, it sends a PKCS#11 request to ncp11 that includes the public key as part of the Subject DN or Issuer DN.&lt;/li&gt;
+  &lt;li&gt;Encaya can then compare this public key to the hashed TLSA record in the blockchain. It if matches, Encaya uses the public key in its synthesized CA.&lt;/li&gt;
+  &lt;li&gt;Chromium and Firefox don’t know that anything funky has happened. Sure, there’s an intermediate CA with a really long AIA Issuer URL and Issuer Serial Number. But Chromium and Firefox don’t care about that.&lt;/li&gt;
+  &lt;li&gt;On-chain savings achieved. We win!&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I’ve implemented the above in Encaya, ncp11, and generate_nmc_cert. What do the savings look like?&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Before: 90 bytes of JSON per TLSA record&lt;/li&gt;
+  &lt;li&gt;After: 54 bytes of JSON per TLSA record&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The TLS handshake, of course, contains a bit more data, but TLS handshake bytes are cheap compared to on-chain bytes.&lt;/p&gt;
+
+&lt;p&gt;Once this feature gets into a release, we will contact Namecoin HTTPS website operators in the wild (where feasible) to nudge them to upgrade their setup. Support for the previous certificate format will probably be dropped soon, because the maintenance burden of a standard Go crypto library fork is not a good use of my time.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 11 Sep 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/09/11/hashed-tlsa-records-in-encaya.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/09/11/hashed-tlsa-records-in-encaya.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>What's the maximum length of an AIA Issuer URL in Windows 11 CryptoAPI?</title>
@@ -516,80 +585,6 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Core 28.0 Released (UPDATED)</title>
-        <description>&lt;p&gt;Namecoin Core 28.0 has been released on the &lt;a href=&quot;/download/#namecoin-core-client-stable-release&quot;&gt;Downloads page&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Here’s what’s new since 22.0:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;RPC
-    &lt;ul&gt;
-      &lt;li&gt;Disambiguate “expired” from “never existed” in &lt;code class=&quot;highlighter-rouge&quot;&gt;name_show&lt;/code&gt; error message. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;GUI
-    &lt;ul&gt;
-      &lt;li&gt;Disable configuring/renewing names that are unspendable due to expiration or transfer. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Clarify passphrase dialog to make clear that names are protected by the passphrase. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Clarify Receive tab to make clear that it can be used for name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Fix suboptimal Unicode usage in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Add “Export” button to Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt; Qt GUI. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Add decoration for incoming and outgoing name transfers. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Add decoration for name renewals. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Move name operation into Type column. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Add icon for Configure Name button. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Show name count in Manage Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Check availability in Buy Names tab. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Show &lt;code class=&quot;highlighter-rouge&quot;&gt;.bit&lt;/code&gt; form for &lt;code class=&quot;highlighter-rouge&quot;&gt;d/&lt;/code&gt; names in &lt;code class=&quot;highlighter-rouge&quot;&gt;TransactionRecord&lt;/code&gt;. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Show namespace in Type column of Transactions tab. (Patch by Jeremy Rand; Review by Daniel Kraft and Yanmaani.)&lt;/li&gt;
-      &lt;li&gt;Prioritize Data over Transfer in tab order in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Avoid jargon in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Show value size in Configure Name dialog. (Patch by Jeremy Rand; Review by Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Check for invalid JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)&lt;/li&gt;
-      &lt;li&gt;Check for non-minimal JSON in Configure Name dialog. (Patch by Rose Turing; Review by Jeremy Rand and Daniel Kraft.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Misc
-    &lt;ul&gt;
-      &lt;li&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;fundrawtransaction&lt;/code&gt; more in the suggested atomic name trades workflow. (Patch by Daniel Kraft; Review by Yanmaani.)&lt;/li&gt;
-      &lt;li&gt;Add mainnet DNS seeds from s7r. (Patch by s7r; Review by Daniel Kraft and Jeremy Rand.)&lt;/li&gt;
-      &lt;li&gt;Fix missing &lt;code class=&quot;highlighter-rouge&quot;&gt;#include&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;buynamespage.h&lt;/code&gt;. (Patch by Zoltan Konder; Review by Daniel Kraft and Jeremy Rand.)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Numerous improvements from upstream Bitcoin Core.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Known potential issues (will hopefully be resolved soon):&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Initial peer discovery may not work reliably over Tor.&lt;/li&gt;
-  &lt;li&gt;Setting &lt;code class=&quot;highlighter-rouge&quot;&gt;-fallbackfee&lt;/code&gt; may be needed if you don’t want to wait some blocks before you can issue transactions.&lt;/li&gt;
-  &lt;li&gt;The Buy Names tab only performs &lt;code class=&quot;highlighter-rouge&quot;&gt;name_firstupdate&lt;/code&gt;, not &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt;; you’ll have to do &lt;code class=&quot;highlighter-rouge&quot;&gt;name_new&lt;/code&gt; from the console first.&lt;/li&gt;
-  &lt;li&gt;The Buy Names tab might require setting &lt;code class=&quot;highlighter-rouge&quot;&gt;-addresstype bech32 -changetype bech32&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Some GUI lag is present when switching to the Overview and Transactions tabs, and when scrolling in the Transactions tab.&lt;/li&gt;
-  &lt;li&gt;Old BDB-based wallets are no longer supported (per upstream policy). Migration of BDB wallets to the new Descriptor wallets is not thoroughly tested, so if you have high-value BDB wallets, you may want to back them up and keep an old version of Namecoin Core around until you are confident that your wallets migrated properly.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;del&gt;Why is it on the Beta Downloads page, you ask? As of this writing, we only have 1 set of Guix signatures, and we require 2 sets to do a release. For logistical optimization reasons, we have decided to upload the binaries and publish the changelog now. However, do not consider the release to be official until a 2nd set of matching Guix signatures has had a PR submitted (which we expect to be in the next week). We fully expect these binaries to be bit-for-bit identical to the ones that we place on the main Downloads page in a little while. If you see another set of matching Guix signatures by the time you read this, then you can safely conclude that these binaries are of the quality you would normally expect on the main Downloads page.&lt;/del&gt;&lt;/p&gt;
-
-&lt;p&gt;Huge thanks to Rose Turing and mjgill89 for Guix-signing this release. Also huge pre-emptive thanks to Robert Nganga for Guix-signing this release in the next week or so.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Cyphrs.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/12/15/namecoin-core-28.0-released.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/12/15/namecoin-core-28.0-released.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>Releases</category>
-        
-        <category>Namecoin Core Releases</category>
         
         
       </item>
