@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,79 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2025/09/11/hashed-tlsa-records-in-encaya.html">Hashed TLSA Records in Encaya</a></h1>
+    <p class="post-meta">Sep 11, 2025 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>As long-time readers will be aware, probably the biggest innovation of Namecoin’s TLS functionality is that it uses a special form of TLS certificates that happens to work well in mainstream web browsers, via the interoperability magic of AIA and PKCS#11. This avoids having to patch web browsers or intercept TLS connections (either of which would introduce nontrivial security liabilities).</p>
+
+    <p>One of the consequences of this benefit has been that Namecoin domains must embed an ECDSA public key on-chain. ECDSA public keys, alas, are somewhat big. We worked around this, sort of, by using compressed public keys on-chain, and decompressing them on-the-fly before passing them to web browsers via AIA. This was still suboptimal for a few reasons:</p>
+
+    <ol>
+  <li>Compressed ECDSA public keys are still kind of big. Much bigger than a SHA-256 hash.</li>
+  <li>Compressed ECDSA public keys aren’t supported by the Go standard library, so we had to maintain a fork of the standard library.</li>
+  <li>Whatever escape hatch we get from using compressed ECDSA public keys won’t help us when TLS eventually moves to PQ signatures. (More on this in a future post.)</li>
+</ol>
+
+    <p>So, why did we need full public keys in the blockchain (as opposed to a public key hash) anyway? The constraints are as follows:</p>
+
+    <ol>
+  <li>Encaya needs to synthesize a CA certificate when the browser asks for it.</li>
+  <li>This synthesized CA certificate needs to contain the public key that the domain owner picked.</li>
+  <li>The browser will <em>not</em> provide any public keys that the TLS server presented in the certificate chain.</li>
+  <li><strong>Therefore</strong>, Encaya needs to get the public key from the blockchain, since there’s no other way to get it given the API constraints. QED. <em>Right…?</em></li>
+</ol>
+
+    <p>Um, about that last assumption. Is there really no other way to get the public key given the API constraints?</p>
+
+    <p>Moreover, how does Encaya even know what domain name to look up in the blockchain? Could we get the public key that way?</p>
+
+    <p>Hmm…</p>
+
+    <p>Encaya gets the domain name from an AIA request (for Chromium-like browsers) or from a PKCS#11 request (for Firefox-like browsers). Why do these requests contain the domain name? Uh. Because we put the domain name there?</p>
+
+    <p>The AIA request contains whatever data is in the AIA Issuer URL field of a certificate sent by the TLS server. The PKCS#11 request contains whatever data is in the Issuer Distinguished Name (DN) field of that certificate. There’s no requirement that either of those fields contain the domain name. The DN does <em>sometimes</em> contain a domain name in the Common Name field, but that’s normally only a thing for end-entity certificates, not CA certificates. The AIA Issuer URL field definitely doesn’t normally have anything like that under any circumstances. In both fields, we <em>deliberately</em> put the domain name there so that Encaya would see it.</p>
+
+    <p>You probably see where this is going. Could we stuff a public key into the AIA Issuer URL and the Subject DN? It’d look pretty weird, but if you’re averse to looking weird, you’re probably not a hacker.</p>
+
+    <p>So here’s the new workflow:</p>
+
+    <ol>
+  <li>The AIA Issuer URL field of the CA certificate sent by the TLS server adds a new GET query parameter, containing a base64-encoded public key.</li>
+  <li>The Subject DN field of that CA certificate’s parent CA adds a base64-encoded public key in the Subject Serial Number subfield.</li>
+  <li>The Issuer DN field of the CA certificate matches the Subject DN of its parent, thus also including an Issuer Serial Number with a base64-encoded public  key in it.</li>
+  <li>When Chromium sees this certificate chain, it sends an AIA request to Encaya that includes the public key as part of the AIA Issuer URL.</li>
+  <li>When Firefox sees this certificate chain, it sends a PKCS#11 request to ncp11 that includes the public key as part of the Subject DN or Issuer DN.</li>
+  <li>Encaya can then compare this public key to the hashed TLSA record in the blockchain. It if matches, Encaya uses the public key in its synthesized CA.</li>
+  <li>Chromium and Firefox don’t know that anything funky has happened. Sure, there’s an intermediate CA with a really long AIA Issuer URL and Issuer Serial Number. But Chromium and Firefox don’t care about that.</li>
+  <li>On-chain savings achieved. <em>We win!</em></li>
+</ol>
+
+    <p>I’ve implemented the above in Encaya, ncp11, and generate_nmc_cert. What do the savings look like?</p>
+
+    <ul>
+  <li>Before: 90 bytes of JSON per TLSA record</li>
+  <li>After: 54 bytes of JSON per TLSA record</li>
+</ul>
+
+    <p>The TLS handshake, of course, contains a bit more data, but TLS handshake bytes are cheap compared to on-chain bytes.</p>
+
+    <p>Once this feature gets into a release, we will contact Namecoin HTTPS website operators in the wild (where feasible) to nudge them to upgrade their setup. Support for the previous certificate format will probably be dropped soon, because the maintenance burden of a standard Go crypto library fork is not a good use of my time.</p>
+
+    <p>This work was funded by Power Up Privacy.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -9998,39 +10071,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
             </ul>
         </div>
