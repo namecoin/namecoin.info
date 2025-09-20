@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>How to get namecoins</title>
+    <title>generate_nmc_cert is now ncgencert</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/get-started/get-namecoins/">
+    <link rel="canonical" href="https://www.namecoin.org/2025/09/20/generate-nmc-cert-is-now-ncgencert.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -122,41 +122,1000 @@
 
     <div id="content">
       <div class="container-fluid">
-        <div class="post">
+        
 
-  <header class="post-header">
-    <h1 class="post-title">How to get namecoins</h1>
-  </header>
 
-  <article class="post-content">
-    
-<p>Namecoins are a token-like currency used to register and update Namecoin names.  If you want to register a Namecoin name, you’ll need to obtain some namecoins.</p>
 
-<h2 id="prerequisites">Prerequisites</h2>
 
-<p>To get namecoins, you first need a <a href="/get-started/name-wallets/">Namecoin wallet</a>.</p>
 
-<h2 id="exchanges">Exchanges</h2>
 
-<p>The easiest way to get namecoins is to purchase them on an exchange.  See the <a href="/exchanges/">list of exchanges</a>.</p>
 
-<p>You can check current <a href="https://www.cryptocoincharts.info/coins/show/nmc">Namecoin prices at CryptoCoinCharts</a>, current <a href="https://markets.bisq.network/?market=nmc_btc">Namecoin prices at Bisq</a>, and <a href="https://bitcoinwisdom.com/markets/btce/nmcusd">Namecoin historical price charts at BitcoinWisdom</a>.</p>
+<div class="post">
 
-<h2 id="mining">Mining</h2>
+<header class="post-header">
+<h1 class="post-title">generate_nmc_cert is now ncgencert</h1>
+<p class="post-meta">Sep 20, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
+</header>
 
-<p>If you don’t wish to purchase namecoins on an exchange, you can also mine them.</p>
+<article class="post-content">
+<p>If you’ve used <code class="highlighter-rouge">generate_nmc_cert</code> to set up a Namecoin TLS server, you’ve probably found the interface a tad vexing. Examples of such weirdness:</p>
 
-<p>Namecoins can be mined in the same way as bitcoins. However, it is recommended to do merged mining, i.e. namecoins are mined as a free by-product of Bitcoin mining.</p>
+<ul>
+  <li>Why is the <code class="highlighter-rouge">-use-ca</code> argument always required? What happens if you forget it?</li>
+  <li>Why is the <code class="highlighter-rouge">-use-aia</code> argument sometimes required?</li>
+  <li>What the heck is the <code class="highlighter-rouge">-falsehost</code> argument?</li>
+</ul>
 
-<p>For a list of current Namecoin mining pools, see <a href="https://metrics.namecoin.org/namecoin/period-timestamps-14-days/pool/charts/latest.txt">our Metrics data</a>.  Ask your favorite <a href="https://blockchain.info/pools">Bitcoin mining pool</a> to offer merged mining of Namecoin in case they don’t.</p>
+<p>The answer is: prioritization of interface stability over UX. This may have made sense many years ago when the Encaya certificate format was still experimental, but by now everyone knows that we’re not going back to the pre-Encaya certificate formats (which is what you’d get if you forgot <code class="highlighter-rouge">-use-ca</code> or <code class="highlighter-rouge">-use-aia</code>, or if you used <code class="highlighter-rouge">-falsehost</code>).</p>
 
-<p>You can also run your own mining pool. <a href="https://bitcointalk.org/index.php?topic=61731.0">Eloipool</a> and <a href="https://github.com/p2pool/p2pool">P2Pool</a> software has support for <a href="https://en.bitcoin.it/wiki/Merged_mining_specification">merged mining</a>.</p>
+<p>I’ve now refactored the interface, as follows:</p>
 
-<p>If you don’t have specialized hardware (ASICs) for Bitcoin mining, consider <a href="https://bitcointalk.org/index.php?board=160.0">mining a CPU-friendly or GPU-friendly coin</a> and then exchanging it for NMC (or for BTC and then NMC).</p>
+<ul>
+  <li><code class="highlighter-rouge">-use-ca</code> is always true. The code paths for when it was false have been sent to a luxurious permanent retirement; we thank them for their past service.</li>
+  <li><code class="highlighter-rouge">-use-aia</code> is now inferred based on whether parent or grandparent chains are specified. The code paths for when the aforementioned inference was wrong have also been sent to luxurious permanent retirement; we thank them for their past service as well.</li>
+  <li>All code associated with <code class="highlighter-rouge">-falsehost</code> has met the same fate, and received the same thank-you, as above.</li>
+</ul>
 
-  </article>
+<p>To celebrate the new, more user-friendly interface, the tool has also been renamed to <code class="highlighter-rouge">ncgencert</code>. The old name <code class="highlighter-rouge">generate_nmc_cert</code> was a result of the tool’s code being a copy of a Golang standard library example called <code class="highlighter-rouge">generate_cert</code>; it was chosen with essentially no thought. In particular, it was inconsistent with existing convention for how Namecoin tools are named: application-layer tools generally are supposed to have <code class="highlighter-rouge">nc</code> as a prefix (e.g. ncdns, ncp11, ncprop279, and Encaya’s original spelling ncaia). The <code class="highlighter-rouge">NMC</code> abbreviation is supposed to be reserved for wallets and similar tools.</p>
+
+<p>This work was funded by Power Up Privacy.</p>
+
+
+</article>
+
+<footer>
+<p><em>If you liked this article, maybe consider <a href='/donate/'>donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href='/contribute/'>contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+</footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       </div>
     </div>
@@ -175,16 +1134,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/get-started/get-namecoins/index.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-20-generate-nmc-cert-is-now-ncgencert.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/get-started/get-namecoins/">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/get-started/get-namecoins/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/get-started/get-namecoins/">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/get-started/get-namecoins/">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/09/20/generate-nmc-cert-is-now-ncgencert.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/20/generate-nmc-cert-is-now-ncgencert.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/20/generate-nmc-cert-is-now-ncgencert.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/09/20/generate-nmc-cert-is-now-ncgencert.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -193,39 +1152,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
             </ul>
         </div>
