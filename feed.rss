@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 11 Sep 2025 15:14:13 +0000</pubDate>
-    <lastBuildDate>Thu, 11 Sep 2025 15:14:13 +0000</lastBuildDate>
+    <pubDate>Sat, 20 Sep 2025 19:27:14 +0000</pubDate>
+    <lastBuildDate>Sat, 20 Sep 2025 19:27:14 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,40 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>`generate_nmc_cert` is now `ncgencert`</title>
+        <description>&lt;p&gt;If you’ve used &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; to set up a Namecoin TLS server, you’ve probably found the interface a tad vexing. Examples of such weirdness:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Why is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; argument always required? What happens if you forget it?&lt;/li&gt;
+  &lt;li&gt;Why is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; argument sometimes required?&lt;/li&gt;
+  &lt;li&gt;What the heck is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; argument?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The answer is: prioritization of interface stability over UX. This may have made sense many years ago when the Encaya certificate format was still experimental, but by now everyone knows that we’re not going back to the pre-Encaya certificate formats (which is what you’d get if you forgot &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt;, or if you used &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;I’ve now refactored the interface, as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; is always true. The code paths for when it was false have been sent to a luxurious permanent retirement; we thank them for their past service.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; is now inferred based on whether parent or grandparent chains are specified. The code paths for when the aforementioned inference was wrong have also been sent to luxurious permanent retirement; we thank them for their past service as well.&lt;/li&gt;
+  &lt;li&gt;All code associated with &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; has met the same fate, and received the same thank-you, as above.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To celebrate the new, more user-friendly interface, the tool has also been renamed to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncgencert&lt;/code&gt;. The old name &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; was a result of the tool’s code being a copy of a Golang standard library example called &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_cert&lt;/code&gt;; it was chosen with essentially no thought. In particular, it was inconsistent with existing convention for how Namecoin tools are named: application-layer tools generally are supposed to have &lt;code class=&quot;highlighter-rouge&quot;&gt;nc&lt;/code&gt; as a prefix (e.g. ncdns, ncp11, ncprop279, and Encaya’s original spelling ncaia). The “NMC” abbreviation is supposed to be reserved for wallets and similar tools.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 20 Sep 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/09/20/generate-nmc-cert-is-now-ncgencert.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/09/20/generate-nmc-cert-is-now-ncgencert.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Hashed TLSA Records in Encaya</title>
@@ -562,26 +596,6 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
         <pubDate>Sun, 30 Mar 2025 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2025/03/30/38c3-summary.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/38c3-summary.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin will be at 38C3 and FOSDEM 2025</title>
-        <description>&lt;p&gt;We’re happy to announce that at least three Namecoin developers will be at &lt;a href=&quot;https://events.ccc.de/congress/2024/wiki/index.php/Main_Page&quot;&gt;38C3 (the 38th Chaos Communication Congress)&lt;/a&gt; in Hamburg, December 27-30. Additionally, at least two Namecoin developers will be at &lt;a href=&quot;https://www.fosdem.org/2025/&quot;&gt;FOSDEM 2025&lt;/a&gt; in Brussels, February 1-2.&lt;/p&gt;
-
-&lt;p&gt;We expect to give some talks, however, the details are still in flux and will probably not be announced until shortly before the beginning of the respective conferences; keep an eye on both the C3 and FOSDEM schedules to find us (or find our absence, if we are unlucky). Recordings and live-streams may happen as well.&lt;/p&gt;
-
-&lt;p&gt;As you may recall, last year’s Congress (37C3) was the first year that Namecoin stepped out from Monero’s shadow to form our own Assembly. This was a huge success for all involved, and the Namecoin Assembly is back this year. Of course, we remain close friends with Monero. Meanwhile this will be our first time attending FOSDEM, so we’re very excited to see what we’ve been missing all these years.&lt;/p&gt;
-
-&lt;p&gt;If you’d like to meet up with us at C3, the usual methods (c3nav, etc) should lead you to us. Meanwhile if you’d like to meet up with us at FOSDEM, you can say hello in the #namecoin-dev Matrix channel, or you can ask at the NLnet table and perhaps they may be able to point you in our direction.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2024/12/16/38c3-fosdem-2025.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2024/12/16/38c3-fosdem-2025.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
