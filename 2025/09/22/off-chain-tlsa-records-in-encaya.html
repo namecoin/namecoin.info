@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Electrum-NMC v3.3.9.1 Released</title>
+    <title>Off-Chain TLSA Records in Encaya</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/04/17/electrum-nmc-v3.3.9.1-released.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/22/off-chain-tlsa-records-in-encaya.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,386 +130,43 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Electrum-NMC v3.3.9.1 Released</h1>
-<p class="post-meta">Apr 17, 2020 • Jeremy Rand <i class="fa fa-tags"></i></p>
+<h1 class="post-title">Off-Chain TLSA Records in Encaya</h1>
+<p class="post-meta">Sep 22, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>We’ve released Electrum-NMC v3.3.9.1.  This release (which is still based on upstream Electrum v3.3.8) includes a few high-demand new features and bug fixes that we wanted to get released before upstream Electrum tags v4.0.0.</p>
+<p>Now that <a href="/2025/09/11/hashed-tlsa-records-in-encaya.html">hashed TLSA records</a> are a thing, it’s time to ask our inner mad scientist: can we do any better than that?</p>
 
-<p>Here’s what’s new since v3.3.8:</p>
+<p>What would be better for scalability than only putting a hash on the blockchain? What about… not putting <em>any</em> TLS things on the blockchain? Sounds impossible, right?</p>
 
-<ul>
-  <li>From upstream Electrum:
-    <ul>
-      <li>Build script fixes backported from Electrum v4.0.0.</li>
-    </ul>
-  </li>
-  <li>Namecoin-specific:
-    <ul>
-      <li>Features:
-        <ul>
-          <li>Add DNS builder GUI based on Namecoin Core.  (Patch by Jeremy Rand; based on a Namecoin Core patch by Brandon Roberts.)</li>
-          <li>Add more servers.  (Patches by Jeremy Rand; thanks to deafboy, ccomp, and s7r for running the servers.)</li>
-          <li>Allow pausing network on startup; unpause via an RPC command (mostly relevant for Tor Browser integration).  (Patch by Jeremy Rand; thanks to Georg Koppen and mjgill89 for reporting Tor Browser issue; thanks to SomberNight for brainstorming solutions.)</li>
-          <li>Update checkpoint.  (Patch by Jeremy Rand.)</li>
-        </ul>
-      </li>
-      <li>Bug fixes:
-        <ul>
-          <li>Return correct error code when looking up nonexistent names.  Fixes issue where ncdns was recognizing this error as <code class="highlighter-rouge">SERVFAIL</code> instead of <code class="highlighter-rouge">NXDOMAIN</code>.  (Patch by Jeremy Rand; thanks to Georg Koppen for reporting Tor Browser issue.)</li>
-          <li>Fix connectivity issues that could cause slow syncup or syncup getting stuck completely (these bugs were related to the stream isolation and parallel chain download patches).  (Patches by Jeremy Rand; thanks to Georg Koppen, mjgill89, and s7r for reporting issues.)</li>
-          <li>Fix minor error handling bugs in name registration GUI and <code class="highlighter-rouge">name_show</code> RPC command.  (Patches by Jeremy Rand; thanks to s7r for reporting issues.)</li>
-          <li>Add some additional AuxPoW checks.  (Patches by Jeremy Rand.)</li>
-          <li>Disable stream-isolated server pool if in <code class="highlighter-rouge">oneserver</code> mode (fixes a privacy leak).  (Patch by Jeremy Rand; thanks to s7r for reporting issue.)</li>
-          <li>Fix missing help text for <code class="highlighter-rouge">name_show</code> RPC command.  (Patch by Jeremy Rand.)</li>
-          <li>Fix missing locale data in Python binaries.  (Patch by Jeremy Rand.)</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
+<p>Let’s frame this question a different way: why are we putting a TLSA record on the blockchain? Or perhaps we can ask an even more radical question: why do we put <em>anything</em> on the blockchain?</p>
 
-<p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
+<p>There are three main reasons we might put something on the blockchain:</p>
+
+<ol>
+  <li><em>Authenticity</em>: the data is signed by the rightful owner.</li>
+  <li><em>Exclusivity</em>: the data hasn’t been double-spent.</li>
+  <li><em>Freshness</em>: the data isn’t outdated.</li>
+</ol>
+
+<p>Exclusivity isn’t really relevant for TLSA records; there’s not really any incentive for a domain owner to double-spend their own TLSA record.</p>
+
+<p>What about authenticity? The signature is what’s important, but the signature doesn’t <em>have</em> to be the transaction signature. It’s straightforward to sign a message with a Bitcoin private key, and verify it against the corresponding Bitcoin address. This concept is frequently used in Bitcoinland for proof of reserves. And conveniently, in Namecoin, it’s very easy to check which Namecoin address owns a name.</p>
+
+<p>So how would this look? We’re already stapling a public key into the Subject Serial Number, Issuer Serial Number, and AIA Issuer URL. We could also staple a signature, signed by the Namecoin address that owns the name. Encaya can then call out to Namecoin Core or Electrum-NMC to verify the signature.</p>
+
+<p>Does this break freshness? Not really: the signature becomes stale whenever the name is transferred to a new Namecoin address. This means that if you <em>don’t</em> want to revoke your TLSA records that are stapled in this way, you must keep your name at the same address.</p>
+
+<p>Address reuse is often frowned upon in Bitcoinland due to privacy concerns, but the privacy leakage that results from address reuse is <em>already</em> public knowledge in Namecoin: of course those two transactions were made by the same person, they’re for the same domain name and they point to the same IP address. Address reuse is also sometimes cited as an issue for quantum safety. That is technically true, but if a quantum computer starts attacking Bitcoin, you probably want better security than unique addresses will give you. Transitioning Bitcoin and Namecoin to post-quantum signatures is likely to be a better approach.</p>
+
+<p>There is, of course, a practical issue with this scheme. Bitcoin Core doesn’t yet support message signatures with non-P2PKH addresses. Electrum does support P2WPKH addresses. Neither supports multisig addresses (or any other kind of smart contracts). So for now, this approach will only work if you’re using legacy (non-SegWit) single-key addresses; in terms of transaction weight, the witness discount will typically outweigh the benefit from moving TLSA records off-chain. Hopefully Bitcoin Core will fix this soon upstream.</p>
+
+<p>The above has now been implemented into Encaya and ncgencert, and works fine with both AIA and PKCS#11. No changes were needed to ncp11. The ncdns Windows installer will need some small tweaks to relax Encaya’s sandbox so that it can talk to Namecoin Core.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
 
 
 </article>
@@ -519,6 +176,342 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1153,16 +1146,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-17-electrum-nmc-v3.3.9.1-released.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-22-off-chain-tlsa-records-in-encaya.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/04/17/electrum-nmc-v3.3.9.1-released.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/17/electrum-nmc-v3.3.9.1-released.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/04/17/electrum-nmc-v3.3.9.1-released.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/09/22/off-chain-tlsa-records-in-encaya.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/22/off-chain-tlsa-records-in-encaya.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/22/off-chain-tlsa-records-in-encaya.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/09/22/off-chain-tlsa-records-in-encaya.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1171,39 +1164,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
             </ul>
         </div>
