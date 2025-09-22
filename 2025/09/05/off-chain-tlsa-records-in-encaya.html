@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>p11mod Now Supports Signatures</title>
+    <title>Off-Chain TLSA Records in Encaya</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.namecoin.org/2022/01/27/p11mod-signatures.html">
+    <link rel="canonical" href="https://www.namecoin.org/2025/09/05/off-chain-tlsa-records-in-encaya.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -142,202 +142,43 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">p11mod Now Supports Signatures</h1>
-<p class="post-meta">Jan 27, 2022 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Off-Chain TLSA Records in Encaya</h1>
+<p class="post-meta">Sep 5, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>In a <a href="/2021/07/10/lab-leak-p11mod.html">previous post</a>, I covered p11mod and how it improves the auditability of Namecoin’s TLS interoperability with NSS and GnuTLS.  Recently, I’ve expanded the subset of the PKCS#11 implementation that p11mod covers; p11mod can now:</p>
+<p>Now that hashed TLSA records are a thing, it’s time to ask our inner mad scientist: can we do any better than that?</p>
 
-<ul>
-  <li>Import certificates, public keys, and private keys.</li>
-  <li>Delete certificates, public keys, and private keys.</li>
-  <li>Sign messages with private keys.</li>
-  <li>Verify signatures with public keys.</li>
-</ul>
+<p>What would be better for scalability than only putting a hash on the blockchain? What about… not putting <em>any</em> TLS things on the blockchain? Sounds impossible, right?</p>
 
-<p>None of these operations are required by Namecoin, but they do make p11mod useful for a wider variety of use cases, which helps attract more users and developers.  This new functionality was made possible by integration tests from OpenDNSSEC.  Thanks to the OpenDNSSEC developers for that!</p>
+<p>Let’s frame this question a different way: why are we putting a TLSA record on the blockchain? Or perhaps we can ask an even more radical question: why do we put <em>anything</em> on the blockchain?</p>
 
-<p>I also fixed a PKCS#11 specification compliance bug in p11mod (stupid off-by-one error in object handle validation), which was surfaced by a GnuTLS upgrade that enforces greater strictness.  Kudos to the GnuTLS developers for being strict and helping me fix a bug!</p>
+<p>There are three main reasons we might put something on the blockchain:</p>
 
-<p>All of these improvements are now tested daily on Cirrus via p11proxy.</p>
+<ol>
+  <li><em>Authenticity</em>: the data is signed by the rightful owner.</li>
+  <li><em>Exclusivity</em>: the data hasn’t been double-spent.</li>
+  <li><em>Freshness</em>: the data isn’t outdated.</li>
+</ol>
 
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>Exclusivity isn’t really relevant for TLSA records; there’s not really any incentive for a domain owner to double-spend their own TLSA record.</p>
+
+<p>What about authenticity? The signature is what’s important, but the signature doesn’t <em>have</em> to be the transaction signature. It’s straightforward to sign a message with a Bitcoin private key, and verify it against the corresponding Bitcoin address. This concept is frequently used in Bitcoinland for proof of reserves. And conveniently, in Namecoin, it’s very easy to check which Namecoin address owns a name.</p>
+
+<p>So how would this look? We’re already stapling a public key into the Subject Serial Number, Issuer Serial Number, and AIA Issuer URL. We could also staple a signature, signed by the Namecoin address that owns the name. Encaya can then call out to Namecoin Core or Electrum-NMC to verify the signature.</p>
+
+<p>Does this break freshness? Not really: the signature becomes stale whenever the name is transferred to a new Namecoin address. This means that if you <em>don’t</em> want to revoke your TLSA records that are stapled in this way, you must keep your name at the same address.</p>
+
+<p>Address reuse is often frowned upon in Bitcoinland due to privacy concerns, but the privacy leakage that results from address reuse is <em>already</em> public knowledge in Namecoin: of course those two transactions were made by the same person, they’re for the same domain name and they point to the same IP address. Address reuse is also sometimes cited as an issue for quantum safety. That is technically true, but if a quantum computer starts attacking Bitcoin, you probably want better security than unique addresses will give you. Transitioning Bitcoin and Namecoin to post-quantum signatures is likely to be a better approach.</p>
+
+<p>There is, of course, a practical issue with this scheme. Bitcoin Core doesn’t yet support message signatures with non-P2PKH addresses. Electrum does support P2WPKH addresses. Neither supports multisig addresses (or any other kind of smart contracts). So for now, this approach will only work if you’re using legacy (non-SegWit) single-key addresses; in terms of transaction weight, the witness discount will typically outweigh the benefit from moving TLSA records off-chain. Hopefully Bitcoin Core will fix this soon upstream.</p>
+
+<p>The above has now been implemented into Encaya and ncgencert, and works fine with both AIA and PKCS#11. No changes were needed to ncp11. The ncdns Windows installer will need some small tweaks to relax Encaya’s sandbox so that it can talk to Namecoin Core.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
 
 
 </article>
@@ -347,6 +188,178 @@ A <strong>trust anchor</strong><br />for the Internet.
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1133,16 +1146,16 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2022-01-27-p11mod-signatures.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-05-off-chain-tlsa-records-in-encaya.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2022/01/27/p11mod-signatures.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/01/27/p11mod-signatures.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/01/27/p11mod-signatures.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2022/01/27/p11mod-signatures.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/09/05/off-chain-tlsa-records-in-encaya.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/05/off-chain-tlsa-records-in-encaya.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/05/off-chain-tlsa-records-in-encaya.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/09/05/off-chain-tlsa-records-in-encaya.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1151,39 +1164,39 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
             </ul>
         </div>
