@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,52 @@ Decentralized<br /><strong>secure</strong> names.
   <article class="post-content">
     
 <p>(<a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/22/off-chain-tlsa-records-in-encaya.html">Off-Chain TLSA Records in Encaya</a></h1>
+    <p class="post-meta">Sep 22, 2025 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Now that <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/11/hashed-tlsa-records-in-encaya.html">hashed TLSA records</a> are a thing, it’s time to ask our inner mad scientist: can we do any better than that?</p>
+
+    <p>What would be better for scalability than only putting a hash on the blockchain? What about… not putting <em>any</em> TLS things on the blockchain? Sounds impossible, right?</p>
+
+    <p>Let’s frame this question a different way: why are we putting a TLSA record on the blockchain? Or perhaps we can ask an even more radical question: why do we put <em>anything</em> on the blockchain?</p>
+
+    <p>There are three main reasons we might put something on the blockchain:</p>
+
+    <ol>
+  <li><em>Authenticity</em>: the data is signed by the rightful owner.</li>
+  <li><em>Exclusivity</em>: the data hasn’t been double-spent.</li>
+  <li><em>Freshness</em>: the data isn’t outdated.</li>
+</ol>
+
+    <p>Exclusivity isn’t really relevant for TLSA records; there’s not really any incentive for a domain owner to double-spend their own TLSA record.</p>
+
+    <p>What about authenticity? The signature is what’s important, but the signature doesn’t <em>have</em> to be the transaction signature. It’s straightforward to sign a message with a Bitcoin private key, and verify it against the corresponding Bitcoin address. This concept is frequently used in Bitcoinland for proof of reserves. And conveniently, in Namecoin, it’s very easy to check which Namecoin address owns a name.</p>
+
+    <p>So how would this look? We’re already stapling a public key into the Subject Serial Number, Issuer Serial Number, and AIA Issuer URL. We could also staple a signature, signed by the Namecoin address that owns the name. Encaya can then call out to Namecoin Core or Electrum-NMC to verify the signature.</p>
+
+    <p>Does this break freshness? Not really: the signature becomes stale whenever the name is transferred to a new Namecoin address. This means that if you <em>don’t</em> want to revoke your TLSA records that are stapled in this way, you must keep your name at the same address.</p>
+
+    <p>Address reuse is often frowned upon in Bitcoinland due to privacy concerns, but the privacy leakage that results from address reuse is <em>already</em> public knowledge in Namecoin: of course those two transactions were made by the same person, they’re for the same domain name and they point to the same IP address. Address reuse is also sometimes cited as an issue for quantum safety. That is technically true, but if a quantum computer starts attacking Bitcoin, you probably want better security than unique addresses will give you. Transitioning Bitcoin and Namecoin to post-quantum signatures is likely to be a better approach.</p>
+
+    <p>There is, of course, a practical issue with this scheme. Bitcoin Core doesn’t yet support message signatures with non-P2PKH addresses. Electrum does support P2WPKH addresses. Neither supports multisig addresses (or any other kind of smart contracts). So for now, this approach will only work if you’re using legacy (non-SegWit) single-key addresses; in terms of transaction weight, the witness discount will typically outweigh the benefit from moving TLSA records off-chain. Hopefully Bitcoin Core will fix this soon upstream.</p>
+
+    <p>The above has now been implemented into Encaya and ncgencert, and works fine with both AIA and PKCS#11. No changes were needed to ncp11. The ncdns Windows installer will need some small tweaks to relax Encaya’s sandbox so that it can talk to Namecoin Core.</p>
+
+    <p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -10109,39 +10155,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
             </ul>
         </div>
