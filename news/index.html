@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,64 @@
   <article class="post-content">
     
 <p>(<a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">Is Post-Quantum Namecoin TLS Feasible?</a></h1>
+    <p class="post-meta">Sep 23, 2025 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>As the shelf life of most public-key cryptography nears its quantum-induced termination, many protocols are moving toward post-quantum (PQ) cryptography. PQ crypto, defined as cryptosystems that are believed to be secure against both classical and quantum cryptanalysis, is an active research area, with rapid advances happening in both the cryptosystems and the attacks. It would be nice if we had more time to research secure PQ cryptosystems, but alas we do not have that luxury. TLS is thus beginning to deploy PQ crypto. Which begs the question: how is Namecoin affected by PQ crypto adoption in TLS?</p>
+
+    <p>There are actually three different cryptosystems in Namecoin TLS that need a PQ replacement:</p>
+
+    <ol>
+  <li>Replacing ECDHE for the TLS handshake.</li>
+  <li>Replacing ECDSA for the X.509 certificates.</li>
+  <li>Replacing Schnorr for the on-chain transactions.</li>
+</ol>
+
+    <p>What would they be replaced with?</p>
+
+    <ol>
+  <li>ECDHE would be replaced with something like CRYSTALS-Kyber (standardized by NIST as ML-KEM).</li>
+  <li>ECDSA would be replaced with something like CRYSTALS-Dilithium (standardized by NIST as ML-DSA).</li>
+  <li>Schnorr would be replaced with CRYSTALS-Dilithium, or perhaps something like Falcon or Lamport signatures.</li>
+</ol>
+
+    <p>(Yes, cryptographers like sci-fi jokes when naming things.)</p>
+
+    <p>And who has to do the work to replace them?</p>
+
+    <ol>
+  <li>ECDHE is handled by web browsers. Encaya doesn’t touch this. Web browsers are already starting to deploy CRYSTALS-Kyber; no action is needed on Namecoin’s end.</li>
+  <li>ECDSA in X.509 is handled specially by Encaya. It’s our job to make sure this doesn’t break when users try to use CRYSTALS-Dilithium!</li>
+  <li>Schnorr on-chain is handled by Bitcoin. As the Bitcoin community moves toward PQ crypto adoption, Namecoin will have to follow Bitcoin on a softfork, but no additional action is needed on Namecoin’s end.</li>
+</ol>
+
+    <p>Yeah, uh, about number 2. What’s the challenge with CRYSTALS-Dilithium? The big problem is that Dilithium involves really really big public keys and really really big signatures (at least compared to ECDSA). Specifically, Dilithium5 public keys are 2592 bytes, with signatures of 4595 bytes. Dilithium is probably not catastrophic for TLS in general, but recall that Encaya needs to staple a public key (and maybe a signature too) into the AIA Issuer URL as well as the Issuer/Subject Serial Number. Mainstream TLS clients generally have no reason to expect massive amounts of data in these fields.</p>
+
+    <p>I already looked into the <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html">length limit of the AIA Issuer URL</a>. The gist is that it’ll give a bit over 65 kB of data. That’s totally fine for Dilithium. However, other limits come into play. <a href="https://docs.openssl.org/3.2/man3/SSL_CTX_set_max_cert_list/">OpenSSL imposes a length limit</a> of 100 KiB on the entire cert chain (the manual says 100 kB, but it’s wrong; the OpenSSL devs apparently are illiterate about the metric system). Given that the stapled data shows up 3 times in the TLS cert chain (AIA Issuer URL, Issuer Serial Number, and Subject Serial Number), that means we have a maximum of ~33.3 KiB to work with. (We have to fit the rest of the cert chain in too!) I couldn’t find any official documentation on the limits in Firefox (<a href="https://0x00.cl/blog/2024/exploring-tls-certs/">this article by Tomás Gutiérrez</a> suggests Firefox is less tolerant than OpenSSL), but by manual testing, I found that stapled data of 32 kB worked OK, while 34 kB made Firefox so unhappy that it managed to show a TLS error with an <em>empty</em> error code (wat). So for practical purposes, our limits for Firefox look very close to those of OpenSSL. Microsoft Edge seems mildly more tolerant than Firefox, but I didn’t try to nail down how much more tolerant.</p>
+
+    <p>As far as I can tell, 32 kB of stapled data will easily meet our needs. It’s considerably larger than what we’d need for a Dilithium5 public key and a Dilithium5 signature, even if they were hex-encoded. In practice, we would probably use base64 encoding (more compact). TLS would probably use Dilithium2 or Dilithium3 (which yields smaller public keys), and Bitcoin might wind up using Falcon, which has even smaller signatures than Dilithium2.</p>
+
+    <p>It’s not clear to me whether 32 kB of stapled data would be able to handle SPV proofs (<a href="https://github.com/handshake-org/HIPs/blob/master/HIP-0017.md">as Handshake is doing</a>), but on the other hand I am not convinced that stapling SPV proofs into a TLS handshake is something that Namecoin needs.</p>
+
+    <p><img src="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/memes/ought-to-be-enough.jpg" alt="~32 kB of stapled data in the Subject Serial Number ought to be enough for anyone?" /></p>
+
+    <p>So, Namecoin’s Encaya certificate format is reasonably well prepared for a PQ transition. There will probably be plentiful drama elsewhere though. No ETA, as far as I’m aware, of when mainstream browsers will support Dilithium certificates.</p>
+
+    <p>This work was funded by Power Up Privacy.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -10155,39 +10213,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
             </ul>
         </div>

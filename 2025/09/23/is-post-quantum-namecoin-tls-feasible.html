@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Off-Chain TLSA Records in Encaya</title>
+    <title>Is Post-Quantum Namecoin TLS Feasible?</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/22/off-chain-tlsa-records-in-encaya.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/feed.rss"/>
 
     <link rel="icon" href='/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -130,47 +130,55 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Off-Chain TLSA Records in Encaya</h1>
-<p class="post-meta">Sep 22, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Is Post-Quantum Namecoin TLS Feasible?</h1>
+<p class="post-meta">Sep 23, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Now that <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/11/hashed-tlsa-records-in-encaya.html">hashed TLSA records</a> are a thing, it’s time to ask our inner mad scientist: can we do any better than that?</p>
+<p>As the shelf life of most public-key cryptography nears its quantum-induced termination, many protocols are moving toward post-quantum (PQ) cryptography. PQ crypto, defined as cryptosystems that are believed to be secure against both classical and quantum cryptanalysis, is an active research area, with rapid advances happening in both the cryptosystems and the attacks. It would be nice if we had more time to research secure PQ cryptosystems, but alas we do not have that luxury. TLS is thus beginning to deploy PQ crypto. Which begs the question: how is Namecoin affected by PQ crypto adoption in TLS?</p>
 
-<p>What would be better for scalability than only putting a hash on the blockchain? What about… not putting <em>any</em> TLS things on the blockchain? Sounds impossible, right?</p>
-
-<p>Let’s frame this question a different way: why are we putting a TLSA record on the blockchain? Or perhaps we can ask an even more radical question: why do we put <em>anything</em> on the blockchain?</p>
-
-<p>There are three main reasons we might put something on the blockchain:</p>
+<p>There are actually three different cryptosystems in Namecoin TLS that need a PQ replacement:</p>
 
 <ol>
-  <li><em>Authenticity</em>: the data is signed by the rightful owner.</li>
-  <li><em>Exclusivity</em>: the data hasn’t been double-spent.</li>
-  <li><em>Freshness</em>: the data isn’t outdated.</li>
+  <li>Replacing ECDHE for the TLS handshake.</li>
+  <li>Replacing ECDSA for the X.509 certificates.</li>
+  <li>Replacing Schnorr for the on-chain transactions.</li>
 </ol>
 
-<p>Exclusivity isn’t really relevant for TLSA records; there’s not really any incentive for a domain owner to double-spend their own TLSA record.</p>
+<p>What would they be replaced with?</p>
 
-<p>What about authenticity? The signature is what’s important, but the signature doesn’t <em>have</em> to be the transaction signature. It’s straightforward to sign a message with a Bitcoin private key, and verify it against the corresponding Bitcoin address. This concept is frequently used in Bitcoinland for proof of reserves. And conveniently, in Namecoin, it’s very easy to check which Namecoin address owns a name.</p>
+<ol>
+  <li>ECDHE would be replaced with something like CRYSTALS-Kyber (standardized by NIST as ML-KEM).</li>
+  <li>ECDSA would be replaced with something like CRYSTALS-Dilithium (standardized by NIST as ML-DSA).</li>
+  <li>Schnorr would be replaced with CRYSTALS-Dilithium, or perhaps something like Falcon or Lamport signatures.</li>
+</ol>
 
-<p>So how would this look? We’re already stapling a public key into the Subject Serial Number, Issuer Serial Number, and AIA Issuer URL. We could also staple a signature, signed by the Namecoin address that owns the name. Encaya can then call out to Namecoin Core or Electrum-NMC to verify the signature.</p>
+<p>(Yes, cryptographers like sci-fi jokes when naming things.)</p>
 
-<p>Does this break freshness? Not really: the signature becomes stale whenever the name is transferred to a new Namecoin address. This means that if you <em>don’t</em> want to revoke your TLSA records that are stapled in this way, you must keep your name at the same address.</p>
+<p>And who has to do the work to replace them?</p>
 
-<p>Address reuse is often frowned upon in Bitcoinland due to privacy concerns, but the privacy leakage that results from address reuse is <em>already</em> public knowledge in Namecoin: of course those two transactions were made by the same person, they’re for the same domain name and they point to the same IP address. Address reuse is also sometimes cited as an issue for quantum safety. That is technically true, but if a quantum computer starts attacking Bitcoin, you probably want better security than unique addresses will give you. Transitioning Bitcoin and Namecoin to post-quantum signatures is likely to be a better approach.</p>
+<ol>
+  <li>ECDHE is handled by web browsers. Encaya doesn’t touch this. Web browsers are already starting to deploy CRYSTALS-Kyber; no action is needed on Namecoin’s end.</li>
+  <li>ECDSA in X.509 is handled specially by Encaya. It’s our job to make sure this doesn’t break when users try to use CRYSTALS-Dilithium!</li>
+  <li>Schnorr on-chain is handled by Bitcoin. As the Bitcoin community moves toward PQ crypto adoption, Namecoin will have to follow Bitcoin on a softfork, but no additional action is needed on Namecoin’s end.</li>
+</ol>
 
-<p>There is, of course, a practical issue with this scheme. Bitcoin Core doesn’t yet support message signatures with non-P2PKH addresses. Electrum does support P2WPKH addresses. Neither supports multisig addresses (or any other kind of smart contracts). So for now, this approach will only work if you’re using legacy (non-SegWit) single-key addresses; in terms of transaction weight, the witness discount will typically outweigh the benefit from moving TLSA records off-chain. Hopefully Bitcoin Core will fix this soon upstream.</p>
+<p>Yeah, uh, about number 2. What’s the challenge with CRYSTALS-Dilithium? The big problem is that Dilithium involves really really big public keys and really really big signatures (at least compared to ECDSA). Specifically, Dilithium5 public keys are 2592 bytes, with signatures of 4595 bytes. Dilithium is probably not catastrophic for TLS in general, but recall that Encaya needs to staple a public key (and maybe a signature too) into the AIA Issuer URL as well as the Issuer/Subject Serial Number. Mainstream TLS clients generally have no reason to expect massive amounts of data in these fields.</p>
 
-<p>The above has now been implemented into Encaya and ncgencert, and works fine with both AIA and PKCS#11. No changes were needed to ncp11. The ncdns Windows installer will need some small tweaks to relax Encaya’s sandbox so that it can talk to Namecoin Core.</p>
+<p>I already looked into the <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html">length limit of the AIA Issuer URL</a>. The gist is that it’ll give a bit over 65 kB of data. That’s totally fine for Dilithium. However, other limits come into play. <a href="https://docs.openssl.org/3.2/man3/SSL_CTX_set_max_cert_list/">OpenSSL imposes a length limit</a> of 100 KiB on the entire cert chain (the manual says 100 kB, but it’s wrong; the OpenSSL devs apparently are illiterate about the metric system). Given that the stapled data shows up 3 times in the TLS cert chain (AIA Issuer URL, Issuer Serial Number, and Subject Serial Number), that means we have a maximum of ~33.3 KiB to work with. (We have to fit the rest of the cert chain in too!) I couldn’t find any official documentation on the limits in Firefox (<a href="https://0x00.cl/blog/2024/exploring-tls-certs/">this article by Tomás Gutiérrez</a> suggests Firefox is less tolerant than OpenSSL), but by manual testing, I found that stapled data of 32 kB worked OK, while 34 kB made Firefox so unhappy that it managed to show a TLS error with an <em>empty</em> error code (wat). So for practical purposes, our limits for Firefox look very close to those of OpenSSL. Microsoft Edge seems mildly more tolerant than Firefox, but I didn’t try to nail down how much more tolerant.</p>
 
-<p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
+<p>As far as I can tell, 32 kB of stapled data will easily meet our needs. It’s considerably larger than what we’d need for a Dilithium5 public key and a Dilithium5 signature, even if they were hex-encoded. In practice, we would probably use base64 encoding (more compact). TLS would probably use Dilithium2 or Dilithium3 (which yields smaller public keys), and Bitcoin might wind up using Falcon, which has even smaller signatures than Dilithium2.</p>
+
+<p>It’s not clear to me whether 32 kB of stapled data would be able to handle SPV proofs (<a href="https://github.com/handshake-org/HIPs/blob/master/HIP-0017.md">as Handshake is doing</a>), but on the other hand I am not convinced that stapling SPV proofs into a TLS handshake is something that Namecoin needs.</p>
+
+<p><img src="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/images/memes/ought-to-be-enough.jpg" alt="~32 kB of stapled data in the Subject Serial Number ought to be enough for anyone?" /></p>
+
+<p>So, Namecoin’s Encaya certificate format is reasonably well prepared for a PQ transition. There will probably be plentiful drama elsewhere though. No ETA, as far as I’m aware, of when mainstream browsers will support Dilithium certificates.</p>
+
+<p>This work was funded by Power Up Privacy.</p>
 
 
 </article>
@@ -180,6 +188,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 </footer>
 
 </div>
+
+
+
+
 
 
 
@@ -1150,16 +1162,16 @@ A <strong>trust anchor</strong><br />for the Internet.
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-22-off-chain-tlsa-records-in-encaya.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-23-is-post-quantum-namecoin-tls-feasible.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2025/09/22/off-chain-tlsa-records-in-encaya.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/22/off-chain-tlsa-records-in-encaya.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/22/off-chain-tlsa-records-in-encaya.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2025/09/22/off-chain-tlsa-records-in-encaya.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1170,37 +1182,37 @@ A <strong>trust anchor</strong><br />for the Internet.
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
             </ul>
         </div>
