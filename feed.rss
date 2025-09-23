@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 22 Sep 2025 07:57:27 +0000</pubDate>
-    <lastBuildDate>Mon, 22 Sep 2025 07:57:27 +0000</lastBuildDate>
+    <pubDate>Tue, 23 Sep 2025 03:24:55 +0000</pubDate>
+    <lastBuildDate>Tue, 23 Sep 2025 03:24:55 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,60 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Is Post-Quantum Namecoin TLS Feasible?</title>
+        <description>&lt;p&gt;As the shelf life of most public-key cryptography nears its quantum-induced termination, many protocols are moving toward post-quantum (PQ) cryptography. PQ crypto, defined as cryptosystems that are believed to be secure against both classical and quantum cryptanalysis, is an active research area, with rapid advances happening in both the cryptosystems and the attacks. It would be nice if we had more time to research secure PQ cryptosystems, but alas we do not have that luxury. TLS is thus beginning to deploy PQ crypto. Which begs the question: how is Namecoin affected by PQ crypto adoption in TLS?&lt;/p&gt;
+
+&lt;p&gt;There are actually three different cryptosystems in Namecoin TLS that need a PQ replacement:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Replacing ECDHE for the TLS handshake.&lt;/li&gt;
+  &lt;li&gt;Replacing ECDSA for the X.509 certificates.&lt;/li&gt;
+  &lt;li&gt;Replacing Schnorr for the on-chain transactions.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;What would they be replaced with?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;ECDHE would be replaced with something like CRYSTALS-Kyber (standardized by NIST as ML-KEM).&lt;/li&gt;
+  &lt;li&gt;ECDSA would be replaced with something like CRYSTALS-Dilithium (standardized by NIST as ML-DSA).&lt;/li&gt;
+  &lt;li&gt;Schnorr would be replaced with CRYSTALS-Dilithium, or perhaps something like Falcon or Lamport signatures.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;(Yes, cryptographers like sci-fi jokes when naming things.)&lt;/p&gt;
+
+&lt;p&gt;And who has to do the work to replace them?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;ECDHE is handled by web browsers. Encaya doesn’t touch this. Web browsers are already starting to deploy CRYSTALS-Kyber; no action is needed on Namecoin’s end.&lt;/li&gt;
+  &lt;li&gt;ECDSA in X.509 is handled specially by Encaya. It’s our job to make sure this doesn’t break when users try to use CRYSTALS-Dilithium!&lt;/li&gt;
+  &lt;li&gt;Schnorr on-chain is handled by Bitcoin. As the Bitcoin community moves toward PQ crypto adoption, Namecoin will have to follow Bitcoin on a softfork, but no additional action is needed on Namecoin’s end.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Yeah, uh, about number 2. What’s the challenge with CRYSTALS-Dilithium? The big problem is that Dilithium involves really really big public keys and really really big signatures (at least compared to ECDSA). Specifically, Dilithium5 public keys are 2592 bytes, with signatures of 4595 bytes. Dilithium is probably not catastrophic for TLS in general, but recall that Encaya needs to staple a public key (and maybe a signature too) into the AIA Issuer URL as well as the Issuer/Subject Serial Number. Mainstream TLS clients generally have no reason to expect massive amounts of data in these fields.&lt;/p&gt;
+
+&lt;p&gt;I already looked into the &lt;a href=&quot;/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html&quot;&gt;length limit of the AIA Issuer URL&lt;/a&gt;. The gist is that it’ll give a bit over 65 kB of data. That’s totally fine for Dilithium. However, other limits come into play. &lt;a href=&quot;https://docs.openssl.org/3.2/man3/SSL_CTX_set_max_cert_list/&quot;&gt;OpenSSL imposes a length limit&lt;/a&gt; of 100 KiB on the entire cert chain (the manual says 100 kB, but it’s wrong; the OpenSSL devs apparently are illiterate about the metric system). Given that the stapled data shows up 3 times in the TLS cert chain (AIA Issuer URL, Issuer Serial Number, and Subject Serial Number), that means we have a maximum of ~33.3 KiB to work with. (We have to fit the rest of the cert chain in too!) I couldn’t find any official documentation on the limits in Firefox (&lt;a href=&quot;https://0x00.cl/blog/2024/exploring-tls-certs/&quot;&gt;this article by Tomás Gutiérrez&lt;/a&gt; suggests Firefox is less tolerant than OpenSSL), but by manual testing, I found that stapled data of 32 kB worked OK, while 34 kB made Firefox so unhappy that it managed to show a TLS error with an &lt;em&gt;empty&lt;/em&gt; error code (wat). So for practical purposes, our limits for Firefox look very close to those of OpenSSL. Microsoft Edge seems mildly more tolerant than Firefox, but I didn’t try to nail down how much more tolerant.&lt;/p&gt;
+
+&lt;p&gt;As far as I can tell, 32 kB of stapled data will easily meet our needs. It’s considerably larger than what we’d need for a Dilithium5 public key and a Dilithium5 signature, even if they were hex-encoded. In practice, we would probably use base64 encoding (more compact). TLS would probably use Dilithium2 or Dilithium3 (either of which would yield smaller public keys), and Bitcoin might wind up using Falcon, which has even smaller signatures than Dilithium2.&lt;/p&gt;
+
+&lt;p&gt;It’s not clear to me whether 32 kB of stapled data would be able to handle SPV proofs (&lt;a href=&quot;https://github.com/handshake-org/HIPs/blob/master/HIP-0017.md&quot;&gt;as Handshake is doing&lt;/a&gt;), but on the other hand I am not convinced that stapling SPV proofs into a TLS handshake is something that Namecoin needs.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/memes/ought-to-be-enough.jpg&quot; alt=&quot;~32 kB of stapled data in the Subject Serial Number ought to be enough for anyone?&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So, Namecoin’s Encaya certificate format is reasonably well prepared for a PQ transition. There will probably be plentiful drama elsewhere though. No ETA, as far as I’m aware, of when mainstream browsers will support Dilithium certificates.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 23 Sep 2025 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2025/09/23/is-post-quantum-namecoin-tls-feasible.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2025/09/23/is-post-quantum-namecoin-tls-feasible.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Off-Chain TLSA Records in Encaya</title>
@@ -443,63 +497,6 @@ This prevents unauthorized connections while ensuring minimal disruption to the 
         <link>https://www.namecoin.org/2025/03/30/sockstrace-seccomp-notify.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/sockstrace-seccomp-notify.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin Receives TLS and Anonymity Research Funding from Power Up Privacy and NLnet Foundation’s NGI0 Core Fund</title>
-        <description>&lt;p&gt;We’re happy to announce that Namecoin is receiving three new grants:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;$25,760 USD from Power Up Privacy for anonymity research and development.
-    &lt;ul&gt;
-      &lt;li&gt;Alice Margatroid is project lead.&lt;/li&gt;
-      &lt;li&gt;Jeremy Rand and Brandon Roberts will assist as needed.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;$24,480 USD from Power Up Privacy for TLS research and development.
-    &lt;ul&gt;
-      &lt;li&gt;Jeremy Rand is project lead.&lt;/li&gt;
-      &lt;li&gt;Robert Nganga will assist as needed.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;20,000 EUR from NLnet Foundation’s NGI0 Core (Next Generation Internet: Zero Core) Fund for TLS research and development.
-    &lt;ul&gt;
-      &lt;li&gt;Jeremy Rand is project lead.&lt;/li&gt;
-      &lt;li&gt;Robert Nganga will assist as needed.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;anonymity-rd-grant&quot;&gt;Anonymity R&amp;amp;D Grant&lt;/h2&gt;
-
-&lt;p&gt;Most anonymity-related tools focus on preventing metadata leaks, e.g. Tor (prevents leaking your IP address metadata) and Mullvad Browser (prevents leaking your browser fingerprint metadata). However, there is another class of deanonymization vectors: the content of the communication itself. For example, mentioning the weather is an easy way to severely narrow your anonymity set. Alice is developing an automated tool that warns users if they are at risk of deanonymizing themselves in this way.&lt;/p&gt;
-
-&lt;p&gt;Namecoin has a solid history of developing privacy/security tools that aren’t strictly tied to the Namecoin blockchain, including SocksTrace, certinject, and pkcs11mod. This isn’t unusual in this space; Tor Project also routinely publishes research that isn’t strictly related to the Tor network. We’re excited to continue this trend.&lt;/p&gt;
-
-&lt;h2 id=&quot;tls-rd-grants&quot;&gt;TLS R&amp;amp;D Grants&lt;/h2&gt;
-
-&lt;p&gt;Namecoin’s TLS support has a solid track record on scalability, including our innovations on layer-2 TLS. These grants will cover additional Namecoin scalability improvements, including fleshing out various functionality that Robert’s 38C3 talk covered. They will also cover collaboration with Tor Project on areas of TLS-related common interest, including fleshing out the onion service functionality that Jeremy’s 38C3 talk covered.&lt;/p&gt;
-
-&lt;p&gt;Our collaboration with Tor Project goes back many years, and we’re happy that this will be continuing.&lt;/p&gt;
-
-&lt;h2 id=&quot;funding-sources&quot;&gt;Funding Sources&lt;/h2&gt;
-
-&lt;p&gt;You’re probably familiar with NLnet Foundation by now, but if not, you might want to read &lt;a href=&quot;https://nlnet.nl/foundation/&quot;&gt;about NLnet Foundation&lt;/a&gt;, or just take a look at &lt;a href=&quot;https://nlnet.nl/thema/index.html&quot;&gt;the projects they’ve funded over the years&lt;/a&gt; (you might see some familiar names).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://powerupprivacy.com/&quot;&gt;Power Up Privacy&lt;/a&gt; is a relatively new funder whom you may not have heard of, but they fund some familar names as well. Diversifying Namecoin’s funding has been a goal for a while now, and we’re pleased to add Power Up Privacy to our growing list of funders.&lt;/p&gt;
-
-&lt;p&gt;We’d like to thank the awesome people at NLnet Foundation for the continued vote of confidence, as well as the European Commision for their support of the Next Generation Internet. And a huge thank-you to Power Up Privacy for their new support!&lt;/p&gt;
-
-&lt;p&gt;Alice and Jeremy will be posting updates regularly as development proceeds.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 30 Mar 2025 02:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2025/03/30/namecoin-tls-anonymity-research-funding-power-up-privacy-nlnet-ngi0-core.html</guid>
-        <dc:creator>Alice Margatroid and Jeremy Rand</dc:creator>
         
         <category>News</category>
         
