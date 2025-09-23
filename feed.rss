@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 23 Sep 2025 03:15:44 +0000</pubDate>
-    <lastBuildDate>Tue, 23 Sep 2025 03:15:44 +0000</lastBuildDate>
+    <pubDate>Tue, 23 Sep 2025 03:23:10 +0000</pubDate>
+    <lastBuildDate>Tue, 23 Sep 2025 03:23:10 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -52,7 +52,7 @@
 
 &lt;p&gt;I already looked into the &lt;a href=&quot;/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html&quot;&gt;length limit of the AIA Issuer URL&lt;/a&gt;. The gist is that it’ll give a bit over 65 kB of data. That’s totally fine for Dilithium. However, other limits come into play. &lt;a href=&quot;https://docs.openssl.org/3.2/man3/SSL_CTX_set_max_cert_list/&quot;&gt;OpenSSL imposes a length limit&lt;/a&gt; of 100 KiB on the entire cert chain (the manual says 100 kB, but it’s wrong; the OpenSSL devs apparently are illiterate about the metric system). Given that the stapled data shows up 3 times in the TLS cert chain (AIA Issuer URL, Issuer Serial Number, and Subject Serial Number), that means we have a maximum of ~33.3 KiB to work with. (We have to fit the rest of the cert chain in too!) I couldn’t find any official documentation on the limits in Firefox (&lt;a href=&quot;https://0x00.cl/blog/2024/exploring-tls-certs/&quot;&gt;this article by Tomás Gutiérrez&lt;/a&gt; suggests Firefox is less tolerant than OpenSSL), but by manual testing, I found that stapled data of 32 kB worked OK, while 34 kB made Firefox so unhappy that it managed to show a TLS error with an &lt;em&gt;empty&lt;/em&gt; error code (wat). So for practical purposes, our limits for Firefox look very close to those of OpenSSL. Microsoft Edge seems mildly more tolerant than Firefox, but I didn’t try to nail down how much more tolerant.&lt;/p&gt;
 
-&lt;p&gt;As far as I can tell, 32 kB of stapled data will easily meet our needs. It’s considerably larger than what we’d need for a Dilithium5 public key and a Dilithium5 signature, even if they were hex-encoded. In practice, we would probably use base64 encoding (more compact). TLS would probably use Dilithium2 or Dilithium3 (which yields smaller public keys), and Bitcoin might wind up using Falcon, which has even smaller signatures than Dilithium2.&lt;/p&gt;
+&lt;p&gt;As far as I can tell, 32 kB of stapled data will easily meet our needs. It’s considerably larger than what we’d need for a Dilithium5 public key and a Dilithium5 signature, even if they were hex-encoded. In practice, we would probably use base64 encoding (more compact). TLS would probably use Dilithium2 or Dilithium3 (either of which would yield smaller public keys), and Bitcoin might wind up using Falcon, which has even smaller signatures than Dilithium2.&lt;/p&gt;
 
 &lt;p&gt;It’s not clear to me whether 32 kB of stapled data would be able to handle SPV proofs (&lt;a href=&quot;https://github.com/handshake-org/HIPs/blob/master/HIP-0017.md&quot;&gt;as Handshake is doing&lt;/a&gt;), but on the other hand I am not convinced that stapling SPV proofs into a TLS handshake is something that Namecoin needs.&lt;/p&gt;
 
