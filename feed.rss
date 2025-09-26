@@ -7,8 +7,8 @@
     <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/</link>
     <atom:link href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 23 Sep 2025 03:31:57 +0000</pubDate>
-    <lastBuildDate>Tue, 23 Sep 2025 03:31:57 +0000</lastBuildDate>
+    <pubDate>Fri, 26 Sep 2025 15:01:13 +0000</pubDate>
+    <lastBuildDate>Fri, 26 Sep 2025 15:01:13 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/logo.png</url>
@@ -17,6 +17,30 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin at GCER 2025</title>
+        <description>&lt;p&gt;I represented Namecoin at the &lt;a href=&quot;https://www.kipr.org/gcer&quot;&gt;2025 Global Conference on Educational Robotics&lt;/a&gt; (July 8-12, 2025 in Norman, OK). If you enjoy STEM education talks, this presentation might be up your alley.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=JWqjNpBHBL4&quot;&gt;Video is available here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/GCER_2025/Namecoin_GCER_2025_Slides.pdf&quot;&gt;My slides are available here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://files.kipr.org/gcer/2025/How%20Botball%20Prepared%20Me%20for%20a%20Career%20in%20Security%20and%20Privacy%20Research.pdf&quot;&gt;My paper is available here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Huge thanks to the staff and volunteers from KISS Institute for Practical Robotics, who organized GCER. And in particular a huge thanks to KIPR for publishing videos of the breakout presentations; this is hugely helpful to the community.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by Power Up Privacy and NLnet Foundation’s NGI0 Core Fund.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Sep 2025 00:00:00 +0000</pubDate>
+        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/26/gcer-2025.html</link>
+        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/26/gcer-2025.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Is Post-Quantum Namecoin TLS Feasible?</title>
@@ -435,68 +459,6 @@ sockstrace enforces the whitelist by intercepting the &lt;code class=&quot;highl
         <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/05/11/occlumask-introduction.html</link>
         <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/05/11/occlumask-introduction.html</guid>
         <dc:creator>Alice Margatroid</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Enhancing Proxy Leak Detection with SocksTrace: From ptrace to seccomp notify</title>
-        <description>&lt;p&gt;Initially, SocksTrace relied on &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; to trace connect syscalls. While &lt;code class=&quot;highlighter-rouge&quot;&gt;ptrace&lt;/code&gt; works well for simple programs, it wasn’t practical for high-performance applications, especially browsers.&lt;/p&gt;
-
-&lt;h3 id=&quot;why-switch-to-seccomp-notify&quot;&gt;Why switch to seccomp notify?&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Performance: ptrace slowed down applications significantly, making it impractical for real-time proxy leak detection.&lt;/li&gt;
-  &lt;li&gt;Scalability: Large, multithreaded programs like browsers were difficult to trace effectively using ptrace.&lt;/li&gt;
-  &lt;li&gt;More precise control: seccomp notify allows SocksTrace to intercept only the syscalls it cares about, without stepping through every syscall like ptrace does.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;how-the-transition-works&quot;&gt;How the transition works&lt;/h3&gt;
-&lt;p&gt;Instead of using &lt;code class=&quot;highlighter-rouge&quot;&gt;PTRACE_SYSCALL&lt;/code&gt; to catch connect, SocksTrace now sets up a seccomp filter with &lt;code class=&quot;highlighter-rouge&quot;&gt;SECCOMP_RET_USER_NOTIF&lt;/code&gt;. This allows user-space handling of specific syscalls, without the overhead of stepping through every process instruction. When connect is intercepted, SocksTrace can inspect the syscall parameters, decide whether to allow or deny it, and act accordingly.&lt;/p&gt;
-
-&lt;h2 id=&quot;whitelisting-syscalls&quot;&gt;Whitelisting syscalls&lt;/h2&gt;
-
-&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp&lt;/code&gt;, SocksTrace can define a strict policy that only allows necessary syscalls, blocking everything else.&lt;/p&gt;
-
-&lt;h3 id=&quot;why-syscall-whitelisting-matters&quot;&gt;Why syscall whitelisting matters&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Reduces the attack surface by preventing unnecessary syscalls.&lt;/li&gt;
-  &lt;li&gt;Ensures SocksTrace only intercepts network-related calls without interfering with other system behavior.&lt;/li&gt;
-  &lt;li&gt;Can be extended for different security policies.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;implementation-details&quot;&gt;Implementation details&lt;/h3&gt;
-&lt;p&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;go-seccomp-bpf&lt;/code&gt;, SocksTrace creates a seccomp filter that:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Blocks all syscalls by default (ActionErrno).&lt;/li&gt;
-  &lt;li&gt;Explicitly allows safe syscalls like read, write and exit.&lt;/li&gt;
-  &lt;li&gt;Uses &lt;code class=&quot;highlighter-rouge&quot;&gt;seccomp.ActionTrace&lt;/code&gt; to intercept connect for analysis.
-This prevents unauthorized connections while ensuring minimal disruption to the application’s normal behavior.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;configuring-tcp-blocking&quot;&gt;Configuring TCP blocking&lt;/h2&gt;
-&lt;p&gt;A new feature in SocksTrace allows users to decide whether to block incoming TCP connections.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-does-it-work&quot;&gt;How does it work?&lt;/h3&gt;
-&lt;p&gt;By intercepting &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;accept4&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;listen&lt;/code&gt;, SocksTrace can monitor and control incoming TCP connections.&lt;/p&gt;
-
-&lt;h3 id=&quot;configurable-blocking-options&quot;&gt;Configurable blocking options&lt;/h3&gt;
-&lt;p&gt;Currently, SocksTrace offers two options for incoming TCP connections:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Allow all incoming connections.&lt;/li&gt;
-  &lt;li&gt;Block all incoming connections (to prevent accidental exposure).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We are also working on an option to allow only specific addresses, adding more fine-grained control.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 30 Mar 2025 04:00:00 +0000</pubDate>
-        <link>http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/03/30/sockstrace-seccomp-notify.html</link>
-        <guid isPermaLink="true">http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/03/30/sockstrace-seccomp-notify.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
