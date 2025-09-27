@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,44 @@
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2025/09/27/encasha-off-chain-sshfp-records.html">Introducing Encasha: Off-Chain SSHFP Records</a></h1>
+    <p class="post-meta">Sep 27, 2025 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Since Encaya now supports off-chain <code class="highlighter-rouge">TLSA</code> records (used for TLS server authentication), this begs a question: can something similar be done for <code class="highlighter-rouge">SSHFP</code> records (used for SSH server authentication)?</p>
+
+    <p>In principle, the main things we would need to pull this off are:</p>
+
+    <ol>
+  <li>Some way to embed a blob of data inside an SSH public key.</li>
+  <li>Some way for that blob to get passed to code we control (<em>during</em> the SSH handshake).</li>
+  <li>Some way to mark a public key as trusted (also <em>during</em> the SSH handshake).</li>
+</ol>
+
+    <p>For requirement 1, guess what? <a href="https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04">SSH has certificates</a>. SSH certificates are surprisingly rarely used, but they are a thing. SSH certificates <a href="https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04#name-certificate-extensions">can have extensions</a> in them.</p>
+
+    <p>For requirement 2 and 3, the <a href="https://man.openbsd.org/ssh_config#KnownHostsCommand">OpenSSH <code class="highlighter-rouge">KnownHostsCommand</code> config option</a> does exactly this.</p>
+
+    <p>Thus, Encaya now has a younger sister: Encasha. Encasha has essentially the same threat model and scalability properties as off-chain TLSA records with Encaya. Most of the code that I had written for off-chain TLSA records has been split off into a library, which is now called by both Encaya and Encasha.</p>
+
+    <p>Huge kudos are due to the OpenSSH developers for making this much less painful than any of the TLS implementations I’ve ever worked with. If only HTTP over SSH were a thing….</p>
+
+    <p>Encasha should be released soon; <a href="https://github.com/namecoin/encasha">the code is on GitHub</a> if you’d like to play with it early.</p>
+
+    <p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -10241,39 +10279,39 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
         </div>
