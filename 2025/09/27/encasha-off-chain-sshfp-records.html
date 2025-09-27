@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Transproxy Support in ZeroNet</title>
+    <title>Introducing Encasha: Off-Chain SSHFP Records</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/09/transproxy-support-in-zeronet.html">
+    <link rel="canonical" href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/27/encasha-off-chain-sshfp-records.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/feed.rss"/>
 
     <link rel="icon" href='/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,375 +130,35 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Transproxy Support in ZeroNet</h1>
-<p class="post-meta">Apr 9, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Introducing Encasha: Off-Chain SSHFP Records</h1>
+<p class="post-meta">Sep 27, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p><a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
+<p>Since Encaya now supports off-chain <code class="highlighter-rouge">TLSA</code> records (used for TLS server authentication), this begs a question: can something similar be done for <code class="highlighter-rouge">SSHFP</code> records (used for SSH server authentication)?</p>
 
-<p>In a word, yes.  I’ve added <em>transproxy</em> support to ZeroNet, which facilitates a much better UX.  This feature uses the HTTP Host header to determine which <code class="highlighter-rouge">.bit</code> site is being accessed.  So if the <code class="highlighter-rouge">.bit</code> site points to <code class="highlighter-rouge">127.0.0.1</code>, you can type in the domain into your web browser, and your browser will automagically tell ZeroNet which website to display.</p>
+<p>In principle, the main things we would need to pull this off are:</p>
 
-<p>As an example, here’s ZeroTalk displayed in Firefox in transproxy mode:</p>
+<ol>
+  <li>Some way to embed a blob of data inside an SSH public key.</li>
+  <li>Some way for that blob to get passed to code we control (<em>during</em> the SSH handshake).</li>
+  <li>Some way to mark a public key as trusted (also <em>during</em> the SSH handshake).</li>
+</ol>
 
-<p><img src="/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/images/screenshots/zeronet/zeronet-trans-proxy-2018-08-01.png" alt="A screenshot of ZeroTalk; the URL bar shows &quot;talk.zeronetwork.bit&quot;." /></p>
+<p>For requirement 1, guess what? <a href="https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04">SSH has certificates</a>. SSH certificates are surprisingly rarely used, but they are a thing. SSH certificates <a href="https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04#name-certificate-extensions">can have extensions</a> in them.</p>
 
-<p>This screenshot was obtained by fiddling with the OS’s <code class="highlighter-rouge">hosts</code> file, but automatic ZeroNet integration could be added to ncdns in the future.</p>
+<p>For requirement 2 and 3, the <a href="https://man.openbsd.org/ssh_config#KnownHostsCommand">OpenSSH <code class="highlighter-rouge">KnownHostsCommand</code> config option</a> does exactly this.</p>
+
+<p>Thus, Encaya now has a younger sister: Encasha. Encasha has essentially the same threat model and scalability properties as off-chain TLSA records with Encaya. Most of the code that I had written for off-chain TLSA records has been split off into a library, which is now called by both Encaya and Encasha.</p>
+
+<p>Huge kudos are due to the OpenSSH developers for making this much less painful than any of the TLS implementations I’ve ever worked with. If only HTTP over SSH were a thing….</p>
+
+<p>Encasha should be released soon; <a href="https://github.com/namecoin/encasha">the code is on GitHub</a> if you’d like to play with it early.</p>
+
+<p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
 
 
 </article>
@@ -508,6 +168,358 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1138,16 +1150,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-04-09-transproxy-support-in-zeronet.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-09-27-encasha-off-chain-sshfp-records.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/04/09/transproxy-support-in-zeronet.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/04/09/transproxy-support-in-zeronet.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/09/transproxy-support-in-zeronet.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/04/09/transproxy-support-in-zeronet.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/09/27/encasha-off-chain-sshfp-records.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/09/27/encasha-off-chain-sshfp-records.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/09/27/encasha-off-chain-sshfp-records.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/09/27/encasha-off-chain-sshfp-records.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1156,39 +1168,39 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
             </ul>
         </div>
