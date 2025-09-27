@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 27 Sep 2025 12:12:23 +0000</pubDate>
-    <lastBuildDate>Sat, 27 Sep 2025 12:12:23 +0000</lastBuildDate>
+    <pubDate>Sat, 27 Sep 2025 12:19:41 +0000</pubDate>
+    <lastBuildDate>Sat, 27 Sep 2025 12:19:41 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -30,7 +30,7 @@
   &lt;li&gt;Some way to mark a public key as trusted (also &lt;em&gt;during&lt;/em&gt; the SSH handshake).&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;For requirement 1, guess what? &lt;a href=&quot;https://www.ietf.org/archive/id/draft-miller-ssh-cert-01.html&quot;&gt;SSH has certificates&lt;/a&gt;. SSH certificates are surprisingly rarely used, but they are a thing. SSH certificates &lt;a href=&quot;https://www.ietf.org/archive/id/draft-miller-ssh-cert-01.html#name-certificate-extensions&quot;&gt;can have extensions&lt;/a&gt; in them.&lt;/p&gt;
+&lt;p&gt;For requirement 1, guess what? &lt;a href=&quot;https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04&quot;&gt;SSH has certificates&lt;/a&gt;. SSH certificates are surprisingly rarely used, but they are a thing. SSH certificates &lt;a href=&quot;https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04#name-certificate-extensions&quot;&gt;can have extensions&lt;/a&gt; in them.&lt;/p&gt;
 
 &lt;p&gt;For requirement 2 and 3, the &lt;a href=&quot;https://man.openbsd.org/ssh_config#KnownHostsCommand&quot;&gt;OpenSSH &lt;code class=&quot;highlighter-rouge&quot;&gt;KnownHostsCommand&lt;/code&gt; config option&lt;/a&gt; does exactly this.&lt;/p&gt;
 
