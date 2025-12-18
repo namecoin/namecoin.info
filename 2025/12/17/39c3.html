@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin Core name_list GUI</title>
+    <title>Namecoin will be at 39C3</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/08/23/namecoin-core-name-list-gui.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/12/17/39c3.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,348 +130,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin Core name_list GUI</h1>
-<p class="post-meta">Aug 23, 2020 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Namecoin will be at 39C3</h1>
+<p class="post-meta">Dec 17, 2025 • Jeremy Rand <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>Namecoin Core’s name management GUI has always been a bit neglected.  While we do have a GUI that works reasonably well, it’s been stuck in an old branch that is nontrivial to forward-port.  The main reason that it’s been hard to maintain is that it depends on internal API’s that often get refactored, which breaks the GUI unless someone volunteers to constantly test the GUI whenever upstream refactors get merged (which is not a great use of anyone’s time).  GUI code is also hard to test on Travis CI compared to CLI-accessible code, which compounds the problem.</p>
+<p>We’re happy to announce that Namecoin will have an Assembly at <a href="https://events.ccc.de/congress/2025/wiki/index.php/Main_Page">39C3 (the 39th Chaos Communication Congress)</a> in Hamburg, December 27-30. We will once again be hosted by the <a href="https://decentral.community/">CDC (Critical Decentralization Cluster)</a>.</p>
 
-<p>Brandon accurately observed that a way to mitigate this issue is to expose all of the functionality that the GUI needs as RPC methods, and then simply make the GUI call RPC functions.  (Bitcoin Core includes a built-in API for internally calling RPC functions.)  This minimizes the amount of logic that the GUI needs to carry, which both enables integration testing and eliminates private API usage in the GUI code.  This was partially done in Brandon’s branch that was used for the name tab binaries that we released, but unfortunately, there was still some logic that needed internal API’s.</p>
+<p>We expect to give some talks, however, the details are still in flux and will probably not be announced until shortly before the beginning of C3. Keep an eye on both the C3 and CDC websites to find us (or find our absence, if we are unlucky). We heard a rumor that recordings and live-streams may happen as well.</p>
 
-<p>So, I’m picking up where Brandon left off.  For one thing, I’m splitting the code into multiple PR’s, which can be merged independently: the GUI equivalents of <code class="highlighter-rouge">name_list</code>, <code class="highlighter-rouge">name_update</code>, and <code class="highlighter-rouge">name_autoregister</code>.  The first of these, <code class="highlighter-rouge">name_list</code>, is used for displaying the current name inventory.  I’ve spent some time forward-porting the <code class="highlighter-rouge">name_list</code> GUI to current Namecoin Core, and here’s a preliminary result:</p>
+<p>If you’d like to meet up with us at C3, the usual methods (c3nav, etc) should lead you to the CDC and the Namecoin Assembly. Some of us will also be reachable in the #namecoin-dev Matrix channel.</p>
 
-<p><img src="/images/screenshots/namecoin-core/manage-names-2020-08-19.png" alt="A screenshot of the Manage Names tab in Namecoin-Qt." /></p>
-
-<p>There’s still some more code cleanup needed before it can be merged, but I’m optimistic that we can get a merge to happen soon.</p>
-
+<p>We would like to give a huge thank-you to Power Up Privacy, NLnet Foundation, Cyphrs, RIAT, and Sibermerdeka for facilitating our presence. See you in Hamburg!</p>
 
 
 </article>
@@ -481,6 +154,330 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1143,16 +1140,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2020-08-23-namecoin-core-name-list-gui.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2025-12-17-39c3.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2020/08/23/namecoin-core-name-list-gui.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/08/23/namecoin-core-name-list-gui.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/08/23/namecoin-core-name-list-gui.html">ZeroNet</a></li>
-                <li><a href="https://namecoin.bit/2020/08/23/namecoin-core-name-list-gui.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2025/12/17/39c3.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2025/12/17/39c3.html">Onion</a></li>
+                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2025/12/17/39c3.html">ZeroNet</a></li>
+                <li><a href="https://namecoin.bit/2025/12/17/39c3.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1161,39 +1158,39 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
             </ul>
         </div>
