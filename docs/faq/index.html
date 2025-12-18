@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -162,6 +162,7 @@ Decentralized<br /><strong>secure</strong> names.
       <li><a href="#why-do-names-have-to-be-renewed-regularly" id="markdown-toc-why-do-names-have-to-be-renewed-regularly">Why do names have to be renewed regularly?</a></li>
       <li><a href="#does-namecoin-support-layer-2-technologies" id="markdown-toc-does-namecoin-support-layer-2-technologies">Does Namecoin support “layer 2” technologies?</a></li>
       <li><a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so" id="markdown-toc-why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">Why focus on getting browsers and OS’s to support Namecoin instead of getting ISP’s or public DNS resolvers (e.g. Google DNS) to do so?</a></li>
+      <li><a href="#why-doesnt-namecoin-use-a-dns-domain-eg-bitcom-as-a-domain-suffix" id="markdown-toc-why-doesnt-namecoin-use-a-dns-domain-eg-bitcom-as-a-domain-suffix">Why doesn’t Namecoin use a DNS domain (e.g. <code class="highlighter-rouge">.bit.com</code>) as a domain suffix?</a></li>
       <li><a href="#why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support" id="markdown-toc-why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</a></li>
       <li><a href="#why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss" id="markdown-toc-why-focus-on-getting-existing-browsers-and-oss-to-support-namecoin-instead-of-forking-those-browsers-and-oss">Why focus on getting existing browsers and OS’s to support Namecoin instead of forking those browsers and OS’s?</a></li>
       <li><a href="#why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin" id="markdown-toc-why-does-namecoin-use-atomic-name-trades-for-nmc-rather-than-btc-or-some-other-coin">Why does Namecoin use atomic name trades for NMC rather than BTC or some other coin?</a></li>
@@ -374,6 +375,20 @@ Decentralized<br /><strong>secure</strong> names.
 </ul>
 
 <p>In addition, it’s not clear that there would even be any significant benefit to counterbalance these concerns.  Namecoin intentionally makes different tradeoffs from the DNS.  For example, the DNS is much more scalable than Namecoin, can protect name owners from trivial deanonymization much better than Namecoin can, and doesn’t rely on comparatively weak game-theoretic security properties as Namecoin does.  Namecoin has some benefits that counterbalance these weaknesses (e.g. the non-reliance on trusted third parties), but serving Namecoin data from public DNS infrastructure would provide the <strong>union</strong> of Namecoin’s and the DNS’s weaknesses, while providing the <strong>intersection</strong> of Namecoin’s and the DNS’s strengths.  Users who require a DNS-like naming system that works without any software installation are likely to be better off simply using the DNS.</p>
+
+<h3 id="why-doesnt-namecoin-use-a-dns-domain-eg-bitcom-as-a-domain-suffix">Why doesn’t Namecoin use a DNS domain (e.g. <code class="highlighter-rouge">.bit.com</code>) as a domain suffix?</h3>
+
+<p>This is sometimes proposed as a centralized inproxy mechanism, with the mildly unique attribute that users must change the domains they visit every time they visit a site, rather than changing their DNS resolver once. The UX benefits of this approach over a DNS resolver that operates a centralized inproxy are dubious, but in any event they introduce all of the security vulnerabilities <a href="#why-focus-on-getting-browsers-and-oss-to-support-namecoin-instead-of-getting-isps-or-public-dns-resolvers-eg-google-dns-to-do-so">that all centralized inproxies have</a>.</p>
+
+<p>They also introduce some additional problems:</p>
+
+<ol>
+  <li>Links to <code class="highlighter-rouge">.bit.com</code> would have to be rewritten to <code class="highlighter-rouge">.bit</code> on the client side, otherwise users who <em>do</em> have Namecoin installed would lose all security. (A bug in this rewriting code would cause legitimate Namecoin users to silently fall back to zero security.)</li>
+  <li>Server operators would need to add explicit support for the suffix, since otherwise neither the HTTP Host header nor the TLS certificate would validate. (The suffix operator could “work around” this by MITMing all traffic.)</li>
+  <li>If <code class="highlighter-rouge">bit.com</code> were to ever expire or be seized, all hyperlinks across the web would need to change. (Any hyperlinks that didn’t change would then be vulnerable to attack by whoever next registers <code class="highlighter-rouge">bit.com</code>.)</li>
+</ol>
+
+<p>Various Namecoin competitors (e.g. “PKT Cash”) do utilize such suffixes; those projects are scams and are likely running wiretaps and interception on behalf of governments, organized crime, and whoever else is willing to pay them. Indeed, an ENS developer’s domain suffix inproxy was <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">known to wiretap users on behalf of the U.S. and Singaporean governments</a>, and a U.S. court document <a href="https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced that domain suffix inproxy</a> when seeking an arrest warrant against a third party.</p>
 
 <h3 id="why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</h3>
 
@@ -1554,39 +1569,39 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
         </div>
