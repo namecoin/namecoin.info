@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Thu, 18 Dec 2025 00:58:02 +0000</pubDate>
-    <lastBuildDate>Thu, 18 Dec 2025 00:58:02 +0000</lastBuildDate>
+    <pubDate>Tue, 27 Jan 2026 01:36:30 +0000</pubDate>
+    <lastBuildDate>Tue, 27 Jan 2026 01:36:30 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,24 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Namecoin will be at FOSDEM 2026</title>
+        <description>&lt;p&gt;We’re happy to announce that Namecoin will have a presence at &lt;a href=&quot;https://www.fosdem.org/2026/&quot;&gt;FOSDEM 2026&lt;/a&gt; in Brussels, January 31 - February 1. We expect to give a talk; check out the FOSDEM schedule to find us (or find our absence, if we are unlucky). Recordings and live-streams may happen as well.&lt;/p&gt;
+
+&lt;p&gt;If you’d like to meet up with us during FOSDEM, you can say hello in the #namecoin-dev Matrix channel, or possibly find us in the Decentralized Internet and Privacy Devroom.&lt;/p&gt;
+
+&lt;p&gt;We would like to give a huge thank-you to Power Up Privacy, NLnet Foundation, and RIAT for facilitating our presence. See you in Brussels!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 26 Jan 2026 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2026/01/26/fosdem-2026.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2026/01/26/fosdem-2026.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at 39C3</title>
@@ -384,24 +402,6 @@ sockstrace enforces the whitelist by intercepting the &lt;code class=&quot;highl
         <link>https://namecoin.bit/2025/07/25/sockstrace-improvements.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2025/07/25/sockstrace-improvements.html</guid>
         <dc:creator>Robert Nganga</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Namecoin will be at MoneroKon 5</title>
-        <description>&lt;p&gt;We’re happy to announce that Namecoin will be giving a presentation at &lt;a href=&quot;https://monerokon.org/&quot;&gt;MoneroKon 5&lt;/a&gt; in Prague, Czechia (June 20-22). Live streams are expected.&lt;/p&gt;
-
-&lt;p&gt;If you’re also attending and would like to meet up to discuss collaboration, please ping us on #namecoin-dev.&lt;/p&gt;
-
-&lt;p&gt;We’d like to thank Cyphrs for facilitating our participation. See you there!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2025/06/15/monerokon-5.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2025/06/15/monerokon-5.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
         
