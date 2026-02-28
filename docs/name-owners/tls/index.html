@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -138,7 +138,15 @@
 
 <h2 id="concepts">Concepts</h2>
 
-<p>In Namecoin, the blockchain stores the public key of a <em>CA certificate</em> (certificate authority certificate) that you’ve created.  You can use that CA certificate to <em>issue</em> TLS certificates, or issue additional CA certificates (referred to as <em>subordinate CA certificates</em>).  Issuing TLS certificates or subordinate CA certificates does not require a blockchain transaction.  The CA certificate referenced by the blockchain is valid for your Namecoin domain name and all subdomains, but you can add additional restrictions when issuing TLS certificates or subordinate CA certificates.  This allows you to limit the impact of key compromise.  For example:</p>
+<p>There are three modes of authenticating TLS certificates in Namecoin: <em>Compressed</em>, <em>Hashed</em>, and <em>Certified</em>.</p>
+
+<ul>
+  <li>Compressed mode is deprecated, and support will be removed in Encaya v0.2 and ncgencert v1.19. It uses more blockchain storage than either Hashed or Certified.</li>
+  <li>Hashed mode will be supported from Encaya v0.2 and ncgencert v1.19 onwards. It uses more blockchain storage than Certified (and therefore incurs higher fees), but is more resistant to long-range quantum attacks. It works with names owned by any address type.</li>
+  <li>Certified mode will be supported from Encaya v0.2 and ncgencert v1.19 onwards. It uses no blockchain storage, but is more vulnerable to long-range quantum attacks. It only works with names owned by P2PKH addresses.</li>
+</ul>
+
+<p>In Compressed or Hashed mode, the blockchain stores the public key of a <em>CA certificate</em> (certificate authority certificate) that you’ve created. In Certified mode, the CA certificate contains a signature from your Namecoin key, with nothing about the certificate stored on-chain. Either way, you can use that CA certificate to <em>issue</em> TLS certificates, or issue additional CA certificates (referred to as <em>subordinate CA certificates</em>).  Issuing TLS certificates or subordinate CA certificates does not require a blockchain transaction.  The CA certificate authenticated by the blockchain is valid for the Namecoin domain or subdomain that you created it for, as well as all subdomains; you can add additional restrictions when issuing TLS certificates or subordinate CA certificates.  This allows you to limit the impact of key compromise.  For example:</p>
 
 <ul>
   <li>You can issue TLS certificates (which will be deployed to a public-facing TLS server) with a short expiration time, while keeping the CA certificate and its private key (with a longer expiration time) on an offline machine.  You can then rotate keys by issuing a new TLS certificate periodically.  This means that if your TLS server is temporarily compromised and its private key is stolen, the situation will resolve itself the next time you rotate TLS certificates.</li>
@@ -148,7 +156,9 @@
 
 <h2 id="example-the-basics">Example: The Basics</h2>
 
-<p>To create a CA certificate for your Namecoin domain, run the following:</p>
+<h3 id="compressed">Compressed</h3>
+
+<p>To create a Compressed-mode CA certificate for your Namecoin domain, run the following:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-ca
 pushd example.bit-ca
@@ -190,6 +200,55 @@ popd
 </code></pre></div></div>
 
 <p>If your Namecoin domain has no subdomains, you can just load <code class="highlighter-rouge">chain.pem</code> and <code class="highlighter-rouge">key.pem</code> into your TLS server (e.g. Caddy, Nginx, or Apache), and you’re done.  That was easy.</p>
+
+<h3 id="hashed">Hashed</h3>
+
+<p>To create a Hashed-mode CA certificate for your Namecoin domain, run the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir example.bit-ca
+pushd example.bit-ca
+ncgencert -host example.bit
+popd
+</code></pre></div></div>
+
+<p>(The directory names in these examples are arbitrary and are just intended to make the examples more clear; you can use whatever directory structure you like.)</p>
+
+<p>The following files will be created in the <code class="highlighter-rouge">example.bit-ca</code> directory:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">caChain.pem</code>: Certificate chain for issuing TLS certificates or subordinate CA’s.</li>
+  <li><code class="highlighter-rouge">caKey.pem</code>: Private key for issuing TLS certificates or subordinate CA’s.</li>
+  <li><code class="highlighter-rouge">chain.pem</code>: TLS certificate chain.</li>
+  <li><code class="highlighter-rouge">key.pem</code>: TLS private key.</li>
+  <li><code class="highlighter-rouge">namecoin.json</code>: TLSA record to enter in your Namecoin wallet.</li>
+</ul>
+
+<p>(A few other files will be created too, but you don’t need to worry about them.)</p>
+
+<p>The JSON value contained in <code class="highlighter-rouge">namecoin.json</code> should be enclosed in an array, and placed in the <code class="highlighter-rouge">tls</code> field for the <code class="highlighter-rouge">*</code> subdomain of your eTLD+1 domain name.  For example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "ip": "73.239.16.12",
+    "map": {
+        "*": {
+            "tls": [
+                [
+                    2,
+                    1,
+                    1,
+                    "lwgh9/tFjVQaaY5MSbxo1piMg/NOm+pmHZfSuX50DEU="
+                ]
+            ]
+        }
+    }
+}
+</code></pre></div></div>
+
+<p>If your Namecoin domain has no subdomains, you can just load <code class="highlighter-rouge">chain.pem</code> and <code class="highlighter-rouge">key.pem</code> into your TLS server (e.g. Caddy, Nginx, or Apache), and you’re done.  That was easy.</p>
+
+<h3 id="certified">Certified</h3>
+
+<p>Certified-mode documentation is not yet available, check back soon.</p>
 
 <h2 id="example-renewing-a-tls-certificate">Example: Renewing a TLS Certificate</h2>
 
@@ -287,6 +346,39 @@ popd
 <p>You’ll get a new <code class="highlighter-rouge">caChain.pem</code> in the <code class="highlighter-rouge">www.example.bit-renew-ca</code> directory.  You’ll then need to add the new <code class="highlighter-rouge">caChain.pem</code>’s contents to the <code class="highlighter-rouge">chain.pem</code> and/or <code class="highlighter-rouge">caChain.pem</code> of any TLS certificates or subordinate CA certificates that you previously issued with this CA, and update the <code class="highlighter-rouge">chain.pem</code> files on your TLS server accordingly.</p>
 
 <p>You don’t need to do anything in your Namecoin wallet (or pay any fees) when renewing subordinate CA certificates, because Namecoin TLS uses layer 2.</p>
+
+<h2 id="example-issuing-a-non-subordinate-ca-certificate-for-a-subdomain">Example: Issuing a Non-Subordinate CA Certificate for a Subdomain</h2>
+
+<p>If you do not want to issue a CA Certificate for your eTLD+1 domain (perhaps because your eTLD+1 domain is owned by a smart contract whose semantics cannot be acceptably approximated by an ECDSA key), you can issue a non-subordinate CA Certificate for a subdomain. Just pass the subdomain to the <code class="highlighter-rouge">-host</code> flag, like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir www.example.bit-ca
+pushd www.example.bit-ca
+ncgencert -host www.example.bit
+popd
+</code></pre></div></div>
+
+<p>If you’re using Compressed or Hashed mode, the resulting TLSA record goes in the <code class="highlighter-rouge">*</code> subdomain of whatever subdomain you passed to <code class="highlighter-rouge">-host</code>, like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "map": {
+        "www": {
+            "ip": "73.239.16.12",
+            "map": {
+                "*": {
+                    "tls": [
+                        [
+                            2,
+                            1,
+                            1,
+                            "lwgh9/tFjVQaaY5MSbxo1piMg/NOm+pmHZfSuX50DEU="
+                        ]
+                    ]
+                }
+            }
+        }
+    }
+}
+</code></pre></div></div>
 
 <h2 id="example-renewing-a-non-subordinate-ca-certificate-without-rotating-keys">Example: Renewing a Non-Subordinate CA Certificate without Rotating Keys</h2>
 
@@ -401,39 +493,39 @@ popd
             
             <ul class="list-inline">
                 
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
             </ul>
         </div>
