@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -141,6 +141,8 @@
       <li><a href="#how-long-are-names-good-for" id="markdown-toc-how-long-are-names-good-for">How long are names good for?</a></li>
       <li><a href="#how-do-i-browse-a-bit-domain" id="markdown-toc-how-do-i-browse-a-bit-domain">How do I browse a .bit domain?</a></li>
       <li><a href="#how-do-i-register-and-host-a-bit-domain" id="markdown-toc-how-do-i-register-and-host-a-bit-domain">How do I register and host a .bit domain?</a></li>
+      <li><a href="#i-intend-to-register-a-namecoin-name-should-i-tell-anyone-of-my-intent" id="markdown-toc-i-intend-to-register-a-namecoin-name-should-i-tell-anyone-of-my-intent">I intend to register a Namecoin name. Should I tell anyone of my intent?</a></li>
+      <li><a href="#i-want-to-suggest-that-someone-else-register-a-namecoin-name-is-this-safe" id="markdown-toc-i-want-to-suggest-that-someone-else-register-a-namecoin-name-is-this-safe">I want to suggest that someone else register a Namecoin name. Is this safe?</a></li>
       <li><a href="#do-i-need-to-use-tls-with-a-bit-domain" id="markdown-toc-do-i-need-to-use-tls-with-a-bit-domain">Do I need to use TLS with a .bit domain?</a></li>
       <li><a href="#do-i-have-to-pay-renewal-fees" id="markdown-toc-do-i-have-to-pay-renewal-fees">Do I have to pay renewal fees?</a></li>
       <li><a href="#what-applications-is-namecoin-well-suited-to" id="markdown-toc-what-applications-is-namecoin-well-suited-to">What applications is Namecoin well-suited to?</a></li>
@@ -254,6 +256,19 @@
 <h3 id="how-do-i-register-and-host-a-bit-domain">How do I register and host a .bit domain?</h3>
 
 <p>See <a href="/1FPSdChfmaAjMMUgoYLxAYHTDS46gnvmUw/docs/name-owners/">Documentation for Name Owners</a>.</p>
+
+<h3 id="i-intend-to-register-a-namecoin-name-should-i-tell-anyone-of-my-intent">I intend to register a Namecoin name. Should I tell anyone of my intent?</h3>
+
+<p>No, do not tell anyone of your intent until you have already registered your name (i.e. both the pre-registration and registration transaction are confirmed). Otherwise, whoever you tell (or whoever they tell) can frontrun you and take the name for themself.</p>
+
+<h3 id="i-want-to-suggest-that-someone-else-register-a-namecoin-name-is-this-safe">I want to suggest that someone else register a Namecoin name. Is this safe?</h3>
+
+<p>Don’t suggest this publicly; otherwise someone else could frontrun them and take the name for themself. Your best options are:</p>
+
+<ul>
+  <li>Suggest the name registration via direct message via an end-to-end-encrypted medium. Consider the risks of metadata leaks (i.e. any negative consequences if an attacker determines that you were messaging to the person who ends up using the name).</li>
+  <li>Register the name yourself and then transfer it to them. Consider the risks of blockchain analysis (i.e. any negative consequences if an attacker determines that you transferred the name to whoever ends up using it).</li>
+</ul>
 
 <h3 id="do-i-need-to-use-tls-with-a-bit-domain">Do I need to use TLS with a .bit domain?</h3>
 
@@ -388,7 +403,7 @@
   <li>If <code class="highlighter-rouge">bit.com</code> were to ever expire or be seized, all hyperlinks across the web would need to change. (Any hyperlinks that didn’t change would then be vulnerable to attack by whoever next registers <code class="highlighter-rouge">bit.com</code>.)</li>
 </ol>
 
-<p>Various Namecoin competitors (e.g. “PKT Cash”) do utilize such suffixes; those projects are scams and are likely running wiretaps and interception on behalf of governments, organized crime, and whoever else is willing to pay them. Indeed, an ENS developer’s domain suffix inproxy was <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">known to wiretap users on behalf of the U.S. and Singaporean governments</a>, and a U.S. court document <a href="https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced that domain suffix inproxy</a> when seeking an arrest warrant against a third party.</p>
+<p>Various Namecoin competitors (e.g. “PKT Cash”) do utilize such suffixes; those projects are scams and are likely running wiretaps and interception on behalf of governments, organized crime, and whoever else is willing to pay them. Indeed, an ENS developer’s domain suffix inproxy was <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">known to wiretap users on behalf of the U.S. and Singaporean governments</a>, and a U.S. court document <a href="https://web.archive.org/web/20180930051447/https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced that domain suffix inproxy</a> when seeking an arrest warrant against a third party.</p>
 
 <h3 id="why-focus-on-browser-add-ons-and-os-packages-instead-of-native-browser-and-os-support">Why focus on browser add-ons and OS packages instead of native browser and OS support?</h3>
 
@@ -1163,7 +1178,7 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
 
 <p>(That Pwnie Award was collected by <a href="https://rya.nc/bitfi-wallet.html">a Namecoin developer</a>.)</p>
 
-<p>One of the ENS developers (Virgil Griffith) also is known for <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">running wiretap infrastructure</a> on behalf of the U.S. and Singaporean governments. A U.S. court document <a href="https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced Virgil’s wiretap infrastructure</a> when seeking an arrest warrant against a third party.</p>
+<p>One of the ENS developers (Virgil Griffith) also is known for <a href="https://medium.com/@c5/tor2web-proxies-are-using-google-analytics-to-secretly-track-users-fd245dbc81c5">running wiretap infrastructure</a> on behalf of the U.S. and Singaporean governments. A U.S. court document <a href="https://web.archive.org/web/20180930051447/https://darknetlive.com/post/nasa-contractor-used-a-tor2web-proxy-to-download-child-porn/">referenced Virgil’s wiretap infrastructure</a> when seeking an arrest warrant against a third party.</p>
 
 <p>In addition to the ENS-specific concerns, ENS also inherits <a href="#why-isnt-namecoin-implemented-as-an-ethereum-contract">the problems of Ethereum</a>, on which they are dependent.</p>
 
@@ -1569,39 +1584,39 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
                     <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
             </ul>
         </div>
