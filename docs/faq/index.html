@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -283,19 +283,31 @@
 
 <ol>
   <li>The application and the Tor daemon may be in different, mutually sandboxed trust domains:
- a. In Whonix, a compromised Gateway could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the Workstation, which is isolated by the hypervisor).
- b. In Android, a compromised Orbot could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the app, which is isolated by Android’s app isolation).
- c. In Debian, a compromised system Tor daemon could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the primary user account, which is isolated by Tor running as a sandboxed service).</li>
+    <ol>
+      <li>In Whonix, a compromised Gateway could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the Workstation, which is isolated by the hypervisor).</li>
+      <li>In Android, a compromised Orbot could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the app, which is isolated by Android’s app isolation).</li>
+      <li>In Debian, a compromised system Tor daemon could eavesdrop or MITM traffic; TLS prevents this (since the attacker would also have to compromise the primary user account, which is isolated by Tor running as a sandboxed service).</li>
+    </ol>
+  </li>
   <li>The application and the Tor daemon may be connected via an insecure network path:
- a. Many large onion services that are also available over clearnet run their HTTP daemons and their Tor daemons on separate cloud machines on different IP’s; TLS prevents a compromised network path from eavesdropping or MITMing traffic.
- b. Some users connect to a Tor daemon that’s running on a WiFi router or an SBC; TLS prevents an attacker on the same WiFi network from eavesdropping or MITMing traffic.</li>
+    <ol>
+      <li>Many large onion services that are also available over clearnet run their HTTP daemons and their Tor daemons on separate cloud machines on different IP’s; TLS prevents a compromised network path from eavesdropping or MITMing traffic.</li>
+      <li>Some users connect to a Tor daemon that’s running on a WiFi router or an SBC; TLS prevents an attacker on the same WiFi network from eavesdropping or MITMing traffic.</li>
+    </ol>
+  </li>
   <li>The Tor daemon may be operated by a third party:
- a. For Tor2Web inproxy environments, a malicious Tor2Web operator could eavesdrop or MITM traffic; TLS prevents this (reducing the risk to a deanonymization hazard).
- b. For <a href="https://www.stormycloud.org/i2p/">StormyCloud’s I2P to onion exit</a>, StormyCloud could eavesdrop or MITM traffic; TLS prevents this (making such usage reasonably safe, even against deanonymization if you’re comfortable with I2P’s threat model for anonymity).</li>
+    <ol>
+      <li>For Tor2Web inproxy environments, a malicious Tor2Web operator could eavesdrop or MITM traffic; TLS prevents this (reducing the risk to a deanonymization hazard).</li>
+      <li>For <a href="https://www.stormycloud.org/i2p/">StormyCloud’s I2P to onion exit</a>, StormyCloud could eavesdrop or MITM traffic; TLS prevents this (making such usage reasonably safe, even against deanonymization if you’re comfortable with I2P’s threat model for anonymity).</li>
+    </ol>
+  </li>
   <li>TLS has some security features that onion services don’t have:
- a. TLS supports ML-KEM (post-quantum key agreement) <a href="https://www.firefox.com/en-US/firefox/132.0/releasenotes/?redirect_source=mozilla-org">since 2024 October</a>; onion services still do not support end-to-end post-quantum key agreement (though they do support <em>link-layer</em> ML-KEM <a href="https://forum.torproject.org/t/stable-release-0-4-8-17/19681">since 2025 June</a>, which is a different thing). TLS therefore provides additional security against “store now, decrypt later” quantum attacks.
- b. TLS supports ML-DSA (post-quantum certificates) <a href="https://www.redhat.com/en/blog/whats-new-post-quantum-cryptography-rhel-101">since 2026 February</a>; onion services and I2P services still do not support ML-DSA. TLS therefore provides additional security against MITM quantum attacks.
- c. TLS supports client authentication; onion services do not (though they do support client <em>authorization</em>, which is a different thing). TLS therefore provides additional security if the client needs to authenticate to the server.</li>
+    <ol>
+      <li>TLS supports ML-KEM (post-quantum key agreement) <a href="https://www.firefox.com/en-US/firefox/132.0/releasenotes/?redirect_source=mozilla-org">since 2024 October</a>; onion services still do not support end-to-end post-quantum key agreement (though they do support <em>link-layer</em> ML-KEM <a href="https://forum.torproject.org/t/stable-release-0-4-8-17/19681">since 2025 June</a>, which is a different thing). TLS therefore provides additional security against “store now, decrypt later” quantum attacks.</li>
+      <li>TLS supports ML-DSA (post-quantum certificates) <a href="https://www.redhat.com/en/blog/whats-new-post-quantum-cryptography-rhel-101">since 2026 February</a>; onion services and I2P services still do not support ML-DSA. TLS therefore provides additional security against MITM quantum attacks.</li>
+      <li>TLS supports client authentication; onion services do not (though they do support client <em>authorization</em>, which is a different thing). TLS therefore provides additional security if the client needs to authenticate to the server.</li>
+    </ol>
+  </li>
   <li>TLS provides defense in depth in case of a vulnerability in Tor or I2P. For example, onion services with TLS were immune to this Tor bug from 2026 June: <a href="https://gitlab.torproject.org/tpo/core/tor/-/work_items/41297">race condition lets rendezvous point mitm onion service</a>.</li>
   <li>Many applications expect TLS (for example, web browsers restrict features such as microphone and camera when not running over TLS). Patching them to not require TLS when running over an onion service or eepsite introduces complexity in security-critical code paths (especially in the case of the <code class="language-plaintext highlighter-rouge">.bit</code> eTLD, whose status as clearnet or onion/eepsite is not obvious without querying the Namecoin blockchain); always using TLS avoids the need to patch applications.</li>
 </ol>
@@ -1631,27 +1643,27 @@ they are or who they are.  Now I go to a court system.  I get some legal opinion
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
                     <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
             </ul>
             <p><a href="/donate/transparency/">Funding Transparency</a></p>
