@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -138,11 +138,11 @@ Decentralized<br /><strong>secure</strong> names.
   <li>You want to require your regular computer in order to transfer a name, but you want to allow a publicly facing server to alter the name’s value automatically (e.g. for dynamic DNS functionality such as provided by DyName).</li>
 </ul>
 
-<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="highlighter-rouge">dd/</code> namespace (<code class="highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="highlighter-rouge">d/valuablename</code> and <code class="highlighter-rouge">dd/useless</code>.  You then set the value of <code class="highlighter-rouge">d/valuablename</code> to <code class="highlighter-rouge">{"import":"dd/useless"}</code>.  You can then set the value of <code class="highlighter-rouge">dd/useless</code> to <code class="highlighter-rouge">{"ip":"123.45.67.89"}</code>.  The result is that the domain name <code class="highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="highlighter-rouge">123.45.67.89</code>.  The owner of <code class="highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="highlighter-rouge">valuablename.bit</code>.  If <code class="highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="highlighter-rouge">d/valuablename</code> can register a new <code class="highlighter-rouge">dd/</code> name, change the value of <code class="highlighter-rouge">d/valuablename</code> to point to the new <code class="highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="highlighter-rouge">d/</code> name and the <code class="highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
+<p>To use delegated alteration, you register two names rather than one.  The first name is in the <code class="language-plaintext highlighter-rouge">d/</code> namespace as usual, and is the one that determines what domain name points to your name.  The second name is in the <code class="language-plaintext highlighter-rouge">dd/</code> namespace (<code class="language-plaintext highlighter-rouge">dd</code> stands for “domain data”), and can be any name you like (but shorter names will incur lower transaction fees).  Let’s say that you register <code class="language-plaintext highlighter-rouge">d/valuablename</code> and <code class="language-plaintext highlighter-rouge">dd/useless</code>.  You then set the value of <code class="language-plaintext highlighter-rouge">d/valuablename</code> to <code class="language-plaintext highlighter-rouge">{"import":"dd/useless"}</code>.  You can then set the value of <code class="language-plaintext highlighter-rouge">dd/useless</code> to <code class="language-plaintext highlighter-rouge">{"ip":"123.45.67.89"}</code>.  The result is that the domain name <code class="language-plaintext highlighter-rouge">valuablename.bit</code> will point to the IPv4 address <code class="language-plaintext highlighter-rouge">123.45.67.89</code>.  The owner of <code class="language-plaintext highlighter-rouge">dd/useless</code> will be able to change the IPv4 address (or any other DNS records associated with the name), but will <strong>not</strong> be able to permanently steal <code class="language-plaintext highlighter-rouge">valuablename.bit</code>.  If <code class="language-plaintext highlighter-rouge">dd/useless</code> gets stolen, the owner of <code class="language-plaintext highlighter-rouge">d/valuablename</code> can register a new <code class="language-plaintext highlighter-rouge">dd/</code> name, change the value of <code class="language-plaintext highlighter-rouge">d/valuablename</code> to point to the new <code class="language-plaintext highlighter-rouge">dd/</code> name, and the thief is left with a worthless <code class="language-plaintext highlighter-rouge">dd/</code> name.  There is no requirement that the <code class="language-plaintext highlighter-rouge">d/</code> name and the <code class="language-plaintext highlighter-rouge">dd/</code> name be held by the same wallet; e.g. you can store the <code class="language-plaintext highlighter-rouge">d/</code> name with multisig or a hardware wallet while storing the <code class="language-plaintext highlighter-rouge">dd/</code> name on an unencrypted hot wallet.</p>
 
-<p>You can also use <strong>delegated partial alteration</strong>.  This prevents the <code class="highlighter-rouge">dd/</code> name from setting certain JSON fields.  For example, you can set a <code class="highlighter-rouge">tls</code> field in the <code class="highlighter-rouge">d/</code> name (alongside the <code class="highlighter-rouge">import</code> field), which will prevent the <code class="highlighter-rouge">dd/</code> name from setting a <code class="highlighter-rouge">tls</code> field for that domain name.  In this example, if the <code class="highlighter-rouge">dd/</code> name is stolen, the thief could change the IP address but not the TLS fingerprint, which would prevent the thief from performing MITM attacks (even before you switch to a new <code class="highlighter-rouge">dd/</code> name).  If the thief does change the IP address to a server she controls, then visitors to the website will get a TLS error, which converts a MITM attack (very bad) to a DoS attack (much less bad).</p>
+<p>You can also use <strong>delegated partial alteration</strong>.  This prevents the <code class="language-plaintext highlighter-rouge">dd/</code> name from setting certain JSON fields.  For example, you can set a <code class="language-plaintext highlighter-rouge">tls</code> field in the <code class="language-plaintext highlighter-rouge">d/</code> name (alongside the <code class="language-plaintext highlighter-rouge">import</code> field), which will prevent the <code class="language-plaintext highlighter-rouge">dd/</code> name from setting a <code class="language-plaintext highlighter-rouge">tls</code> field for that domain name.  In this example, if the <code class="language-plaintext highlighter-rouge">dd/</code> name is stolen, the thief could change the IP address but not the TLS fingerprint, which would prevent the thief from performing MITM attacks (even before you switch to a new <code class="language-plaintext highlighter-rouge">dd/</code> name).  If the thief does change the IP address to a server she controls, then visitors to the website will get a TLS error, which converts a MITM attack (very bad) to a DoS attack (much less bad).</p>
 
-<p>You can also combine delegated alteration with delegated partial alteration by using recursive <code class="highlighter-rouge">import</code> fields.  For example, you could register a <code class="highlighter-rouge">d/</code> name that imports a <code class="highlighter-rouge">dd/</code> name, which specifies both a TLS fingerprint and another <code class="highlighter-rouge">dd/</code> name to import.  The latter <code class="highlighter-rouge">dd/</code> name would be prevented from specifying a TLS fingerprint, and any thief who steals either <code class="highlighter-rouge">dd/</code> name would be prevented from transferring the domain name.</p>
+<p>You can also combine delegated alteration with delegated partial alteration by using recursive <code class="language-plaintext highlighter-rouge">import</code> fields.  For example, you could register a <code class="language-plaintext highlighter-rouge">d/</code> name that imports a <code class="language-plaintext highlighter-rouge">dd/</code> name, which specifies both a TLS fingerprint and another <code class="language-plaintext highlighter-rouge">dd/</code> name to import.  The latter <code class="language-plaintext highlighter-rouge">dd/</code> name would be prevented from specifying a TLS fingerprint, and any thief who steals either <code class="language-plaintext highlighter-rouge">dd/</code> name would be prevented from transferring the domain name.</p>
 
   </article>
 
@@ -173,7 +173,7 @@ Decentralized<br /><strong>secure</strong> names.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/delegated-alteration/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/delegated-alteration/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/delegated-alteration/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/delegated-alteration/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/name-owners/delegated-alteration/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -183,41 +183,32 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

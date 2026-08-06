@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -562,6 +562,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -572,9 +576,9 @@ A <strong>trust anchor</strong><br />for the Internet.
 <article class="post-content">
 <p>As I’ve <a href="/2019/08/06/decoupling-ncdns-go-versions.html">discussed before</a>, Namecoin is using Tor’s rbm-based build system for our various Go projects, such as ncdns and ncp11, in order to reduce the risk of supply-chain attacks.  Naturally, one of the important ways to test a reproducible build system is to build a binary twice in a row and see if the hashes are the same.  If the hashes don’t match, then tools like <a href="https://diffoscope.org/">Diffoscope</a> can be used to figure out what the source of the reproducibility failure is.  Now that Namecoin’s usage of rbm is reasonably stable (i.e. working binaries are produced for most of Namecoin’s software now), it’s a good time to look into how reproducible our binaries are.</p>
 
-<p>So, I tried building ncdns twice to see if I got matching hashes.  Alas, the hashes did not match.  Plugging the results into Diffoscope yielded the information that the files within the <code class="highlighter-rouge">.tar.gz</code> archive were indeed identical, but that the time value embedded in the gzip header was nonreproducible.  Given that this didn’t seem like anything I had screwed up on my end, I tried building a <code class="highlighter-rouge">.tar.gz</code> binary from upstream Tor Browser.  Same issue: nonreproducible binaries due to gzip header time values.</p>
+<p>So, I tried building ncdns twice to see if I got matching hashes.  Alas, the hashes did not match.  Plugging the results into Diffoscope yielded the information that the files within the <code class="language-plaintext highlighter-rouge">.tar.gz</code> archive were indeed identical, but that the time value embedded in the gzip header was nonreproducible.  Given that this didn’t seem like anything I had screwed up on my end, I tried building a <code class="language-plaintext highlighter-rouge">.tar.gz</code> binary from upstream Tor Browser.  Same issue: nonreproducible binaries due to gzip header time values.</p>
 
-<p>I also observed that <code class="highlighter-rouge">.tar.xz</code> binaries weren’t affected by the issue.  This would explain why upstream Tor hadn’t noticed or fixed the bug on their end – all of their end-user binaries are <code class="highlighter-rouge">.tar.xz</code>; <code class="highlighter-rouge">.tar.gz</code> is only used by Tor for intermediate binaries, which probably aren’t tested for reproducibility as thoroughly.  Obviously, Namecoin could work around the issue by switching to <code class="highlighter-rouge">.tar.xz</code> for end-user binaries (I was planning to do this anyway since <code class="highlighter-rouge">.tar.xz</code> archives have much better compression), but since Namecoin likes to be a good neighbor, I figured it was a good idea to report the bug upstream to Tor.</p>
+<p>I also observed that <code class="language-plaintext highlighter-rouge">.tar.xz</code> binaries weren’t affected by the issue.  This would explain why upstream Tor hadn’t noticed or fixed the bug on their end – all of their end-user binaries are <code class="language-plaintext highlighter-rouge">.tar.xz</code>; <code class="language-plaintext highlighter-rouge">.tar.gz</code> is only used by Tor for intermediate binaries, which probably aren’t tested for reproducibility as thoroughly.  Obviously, Namecoin could work around the issue by switching to <code class="language-plaintext highlighter-rouge">.tar.xz</code> for end-user binaries (I was planning to do this anyway since <code class="language-plaintext highlighter-rouge">.tar.xz</code> archives have much better compression), but since Namecoin likes to be a good neighbor, I figured it was a good idea to report the bug upstream to Tor.</p>
 
 <p>After some discussion with Nicolas from Tor (lead developer of rbm), we converged on a 2-line patch to rbm that should resolve the issue.  Once this patch is merged upstream, Namecoin binaries will be substantially closer to reproducibility, and as a bonus, the intermediate binaries produced by Tor will probably be reproducible too.</p>
 
@@ -1154,7 +1158,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/08/25/fixing-a-gzip-reproducibility-bug-in-tor-browser-and-rbm.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1166,39 +1170,30 @@ A <strong>trust anchor</strong><br />for the Internet.
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

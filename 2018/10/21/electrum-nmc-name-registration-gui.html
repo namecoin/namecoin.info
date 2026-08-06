@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -706,6 +706,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -716,9 +720,9 @@ A <strong>trust anchor</strong><br />for the Internet.
 <article class="post-content">
 <p>Now that <a href="/2018/10/09/electrum-nmc-name-update-gui.html">Electrum-NMC GUI support for updating names</a> is a thing, it’s time to advance to name registration GUI support.</p>
 
-<p>Whereas the <code class="highlighter-rouge">Renew Name</code> and <code class="highlighter-rouge">Configure Name...</code> buttons each map directly to a single sequence of two console commands (<code class="highlighter-rouge">name_update</code> followed by <code class="highlighter-rouge">broadcast</code>), which makes their implementation relatively straightforward, <em>registering</em> a name is more complicated, due to the two-step procedure in which a salted commitment (<code class="highlighter-rouge">name_new</code>) is broadcast 12 blocks before the name registration itself (<code class="highlighter-rouge">name_firstupdate</code>) in order to prevent frontrunning attacks.  Given that the name registration procedure was going to be a bit complicated, it seemed like a good idea to create a new console command for this purpose, so that the GUI can maintain a simple mapping to console commands.</p>
+<p>Whereas the <code class="language-plaintext highlighter-rouge">Renew Name</code> and <code class="language-plaintext highlighter-rouge">Configure Name...</code> buttons each map directly to a single sequence of two console commands (<code class="language-plaintext highlighter-rouge">name_update</code> followed by <code class="language-plaintext highlighter-rouge">broadcast</code>), which makes their implementation relatively straightforward, <em>registering</em> a name is more complicated, due to the two-step procedure in which a salted commitment (<code class="language-plaintext highlighter-rouge">name_new</code>) is broadcast 12 blocks before the name registration itself (<code class="language-plaintext highlighter-rouge">name_firstupdate</code>) in order to prevent frontrunning attacks.  Given that the name registration procedure was going to be a bit complicated, it seemed like a good idea to create a new console command for this purpose, so that the GUI can maintain a simple mapping to console commands.</p>
 
-<p>In fact, I ended up creating a few different console commands.  The first console command (<code class="highlighter-rouge">queuetransaction</code>) is used for storing transactions in the wallet that are intended to be broadcasted in the future once a trigger condition has occurred.  An entry in the transaction queue consists of:</p>
+<p>In fact, I ended up creating a few different console commands.  The first console command (<code class="language-plaintext highlighter-rouge">queuetransaction</code>) is used for storing transactions in the wallet that are intended to be broadcasted in the future once a trigger condition has occurred.  An entry in the transaction queue consists of:</p>
 
 <ol>
   <li>Either a transaction ID or a name identifier</li>
@@ -729,18 +733,18 @@ A <strong>trust anchor</strong><br />for the Internet.
 <p>When the specified transaction ID (or the most recent transaction for the specified name identifier) attains sufficient confirmations in the blockchain, the raw transaction will be broadcasted.  In order to register a name, the following transaction queue entry would be used:</p>
 
 <ol>
-  <li>Transaction ID of <code class="highlighter-rouge">name_new</code></li>
+  <li>Transaction ID of <code class="language-plaintext highlighter-rouge">name_new</code></li>
   <li>Depth of 12 blocks</li>
-  <li>Raw transaction of <code class="highlighter-rouge">name_firstupdate</code></li>
+  <li>Raw transaction of <code class="language-plaintext highlighter-rouge">name_firstupdate</code></li>
 </ol>
 
 <p>There are some other use cases for the transaction queue, such as automatically renewing names when they’re approaching expiration, or automatically registering a name if/when its previous owner lets them expire.  For now, we’ll focus on name registration.</p>
 
-<p>Next up was a console command <code class="highlighter-rouge">updatequeuedtransactions</code>, which examines each of the transaction queue entries, and broadcasts and unqueues each of the entries whose trigger condition has been achieved.  This wasn’t too complicated, although I did do some deliberating on when exactly to unqueue a transaction.  In theory, an ElectrumX server could claim to have broadcasted a transaction but not actually do so, and if Electrum-NMC unqueues a transaction in this case, then the transaction will never actually get mined.  A sledgehammer-style workaround here would be to try to re-broadcast each block until Electrum-NMC sees an SPV proof indicating that the transaction has, say, 12 confirmations (indicating that it very likely did get broadcasted and mined).  However, I ended up deciding that this kind of attack is simply out of scope for the transaction queue, since the attack can apply equally well to arbitrary other transactions that get broadcasted.  Solving this attack is probably something better done in upstream Electrum than by whatever hacky and poorly peer-reviewed approach we’d take in Electrum-NMC.  So, we unqueue the transaction as soon as it’s broadcast.  Easy enough.</p>
+<p>Next up was a console command <code class="language-plaintext highlighter-rouge">updatequeuedtransactions</code>, which examines each of the transaction queue entries, and broadcasts and unqueues each of the entries whose trigger condition has been achieved.  This wasn’t too complicated, although I did do some deliberating on when exactly to unqueue a transaction.  In theory, an ElectrumX server could claim to have broadcasted a transaction but not actually do so, and if Electrum-NMC unqueues a transaction in this case, then the transaction will never actually get mined.  A sledgehammer-style workaround here would be to try to re-broadcast each block until Electrum-NMC sees an SPV proof indicating that the transaction has, say, 12 confirmations (indicating that it very likely did get broadcasted and mined).  However, I ended up deciding that this kind of attack is simply out of scope for the transaction queue, since the attack can apply equally well to arbitrary other transactions that get broadcasted.  Solving this attack is probably something better done in upstream Electrum than by whatever hacky and poorly peer-reviewed approach we’d take in Electrum-NMC.  So, we unqueue the transaction as soon as it’s broadcast.  Easy enough.</p>
 
-<p><code class="highlighter-rouge">updatequeuedtransactions</code> is cool, but we want this to happen every block, automatically.  So the next step was to add a hook that calls <code class="highlighter-rouge">updatequeuedtransactions</code> whenever a new block arrives.  This should have been simple, but I quickly noticed that whenever this hook resulted in broadcasting a transaction, an assertion error would get logged, and the transaction would never broadcast.  A quick inspection showed that the <code class="highlighter-rouge">broadcast</code> console command should never be called from the network thread, and the hook was indeed being called from the network thread (where the incoming block event came from).  After a little bit of tinkering, I determined that the simplest approach was just to re-emit the incoming block event to the GUI thread, and then call <code class="highlighter-rouge">updatequeuedtransactions</code> from the GUI thread’s event.</p>
+<p><code class="language-plaintext highlighter-rouge">updatequeuedtransactions</code> is cool, but we want this to happen every block, automatically.  So the next step was to add a hook that calls <code class="language-plaintext highlighter-rouge">updatequeuedtransactions</code> whenever a new block arrives.  This should have been simple, but I quickly noticed that whenever this hook resulted in broadcasting a transaction, an assertion error would get logged, and the transaction would never broadcast.  A quick inspection showed that the <code class="language-plaintext highlighter-rouge">broadcast</code> console command should never be called from the network thread, and the hook was indeed being called from the network thread (where the incoming block event came from).  After a little bit of tinkering, I determined that the simplest approach was just to re-emit the incoming block event to the GUI thread, and then call <code class="language-plaintext highlighter-rouge">updatequeuedtransactions</code> from the GUI thread’s event.</p>
 
-<p>Okay, so the groundwork is laid, now to actually implement a console command for name registration.  In theory, this should be easy: it should consist of <code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">broadcast</code>, <code class="highlighter-rouge">name_firstupdate</code>, and <code class="highlighter-rouge">queuetransaction</code>, right?  Actually, things are a lot more complicated, because if any of the currency inputs to the <code class="highlighter-rouge">name_firstupdate</code> transaction get spent in the 12-block interval before it gets broadcasted, then the <code class="highlighter-rouge">name_firstupdate</code> will be rejected as a double-spend.  Hypothetically, I could have fixed this by abusing the address-freezing functionality of Electrum, but there’s a better way: pure name transactions.</p>
+<p>Okay, so the groundwork is laid, now to actually implement a console command for name registration.  In theory, this should be easy: it should consist of <code class="language-plaintext highlighter-rouge">name_new</code>, <code class="language-plaintext highlighter-rouge">broadcast</code>, <code class="language-plaintext highlighter-rouge">name_firstupdate</code>, and <code class="language-plaintext highlighter-rouge">queuetransaction</code>, right?  Actually, things are a lot more complicated, because if any of the currency inputs to the <code class="language-plaintext highlighter-rouge">name_firstupdate</code> transaction get spent in the 12-block interval before it gets broadcasted, then the <code class="language-plaintext highlighter-rouge">name_firstupdate</code> will be rejected as a double-spend.  Hypothetically, I could have fixed this by abusing the address-freezing functionality of Electrum, but there’s a better way: pure name transactions.</p>
 
 <p>Pure name transactions are a highly interesting form of Namecoin transaction, where currency is embedded inside a name instead of being kept in a separate input/output.  This works because the 0.01 NMC cost of registering a name is actually enforced as a <em>minimum</em> amount of a name output, not an <em>exact</em> amount.  You can put, for example, 0.03 NMC into a name output, and you can later withdraw the excess 0.02 NMC by spending that name output.  As long as the amount never drops below the 0.01 NMC minimum, the Namecoin consensus rules don’t care.  There are two major use cases for pure name transactions:</p>
 
@@ -749,9 +753,9 @@ A <strong>trust anchor</strong><br />for the Internet.
   <li>Keeping coins organized.  If you’ve ever tried to renew more than 25 names in Namecoin Core at once, you might have noticed that you got an error about a long chain of unconfirmed transactions.  This happens because each renewal uses a currency input that’s the currency output of the previous renewal, forming a long chain of transactions.  The Namecoin Core error happens because Namecoin Core considers it risky to have a chain of more than 25 unconfirmed transactions (if the first one never got confirmed, all the others would be stuck too).  However, with pure name transactions, each name has its own currency coins, which are temporarily earmarked for use with that name, so operations with different names can’t interfere with each other.</li>
 </ol>
 
-<p>The latter use case is what we’ll use here.  We create a <code class="highlighter-rouge">name_new</code> transaction with no currency outputs, but whose name output has an extra 0.005 NMC attached to it.  When we create the <code class="highlighter-rouge">name_firstupdate</code> transaction, we instruct Electrum-NMC’s coin selection algorithm to only use the <code class="highlighter-rouge">name_new</code> input, and to pay any fees out of the extra 0.005 NMC.  (Coincidentally, I’m pretty sure that Mikhail’s Namecoin-Qt client, from the era before Namecoin Core, did the same thing.)  As a result, we can be confident that no accidental double-spends will occur, because we definitely won’t be spending the <code class="highlighter-rouge">name_new</code> output before we broadcast the <code class="highlighter-rouge">name_firstupdate</code> transaction.  Interestingly, making this work actually needed some minor changes to the Electrum-NMC coin selection algorithm, because parts of the coin selector are not designed to work properly with zero currency inputs being selected.  (Which is understandable, since such a transaction would never be possible in Bitcoin.)</p>
+<p>The latter use case is what we’ll use here.  We create a <code class="language-plaintext highlighter-rouge">name_new</code> transaction with no currency outputs, but whose name output has an extra 0.005 NMC attached to it.  When we create the <code class="language-plaintext highlighter-rouge">name_firstupdate</code> transaction, we instruct Electrum-NMC’s coin selection algorithm to only use the <code class="language-plaintext highlighter-rouge">name_new</code> input, and to pay any fees out of the extra 0.005 NMC.  (Coincidentally, I’m pretty sure that Mikhail’s Namecoin-Qt client, from the era before Namecoin Core, did the same thing.)  As a result, we can be confident that no accidental double-spends will occur, because we definitely won’t be spending the <code class="language-plaintext highlighter-rouge">name_new</code> output before we broadcast the <code class="language-plaintext highlighter-rouge">name_firstupdate</code> transaction.  Interestingly, making this work actually needed some minor changes to the Electrum-NMC coin selection algorithm, because parts of the coin selector are not designed to work properly with zero currency inputs being selected.  (Which is understandable, since such a transaction would never be possible in Bitcoin.)</p>
 
-<p>With that, we have a single console command, <code class="highlighter-rouge">name_autoregister</code>, which does what we want, so now it’s time to create a GUI for it.  This was relatively uneventful, but it’s notable that I decided to have a separate <code class="highlighter-rouge">Buy Names</code> tab instead of putting the registration widgets on the existing <code class="highlighter-rouge">Manage Names</code> tab.  The reasoning for this is that the <code class="highlighter-rouge">Buy Names</code> tab is a convenient place to show other widgets that don’t exist yet, such as giving you the opportunity to atomically trade NMC for a name if the name you want is already registered.</p>
+<p>With that, we have a single console command, <code class="language-plaintext highlighter-rouge">name_autoregister</code>, which does what we want, so now it’s time to create a GUI for it.  This was relatively uneventful, but it’s notable that I decided to have a separate <code class="language-plaintext highlighter-rouge">Buy Names</code> tab instead of putting the registration widgets on the existing <code class="language-plaintext highlighter-rouge">Manage Names</code> tab.  The reasoning for this is that the <code class="language-plaintext highlighter-rouge">Buy Names</code> tab is a convenient place to show other widgets that don’t exist yet, such as giving you the opportunity to atomically trade NMC for a name if the name you want is already registered.</p>
 
 <p>And now, here’s your regular fix of screenshots:</p>
 
@@ -1193,7 +1197,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/10/21/electrum-nmc-name-registration-gui.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/10/21/electrum-nmc-name-registration-gui.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/10/21/electrum-nmc-name-registration-gui.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/10/21/electrum-nmc-name-registration-gui.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2018/10/21/electrum-nmc-name-registration-gui.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1203,41 +1207,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

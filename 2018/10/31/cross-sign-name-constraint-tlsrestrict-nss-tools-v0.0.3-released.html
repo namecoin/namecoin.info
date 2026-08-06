@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -694,6 +694,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -702,28 +706,28 @@
 </header>
 
 <article class="post-content">
-<p>We’ve released <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> v0.0.3 and <code class="highlighter-rouge">tlsrestrict_nss_tool</code> v0.0.3.  Here’s what’s new:</p>
+<p>We’ve released <code class="language-plaintext highlighter-rouge">cross_sign_name_constraint_tool</code> v0.0.3 and <code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code> v0.0.3.  Here’s what’s new:</p>
 
 <ul>
-  <li>Both <code class="highlighter-rouge">cross_sign_name_constraint_tool</code> and <code class="highlighter-rouge">tlsrestrict_nss_tool</code>:
+  <li>Both <code class="language-plaintext highlighter-rouge">cross_sign_name_constraint_tool</code> and <code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code>:
     <ul>
       <li>Properly handle input CA’s that don’t have a CommonName.</li>
       <li>Code quality improvements.</li>
     </ul>
   </li>
-  <li><code class="highlighter-rouge">tlsrestrict_nss_tool</code> only:
+  <li><code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code> only:
     <ul>
       <li>Compatibility fixes for Windows:
         <ul>
-          <li>Stop using <code class="highlighter-rouge">cp</code> to enable CKBI visibility, since no such command exists on Windows.</li>
-          <li>Pass cert nicknames in NSS <code class="highlighter-rouge">certutil</code> batch files instead of as command-line args, because Windows doesn’t handle Unicode command-line args correctly.</li>
+          <li>Stop using <code class="language-plaintext highlighter-rouge">cp</code> to enable CKBI visibility, since no such command exists on Windows.</li>
+          <li>Pass cert nicknames in NSS <code class="language-plaintext highlighter-rouge">certutil</code> batch files instead of as command-line args, because Windows doesn’t handle Unicode command-line args correctly.</li>
         </ul>
       </li>
       <li>Error when CKBI appears to be empty; this is usually a symptom of missing libraries.</li>
-      <li>Communicate with <code class="highlighter-rouge">certutil</code> via PEM instead of DER; this should reduce the risk of concatenated certs not having a clearly defined boundary.</li>
+      <li>Communicate with <code class="language-plaintext highlighter-rouge">certutil</code> via PEM instead of DER; this should reduce the risk of concatenated certs not having a clearly defined boundary.</li>
       <li>Fix compatibility with Go 1.11 and higher.</li>
       <li>Fix cert deletion on Fedora 28 and higher (and probably various other platforms too).</li>
-      <li>Partial support for bundling both 32-bit and 64-bit <code class="highlighter-rouge">certutil</code> on Windows.</li>
+      <li>Partial support for bundling both 32-bit and 64-bit <code class="language-plaintext highlighter-rouge">certutil</code> on Windows.</li>
       <li>Partial support for continuously syncing an NSS DB on Windows whenever CKBI is updated (not yet ready for use; will be included in a future ncdns release).</li>
       <li>Code quality improvements.</li>
     </ul>
@@ -1176,7 +1180,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2018/10/31/cross-sign-name-constraint-tlsrestrict-nss-tools-v0.0.3-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1186,41 +1190,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">Handshake</li>
-                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

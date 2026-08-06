@@ -132,15 +132,15 @@
     
 <h2 id="delegate-to-dns">Delegate to DNS</h2>
 
-<p>The most straightforward way to point a <code class="highlighter-rouge">.bit</code> domain to a dynamic IP address is to delegate your <code class="highlighter-rouge">.bit</code> domain to DNS via the <code class="highlighter-rouge">ns</code> or <code class="highlighter-rouge">alias</code> field, and send your IP address updates to that nameserver or DNS domain name.  This avoids paying Namecoin transaction fees for each IP address update.  Using the <code class="highlighter-rouge">ds</code> field is not necessary, since IP addresses aren’t cryptographic identifiers.</p>
+<p>The most straightforward way to point a <code class="language-plaintext highlighter-rouge">.bit</code> domain to a dynamic IP address is to delegate your <code class="language-plaintext highlighter-rouge">.bit</code> domain to DNS via the <code class="language-plaintext highlighter-rouge">ns</code> or <code class="language-plaintext highlighter-rouge">alias</code> field, and send your IP address updates to that nameserver or DNS domain name.  This avoids paying Namecoin transaction fees for each IP address update.  Using the <code class="language-plaintext highlighter-rouge">ds</code> field is not necessary, since IP addresses aren’t cryptographic identifiers.</p>
 
 <h2 id="delegate-to-a-tor-onion-service">Delegate to a Tor onion service</h2>
 
-<p>Tor onion services are an effective way to get a stable address when your IP address is dynamic.  You can point your <code class="highlighter-rouge">.bit</code> domain to a <code class="highlighter-rouge">.onion</code> domain, which will allow Tor users to access your <code class="highlighter-rouge">.bit</code> domain regardless of your IP (even if you’re behind NAT or a firewall).  Like DNS delegation, this avoids paying Namecoin transaction fees for each IP address update.  This approach won’t help if you want your <code class="highlighter-rouge">.bit</code> domain to be accessible by users who don’t use Tor.</p>
+<p>Tor onion services are an effective way to get a stable address when your IP address is dynamic.  You can point your <code class="language-plaintext highlighter-rouge">.bit</code> domain to a <code class="language-plaintext highlighter-rouge">.onion</code> domain, which will allow Tor users to access your <code class="language-plaintext highlighter-rouge">.bit</code> domain regardless of your IP (even if you’re behind NAT or a firewall).  Like DNS delegation, this avoids paying Namecoin transaction fees for each IP address update.  This approach won’t help if you want your <code class="language-plaintext highlighter-rouge">.bit</code> domain to be accessible by users who don’t use Tor.</p>
 
 <h2 id="dyname">DyName</h2>
 
-<p>If delegation to DNS or a Tor onion service doesn’t meet your requirements, you can also use DyName.  DyName is a dynamic IP address update client for <code class="highlighter-rouge">.bit</code> domains.  DyName should only be used in combination with <a href="/docs/name-owners/delegated-alteration">delegated alteration</a>.  Using DyName will incur transaction fees (and blockchain storage) for each IP address update.</p>
+<p>If delegation to DNS or a Tor onion service doesn’t meet your requirements, you can also use DyName.  DyName is a dynamic IP address update client for <code class="language-plaintext highlighter-rouge">.bit</code> domains.  DyName should only be used in combination with <a href="/docs/name-owners/delegated-alteration">delegated alteration</a>.  Using DyName will incur transaction fees (and blockchain storage) for each IP address update.</p>
 
 <p>To obtain DyName, <a href="https://github.com/JeremyRand/DyName">visit the GitHub project.</a></p>
 
@@ -173,7 +173,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/dynamic-ips/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/dynamic-ips/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/dynamic-ips/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/dynamic-ips/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/name-owners/dynamic-ips/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -183,41 +183,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

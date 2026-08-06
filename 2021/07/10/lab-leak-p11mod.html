@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -366,6 +366,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -386,7 +390,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <p>So, what was wrong with the ncp11 codebase that made it so in need of a refactor?  I think the best way to explain it is to examine the API it’s forced to provide.  ncp11 provides an API that is equivalent to the API that <a href="https://godocs.io/github.com/miekg/pkcs11">Miek Gieben’s pkcs11 package</a> provides.  Here’s an example consumer of this API, courtesy of Miek’s documentation:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p := pkcs11.New("/usr/lib/softhsm/libsofthsm.so")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p := pkcs11.New("/usr/lib/softhsm/libsofthsm.so")
 err := p.Initialize()
 if err != nil {
     panic(err)
@@ -432,7 +436,7 @@ fmt.Println()
 
 <p>This example doesn’t really do us justice though, since Namecoin uses the FindObjects API, which the above example doesn’t include.  Here are the function prototypes of that API:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjectsInit initializes a search for token and session objects that match a template.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjectsInit initializes a search for token and session objects that match a template.
 func (c *Ctx) FindObjectsInit(sh SessionHandle, temp []*Attribute) error
 
 FindObjects continues a search for token and session objects that match a template, obtaining additional object handles. Calling the function repeatedly may yield additional results until an empty slice is returned. The returned boolean value is deprecated and should be ignored.
@@ -447,7 +451,7 @@ func (c *Ctx) GetAttributeValue(sh SessionHandle, o ObjectHandle, a []*Attribute
 
 <p>Anytime you have to provide an API this low-level, the code is going to be hard to follow.  So, how to fix it?  In fact, there is actually a higher-level API available: <a href="https://godocs.io/github.com/miekg/pkcs11/p11">the p11 API by Jacob Hoffman-Andrews</a>, which also lives in Miek’s repo (and acts as a high-level wrapper for Miek’s pkcs11 API).  Here’s an example consumer of Jacob’s API:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module, err := p11.OpenModule("/path/to/module.so")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module, err := p11.OpenModule("/path/to/module.so")
 if err != nil {
   return err
 }
@@ -473,7 +477,7 @@ if err != nil {
 
 <p>Doesn’t look as bad.  And here are the function prototypes that correspond to the above ones:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjects finds any objects in the token matching the template.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjects finds any objects in the token matching the template.
 func (s Session) FindObjects(template []*pkcs11.Attribute) ([]Object, error)
 
 Attribute gets exactly one attribute from a PKCS#11 object, returning an error if the attribute is not found, or if multiple attributes are returned. On success, it will return the value of that attribute as a slice of bytes. For attributes not present (i.e. CKR_ATTRIBUTE_TYPE_INVALID), Attribute returns a nil slice and nil error.
@@ -1262,7 +1266,7 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2021/07/10/lab-leak-p11mod.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2021/07/10/lab-leak-p11mod.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/07/10/lab-leak-p11mod.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2021/07/10/lab-leak-p11mod.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2021/07/10/lab-leak-p11mod.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1272,41 +1276,32 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

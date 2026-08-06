@@ -130,7 +130,7 @@
 
   <article class="post-content">
     
-<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is what you want to install.  ncdns works with most Internet applications (not just web browsers), and uses caching for extra speed (particularly helpful when used with Electrum-NMC).  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
+<p>ncdns is software for accessing <code class="language-plaintext highlighter-rouge">.bit</code> domain names.  If you want to access <code class="language-plaintext highlighter-rouge">.bit</code> domain names, ncdns is what you want to install.  ncdns works with most Internet applications (not just web browsers), and uses caching for extra speed (particularly helpful when used with Electrum-NMC).  (Technically speaking, ncdns is a Namecoin to DNS bridge.  It allows software that speaks the DNS protocol to use Namecoin.)</p>
 
 <h2 id="installation">Installation</h2>
 
@@ -152,7 +152,7 @@
 
 <p>To enable installing ConsensusJ-Namecoin, exit the installer wizard, install the relevant dependency, and re-run the installer wizard.</p>
 
-<p>The ncdns installer wizard also sets up TLS certificate validation for <code class="highlighter-rouge">.bit</code> domain names.  This will work for any application that uses the Windows certificate verifier.  As examples, Chromium and Edge use the Windows certificate verifier, and will therefore work fine for Namecoin TLS out of the box.</p>
+<p>The ncdns installer wizard also sets up TLS certificate validation for <code class="language-plaintext highlighter-rouge">.bit</code> domain names.  This will work for any application that uses the Windows certificate verifier.  As examples, Chromium and Edge use the Windows certificate verifier, and will therefore work fine for Namecoin TLS out of the box.</p>
 
 <p>The ncdns installer wizard also configures Namecoin resolution in Tor Browser, if Tor Browser is installed.</p>
 
@@ -177,12 +177,12 @@
 
 <ol>
   <li>Make sure that your Namecoin node has the RPC server enabled.</li>
-  <li>Open <code class="highlighter-rouge">ncdns.conf</code>.  On Windows, it’s in the <code class="highlighter-rouge">etc/</code> subdirectory of where you installed ncdns.</li>
-  <li>Look for the <code class="highlighter-rouge">namecoind access</code> section.</li>
-  <li>If your Namecoin node isn’t listening on <code class="highlighter-rouge">127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code class="highlighter-rouge">namecoinrpcaddress</code> line and fill in the IP and port.</li>
-  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code class="highlighter-rouge">namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
-  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code class="highlighter-rouge">namecoinrpccookiepath</code> line, uncomment the <code class="highlighter-rouge">namecoinrpcusername</code> and <code class="highlighter-rouge">namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
-  <li>Restart ncdns.  On Windows, you can do this by going to <code class="highlighter-rouge">Control Panel</code> -&gt; <code class="highlighter-rouge">Administrative Tools</code> -&gt; <code class="highlighter-rouge">Services</code>, right-click <code class="highlighter-rouge">ncdns</code>, and click <code class="highlighter-rouge">Restart</code>.</li>
+  <li>Open <code class="language-plaintext highlighter-rouge">ncdns.conf</code>.  On Windows, it’s in the <code class="language-plaintext highlighter-rouge">etc/</code> subdirectory of where you installed ncdns.</li>
+  <li>Look for the <code class="language-plaintext highlighter-rouge">namecoind access</code> section.</li>
+  <li>If your Namecoin node isn’t listening on <code class="language-plaintext highlighter-rouge">127.0.0.1</code>, or if it’s listening on a non-default port, uncomment the <code class="language-plaintext highlighter-rouge">namecoinrpcaddress</code> line and fill in the IP and port.</li>
+  <li>If your Namecoin node uses cookie authentication, fill in the path to the cookie file in the <code class="language-plaintext highlighter-rouge">namecoinrpccookiepath</code> line.  Make sure that the ncdns user has filesystem permissions to read the cookie file.  (Be careful not to grant the ncdns user filesystem permissions that it doesn’t need.  For example, don’t grant ncdns the ability to read your wallet.)</li>
+  <li>If your Namecoin node doesn’t use cookie authentication, comment out the <code class="language-plaintext highlighter-rouge">namecoinrpccookiepath</code> line, uncomment the <code class="language-plaintext highlighter-rouge">namecoinrpcusername</code> and <code class="language-plaintext highlighter-rouge">namecoinrpcpassword</code> lines, and fill in your Namecoin node’s RPC username and password.</li>
+  <li>Restart ncdns.  On Windows, you can do this by going to <code class="language-plaintext highlighter-rouge">Control Panel</code> -&gt; <code class="language-plaintext highlighter-rouge">Administrative Tools</code> -&gt; <code class="language-plaintext highlighter-rouge">Services</code>, right-click <code class="language-plaintext highlighter-rouge">ncdns</code>, and click <code class="language-plaintext highlighter-rouge">Restart</code>.</li>
 </ol>
 
   </article>
@@ -214,7 +214,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/ncdns/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/ncdns/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/ncdns/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/ncdns/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/ncdns/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -224,41 +224,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder">Handshake</li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">
