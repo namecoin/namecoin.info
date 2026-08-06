@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -490,6 +490,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -498,15 +502,15 @@
 </header>
 
 <article class="post-content">
-<p><a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
+<p><a href="https://zeronet.io/">ZeroNet</a> supports Namecoin as a naming layer.  Unfortunately, the UX for this feature isn’t quite optimal.  Specifically, the <code class="language-plaintext highlighter-rouge">.bit</code> domain shows up in the path of the URL rather than the hostname; the hostname is the hostname of the machine running ZeroNet (typically <code class="language-plaintext highlighter-rouge">127.0.0.1</code>).  Can this be improved?</p>
 
-<p>In a word, yes.  I’ve added <em>transproxy</em> support to ZeroNet, which facilitates a much better UX.  This feature uses the HTTP Host header to determine which <code class="highlighter-rouge">.bit</code> site is being accessed.  So if the <code class="highlighter-rouge">.bit</code> site points to <code class="highlighter-rouge">127.0.0.1</code>, you can type in the domain into your web browser, and your browser will automagically tell ZeroNet which website to display.</p>
+<p>In a word, yes.  I’ve added <em>transproxy</em> support to ZeroNet, which facilitates a much better UX.  This feature uses the HTTP Host header to determine which <code class="language-plaintext highlighter-rouge">.bit</code> site is being accessed.  So if the <code class="language-plaintext highlighter-rouge">.bit</code> site points to <code class="language-plaintext highlighter-rouge">127.0.0.1</code>, you can type in the domain into your web browser, and your browser will automagically tell ZeroNet which website to display.</p>
 
 <p>As an example, here’s ZeroTalk displayed in Firefox in transproxy mode:</p>
 
 <p><img src="/images/screenshots/zeronet/zeronet-trans-proxy-2018-08-01.png" alt="A screenshot of ZeroTalk; the URL bar shows &quot;talk.zeronetwork.bit&quot;." /></p>
 
-<p>This screenshot was obtained by fiddling with the OS’s <code class="highlighter-rouge">hosts</code> file, but automatic ZeroNet integration could be added to ncdns in the future.</p>
+<p>This screenshot was obtained by fiddling with the OS’s <code class="language-plaintext highlighter-rouge">hosts</code> file, but automatic ZeroNet integration could be added to ncdns in the future.</p>
 
 
 </article>
@@ -1154,7 +1158,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2020/04/09/transproxy-support-in-zeronet.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/04/09/transproxy-support-in-zeronet.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/09/transproxy-support-in-zeronet.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/04/09/transproxy-support-in-zeronet.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2020/04/09/transproxy-support-in-zeronet.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1164,41 +1168,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
                     <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

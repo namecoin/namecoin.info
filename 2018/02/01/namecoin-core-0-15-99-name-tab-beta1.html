@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -862,6 +862,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -890,9 +894,9 @@
       </li>
       <li>RPC
         <ul>
-          <li>Remove name operation from <code class="highlighter-rouge">createrawtransaction</code> RPC method; add <code class="highlighter-rouge">namerawtransaction</code> RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)</li>
-          <li>Restore <code class="highlighter-rouge">getblocktemplate</code> RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)</li>
-          <li>Add <code class="highlighter-rouge">createauxblock</code> and <code class="highlighter-rouge">submitauxblock</code> RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)</li>
+          <li>Remove name operation from <code class="language-plaintext highlighter-rouge">createrawtransaction</code> RPC method; add <code class="language-plaintext highlighter-rouge">namerawtransaction</code> RPC method.  This paves the way for various future improvements to the name GUI, including coin control, anonymity, fee control, registration without unlocking the wallet twice, and decreased transaction size.  You’ll need to update your scripts if you currently use the raw transaction API for name transactions.  (Reported by JeremyRand, patch by domob1812.)</li>
+          <li>Restore <code class="language-plaintext highlighter-rouge">getblocktemplate</code> RPC method.  This improves workflow for software used by Bitcoin mining pools.  (Reported by DrHaribo, patch by domob1812.)</li>
+          <li>Add <code class="language-plaintext highlighter-rouge">createauxblock</code> and <code class="language-plaintext highlighter-rouge">submitauxblock</code> RPC methods.  This improves workflow for software used by Bitcoin mining pools.  (Patch by bitkevin.)</li>
         </ul>
       </li>
     </ul>
@@ -912,7 +916,7 @@
       </li>
       <li>RPC
         <ul>
-          <li>Fix crash when user attempts to broadcast an invalid raw transaction containing multiple <code class="highlighter-rouge">name_update</code> outputs.  (Reported by maxweisspoker, patch by domob1812.)</li>
+          <li>Fix crash when user attempts to broadcast an invalid raw transaction containing multiple <code class="language-plaintext highlighter-rouge">name_update</code> outputs.  (Reported by maxweisspoker, patch by domob1812.)</li>
         </ul>
       </li>
     </ul>
@@ -1196,7 +1200,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2018/02/01/namecoin-core-0-15-99-name-tab-beta1.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1206,41 +1210,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

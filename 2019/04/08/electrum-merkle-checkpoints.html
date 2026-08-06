@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -634,6 +634,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -648,9 +652,9 @@
 
 <p>A blockchain, by its nature, is a sequence of blocks where the block at height <em>N</em> commits to the block at height <em>N-1</em>.  From this fact, it follows that if you know the most recent block, you can verify the authenticity of any earlier block by recursively following those commitments until you arrive at the block you want to verify.  Cryptographically knowledgeable readers will recognize this as a particularly inefficient form of a Merkle tree.  For readers who aren’t familiar with Merkle trees, they’re a cryptographic construction by which a single hash can commit to a large number of hashes, via recursive commitments.  Merkle trees come in a wide variety of constructions, but the most common form of a Merkle tree is a balanced binary Merkle tree.  In such a tree, the proof size to connect a given hash to the root hash is logarithmic in terms of the total number of hashes committed to.  Balanced binary Merkle trees are used, for example, to allow a block header to commit to the transactions in a block.  A blockchain is an optimally unbalanced Merkle tree, in which the proof size is linear rather than logarithmic.</p>
 
-<p>Linear proof size means that, in Electrum today, if I want to prove that header 2016 is committed to by a checkpoint on header 4031, I need to download 2016 headers, which is an unpleasantly large download of <code class="highlighter-rouge">(4031 - 2016 + 1) * 80 = 161280</code> bytes [1].  Logarithmic proof sizes given by a balanced binary Merkle tree, by contrast, would mean downloading <code class="highlighter-rouge">ceil(log2(4031)) * 32 + 80 = 464</code> bytes.  What if the checkpoint is for height 1,000,000?  In that case, it ends up as <code class="highlighter-rouge">ceil(log2(1000000)) * 32 + 80 = 720</code> bytes.  Naturally, we’d like logarithmic proof sizes rather than linear proof sizes.  Using block headers themselves as Merkle roots can’t achieve this, but there’s nothing whatsoever that prevents us from taking all the historical block headers, and arranging them into a balanced binary Merkle tree.  We could then use the Merkle root as a checkpoint, and thereby gain extremely small proofs that a given header is committed to by a checkpoint.</p>
+<p>Linear proof size means that, in Electrum today, if I want to prove that header 2016 is committed to by a checkpoint on header 4031, I need to download 2016 headers, which is an unpleasantly large download of <code class="language-plaintext highlighter-rouge">(4031 - 2016 + 1) * 80 = 161280</code> bytes [1].  Logarithmic proof sizes given by a balanced binary Merkle tree, by contrast, would mean downloading <code class="language-plaintext highlighter-rouge">ceil(log2(4031)) * 32 + 80 = 464</code> bytes.  What if the checkpoint is for height 1,000,000?  In that case, it ends up as <code class="language-plaintext highlighter-rouge">ceil(log2(1000000)) * 32 + 80 = 720</code> bytes.  Naturally, we’d like logarithmic proof sizes rather than linear proof sizes.  Using block headers themselves as Merkle roots can’t achieve this, but there’s nothing whatsoever that prevents us from taking all the historical block headers, and arranging them into a balanced binary Merkle tree.  We could then use the Merkle root as a checkpoint, and thereby gain extremely small proofs that a given header is committed to by a checkpoint.</p>
 
-<p>This is exactly what Neil Booth implemented in ElectrumX, as the <code class="highlighter-rouge">cp_height</code> checkpoint system, and which Roger Taylor subsequently implemented in Electron-Cash.  Since Electrum-NMC’s upstream implementation is Electrum, I’ve been working on porting Roger’s Electron-Cash support for Merkle checkpoints to Electrum.  At the moment, I have a pull request undergoing review for upstream Electrum.  I’m hopeful that it will pass peer review soon, at which point I’ll work on merging it to Electrum-NMC.</p>
+<p>This is exactly what Neil Booth implemented in ElectrumX, as the <code class="language-plaintext highlighter-rouge">cp_height</code> checkpoint system, and which Roger Taylor subsequently implemented in Electron-Cash.  Since Electrum-NMC’s upstream implementation is Electrum, I’ve been working on porting Roger’s Electron-Cash support for Merkle checkpoints to Electrum.  At the moment, I have a pull request undergoing review for upstream Electrum.  I’m hopeful that it will pass peer review soon, at which point I’ll work on merging it to Electrum-NMC.</p>
 
 <p>Once Merkle checkpoints are merged to Electrum-NMC, we’ll be able to set a checkpoint on a recent height (rather than the 36-kiloblock-ago height that we currently set), without causing a severe delay on name lookups.  This will be a substantial improvement to Electrum-NMC’s performance.</p>
 
@@ -1162,7 +1166,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/04/08/electrum-merkle-checkpoints.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/04/08/electrum-merkle-checkpoints.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/04/08/electrum-merkle-checkpoints.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/04/08/electrum-merkle-checkpoints.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/04/08/electrum-merkle-checkpoints.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1172,41 +1176,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

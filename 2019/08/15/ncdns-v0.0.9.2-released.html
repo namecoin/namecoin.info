@@ -566,6 +566,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -580,15 +584,15 @@
   <li>All platforms:
     <ul>
       <li>New build system based on The Tor Project’s rbm.  This paves the way for reproducible builds.</li>
-      <li>Add an optional mode to <code class="highlighter-rouge">generate_nmc_cert</code> that creates a name-constrained CA cert instead of an end-entity cert.  This mode is required for Tor Browser TLS support.</li>
-      <li>Add “URL list” output format to <code class="highlighter-rouge">ncdumpzone</code>.  This paves the way for a decentralized search engine for Namecoin websites.</li>
+      <li>Add an optional mode to <code class="language-plaintext highlighter-rouge">generate_nmc_cert</code> that creates a name-constrained CA cert instead of an end-entity cert.  This mode is required for Tor Browser TLS support.</li>
+      <li>Add “URL list” output format to <code class="language-plaintext highlighter-rouge">ncdumpzone</code>.  This paves the way for a decentralized search engine for Namecoin websites.</li>
       <li>Make Namecoin RPC timeout configurable.  This improves compatibility with Tor Browser.</li>
-      <li>Move <code class="highlighter-rouge">x509</code> to its own repo.  This improves compatibility with Tor Browser.</li>
+      <li>Move <code class="language-plaintext highlighter-rouge">x509</code> to its own repo.  This improves compatibility with Tor Browser.</li>
     </ul>
   </li>
   <li>Windows:
     <ul>
-      <li>Automatically re-run <code class="highlighter-rouge">tlsrestrictnss</code> when NSS is updated; this improves TLS support for Firefox.</li>
+      <li>Automatically re-run <code class="language-plaintext highlighter-rouge">tlsrestrictnss</code> when NSS is updated; this improves TLS support for Firefox.</li>
       <li>Upgrade dnssec-keygen to v9.13.3.</li>
     </ul>
   </li>
@@ -1176,7 +1180,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/08/15/ncdns-v0.0.9.2-released.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/08/15/ncdns-v0.0.9.2-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/15/ncdns-v0.0.9.2-released.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/08/15/ncdns-v0.0.9.2-released.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/08/15/ncdns-v0.0.9.2-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1186,41 +1190,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

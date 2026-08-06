@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -123,6 +123,10 @@ Decentralized<br /><strong>secure</strong> names.
     <div id="content">
       <div class="container-fluid">
         
+
+
+
+
 
 
 
@@ -697,7 +701,7 @@ Decentralized<br /><strong>secure</strong> names.
   </li>
 </ul>
 
-<p>I want to draw attention in particular to one of the code quality improvements.  Most forks of Electrum rename the <code class="highlighter-rouge">electrum</code> Python package, in order to avoid causing namespace conflicts if both Electrum and an Electrum fork are installed on the same system.  Unfortunately, the result of this is that any change to <code class="highlighter-rouge">import</code> statements in upstream usually triggers a merge conflict.  I brought up this subject with SomberNight from upstream Electrum, in the hopes that we could find a solution that would avoid the merge conflicts.  My initial suggestion was for upstream to switch to relative imports; SomberNight shot that down due to code readability concerns, but he posted a code snippet that was a (non-working) attempt to work around the issue.  Based on the rough direction of his code snippet, I managed to produce a working patch to Electrum-NMC that allows the imports to revert to the upstream version.  For an idea of how much improvement this is, prior to this patch, merging one release tag’s worth of commits (i.e. about a month of commits) would typically take me a day or so.  Now, it takes me about 30 minutes.  Kudos to SomberNight for his excellent efforts working with me to get us to a solution that optimizes productivity for both upstream and downstream.</p>
+<p>I want to draw attention in particular to one of the code quality improvements.  Most forks of Electrum rename the <code class="language-plaintext highlighter-rouge">electrum</code> Python package, in order to avoid causing namespace conflicts if both Electrum and an Electrum fork are installed on the same system.  Unfortunately, the result of this is that any change to <code class="language-plaintext highlighter-rouge">import</code> statements in upstream usually triggers a merge conflict.  I brought up this subject with SomberNight from upstream Electrum, in the hopes that we could find a solution that would avoid the merge conflicts.  My initial suggestion was for upstream to switch to relative imports; SomberNight shot that down due to code readability concerns, but he posted a code snippet that was a (non-working) attempt to work around the issue.  Based on the rough direction of his code snippet, I managed to produce a working patch to Electrum-NMC that allows the imports to revert to the upstream version.  For an idea of how much improvement this is, prior to this patch, merging one release tag’s worth of commits (i.e. about a month of commits) would typically take me a day or so.  Now, it takes me about 30 minutes.  Kudos to SomberNight for his excellent efforts working with me to get us to a solution that optimizes productivity for both upstream and downstream.</p>
 
 <p>As usual, you can download it at the <a href="/download/betas/#electrum-nmc">Beta Downloads page</a>.</p>
 
@@ -1229,7 +1233,7 @@ Decentralized<br /><strong>secure</strong> names.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/05/21/electrum-nmc-v3.3.6-released.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/05/21/electrum-nmc-v3.3.6-released.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/05/21/electrum-nmc-v3.3.6-released.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/05/21/electrum-nmc-v3.3.6-released.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/05/21/electrum-nmc-v3.3.6-released.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1239,41 +1243,32 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

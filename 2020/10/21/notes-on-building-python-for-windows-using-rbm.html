@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -450,6 +450,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -462,7 +466,7 @@
 
 <p>Namecoin and Tor are both intended to be secure projects.  All their binaries have to build reproducibly.  The Tor Browser is also intended to be portable.  It’s not acceptable for users to have to install additional software on their computer to run Tor Browser.</p>
 
-<p>This means a Python interpreter would have to be bundled in order for Electrum-NMC to be includible in Tor Browser.  And since Tor Browser is a secure project, said Python interpreter has to be built reproducibly.  For this reason, the <code class="highlighter-rouge">tor-browser-build</code> repository has received some patches to reproducibly build such binaries.</p>
+<p>This means a Python interpreter would have to be bundled in order for Electrum-NMC to be includible in Tor Browser.  And since Tor Browser is a secure project, said Python interpreter has to be built reproducibly.  For this reason, the <code class="language-plaintext highlighter-rouge">tor-browser-build</code> repository has received some patches to reproducibly build such binaries.</p>
 
 <p>This post details the problems encountered while making them.</p>
 
@@ -478,11 +482,11 @@
 
 <p>The configuration script will thus have to download the binaries and move them into the cache directory used by Meson.  This change also makes the build faster - RBM uses a fresh VM for each build, so unless the cache is outside of the VM, it will be wiped on each new build.</p>
 
-<p>After this was done, RBM was able to produce something resembling a Python 3.8 interpreter.  However, it wasn’t functional.  Owing to what presumably was an idiosyncracy of the MinGW system, a critical library named <code class="highlighter-rouge">libwinpthread-1.dll</code> wasn’t included.</p>
+<p>After this was done, RBM was able to produce something resembling a Python 3.8 interpreter.  However, it wasn’t functional.  Owing to what presumably was an idiosyncracy of the MinGW system, a critical library named <code class="language-plaintext highlighter-rouge">libwinpthread-1.dll</code> wasn’t included.</p>
 
 <p>This problem turned out to be easy to fix.  Ruben Van Boxem, a contributor to the MinGW project, <a href="https://stackoverflow.com/a/14033674">suggested</a> on StackOverflow that the compiler/linker simply be explicitly told to link this library statically.  This worked:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wine python.exe
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ wine python.exe
 Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
 &gt;&gt;&gt;
 </code></pre></div></div>
@@ -1183,7 +1187,7 @@ Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2020/10/21/notes-on-building-python-for-windows-using-rbm.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1195,39 +1199,30 @@ Python 3.8.5 (default, xx/xx/xx, xx:xx:xx) [gcc] on win32
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder">Handshake</li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

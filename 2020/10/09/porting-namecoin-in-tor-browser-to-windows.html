@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -454,6 +454,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -468,7 +472,7 @@
 
 <p>First off, since this endeavor was going to involve some changes to StemNS, I figured this was a good opportunity to investigate an odd bug that was happening in StemNS sometimes.  I had noticed last year that in a fresh Tor Browser install, if Namecoin was enabled on the first run, Tor Launcher would indicate that Tor bootstrap had stalled at the “loading authority certificates” stage.  I found that spamming the Tor Launcher buttons to cancel and retry connecting would usually make the connection succeed after 5-10 tries, which seemed to suggest a race condition.  After quite a lot of manual inspection of StemNS logs, I found something odd.</p>
 
-<p>While the Tor control spec states that the <code class="highlighter-rouge">__LeaveStreamsUnattached</code> config option will cause all streams to wait for the controller (StemNS in this case) to attach them, this was empirically not what was happening.  Rather, streams created as a result of user traffic (e.g. Firefox or Electrum-NMC) were waiting for StemNS to attach them, but streams created by Tor’s bootstrap were still automatically being attached.  The Tor control spec goes on to say the following:</p>
+<p>While the Tor control spec states that the <code class="language-plaintext highlighter-rouge">__LeaveStreamsUnattached</code> config option will cause all streams to wait for the controller (StemNS in this case) to attach them, this was empirically not what was happening.  Rather, streams created as a result of user traffic (e.g. Firefox or Electrum-NMC) were waiting for StemNS to attach them, but streams created by Tor’s bootstrap were still automatically being attached.  The Tor control spec goes on to say the following:</p>
 
 <blockquote>
   <p>Attempting to attach streams
@@ -491,7 +495,7 @@ before proceeding with the new attach request.</p>
 
 <p>The existing Namecoin support in Tor Browser relies on a Bash script that signals Electrum-NMC and StemNS to exit after Firefox exits.  Alas, Bash is only used as a launcher in GNU/Linux, so I needed to port this to a more cross-platform approach.</p>
 
-<p>Tor Browser already solves this problem for the Tor daemon: Tor needs to exit when Firefox has done so.  Tor Browser does this by having Firefox send the <code class="highlighter-rouge">TAKEOWNERSHIP</code> command to Tor, which instructs Tor to exit when Firefox closes the control port connection.  This inspired me to do something similar in StemNS: I added an event listener to StemNS that triggers when Tor closes the control port connection to StemNS (which will happen when Tor exits).  I configured the event listener to send an RPC <code class="highlighter-rouge">stop</code> command to Electrum-NMC (which will make Electrum-NMC exit), and then exit StemNS as well.  (The latter took some DuckDuckGo-fu, as it turns out that <code class="highlighter-rouge">sys.exit()</code> can’t be called from a child thread in Python; the correct way to exit from a child thread is <code class="highlighter-rouge">os._exit()</code>.)</p>
+<p>Tor Browser already solves this problem for the Tor daemon: Tor needs to exit when Firefox has done so.  Tor Browser does this by having Firefox send the <code class="language-plaintext highlighter-rouge">TAKEOWNERSHIP</code> command to Tor, which instructs Tor to exit when Firefox closes the control port connection.  This inspired me to do something similar in StemNS: I added an event listener to StemNS that triggers when Tor closes the control port connection to StemNS (which will happen when Tor exits).  I configured the event listener to send an RPC <code class="language-plaintext highlighter-rouge">stop</code> command to Electrum-NMC (which will make Electrum-NMC exit), and then exit StemNS as well.  (The latter took some DuckDuckGo-fu, as it turns out that <code class="language-plaintext highlighter-rouge">sys.exit()</code> can’t be called from a child thread in Python; the correct way to exit from a child thread is <code class="language-plaintext highlighter-rouge">os._exit()</code>.)</p>
 
 <p>Some testing revealed that this worked; I was able to remove the Bash code that terminated Electrum-NMC and StemNS, and they still exited properly.  Moving on…</p>
 
@@ -507,16 +511,16 @@ before proceeding with the new attach request.</p>
 
 <p>Both Electrum-NMC and StemNS are written in Python.  GNU/Linux systems generally have Python available by default, but this is not the case for Windows.  In addition, on GNU/Linux, Python scripts are executable programs, but on Windows, they’re data files that need to be explicitly opened with the Python interpreter.  This means that some Windows-specific things need to be done.</p>
 
-<p>For Python being available, I took the easy way out: I simply defined [1] it to be out of scope, i.e. the user is responsible for installing Python themselves before enabling Namecoin in Tor Browser.  I also rigged Tor Launcher to check every directory in the <code class="highlighter-rouge">PATH</code> for a Python interpreter, and to use the discovered Python binary as the executable, passing the Electrum-NMC or StemNS path as a command-line argument instead.  Worked pretty well.</p>
+<p>For Python being available, I took the easy way out: I simply defined [1] it to be out of scope, i.e. the user is responsible for installing Python themselves before enabling Namecoin in Tor Browser.  I also rigged Tor Launcher to check every directory in the <code class="language-plaintext highlighter-rouge">PATH</code> for a Python interpreter, and to use the discovered Python binary as the executable, passing the Electrum-NMC or StemNS path as a command-line argument instead.  Worked pretty well.</p>
 
-<p>Finally, I re-implemented verbose logging for Namecoin (which was also part of the Bash code that I had removed).  This was done via a <code class="highlighter-rouge">TOR_VERBOSE_NAMECOIN</code> environment variable.  It does two things when enabled:</p>
+<p>Finally, I re-implemented verbose logging for Namecoin (which was also part of the Bash code that I had removed).  This was done via a <code class="language-plaintext highlighter-rouge">TOR_VERBOSE_NAMECOIN</code> environment variable.  It does two things when enabled:</p>
 
 <ol>
-  <li>Pass the <code class="highlighter-rouge">-v</code> argument to Electrum-NMC, which enables verbose output.</li>
-  <li>On Windows, use <code class="highlighter-rouge">python.exe</code> (which pops up a command prompt window with logs) instead of <code class="highlighter-rouge">pythonw.exe</code> (which doesn’t spawn a command window).</li>
+  <li>Pass the <code class="language-plaintext highlighter-rouge">-v</code> argument to Electrum-NMC, which enables verbose output.</li>
+  <li>On Windows, use <code class="language-plaintext highlighter-rouge">python.exe</code> (which pops up a command prompt window with logs) instead of <code class="language-plaintext highlighter-rouge">pythonw.exe</code> (which doesn’t spawn a command window).</li>
 </ol>
 
-<p>Oh, and I had to tweak the linker flags for <code class="highlighter-rouge">ncprop279</code> to make it avoid launching a command prompt window on Windows as well.</p>
+<p>Oh, and I had to tweak the linker flags for <code class="language-plaintext highlighter-rouge">ncprop279</code> to make it avoid launching a command prompt window on Windows as well.</p>
 
 <p><img src="/images/screenshots/tor/tor-browser-windows-2020-08-20.png" alt="A screenshot of Namecoin in Tor Browser on Windows." /></p>
 
@@ -524,7 +528,7 @@ before proceeding with the new attach request.</p>
 
 <p>I sent in the code to the Tor Browser Team, and it’s now awaiting review.</p>
 
-<p>In the meantime, I noticed that the <code class="highlighter-rouge">__LeaveStreamsUnattached</code> issue has a more correct fix now.  The master branch of Tor and Stem recently added a new stream status, <code class="highlighter-rouge">CONTROLLER_WAIT</code>, which indicates specifically that a stream is now waiting for the controller to attach it.  Thus, I’ve updated StemNS to only check for this status, rather than the mildly-convoluted previously-existing method of guessing whether a stream was waiting for this.  That means StemNS’s master branch is now incompatible with Tor 0.4.5.0, Stem 1.8.0, and earlier.  I’ve tagged a stable release that doesn’t include this refactor, and if any important bugfixes make their way into StemNS before the new Tor and Stem behavior gets into releases, I’ll probably backport them to a stable branch.</p>
+<p>In the meantime, I noticed that the <code class="language-plaintext highlighter-rouge">__LeaveStreamsUnattached</code> issue has a more correct fix now.  The master branch of Tor and Stem recently added a new stream status, <code class="language-plaintext highlighter-rouge">CONTROLLER_WAIT</code>, which indicates specifically that a stream is now waiting for the controller to attach it.  Thus, I’ve updated StemNS to only check for this status, rather than the mildly-convoluted previously-existing method of guessing whether a stream was waiting for this.  That means StemNS’s master branch is now incompatible with Tor 0.4.5.0, Stem 1.8.0, and earlier.  I’ve tagged a stable release that doesn’t include this refactor, and if any important bugfixes make their way into StemNS before the new Tor and Stem behavior gets into releases, I’ll probably backport them to a stable branch.</p>
 
 <p>And now, we wait for code review from the Tor Browser Team.  Let the bikeshedding begin!</p>
 
@@ -1214,7 +1218,7 @@ before proceeding with the new attach request.</p>
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2020/10/09/porting-namecoin-in-tor-browser-to-windows.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1224,41 +1228,32 @@ before proceeding with the new attach request.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">
