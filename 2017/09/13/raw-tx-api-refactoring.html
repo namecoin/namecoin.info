@@ -922,6 +922,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -947,24 +951,24 @@
 
 <h2 id="why-do-those-features-need-the-raw-transaction-api">Why do those features need the raw transaction API?</h2>
 
-<p>The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a <code class="highlighter-rouge">name_firstupdate</code> transaction before its preceding <code class="highlighter-rouge">name_new</code> transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.</p>
+<p>The raw transaction API is useful for a few reasons.  First, it lets you create and sign transactions independently from broadcasting them.  That means you can create and sign a <code class="language-plaintext highlighter-rouge">name_firstupdate</code> transaction before its preceding <code class="language-plaintext highlighter-rouge">name_new</code> transaction has been broadcast.  Second, it gives you direct control over the inputs, outputs, and fees for the transaction, whereas the standard name commands instead pick defaults for you that you might not like and can’t change.</p>
 
 <h2 id="whats-wrong-with-namecoin-cores-raw-transaction-api">What’s wrong with Namecoin Core’s raw transaction API?</h2>
 
-<p>It’s not raw enough!  First off, the only name transactions it can create are <code class="highlighter-rouge">name_update</code>; it can’t create <code class="highlighter-rouge">name_new</code> or <code class="highlighter-rouge">name_firstupdate</code> transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create <code class="highlighter-rouge">name_update</code> outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.</p>
+<p>It’s not raw enough!  First off, the only name transactions it can create are <code class="language-plaintext highlighter-rouge">name_update</code>; it can’t create <code class="language-plaintext highlighter-rouge">name_new</code> or <code class="language-plaintext highlighter-rouge">name_firstupdate</code> transactions.  That rules out handling name registrations, and consequently means that anonymously registering names or controlling the fee for name registrations is a no-go.  Secondly, it can’t create <code class="language-plaintext highlighter-rouge">name_update</code> outputs with a higher monetary value than the default 0.01 NMC.  That rules out pure name transactions.</p>
 
 <h2 id="how-are-we-fixing-this">How are we fixing this?</h2>
 
-<p>We’re making an API change.  Instead of trying to stuff name operation data into <code class="highlighter-rouge">createrawtransaction</code>, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from <code class="highlighter-rouge">createrawtransaction</code> and moving it to a new RPC call, <code class="highlighter-rouge">namerawtransaction</code>.  The new workflow replaces the previous <code class="highlighter-rouge">createrawtransaction</code> with two steps:</p>
+<p>We’re making an API change.  Instead of trying to stuff name operation data into <code class="language-plaintext highlighter-rouge">createrawtransaction</code>, where it doesn’t belong and where it’s extremely difficult to provide the needed flexibility, we’re removing name support from <code class="language-plaintext highlighter-rouge">createrawtransaction</code> and moving it to a new RPC call, <code class="language-plaintext highlighter-rouge">namerawtransaction</code>.  The new workflow replaces the previous <code class="language-plaintext highlighter-rouge">createrawtransaction</code> with two steps:</p>
 
 <ol>
-  <li>Use <code class="highlighter-rouge">createrawtransaction</code> just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.</li>
-  <li>Use <code class="highlighter-rouge">namerawtransaction</code> to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">createrawtransaction</code> just like you would with Bitcoin, and specify a currency output of 0.01 NMC for where you want the name output to be.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">namerawtransaction</code> to prepend a name operation to the scriptPubKey of the aforementioned currency output.  This has the effect of converting that currency output into a name output.</li>
 </ol>
 
 <h2 id="what-will-be-the-impact">What will be the impact?</h2>
 
-<p>Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your <code class="highlighter-rouge">createrawtransaction</code>-using code so that it also calls <code class="highlighter-rouge">namerawtransaction</code>.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.</p>
+<p>Users of the raw transaction API will need to update their code.  If you’re using the raw transaction API to create currency transactions, then this will actually allow you to delete your Namecoin-specific customizations, since it will be just like Bitcoin again.  If you’re using the raw transaction API to create name transactions (this includes people who are doing atomic name trading), you’ll need to refactor your <code class="language-plaintext highlighter-rouge">createrawtransaction</code>-using code so that it also calls <code class="language-plaintext highlighter-rouge">namerawtransaction</code>.  If you’re a hacker who enjoys experimenting, this new workflow will probably be much more to your liking, as it will allow you to do stuff that you couldn’t easily do before.  And if you’re just an average user of Namecoin-Qt, you’ll probably like the new features that this enables, such as easier registration of names, better privacy, and lower fees.</p>
 
 <h2 id="whos-involved-in-this-work">Who’s involved in this work?</h2>
 
@@ -1205,41 +1209,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

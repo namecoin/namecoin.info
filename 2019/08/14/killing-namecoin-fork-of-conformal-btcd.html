@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -570,6 +570,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -586,9 +590,9 @@
   <li>btcd’s RPC client didn’t support cookie authentication, and Namecoin Core is easiest to set up when cookie authentication is in use.  Thus Hugo had to implement cookie authentication.</li>
 </ol>
 
-<p>To make matters more complicated, Conformal decided to rewrite btcd’s JSON-RPC client from scratch a few months after Namecoin forked it; the rewrite has a completely different API, so it wasn’t a drop-in replacement.  This was yet further complicated by the fact that one of the features in the original btcd JSON-RPC client’s API allowed adding custom RPC methods for altcoins (e.g. <code class="highlighter-rouge">name_show</code> and <code class="highlighter-rouge">name_scan</code>), which ncdns relied on; the rewrite’s API doesn’t expose that functionality nearly as cleanly.</p>
+<p>To make matters more complicated, Conformal decided to rewrite btcd’s JSON-RPC client from scratch a few months after Namecoin forked it; the rewrite has a completely different API, so it wasn’t a drop-in replacement.  This was yet further complicated by the fact that one of the features in the original btcd JSON-RPC client’s API allowed adding custom RPC methods for altcoins (e.g. <code class="language-plaintext highlighter-rouge">name_show</code> and <code class="language-plaintext highlighter-rouge">name_scan</code>), which ncdns relied on; the rewrite’s API doesn’t expose that functionality nearly as cleanly.</p>
 
-<p>We’ve been throwing around the idea of using upstream Conformal’s btcd package for a while, but finally I decided to start implementing it.  Happily, Conformal includes example code for using the new API, so it wasn’t hard to get it to talk to Namecoin Core.  I submitted a patch to Conformal that exposes the API features needed for custom RPC methods (the patch was pretty easy to write, and hopefully will be merged soon).  I also implemented <code class="highlighter-rouge">name_show</code> and <code class="highlighter-rouge">name_scan</code> for btcd.  (ncdns also includes support for <code class="highlighter-rouge">name_filter</code> and <code class="highlighter-rouge">name_sync</code>, but these methods weren’t actually used for anything and aren’t even included in current Namecoin Core releases, so I didn’t bother implementing them.)  Happily, issues (1) and (2) are no longer relevant, because ancient versions of Namecoin Core have long ago been phased out, and upstream btcd now supports JSON-RPC 2.0 without erroring.  Conveniently, the new API looks very similar to a custom high-level API that ncdns had implemented itself, so I was able to kill off quite a lot of glue code in ncdns as well.</p>
+<p>We’ve been throwing around the idea of using upstream Conformal’s btcd package for a while, but finally I decided to start implementing it.  Happily, Conformal includes example code for using the new API, so it wasn’t hard to get it to talk to Namecoin Core.  I submitted a patch to Conformal that exposes the API features needed for custom RPC methods (the patch was pretty easy to write, and hopefully will be merged soon).  I also implemented <code class="language-plaintext highlighter-rouge">name_show</code> and <code class="language-plaintext highlighter-rouge">name_scan</code> for btcd.  (ncdns also includes support for <code class="language-plaintext highlighter-rouge">name_filter</code> and <code class="language-plaintext highlighter-rouge">name_sync</code>, but these methods weren’t actually used for anything and aren’t even included in current Namecoin Core releases, so I didn’t bother implementing them.)  Happily, issues (1) and (2) are no longer relevant, because ancient versions of Namecoin Core have long ago been phased out, and upstream btcd now supports JSON-RPC 2.0 without erroring.  Conveniently, the new API looks very similar to a custom high-level API that ncdns had implemented itself, so I was able to kill off quite a lot of glue code in ncdns as well.</p>
 
 <p>Finally, I ported Hugo’s cookie authentication code to btcd.  This wasn’t particularly difficult, since most of the relevant code could be copied from ncdns into btcd without major changes.  (ncdns is GPLv3+-licensed, while btcd is ISC-licensed, but Hugo is the only developer who’s touched the relevant code, and he’s authorized re-licensing that code to both MIT and ISC licenses, so licensing concerns aren’t an issue.)</p>
 
@@ -1176,39 +1180,30 @@
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -614,6 +614,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -626,9 +630,9 @@
 
 <ul>
   <li>Considerable effort has gone into shrinking the diff compared to upstream tor-browser-build as much as possible.  Upstream Tor has much better QA resources, so it’s important to avoid deviating from what they do unless it’s critically important.</li>
-  <li><code class="highlighter-rouge">binutils</code> and <code class="highlighter-rouge">gcc</code> are now dependencies of Go projects that use cgo.  This means that we build the compiler from a fixed version of the source code rather than using whatever compiler Debian ships with.  This brings us closer in line with what upstream tor-browser-build does, probably fixes some compiler bugs, and probably improves reproducibility.</li>
+  <li><code class="language-plaintext highlighter-rouge">binutils</code> and <code class="language-plaintext highlighter-rouge">gcc</code> are now dependencies of Go projects that use cgo.  This means that we build the compiler from a fixed version of the source code rather than using whatever compiler Debian ships with.  This brings us closer in line with what upstream tor-browser-build does, probably fixes some compiler bugs, and probably improves reproducibility.</li>
   <li>Linux cross-compiling was fixed.  Currently, this means that 32-bit x86 Linux targets now build.  In the future, once upstream tor-browser-build merges <a href="https://wiki.raptorcs.com/wiki/Porting/Tor_Browser">my (currently WIP) patch</a> for cross-compiled Linux non-x86 targets (e.g. ARM and POWER), those targets should work fine with ncdns as well.</li>
-  <li>Windows targets were fixed.  This mostly consisted of fiddling with dependencies (ncdns uses different libraries on Linux and Windows), but also meant adding the <code class="highlighter-rouge">mingw-w64</code> project from upstream tor-browser-build.</li>
+  <li>Windows targets were fixed.  This mostly consisted of fiddling with dependencies (ncdns uses different libraries on Linux and Windows), but also meant adding the <code class="language-plaintext highlighter-rouge">mingw-w64</code> project from upstream tor-browser-build.</li>
 </ul>
 
 <p>All of the above improvements are currently awaiting code review.</p>
@@ -636,9 +640,9 @@
 <p>The next things I’ll be working on are:</p>
 
 <ul>
-  <li>Fixing macOS targets.  So far, all of the dependencies for ncdns build without errors, but ncdns itself fails because of an interesting bug that seems to manifest when two different cgo-enabled packages have the same name.  ncdns includes a fork of the Go standard library’s <code class="highlighter-rouge">x509</code> package; both the forked package and the original package are dependencies of the ncdns package, and it turns out that the only OS where cgo is used in <code class="highlighter-rouge">x509</code> is… macOS.  We never noticed this before, because our existing ncdns macOS binaries are built without cgo (because no macOS cross-compiler was present); now that we’re building in an environment where cgo is present for macOS, we’re subject to whatever quirks impact cgo on macOS.  I think this is going to be pretty easy to work around by disabling cgo for the ncdns <code class="highlighter-rouge">x509</code> fork, but the cleanest way to do that is going to require getting a patch merged upstream to <code class="highlighter-rouge">tor-browser-build</code>.</li>
-  <li>Adding an <code class="highlighter-rouge">ncdns-nsis</code> project, so that rbm builds the Windows installer.  This is already started, but I haven’t gotten very far yet.</li>
-  <li>Adding other Namecoin Go projects, such as <code class="highlighter-rouge">crosssignnameconstraint</code> and <code class="highlighter-rouge">ncp11</code>.  ncp11 is going to be especially interesting, due to its exercising of cgo code paths that almost no one uses.  This should be useful in finally getting ncp11 binaries for Windows and macOS [1].</li>
+  <li>Fixing macOS targets.  So far, all of the dependencies for ncdns build without errors, but ncdns itself fails because of an interesting bug that seems to manifest when two different cgo-enabled packages have the same name.  ncdns includes a fork of the Go standard library’s <code class="language-plaintext highlighter-rouge">x509</code> package; both the forked package and the original package are dependencies of the ncdns package, and it turns out that the only OS where cgo is used in <code class="language-plaintext highlighter-rouge">x509</code> is… macOS.  We never noticed this before, because our existing ncdns macOS binaries are built without cgo (because no macOS cross-compiler was present); now that we’re building in an environment where cgo is present for macOS, we’re subject to whatever quirks impact cgo on macOS.  I think this is going to be pretty easy to work around by disabling cgo for the ncdns <code class="language-plaintext highlighter-rouge">x509</code> fork, but the cleanest way to do that is going to require getting a patch merged upstream to <code class="language-plaintext highlighter-rouge">tor-browser-build</code>.</li>
+  <li>Adding an <code class="language-plaintext highlighter-rouge">ncdns-nsis</code> project, so that rbm builds the Windows installer.  This is already started, but I haven’t gotten very far yet.</li>
+  <li>Adding other Namecoin Go projects, such as <code class="language-plaintext highlighter-rouge">crosssignnameconstraint</code> and <code class="language-plaintext highlighter-rouge">ncp11</code>.  ncp11 is going to be especially interesting, due to its exercising of cgo code paths that almost no one uses.  This should be useful in finally getting ncp11 binaries for Windows and macOS [1].</li>
 </ul>
 
 <p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
@@ -1177,41 +1181,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

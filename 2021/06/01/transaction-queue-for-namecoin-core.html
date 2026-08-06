@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Decentralize</strong><br>all the things!
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -382,6 +382,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -392,7 +396,7 @@
 <article class="post-content">
 <p>Lately, work aiming to simplify the RPC API for name management has been proceeding. This is done both for the sake of improvement itself, and to make it easier to write GUIs for Namecoin.</p>
 
-<p>One unique element in Namecoin is the extensive use of time-dependent transactions. This is comparatively rare in Bitcoin. Either you want to send money or you don’t want to send money, but the “when” is usually ASAP. However, in Namecoin, it’s pretty common to, for instance, want to renew a name <em>when</em> it’s close to expiring, or register a name <em>when</em> its <code class="highlighter-rouge">NAME_NEW</code> input has matured.</p>
+<p>One unique element in Namecoin is the extensive use of time-dependent transactions. This is comparatively rare in Bitcoin. Either you want to send money or you don’t want to send money, but the “when” is usually ASAP. However, in Namecoin, it’s pretty common to, for instance, want to renew a name <em>when</em> it’s close to expiring, or register a name <em>when</em> its <code class="language-plaintext highlighter-rouge">NAME_NEW</code> input has matured.</p>
 
 <p>Historically, this has been a bit of an annoyance. Transactions can only[1] be broadcast if they have a good chance of making it into the next block, and not all transactions are intended to be broadcast immediately. The way users had to deal with it, then, was to manually keep track of what transactions they wanted broadcast and when.</p>
 
@@ -410,19 +414,19 @@
 
 <p>The API for the transaction queue is thus very simple:</p>
 
-<p><code class="highlighter-rouge">queuerawtransaction &lt;hex&gt;</code> queues a transaction to be broadcast as soon as it can, and returns the txid on success. There is a basic sanity check to try and ensure the transaction at least theoretically could be broadcast at some point in the future, but there’s no guarantee. Note that it’s on you to properly lock the transaction, or else it will be broadcast immediately. If you want to update a name when it’s 35000 blocks old, make sure to set nSequence on the name input to 35001.</p>
+<p><code class="language-plaintext highlighter-rouge">queuerawtransaction &lt;hex&gt;</code> queues a transaction to be broadcast as soon as it can, and returns the txid on success. There is a basic sanity check to try and ensure the transaction at least theoretically could be broadcast at some point in the future, but there’s no guarantee. Note that it’s on you to properly lock the transaction, or else it will be broadcast immediately. If you want to update a name when it’s 35000 blocks old, make sure to set nSequence on the name input to 35001.</p>
 
-<p><code class="highlighter-rouge">dequeuerawtransaction &lt;txid&gt;</code> removes a transaction from the queue.</p>
+<p><code class="language-plaintext highlighter-rouge">dequeuerawtransaction &lt;txid&gt;</code> removes a transaction from the queue.</p>
 
-<p><code class="highlighter-rouge">listqueuetransactions</code> lists all the queued transactions. Note that this may also include transactions queued by RPC calls.</p>
+<p><code class="language-plaintext highlighter-rouge">listqueuetransactions</code> lists all the queued transactions. Note that this may also include transactions queued by RPC calls.</p>
 
 <p>These changes will be available in Namecoin Core starting version 22.0.</p>
 
-<p>This change was a prerequisite for <code class="highlighter-rouge">name_autoregister</code>, an RPC call to register a name in one step without having to manually call <code class="highlighter-rouge">name_firstupdate</code>, regarding which we endeavor to have an update in the next few days. That RPC call is the final pre-requisite for completing the new name management GUI.</p>
+<p>This change was a prerequisite for <code class="language-plaintext highlighter-rouge">name_autoregister</code>, an RPC call to register a name in one step without having to manually call <code class="language-plaintext highlighter-rouge">name_firstupdate</code>, regarding which we endeavor to have an update in the next few days. That RPC call is the final pre-requisite for completing the new name management GUI.</p>
 
 <p>This work was funded by NLnet Foundation’s NGI0 Discovery Fund.</p>
 
-<p>[1] Actually, this is only true in Bitcoin. In Namecoin, presumably to take the edge off this wart, there’s a special (somewhat ungainly) exemption for <code class="highlighter-rouge">name_firstupdate</code>, which was the cause of very serious bugs in the past, such as the <a href="/2018/07/08/brownout-june-17-20.html">June 2018 incident</a>.</p>
+<p>[1] Actually, this is only true in Bitcoin. In Namecoin, presumably to take the edge off this wart, there’s a special (somewhat ungainly) exemption for <code class="language-plaintext highlighter-rouge">name_firstupdate</code>, which was the cause of very serious bugs in the past, such as the <a href="/2018/07/08/brownout-june-17-20.html">June 2018 incident</a>.</p>
 
 
 </article>
@@ -1188,41 +1192,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

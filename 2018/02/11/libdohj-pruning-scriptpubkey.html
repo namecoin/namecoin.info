@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>Supporting<br />free speech.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -858,6 +858,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -866,15 +870,15 @@
 </header>
 
 <article class="post-content">
-<p>Our lightweight SPV client’s <code class="highlighter-rouge">leveldbtxcache</code> mode is the most secure of the various Namecoin lightweight SPV modes.  Its storage requirements aren’t too bad either (129.1 MB at the moment for Namecoin mainnet).  However, while 129.1 MB of storage isn’t a dealbreaker, it’s still a bit borderline on mobile devices.  We can do better.</p>
+<p>Our lightweight SPV client’s <code class="language-plaintext highlighter-rouge">leveldbtxcache</code> mode is the most secure of the various Namecoin lightweight SPV modes.  Its storage requirements aren’t too bad either (129.1 MB at the moment for Namecoin mainnet).  However, while 129.1 MB of storage isn’t a dealbreaker, it’s still a bit borderline on mobile devices.  We can do better.</p>
 
-<p>First, a reminder of how <code class="highlighter-rouge">leveldbtxcache</code> currently works.  Initially, the IBD (initial blockchain download) proceeds the same way a typical lightweight SPV Bitcoin client (such as Schildbach’s Android Bitcoin Wallet) would work: it downloads blockchain headers, aiming for the chain with the most work.  However, at the point when the IBD has reached 1 year ago in the blockchain, it begins downloading full blocks instead of block headers.  The full blocks aren’t saved; they’re used temporarily for 2 purposes: verifying consistency with the block headers’ Merkle root (thus ensuring that no transactions have been censored), and adding any <code class="highlighter-rouge">name_anyupdate</code> transactions to a LevelDB database that allows quick lookup of names.  After those 2 things have been processed, the full blocks are discarded.  The 129.1 MB storage figure is as low as it is because we’re only storing name transactions from the last year (plus block headers, which are negligible in size).</p>
+<p>First, a reminder of how <code class="language-plaintext highlighter-rouge">leveldbtxcache</code> currently works.  Initially, the IBD (initial blockchain download) proceeds the same way a typical lightweight SPV Bitcoin client (such as Schildbach’s Android Bitcoin Wallet) would work: it downloads blockchain headers, aiming for the chain with the most work.  However, at the point when the IBD has reached 1 year ago in the blockchain, it begins downloading full blocks instead of block headers.  The full blocks aren’t saved; they’re used temporarily for 2 purposes: verifying consistency with the block headers’ Merkle root (thus ensuring that no transactions have been censored), and adding any <code class="language-plaintext highlighter-rouge">name_anyupdate</code> transactions to a LevelDB database that allows quick lookup of names.  After those 2 things have been processed, the full blocks are discarded.  The 129.1 MB storage figure is as low as it is because we’re only storing name transactions from the last year (plus block headers, which are negligible in size).</p>
 
 <p>However, there’s a lot of data in name transactions that we don’t actually need in order to look up names: currency data, signatures, and transaction metadata.</p>
 
-<p>Currency data exists in name transactions because name operations cost a transaction fee, so there will typically be a currency input and a currency output in any name transaction.  We don’t need this information in order to look up names.  Signatures are used for verifying new transactions, but are not needed to look up previously accepted transaction data.  Transaction metadata, such as <code class="highlighter-rouge">nVersion</code> and <code class="highlighter-rouge">nLockTime</code>, is also not needed to look up names.  There may be other sources of unwanted data too.</p>
+<p>Currency data exists in name transactions because name operations cost a transaction fee, so there will typically be a currency input and a currency output in any name transaction.  We don’t need this information in order to look up names.  Signatures are used for verifying new transactions, but are not needed to look up previously accepted transaction data.  Transaction metadata, such as <code class="language-plaintext highlighter-rouge">nVersion</code> and <code class="language-plaintext highlighter-rouge">nLockTime</code>, is also not needed to look up names.  There may be other sources of unwanted data too.</p>
 
-<p>To improve the situation, I’ve just modified <code class="highlighter-rouge">leveldbtxcache</code> so that, instead of storing full name transactions in LevelDB, it only stores the <code class="highlighter-rouge">scriptPubKey</code> of the name output.  This includes the name’s identifier and value, as well as the Bitcoin-compatible <code class="highlighter-rouge">scriptPubKey</code> that can be used to verify future signatures.  It’s a relatively straightforward change to the code, although it does break backward-compatibility with existing name databases (so you’ll need to delete your blockchain and resync after updating).</p>
+<p>To improve the situation, I’ve just modified <code class="language-plaintext highlighter-rouge">leveldbtxcache</code> so that, instead of storing full name transactions in LevelDB, it only stores the <code class="language-plaintext highlighter-rouge">scriptPubKey</code> of the name output.  This includes the name’s identifier and value, as well as the Bitcoin-compatible <code class="language-plaintext highlighter-rouge">scriptPubKey</code> that can be used to verify future signatures.  It’s a relatively straightforward change to the code, although it does break backward-compatibility with existing name databases (so you’ll need to delete your blockchain and resync after updating).</p>
 
 <p>So, how does this fare?</p>
 
@@ -883,7 +887,7 @@
     <tr>
       <th> </th>
       <th><strong>Full Transactions</strong></th>
-      <th><strong>Only <code class="highlighter-rouge">scriptPubKey</code></strong></th>
+      <th><strong>Only <code class="language-plaintext highlighter-rouge">scriptPubKey</code></strong></th>
     </tr>
   </thead>
   <tbody>
@@ -1194,41 +1198,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

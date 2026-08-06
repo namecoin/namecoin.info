@@ -318,6 +318,10 @@ Decentralized<br /><strong>secure</strong> names.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -332,7 +336,7 @@ Decentralized<br /><strong>secure</strong> names.
 
 <ul>
   <li>Namecoin interoperability with TLS implementations that use AIA.  In addition to reducing attack surface of Namecoin TLS on Windows, this lays the groundwork for Namecoin TLS support on Android/Linux, macOS, and iOS.</li>
-  <li>Refactoring Namecoin TLS PKCS#11 interoperability to use higher-level API’s that are more straightforward to audit.  In addition to improving security and reliability of Namecoin TLS on Firefox (all OS’s) and GNU/Linux (most browsers), this lays the groundwork for things like decentralized TLS with <code class="highlighter-rouge">.onion</code> domains (in collaboration with the Tor developers), and is likely to benefit 3rd-party developers who wish to create PKCS#11 modules in Go (e.g. for HSM or smart card use cases).</li>
+  <li>Refactoring Namecoin TLS PKCS#11 interoperability to use higher-level API’s that are more straightforward to audit.  In addition to improving security and reliability of Namecoin TLS on Firefox (all OS’s) and GNU/Linux (most browsers), this lays the groundwork for things like decentralized TLS with <code class="language-plaintext highlighter-rouge">.onion</code> domains (in collaboration with the Tor developers), and is likely to benefit 3rd-party developers who wish to create PKCS#11 modules in Go (e.g. for HSM or smart card use cases).</li>
   <li>Adding imposed name constraint support to NSS’s TLS trust store (used by Firefox), similar to the existing functionality that exists in CryptoAPI (used by Windows) and GnuTLS (used by GNOME Web).  In addition to allowing us to simplify Namecoin’s TLS interoperability code considerably, this is likely to benefit system-wide trust policy projects such as sponsored by Red Hat.</li>
   <li>Auditing TLS clients for name constraint bugs, using Netflix’s BetterTLS test suite.  This helps ensure that Namecoin’s security guarantees cannot be bypassed by exploiting bugs in 3rd-party applications.</li>
   <li>Improved integration testing for Namecoin TLS PKCS#11 interoperability.  In addition to helping us review PR’s faster, this helps ensure that future changes in third-party applications/libraries don’t cause problems for Namecoin.</li>
@@ -1173,41 +1177,32 @@ Decentralized<br /><strong>secure</strong> names.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder">Handshake</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

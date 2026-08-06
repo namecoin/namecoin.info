@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -798,6 +798,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -813,12 +817,12 @@ A <strong>trust anchor</strong><br />for the Internet.
 <p>Anyway, so I fixed the 3 known bugs:</p>
 
 <ol>
-  <li>Use of <code class="highlighter-rouge">cp</code></li>
+  <li>Use of <code class="language-plaintext highlighter-rouge">cp</code></li>
   <li>No warning when CKBI is empty.</li>
   <li>Broken Unicode in nicknames.</li>
 </ol>
 
-<p>And at this point, things <em>almost</em> worked.  Specifically, I could apply a name constraint that blacklisted <code class="highlighter-rouge">.org</code>, and accordingly <a href="https://www.namecoin.org/">the Namecoin website</a> showed an error, while <a href="https://tehnoetic.com/">Technoethical</a> still worked.  Seems good enough, right?  I certainly thought so, at least enough to announce on #namecoin-dev that I believed it was working.  Except then I had that insane urge to try to torture-test it a bit more.  So I ran tlsrestrict_nss_tool a 2nd time against the same NSS DB and the same CKBI library.  The expected behavior is that it will examine the CKBI and NSS DB, and decide that no additional cross-signing is needed.  Unfortunately, I instead was treated to a fatal error due to an ASN.1 parse error, specifically due to trailing data.</p>
+<p>And at this point, things <em>almost</em> worked.  Specifically, I could apply a name constraint that blacklisted <code class="language-plaintext highlighter-rouge">.org</code>, and accordingly <a href="https://www.namecoin.org/">the Namecoin website</a> showed an error, while <a href="https://tehnoetic.com/">Technoethical</a> still worked.  Seems good enough, right?  I certainly thought so, at least enough to announce on #namecoin-dev that I believed it was working.  Except then I had that insane urge to try to torture-test it a bit more.  So I ran tlsrestrict_nss_tool a 2nd time against the same NSS DB and the same CKBI library.  The expected behavior is that it will examine the CKBI and NSS DB, and decide that no additional cross-signing is needed.  Unfortunately, I instead was treated to a fatal error due to an ASN.1 parse error, specifically due to trailing data.</p>
 
 <p>I’ve seen this error before, and it’s usually triggered by an NSS quirk.  NSS doesn’t actually keep track of each certificate uniquely.  If you put 2 certificates in an NSS DB that have the same Subject, and you ask certutil to give you one of them (doesn’t matter which), certutil will actually give you <em>both of them</em>, concatenated.  This happens regularly in our usage, because the cross-signed CA and the (distrusted) original CA have the same Subject (by design).</p>
 
@@ -1189,41 +1193,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
                     <li class="funder">Cyphrs</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">
