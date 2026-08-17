@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -322,6 +322,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -334,7 +338,7 @@
 
 <p>For reference, here are the function prototypes of p11:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjects finds any objects in the token matching the template.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FindObjects finds any objects in the token matching the template.
 func (s Session) FindObjects(template []*pkcs11.Attribute) ([]Object, error)
 
 Attribute gets exactly one attribute from a PKCS#11 object, returning an error if the attribute is not found, or if multiple attributes are returned. On success, it will return the value of that attribute as a slice of bytes. For attributes not present (i.e. CKR_ATTRIBUTE_TYPE_INVALID), Attribute returns a nil slice and nil error.
@@ -343,7 +347,7 @@ func (o Object) Attribute(attributeType uint) ([]byte, error)
 
 <p>Note that the p11 API is intentionally very generic; every object is an arbitrary mapping of attribute types (generic integers) to attribute values (generic binary data), and searching for objects requires constructing a template that looks about as generic as the object itself.  This necessarily involves a lot of boilerplate.  Here’s the higher-level API, which I call p11trustmod:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type CertificateData struct {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type CertificateData struct {
 	Label string
 	Certificate *x509.Certificate
 	BuiltinPolicy bool
@@ -359,18 +363,18 @@ func (b Backend) QueryIssuerSerial(issuer *pkix.Name, serial *big.Int) ([]*Certi
 func (b Backend) QueryAll() ([]*CertificateData, error)
 </code></pre></div></div>
 
-<p>As you can see, this API matches the behavior of libraries like NSS, which query for certificates by only a few search keys: the certificate itself, the subject, the issuer and serial, and asking for all the certificates at once.  In ncp11, we extract the <code class="highlighter-rouge">.bit</code> domain from the subject or the issuer.  (If the entire certificate is searched for, the subject and issuer are both within the <code class="highlighter-rouge">x509.Certificate</code> struct.  The <code class="highlighter-rouge">QueryAll</code> search method can’t be used to look up <code class="highlighter-rouge">.bit</code> certificates, but it <em>can</em> be used to find the Namecoin root CA, which is sufficient.)  Here’s some of what p11trustmod is doing behind the scenes:</p>
+<p>As you can see, this API matches the behavior of libraries like NSS, which query for certificates by only a few search keys: the certificate itself, the subject, the issuer and serial, and asking for all the certificates at once.  In ncp11, we extract the <code class="language-plaintext highlighter-rouge">.bit</code> domain from the subject or the issuer.  (If the entire certificate is searched for, the subject and issuer are both within the <code class="language-plaintext highlighter-rouge">x509.Certificate</code> struct.  The <code class="language-plaintext highlighter-rouge">QueryAll</code> search method can’t be used to look up <code class="language-plaintext highlighter-rouge">.bit</code> certificates, but it <em>can</em> be used to find the Namecoin root CA, which is sufficient.)  Here’s some of what p11trustmod is doing behind the scenes:</p>
 
 <ul>
-  <li>The <code class="highlighter-rouge">FindObjects</code> function checks which attributes are in the search template, and calls <code class="highlighter-rouge">QueryCertificate</code>, <code class="highlighter-rouge">QuerySubject</code>, or <code class="highlighter-rouge">QueryIssuerSerial</code> as appropriate.  Thus, ncp11 won’t need to deal with processing attributes from the search template.</li>
-  <li>The <code class="highlighter-rouge">FindObjects</code> function always calls <code class="highlighter-rouge">QueryAll</code> and appends those results.  This allows ncp11 to return certain objects such as the Namecoin root CA even if those objects aren’t being referenced by name [2].</li>
-  <li>The <code class="highlighter-rouge">FindObjects</code> function filters all the query results to make sure it actually matches the search template.  This allows ncp11 to simply return whatever Namecoin says matches the <code class="highlighter-rouge">.bit</code> domain, without worrying about the search template.</li>
-  <li>The <code class="highlighter-rouge">Attribute</code> function automatically fills in sane values for boilerplate attributes such as <code class="highlighter-rouge">CKA_TOKEN</code> (always true), <code class="highlighter-rouge">CKA_PRIVATE</code> (always false), <code class="highlighter-rouge">CKA_MODIFIABLE</code> (always false), and <code class="highlighter-rouge">CKA_CERTIFICATE_TYPE</code> (always <code class="highlighter-rouge">CKC_X_509</code>).</li>
-  <li>The <code class="highlighter-rouge">Attribute</code> function automatically extracts the subject, issuer, serial number, and hash from the certificate, so ncp11 can just return the certificate.</li>
-  <li>The backend (e.g. ncp11) can choose whether to supply trust bits, and if so, p11trustmod synthesizes trust bits objects for the Namecoin root CA from the <code class="highlighter-rouge">BuiltinPolicy</code>, <code class="highlighter-rouge">TrustServerAuth</code>, <code class="highlighter-rouge">TrustClientAuth</code>, <code class="highlighter-rouge">TrustCodeSigning</code>, and <code class="highlighter-rouge">TrustEmailProtection</code> fields.  There are some tradeoffs here:
+  <li>The <code class="language-plaintext highlighter-rouge">FindObjects</code> function checks which attributes are in the search template, and calls <code class="language-plaintext highlighter-rouge">QueryCertificate</code>, <code class="language-plaintext highlighter-rouge">QuerySubject</code>, or <code class="language-plaintext highlighter-rouge">QueryIssuerSerial</code> as appropriate.  Thus, ncp11 won’t need to deal with processing attributes from the search template.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">FindObjects</code> function always calls <code class="language-plaintext highlighter-rouge">QueryAll</code> and appends those results.  This allows ncp11 to return certain objects such as the Namecoin root CA even if those objects aren’t being referenced by name [2].</li>
+  <li>The <code class="language-plaintext highlighter-rouge">FindObjects</code> function filters all the query results to make sure it actually matches the search template.  This allows ncp11 to simply return whatever Namecoin says matches the <code class="language-plaintext highlighter-rouge">.bit</code> domain, without worrying about the search template.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">Attribute</code> function automatically fills in sane values for boilerplate attributes such as <code class="language-plaintext highlighter-rouge">CKA_TOKEN</code> (always true), <code class="language-plaintext highlighter-rouge">CKA_PRIVATE</code> (always false), <code class="language-plaintext highlighter-rouge">CKA_MODIFIABLE</code> (always false), and <code class="language-plaintext highlighter-rouge">CKA_CERTIFICATE_TYPE</code> (always <code class="language-plaintext highlighter-rouge">CKC_X_509</code>).</li>
+  <li>The <code class="language-plaintext highlighter-rouge">Attribute</code> function automatically extracts the subject, issuer, serial number, and hash from the certificate, so ncp11 can just return the certificate.</li>
+  <li>The backend (e.g. ncp11) can choose whether to supply trust bits, and if so, p11trustmod synthesizes trust bits objects for the Namecoin root CA from the <code class="language-plaintext highlighter-rouge">BuiltinPolicy</code>, <code class="language-plaintext highlighter-rouge">TrustServerAuth</code>, <code class="language-plaintext highlighter-rouge">TrustClientAuth</code>, <code class="language-plaintext highlighter-rouge">TrustCodeSigning</code>, and <code class="language-plaintext highlighter-rouge">TrustEmailProtection</code> fields.  There are some tradeoffs here:
     <ul>
-      <li>The <code class="highlighter-rouge">BuiltinPolicy</code> trust bit causes Certificate Transparency errors in Chromium, but enforces better security (e.g. blacklisting obsolete crypto and enforcing key rotations) in Firefox.</li>
-      <li>Omitting all trust bits from ncp11 and putting the Namecoin root CA in the standard trust store instead allows ncp11 to run with improved sandboxing.  However, depending on which trust store implementation is used, this might preclude the security benefits of the <code class="highlighter-rouge">BuiltinPolicy</code> trust bit.  p11-kit, which is used in Fedora and Arch, supports the <code class="highlighter-rouge">BuiltinPolicy</code> trust bit.  Softoken, which is used in Debian, Windows, and macOS, does not.  Since Tor Browser does not have a mutable trust store (for fingerprinting reasons), this sandboxing is probably not possible in Tor Browser.</li>
+      <li>The <code class="language-plaintext highlighter-rouge">BuiltinPolicy</code> trust bit causes Certificate Transparency errors in Chromium, but enforces better security (e.g. blacklisting obsolete crypto and enforcing key rotations) in Firefox.</li>
+      <li>Omitting all trust bits from ncp11 and putting the Namecoin root CA in the standard trust store instead allows ncp11 to run with improved sandboxing.  However, depending on which trust store implementation is used, this might preclude the security benefits of the <code class="language-plaintext highlighter-rouge">BuiltinPolicy</code> trust bit.  p11-kit, which is used in Fedora and Arch, supports the <code class="language-plaintext highlighter-rouge">BuiltinPolicy</code> trust bit.  Softoken, which is used in Debian, Windows, and macOS, does not.  Since Tor Browser does not have a mutable trust store (for fingerprinting reasons), this sandboxing is probably not possible in Tor Browser.</li>
     </ul>
   </li>
 </ul>
@@ -1199,7 +1203,7 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2022/02/26/lab-leak-part-2-p11trustmod.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2022/02/26/lab-leak-part-2-p11trustmod.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2022/02/26/lab-leak-part-2-p11trustmod.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2022/02/26/lab-leak-part-2-p11trustmod.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1209,41 +1213,32 @@ func (b Backend) QueryAll() ([]*CertificateData, error)
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

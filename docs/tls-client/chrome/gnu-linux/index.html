@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -132,15 +132,15 @@
     
 <h2 id="tls-positive-overrides">TLS Positive Overrides</h2>
 
-<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS positive overrides; this allows certificates for <code class="language-plaintext highlighter-rouge">.bit</code> domains that match the blockchain to be used without errors.  Instructions:</p>
 
 <ol>
   <li>Create a certificate storage directory for ncdns.  Make sure that it is only readable and writeable by the user running ncdns.</li>
-  <li>Run <code class="highlighter-rouge">echo "$HOME/.pki/nssdb"</code> and note the output; this is your NSS database directory.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">echo "$HOME/.pki/nssdb"</code> and note the output; this is your NSS database directory.</li>
   <li>
-    <p>Add the following to your <code class="highlighter-rouge">ncdns.conf</code>.  Substitute the certificate storage directory you created above for <code class="highlighter-rouge">$CERTDIR</code>, and substitute the NSS database directory that you found above for <code class="highlighter-rouge">$NSSDBDIR</code>.</p>
+    <p>Add the following to your <code class="language-plaintext highlighter-rouge">ncdns.conf</code>.  Substitute the certificate storage directory you created above for <code class="language-plaintext highlighter-rouge">$CERTDIR</code>, and substitute the NSS database directory that you found above for <code class="language-plaintext highlighter-rouge">$NSSDBDIR</code>.</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certstore]
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certstore]
 
 nss=true
 nsscertdir="$CERTDIR"
@@ -150,26 +150,26 @@ nssdbdir="$NSSDBDIR"
   <li>Restart ncdns.</li>
 </ol>
 
-<p>You can now visit in Google Chrome a <code class="highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="highlighter-rouge">.bit</code> domain</a>.  The website should load in Google Chrome without errors, like in this screenshot:</p>
+<p>You can now visit in Google Chrome a <code class="language-plaintext highlighter-rouge">.bit</code> website that supports TLS, e.g. <a href="https://nf.bit/">the Namecoin forum’s <code class="language-plaintext highlighter-rouge">.bit</code> domain</a>.  The website should load in Google Chrome without errors, like in this screenshot:</p>
 
 <p><img src="/images/screenshots/tls/tls-success-chromium-linux-2018-07-31.png" alt="Screenshot." /></p>
 
 <h2 id="tls-negative-overrides-method-a">TLS Negative Overrides (Method A)</h2>
 
-<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="language-plaintext highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
 <ol>
   <li>Exit Google Chrome.</li>
   <li>
     <p>Run the following, and note the output:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls $HOME/.config/google-chrome/*/TransportSecurity
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls $HOME/.config/google-chrome/*/TransportSecurity
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>For each <code class="highlighter-rouge">TransportSecurity</code> file that you found above, run the following, substituting the full path of the <code class="highlighter-rouge">TransportSecurity</code> file for <code class="highlighter-rouge">$TS_PATH</code>:</p>
+    <p>For each <code class="language-plaintext highlighter-rouge">TransportSecurity</code> file that you found above, run the following, substituting the full path of the <code class="language-plaintext highlighter-rouge">TransportSecurity</code> file for <code class="language-plaintext highlighter-rouge">$TS_PATH</code>:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_chromium_tool --tlsrestrict.chromium-ts-path=$TS_PATH
 </code></pre></div>    </div>
   </li>
   <li>You can now re-launch Google Chrome.</li>
@@ -177,35 +177,35 @@ nssdbdir="$NSSDBDIR"
 
 <h2 id="tls-negative-overrides-method-b">TLS Negative Overrides (Method B)</h2>
 
-<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="highlighter-rouge">.bit</code> domains.  Instructions:</p>
+<p>Google Chrome for GNU/Linux can be used with Namecoin for TLS negative overrides; this prevents malicious or compromised public CA’s from issuing certificates for <code class="language-plaintext highlighter-rouge">.bit</code> domains.  Instructions:</p>
 
 <ol>
   <li>Create a temporary directory; make sure that it only is readable/writeable by a user whom you trust with access to the Google Chrome certificate database.  Note its path; make sure you use forward-slashes instead of backslashes, and leave off the trailing slash.</li>
   <li>
-    <p>Run the following, substituting the temporary directory for <code class="highlighter-rouge">$TEMP_DIR</code>:</p>
+    <p>Run the following, substituting the temporary directory for <code class="language-plaintext highlighter-rouge">$TEMP_DIR</code>:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb"
 </code></pre></div>    </div>
   </li>
-  <li>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
+  <li>Wait a few minutes for <code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</li>
 </ol>
 
-<p>You’ll need to rerun the above <code class="highlighter-rouge">tlsrestrict_nss_tool</code> command whenever the built-in certificate list is updated.</p>
+<p>You’ll need to rerun the above <code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code> command whenever the built-in certificate list is updated.</p>
 
-<p>If you’ve manually imported any non-built-in TLS trust anchors to Google Chrome, and you want to restrict them from intercepting <code class="highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
+<p>If you’ve manually imported any non-built-in TLS trust anchors to Google Chrome, and you want to restrict them from intercepting <code class="language-plaintext highlighter-rouge">.bit</code> traffic, you should do the following for each such trust anchor:</p>
 
 <ol>
   <li>Get a DER-encoded certificate of the trust anchor.</li>
   <li>
-    <p>Run the following, substituing the path to your trust anchor certificate for <code class="highlighter-rouge">$CERT_PATH</code>:</p>
+    <p>Run the following, substituing the path to your trust anchor certificate for <code class="language-plaintext highlighter-rouge">$CERT_PATH</code>:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./cross_sign_name_constraint_tool --cert.input-root-ca-path="$CERT_PATH"
 </code></pre></div>    </div>
   </li>
-  <li>3 new certificates will be created: <code class="highlighter-rouge">root.crt</code>, <code class="highlighter-rouge">intermediate.crt</code>, and <code class="highlighter-rouge">cross-signed.crt</code>.</li>
+  <li>3 new certificates will be created: <code class="language-plaintext highlighter-rouge">root.crt</code>, <code class="language-plaintext highlighter-rouge">intermediate.crt</code>, and <code class="language-plaintext highlighter-rouge">cross-signed.crt</code>.</li>
   <li>Delete the existing trust anchor from Google Chrome.</li>
-  <li>Import <code class="highlighter-rouge">root.crt</code> into Google Chrome; mark it as a trusted TLS root CA.</li>
-  <li>Import <code class="highlighter-rouge">intermediate.crt</code> and <code class="highlighter-rouge">cross-signed.crt</code> into Google Chrome; do not mark them as trusted.</li>
+  <li>Import <code class="language-plaintext highlighter-rouge">root.crt</code> into Google Chrome; mark it as a trusted TLS root CA.</li>
+  <li>Import <code class="language-plaintext highlighter-rouge">intermediate.crt</code> and <code class="language-plaintext highlighter-rouge">cross-signed.crt</code> into Google Chrome; do not mark them as trusted.</li>
 </ol>
 
 <p>If you decide later that you want to remove the negative overrides from Google Chrome, follow these instructions:</p>
@@ -214,42 +214,42 @@ nssdbdir="$NSSDBDIR"
   <li>
     <p>Run the following:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./tlsrestrict_nss_tool --tlsrestrict.nss-temp-db-dir="$TEMP_DIR" --tlsrestrict.nss-dest-db-dir="$HOME/.pki/nssdb" --tlsrestrict.undo
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Wait a few minutes for <code class="highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</p>
+    <p>Wait a few minutes for <code class="language-plaintext highlighter-rouge">tlsrestrict_nss_tool</code> to finish running.</p>
   </li>
 </ol>
 
 <h3 id="screenshot">Screenshot</h3>
 
-<p>If a <code class="highlighter-rouge">.bit</code> HTTPS website uses a CA-signed certificate that doesn’t match the Namecoin blockchain, an error like this will be displayed:</p>
+<p>If a <code class="language-plaintext highlighter-rouge">.bit</code> HTTPS website uses a CA-signed certificate that doesn’t match the Namecoin blockchain, an error like this will be displayed:</p>
 
 <p><img src="/images/screenshots/tls/tls-reject-firefox-linux-2018-08-01.png" alt="start.fedoraproject.org uses an invalid security certificate.  The certificate is not trusted because the issuer certificate is unknown.  The server might not be sending the appropriate intermediate certificates.  An additional root certificate may need to be imported." /></p>
 
 <h2 id="strict-transport-security">Strict Transport Security</h2>
 
-<p>Google Chrome for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
+<p>Google Chrome for GNU/Linux can be used with Namecoin for Strict Transport Security; this improves security against sslstrip-style attacks by forcing HTTPS to be used for <code class="language-plaintext highlighter-rouge">.bit</code> domains that support HTTPS.  Instructions:</p>
 
 <ol>
   <li>Install <a href="/docs/ncdns/">ncdns</a>.</li>
   <li>Download and extract certdehydrate-dane-rest-api from the <a href="/download/betas/#certdehydrate-dane-rest-api">Beta Downloads</a> page.</li>
   <li>
-    <p>Create a text file called <code class="highlighter-rouge">certdehydrate_dane_rest_api.conf</code> in the same directory where <code class="highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
+    <p>Create a text file called <code class="language-plaintext highlighter-rouge">certdehydrate_dane_rest_api.conf</code> in the same directory where <code class="language-plaintext highlighter-rouge">certdehydrate-dane-rest-api</code> is, and fill it with the following contents (if ncdns is listening on a different IP or port, change the following accordingly):</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[certdehydrate-dane-rest-api]
 nameserver="127.0.0.1"
 port="5391"
 </code></pre></div>    </div>
   </li>
-  <li>Run <code class="highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
-  <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">certdehydrate-dane-rest-api</code>.</li>
+  <li>If you want to test certdehydrate-dane-rest-api, try visiting <code class="language-plaintext highlighter-rouge">http://127.0.0.1:8080/lookup?domain=ca-test.bit</code> in a web browser.  You should see a certificate.  If you instead get an error or an empty page, something is wrong.</li>
   <li>Download and extract the DNSSEC-HSTS WebExtensions Component for Google Chrome from the <a href="/download/betas/#dnssec-hsts">Beta Downloads</a> page.</li>
   <li>
     <p>Install the DNSSEC-HSTS WebExtensions Component like this:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /usr/local/namecoin/ /usr/share/google-chrome/extensions/
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mkdir /usr/local/namecoin/ /usr/share/google-chrome/extensions/
 sudo cp ./dnssec-hsts*.crx /usr/local/namecoin/dnssec-hsts.crx
 sudo chmod +r /usr/local/namecoin/dnssec-hsts.crx
 sudo cp ./ogimlildljgffpifafnhjggflenjhljf.json /usr/share/google-chrome/extensions/
@@ -260,7 +260,7 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
 
 <p>You may need to restart Google Chrome.</p>
 
-<p><code class="highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Google Chrome.</p>
+<p><code class="language-plaintext highlighter-rouge">.bit</code> domains that support HTTPS will now automatically redirect from HTTP to HTTPS in Google Chrome.</p>
 
 
   </article>
@@ -292,7 +292,7 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/tls-client/chrome/gnu-linux/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/tls-client/chrome/gnu-linux/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/tls-client/chrome/gnu-linux/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/tls-client/chrome/gnu-linux/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/tls-client/chrome/gnu-linux/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -302,41 +302,32 @@ sudo chmod +r /usr/share/google-chrome/extensions/ogimlildljgffpifafnhjggflenjhl
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Handshake</li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">
