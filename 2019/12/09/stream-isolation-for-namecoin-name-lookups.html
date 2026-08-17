@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -530,6 +530,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -556,17 +560,17 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h2 id="electrum-nmc">Electrum-NMC</h2>
 
-<p>Patching Electrum-NMC to use the above aiorpcX feature was fairly straightforward.  However, I also needed to add an RPC argument to <code class="highlighter-rouge">name_show</code>, so that the caller can specify a “stream isolation ID”, which has a similar role as the SOCKS5 username+password in the Tor SOCKS port.  Electrum-NMC executes <code class="highlighter-rouge">name_show</code> with a different server connection for each unique stream isolation ID that it is passed.</p>
+<p>Patching Electrum-NMC to use the above aiorpcX feature was fairly straightforward.  However, I also needed to add an RPC argument to <code class="language-plaintext highlighter-rouge">name_show</code>, so that the caller can specify a “stream isolation ID”, which has a similar role as the SOCKS5 username+password in the Tor SOCKS port.  Electrum-NMC executes <code class="language-plaintext highlighter-rouge">name_show</code> with a different server connection for each unique stream isolation ID that it is passed.</p>
 
-<p>You may be wondering why we’re not just passing through the stream isolation ID to aiorpcX’s SOCKS5 username; why go through the trouble of randomizing the username and then maintaining a mapping inside Electrum-NMC?  The reason is that Electrum-NMC needs to preemptively open server connections before <code class="highlighter-rouge">name_show</code> is called.  Otherwise, each name lookup would be delayed by an Electrum protocol handshake, which would be an unacceptable latency penalty.</p>
+<p>You may be wondering why we’re not just passing through the stream isolation ID to aiorpcX’s SOCKS5 username; why go through the trouble of randomizing the username and then maintaining a mapping inside Electrum-NMC?  The reason is that Electrum-NMC needs to preemptively open server connections before <code class="language-plaintext highlighter-rouge">name_show</code> is called.  Otherwise, each name lookup would be delayed by an Electrum protocol handshake, which would be an unacceptable latency penalty.</p>
 
 <p>These patches are also useful for non-Namecoin use cases, and accordingly I’ve also sent them upstream to Electrum, where they’re awaiting review.</p>
 
 <h2 id="btcd">btcd</h2>
 
-<p>btcd is best-known as an alternate implementation of a Bitcoin full node, but it’s also the primary implementation of a Bitcoin RPC client in Go.  Up until recently, ncdns used an ancient 2015 fork of btcd to talk to Namecoin Core and Electrum-NMC.  This fork dealt with the arguments to <code class="highlighter-rouge">name_show</code>.  I wasn’t really fond of piling more and more hacks onto an ancient fork, so I looked into what would be needed to use modern btcd with Namecoin.  There were only 2 features missing from current btcd that we needed: extensible commands (so that we could add <code class="highlighter-rouge">name_show</code> as an RPC method) and cookie authentication (so that the user doesn’t need to set up RPC passwords manually).  Both of these were pretty easy to implement, and I’ve sent patches for both to the btcd developers.  They’re both undergoing review.</p>
+<p>btcd is best-known as an alternate implementation of a Bitcoin full node, but it’s also the primary implementation of a Bitcoin RPC client in Go.  Up until recently, ncdns used an ancient 2015 fork of btcd to talk to Namecoin Core and Electrum-NMC.  This fork dealt with the arguments to <code class="language-plaintext highlighter-rouge">name_show</code>.  I wasn’t really fond of piling more and more hacks onto an ancient fork, so I looked into what would be needed to use modern btcd with Namecoin.  There were only 2 features missing from current btcd that we needed: extensible commands (so that we could add <code class="language-plaintext highlighter-rouge">name_show</code> as an RPC method) and cookie authentication (so that the user doesn’t need to set up RPC passwords manually).  Both of these were pretty easy to implement, and I’ve sent patches for both to the btcd developers.  They’re both undergoing review.</p>
 
-<p>With that out of the way, I was able to get the Namecoin <code class="highlighter-rouge">name_show</code> command working with current btcd (I’m currently maintaining a fork of btcd until the above 2 patches are merged), via the new <code class="highlighter-rouge">ncbtcjson</code> and <code class="highlighter-rouge">ncrpcclient</code> packages.  These packages now support passing a stream isolation ID to Namecoin Core and Electrum-NMC.  (Namecoin Core ignores it, since it doesn’t generate any network traffic per lookup.)</p>
+<p>With that out of the way, I was able to get the Namecoin <code class="language-plaintext highlighter-rouge">name_show</code> command working with current btcd (I’m currently maintaining a fork of btcd until the above 2 patches are merged), via the new <code class="language-plaintext highlighter-rouge">ncbtcjson</code> and <code class="language-plaintext highlighter-rouge">ncrpcclient</code> packages.  These packages now support passing a stream isolation ID to Namecoin Core and Electrum-NMC.  (Namecoin Core ignores it, since it doesn’t generate any network traffic per lookup.)</p>
 
 <p>I also needed to hack Electrum-NMC a bit to make the new btcd’s stream isolation ID argument work with it.  This is because Electrum, by convention, expects optional arguments to be passed in a slightly different way than Bitcoin Core, and since the stream isolation ID is an optional argument, I needed to rig Electrum-NMC to also recognize the Namecoin Core style.</p>
 
@@ -594,7 +598,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h2 id="tor">Tor</h2>
 
-<p>StemNS talks to Tor via the control port protocol.  Unfortunately, quite a few of the relevant fields (including the SOCKS username/password) weren’t actually available via the control port’s <code class="highlighter-rouge">STREAM</code> event, which is the event we need to hook in order to do name resolution.  The control port <em>does</em> make the SOCKS username/password available via other events, but those events don’t fire until it’s too late to do name resolution.</p>
+<p>StemNS talks to Tor via the control port protocol.  Unfortunately, quite a few of the relevant fields (including the SOCKS username/password) weren’t actually available via the control port’s <code class="language-plaintext highlighter-rouge">STREAM</code> event, which is the event we need to hook in order to do name resolution.  The control port <em>does</em> make the SOCKS username/password available via other events, but those events don’t fire until it’s too late to do name resolution.</p>
 
 <p>So I ended up patching Tor to make all of those fields available over the control port.  Because the control port protocol follows a spec, that also meant patching the spec.  After a few revisions of the spec and code as per review, Nick from Tor merged my patches.  Nightly builds of Tor now support the necessary control port features for StemNS to handle stream isolation properly.</p>
 
@@ -1210,7 +1214,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/12/09/stream-isolation-for-namecoin-name-lookups.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1220,41 +1224,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

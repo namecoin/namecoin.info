@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -176,7 +176,7 @@
 
 <h2 id="name-lookups">Name Lookups</h2>
 
-<p>The <code class="highlighter-rouge">name_show</code> command can be called from the console:</p>
+<p>The <code class="language-plaintext highlighter-rouge">name_show</code> command can be called from the console:</p>
 
 <p><img src="/images/screenshots/electrum-nmc/Name-Show-in-Console-Tab.png" alt="Screenshot." /></p>
 
@@ -184,11 +184,11 @@
 
 <ol>
   <li>Enable Electrum-NMC’s JSON-RPC interface, as per <a href="https://electrum.readthedocs.io/en/latest/merchant.html#jsonrpc-interface">the instructions from upstream Electrum</a>.</li>
-  <li>To test the RPC server, try running the following from a terminal (substitute your username, password, and port accordingly): <code class="highlighter-rouge">curl --data-binary '{"id":"curltext","method":"name_show","params":["d/nf"]}' http://username:password@127.0.0.1:7777</code>.  You should get something like this:
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"result": {"name": "d/nf", "name_encoding": "ascii", "value": "{\"ip\":\"94.23.252.190\",\"map\":{\"_tcp\":{\"map\":{\"_443\":{\"tls\":[{\"d8\":[1,\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5L89jiJKW7bX5P4MxuvO4KN7k1WOJyjKZSrycMZMKWrfOPGNVBBAz3M2wB3bPz0imdjK0ppSyz0GXEWSIglQXw==\",5007168,5533056,10,\"MEUCIQC8wiAAU2/RemIHlxRZ4wkp4QiYpA6yvTFuk2UwBFHd4gIgRjJQqO7ovcVsVYvEFHY0Z+SjTKRCPa2QAyrQiUyZhIs=\"]}]}}}},\"fingerprint\":[\"69:16:99:8B:A7:62:6F:BE:2A:F6:AF:62:E4:DA:4D:8F:32:B8:52:28\"]}", "value_encoding": "ascii", "txid": "fd21e49f5f29de1f38a67201fb009abf8df609fd0b123f7454a04c7f556af7e4", "vout": 0, "address": "NFPRh1m3CPzAoBpbr1YMW2cDqfLit8eheg", "height": 404601, "expires_in": 9896, "expired": false, "ismine": false}, "id": "curltext", "error": null}
+  <li>To test the RPC server, try running the following from a terminal (substitute your username, password, and port accordingly): <code class="language-plaintext highlighter-rouge">curl --data-binary '{"id":"curltext","method":"name_show","params":["d/nf"]}' http://username:password@127.0.0.1:7777</code>.  You should get something like this:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"result": {"name": "d/nf", "name_encoding": "ascii", "value": "{\"ip\":\"94.23.252.190\",\"map\":{\"_tcp\":{\"map\":{\"_443\":{\"tls\":[{\"d8\":[1,\"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5L89jiJKW7bX5P4MxuvO4KN7k1WOJyjKZSrycMZMKWrfOPGNVBBAz3M2wB3bPz0imdjK0ppSyz0GXEWSIglQXw==\",5007168,5533056,10,\"MEUCIQC8wiAAU2/RemIHlxRZ4wkp4QiYpA6yvTFuk2UwBFHd4gIgRjJQqO7ovcVsVYvEFHY0Z+SjTKRCPa2QAyrQiUyZhIs=\"]}]}}}},\"fingerprint\":[\"69:16:99:8B:A7:62:6F:BE:2A:F6:AF:62:E4:DA:4D:8F:32:B8:52:28\"]}", "value_encoding": "ascii", "txid": "fd21e49f5f29de1f38a67201fb009abf8df609fd0b123f7454a04c7f556af7e4", "vout": 0, "address": "NFPRh1m3CPzAoBpbr1YMW2cDqfLit8eheg", "height": 404601, "expires_in": 9896, "expired": false, "ismine": false}, "id": "curltext", "error": null}
 </code></pre></div>    </div>
   </li>
-  <li>You can now configure ncdns (or any other application that expects a Namecoin-Core-like <code class="highlighter-rouge">name_show</code> interface) to connect to Electrum-NMC’s RPC server; everything should “just work”.</li>
+  <li>You can now configure ncdns (or any other application that expects a Namecoin-Core-like <code class="language-plaintext highlighter-rouge">name_show</code> interface) to connect to Electrum-NMC’s RPC server; everything should “just work”.</li>
 </ol>
 
   </article>
@@ -220,7 +220,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/electrum-nmc/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/electrum-nmc/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/electrum-nmc/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/electrum-nmc/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/electrum-nmc/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -230,41 +230,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

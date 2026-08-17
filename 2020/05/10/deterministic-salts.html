@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+A <strong>trust anchor</strong><br />for the Internet.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -474,6 +474,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -485,27 +489,27 @@
 <p>When Namecoin was first being designed, an attack had to be dealt with: the <em>frontrunning attack</em>.  The attack works like this:</p>
 
 <ul>
-  <li>Julian broadcasts a transaction, indicating that he wants to buy <code class="highlighter-rouge">wikileaks.bit</code>.</li>
+  <li>Julian broadcasts a transaction, indicating that he wants to buy <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>.</li>
   <li>Keith sees Julian’s transaction as soon as it gets broadcasted.</li>
-  <li>Keith infers that Julian places a significant value on <code class="highlighter-rouge">wikileaks.bit</code>.</li>
-  <li>Keith broadcasts his own transaction, trying to buy <code class="highlighter-rouge">wikileaks.bit</code>.</li>
+  <li>Keith infers that Julian places a significant value on <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>.</li>
+  <li>Keith broadcasts his own transaction, trying to buy <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>.</li>
   <li>Keith bribes a miner to mine his transaction rather than Julian’s.  (This could be done by using a much higher transaction fee than Julian’s transaction, or it could be done via out-of-band channels, perhaps a court order.)</li>
-  <li>Keith now owns <code class="highlighter-rouge">wikileaks.bit</code>, not Julian, even though Julian was the first person to try to buy it.</li>
+  <li>Keith now owns <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>, not Julian, even though Julian was the first person to try to buy it.</li>
 </ul>
 
 <p>Astute readers will note that the fundamental problem here is that DNS-like systems are supposed to be “first-come-first-served”, but a blockchain isn’t able to meaningfully determine which transaction came first if they were both broadcasted before either was mined.  Similar problems happen in Bitcoin when an attacker tries to spend the same coins to two different destination addresses at the same block height: there’s no reliable way to determine which spend came first, so it’s up to the miners to decide.</p>
 
-<p>So, how was this fixed?  Via <em>commitments</em>.  When Julian wants to buy <code class="highlighter-rouge">wikileaks.bit</code>, he first broadcasts a <em>commitment</em> transaction.  The transaction doesn’t reveal the name he wants to buy; it instead consists of a hash of two things: the name he wants to buy, and a secret randomly generated string (called a <em>salt</em>).  Without knowing the salt and the name already, Keith can’t determine what name Julian is buying.  And since the salt is randomly generated and is high in entropy, Keith can’t even mount a dictionary attack on the hash; even if Keith suspects that Julian is buying <code class="highlighter-rouge">wikileaks.bit</code>, Keith can’t verify this without knowing the salt.</p>
+<p>So, how was this fixed?  Via <em>commitments</em>.  When Julian wants to buy <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>, he first broadcasts a <em>commitment</em> transaction.  The transaction doesn’t reveal the name he wants to buy; it instead consists of a hash of two things: the name he wants to buy, and a secret randomly generated string (called a <em>salt</em>).  Without knowing the salt and the name already, Keith can’t determine what name Julian is buying.  And since the salt is randomly generated and is high in entropy, Keith can’t even mount a dictionary attack on the hash; even if Keith suspects that Julian is buying <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>, Keith can’t verify this without knowing the salt.</p>
 
-<p>After the commitment transaction has received 12 confirmations, Julian broadcasts a 2nd transaction that reveals the name and the salt.  Once this 2nd transaction is mined, Julian officially owns <code class="highlighter-rouge">wikileaks.bit</code>.  The key point here is that once the 2nd transaction is broadcasted, Julian only needs 1 block to be mined in order to obtain the name – but if Keith tries to register it, he’ll need to broadcast his own commitment (now that he knows the name) and wait for 12 blocks before he can register the name.  In other words, the existence of the commitment gives Julian a 12-block head start against Keith, which should ensure that Julian gets the name (unless Keith has successfully bribed the miners of 12 blocks in a row, which seems unlikely).</p>
+<p>After the commitment transaction has received 12 confirmations, Julian broadcasts a 2nd transaction that reveals the name and the salt.  Once this 2nd transaction is mined, Julian officially owns <code class="language-plaintext highlighter-rouge">wikileaks.bit</code>.  The key point here is that once the 2nd transaction is broadcasted, Julian only needs 1 block to be mined in order to obtain the name – but if Keith tries to register it, he’ll need to broadcast his own commitment (now that he knows the name) and wait for 12 blocks before he can register the name.  In other words, the existence of the commitment gives Julian a 12-block head start against Keith, which should ensure that Julian gets the name (unless Keith has successfully bribed the miners of 12 blocks in a row, which seems unlikely).</p>
 
 <p>This scheme brings important security, but it also poses a problem.  Imagine the following:</p>
 
 <ul>
-  <li>Matthew broadcasts a commitment transaction for <code class="highlighter-rouge">theintercept.bit</code>.</li>
+  <li>Matthew broadcasts a commitment transaction for <code class="language-plaintext highlighter-rouge">theintercept.bit</code>.</li>
   <li>Sometime in the next 12 blocks, Matthew’s hard drive dies.</li>
   <li>Matthew restores his wallet from his seed phrase on another machine.</li>
-  <li>Matthew tries to register <code class="highlighter-rouge">theintercept.bit</code> by spending the commitment transaction in his wallet.</li>
+  <li>Matthew tries to register <code class="language-plaintext highlighter-rouge">theintercept.bit</code> by spending the commitment transaction in his wallet.</li>
   <li>Uh oh.  Matthew’s wallet doesn’t know what the salt is!  It was only on the hard drive that died.  Matthew forfeits the name registration fee, and has to start over.</li>
 </ul>
 
@@ -532,15 +536,15 @@
 
 <p>I’ve now implemented HKDF-based deterministic salts in Electrum-NMC.  For example, you can now do the following command as before:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_new("d/example")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_new("d/example")
 </code></pre></div></div>
 
 <p>And you’ll get back a transaction and a salt, like before.  But, you’re now free to ignore this salt, because you don’t need it anymore!  You can complete the registration 12 blocks later like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_firstupdate("d/example")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_firstupdate("d/example")
 </code></pre></div></div>
 
-<p>Note that you don’t need to enter a salt or a TXID anymore!  Electrum-NMC checks each <code class="highlighter-rouge">name_new</code> UTXO in its wallet to see if the output of HKDF yields the commitment in the <code class="highlighter-rouge">name_new</code>, and if it does, Electrum-NMC uses that TXID and salt automatically.  This works even if you’re running <code class="highlighter-rouge">name_firstupdate</code> after restoring the wallet from a seed on a different machine than the one that produced the <code class="highlighter-rouge">name_new</code> transaction.</p>
+<p>Note that you don’t need to enter a salt or a TXID anymore!  Electrum-NMC checks each <code class="language-plaintext highlighter-rouge">name_new</code> UTXO in its wallet to see if the output of HKDF yields the commitment in the <code class="language-plaintext highlighter-rouge">name_new</code>, and if it does, Electrum-NMC uses that TXID and salt automatically.  This works even if you’re running <code class="language-plaintext highlighter-rouge">name_firstupdate</code> after restoring the wallet from a seed on a different machine than the one that produced the <code class="language-plaintext highlighter-rouge">name_new</code> transaction.</p>
 
 <p>Pretty cool, huh?</p>
 
@@ -1208,7 +1212,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2020/05/10/deterministic-salts.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2020/05/10/deterministic-salts.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/05/10/deterministic-salts.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2020/05/10/deterministic-salts.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2020/05/10/deterministic-salts.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1218,41 +1222,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

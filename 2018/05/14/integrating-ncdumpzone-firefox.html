@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Against<br />censorship.</strong>
+<strong>In information</strong><br />we <strong>trust</strong>.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -810,6 +810,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -818,13 +822,13 @@
 </header>
 
 <article class="post-content">
-<p>I <a href="/2018/02/20/ncdumpzone-firefox.html">discussed in a previous post</a> some experimental work on making ncdumpzone output a Firefox certificate override list.  At that time, the procedure wasn’t exactly user-friendly: you’d need to run ncdumpzone from a terminal, redirect the output to a file, close Firefox, delete whatever existing <code class="highlighter-rouge">.bit</code> entries existed in the existing Firefox certificate override file, append the ncdumpzone output to that file, and relaunch Firefox.  I’ve now integrated some code into ncdns that can automate this procedure.</p>
+<p>I <a href="/2018/02/20/ncdumpzone-firefox.html">discussed in a previous post</a> some experimental work on making ncdumpzone output a Firefox certificate override list.  At that time, the procedure wasn’t exactly user-friendly: you’d need to run ncdumpzone from a terminal, redirect the output to a file, close Firefox, delete whatever existing <code class="language-plaintext highlighter-rouge">.bit</code> entries existed in the existing Firefox certificate override file, append the ncdumpzone output to that file, and relaunch Firefox.  I’ve now integrated some code into ncdns that can automate this procedure.</p>
 
-<p>One of the trickier components of this was detecting whether Firefox was open.  Firefox’s documentation claims that it uses a lockfile, but as far as I can tell Firefox doesn’t actually delete its lockfile when it exits (and I’ve seen similar reports from other people).  Eventually, I decided to just watch the contents of my Firefox profile directory (sorted by Last Modified date) as Firefox opened and closed, and I noticed that Firefox’s sqlite databases produce some temporary files (specifically, files with the <code class="highlighter-rouge">.sqlite-wal</code> and <code class="highlighter-rouge">.sqlite-shm</code> extension) that are only present when Firefox is open.  So that’s a decent hack to detect that Firefox is open.</p>
+<p>One of the trickier components of this was detecting whether Firefox was open.  Firefox’s documentation claims that it uses a lockfile, but as far as I can tell Firefox doesn’t actually delete its lockfile when it exits (and I’ve seen similar reports from other people).  Eventually, I decided to just watch the contents of my Firefox profile directory (sorted by Last Modified date) as Firefox opened and closed, and I noticed that Firefox’s sqlite databases produce some temporary files (specifically, files with the <code class="language-plaintext highlighter-rouge">.sqlite-wal</code> and <code class="language-plaintext highlighter-rouge">.sqlite-shm</code> extension) that are only present when Firefox is open.  So that’s a decent hack to detect that Firefox is open.</p>
 
-<p>Given that, ncdns now creates 2 extra threads: <code class="highlighter-rouge">watchZone</code> and <code class="highlighter-rouge">watchProfile</code>.  <code class="highlighter-rouge">watchZone</code> dumps the <code class="highlighter-rouge">.bit</code> zone with ncdumpzone every 10 minutes, and makes that data available to <code class="highlighter-rouge">watchProfile</code>.  (Right now, ncdumpzone is called as a separate process, which isn’t exactly ideal – a future revision will probably refactor ncdumpzone into a library so that we can avoid this inefficiency.)  <code class="highlighter-rouge">watchProfile</code> waits for Firefox to exit (it checks at 1 Hz), and then loads Firefox’s <code class="highlighter-rouge">cert_override.txt</code> into memory, removes any existing <code class="highlighter-rouge">.bit</code> lines, appends the data from <code class="highlighter-rouge">watchZone</code>, and writes the result back to Firefox’s <code class="highlighter-rouge">cert_override.txt</code>.</p>
+<p>Given that, ncdns now creates 2 extra threads: <code class="language-plaintext highlighter-rouge">watchZone</code> and <code class="language-plaintext highlighter-rouge">watchProfile</code>.  <code class="language-plaintext highlighter-rouge">watchZone</code> dumps the <code class="language-plaintext highlighter-rouge">.bit</code> zone with ncdumpzone every 10 minutes, and makes that data available to <code class="language-plaintext highlighter-rouge">watchProfile</code>.  (Right now, ncdumpzone is called as a separate process, which isn’t exactly ideal – a future revision will probably refactor ncdumpzone into a library so that we can avoid this inefficiency.)  <code class="language-plaintext highlighter-rouge">watchProfile</code> waits for Firefox to exit (it checks at 1 Hz), and then loads Firefox’s <code class="language-plaintext highlighter-rouge">cert_override.txt</code> into memory, removes any existing <code class="language-plaintext highlighter-rouge">.bit</code> lines, appends the data from <code class="language-plaintext highlighter-rouge">watchZone</code>, and writes the result back to Firefox’s <code class="language-plaintext highlighter-rouge">cert_override.txt</code>.</p>
 
-<p>These 2 new threads in ncdns are deliberately designed to kill ncdns if they encounter any unexpected errors.  This is because, if we stop syncing the <code class="highlighter-rouge">.bit</code> zone to the Firefox override list, Firefox will continue trusting <code class="highlighter-rouge">.bit</code> certs that might be revoked in Namecoin.  Therefore, it is important that, in such a situation, <code class="highlighter-rouge">.bit</code> domains must stop resolving until the issue is corrected.  Forcing ncdns to exit seems to be the least complex way to reliably achieve this.</p>
+<p>These 2 new threads in ncdns are deliberately designed to kill ncdns if they encounter any unexpected errors.  This is because, if we stop syncing the <code class="language-plaintext highlighter-rouge">.bit</code> zone to the Firefox override list, Firefox will continue trusting <code class="language-plaintext highlighter-rouge">.bit</code> certs that might be revoked in Namecoin.  Therefore, it is important that, in such a situation, <code class="language-plaintext highlighter-rouge">.bit</code> domains must stop resolving until the issue is corrected.  Forcing ncdns to exit seems to be the least complex way to reliably achieve this.</p>
 
 <p>These changes significantly improve the UX of positive TLS certificate overrides for Firefox.  A pull request to ncdns should be coming soon.</p>
 
@@ -1156,7 +1160,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/05/14/integrating-ncdumpzone-firefox.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/05/14/integrating-ncdumpzone-firefox.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/05/14/integrating-ncdumpzone-firefox.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/05/14/integrating-ncdumpzone-firefox.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2018/05/14/integrating-ncdumpzone-firefox.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1168,39 +1172,30 @@
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

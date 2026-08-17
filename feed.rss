@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 27 Jan 2026 01:36:30 +0000</pubDate>
-    <lastBuildDate>Tue, 27 Jan 2026 01:36:30 +0000</lastBuildDate>
+    <pubDate>Mon, 17 Aug 2026 10:56:26 +0000</pubDate>
+    <lastBuildDate>Mon, 17 Aug 2026 10:56:26 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,36 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>MoneroKon 5 Summary</title>
+        <description>&lt;p&gt;As was &lt;a href=&quot;/2025/06/15/monerokon-5.html&quot;&gt;previously announced&lt;/a&gt;, I (Jeremy Rand) filled in for Robert Nganga representing Namecoin at MoneroKon 5 in Prague, Czechia (2025 June 20-22). As usual for conferences that Namecoiners attend, I engaged in a large number of conversations with other attendees.  Also as usual, we won’t be publicly disclosing the content of those conversations, because I want people to be able to talk to us at conferences without worrying that off-the-cuff comments will be broadcast to the public.&lt;/p&gt;
+
+&lt;p&gt;MoneroKon’s official recording is below:&lt;/p&gt;
+
+&lt;h2 id=&quot;sockstrace-a-proxy-leak-detector-for-anonymity-focused-network-applications&quot;&gt;SocksTrace: A Proxy Leak Detector for Anonymity-Focused Network Applications&lt;/h2&gt;
+
+&lt;p&gt;Speaker: Robert Nganga (Jeremy Rand filling in)&lt;/p&gt;
+
+&lt;p&gt;Monero has excellent transaction-level privacy, and things should get even better soon with FCMP++s. But these innovations aren’t sufficient if you have deanonymization vectors on the network level. Tor gives you network privacy in theory — but how do you know your Monero wallet isn’t leaking some network traffic outside of Tor? Proxy leaks are a surprisingly common class of security vulnerability, and they’ve historically been difficult to audit for.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;SocksTrace&lt;/strong&gt; is a tool designed to detect proxy leaks by intercepting network syscalls using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;seccomp&lt;/code&gt;. SocksTrace is suitable for usage in CI testing as well as manual QA testing, and it can also SOCKSify connections if used with applications that don’t support Tor. This talk will cover the technical design of SocksTrace, how our approach compares to existing tools like Whonix and torsocks, and how Monero application developers can integrate SocksTrace into their workflows.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=l1BkLI9bDlA&quot;&gt;Video is here.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Core Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 17 Aug 2026 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2026/08/17/monerokon-5-summary.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2026/08/17/monerokon-5-summary.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>Namecoin will be at FOSDEM 2026</title>
@@ -58,7 +88,7 @@
     
       <item>
         <title>Introducing Encasha: Off-Chain SSHFP Records</title>
-        <description>&lt;p&gt;Since Encaya now supports off-chain &lt;code class=&quot;highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records (used for TLS server authentication), this begs a question: can something similar be done for &lt;code class=&quot;highlighter-rouge&quot;&gt;SSHFP&lt;/code&gt; records (used for SSH server authentication)?&lt;/p&gt;
+        <description>&lt;p&gt;Since Encaya now supports off-chain &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records (used for TLS server authentication), this begs a question: can something similar be done for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SSHFP&lt;/code&gt; records (used for SSH server authentication)?&lt;/p&gt;
 
 &lt;p&gt;In principle, the main things we would need to pull this off are:&lt;/p&gt;
 
@@ -70,7 +100,7 @@
 
 &lt;p&gt;For requirement 1, guess what? &lt;a href=&quot;https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04&quot;&gt;SSH has certificates&lt;/a&gt;. SSH certificates are surprisingly rarely used, but they are a thing. SSH certificates &lt;a href=&quot;https://datatracker.ietf.org/doc/html/draft-miller-ssh-cert-04#name-certificate-extensions&quot;&gt;can have extensions&lt;/a&gt; in them.&lt;/p&gt;
 
-&lt;p&gt;For requirement 2 and 3, the &lt;a href=&quot;https://man.openbsd.org/ssh_config#KnownHostsCommand&quot;&gt;OpenSSH &lt;code class=&quot;highlighter-rouge&quot;&gt;KnownHostsCommand&lt;/code&gt; config option&lt;/a&gt; does exactly this.&lt;/p&gt;
+&lt;p&gt;For requirement 2 and 3, the &lt;a href=&quot;https://man.openbsd.org/ssh_config#KnownHostsCommand&quot;&gt;OpenSSH &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KnownHostsCommand&lt;/code&gt; config option&lt;/a&gt; does exactly this.&lt;/p&gt;
 
 &lt;p&gt;Thus, Encaya now has a younger sister: Encasha. Encasha has essentially the same threat model and scalability properties as off-chain TLSA records with Encaya. Most of the code that I had written for off-chain TLSA records has been split off into a library, which is now called by both Encaya and Encasha.&lt;/p&gt;
 
@@ -212,25 +242,25 @@
     
       <item>
         <title>generate_nmc_cert is now ncgencert</title>
-        <description>&lt;p&gt;If you’ve used &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; to set up a Namecoin TLS server, you’ve probably found the interface a tad vexing. Examples of such weirdness:&lt;/p&gt;
+        <description>&lt;p&gt;If you’ve used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; to set up a Namecoin TLS server, you’ve probably found the interface a tad vexing. Examples of such weirdness:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Why is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; argument always required? What happens if you forget it?&lt;/li&gt;
-  &lt;li&gt;Why is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; argument sometimes required?&lt;/li&gt;
-  &lt;li&gt;What the heck is the &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; argument?&lt;/li&gt;
+  &lt;li&gt;Why is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; argument always required? What happens if you forget it?&lt;/li&gt;
+  &lt;li&gt;Why is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; argument sometimes required?&lt;/li&gt;
+  &lt;li&gt;What the heck is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; argument?&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The answer is: prioritization of interface stability over UX. This may have made sense many years ago when the Encaya certificate format was still experimental, but by now everyone knows that we’re not going back to the pre-Encaya certificate formats (which is what you’d get if you forgot &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt;, or if you used &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;The answer is: prioritization of interface stability over UX. This may have made sense many years ago when the Encaya certificate format was still experimental, but by now everyone knows that we’re not going back to the pre-Encaya certificate formats (which is what you’d get if you forgot &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt;, or if you used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;I’ve now refactored the interface, as follows:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; is always true. The code paths for when it was false have been sent to a luxurious permanent retirement; we thank them for their past service.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; is now inferred based on whether parent or grandparent chains are specified. The code paths for when the aforementioned inference was wrong have also been sent to luxurious permanent retirement; we thank them for their past service as well.&lt;/li&gt;
-  &lt;li&gt;All code associated with &lt;code class=&quot;highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; has met the same fate, and received the same thank-you, as above.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-ca&lt;/code&gt; is always true. The code paths for when it was false have been sent to a luxurious permanent retirement; we thank them for their past service.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-use-aia&lt;/code&gt; is now inferred based on whether parent or grandparent chains are specified. The code paths for when the aforementioned inference was wrong have also been sent to luxurious permanent retirement; we thank them for their past service as well.&lt;/li&gt;
+  &lt;li&gt;All code associated with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-falsehost&lt;/code&gt; has met the same fate, and received the same thank-you, as above.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;To celebrate the new, more user-friendly interface, the tool has also been renamed to &lt;code class=&quot;highlighter-rouge&quot;&gt;ncgencert&lt;/code&gt;. The old name &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; was a result of the tool’s code being a copy of a Golang standard library example called &lt;code class=&quot;highlighter-rouge&quot;&gt;generate_cert&lt;/code&gt;; it was chosen with essentially no thought. In particular, it was inconsistent with existing convention for how Namecoin tools are named: application-layer tools generally are supposed to have &lt;code class=&quot;highlighter-rouge&quot;&gt;nc&lt;/code&gt; as a prefix (e.g. ncdns, ncp11, ncprop279, and Encaya’s original spelling ncaia). The &lt;code class=&quot;highlighter-rouge&quot;&gt;NMC&lt;/code&gt; abbreviation is supposed to be reserved for wallets and similar tools.&lt;/p&gt;
+&lt;p&gt;To celebrate the new, more user-friendly interface, the tool has also been renamed to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ncgencert&lt;/code&gt;. The old name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate_nmc_cert&lt;/code&gt; was a result of the tool’s code being a copy of a Golang standard library example called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;generate_cert&lt;/code&gt;; it was chosen with essentially no thought. In particular, it was inconsistent with existing convention for how Namecoin tools are named: application-layer tools generally are supposed to have &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nc&lt;/code&gt; as a prefix (e.g. ncdns, ncp11, ncprop279, and Encaya’s original spelling ncaia). The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NMC&lt;/code&gt; abbreviation is supposed to be reserved for wallets and similar tools.&lt;/p&gt;
 
 &lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
 </description>
@@ -314,16 +344,16 @@
       </item>
     
       <item>
-        <title>What's the maximum length of an AIA Issuer URL in Windows 11 CryptoAPI?</title>
+        <title>What&apos;s the maximum length of an AIA Issuer URL in Windows 11 CryptoAPI?</title>
         <description>&lt;p&gt;For those of you who haven’t seen my various conference talks about Namecoin TLS, AIA (&lt;em&gt;Authority Information Access&lt;/em&gt;) is a mechanism for a TLS certificate to provide a URL where you can find the certificate of its issuer. Namecoin does some, uh, &lt;em&gt;creative&lt;/em&gt; things with AIA. For reasons that will be elaborated on in a future post (don’t worry, all will be explained there), I wanted to know the maximum length of the URL that AIA can link to.&lt;/p&gt;
 
-&lt;p&gt;I had no luck finding any such limit in any relevant RFC, nor could I find anyone on the Internet who had documented any such limit, so I had to fall back to experimentation. I ended up writing a patched certificate generator and AIA HTTP server that could test whether arbitrary AIA URL lengths were usable to build a certificate chain. I then wrote a PowerShell script that tried various AIA URL lengths with Windows 11’s &lt;code class=&quot;highlighter-rouge&quot;&gt;certutil -verify&lt;/code&gt;, to see what CryptoAPI’s limits were.&lt;/p&gt;
+&lt;p&gt;I had no luck finding any such limit in any relevant RFC, nor could I find anyone on the Internet who had documented any such limit, so I had to fall back to experimentation. I ended up writing a patched certificate generator and AIA HTTP server that could test whether arbitrary AIA URL lengths were usable to build a certificate chain. I then wrote a PowerShell script that tried various AIA URL lengths with Windows 11’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;certutil -verify&lt;/code&gt;, to see what CryptoAPI’s limits were.&lt;/p&gt;
 
 &lt;p&gt;After running some tests, I have some answers:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;AIA URL lengths up to &lt;code class=&quot;highlighter-rouge&quot;&gt;65534&lt;/code&gt; bytes work fine.&lt;/li&gt;
-  &lt;li&gt;AIA URL lengths &lt;code class=&quot;highlighter-rouge&quot;&gt;65535&lt;/code&gt; bytes and higher do not work.&lt;/li&gt;
+  &lt;li&gt;AIA URL lengths up to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;65534&lt;/code&gt; bytes work fine.&lt;/li&gt;
+  &lt;li&gt;AIA URL lengths &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;65535&lt;/code&gt; bytes and higher do not work.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;I am not certain why the upper bound is &lt;em&gt;2&lt;/em&gt; less than a power of 2. If it were &lt;em&gt;1&lt;/em&gt; less than a power of 2, that would be sensible since that would indicate a length field that’s an unsigned 16-bit integer. My best guess is that Windows is using a strange data structure that uses both a 16-bit length field &lt;em&gt;and&lt;/em&gt; a NULL terminator.&lt;/p&gt;
@@ -346,62 +376,6 @@
         <link>https://namecoin.bit/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Improving sockstrace: Debugging, Process Control, and Proxy Rules</title>
-        <description>&lt;p&gt;sockstrace just got a major update. Here’s a quick overview of the new features:&lt;/p&gt;
-
-&lt;h2 id=&quot;core-dump--stack-trace&quot;&gt;Core Dump &amp;amp; Stack Trace&lt;/h2&gt;
-&lt;p&gt;When a proxy leak is detected, sockstrace can:&lt;/p&gt;
-
-&lt;p&gt;Stack Trace: Extract a stack trace of the leaking process to show where in the code the leak occurred. This uses &lt;code class=&quot;highlighter-rouge&quot;&gt;gdb&lt;/code&gt; behind the scenes, so the trace includes detailed symbol infomation (if available).&lt;/p&gt;
-
-&lt;p&gt;Core Dump: Creates a full core dump of the leaking process by sending &lt;code class=&quot;highlighter-rouge&quot;&gt;SIGABRT.&lt;/code&gt; Before triggering it, sockstrace checks that &lt;code class=&quot;highlighter-rouge&quot;&gt;ulimit&lt;/code&gt; allows dumping. The resulting core can be loaded into GDB for full post-mortem analysis, including memory, registers, and detailed traces.&lt;/p&gt;
-
-&lt;h2 id=&quot;kill-all-tracees-including-children&quot;&gt;Kill All Tracees (Including Children)&lt;/h2&gt;
-&lt;p&gt;Previously, sockstrace only supported killing the specific PID that triggered the leak. In multi-process applications like browsers, this often left child processes alive, leading to inconsistent behavior or silent failures.&lt;/p&gt;
-
-&lt;p&gt;Now, it can recursively terminate the entire process tree rooted at that PID, ensuring:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;A clearer signal to the user that something went wrong (Avoid silent failures)&lt;/li&gt;
-  &lt;li&gt;No zombie processes are left behind&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;whitelist-for-incoming-tcp-connections&quot;&gt;Whitelist for Incoming TCP Connections&lt;/h2&gt;
-&lt;p&gt;You can now define a whitelist of allowed source IPs or subnets for incoming TCP connections.
-sockstrace enforces the whitelist by intercepting the &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;listen&lt;/code&gt; syscalls: it parses the bind address from the syscall arguments, and on listen, it calls &lt;code class=&quot;highlighter-rouge&quot;&gt;syscall.Getsockname&lt;/code&gt; to retrieve the actual bound address. This address is then checked against a user-defined whitelist, and if it doesn’t match, the bind is flagged as a leak or blocked based on the configuration.&lt;/p&gt;
-
-&lt;p&gt;This is useful because:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;It blocks unexpected incoming connections.&lt;/li&gt;
-  &lt;li&gt;It ensures only known gateways (e.g. Tor) are allowed to connect, as in Whonix-like setups.&lt;/li&gt;
-  &lt;li&gt;It catches misconfigured or unsafe behavior in network-facing apps.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;socks5-handshake-enforcement&quot;&gt;SOCKS5 Handshake Enforcement&lt;/h2&gt;
-&lt;p&gt;sockstrace now enforces SOCKS5 rules by intercepting the &lt;code class=&quot;highlighter-rouge&quot;&gt;sendto&lt;/code&gt; syscall and parsing the actual handshake data.&lt;/p&gt;
-
-&lt;p&gt;Parse &amp;amp; Validate Structure: Verifies the SOCKS5 version, authentication methods, and field layout directly from the syscall. Rejects malformed or legacy handshakes.&lt;/p&gt;
-
-&lt;p&gt;Require Authentication: Flags connections that use no-auth &lt;code class=&quot;highlighter-rouge&quot;&gt;(0x00)&lt;/code&gt; as leaks. This helps catch unsafe fallback behavior.&lt;/p&gt;
-
-&lt;p&gt;Tor-Compatible Isolation: Supports enforcing Tor-style stream isolation using SOCKS5 username/password fields. While implementing this, we also fixed a few typos and ambiguities in the &lt;a href=&quot;https://spec.torproject.org/socks-extensions.html&quot;&gt;Tor spec&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Regex-Based Rules: Users can define custom regex patterns for valid auth fields (e.g. session-*, profile-[0-9]+) to ensure proper identity separation.&lt;/p&gt;
-
-&lt;p&gt;This gives fine-grained control over SOCKS5 behavior and helps detect apps that bypass proxy isolation.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 25 Jul 2025 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2025/07/25/sockstrace-improvements.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2025/07/25/sockstrace-improvements.html</guid>
-        <dc:creator>Robert Nganga</dc:creator>
         
         <category>News</category>
         
