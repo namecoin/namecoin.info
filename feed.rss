@@ -7,8 +7,8 @@
     <link>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/</link>
     <atom:link href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 17 Aug 2026 10:24:47 +0000</pubDate>
-    <lastBuildDate>Mon, 17 Aug 2026 10:24:47 +0000</lastBuildDate>
+    <pubDate>Mon, 17 Aug 2026 10:31:49 +0000</pubDate>
+    <lastBuildDate>Mon, 17 Aug 2026 10:31:49 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/images/logo.png</url>
@@ -24,7 +24,7 @@
 
 &lt;p&gt;MoneroKon’s official recording is below:&lt;/p&gt;
 
-&lt;h2 id=&quot;monerokon-5-sockstrace-a-proxy-leak-detector-for-anonymity-focused-network-applications&quot;&gt;MoneroKon 5: SocksTrace: A Proxy Leak Detector for Anonymity-Focused Network Applications&lt;/h2&gt;
+&lt;h2 id=&quot;sockstrace-a-proxy-leak-detector-for-anonymity-focused-network-applications&quot;&gt;SocksTrace: A Proxy Leak Detector for Anonymity-Focused Network Applications&lt;/h2&gt;
 
 &lt;p&gt;Speaker: Robert Nganga (Jeremy Rand filling in)&lt;/p&gt;
 
