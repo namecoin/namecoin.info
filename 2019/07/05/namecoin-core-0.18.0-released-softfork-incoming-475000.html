@@ -582,6 +582,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -610,10 +614,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <ul>
   <li>Windows binaries are available again.</li>
-  <li>The <code class="highlighter-rouge">options</code> argument for <code class="highlighter-rouge">name_new</code>, <code class="highlighter-rouge">name_firstupdate</code> and <code class="highlighter-rouge">name_update</code> can now be used to specify per-RPC encodings for names and values by setting the <code class="highlighter-rouge">nameEncoding</code> and <code class="highlighter-rouge">valueEncoding</code> fields, respectively.</li>
-  <li><code class="highlighter-rouge">name_scan</code> now accepts an optional <code class="highlighter-rouge">options</code> argument, which can be used to specify filtering conditions (based on number of confirmations, prefix and regexp matches of a name).  See <a href="https://github.com/namecoin/namecoin-core/issues/237">#237</a> for more details.</li>
-  <li><code class="highlighter-rouge">name_filter</code> has been removed.  Instead, <code class="highlighter-rouge">name_scan</code> with the newly added filtering options can be used.</li>
-  <li><code class="highlighter-rouge">ismine</code> is no longer added to RPC results if no wallet is associated to an RPC call.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">options</code> argument for <code class="language-plaintext highlighter-rouge">name_new</code>, <code class="language-plaintext highlighter-rouge">name_firstupdate</code> and <code class="language-plaintext highlighter-rouge">name_update</code> can now be used to specify per-RPC encodings for names and values by setting the <code class="language-plaintext highlighter-rouge">nameEncoding</code> and <code class="language-plaintext highlighter-rouge">valueEncoding</code> fields, respectively.</li>
+  <li><code class="language-plaintext highlighter-rouge">name_scan</code> now accepts an optional <code class="language-plaintext highlighter-rouge">options</code> argument, which can be used to specify filtering conditions (based on number of confirmations, prefix and regexp matches of a name).  See <a href="https://github.com/namecoin/namecoin-core/issues/237">#237</a> for more details.</li>
+  <li><code class="language-plaintext highlighter-rouge">name_filter</code> has been removed.  Instead, <code class="language-plaintext highlighter-rouge">name_scan</code> with the newly added filtering options can be used.</li>
+  <li><code class="language-plaintext highlighter-rouge">ismine</code> is no longer added to RPC results if no wallet is associated to an RPC call.</li>
   <li>Numerous improvements from upstream Bitcoin Core.</li>
 </ul>
 
@@ -1171,7 +1175,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2019/07/05/namecoin-core-0.18.0-released-softfork-incoming-475000.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1181,41 +1185,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder">Cyphrs</li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

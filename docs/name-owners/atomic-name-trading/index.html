@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -137,7 +137,7 @@
 <ul>
   <li>The newer protocol is supported only by Electrum-NMC v4.0.6+; the older protocol is supported only by Namecoin Core.</li>
   <li>The newer protocol is accessible via both CLI/RPC and GUI; the older protocol is CLI/RPC-only.</li>
-  <li>The newer protocol is <em>non-interactive</em>: one party can publish an offer (e.g. on a pastebin or forum), and the second party can then accept the offer without needing to send information back to the first party.  Under the hood, this is achieved via Bitcoin smart contract techniques such as <code class="highlighter-rouge">SIGHASH</code> and <code class="highlighter-rouge">nLockTime</code>.  The older protocol is <em>interactive</em>: the parties must coordinate the trade in a multi-step negotiation procedure.</li>
+  <li>The newer protocol is <em>non-interactive</em>: one party can publish an offer (e.g. on a pastebin or forum), and the second party can then accept the offer without needing to send information back to the first party.  Under the hood, this is achieved via Bitcoin smart contract techniques such as <code class="language-plaintext highlighter-rouge">SIGHASH</code> and <code class="language-plaintext highlighter-rouge">nLockTime</code>.  The older protocol is <em>interactive</em>: the parties must coordinate the trade in a multi-step negotiation procedure.</li>
   <li>The newer protocol supports auctions (CLI/RPC only); the older protocol does not.</li>
   <li>Both protocols utilize Layer 2 (the only step that hits the blockchain is the final step that completes the trade).  This avoids excessive fees and blockchain bloat.</li>
   <li>Both protocols are fully decentralized and trustless, modulo the reliance on a publishing mechanism (e.g. a pastebin or forum), which could be implemented in a decentralized, censorship-resistant manner but is considered out of scope.  A malicious pastebin operator can censor offers but cannot tamper with them.</li>
@@ -148,16 +148,16 @@
 
 <h2 id="electrum-nmc-bob-prepares-a-buy-offer">Electrum-NMC: Bob Prepares a Buy Offer</h2>
 
-<p>We will assume as an example that Bob wants to buy <code class="highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC.  Bob can create a Buy Offer in Electrum-NMC like this:</p>
+<p>We will assume as an example that Bob wants to buy <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC.  Bob can create a Buy Offer in Electrum-NMC like this:</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy("d/my-cool-domain", amount="10")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy("d/my-cool-domain", amount="10")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy d/my-cool-domain 10
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy d/my-cool-domain 10
 </code></pre></div></div>
 
 <p>GUI:</p>
@@ -166,56 +166,56 @@
 
 <p>The command will return a Buy Offer in hex format.  Bob can give this Buy Offer to Sally via any medium, such as email or a public pastebin.</p>
 
-<p>Note that by creating this Buy Offer, Bob is committing to pay 10 NMC to anyone who transfers <code class="highlighter-rouge">d/my-cool-domain</code> to him, even if Sally no longer controls that name at the time of the trade.  Bob can revoke this obligation by double-spending the currency input used by the Buy Offer.</p>
+<p>Note that by creating this Buy Offer, Bob is committing to pay 10 NMC to anyone who transfers <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> to him, even if Sally no longer controls that name at the time of the trade.  Bob can revoke this obligation by double-spending the currency input used by the Buy Offer.</p>
 
 <h2 id="electrum-nmc-sally-accepts-a-buy-offer">Electrum-NMC: Sally Accepts a Buy Offer</h2>
 
-<p>After Sally receives the Buy Offer from Bob, she can accept it in Electrum-NMC like this (she enters the Buy Offer in the <code class="highlighter-rouge">offer</code> parameter):</p>
+<p>After Sally receives the Buy Offer from Bob, she can accept it in Electrum-NMC like this (she enters the Buy Offer in the <code class="language-plaintext highlighter-rouge">offer</code> parameter):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell("d/my-cool-domain", requested_amount="10", offer="0123456789ABCDEF")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell("d/my-cool-domain", requested_amount="10", offer="0123456789ABCDEF")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell d/my-cool-domain 10 --offer 0123456789ABCDEF
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell d/my-cool-domain 10 --offer 0123456789ABCDEF
 </code></pre></div></div>
 
 <p>GUI:</p>
 
 <p>Use the Manage Names tab.</p>
 
-<p>Note that the transaction fee to the miner will be paid by Sally.  The command will return a trade transaction.  Sally can now broadcast it in Electrum-NMC like this (she enters the trade transaction as the argument to <code class="highlighter-rouge">broadcast</code>):</p>
+<p>Note that the transaction fee to the miner will be paid by Sally.  The command will return a trade transaction.  Sally can now broadcast it in Electrum-NMC like this (she enters the trade transaction as the argument to <code class="language-plaintext highlighter-rouge">broadcast</code>):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
 </code></pre></div></div>
 
 <p>GUI:</p>
 
 <p>Broadcasted automatically from the Manage Names tab.</p>
 
-<p>This completes the trade; once the transaction is confirmed, Bob now owns <code class="highlighter-rouge">d/my-cool-domain</code> and Sally is 10 NMC (minus the transaction fee) richer.</p>
+<p>This completes the trade; once the transaction is confirmed, Bob now owns <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> and Sally is 10 NMC (minus the transaction fee) richer.</p>
 
 <h2 id="electrum-nmc-sally-prepares-a-sell-offer">Electrum-NMC: Sally Prepares a Sell Offer</h2>
 
-<p>We will assume as an example that Sally wants to sell <code class="highlighter-rouge">d/my-cool-domain</code> to anyone willing to pay 10 NMC for it.  Sally can create a Sell Offer in Electrum-NMC like this:</p>
+<p>We will assume as an example that Sally wants to sell <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> to anyone willing to pay 10 NMC for it.  Sally can create a Sell Offer in Electrum-NMC like this:</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell("d/my-cool-domain", requested_amount="10")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell("d/my-cool-domain", requested_amount="10")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell d/my-cool-domain 10
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell d/my-cool-domain 10
 </code></pre></div></div>
 
 <p>GUI:</p>
@@ -224,76 +224,76 @@
 
 <p>The command will return a Sell Offer in hex format.  Sally can publish this Sell Offer via any public medium, such as a pastebin.</p>
 
-<p>Note that by creating this Sell Offer, Sally is committing to transfer <code class="highlighter-rouge">d/my-cool-domain</code> to anyone who pays her 10 NMC; she does not have any control over who accepts the Sell Offer.  Sally can revoke this obligation by updating or renewing <code class="highlighter-rouge">d/my-cool-domain</code>.  If Sally specifically wants only Bob to be able to receive <code class="highlighter-rouge">d/my-cool-domain</code>, then she should ask Bob to create a Buy Offer instead.</p>
+<p>Note that by creating this Sell Offer, Sally is committing to transfer <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> to anyone who pays her 10 NMC; she does not have any control over who accepts the Sell Offer.  Sally can revoke this obligation by updating or renewing <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code>.  If Sally specifically wants only Bob to be able to receive <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code>, then she should ask Bob to create a Buy Offer instead.</p>
 
 <h2 id="electrum-nmc-bob-accepts-a-sell-offer">Electrum-NMC: Bob Accepts a Sell Offer</h2>
 
-<p>After Bob finds Sally’s Sell Offer on a public medium such as a pastebin, he can accept it in Electrum-NMC like this (he enters the Sell Offer in the <code class="highlighter-rouge">offer</code> parameter):</p>
+<p>After Bob finds Sally’s Sell Offer on a public medium such as a pastebin, he can accept it in Electrum-NMC like this (he enters the Sell Offer in the <code class="language-plaintext highlighter-rouge">offer</code> parameter):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy("d/my-cool-domain", amount="10", offer="0123456789ABCDEF")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy("d/my-cool-domain", amount="10", offer="0123456789ABCDEF")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy d/my-cool-domain 10 --offer 0123456789ABCDEF
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy d/my-cool-domain 10 --offer 0123456789ABCDEF
 </code></pre></div></div>
 
 <p>GUI:</p>
 
 <p>Use the Buy Names tab.</p>
 
-<p>Note that the transaction fee to the miner will be paid by Bob.  The command will return a trade transaction.  Bob can now broadcast it in Electrum-NMC like this (he enters the trade transaction as the argument to <code class="highlighter-rouge">broadcast</code>):</p>
+<p>Note that the transaction fee to the miner will be paid by Bob.  The command will return a trade transaction.  Bob can now broadcast it in Electrum-NMC like this (he enters the trade transaction as the argument to <code class="language-plaintext highlighter-rouge">broadcast</code>):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
 </code></pre></div></div>
 
 <p>GUI:</p>
 
 <p>Broadcasted automatically from the Buy Names tab.</p>
 
-<p>This completes the trade; once the transaction is confirmed, Bob now owns <code class="highlighter-rouge">d/my-cool-domain</code> and Sally is 10 NMC richer.</p>
+<p>This completes the trade; once the transaction is confirmed, Bob now owns <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> and Sally is 10 NMC richer.</p>
 
 <h2 id="electrum-nmc-sally-prepares-an-auction">Electrum-NMC: Sally Prepares an Auction</h2>
 
-<p>We will assume as an example that Sally wants to sell <code class="highlighter-rouge">d/my-cool-domain</code> via a <a href="https://en.wikipedia.org/wiki/Dutch_auction">Dutch auction</a>.  Sally has chosen to open the auction at block height 300k with price 10 NMC, and intends to decrease the price by 1 NMC every 10 blocks until it reaches the minimum price of 1 NMC.  Sally can create an Auction in Electrum-NMC like this:</p>
+<p>We will assume as an example that Sally wants to sell <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> via a <a href="https://en.wikipedia.org/wiki/Dutch_auction">Dutch auction</a>.  Sally has chosen to open the auction at block height 300k with price 10 NMC, and intends to decrease the price by 1 NMC every 10 blocks until it reaches the minimum price of 1 NMC.  Sally can create an Auction in Electrum-NMC like this:</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell_auction("d/my-cool-domain", requested_amounts=["10","9","8","7","6","5","4","3","2","1"], locktimes=[300000,300010,300020,300030,300040,300050,300060,300070,300080,300090])
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_sell_auction("d/my-cool-domain", requested_amounts=["10","9","8","7","6","5","4","3","2","1"], locktimes=[300000,300010,300020,300030,300040,300050,300060,300070,300080,300090])
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell_auction d/my-cool-domain '["10","9","8","7","6","5","4","3","2","1"]' '[300000,300010,300020,300030,300040,300050,300060,300070,300080,300090]'
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_sell_auction d/my-cool-domain '["10","9","8","7","6","5","4","3","2","1"]' '[300000,300010,300020,300030,300040,300050,300060,300070,300080,300090]'
 </code></pre></div></div>
 
 <p>Creating Auctions is not available in the GUI yet.</p>
 
 <p>The command will return an Auction in JSON format.  Sally can publish this Auction via any public medium, such as a pastebin.</p>
 
-<p>Note that by creating this Auction, Sally is committing to transfer <code class="highlighter-rouge">d/my-cool-domain</code> to the first person who bids on the auction; she does not have any control over who bids.  Sally can revoke this obligation by updating or renewing <code class="highlighter-rouge">d/my-cool-domain</code>.</p>
+<p>Note that by creating this Auction, Sally is committing to transfer <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> to the first person who bids on the auction; she does not have any control over who bids.  Sally can revoke this obligation by updating or renewing <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code>.</p>
 
 <h2 id="electrum-nmc-bob-bids-on-an-auction">Electrum-NMC: Bob Bids on an Auction</h2>
 
-<p>After Bob finds Sally’s Auction on a public medium such as a pastebin, he can bid on it in Electrum-NMC like this (he enters the Auction in the <code class="highlighter-rouge">offers</code> parameter):</p>
+<p>After Bob finds Sally’s Auction on a public medium such as a pastebin, he can bid on it in Electrum-NMC like this (he enters the Auction in the <code class="language-plaintext highlighter-rouge">offers</code> parameter):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy_auction("d/my-cool-domain", amount="5", offers=["0123456789ABCDEF",...])
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name_buy_auction("d/my-cool-domain", amount="5", offers=["0123456789ABCDEF",...])
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy_auction d/my-cool-domain 5 '["0123456789ABCDEF",...]'
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc name_buy_auction d/my-cool-domain 5 '["0123456789ABCDEF",...]'
 </code></pre></div></div>
 
 <p>Bidding on Auctions is not available in the GUI yet.</p>
@@ -306,27 +306,27 @@
   <li>If more than one stage can be broadcasted immediately, prefer the stage with the lowest price.</li>
 </ol>
 
-<p>Bob can now broadcast his bid in Electrum-NMC like this (he enters the bid transaction as the argument to <code class="highlighter-rouge">broadcast</code>):</p>
+<p>Bob can now broadcast his bid in Electrum-NMC like this (he enters the bid transaction as the argument to <code class="language-plaintext highlighter-rouge">broadcast</code>):</p>
 
 <p>Console:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>broadcast("FEDCBA9876543210")
 </code></pre></div></div>
 
 <p>CLI:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>electrum-nmc broadcast FEDCBA9876543210
 </code></pre></div></div>
 
-<p>This completes the Auction; once the transaction is confirmed, Bob now owns <code class="highlighter-rouge">d/my-cool-domain</code> and Sally is 5 NMC richer.</p>
+<p>This completes the Auction; once the transaction is confirmed, Bob now owns <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> and Sally is 5 NMC richer.</p>
 
 <h2 id="namecoin-core-bob-prepares-a-buy-offer">Namecoin Core: Bob Prepares a Buy Offer</h2>
 
-<p>We will assume as an example that Bob wants to buy <code class="highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC. The work-flow for this transaction is shown below on the testnet.</p>
+<p>We will assume as an example that Bob wants to buy <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> from Sally for 10 NMC. The work-flow for this transaction is shown below on the testnet.</p>
 
 <p>Bob finds the domain of interest and Sally’s offer to sell the domain. This could happen, for instance, via Sally using a special value for the domain or by some other channel out of the scope of this page. For instance:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli name_show d/my-cool-domain
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli name_show d/my-cool-domain
 {
   "name" : "d/my-cool-domain",
   "value" : "for sale by Sally for 10 NMC, pay to mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw",
@@ -336,23 +336,23 @@
 }
 </code></pre></div></div>
 
-<p>Now, Bob can prepare an atomic transaction that sends 10 NMC to Sally and transfers <code class="highlighter-rouge">d/my-cool-domain</code> at the same time to himself. We assume that Sally wants the 10 NMC sent to <code class="highlighter-rouge">mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw</code>, while Bob wants the name to be transferred to <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>.</p>
+<p>Now, Bob can prepare an atomic transaction that sends 10 NMC to Sally and transfers <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> at the same time to himself. We assume that Sally wants the 10 NMC sent to <code class="language-plaintext highlighter-rouge">mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw</code>, while Bob wants the name to be transferred to <code class="language-plaintext highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>.</p>
 
-<p>To construct the transaction, Bob needs to use the <code class="highlighter-rouge">createrawtransaction</code> RPC command. It needs three pieces of information:</p>
+<p>To construct the transaction, Bob needs to use the <code class="language-plaintext highlighter-rouge">createrawtransaction</code> RPC command. It needs three pieces of information:</p>
 
 <ul>
   <li>Currency inputs: These will be provided by Bob to pay the 10 NMC to Sally as well as the transaction fee.</li>
   <li>Currency outputs: 10 NMC to Sally’s address and potential change back to Bob.</li>
-  <li>A <code class="highlighter-rouge">name_update</code> operation to be performed.</li>
+  <li>A <code class="language-plaintext highlighter-rouge">name_update</code> operation to be performed.</li>
 </ul>
 
 <p>In this example, these three parts will be written in seperate files for simplicity, and then these files will be used in the final RPC command. Of course, it is also possible to write everything directly onto the command line.</p>
 
 <h2 id="namecoin-core-currency-inputs">Namecoin Core: Currency Inputs</h2>
 
-<p>Assuming a transaction fee of 0.005 NMC is appropriate, Bob needs to find one of his unspent inputs of at least 10.005 NMC to include in the transaction. For this, the <code class="highlighter-rouge">listunspent</code> command can be used. A suitable input could be this one:</p>
+<p>Assuming a transaction fee of 0.005 NMC is appropriate, Bob needs to find one of his unspent inputs of at least 10.005 NMC to include in the transaction. For this, the <code class="language-plaintext highlighter-rouge">listunspent</code> command can be used. A suitable input could be this one:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli listunspent
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli listunspent
 [
   {
     "txid" : "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
@@ -364,9 +364,9 @@
 ]
 </code></pre></div></div>
 
-<p>With a size of 974.9 NMC, it is large enough. It will produce <code class="highlighter-rouge">974.9 - 10.005 = 964.895 NMC</code> change. The interesting data fields for our purpose are <code class="highlighter-rouge">txid</code> and <code class="highlighter-rouge">vout</code>. They will form the currency input for <code class="highlighter-rouge">createrawtransaction</code>, so Bob writes into the file <code class="highlighter-rouge">tx.in</code>:</p>
+<p>With a size of 974.9 NMC, it is large enough. It will produce <code class="language-plaintext highlighter-rouge">974.9 - 10.005 = 964.895 NMC</code> change. The interesting data fields for our purpose are <code class="language-plaintext highlighter-rouge">txid</code> and <code class="language-plaintext highlighter-rouge">vout</code>. They will form the currency input for <code class="language-plaintext highlighter-rouge">createrawtransaction</code>, so Bob writes into the file <code class="language-plaintext highlighter-rouge">tx.in</code>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[{
   "txid": "12ed9f83b83e248e2ca19e0197933914013145981fcacc5ba47c27e60eacbfaa",
   "vout": 0
 }]
@@ -376,9 +376,9 @@
 
 <h2 id="namecoin-core-currency-outputs">Namecoin Core: Currency Outputs</h2>
 
-<p>Required currency outputs are the price paid to Sally as well as the change paid back to Bob. So Bob first creates a new address of his own to receive the change. We will use <code class="highlighter-rouge">mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj</code> for this purpose. Then, the corresponding data to be put in <code class="highlighter-rouge">tx.out</code> is:</p>
+<p>Required currency outputs are the price paid to Sally as well as the change paid back to Bob. So Bob first creates a new address of his own to receive the change. We will use <code class="language-plaintext highlighter-rouge">mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj</code> for this purpose. Then, the corresponding data to be put in <code class="language-plaintext highlighter-rouge">tx.out</code> is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "mm1mGfLEMjFPyGsbkcoYiN6yiPcBztK6Dw": 10.0,
   "mwAEUoA3NzSmASyWxrTK1mhsd4pFvruoXj": 964.895
 }
@@ -386,9 +386,9 @@
 
 <h2 id="namecoin-core-the-name-operation">Namecoin Core: The Name Operation</h2>
 
-<p>The last part of the transaction that needs to be created is the name operation. It should be a <code class="highlighter-rouge">name_update</code> of <code class="highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="highlighter-rouge">tx.op</code> is this:</p>
+<p>The last part of the transaction that needs to be created is the name operation. It should be a <code class="language-plaintext highlighter-rouge">name_update</code> of <code class="language-plaintext highlighter-rouge">d/my-cool-domain</code> to some value (can be chosen by Bob already at this stage, but it usually isn’t too important for a name trade) and to Bob’s address <code class="language-plaintext highlighter-rouge">mwKDtLZ9EHSeL8TjkZAcppsnb7M3LRhoGR</code>. The corresponding data to put in the last file <code class="language-plaintext highlighter-rouge">tx.op</code> is this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "op": "name_update",
   "name": "d/my-cool-domain",
   "value": "thanks from Sally",
@@ -400,7 +400,7 @@
 
 <p>With all this in place, the transaction can be created:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "$(cat tx.in)" "$(cat tx.out)" "$(cat tx.op)"
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli createrawtransaction "$(cat tx.in)" "$(cat tx.out)" "$(cat tx.op)"
 0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed120000000000ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000
 </code></pre></div></div>
 
@@ -486,20 +486,20 @@
 
 <p>When everything looks fine, Bob can sign his inputs to the transaction (after unlocking the wallet if it is password-protected):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
 {
   "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502202131c98c98a3dfe19713ec0e48917a502063028766abf292b46fb8e8a96d80df022100f22198c86e814eff3a2562a36de5249a425c08080cb174eace7da9529e6e16b801ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab000100000000ffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
   "complete" : false
 }
 </code></pre></div></div>
 
-<p>Finally, Bob can now again check the signed transaction with <code class="highlighter-rouge">decoderawtransaction</code>, although this is not strictly necessary. He can now pass the partially-signed transaction (the hex string above) to Sally.</p>
+<p>Finally, Bob can now again check the signed transaction with <code class="language-plaintext highlighter-rouge">decoderawtransaction</code>, although this is not strictly necessary. He can now pass the partially-signed transaction (the hex string above) to Sally.</p>
 
 <h2 id="namecoin-core-sally-accepts-the-offer">Namecoin Core: Sally Accepts the Offer</h2>
 
 <p>After Sally receives the partial transaction from Bob, she can check that everything is fine:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli decoderawtransaction &lt;large hex string&gt;
 {
   "txid" : "92a50d2495d66cbfb13ae87deaec059ab605a7bf737b10935f9e0f80065debac",
   "version" : 28928,
@@ -576,20 +576,20 @@
 }
 </code></pre></div></div>
 
-<p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use <code class="highlighter-rouge">signrawtransactionwithwallet</code> with this private key as optional argument.</p>
+<p>It is also crucial to check which inputs Bob has prepared for her to sign, so that she doesn’t end up sending something she doesn’t intend to send. I’m not completely sure what would be the easiest and safest way to ensure that the transaction from Bob is not malicious. A possible way to guard against this could be to look up the address holding the sold name, export its private key, and use <code class="language-plaintext highlighter-rouge">signrawtransactionwithwallet</code> with this private key as optional argument.</p>
 
 <p>When everything is fine, Sally can sign her parts of the input:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli signrawtransactionwithwallet &lt;large hex string&gt;
 {
   "hex" : "0071000002aabfac0ee6277ca45bccca1f9845310114399397019ea12c8e243eb8839fed12000000004948304502206114a73cb307e17ec0d4c5d7caa9d87a2136da511a94b7bd8027aab726b2e67a022100bcebf433a9fa13d50c602f0cf54e1e7ab2ac851ca1ed9017ecf95d7dc02e25e401ffffffff8a592b73a8beb79cd0d7003fca981b5e35654cd2228703694357582528d8ab00010000008a47304402202620285799e7314e3da0573fe473354b6bf0eb29640254f073a124fe1454dc9d022019e4884853a5aba76059ff2bd23e6e5b6e8c607df0e46e83cbfc2ea26e67da4a01410467d20dd8d4c08674a13ea14540f09d62389c7d96bed805f5bbbb4079210dbf2ede9eeced9ab638a8d6ed01a909b91473e78a1ff65ba3de19b38203cf22c9d12dffffffff0300ca9a3b000000001976a9143c4b7d4b93bc6194087bbbc422fd6cd1a40f820e88ac60ed3877160000001976a914ab96c9bfb7c55de825be7f12bd38dd25b62be02b88ac40420f00000000003f5310642f6d792d636f6f6c2d646f6d61696e117468616e6b732066726f6d2053616c6c796d7576a914ad4a0929e9c7c95910534b93ec0727058a27f2b988ac00000000",
   "complete" : true
 }
 </code></pre></div></div>
 
-<p>The transaction is now completely signed (when <code class="highlighter-rouge">"complete": true</code> is returned). Sally can check it again, and if everything is fine, she can relay it to the network:</p>
+<p>The transaction is now completely signed (when <code class="language-plaintext highlighter-rouge">"complete": true</code> is returned). Sally can check it again, and if everything is fine, she can relay it to the network:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli sendrawtransaction &lt;large hex string&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ namecoin-cli sendrawtransaction &lt;large hex string&gt;
 bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
 </code></pre></div></div>
 
@@ -634,7 +634,7 @@ bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/atomic-name-trading/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/atomic-name-trading/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/atomic-name-trading/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/atomic-name-trading/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/name-owners/atomic-name-trading/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -644,41 +644,32 @@ bdf33963b3635d41d597e07805ee8f0f8e637e7e09e46ff5117931e7ffdb8550
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

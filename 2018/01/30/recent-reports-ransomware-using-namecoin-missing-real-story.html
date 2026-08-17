@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Freedom</strong><br>of information.
+<strong>Decentralize</strong><br>all the things!
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -866,6 +866,10 @@
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -892,23 +896,23 @@
   <p>This means that any software that wishes to resolve a domain name that uses the .BIT tld, must use a DNS server that supports it. GandCrab does this by making dns queries using the a.dnspod.com DNS server, which is accessible on the Internet and can also  be used to resolve .bit domains.</p>
 </blockquote>
 
-<p>Yep, if this is to be believed, GandCrab isn’t actually using Namecoin, they’re using a centralized DNS server (<code class="highlighter-rouge">a.dnspod.com</code>) which nominally claims to mirror the namespace of Namecoin.  This means that, if law enforcement wants to censor the C&amp;C <code class="highlighter-rouge">.bit</code> domains, they don’t need to censor Namecoin (which would be rather difficult), they simply need to look up who owns <code class="highlighter-rouge">dnspod.com</code> (under ICANN policy, looking this up is straightforward for law enforcement) and send them a court order to censor the C&amp;C domains.</p>
+<p>Yep, if this is to be believed, GandCrab isn’t actually using Namecoin, they’re using a centralized DNS server (<code class="language-plaintext highlighter-rouge">a.dnspod.com</code>) which nominally claims to mirror the namespace of Namecoin.  This means that, if law enforcement wants to censor the C&amp;C <code class="language-plaintext highlighter-rouge">.bit</code> domains, they don’t need to censor Namecoin (which would be rather difficult), they simply need to look up who owns <code class="language-plaintext highlighter-rouge">dnspod.com</code> (under ICANN policy, looking this up is straightforward for law enforcement) and send them a court order to censor the C&amp;C domains.</p>
 
-<p>However, Bleeping Computer is actually substantially wrong on this point.  Why?  Take a look in the Namecha.in block explorer at <a href="https://namecha.in/name/d/bleepingcomputer">the Namecoin value of <code class="highlighter-rouge">bleepingcomputer.bit</code></a>, which is one of the alleged C&amp;C domains:</p>
+<p>However, Bleeping Computer is actually substantially wrong on this point.  Why?  Take a look in the Namecha.in block explorer at <a href="https://namecha.in/name/d/bleepingcomputer">the Namecoin value of <code class="language-plaintext highlighter-rouge">bleepingcomputer.bit</code></a>, which is one of the alleged C&amp;C domains:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"ns":["A.DNSPOD.COM","B.DNSPOD.COM"]}
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"ns":["A.DNSPOD.COM","B.DNSPOD.COM"]}
 </code></pre></div></div>
 
-<p>First off, note that this is actually a completely invalid Namecoin configuration, because <a href="https://help.directadmin.com/item.php?id=541">the trailing period is missing</a> from the authoritative nameserver addresses, so any DNS software that tries to process that Namecoin domain will return <code class="highlighter-rouge">SERVFAIL</code>.  Second, note that the authoritative nameservers listed are… the <code class="highlighter-rouge">dnspod.com</code> nameservers.  This makes it pretty clear that <code class="highlighter-rouge">a.dnspod.com</code> isn’t actually a Namecoin DNS inproxy.  If it were, and even if the trailing-period fail were corrected in the Namecoin value, the inproxy would end up in a recursion loop.  <code class="highlighter-rouge">a.dnspod.com</code> is actually just a random authoritative nameserver that happens to be serving records for a domain name that ends in <code class="highlighter-rouge">.bit</code>.  <strong>Namecoin isn’t used anywhere by GandCrab, and killing the Namecoin domain wouldn’t have any effect on GandCrab.</strong>  Of course, this raises questions about why exactly that domain name is even registered in Namecoin.  The simplest explanations are:</p>
+<p>First off, note that this is actually a completely invalid Namecoin configuration, because <a href="https://help.directadmin.com/item.php?id=541">the trailing period is missing</a> from the authoritative nameserver addresses, so any DNS software that tries to process that Namecoin domain will return <code class="language-plaintext highlighter-rouge">SERVFAIL</code>.  Second, note that the authoritative nameservers listed are… the <code class="language-plaintext highlighter-rouge">dnspod.com</code> nameservers.  This makes it pretty clear that <code class="language-plaintext highlighter-rouge">a.dnspod.com</code> isn’t actually a Namecoin DNS inproxy.  If it were, and even if the trailing-period fail were corrected in the Namecoin value, the inproxy would end up in a recursion loop.  <code class="language-plaintext highlighter-rouge">a.dnspod.com</code> is actually just a random authoritative nameserver that happens to be serving records for a domain name that ends in <code class="language-plaintext highlighter-rouge">.bit</code>.  <strong>Namecoin isn’t used anywhere by GandCrab, and killing the Namecoin domain wouldn’t have any effect on GandCrab.</strong>  Of course, this raises questions about why exactly that domain name is even registered in Namecoin.  The simplest explanations are:</p>
 
 <ol>
   <li>The GandCrab developers are massively incompetent, and have potentially deanonymized themselves by registering a Namecoin domain despite not ever using that Namecoin domain for their ransomware.</li>
   <li>Someone unrelated to GandCrab has registered that Namecoin domain for the purpose of trolling security researchers.</li>
 </ol>
 
-<p>It’s conceivable that <code class="highlighter-rouge">dnspod.com</code>’s nameservers will only allow a <code class="highlighter-rouge">.bit</code> domain’s records to be served from their systems if that <code class="highlighter-rouge">.bit</code> domain’s Namecoin data points to <code class="highlighter-rouge">dnspod.com</code>’s namservers, and it’s further possible that their systems are misconfigured to not notice that the trailing period is missing.  However, this seemed rather unlikely to me.  Why?  Well, first, take a look at the WHOIS data for <code class="highlighter-rouge">dnspod.com</code>:</p>
+<p>It’s conceivable that <code class="language-plaintext highlighter-rouge">dnspod.com</code>’s nameservers will only allow a <code class="language-plaintext highlighter-rouge">.bit</code> domain’s records to be served from their systems if that <code class="language-plaintext highlighter-rouge">.bit</code> domain’s Namecoin data points to <code class="language-plaintext highlighter-rouge">dnspod.com</code>’s namservers, and it’s further possible that their systems are misconfigured to not notice that the trailing period is missing.  However, this seemed rather unlikely to me.  Why?  Well, first, take a look at the WHOIS data for <code class="language-plaintext highlighter-rouge">dnspod.com</code>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Registrar URL: http://www.dnspod.cn
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Registrar URL: http://www.dnspod.cn
 Registrar: DNSPod, Inc.
 Registrar IANA ID: 1697
 </code></pre></div></div>
@@ -924,7 +928,7 @@ Registrar IANA ID: 1697
 
 <p>However, since empiricism is informative, Ryan Castellucci tested this with an account on DNSPod, and confirmed that no such validation occurs:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp jeremyrandissomesortofhumanperson.bit @a.dnspod.com
 ;; global options: +cmd
@@ -952,9 +956,9 @@ jeremyrandissomesortofhumanperson.bit. 600 IN NS a.dnspod.com.
 ;; MSG SIZE  rcvd: 160
 </code></pre></div></div>
 
-<p>(Ryan doesn’t own <code class="highlighter-rouge">jeremyrandissomesortofhumanperson.bit</code>.)  Ryan also did the same for <code class="highlighter-rouge">bleepingcomputer.iq</code>, implying that DNSPod isn’t verifying ownership of DNS domain names either:</p>
+<p>(Ryan doesn’t own <code class="language-plaintext highlighter-rouge">jeremyrandissomesortofhumanperson.bit</code>.)  Ryan also did the same for <code class="language-plaintext highlighter-rouge">bleepingcomputer.iq</code>, implying that DNSPod isn’t verifying ownership of DNS domain names either:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ dig +tcp bleepingcomputer.iq @a.dnspod.com A
 
 ; &lt;&lt;&gt;&gt; DiG 9.9.5-9+deb8u14-Debian &lt;&lt;&gt;&gt; +tcp bleepingcomputer.iq @a.dnspod.com A
 ;; global options: +cmd
@@ -982,7 +986,7 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
 ;; MSG SIZE  rcvd: 142
 </code></pre></div></div>
 
-<p>Ryan tried registering a <code class="highlighter-rouge">.onion</code> domain and <code class="highlighter-rouge">bleepingcomputer.malware</code> on DNSPod as well, but these were rejected as invalid TLD’s.  Ryan and I have no clue why <code class="highlighter-rouge">.bit</code> is on DNSPod’s TLD whitelist while <code class="highlighter-rouge">.onion</code> isn’t – probably because a customer asked for it and DNSPod just doesn’t care.</p>
+<p>Ryan tried registering a <code class="language-plaintext highlighter-rouge">.onion</code> domain and <code class="language-plaintext highlighter-rouge">bleepingcomputer.malware</code> on DNSPod as well, but these were rejected as invalid TLD’s.  Ryan and I have no clue why <code class="language-plaintext highlighter-rouge">.bit</code> is on DNSPod’s TLD whitelist while <code class="language-plaintext highlighter-rouge">.onion</code> isn’t – probably because a customer asked for it and DNSPod just doesn’t care.</p>
 
 <p>Ryan isn’t aware of any prior cases where a malware C&amp;C was set up in a random free authoritative DNS provider such as DNSPod, with the DNS servers hardcoded in the malware.  It’s an interesting strategy for malware authors, since authoritative DNS providers usually don’t bother to confirm domain name ownership.  Entertainingly, Ryan found that DNSPod isn’t verifying ownership of the email addresses used to register accounts either.</p>
 
@@ -1258,7 +1262,7 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2018/01/30/recent-reports-ransomware-using-namecoin-missing-real-story.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1268,41 +1272,32 @@ bleepingcomputer.iq.    600     IN      NS      c.dnspod.com.
             
             <ul class="list-inline">
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -1090,6 +1090,10 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 
 
+
+
+
+
 <div class="post">
 
 <header class="post-header">
@@ -1110,11 +1114,11 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <p>An unknown party (The Aggregator) began consolidating a massive volume (50,000-100,000K) of unspent outputs into a single address. However, namecoind has extreme difficulty selecting outputs to spend in a wallet containing tens of thousands of unspent outputs. The Aggregator appears to have attempted to address this by writing a script which manually built transactions spending 50 or 100 of those unspent outputs to <a href="https://namecha.in/address/N8h1WYaCpnZrN72Mnassymhdrm7tT6q5yL">a new address (N8h1WYaCpnZrN72Mnassymhdrm7tT6q5yL)</a>.</p>
 
-<p>The problem is that each of these transactions were 17-30 KB and rather than the standard transaction fee of 0.005NMC per KB (rounded up), a flat fee of 0.005NMC was used. Namecoin, like Bitcoin actually has two fee values, <code class="highlighter-rouge">MIN_TX_FEE</code> (used by miners) and <code class="highlighter-rouge">MIN_RELAY_TX_FEE</code> (used by all other full nodes). This enables <code class="highlighter-rouge">MIN_TX_FEE</code> to be lowered down to <code class="highlighter-rouge">MIN_RELAY_TX_FEE</code> without nodes who haven’t yet upgraded refusing to forward transactions with the new lower fee. On Bitcoin, the ratio between <code class="highlighter-rouge">MIN_TX_FEE</code> and <code class="highlighter-rouge">MIN_RELAY_TX_FEE</code> is 5:1, but due to an oversight it was 50:1 in Namecoin. The result was that The Aggregator’s transactions had a large enough fee to be forwarded throughout the network, but were considered “insufficient fee/free” transactions by miners. Since there is very limited space in blocks for such transactions, they just kept building up in the miners’ memory pools. The volume of transactions soon began causing the merge-mining software run by pools to time-out trying to get work.</p>
+<p>The problem is that each of these transactions were 17-30 KB and rather than the standard transaction fee of 0.005NMC per KB (rounded up), a flat fee of 0.005NMC was used. Namecoin, like Bitcoin actually has two fee values, <code class="language-plaintext highlighter-rouge">MIN_TX_FEE</code> (used by miners) and <code class="language-plaintext highlighter-rouge">MIN_RELAY_TX_FEE</code> (used by all other full nodes). This enables <code class="language-plaintext highlighter-rouge">MIN_TX_FEE</code> to be lowered down to <code class="language-plaintext highlighter-rouge">MIN_RELAY_TX_FEE</code> without nodes who haven’t yet upgraded refusing to forward transactions with the new lower fee. On Bitcoin, the ratio between <code class="language-plaintext highlighter-rouge">MIN_TX_FEE</code> and <code class="language-plaintext highlighter-rouge">MIN_RELAY_TX_FEE</code> is 5:1, but due to an oversight it was 50:1 in Namecoin. The result was that The Aggregator’s transactions had a large enough fee to be forwarded throughout the network, but were considered “insufficient fee/free” transactions by miners. Since there is very limited space in blocks for such transactions, they just kept building up in the miners’ memory pools. The volume of transactions soon began causing the merge-mining software run by pools to time-out trying to get work.</p>
 
-<p>We released an initial “band-aid” patch which simply upped the <code class="highlighter-rouge">MIN_RELAY_TX_FEE</code> to stop these particular problem transactions from being rebroadcast or accepted by pools. Phelix and Domob put together an RC branch which fixed the performance issues associated with The Aggregator’s transactions. The transactions have all been process but we have had positive feedback from miners and will be merging the RC branch with mainline shortly.</p>
+<p>We released an initial “band-aid” patch which simply upped the <code class="language-plaintext highlighter-rouge">MIN_RELAY_TX_FEE</code> to stop these particular problem transactions from being rebroadcast or accepted by pools. Phelix and Domob put together an RC branch which fixed the performance issues associated with The Aggregator’s transactions. The transactions have all been process but we have had positive feedback from miners and will be merging the RC branch with mainline shortly.</p>
 
-<p><a href="https://groups.google.com/forum/?_escaped_fragment_=topic/namecoin/8RdXGNq3oSs#!topic/namecoin/8RdXGNq3oSs">Additional techniques</a> are being discussed to ensure Namecoin can better handle situations where there are too many transactions being broadcast to process them all. One is to temporarily drop lowest-priority transactions in the event of a flood, while granting higher priority to name transactions (<code class="highlighter-rouge">NAME_NEW</code>, <code class="highlighter-rouge">NAME_FIRSTUPDATE</code>, <code class="highlighter-rouge">NAME_UPDATE</code>) in order to ensure that time-sensitive operations are not delayed. Bitcoin developers have planned enhancements which will further mitigate the problem.</p>
+<p><a href="https://groups.google.com/forum/?_escaped_fragment_=topic/namecoin/8RdXGNq3oSs#!topic/namecoin/8RdXGNq3oSs">Additional techniques</a> are being discussed to ensure Namecoin can better handle situations where there are too many transactions being broadcast to process them all. One is to temporarily drop lowest-priority transactions in the event of a flood, while granting higher priority to name transactions (<code class="language-plaintext highlighter-rouge">NAME_NEW</code>, <code class="language-plaintext highlighter-rouge">NAME_FIRSTUPDATE</code>, <code class="language-plaintext highlighter-rouge">NAME_UPDATE</code>) in order to ensure that time-sensitive operations are not delayed. Bitcoin developers have planned enhancements which will further mitigate the problem.</p>
 
 <p>It was observed that at one point only one pool was functional. This pool mined many blocks in a row with no transactions. We have identified this pool and have been in contact with the operator. They modified their software some time ago to ignore all transactions to address some performance issues. We do not believe there was any malicious intent on their part, and they have committed to working with us to get to a point where they can include transactions in their blocks.</p>
 
@@ -1257,7 +1261,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/2014/09/09/great-aggregating-postmortem.html">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2014/09/09/great-aggregating-postmortem.html">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2014/09/09/great-aggregating-postmortem.html">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2014/09/09/great-aggregating-postmortem.html">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/2014/09/09/great-aggregating-postmortem.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -1267,41 +1271,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

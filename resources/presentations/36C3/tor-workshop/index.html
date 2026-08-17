@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>Supporting<br />free speech.</strong>
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -146,7 +146,7 @@
 
 <p>Proof of authenticity (if you trust public TLS CA’s and DNS): <a href="https://trac.torproject.org/projects/tor/wiki/doc/TorBrowser/Hacking#NightlyBuilds">https://trac.torproject.org/projects/tor/wiki/doc/TorBrowser/Hacking#NightlyBuilds</a></p>
 
-<p>Download and install the latest Tor Browser Nightly release.  You want either <code class="highlighter-rouge">nightly-linux-i686</code> or <code class="highlighter-rouge">nightly-linux-x86_64</code> depending on whether your GNU/Linux machine is 32-bit or 64-bit.  You want the <code class="highlighter-rouge">.tar.xz</code> archive, not the <code class="highlighter-rouge">.mar</code> archive.</p>
+<p>Download and install the latest Tor Browser Nightly release.  You want either <code class="language-plaintext highlighter-rouge">nightly-linux-i686</code> or <code class="language-plaintext highlighter-rouge">nightly-linux-x86_64</code> depending on whether your GNU/Linux machine is 32-bit or 64-bit.  You want the <code class="language-plaintext highlighter-rouge">.tar.xz</code> archive, not the <code class="language-plaintext highlighter-rouge">.mar</code> archive.</p>
 
 <h2 id="run-tor-browser-nightly">Run Tor Browser Nightly</h2>
 
@@ -156,7 +156,7 @@
 
 <h2 id="run-tor-browser-nightly-with-namecoin-enabled">Run Tor Browser Nightly with Namecoin enabled</h2>
 
-<p>Run Tor Browser Nightly with the environment variable <code class="highlighter-rouge">TOR_ENABLE_NAMECOIN=1</code>.</p>
+<p>Run Tor Browser Nightly with the environment variable <code class="language-plaintext highlighter-rouge">TOR_ENABLE_NAMECOIN=1</code>.</p>
 
 <p>If you don’t know how to set environment variables, there are (at least) 3 ways you can do this <strong>(only do 1 of the following)</strong>:</p>
 
@@ -166,7 +166,7 @@
 
     <p>Run the following:</p>
 
-    <p><code class="highlighter-rouge">echo "export TOR_ENABLE_NAMECOIN=1" &gt;&gt; ~/.profile</code></p>
+    <p><code class="language-plaintext highlighter-rouge">echo "export TOR_ENABLE_NAMECOIN=1" &gt;&gt; ~/.profile</code></p>
 
     <p>Then reboot your machine, and run Tor Browser Nightly as usual.  ``</p>
   </li>
@@ -175,18 +175,18 @@
 
     <p>Run the following in a terminal:</p>
 
-    <p><code class="highlighter-rouge">export TOR_ENABLE_NAMECOIN=1</code></p>
+    <p><code class="language-plaintext highlighter-rouge">export TOR_ENABLE_NAMECOIN=1</code></p>
 
     <p>You can now start Tor Browser Nightly from that terminal session like this:</p>
 
-    <p><code class="highlighter-rouge">./start-tor-browser.desktop</code></p>
+    <p><code class="language-plaintext highlighter-rouge">./start-tor-browser.desktop</code></p>
   </li>
   <li>
     <p>Enable Namecoin for one Tor Browser session.</p>
 
     <p>Start Tor Browser Nightly from a terminal like this:</p>
 
-    <p><code class="highlighter-rouge">TOR_ENABLE_NAMECOIN=1 ./start-tor-browser.desktop</code></p>
+    <p><code class="language-plaintext highlighter-rouge">TOR_ENABLE_NAMECOIN=1 ./start-tor-browser.desktop</code></p>
   </li>
 </ol>
 
@@ -202,9 +202,9 @@
   <li><a href="http://submit.wikileaks.bit/">http://submit.wikileaks.bit/</a></li>
 </ul>
 
-<p>Try viewing the circuit display in Tor Browser while on a Namecoin site.  It will show the real <code class="highlighter-rouge">.onion</code> domain next to the <code class="highlighter-rouge">.bit</code> domain.</p>
+<p>Try viewing the circuit display in Tor Browser while on a Namecoin site.  It will show the real <code class="language-plaintext highlighter-rouge">.onion</code> domain next to the <code class="language-plaintext highlighter-rouge">.bit</code> domain.</p>
 
-<p>You can use either <code class="highlighter-rouge">.bit</code> or <code class="highlighter-rouge">.bit.onion</code> suffixes.  They currently have identical semantics, though <code class="highlighter-rouge">.bit</code> might be capable of pointing to IP addresses in the future.  <code class="highlighter-rouge">.bit</code> domains won’t show up as having a secure origin (<code class="highlighter-rouge">.bit.onion</code> correctly is marked as secure); this is a bug in the Namecoin Tor Browser integration that will be fixed later.</p>
+<p>You can use either <code class="language-plaintext highlighter-rouge">.bit</code> or <code class="language-plaintext highlighter-rouge">.bit.onion</code> suffixes.  They currently have identical semantics, though <code class="language-plaintext highlighter-rouge">.bit</code> might be capable of pointing to IP addresses in the future.  <code class="language-plaintext highlighter-rouge">.bit</code> domains won’t show up as having a secure origin (<code class="language-plaintext highlighter-rouge">.bit.onion</code> correctly is marked as secure); this is a bug in the Namecoin Tor Browser integration that will be fixed later.</p>
 
 <h2 id="discussion">Discussion</h2>
 
@@ -243,7 +243,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/resources/presentations/36C3/tor-workshop/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/resources/presentations/36C3/tor-workshop/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/36C3/tor-workshop/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/36C3/tor-workshop/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/resources/presentations/36C3/tor-workshop/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -253,41 +253,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

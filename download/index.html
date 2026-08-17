@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-A <strong>trust anchor</strong><br />for the Internet.
+<strong>Against<br />censorship.</strong>
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -132,7 +132,7 @@ A <strong>trust anchor</strong><br />for the Internet.
     
 <h2 id="ncdns">ncdns</h2>
 
-<p>ncdns is software for accessing <code class="highlighter-rouge">.bit</code> domain names.  If you want to access <code class="highlighter-rouge">.bit</code> domain names, ncdns is most likely what you want to install.</p>
+<p>ncdns is software for accessing <code class="language-plaintext highlighter-rouge">.bit</code> domain names.  If you want to access <code class="language-plaintext highlighter-rouge">.bit</code> domain names, ncdns is most likely what you want to install.</p>
 
 <p>See the <a href="/docs/ncdns">ncdns documentation</a>.</p>
 
@@ -144,7 +144,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
     <h3 id="windows">Windows</h3>
 
-    <p>The installer also automatically installs and configures a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code class="highlighter-rouge">.bit</code> domain names.</p>
+    <p>The installer also automatically installs and configures a Namecoin client (Namecoin Core, ConsensusJ-Namecoin, or Electrum-NMC) and Dnssec-Trigger/Unbound, and sets up TLS certificate validation in any supported web browsers that are installed (see documentation for a list of supported browsers).  It’s basically all you need for browsing <code class="language-plaintext highlighter-rouge">.bit</code> domain names.</p>
 
     <ul>
       <li><a href="https://www.namecoin.org/files/ncdns/ncdns-0.3.1/ncdns-0.3.1-x86_64-install-fb9d49.exe">64-bit x86 installer</a></li>
@@ -203,7 +203,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <h2 id="tor-browser">Tor Browser</h2>
 
-<p><a href="https://nightlies.tbb.torproject.org/nightly-builds/tor-browser-builds/">Tor Browser Nightly</a> for GNU/Linux has experimental Namecoin resolution built-in.  Set the environment variable <code class="highlighter-rouge">TOR_ENABLE_NAMECOIN=1</code> to use it.</p>
+<p><a href="https://nightlies.tbb.torproject.org/nightly-builds/tor-browser-builds/">Tor Browser Nightly</a> for GNU/Linux has experimental Namecoin resolution built-in.  Set the environment variable <code class="language-plaintext highlighter-rouge">TOR_ENABLE_NAMECOIN=1</code> to use it.</p>
 
 <h2 id="namecoin-core-client-stable-release">Namecoin Core Client (Stable Release)</h2>
 
@@ -211,7 +211,7 @@ A <strong>trust anchor</strong><br />for the Internet.
   <li>Name wallet: includes command-line interface for registering, tracking, updating, and renewing names (if you don’t already have some namecoins, you’ll need to <a href="/exchanges/">buy some at an exchange</a>).</li>
   <li>Name wallet: includes graphical interface for tracking, updating, and renewing names (if you don’t already have some namecoins, you’ll need to <a href="/exchanges/">buy some at an exchange</a>).</li>
   <li><strong>No graphical interface for registering names.  Use the Name Tab Beta (see below) if you require this functionality.</strong></li>
-  <li>Name lookup: allows looking up names (use in combination with <a href="/docs/ncdns">ncdns</a> or NMControl to browse <code class="highlighter-rouge">.bit</code> domains).</li>
+  <li>Name lookup: allows looking up names (use in combination with <a href="/docs/ncdns">ncdns</a> or NMControl to browse <code class="language-plaintext highlighter-rouge">.bit</code> domains).</li>
   <li>Currency wallet: includes graphical interface and command-line interface for receiving and sending namecoins.</li>
   <li>Recommended for miners.</li>
   <li>Recommended for users who don’t intend to register new names.</li>
@@ -335,7 +335,7 @@ A <strong>trust anchor</strong><br />for the Internet.
   <li>Use this instead of Namecoin Core if Namecoin Core doesn’t work or if you need macOS binaries that include the name management tab.</li>
   <li><strong>Not suitable for mining or development.</strong></li>
   <li><strong>Always wait for six confirmations.</strong></li>
-  <li><strong>Backup your <code class="highlighter-rouge">wallet.dat</code> before enabling wallet encryption.</strong></li>
+  <li><strong>Backup your <code class="language-plaintext highlighter-rouge">wallet.dat</code> before enabling wallet encryption.</strong></li>
 </ul>
 
 <p><a href="https://github.com/namecoin/namecoin-legacy">Source on GitHub</a>.</p>
@@ -380,8 +380,8 @@ A <strong>trust anchor</strong><br />for the Internet.
 
 <ul>
   <li>You rely on reproducible builds of the non-installer binaries.  (Python source code is inherently reproducible; ncdns is not yet reproducible.)</li>
-  <li>You rely on the non-default Private Mode of NMControl.  (Private Mode prevents external DNS traffic from <code class="highlighter-rouge">.bit</code> lookups; ncdns can trigger such lookups from Unbound.)</li>
-  <li>You rely on encrypted DNS (e.g. DoH) for non-<code class="highlighter-rouge">.bit</code> lookups, <strong>and</strong> you rely on the Windows installer (NMControl’s installer won’t affect non-<code class="highlighter-rouge">.bit</code> DNS lookups, while ncdns installs DNSSEC-Trigger, which will interfere with DoH.)</li>
+  <li>You rely on the non-default Private Mode of NMControl.  (Private Mode prevents external DNS traffic from <code class="language-plaintext highlighter-rouge">.bit</code> lookups; ncdns can trigger such lookups from Unbound.)</li>
+  <li>You rely on encrypted DNS (e.g. DoH) for non-<code class="language-plaintext highlighter-rouge">.bit</code> lookups, <strong>and</strong> you rely on the Windows installer (NMControl’s installer won’t affect non-<code class="language-plaintext highlighter-rouge">.bit</code> DNS lookups, while ncdns installs DNSSEC-Trigger, which will interfere with DoH.)</li>
 </ul>
 
 <div class="row">
@@ -399,7 +399,7 @@ A <strong>trust anchor</strong><br />for the Internet.
 
     <h3 id="gnulinux-and-macos">GNU/Linux and macOS</h3>
 
-    <p>With Python 2.7 installed you can run <code class="highlighter-rouge">nmcontrol.py</code> directly from <a href="https://github.com/namecoin/nmcontrol">source</a>. If you need help ask on GitHub or on the <a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2402">forum</a>.</p>
+    <p>With Python 2.7 installed you can run <code class="language-plaintext highlighter-rouge">nmcontrol.py</code> directly from <a href="https://github.com/namecoin/nmcontrol">source</a>. If you need help ask on GitHub or on the <a href="https://forum.namecoin.org/viewtopic.php?f=8&amp;t=2402">forum</a>.</p>
 
   </div>
 
@@ -438,7 +438,7 @@ A <strong>trust anchor</strong><br />for the Internet.
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/download/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/download/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/download/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/download/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -448,41 +448,32 @@ A <strong>trust anchor</strong><br />for the Internet.
             
             <ul class="list-inline">
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
+                    <li class="funder">Handshake</li>
+                
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">

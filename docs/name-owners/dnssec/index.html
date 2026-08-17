@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-<strong>In information</strong><br />we <strong>trust</strong>.
+Decentralized<br /><strong>secure</strong> names.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -130,23 +130,23 @@
 
   <article class="post-content">
     
-<p><code class="highlighter-rouge">.bit</code> domains can delegate to an external DNSSEC nameserver via the <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code> JSON fields (which correspond to the <code class="highlighter-rouge">NS</code> and <code class="highlighter-rouge">DS</code> DNS record types).  The <code class="highlighter-rouge">ns</code> record is used to find the nameserver; the <code class="highlighter-rouge">ds</code> record is used to authenticate the records returned by the nameserver.</p>
+<p><code class="language-plaintext highlighter-rouge">.bit</code> domains can delegate to an external DNSSEC nameserver via the <code class="language-plaintext highlighter-rouge">ns</code> and <code class="language-plaintext highlighter-rouge">ds</code> JSON fields (which correspond to the <code class="language-plaintext highlighter-rouge">NS</code> and <code class="language-plaintext highlighter-rouge">DS</code> DNS record types).  The <code class="language-plaintext highlighter-rouge">ns</code> record is used to find the nameserver; the <code class="language-plaintext highlighter-rouge">ds</code> record is used to authenticate the records returned by the nameserver.</p>
 
-<h2 id="downsides-of-using-ns-and-ds">Downsides of using <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code></h2>
+<h2 id="downsides-of-using-ns-and-ds">Downsides of using <code class="language-plaintext highlighter-rouge">ns</code> and <code class="language-plaintext highlighter-rouge">ds</code></h2>
 
 <ul>
   <li>Lookups will be slightly slower, since the latency of contacting the authoritative nameserver is added, whereas if the full zone is in the blockchain you’ll only need to look things up from localhost.</li>
   <li>Currently incompatible with Tor (unless you run a recursive resolver inside a Whonix VM, which is a bad idea since you’ll deanonymize yourself via stream isolation leaks). This might be fixable by implementing stream isolation support in a DNS recursive resolver (e.g. a Go-based recursive resolver), but it’s probably not going to happen anytime soon (unless someone decides they want to sponsor that development work).</li>
-  <li>Currently incompatible with ncdns’s <code class="highlighter-rouge">certinject</code> feature, which means that TLS will only work if your applications natively support DANE (with ncdns’s DNSSEC trust anchor).  This is probably fixable in the future.</li>
-  <li>If all of the authoritative nameservers that you specify are DoSed, or decide they want to censor your domain, your domain will be inaccessible until one of the nameservers restores service. You can use multiple authoritative nameservers to attempt to mitigate this, but it’s not going to be as good as keeping your zone in the blockchain.  (You <em>could</em> mitigate this by switching away from <code class="highlighter-rouge">ns</code>/<code class="highlighter-rouge">ds</code> in favor of storing your zone on the blockchain in the event that you actually encounter such DoS/censorship.  This allows you to benefit from DNSSEC’s improved scalability as long as you’re not being DoSed/censored, but it will mean a brief service interruption between the beginning of a DoS/censorship attack and when you notice and submit a <code class="highlighter-rouge">name_update</code> transaction.)</li>
-  <li>You’re more vulnerable to replay attacks, because DNSSEC signatures expire much more slowly than the DMMS signatures in the blockchain. If you urgently need to revoke your DNSSEC signatures without waiting for them to expire, you can replace your <code class="highlighter-rouge">ds</code> field in the blockchain, which isn’t really any worse than replacing a <code class="highlighter-rouge">tls</code> field in the blockchain (both will take effect equally fast).</li>
+  <li>Currently incompatible with ncdns’s <code class="language-plaintext highlighter-rouge">certinject</code> feature, which means that TLS will only work if your applications natively support DANE (with ncdns’s DNSSEC trust anchor).  This is probably fixable in the future.</li>
+  <li>If all of the authoritative nameservers that you specify are DoSed, or decide they want to censor your domain, your domain will be inaccessible until one of the nameservers restores service. You can use multiple authoritative nameservers to attempt to mitigate this, but it’s not going to be as good as keeping your zone in the blockchain.  (You <em>could</em> mitigate this by switching away from <code class="language-plaintext highlighter-rouge">ns</code>/<code class="language-plaintext highlighter-rouge">ds</code> in favor of storing your zone on the blockchain in the event that you actually encounter such DoS/censorship.  This allows you to benefit from DNSSEC’s improved scalability as long as you’re not being DoSed/censored, but it will mean a brief service interruption between the beginning of a DoS/censorship attack and when you notice and submit a <code class="language-plaintext highlighter-rouge">name_update</code> transaction.)</li>
+  <li>You’re more vulnerable to replay attacks, because DNSSEC signatures expire much more slowly than the DMMS signatures in the blockchain. If you urgently need to revoke your DNSSEC signatures without waiting for them to expire, you can replace your <code class="language-plaintext highlighter-rouge">ds</code> field in the blockchain, which isn’t really any worse than replacing a <code class="language-plaintext highlighter-rouge">tls</code> field in the blockchain (both will take effect equally fast).</li>
   <li>Most DNSSEC software accepts weak signatures, e.g. RSA-1024 and SHA-1.</li>
   <li>Authoritative nameserver hosting services might cost money (but note that you’ll save money on NMC fees, see below).</li>
   <li>Authoritative nameserver hosting services might not respect your anonymity when you sign up for service (but note that right now Namecoin doesn’t yet respect your anonymity either).</li>
   <li>Signatures are less flexible.  It might be possible to do multisig via threshold signatures (we’re not sure how feasible this is), but you definitely won’t have the expressiveness of Bitcoin Script.</li>
 </ul>
 
-<h2 id="benefits-of-using-ns-and-ds">Benefits of using <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code></h2>
+<h2 id="benefits-of-using-ns-and-ds">Benefits of using <code class="language-plaintext highlighter-rouge">ns</code> and <code class="language-plaintext highlighter-rouge">ds</code></h2>
 
 <ul>
   <li>Your name’s value will probably be smaller, which saves you fees and decreases blockchain bloat.</li>
@@ -163,17 +163,17 @@
   <li>No one can steal your domain unless they have your private key.</li>
 </ul>
 
-<h2 id="using-ns-without-ds">Using <code class="highlighter-rouge">ns</code> <em>without</em> <code class="highlighter-rouge">ds</code></h2>
+<h2 id="using-ns-without-ds">Using <code class="language-plaintext highlighter-rouge">ns</code> <em>without</em> <code class="language-plaintext highlighter-rouge">ds</code></h2>
 
-<p>Using <code class="highlighter-rouge">ns</code> <em>without</em> <code class="highlighter-rouge">ds</code> is probably a bad idea, <em>unless</em> your zone is deliberately set up in a way that distrusts the nameserver.  For example, you could store a <code class="highlighter-rouge">tls</code> record in Namecoin, and use a nameserver exclusively for a dynamic IP address, in which case there’s not much need for DNSSEC since IP addresses aren’t a cryptographic identifier anyway.</p>
+<p>Using <code class="language-plaintext highlighter-rouge">ns</code> <em>without</em> <code class="language-plaintext highlighter-rouge">ds</code> is probably a bad idea, <em>unless</em> your zone is deliberately set up in a way that distrusts the nameserver.  For example, you could store a <code class="language-plaintext highlighter-rouge">tls</code> record in Namecoin, and use a nameserver exclusively for a dynamic IP address, in which case there’s not much need for DNSSEC since IP addresses aren’t a cryptographic identifier anyway.</p>
 
 <h2 id="private-keys">Private Keys</h2>
 
-<p>If you use a <code class="highlighter-rouge">ds</code> record for which someone else (e.g. your DNS hosting provider) has the private key, that party can forge both records and nonexistence for your zone.  You can avoid this circumstance by using a DNS hosting service that allows you to keep your DNSSEC private keys under your sole control; the key thing to look for is “secondary DNS with hidden master”.</p>
+<p>If you use a <code class="language-plaintext highlighter-rouge">ds</code> record for which someone else (e.g. your DNS hosting provider) has the private key, that party can forge both records and nonexistence for your zone.  You can avoid this circumstance by using a DNS hosting service that allows you to keep your DNSSEC private keys under your sole control; the key thing to look for is “secondary DNS with hidden master”.</p>
 
 <h2 id="dns-delegation-is-required-in-some-cases-for-namecoins-scalability">DNS delegation is required (in some cases) for Namecoin’s scalability</h2>
 
-<p>Generally speaking, if Namecoin achieved usage levels anywhere near what the DNS has, Namecoin would collapse if all the zones were stored in the blockchain. That doesn’t imply that <em>all</em> Namecoin domains need to only have <code class="highlighter-rouge">ns</code> and <code class="highlighter-rouge">ds</code> fields set – the choice of what’s right for you is likely to depend on your security needs, how large your zone is, and how often you update it. (An extreme example is a CDN that has an incredibly complex configuration that changes every few seconds.)</p>
+<p>Generally speaking, if Namecoin achieved usage levels anywhere near what the DNS has, Namecoin would collapse if all the zones were stored in the blockchain. That doesn’t imply that <em>all</em> Namecoin domains need to only have <code class="language-plaintext highlighter-rouge">ns</code> and <code class="language-plaintext highlighter-rouge">ds</code> fields set – the choice of what’s right for you is likely to depend on your security needs, how large your zone is, and how often you update it. (An extreme example is a CDN that has an incredibly complex configuration that changes every few seconds.)</p>
 
   </article>
 
@@ -204,7 +204,7 @@
                 <li>This page is available via:</li>
                 <li><a href="https://www.namecoin.org/docs/name-owners/dnssec/">DNS (namecoin.org)</a></li>
                 <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/docs/name-owners/dnssec/">Onion</a></li>
-                <li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/dnssec/">ZeroNet</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/docs/name-owners/dnssec/">ZeroNet</a></li>-->
                 <li><a href="https://namecoin.bit/docs/name-owners/dnssec/">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
@@ -214,41 +214,32 @@
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/core/'>NLnet Foundation (Next Generation Internet Zero: Core)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Core)</li>
-                
-                    <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
-                
-                    <li class="funder"><a href='https://nlnet.nl/internethardening/'>NLnet Foundation (Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/assure/'>NLnet Foundation (Next Generation Internet: Assure)</a></li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet: Assure)</li>
-                
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via Internet Hardening Fund)</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via Next Generation Internet Zero: Search and Discovery)</li>
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
                     <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/discovery/'>NLnet Foundation (Next Generation Internet Zero: Search and Discovery)</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
             </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
         </div>
 
         <div class="container-fluid" id="disclaimer">
