@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</title>
+    <title>Statement on Removal of Zachary "Zach" Lym (AKA indolering) from Team Page</title>
     <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">-->
 
@@ -14,7 +14,7 @@
 
     <link href="/css/style.css" rel="stylesheet">
     
-    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2017/10/07/firefox-tls-latency.html">
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/02/14/statement-removal-zachary-zach-lym-indolering-team-page.html">
     <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
 
     <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
@@ -858,78 +858,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="post">
 
 <header class="post-header">
-<h1 class="post-title">Namecoin TLS for Firefox: Phase 3 (Latency Debugging)</h1>
-<p class="post-meta">Oct 7, 2017 • Jeremy Rand <i class="fa fa-tag"></i></p>
+<h1 class="post-title">Statement on Removal of Zachary "Zach" Lym (AKA indolering) from Team Page</h1>
+<p class="post-meta">Feb 14, 2018 • Namecoin Developers <i class="fa fa-tag"></i></p>
 </header>
 
 <article class="post-content">
-<p>I <a href="/2017/09/30/firefox-tls-webext.html">recently mentioned</a> performance issues that I observed with the Firefox TLS WebExtensions Experiment.  I’m happy to report that those performance issues appear to have been a false alarm, due to 2 main reasons:</p>
-
-<ol>
-  <li>I initially observed the performance issues in a Fedora VM inside Qubes.  I decided on a hunch to try the same code on a Fedora live ISO running on bare metal, and the worst-case latency decreased from ~20 ms to ~6 ms.  The spread also decreased a lot.  I can think of lots of reasons why Qubes might have caused performance issues, e.g. the use of CPU paravirtualization, the I/O overhead associated with Xen, the limit on logical CPU cores inside the VM, the use of memory ballooning, competition from other VM’s for memory and CPU, and probably lots of other reasons.  In any event, my opinion is that the fault here lies in Qubes, not my code.</li>
-  <li>The Firefox JavaScript JIT seems to improve performance of the WebExtensions Experiment and of the WebExtension each time it runs.  After running the same code (on bare-metal Fedora) against 6 different certificates, the latency decreased from ~6 ms to ~1 ms, and it was still monotonically decreasing at the 6th cert.  Testing this code with many repeats is tricky, because it caches validation results per host+certificate pair, and I don’t have a large supply of invalid certificates to test with.</li>
-</ol>
-
-<p>The happy side effect of this debugging is that my current code is now quite a lot closer to Mozilla’s standard usage patterns, since I spent a lot of time trying to figure out whether something that I was deviating from Mozilla on was responsible for the latency.  Huge thanks to Andrew Swan from Mozilla for providing lots of useful tips in this area.</p>
-
-<p>I believe that there are still several optimizations that could be made to this code, but for now I’m reasonably satisfied with the performance.  (Whether Mozilla will want further optimization is unclear; I’ll ask them later.)  My next step will be to set up negative overrides in the WebExtensions Experiment and the WebExtension.  After that, I’ll be looking into actually making the WebExtension ask Namecoin for the cert data (instead of returning dummy data).  Then comes code cleanup, code optimizations, and a patch submission to Mozilla.</p>
-
-<p>This work was funded by NLnet Foundation’s Internet Hardening Fund.</p>
+<p>Recently, 6 Namecoin developers became aware of past activity by our former UX engineer, Zachary Lym (AKA indolering), that we cannot ethically condone. Zach has not been actively involved in Namecoin for years, which is sufficient reason on its own to remove him from the Team page; as such, a complete investigation of the aforementioned past activity is not a productive usage of our resources. However, we feel that it is important to state that, as a result of this activity being brought to our attention, we will oppose any potential future involvement of Zach with Namecoin development, and we do not consider Zach welcome in our spaces going forward. If you wish to verify authenticity of any Namecoin-related applications, projects, or communications, please contact Daniel Kraft or Jeremy Rand via OpenPGP-signed email. We do not expect to make any additional statements on this subject.</p>
 
 
 </article>
@@ -939,6 +876,58 @@
 </footer>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1157,16 +1146,16 @@
         </div>
 
         <div class="container-fluid" id="page-source">
-            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2017-10-07-firefox-tls-latency.md"><i>Submit corrections or improvements to this page</i></a>
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/_posts/2018-02-14-statement-removal-zachary-zach-lym-indolering-team-page.md"><i>Submit corrections or improvements to this page</i></a>
         </div>
 
         <div class="container-fluid" id="page-alternate">
             <ul class="list-inline">
                 <li>This page is available via:</li>
-                <li><a href="https://www.namecoin.org/2017/10/07/firefox-tls-latency.html">DNS (namecoin.org)</a></li>
-                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2017/10/07/firefox-tls-latency.html">Onion</a></li>
-                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2017/10/07/firefox-tls-latency.html">ZeroNet</a></li>-->
-                <li><a href="https://namecoin.bit/2017/10/07/firefox-tls-latency.html">Namecoin (namecoin.bit)</a></li>
+                <li><a href="https://www.namecoin.org/2018/02/14/statement-removal-zachary-zach-lym-indolering-team-page.html">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/2018/02/14/statement-removal-zachary-zach-lym-indolering-team-page.html">Onion</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/2018/02/14/statement-removal-zachary-zach-lym-indolering-team-page.html">ZeroNet</a></li>-->
+                <li><a href="https://namecoin.bit/2018/02/14/statement-removal-zachary-zach-lym-indolering-team-page.html">Namecoin (namecoin.bit)</a></li>
             </ul>
         </div>
 
@@ -1175,29 +1164,29 @@
             
             <ul class="list-inline">
                 
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
                     <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder">Handshake</li>
                 
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
-                
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
             </ul>
             <p><a href="/donate/transparency/">Funding Transparency</a></p>
