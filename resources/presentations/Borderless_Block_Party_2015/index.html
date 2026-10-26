@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="nojs">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>ncdns-tls: Namecoin TLS Authentication for Web Servers</title>
+    <!--<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">-->
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+    
+    <link rel="canonical" href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/resources/presentations/Borderless_Block_Party_2015/">
+    <link rel="alternate" type="application/rss+xml" title="Namecoin News" href="/feed.rss"/>
+
+    <link rel="icon" href='/images/namecoin-coin_100px.png' sizes="100x100" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin_200px.png' sizes="200x200" type="image/png">
+    <link rel="icon" href='/images/namecoin-coin.svg' sizes="any" type="image/svg+xml">
+
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/remove-nojs.js"></script>
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href='/'><img src='/images/logo.png' alt="Namecoin" /></a>
+                </div>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" tabindex="">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Get Started</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/download/'>Download</a></li>
+                            <li><a href='/get-started/name-wallets/'>Name Wallets</a></li>
+                            <li><a href='/get-started/get-namecoins/'>Get Namecoins</a></li>
+                            <li><a href='/docs/name-owners/'>Docs for Domain Owners</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Dot-Bit</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/dot-bit/'>Home</a></li>
+                            <li><a href='/dot-bit/browsing-instructions/'>Browsing Instructions</a></li>
+                            <li><a href='/dot-bit/security-model/'>Security Model</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/docs/faq/'>FAQ</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" tabindex="">Resources</a>
+                        <ul class="dropdown-menu">
+                            <li><a href='/resources/chat/'>Matrix/IRC Chat</a></li>
+                            <li><a href="https://forum.namecoin.org">Forum&#10138;</a></li>
+                            <li><a href='/resources/presentations/'>Presentations</a></li>
+                            <li><a href='/explorers/'>Explorers</a></li>
+                            <li><a href='https://metrics.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/'>Metrics</a></li>
+                            <li><a href='/resources/whitepaper/'>Whitepaper</a></li>
+                            <li><a href="https://github.com/namecoin/meta/blob/master/roadmap.md">Roadmap&#10138;</a></li>
+                        </ul>
+                    </li>
+                    <li><a href='/team/'>Team</a></li>
+                    <li><a href='/news/'>News</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/contribute/'>Contribute</a></li>
+                </ul>
+                </div>
+            </div>
+        </nav>
+
+</header>
+
+<div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
+<span id="default-tagline">
+
+<strong>Supporting<br />free speech.</strong>
+</span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>In information</strong><br />we <strong>trust</strong>.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        A <strong>trust anchor</strong><br />for the Internet.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Against<br />censorship.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Supporting<br />free speech.</strong>
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        Decentralized<br /><strong>secure</strong> names.
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Decentralize</strong><br>all the things!
+    </span>
+
+    <span class="candidate-tagline" hidden>
+        <strong>Freedom</strong><br>of information.
+    </span>
+
+</p></div></div>
+
+
+    <div id="content">
+      <div class="container-fluid">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">ncdns-tls: Namecoin TLS Authentication for Web Servers</h1>
+  </header>
+
+  <article class="post-content">
+    
+<p>Entry by Jeremy Rand (University of Oklahoma) in the College Cryptocurrency Network’s Borderless Block Party Hackathon, November 2015.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>ncdns-tls uses the Namecoin blockchain-based naming system to verify TLS certificates of web sites without certificate authorities, notaries, or other trusted third parties.  It is built on top of the ncdns DNS server by Hugo Landau, and is coded in Go.  It works by hooking DNS requests for Namecoin (.bit) websites and injects the correct certificate into the trust store, in a way that guarantees that only the certificates in the blockchain for a given domain name will be considered correct for that domain name.</p>
+
+<h2 id="feasibility">Feasibility</h2>
+
+<p>ncdns-tls is absolutely implementable at a large scale.  The biggest inefficiency in its approach is the use of “dehydrated certificates” (see technical description below), which are larger than simple certificate hashes, but based on the size of the example configuration in the below documentation, if 100,000,000 websites (the approximate number of non-squatted ICANN domains) use it, then the state of the global name database (with pruning of spent and expired names) is 100,000,000 websites * 351 bytes/website = 35.1 GB, which is well within reason.  The other inefficiencies and obstacles in the current implementations are the issues of removing expired certificates, requiring administrator privileges, and supporting browsers that don’t use Windows CryptoAPI, but we believe that these are solvable with mild engineering (see the Future Direction sections “Support Other Trust Stores” and “Direct Registry Access to CryptoAPI Trust Store”).  If for any reason Namecoin becomes no longer the preferred naming system, ncdns-tls should work (with minimal changes) with other naming systems, such as Ethereum, BitShares, or even systems which use notary trust instead of blockchains (e.g. Perspectives and Convergence for ICANN domains).</p>
+
+<h2 id="uniqueness">Uniqueness</h2>
+
+<p>The idea of using Namecoin to verify TLS certificates has been around since at least 2012, but the idea and ncdns-tls’s implementation of injecting certificates into the trust store is new.  Previous approaches either involved intercepting proxies like Convergence (which are high-risk; see SuperFish for an example of what can go wrong), or browser add-ons like DNSSEC-Validator (which leak confidential information when certificate verification fails).  ncdns-tls’s use of “dehydrated certificates” (pieces of a certificate which can reconstruct a full certificate deterministically) to sufficiently compress the certificate to fit into a blockchain record (while also making security checks very simple) is also new.  Dehydrated certificates required a fork of the Go standard library’s x.509 library, but the changes are very noninvasive.</p>
+
+<h2 id="implementation-and-execution">Implementation and Execution</h2>
+
+<p>ncdns-tls is functional, with an example certificate deployed on https://www.veclabs.bit/ .  There are definitely things that can be improved (see the Future Direction sections below), but the fundamental functionality is proven, working, and deployable (although obviously it should get more review and polishing before being deployed in a situation where security matters).</p>
+
+<h2 id="need">Need</h2>
+
+<p>The use of certificate authorities (CA’s) in TLS is an enormous problem, as disastrous security failures like DigiNotar (in which fraudulent certificates valid for hundreds of providers like Microsoft and Google were issued to an Iranian IP and then deployed for over a month without anyone noticing) make fully clear.  Other proposed solutions like DNSSEC/DANE and notaries (e.g. Perspectives and Convergence) only shift around the trust to what is hoped are slightly more reliable trusted parties.  A fully trust-free TLS validation system with a blockchain security model removes these attack vectors from the equation, which if widely adopted could reduce security risks and costs for businesses and ultimately save the lives of dissidents in repressive countries who rely on TLS to stay safe.</p>
+
+<h1 id="additional-documentation">Additional Documentation</h1>
+
+<p>Below is additional documentation for anyone who is interested in learning more, or perhaps running the code.</p>
+
+<p><strong>Warning: this code is a proof of concept, and has not been subjected to careful testing.  It utilizes specifications which not only are unfinalized, but have not been reviewed by anyone else.  Do not use this code for any public deployments (on either servers or clients) of any kind whatsoever.  We will be working to clean up and standardize this code (and its associated specifications), but we make no guarantees of the timeline associated with said cleanup and standardization.</strong></p>
+
+<h2 id="introduction-to-namecoin">Introduction to Namecoin</h2>
+
+<p>Namecoin is a naming system which uses a blockchain.  Namecoin was the first solution to Zooko’s Triangle, the long-standing problem of having a naming system which is simultaneously global, decentralized, and human-meaningful.  Namecoin’s first use case is the .bit top-level domain, which provides decentralized, global, human-readable DNS.</p>
+
+<h2 id="introduction-to-namecoin-tls">Introduction to Namecoin TLS</h2>
+
+<p>Websites currently rely on TLS to prove their authenticity.  The TLS certificate authority system is flawed due to centralization.  DNSSEC/DANE does not solve the centralization issue.  Namecoin in theory offers a good solution (by associating TLS certificates with a .bit domain name), but the task of getting mainstream web browsers to accept Namecoin certificates has, so far, remained unsolved.</p>
+
+<p>Existing methods generally either leak private data (e.g. DNSSEC Validator) or rely on intercepting proxies (e.g. Convergence); both of these are deemed insufficiently safe.</p>
+
+<h2 id="certificate-injection">Certificate Injection</h2>
+
+<p>We started with the ncdns codebase.  ncdns is a Namecoin authoritative DNS server (in Golang) by Hugo Landau.  We added a callback to ncdns so that when it receives a request for “example.bit” it checks whether a TLSA record exists for “_443._tcp.example.bit”.  If such a record exists, it dumps the certificate to a file, and injects it into the local trust store before replying to the DNS request.  This ensures that the web browser will be aware of the certificate prior to beginning certificate validation.</p>
+
+<p>Currently the only trust store which is supported is the Windows CryptoAPI trust store, which is used by Internet Explorer, Chromium/Chrome, and most other Windows software.  Firefox uses NSS instead, which we do not currently support.  OS X and Linux are not supported currently.</p>
+
+<h2 id="getting-the-certificate">Getting the Certificate</h2>
+
+<p>A typical x.509 certificate is often in the range of 2 to 3 KB.  A Namecoin name can only hold 520 bytes, and is often used to store data in addition to TLS authentication data.  In addition, injecting arbitrary certificates into the local trust store is a security risk, because a website might provide a certificate which is valid for another website, or which is usable as a certificate authority.  We solved both of these issues by generating a certificate on the fly of the following form:</p>
+
+<ol>
+  <li>Certificate serial number hardcoded to 1.  Note that this may cause issues if a single website has multiple certificates.</li>
+  <li>SAN DNS name hardcoded to the specific domain name being looked up.  Note that this means a certificate is only valid for one domain name.  SNI should be used if a single web server serves more than one domain name.</li>
+  <li>Validity period (NotBefore and NotAfter) specified by the name value.</li>
+  <li>ECDSA public key specified by the name value.  Note that we do not support RSA keys, because ECDSA has smaller keys and signatures.</li>
+  <li>ECDSA signature specified by the name value.</li>
+  <li>CA bit disabled; the certificate is only usable as an end entity certificate.</li>
+  <li>KeyUsage hardcoded to “DigitalSignature”.  Note that we disallow “KeyEncipherment” because that is only used for RSA key exchange (no forward secrecy), and everyone should be using DHE/ECDHE key exchange (which has forward secrecy) now.</li>
+  <li>Subject serial number of “Namecoin TLS Certificate”.  This is so that if an end user comes across one of our certificates in his or her trust store later, it will be obvious where it came from.</li>
+  <li>Everything else at the default best practices for TLS server certificates.</li>
+</ol>
+
+<p>We call the data that must be stored in the Namecoin value a “dehydrated certificate”, and a full certificate generated from that data is called a “rehydrated cert”.  An example dehydrated certificate, with base64 encoding for the public key and signature, and integer encoding for the validity period, is as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>["MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvSJuG7K8RYX7toL8iqHnh2d+lMnbqr57pioQzicDpmGooMiKaufVoiJg1fJFUiI2EEbvYO/GjrAFsbCFmzC3Vg==",1420070400,1577836799,10,"MEQCIH/EE6yYEuAlGUIv88VSuBDz4tVWdgWHwJThnU0kiSAsAiBHkXaeFgy5btNpgOvfiIcrovuvkatn3VhrE6Ix3N7TZQ=="]
+</code></pre></div></div>
+
+<p>This is 252 bytes; easily enough to fit into a Namecoin value.</p>
+
+<p>We have provided a command-line tool for generating these certificates, resulting in a dehydrated certificate that can be pasted into a Namecoin value, and a rehydrated certificate that can easily be imported into a web server.  For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./generate_nmc_cert --host www.example.bit --ecdsa-curve P256 --start-date "Jan 1 00:00:00 2015" --end-date "Dec 31 23:59:59 2019"
+2015/11/26 02:42:22 written cert.pem
+2015/11/26 02:42:22 written key.pem
+2015/11/26 02:42:22 Your NMC cert is: ["MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvSJuG7K8RYX7toL8iqHnh2d+lMnbqr57pioQzicDpmGooMiKaufVoiJg1fJFUiI2EEbvYO/GjrAFsbCFmzC3Vg==",1420070400,1577836799,10,"MEQCIH/EE6yYEuAlGUIv88VSuBDz4tVWdgWHwJThnU0kiSAsAiBHkXaeFgy5btNpgOvfiIcrovuvkatn3VhrE6Ix3N7TZQ=="]
+2015/11/26 02:42:22 SUCCESS: The cert decompressed to an identical form.
+</code></pre></div></div>
+
+<p>Making dehydrated certificates work properly in Golang was tricky, because the x.509 library functions which are needed to splice a signature into a certificate are private.  We ended up forking the x.509 package, and adding a single file to it which exposed the necessary functionality as a public function.</p>
+
+<p>Credit for the idea of dehydrated certificates is due to Ryan Castellucci.</p>
+
+<h2 id="hpkp">HPKP</h2>
+
+<p>We <del>abuse</del> <em>take advantage of</em> an interesting quirk in browser implementations of HPKP (HTTPS Public Key Pinning).  Browsers only enforce key pins against certificates for built-in certificate authorities; user-specified certificate authorities are exempt from HPKP.  This behavior is presumably to make it easier for users to intentionally intercept their own traffic (or for corporations to intercept traffic in their network, which is a less ethical version of a technologically identical concept).  As such, we believe that this behavior will not go away anytime soon, and is safe to rely on.  We place a key pin at the “bit” domain, with subdomains enabled, for a “nothing up my sleeve” public key hash.  As a result, no public CA can sign certificates for any domain ending in “.bit”, but user-specified CA’s can.  Windows CryptoAPI treats user-specified end-entity certificates as user-specified CA’s for this purpose.  As such, rehydrated certificates that we generate will be considered valid, but nothing else will.  (Unless you installed another user-specified CA on your machine that is valid for .bit.  But if you did that, then either you want to intercept .bit, in which case it’s fine, or you did it against your will, in which case you are already screwed.)</p>
+
+<h2 id="instructions">Instructions</h2>
+
+<h3 id="installation">Installation</h3>
+
+<ol>
+  <li>Install namecoind or Namecoin-Qt from https://namecoin.org .</li>
+  <li>Configure Namecoin to accept RPC connections (same procedure as Bitcoin).</li>
+  <li>Let Namecoin fully download the blockchain (takes circa 5 hours).</li>
+  <li>Install dnssec-trigger from https://www.nlnetlabs.nl/projects/dnssec-trigger/ or your package manager.</li>
+  <li>Install Go from https://golang.org/dl/</li>
+  <li>go get github.com/hlandau/ncdns</li>
+  <li>Replace the ncdns repo contents with this modified version.</li>
+  <li>If on Linux run “x509_build/install.sh” , on Windows create a subdirectory of ncdns called “x509”, copy C:\Go\src\crypto\x509*.go to x509, and copy the .go file from x509_build to x509.</li>
+  <li>go install github.com/hlandau/ncdns</li>
+  <li>Modify the Unbound config file that dnssec-trigger installed to include the lines at https://github.com/hlandau/ncdns.t#using-ncdns-with-a-recursive-resolver , including the domain-insecure line.</li>
+  <li>Create “$GOPATH/etc/ncdns.conf”, with content similar to https://forum.namecoin.org/viewtopic.php?p=16072#p16072 .  Make sure the bind port is the same as what you entered in Unbound’s config file, and that the Namecoin RPC data is what your namecoind is set to.</li>
+  <li>In Chromium/Chrome, go to chrome://net-internals/#hsts</li>
+  <li>Under “Add domain”, enter the following: domain “bit”, STS unchecked, PKP checked, fingerprint “sha256/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=”.  The fingerprint is a “nothing up my sleeve” value; no one has a private key whose public key hashes to that.</li>
+  <li>Click “Add”.</li>
+  <li>Reboot your computer to make sure that dnssec-trigger reloads your configuration.</li>
+</ol>
+
+<h3 id="creating-and-deploying-an-https-certificate">Creating and deploying an HTTPS certificate</h3>
+
+<ol>
+  <li>go install github.com/hlandau/ncdns/generate_nmc_cert</li>
+  <li>./generate_nmc_cert –host www.example.bit –ecdsa-curve P256 –start-date “Jan 1 00:00:00 2015” –end-date “Dec 31 23:59:59 2019”</li>
+  <li>Take the cert and key files generated; configure your HTTPS server to use them for your .bit domain.</li>
+  <li>
+    <p>Take the NMC cert listed in the standard output; place it in your Namecoin name using the following template:</p>
+
+    <p>{“map”:{“www”:{“ip”:”YOUR IP HERE”, “map”:{“_tcp”:{“map”:{“_443”:{“tls”:[[“c0”,”c0”,”c0”, YOUR CERT HERE]]}}}}}}}</p>
+  </li>
+</ol>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"map":{"www":{"ip":"123.45.67.89", "map":{"_tcp":{"map":{"_443":{"tls":[["c0","c0","c0", ["MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEvSJuG7K8RYX7toL8iqHnh2d+lMnbqr57pioQzicDpmGooMiKaufVoiJg1fJFUiI2EEbvYO/GjrAFsbCFmzC3Vg==",1420070400,1577836799,10,"MEQCIH/EE6yYEuAlGUIv88VSuBDz4tVWdgWHwJThnU0kiSAsAiBHkXaeFgy5btNpgOvfiIcrovuvkatn3VhrE6Ix3N7TZQ=="]]]}}}}}}}
+</code></pre></div></div>
+
+<p>A live example is at https://www.veclabs.bit (block explorer link at https://namecha.in/name/d/veclabs for people who don’t have Namecoin installed).</p>
+
+<h3 id="running-it">Running It</h3>
+
+<ol>
+  <li>Run ncdns as an administrator.  (Yes, it sucks that you need admin privileges; we think it is possible to fix this with some additional effort that we will do after the hackathon is over.)</li>
+  <li>Visit a .bit website that uses HTTPS.  For example, https://www.veclabs.bit .  (That site has broken images because of server config issues, but HTTPS should work without certificate errors.)</li>
+  <li>The page will load successfully.  Yay!</li>
+</ol>
+
+<p>Note: while the “correct” TLS cert will be trusted on any application that uses Windows CryptoAPI, and “incorrect” TLS certs that are not signed by a default trusted CA will be rejected on any such application, only Chrome will protect you from TLS certs that are not “correct” in the Namecoin blockchain but which have been signed by a default trusted CA (i.e. a CA that Windows comes with and is used for non-.bit domains).  This is because Chrome is the only CryptoAPI browser that supports HPKP.  Therefore, for maximum protection from malicious certs, you should not visit .bit websites in browsers other than Chrome.</p>
+
+<h2 id="future-direction">Future Direction</h2>
+
+<p>There are a number of things we would like to improve in this scheme.</p>
+
+<h3 id="support-other-trust-stores">Support Other Trust Stores</h3>
+
+<p>Among other things, we would like to support NSS (used by Firefox, and the OSX/Linux versions of Chromium/Chrome), and OpenSSL (used by many applications on Linux).</p>
+
+<h3 id="direct-registry-access-to-cryptoapi-trust-store">Direct Registry Access to CryptoAPI Trust Store</h3>
+
+<p>The certificates generated by ncdns-tls are stored by Windows certutil in the registry key HKLM\SOFTWARE\Wow6432Node\Microsoft\EnterpriseCertificates\Root\Certificates.  We believe that it is possible to directly add certificates to this registry key without going through certutil.  This means that we can apply the Windows registry permission system, which would eliminate the need for ncdns-tls to be run as an administrator.  It would also allow us to delete certificates that are outdated, since the registry keeps track of a “last modified” timestamp.</p>
+
+<h3 id="dnssec-dehydrated-certificate-retrieval">DNSSEC Dehydrated Certificate Retrieval</h3>
+
+<p>Right now, our ncdns callback only checks for TLSA records that exist in Namecoin.  It would make more sense to perform an actual TLSA DNS lookup, so that TLSA records that have been delegated to a nameserver using DNSSEC would work as well.  (This also is needed in order to allow non-.bit domains to be supported.)  This would require checking the AD flag in DNS responses, to make sure that a nameserver that doesn’t implement DNSSEC can’t provide TLSA records (since that would be insecure).  Note that DNSSEC is slightly less secure than Namecoin since DNSSEC signatures expire after about a month, while a Namecoin blockchain is considered outdated after 2 hours, so DNSSEC gives the attacker more time to perform a replay attack.</p>
+
+<h3 id="network-dehydrated-certificate-retrieval">Network Dehydrated Certificate Retrieval</h3>
+
+<p>In some cases, no dehydrated certificate can be obtained from Namecoin or DNSSEC.  This may be because a TLSA record only contains a hash or a public key instead of the full certificate.  In such cases, ncdns-tls could perform a TLS handshake with the destination to retrieve a certificate, and then consider it valid if the hash or public key matches the TLSA record.  This would require carefulness, since performing a TLS handshake would usually trigger a DNS lookup, which results in an infinite recursion loop of DNS lookups and TLS handshakes.  A solution might be to do a TLS handshake with “example.bit.bit-no-hook”, since ncdns supports domain suffixes, and then explicitly choose “example.bit” as the SNI header.</p>
+
+<h3 id="proxy-compatible-dehydrated-certificate-retrieval">Proxy-Compatible Dehydrated Certificate Retrieval</h3>
+
+<p>Relying on DNS hooks for retrieving certificates means that browsers which use DNS over a proxy (in particular TorBrowser) won’t trigger the hook.  Chromium/Chrome and Firefox/TorBrowser support an API to run Javascript hooks prior to issuing an HTTP request.  Using these hooks would allow users who have a proxy configured to still trigger the rehydrated certificate injection.  It is also needed in order to enable non-.bit websites (which don’t get passed to ncdns) to use dehydrated certificates.</p>
+
+<h3 id="notary-dehydrated-certificate-retrieval">Notary Dehydrated Certificate Retrieval</h3>
+
+<p>Non-.bit websites which don’t have a TLSA record could have TLSA records generated from notaries such as what Perspectives provides.</p>
+
+<h3 id="firefox-cert-injection--windows">Firefox cert injection / Windows</h3>
+
+<p>NSS on Windows does not provide any easy way to inject certificates to its trust store (unless the user builds NSS-Tools from source).  However, Firefox does expose an API to extensions which want to do this.  Therefore, providing this option to Firefox users would make things easier.</p>
+
+<h3 id="more-thorough-dehydration">More Thorough Dehydration</h3>
+
+<p>It may be possible to further dehydrate the certificates, e.g. by using compressed public keys, reducing the precision of the validity period, or using more compact encoding than base64.</p>
+
+<h3 id="hsts-simulation">HSTS Simulation</h3>
+
+<p>A website which has a known TLSA record should be able to be automatically redirected from HTTP to HTTPS using a browser extension.  This would protect against sslstrip attacks (similar to HSTS but without trusting the first use).  However, it would also break a tiny subset of websites which list a TLSA record but only serve content on HTTP.</p>
+
+<h3 id="test-for-validation-bugs">Test for Validation Bugs</h3>
+
+<p>We should carefully test x.509 implementations for bugs that might interact badly with our code.  For example, if a bug in a major browser caused certificates without the CA bit to be usable as CA’s, that would be very bad.  We think it is unlikely that such major bugs exist, given that major browser vendors have had many years to review their code.  But one can’t be too careful.</p>
+
+  </article>
+
+</div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+        <div class="container-fluid" id="social">
+            <ul class="list-inline">
+                <li><a href="https://github.com/namecoin"><i class="fa fa-github fa-2x" title="GitHub">GitHub</i></a></li>
+                <li><a href="https://twitter.com/Namecoin"><i class="fa fa-twitter fa-2x" title="Twitter">Twitter</i></a></li>
+                <li><a href="https://www.reddit.com/r/Namecoin"><i class="fa fa-reddit-alien fa-2x" title="Reddit">Reddit</i></a></li>
+                <li><a href="https://forum.namecoin.org/"><i class="fa fa-comments fa-2x" title="Forum">Forum</i></a></li>
+                <li><a href="/license.html"><i class="fa fa-2x" title="Copyright">Copyright</i></a></li>
+                <li><a href="/team/security/"><i class="fa fa-2x" title="Vulnerability Disclosure">Security</i></a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="page-source">
+            <a href="https://github.com/namecoin/namecoin.org/blob/master/resources/presentations/Borderless_Block_Party_2015/index.md"><i>Submit corrections or improvements to this page</i></a>
+        </div>
+
+        <div class="container-fluid" id="page-alternate">
+            <ul class="list-inline">
+                <li>This page is available via:</li>
+                <li><a href="https://www.namecoin.org/resources/presentations/Borderless_Block_Party_2015/">DNS (namecoin.org)</a></li>
+                <li><a href="https://www.rw6nbpjrmcpdxszn3air4bt7t75rpz4cp3c2kbdu72ptua57tzvin4id.onion/resources/presentations/Borderless_Block_Party_2015/">Onion</a></li>
+                <!--<li><a href="http://127.0.0.1:43110/1EZSUprqJQph9JwKg3gAJtiNs899vatZTo/resources/presentations/Borderless_Block_Party_2015/">ZeroNet</a></li>-->
+                <li><a href="https://namecoin.bit/resources/presentations/Borderless_Block_Party_2015/">Namecoin (namecoin.bit)</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid" id="funders">
+            <p>Thanks to our funders:</p>
+            
+            <ul class="list-inline">
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
+                
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
+                    <li class="funder">Handshake</li>
+                
+                    <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
+                
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder">Cyphrs</li>
+                
+            </ul>
+            <p><a href="/donate/transparency/">Funding Transparency</a></p>
+        </div>
+
+        <div class="container-fluid" id="disclaimer">
+            <p>Namecoin is produced independently from the Tor® anonymity software and carries no guarantee from The Tor Project about quality, suitability or anything else.</p>
+        </div>
+</footer>
+
+
+  </body>
+
+</html>
