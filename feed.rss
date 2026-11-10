@@ -7,8 +7,8 @@
     <link>https://www.namecoin.org/</link>
     <atom:link href="https://www.namecoin.org/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Mon, 26 Oct 2026 20:46:13 +0000</pubDate>
-    <lastBuildDate>Mon, 26 Oct 2026 20:46:13 +0000</lastBuildDate>
+    <pubDate>Tue, 10 Nov 2026 21:10:51 +0000</pubDate>
+    <lastBuildDate>Tue, 10 Nov 2026 21:10:51 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://www.namecoin.org/images/logo.png</url>
@@ -17,6 +17,106 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>WebRTC Proxy Leaks, Unix Socket Enforcement, and Encaya for DNS Domains</title>
+        <description>&lt;h2 id=&quot;webrtc-route-discovery-and-proxy-leak-semantics&quot;&gt;WebRTC Route Discovery and Proxy Leak Semantics&lt;/h2&gt;
+
+&lt;p&gt;SocksTrace identified a WebRTC privacy vulnerability caused by a technique used during ICE (Interactive Connectivity Establishment) negotiation.&lt;/p&gt;
+
+&lt;p&gt;Browsers issue short-lived &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;connect()&lt;/code&gt; calls on UDP sockets to Google DNS addresses (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8.8.8.8:53&lt;/code&gt;) to determine the default local route. No packets are sent and the socket is immediately closed, but the syscalls bypass proxy routing and expose local addressing information.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-connected-udp-trick&quot;&gt;The Connected UDP Trick&lt;/h3&gt;
+
+&lt;p&gt;These are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;connect()&lt;/code&gt; calls on UDP sockets used to discover which local address would be used to route to the internet in general. This is often called the “connected UDP trick.”&lt;/p&gt;
+
+&lt;p&gt;From a network monitoring perspective, nothing happens. Wireshark would show no packets. But from a syscall monitoring perspective, the application is making direct network calls that bypass the proxy and reveal local routing information.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-counts-as-a-proxy-leak&quot;&gt;What Counts as a Proxy Leak?&lt;/h3&gt;
+
+&lt;p&gt;In practice, “proxy leak” can refer to multiple classes of behavior:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Outbound packets that do not go through the configured proxy.&lt;/li&gt;
+  &lt;li&gt;Inbound or listening behavior that exposes network reachability outside the expected proxied path.&lt;/li&gt;
+  &lt;li&gt;Any direct interaction with the host network stack that bypasses the proxy, even if no packets are emitted.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Wireshark is excellent for class (1). Port scanners and reachability tests can detect class (2). SocksTrace can detect all three classes because it monitors syscalls and socket behavior directly. The WebRTC route-discovery issue described above is class (3): no packets are transmitted, but privacy-sensitive network stack interaction still occurs outside the proxy path.&lt;/p&gt;
+
+&lt;p&gt;The network stack interaction enables the application to learn information about the user’s network, and that information can then be transmitted over Tor. By analogy, an application that transmits your real IP address to a Tor onion service would surely still be considered a proxy leak! (This is not even a theoretical concern – there are BitTorrent clients in the wild that have deanonymized users by sending their IP address in application-layer traffic.)&lt;/p&gt;
+
+&lt;h3 id=&quot;browser-responses&quot;&gt;Browser Responses&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Brave (Tor mode)&lt;/strong&gt; was affected by this issue. Brave acknowledged it and mitigated it by disabling WebRTC in Tor mode. The report was accepted and resulted in a &lt;strong&gt;$400 bug bounty&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Tor Browser Team&lt;/strong&gt; had already mitigated this issue in Mullvad Browser by disabling the “connected UDP trick” entirely, because leaking information about the user’s local network, even without transmitting traffic outside the proxy, poses a privacy risk and could be used for fingerprinting.&lt;/p&gt;
+
+&lt;p&gt;This made it straightforward to confirm that SocksTrace was detecting a genuine proxy leak rather than a false positive. Mullvad Browser does not expose local addresses during ICE negotiation.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-syscall-monitoring-matters&quot;&gt;Why Syscall Monitoring Matters&lt;/h3&gt;
+
+&lt;p&gt;This illustrates a key advantage of SocksTrace. By monitoring syscalls directly, it can detect subtle privacy issues that tools like Wireshark would never reveal.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;connect()&lt;/code&gt; syscall on a UDP socket doesn’t send any packets. It just tells the kernel to associate that socket with a destination address, which causes the kernel to select a local source address based on routing. No data leaves the machine, so network sniffers see nothing.&lt;/p&gt;
+
+&lt;p&gt;But the syscall still happened. The application still bypassed the proxy. And local routing information was still exposed. SocksTrace catches this because it operates at the syscall level, not the packet level.&lt;/p&gt;
+
+&lt;h2 id=&quot;unix-domain-socket-enforcement&quot;&gt;Unix Domain Socket Enforcement&lt;/h2&gt;
+
+&lt;p&gt;Unix domain sockets use filesystem paths instead of network addresses. They cannot leak over the network because they only exist locally on the machine.&lt;/p&gt;
+
+&lt;h3 id=&quot;advantages-of-unix-sockets&quot;&gt;Advantages of Unix Sockets&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Performance.&lt;/strong&gt; Unix sockets bypass the TCP/IP stack entirely. There’s no network layer processing, no routing decisions, no packet fragmentation. Data is copied directly between processes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lower resource overhead.&lt;/strong&gt; No need to allocate ports, maintain connection state for the network stack, or handle TCP retransmission logic. The kernel handles it as a simple IPC mechanism.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Security.&lt;/strong&gt; Unix sockets cannot be accessed from another machine. Access is controlled by filesystem permissions.&lt;/p&gt;
+
+&lt;h3 id=&quot;enforcement&quot;&gt;Enforcement&lt;/h3&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--enforce-unix-socks&lt;/code&gt; flag enables a whitelist approach. Only &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AF_UNIX&lt;/code&gt; connections are allowed. Everything else is blocked.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enforceUnixSocks&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Family&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unix&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AF_UNIX&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Warn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Msgf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%s blocked (only Unix sockets allowed): %s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;syscallName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;addr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is useful when Tor is configured to listen on a Unix socket (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/run/tor/socks&lt;/code&gt;) instead of a TCP port. By forcing applications to only use Unix sockets for SOCKS connections, any attempt to open an IPv4 or IPv6 connection is blocked.&lt;/p&gt;
+
+&lt;p&gt;The address parser handles both filesystem paths and abstract sockets (paths starting with null bytes).&lt;/p&gt;
+
+&lt;h2 id=&quot;continuous-integration-tests&quot;&gt;Continuous Integration Tests&lt;/h2&gt;
+
+&lt;p&gt;Two new CI tests were added to sockstrace.&lt;/p&gt;
+
+&lt;p&gt;The first test runs Firefox under Sockstrace to check for potential WebRTC-related proxy leaks, ensuring that Sockstrace correctly detects any connections that might bypass the configured proxy.&lt;/p&gt;
+
+&lt;p&gt;The second test verifies that SOCKSification works correctly, confirming that applications routed through Sockstrace properly use the configured SOCKS proxy.&lt;/p&gt;
+
+&lt;h2 id=&quot;moving-ncdns-and-encaya-to-koanf-and-phuslulog&quot;&gt;Moving ncdns and encaya to koanf and phuslu/log&lt;/h2&gt;
+
+&lt;p&gt;ncdns and encaya moved from easyconfig and xlog to &lt;a href=&quot;https://github.com/knadh/koanf&quot;&gt;koanf&lt;/a&gt; for configuration and &lt;a href=&quot;https://github.com/phuslu/log&quot;&gt;phuslu/log&lt;/a&gt; for logging (&lt;a href=&quot;https://github.com/namecoin/ncdns/pull/202&quot;&gt;namecoin/ncdns#202&lt;/a&gt;). Both now share a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config&lt;/code&gt; package, which reads the TOML config file and its &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.d&lt;/code&gt; drop-in folder with command-line flags on top, and a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;logconfig&lt;/code&gt; package that keeps every &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xlog.*&lt;/code&gt; option (log file, stderr, syslog, journald and Windows Event Log), so existing setups keep working unchanged. phuslu/log didn’t build with GCCGo, so that was fixed upstream first (&lt;a href=&quot;https://github.com/phuslu/log/pull/120&quot;&gt;phuslu/log#120&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h2 id=&quot;encaya-for-non-namecoin-domains&quot;&gt;Encaya for non-Namecoin domains&lt;/h2&gt;
+
+&lt;p&gt;Encaya’s TLD CA has a name constraint limiting it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt;. Setting the new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tld-name-constraint=false&lt;/code&gt; option under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[safetlsa]&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;encaya.conf&lt;/code&gt; drops it, so Encaya now also works for regular DNS domains with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records in a DNSSEC-signed zone (&lt;a href=&quot;https://github.com/namecoin/safetlsa/pull/13&quot;&gt;namecoin/safetlsa#13&lt;/a&gt;). ncgencert now also writes a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dns.zone&lt;/code&gt; file with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; record in zone file format (pubkey hash in hex instead of base64), ready to add to your zone (&lt;a href=&quot;https://github.com/namecoin/ncgencert/pull/33&quot;&gt;namecoin/ncgencert#33&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s Next Generation Internet Zero Core Fund and Cyphrs.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 10 Nov 2026 00:00:00 +0000</pubDate>
+        <link>https://www.namecoin.org/2026/11/10/webrtc-unix-sockets-encaya-dns-domains.html</link>
+        <guid isPermaLink="true">https://www.namecoin.org/2026/11/10/webrtc-unix-sockets-encaya-dns-domains.html</guid>
+        <dc:creator>Robert Nganga</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>MoneroKon 5 Summary</title>
@@ -336,45 +436,6 @@
         <pubDate>Thu, 11 Sep 2025 00:00:00 +0000</pubDate>
         <link>https://www.namecoin.org/2025/09/11/hashed-tlsa-records-in-encaya.html</link>
         <guid isPermaLink="true">https://www.namecoin.org/2025/09/11/hashed-tlsa-records-in-encaya.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>What&apos;s the maximum length of an AIA Issuer URL in Windows 11 CryptoAPI?</title>
-        <description>&lt;p&gt;For those of you who haven’t seen my various conference talks about Namecoin TLS, AIA (&lt;em&gt;Authority Information Access&lt;/em&gt;) is a mechanism for a TLS certificate to provide a URL where you can find the certificate of its issuer. Namecoin does some, uh, &lt;em&gt;creative&lt;/em&gt; things with AIA. For reasons that will be elaborated on in a future post (don’t worry, all will be explained there), I wanted to know the maximum length of the URL that AIA can link to.&lt;/p&gt;
-
-&lt;p&gt;I had no luck finding any such limit in any relevant RFC, nor could I find anyone on the Internet who had documented any such limit, so I had to fall back to experimentation. I ended up writing a patched certificate generator and AIA HTTP server that could test whether arbitrary AIA URL lengths were usable to build a certificate chain. I then wrote a PowerShell script that tried various AIA URL lengths with Windows 11’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;certutil -verify&lt;/code&gt;, to see what CryptoAPI’s limits were.&lt;/p&gt;
-
-&lt;p&gt;After running some tests, I have some answers:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;AIA URL lengths up to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;65534&lt;/code&gt; bytes work fine.&lt;/li&gt;
-  &lt;li&gt;AIA URL lengths &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;65535&lt;/code&gt; bytes and higher do not work.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I am not certain why the upper bound is &lt;em&gt;2&lt;/em&gt; less than a power of 2. If it were &lt;em&gt;1&lt;/em&gt; less than a power of 2, that would be sensible since that would indicate a length field that’s an unsigned 16-bit integer. My best guess is that Windows is using a strange data structure that uses both a 16-bit length field &lt;em&gt;and&lt;/em&gt; a NULL terminator.&lt;/p&gt;
-
-&lt;p&gt;Checking CryptoAPI’s logs in Event Viewer indicates that none of the AIA-related code paths are running when the limit is exceeded.&lt;/p&gt;
-
-&lt;p&gt;Scope caveats:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I only ran this test in Windows 11 24H2. I suspect that sufficiently old Windows releases are less tolerant.&lt;/li&gt;
-  &lt;li&gt;I don’t know what happens if you try to put Unicode in the URL.&lt;/li&gt;
-  &lt;li&gt;I would not expect to see the same limit in other TLS clients that implement AIA, e.g. macOS.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Should you wish to reproduce these results yourself (&lt;em&gt;Science Rules!&lt;/em&gt;), the code should be included in the next release of Encaya.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 07 Sep 2025 00:00:00 +0000</pubDate>
-        <link>https://www.namecoin.org/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html</link>
-        <guid isPermaLink="true">https://www.namecoin.org/2025/09/07/whats-maximum-length-aia-issuer-url-windows-11-cryptoapi.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>
