@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Tue, 10 Nov 2026 21:19:30 +0000</pubDate>
-    <lastBuildDate>Tue, 10 Nov 2026 21:19:30 +0000</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2026 23:37:31 +0000</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2026 23:37:31 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -17,6 +17,53 @@
       <width>134</width>
       <height>25</height>
     </image>
+    
+      <item>
+        <title>Embedding Encaya in ncdns for Better Anonymity</title>
+        <description>&lt;p&gt;Anonymity-focused web browsers (e.g. Tor Browser) rely on &lt;em&gt;first-party isolation (FPI)&lt;/em&gt; to prevent third-party ads from tracking you across websites. FPI partitions observable state based on the first-party domain (i.e. the domain in the URL bar of your web browser). Unfortunately, neither PKCS#11 nor AIA have any mechanism to convey the first-party origin to ncp11 or Encaya. This poses a problem, because ncp11 and Encaya can induce network traffic in the form of requests to an ElectrumX server. We wouldn’t want TLS to be a deanonymization vector. What to do?&lt;/p&gt;
+
+&lt;p&gt;An obvious approach would be to update the APIs to support conveying first-party origin information. Unfortunately, this is a very niche request, and we don’t expect that the browser vendors would be cooperative. So this idea was discarded.&lt;/p&gt;
+
+&lt;p&gt;Another approach would be to pick a completely random origin, and cycle it every time ncp11 or Encaya gets a request. While this &lt;em&gt;does&lt;/em&gt; ensure FPI, it has two highly problematic side effects:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;A single web page load can produce a quite large number of PKCS#11 queries, and making each of those induce its own ElectrumX round-trip would yield a major latency cost.&lt;/li&gt;
+  &lt;li&gt;This would &lt;em&gt;also&lt;/em&gt; allow malicious websites to induce unbounded Tor circuit creation. Tor Project recently updated its threat model documentation to advise against allowing this, because unbounded circuit creation can be used for traffic analysis attacks.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Is there another way? Consider the following:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;PKCS#11 and AIA queries only happen while a TLS handshake is underway.&lt;/li&gt;
+  &lt;li&gt;TLS handshakes for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domains only happen right after a query to ncdns about that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain.&lt;/li&gt;
+  &lt;li&gt;When ncdns retrieves the information needed to resolve the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain to an IP address or onion service, it &lt;em&gt;also&lt;/em&gt; obtains the information necessary to validate TLS certificates for that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So, Robert and I have implemented the following:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Encaya is refactored to be a library that ncdns can embed.&lt;/li&gt;
+  &lt;li&gt;When ncdns resolves a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bit&lt;/code&gt; domain, it adds the relevant &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TLSA&lt;/code&gt; records to a local “PKI cache”.&lt;/li&gt;
+  &lt;li&gt;When Encaya receives an AIA query, it doesn’t generate any network traffic. It instead only queries the local PKI cache.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;While the PKI cache does constitute some state, this state doesn’t need to be partitioned by first-party origin, because websites can’t observe this state, except in the form of a boolean “does this website’s TLS cert load correctly?”, and this boolean observation will always only be dependent on the contents of the blockchain. Anything else would be a certificate validation bug!&lt;/p&gt;
+
+&lt;p&gt;A nice side benefit of embedding Encaya into ncdns is that it decreases the total binary size. ncdns with embedded Encaya is only around 200 kB larger than ncdns prior to this change – much smaller than ncdns plus Encaya as two separate executables. This makes it much easier to bundle Encaya with Tor Browser, which has heavy binary size constraints.&lt;/p&gt;
+
+&lt;p&gt;Sometimes you don’t need to deal with tradeoffs between latency and anonymity: in this case, a win for one is a win for the other.&lt;/p&gt;
+
+&lt;p&gt;This work was funded by NLnet Foundation’s NGI0 Core Fund.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 13 Nov 2026 00:00:00 +0000</pubDate>
+        <link>https://namecoin.bit/2026/11/13/embedding-encaya-ncdns-better-anonymity.html</link>
+        <guid isPermaLink="true">https://namecoin.bit/2026/11/13/embedding-encaya-ncdns-better-anonymity.html</guid>
+        <dc:creator>Jeremy Rand</dc:creator>
+        
+        <category>News</category>
+        
+        
+      </item>
     
       <item>
         <title>WebRTC Proxy Leaks, Unix Socket Enforcement, and Encaya for DNS Domains</title>
@@ -367,75 +414,6 @@
         <pubDate>Sat, 20 Sep 2025 00:00:00 +0000</pubDate>
         <link>https://namecoin.bit/2025/09/20/generate-nmc-cert-is-now-ncgencert.html</link>
         <guid isPermaLink="true">https://namecoin.bit/2025/09/20/generate-nmc-cert-is-now-ncgencert.html</guid>
-        <dc:creator>Jeremy Rand</dc:creator>
-        
-        <category>News</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Hashed TLSA Records in Encaya</title>
-        <description>&lt;p&gt;As long-time readers will be aware, probably the biggest innovation of Namecoin’s TLS functionality is that it uses a special form of TLS certificates that happens to work well in mainstream web browsers, via the interoperability magic of AIA and PKCS#11. This avoids having to patch web browsers or intercept TLS connections (either of which would introduce nontrivial security liabilities).&lt;/p&gt;
-
-&lt;p&gt;One of the consequences of this benefit has been that Namecoin domains must embed an ECDSA public key on-chain. ECDSA public keys, alas, are somewhat big. We worked around this, sort of, by using compressed public keys on-chain, and decompressing them on-the-fly before passing them to web browsers via AIA. This was still suboptimal for a few reasons:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Compressed ECDSA public keys are still kind of big. Much bigger than a SHA-256 hash.&lt;/li&gt;
-  &lt;li&gt;Compressed ECDSA public keys aren’t supported by the Go standard library, so we had to maintain a fork of the standard library.&lt;/li&gt;
-  &lt;li&gt;Whatever escape hatch we get from using compressed ECDSA public keys won’t help us when TLS eventually moves to PQ signatures. (More on this in a future post.)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So, why did we need full public keys in the blockchain (as opposed to a public key hash) anyway? The constraints are as follows:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Encaya needs to synthesize a CA certificate when the browser asks for it.&lt;/li&gt;
-  &lt;li&gt;This synthesized CA certificate needs to contain the public key that the domain owner picked.&lt;/li&gt;
-  &lt;li&gt;The browser will &lt;em&gt;not&lt;/em&gt; provide any public keys that the TLS server presented in the certificate chain.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Therefore&lt;/strong&gt;, Encaya needs to get the public key from the blockchain, since there’s no other way to get it given the API constraints. QED. &lt;em&gt;Right…?&lt;/em&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Um, about that last assumption. Is there really no other way to get the public key given the API constraints?&lt;/p&gt;
-
-&lt;p&gt;Moreover, how does Encaya even know what domain name to look up in the blockchain? Could we get the public key that way?&lt;/p&gt;
-
-&lt;p&gt;Hmm…&lt;/p&gt;
-
-&lt;p&gt;Encaya gets the domain name from an AIA request (for Chromium-like browsers) or from a PKCS#11 request (for Firefox-like browsers). Why do these requests contain the domain name? Uh. Because we put the domain name there?&lt;/p&gt;
-
-&lt;p&gt;The AIA request contains whatever data is in the AIA Issuer URL field of a certificate sent by the TLS server. The PKCS#11 request contains whatever data is in the Issuer Distinguished Name (DN) field of that certificate. There’s no requirement that either of those fields contain the domain name. The DN does &lt;em&gt;sometimes&lt;/em&gt; contain a domain name in the Common Name field, but that’s normally only a thing for end-entity certificates, not CA certificates. The AIA Issuer URL field definitely doesn’t normally have anything like that under any circumstances. In both fields, we &lt;em&gt;deliberately&lt;/em&gt; put the domain name there so that Encaya would see it.&lt;/p&gt;
-
-&lt;p&gt;You probably see where this is going. Could we stuff a public key into the AIA Issuer URL and the Subject DN? It’d look pretty weird, but if you’re averse to looking weird, you’re probably not a hacker.&lt;/p&gt;
-
-&lt;p&gt;So here’s the new workflow:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The AIA Issuer URL field of the CA certificate sent by the TLS server adds a new GET query parameter, containing a base64-encoded public key.&lt;/li&gt;
-  &lt;li&gt;The Subject DN field of that CA certificate’s parent CA adds a base64-encoded public key in the Subject Serial Number subfield.&lt;/li&gt;
-  &lt;li&gt;The Issuer DN field of the CA certificate matches the Subject DN of its parent, thus also including an Issuer Serial Number with a base64-encoded public  key in it.&lt;/li&gt;
-  &lt;li&gt;When Chromium sees this certificate chain, it sends an AIA request to Encaya that includes the public key as part of the AIA Issuer URL.&lt;/li&gt;
-  &lt;li&gt;When Firefox sees this certificate chain, it sends a PKCS#11 request to ncp11 that includes the public key as part of the Subject DN or Issuer DN.&lt;/li&gt;
-  &lt;li&gt;Encaya can then compare this public key to the hashed TLSA record in the blockchain. It if matches, Encaya uses the public key in its synthesized CA.&lt;/li&gt;
-  &lt;li&gt;Chromium and Firefox don’t know that anything funky has happened. Sure, there’s an intermediate CA with a really long AIA Issuer URL and Issuer Serial Number. But Chromium and Firefox don’t care about that.&lt;/li&gt;
-  &lt;li&gt;On-chain savings achieved. &lt;em&gt;We win!&lt;/em&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I’ve implemented the above in Encaya, ncp11, and generate_nmc_cert. What do the savings look like?&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Before: 90 bytes of JSON per TLSA record&lt;/li&gt;
-  &lt;li&gt;After: 54 bytes of JSON per TLSA record&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The TLS handshake, of course, contains a bit more data, but TLS handshake bytes are cheap compared to on-chain bytes.&lt;/p&gt;
-
-&lt;p&gt;Once this feature gets into a release, we will contact Namecoin HTTPS website operators in the wild (where feasible) to nudge them to upgrade their setup. Support for the previous certificate format will probably be dropped soon, because the maintenance burden of a standard Go crypto library fork is not a good use of my time.&lt;/p&gt;
-
-&lt;p&gt;This work was funded by Power Up Privacy.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 11 Sep 2025 00:00:00 +0000</pubDate>
-        <link>https://namecoin.bit/2025/09/11/hashed-tlsa-records-in-encaya.html</link>
-        <guid isPermaLink="true">https://namecoin.bit/2025/09/11/hashed-tlsa-records-in-encaya.html</guid>
         <dc:creator>Jeremy Rand</dc:creator>
         
         <category>News</category>

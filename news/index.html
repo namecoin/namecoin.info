@@ -86,7 +86,7 @@
 <div id="fancy-graphic"><div class="container-fluid"><p id="tagline">
 <span id="default-tagline">
 
-Decentralized<br /><strong>secure</strong> names.
+<strong>Freedom</strong><br>of information.
 </span>
 
     <span class="candidate-tagline" hidden>
@@ -131,6 +131,57 @@ Decentralized<br /><strong>secure</strong> names.
   <article class="post-content">
     
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
+
+<div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><a href="/2026/11/13/embedding-encaya-ncdns-better-anonymity.html">Embedding Encaya in ncdns for Better Anonymity</a></h1>
+    <p class="post-meta">Nov 13, 2026 • Jeremy Rand </p>
+  </header>
+
+  <article class="post-content">
+    <p>Anonymity-focused web browsers (e.g. Tor Browser) rely on <em>first-party isolation (FPI)</em> to prevent third-party ads from tracking you across websites. FPI partitions observable state based on the first-party domain (i.e. the domain in the URL bar of your web browser). Unfortunately, neither PKCS#11 nor AIA have any mechanism to convey the first-party origin to ncp11 or Encaya. This poses a problem, because ncp11 and Encaya can induce network traffic in the form of requests to an ElectrumX server. We wouldn’t want TLS to be a deanonymization vector. What to do?</p>
+
+    <p>An obvious approach would be to update the APIs to support conveying first-party origin information. Unfortunately, this is a very niche request, and we don’t expect that the browser vendors would be cooperative. So this idea was discarded.</p>
+
+    <p>Another approach would be to pick a completely random origin, and cycle it every time ncp11 or Encaya gets a request. While this <em>does</em> ensure FPI, it has two highly problematic side effects:</p>
+
+    <ol>
+  <li>A single web page load can produce a quite large number of PKCS#11 queries, and making each of those induce its own ElectrumX round-trip would yield a major latency cost.</li>
+  <li>This would <em>also</em> allow malicious websites to induce unbounded Tor circuit creation. Tor Project recently updated its threat model documentation to advise against allowing this, because unbounded circuit creation can be used for traffic analysis attacks.</li>
+</ol>
+
+    <p>Is there another way? Consider the following:</p>
+
+    <ol>
+  <li>PKCS#11 and AIA queries only happen while a TLS handshake is underway.</li>
+  <li>TLS handshakes for <code class="language-plaintext highlighter-rouge">.bit</code> domains only happen right after a query to ncdns about that <code class="language-plaintext highlighter-rouge">.bit</code> domain.</li>
+  <li>When ncdns retrieves the information needed to resolve the <code class="language-plaintext highlighter-rouge">.bit</code> domain to an IP address or onion service, it <em>also</em> obtains the information necessary to validate TLS certificates for that <code class="language-plaintext highlighter-rouge">.bit</code> domain.</li>
+</ol>
+
+    <p>So, Robert and I have implemented the following:</p>
+
+    <ol>
+  <li>Encaya is refactored to be a library that ncdns can embed.</li>
+  <li>When ncdns resolves a <code class="language-plaintext highlighter-rouge">.bit</code> domain, it adds the relevant <code class="language-plaintext highlighter-rouge">TLSA</code> records to a local “PKI cache”.</li>
+  <li>When Encaya receives an AIA query, it doesn’t generate any network traffic. It instead only queries the local PKI cache.</li>
+</ol>
+
+    <p>While the PKI cache does constitute some state, this state doesn’t need to be partitioned by first-party origin, because websites can’t observe this state, except in the form of a boolean “does this website’s TLS cert load correctly?”, and this boolean observation will always only be dependent on the contents of the blockchain. Anything else would be a certificate validation bug!</p>
+
+    <p>A nice side benefit of embedding Encaya into ncdns is that it decreases the total binary size. ncdns with embedded Encaya is only around 200 kB larger than ncdns prior to this change – much smaller than ncdns plus Encaya as two separate executables. This makes it much easier to bundle Encaya with Tor Browser, which has heavy binary size constraints.</p>
+
+    <p>Sometimes you don’t need to deal with tradeoffs between latency and anonymity: in this case, a win for one is a win for the other.</p>
+
+    <p>This work was funded by NLnet Foundation’s NGI0 Core Fund.</p>
+
+  </article>
+
+  <footer>
+    <p><em>If you liked this article, maybe consider <a href="/donate/">donating</a>, <a href="https://namecoin.creator-spring.com/">buying a t-shirt</a>, or <a href="/contribute/">contributing in some other way</a>. Funding from average users like you helps keep us independent. Thanks for your support!</em></p>
+  </footer>
+
+</div>
 
 <div class="post">
 
@@ -10485,29 +10536,29 @@ of the ncdns-nsis installer.</p>
             
             <ul class="list-inline">
                 
-                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
-                
-                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
+                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
                     <li class="funder">Handshake</li>
-                
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
                 
                     <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
+                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                
                     <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
-                    <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
+                
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                
+                    <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
                     <li class="funder">Cyphrs</li>
                 
-                    <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
+                    <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
             </ul>
             <p><a href="/donate/transparency/">Funding Transparency</a></p>
