@@ -180,6 +180,11 @@
 
 <p>(<a href="/feed.rss">RSS Feed</a>)</p>
 
+<h3 id="embedding-encaya-in-ncp11"><a href="/2026/11/14/embedding-encaya-ncp11.html">Embedding Encaya in ncp11</a></h3>
+
+<p><strong><a href="/2026/11/14/embedding-encaya-ncp11.html">2026-11-14</a></strong> ncp11 and Encaya have historically always been distinct files: a PKCS#11 module and a standard executable. ncp11 acts as a shim, leaving all the hard work to Encaya. The intent of this segregation was to have better isolation in case something goes horribly wrong (a Go panic inside ncp11 would cause Firefox to crash). However, that isolation comes at a cost: two files are larger than one file. For some users, this is the right tradeoff, but Tor Browser has some pretty strong constraints on download size, so I’ve been looking into whether the opposite tradeoff is workable.
+   <a href="/2026/11/14/embedding-encaya-ncp11.html">Read more…</a></p>
+
 <h3 id="revocations-in-ncp11"><a href="/2026/11/14/revocations-ncp11.html">Revocations in ncp11</a></h3>
 
 <p><strong><a href="/2026/11/14/revocations-ncp11.html">2026-11-14</a></strong> Currently, if a TLS private key on a Namecoin domain gets compromised, you need to delete the TLSA record and recreate all certificates. This is an operational nightmare. Can it be made better?
@@ -224,11 +229,6 @@
 
 <p><strong><a href="/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">2025-09-23</a></strong> As the shelf life of most public-key cryptography nears its quantum-induced termination, many protocols are moving toward post-quantum (PQ) cryptography. PQ crypto, defined as cryptosystems that are believed to be secure against both classical and quantum cryptanalysis, is an active research area, with rapid advances happening in both the cryptosystems and the attacks. It would be nice if we had more time to research secure PQ cryptosystems, but alas we do not have that luxury. TLS is thus beginning to deploy PQ crypto. Which begs the question: how is Namecoin affected by PQ crypto adoption in TLS?
    <a href="/2025/09/23/is-post-quantum-namecoin-tls-feasible.html">Read more…</a></p>
-
-<h3 id="off-chain-tlsa-records-in-encaya"><a href="/2025/09/22/off-chain-tlsa-records-in-encaya.html">Off-Chain TLSA Records in Encaya</a></h3>
-
-<p><strong><a href="/2025/09/22/off-chain-tlsa-records-in-encaya.html">2025-09-22</a></strong> Now that <a href="/2025/09/11/hashed-tlsa-records-in-encaya.html">hashed TLSA records</a> are a thing, it’s time to ask our inner mad scientist: can we do any better than that?
-   <a href="/2025/09/22/off-chain-tlsa-records-in-encaya.html">Read more…</a></p>
 
 <p><a href="/news/">Earlier news</a></p>
 
@@ -283,27 +283,27 @@
                 
                     <li class="funder">European Commission Directorate-General for Communications Networks, Content and Technology (via NLnet)</li>
                 
-                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
+                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                    <li class="funder">Cyphrs</li>
+                
+                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
                     <li class="funder"><a href='https://www.outreachy.org/'>Software Freedom Conservancy (Outreachy)</a></li>
                 
-                    <li class="funder"><a href='https://www.torproject.org/'>Tor Project (via Outreachy)</a></li>
-                
-                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
+                    <li class="funder"><a href='https://www.cyphermarket.com/'>Cypher Market</a></li>
                 
                     <li class="funder">Handshake</li>
                 
                     <li class="funder"><a href='https://www.rijksoverheid.nl/ministeries/ministerie-van-economische-zaken-en-klimaat'>Netherlands Ministry of Economic Affairs and Climate Policy (via NLnet)</a></li>
                 
+                    <li class="funder"><a href='https://autonomousworlds.com/'>Autonomous Worlds Ltd (Xaya)</a></li>
+                
                     <li class="funder"><a href='https://www.f2pool.com/'>F2Pool</a></li>
                 
-                    <li class="funder">Cyphrs</li>
+                    <li class="funder"><a href='https://powerupprivacy.com/'>Power Up Privacy</a></li>
                 
                     <li class="funder"><a href='https://nlnet.nl/'>NLnet Foundation</a></li>
-                
-                    <li class="funder"><a href='https://cyberia.club/'>Cyberia Computer Club (Capsul)</a></li>
                 
             </ul>
             <p><a href="/donate/transparency/">Funding Transparency</a></p>
