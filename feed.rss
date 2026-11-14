@@ -7,8 +7,8 @@
     <link>https://namecoin.bit/</link>
     <atom:link href="https://namecoin.bit/feed.rss" rel="self" type="application/rss+xml" />
     <language>en</language>
-    <pubDate>Sat, 14 Nov 2026 21:32:43 +0000</pubDate>
-    <lastBuildDate>Sat, 14 Nov 2026 21:32:43 +0000</lastBuildDate>
+    <pubDate>Sat, 14 Nov 2026 21:51:42 +0000</pubDate>
+    <lastBuildDate>Sat, 14 Nov 2026 21:51:42 +0000</lastBuildDate>
     <generator>Jekyll</generator>
     <image>
       <url>https://namecoin.bit/images/logo.png</url>
@@ -31,15 +31,15 @@
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Before&lt;/strong&gt;:
     &lt;ul&gt;
-      &lt;li&gt;libncp11.so: 10.3 MiB&lt;/li&gt;
-      &lt;li&gt;encaya: 18.9 MiB&lt;/li&gt;
-      &lt;li&gt;encayagen: 13.5 MiB&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libncp11.so&lt;/code&gt;: 10.3 MiB&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;encaya&lt;/code&gt;: 18.9 MiB&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;encayagen&lt;/code&gt;: 13.5 MiB&lt;/li&gt;
       &lt;li&gt;&lt;strong&gt;Total&lt;/strong&gt;: 42.8 MiB&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;After&lt;/strong&gt;:
     &lt;ul&gt;
-      &lt;li&gt;libncp11+encaya.so: 14.4 MiB&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libncp11+encaya.so&lt;/code&gt;: 14.4 MiB&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
